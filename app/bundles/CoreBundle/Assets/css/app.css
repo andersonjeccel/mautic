@@ -76,6 +76,7 @@
   --border-radius-m: 12px;
   --border-radius-l: 16px;
   --box-shadow-l: 0px 12px 16px #00000011;
+  --box-shadow-s: 0px 4px 16px #00000011;
 }
 
 html,
@@ -146,7 +147,7 @@ body > #app-wrapper {
   right: 0;
   left: 0;
   top: 0;
-  box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(0, 0, 0, 0.03);
+  box-shadow: var(--box-shadow-s);
 }
 .header-fixed #app-header.navbar ~ #app-content > .content-body {
   padding: 100px 30px 46px 30px;
