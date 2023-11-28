@@ -64,6 +64,7 @@
   --selector-border-color: #919eab14;
   --bg-color: #eeeeee;
   --white: #ffffff;
+  --mautic-color-transparent: #4e5d9dd4;
   --items-primary-color: #6e6e73;
   --items-primary-color-changed: #1d1d1f;
   --items-primary-bg-color: #f5f5f5;
@@ -1918,7 +1919,7 @@ ul.dropdown-menu-form {
   display: inline-block;
   line-height: 1.5;
   padding: 0.25em 0.6em 0.15em 0.6em;
-  border-radius: 2px;
+  border-radius: var(--border-radius-s);
   text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
 }
 .badge {
@@ -2593,6 +2594,7 @@ ul.line-legend li {
   border: 1px solid #ebedf0;
   -webkit-box-shadow: 0px 1px 1px #f3f3f3;
   box-shadow: 0px 1px 1px #f3f3f3;
+  border-radius: var(--border-radius-l);
 }
 .panel-heading {
   padding: 10px 15px 5px;

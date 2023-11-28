@@ -3911,7 +3911,7 @@ select[multiple].input-group-lg > .input-group-btn > .btn {
   padding: 5px 10px;
   font-size: 11px;
   line-height: 1.456;
-  border-radius: 2px;
+  border-radius: var(--border-radius-s);
 }
 select.input-group-sm > .form-control,
 select.input-group-sm > .input-group-addon,
@@ -4901,7 +4901,7 @@ a.label:focus {
   background-color: #8392a2;
 }
 .label-primary {
-  background-color: #4E5D9D;
+  background-color: var(--mautic-color-transparent);
 }
 .label-primary[href]:hover,
 .label-primary[href]:focus {
