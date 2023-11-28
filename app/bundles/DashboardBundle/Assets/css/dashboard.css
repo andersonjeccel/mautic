@@ -25,12 +25,12 @@
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     padding: 10px;
-
 }
 .dashboard-widgets .card {
     margin: 5px;
-    background: #FEFEFE;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: var(--white);
+    border-radius: var(--border-radius-m);
+    padding: 20px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -48,30 +48,41 @@
     transition-timing-function: linear;
     position: relative;
 }
+.card-header {
+    padding: 15px 5px;
+}
 .dashboard-widgets .card-header h4 {
     padding: 10px 15px;
     cursor: -moz-grab;
     cursor: -webkit-grab;
     cursor: grab;
-}
-.dashboard-widgets .card-header .dropdown {
-    position: absolute;
-    top: 6px;
-    right: 3px;
-}
-.dashboard-widgets .card-header .dropdown-toggle .fa-ellipsis-v {
-    font-size: 15px;
-    color: rgba(0, 0, 0, 0.6);
-    width: 30px;
-    text-align: center;
-    line-height: 30px;
-}
-.dashboard-widgets .card-header h4 {
     width: 90%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.dashboard-widgets .card-header .dropdown {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: var(--items-primary-bg-color);
+    border-radius: var(--border-radius-s);
+    transition: background-color var(--timing);
+}
+.dashboard-widgets .card-header .dropdown:hover {
+    background-color: var(--items-primary-bg-color-hover);
+    }
+.dashboard-widgets .card-header .dropdown-toggle .fa-ellipsis-v {
+    font-size: 15px;
+    color: var(--items-primary-color);
+    transition: color var(--timing);
+    width: 30px;
+    text-align: center;
+    line-height: 30px;
+}
+.dashboard-widgets .card-header .dropdown-toggle .fa-ellipsis-v:hover {
+    color: var(--items-primary-color-changed);
+    }
 .dashboard-widgets .card table {
     table-layout: fixed;
 }
