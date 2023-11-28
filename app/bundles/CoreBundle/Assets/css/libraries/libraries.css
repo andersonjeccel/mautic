@@ -1593,7 +1593,7 @@ pre code {
 }
 .row {
   margin-right: -15px;
-  margin-left: -15px;
+  margin-left: -10px;
 }
 .row-no-gutters {
   margin-right: 0;
@@ -2405,13 +2405,11 @@ th {
 .table-bordered > tbody > tr > td,
 .table-bordered > tfoot > tr > td {
   border: 1px solid #ebedf0;
+  border-width: 1px 0;
 }
 .table-bordered > thead > tr > th,
 .table-bordered > thead > tr > td {
   border-bottom-width: 2px;
-}
-.table-striped > tbody > tr:nth-of-type(odd) {
-  background-color: #fafafa;
 }
 .table-hover > tbody > tr:hover {
   background-color: #fafafa;
@@ -4767,13 +4765,13 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .pagination > li:first-child > a,
 .pagination > li:first-child > span {
   margin-left: 0;
-  border-top-left-radius: 3px;
-  border-bottom-left-radius: 3px;
+  border-top-left-radius: var(--border-radius-s);
+  border-bottom-left-radius: var(--border-radius-s);
 }
 .pagination > li:last-child > a,
 .pagination > li:last-child > span {
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
+  border-top-right-radius: var(--border-radius-s);
+  border-bottom-right-radius: var(--border-radius-s);
 }
 .pagination > .active > a,
 .pagination > .active > span,
@@ -5468,9 +5466,13 @@ button.list-group-item-danger.active:focus {
   margin-bottom: 18px;
   background-color: #fff;
   border: 1px solid transparent;
-  border-radius: 3px;
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  border-radius: var(--border-radius-l);
+  overflow: hidden;
+  transition: box-shadow var(--timing);
+}
+.panel:hover {
+  -webkit-box-shadow: var(--box-shadow-l);
+  box-shadow: var(--box-shadow-l);
 }
 .panel-body {
   padding: 15px;

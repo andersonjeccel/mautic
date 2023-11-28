@@ -27,26 +27,21 @@
     padding: 10px;
 }
 .dashboard-widgets .card {
-    margin: 5px;
+    margin: 10px;
     background: var(--white);
     border-radius: var(--border-radius-m);
     padding: 20px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    -moz-transition-property: background-color, box-shadow, -moz-transform;
-    -o-transition-property: background-color, box-shadow, text-shadow, -o-transform;
-    -webkit-transition-property: background-color, box-shadow, text-shadow, -webkit-transform;
-    transition-property: background-color, box-shadow, text-shadow, transform;
-    -moz-transition-duration: 0.2s;
-    -o-transition-duration: 0.2s;
-    -webkit-transition-duration: 0.2s;
-    transition-duration: 0.2s;
-    -moz-transition-timing-function: linear;
-    -o-transition-timing-function: linear;
-    -webkit-transition-timing-function: linear;
-    transition-timing-function: linear;
+    -moz-transition: box-shadow var(--timing), -moz-transform var(--timing);
+    -o-transition: box-shadow var(--timing), -o-transform var(--timing);
+    -webkit-transition: box-shadow var(--timing), -webkit-transform var(--timing);
+    transition: box-shadow var(--timing), transform var(--timing);
     position: relative;
+}
+.dashboard-widgets .card:hover {
+    box-shadow: var(--box-shadow-l);
 }
 .card-header {
     padding: 15px 5px;
