@@ -1150,11 +1150,6 @@ h6,
   background-color: inherit;
   border-radius: 0;
 }
-.page-header .pull-left {
-  font-size: 36px;
-  font-weight: bold;
-  letter-spacing: -2px;
-  }
 .container .page-header {
   margin: -15px -15px 15px -15px;
 }
