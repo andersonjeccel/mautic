@@ -5687,7 +5687,7 @@ button.list-group-item-danger.active:focus {
 }
 .panel-group .panel {
   margin-bottom: 0;
-  border-radius: 3px;
+  border-radius: var(--border-radius-s);
 }
 .panel-group .panel + .panel {
   margin-top: 5px;
