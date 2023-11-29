@@ -4646,8 +4646,8 @@ label.required:after {
   position: absolute;
   left: 0px;
   width: 24px;
-  height: 34px;
-  padding: 0 0 0 24px;
+  height: 40px;
+  padding: 0 0 0 32px;
   margin: 12px 0 0 5px;
   z-index: 1;
   -webkit-transition: all 0.5s ease;
@@ -4662,7 +4662,6 @@ label.required:after {
 }
 .search-container.active .search {
   width: 225px;
-  border: 1px solid var(--border-color);
 }
 .search-container.active i {
   color: #4E5D9D;
