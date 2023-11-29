@@ -1072,7 +1072,7 @@ body {
   font-size: 13px;
   line-height: 1.3856;
   color: #47535f;
-  background-color: #eee;
+  background-color: #f4f4f4;
 }
 input,
 button,
@@ -3703,6 +3703,7 @@ tbody.collapse.in {
 .btn-group-vertical > .btn {
   position: relative;
   float: left;
+  padding: 8px 16px;
 }
 .btn-group > .btn:hover,
 .btn-group-vertical > .btn:hover,
@@ -3740,13 +3741,18 @@ tbody.collapse.in {
   margin-left: 0;
 }
 .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+  background-color: var(--mautic-color);
+  margin-right: 8px;
+  transition: background var(--timing), color var(--timing);
+  color: var(--white-color);
+}
+.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle):hover {
+  background-color: var(--mautic-color-changed);
+  color: var(--white-color-changed);
 }
 .btn-group > .btn:last-child:not(:first-child),
 .btn-group > .dropdown-toggle:not(:first-child) {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+  border-radius: var(--border-radius-s);
 }
 .btn-group > .btn-group {
   float: left;
@@ -3865,7 +3871,7 @@ tbody.collapse.in {
   display: table;
   border-collapse: separate;
   border-radius: var(--border-radius-s);
-  background-color: var(--white);
+  background-color: var(--white-color);
   padding: 4px;
 }
 .input-group[class*="col-"] {
@@ -3977,6 +3983,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .input-group-btn > .btn {
   position: relative;
+  background-color: var(--items-primary-bg-color);
+  transition: background var(--timing);
 }
 .input-group-btn > .btn + .btn {
   margin-left: -1px;
@@ -3985,6 +3993,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .input-group-btn > .btn:focus,
 .input-group-btn > .btn:active {
   z-index: 2;
+  background-color: var(--items-primary-bg-hover);
 }
 .input-group-btn:first-child > .btn,
 .input-group-btn:first-child > .btn-group {
@@ -5932,9 +5941,9 @@ button.close {
   background-clip: padding-box;
   border: 1px solid #999;
   border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-  -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
-  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  border-radius: var(--border-radius-l);
+  -webkit-box-shadow: var(--box-shadow-l);
+  box-shadow: var(--box-shadow-l);
   outline: 0;
 }
 .modal-backdrop {
@@ -5955,7 +5964,7 @@ button.close {
   opacity: 0.5;
 }
 .modal-header {
-  padding: 15px;
+  padding: 30px 30px 15px;
   border-bottom: 1px solid #e5e5e5;
 }
 .modal-header .close {
@@ -5967,7 +5976,7 @@ button.close {
 }
 .modal-body {
   position: relative;
-  padding: 15px;
+  padding: 30px;
 }
 .modal-footer {
   padding: 15px;

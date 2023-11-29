@@ -28,7 +28,7 @@
 }
 .dashboard-widgets .card {
     margin: 10px;
-    background: var(--white);
+    background: var(--white-color);
     border-radius: var(--border-radius-m);
     padding: 20px;
     -webkit-box-sizing: border-box;
@@ -65,7 +65,7 @@
     transition: background-color var(--timing);
 }
 .dashboard-widgets .card-header .dropdown:hover {
-    background-color: var(--items-primary-bg-color-hover);
+    background-color: var(--items-primary-bg-hover);
     }
 .dashboard-widgets .card-header .dropdown-toggle .fa-ellipsis-v {
     font-size: 15px;

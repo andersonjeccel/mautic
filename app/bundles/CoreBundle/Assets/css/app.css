@@ -63,12 +63,15 @@
   --border-color: #919eab33;
   --selector-border-color: #919eab14;
   --bg-color: #eeeeee;
-  --white: #ffffff;
+  --white-color: #ffffff;
+  --white-color-changed: #fafafa;
+  --mautic-color: #4E5D9D;
+  --mautic-color-changed: #3d497b;
   --mautic-color-transparent: #4e5d9dd4;
   --items-primary-color: #6e6e73;
   --items-primary-color-changed: #1d1d1f;
   --items-primary-bg-color: #f5f5f5;
-  --items-primary-bg-color-hover: #e8e8ed;
+  --items-primary-bg-hover: #e8e8ed;
   --items-secondary-bg-color: transparent;
   --items-secondary-bg-color-hover: #f5f5f5;
   --btn-border-radius: 8px;
