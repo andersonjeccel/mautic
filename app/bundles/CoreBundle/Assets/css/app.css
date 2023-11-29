@@ -150,7 +150,7 @@ body > #app-wrapper {
   right: 0;
   left: 0;
   top: 0;
-  box-shadow: var(--box-shadow-s);
+  box-shadow: var(--box-shadow-l);
 }
 .header-fixed #app-header.navbar ~ #app-content > .content-body {
   padding: 100px 30px 46px 30px;
@@ -777,7 +777,10 @@ body > #app-wrapper {
     left: 0;
   }
   .app-sidebar.sidebar-left ~ #app-header.navbar {
-    left: 230px;
+    left: 280px;
+    right: 50px;
+    top: 10px;
+    border-radius: var(--border-radius-m);
   }
   .app-sidebar.sidebar-left ~ #app-content {
     margin-left: 230px;
