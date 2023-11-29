@@ -1,9 +1,9 @@
 {% set inline = menuRender('profile') %}
 <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        <span class="img-wrapper img-rounded"><img src="{{ gravatarGetImage(app.getUser().getEmail()) }}"></span>
         <span class="text fw-sb ml-xs hidden-xs">{{ app.getUser().getName() }}</span>
         <span class="caret ml-xs"></span>
+        <span class="img-wrapper img-rounded profile-picture" style="margin-left: 10px;"><img src="{{ gravatarGetImage(app.getUser().getEmail()) }}"></span>
     </a>
     <ul class="dropdown-menu dropdown-menu-right">
         <li>
