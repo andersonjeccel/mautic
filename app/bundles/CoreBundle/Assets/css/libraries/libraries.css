@@ -3687,6 +3687,7 @@ tbody.collapse.in {
 }
 .dropdown-menu > li > a {
   display: flex;
+  display: flex;
   clear: both;
   font-weight: 400;
   line-height: 1.3856;
@@ -4703,7 +4704,6 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
   .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
     color: #555;
-    background-color: #e7e7e7;
   }
   .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a,
   .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:hover,
@@ -5608,10 +5608,9 @@ button.list-group-item-danger.active:focus {
   padding: 15px;
 }
 .panel-heading {
+  display: flex;
+  flex-direction: column;
   padding: 10px 15px;
-  border-bottom: 1px solid transparent;
-  border-top-left-radius: 2px;
-  border-top-right-radius: 2px;
 }
 .panel-heading > .dropdown .dropdown-toggle {
   color: inherit;
