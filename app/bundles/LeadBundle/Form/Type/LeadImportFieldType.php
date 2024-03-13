@@ -72,7 +72,9 @@ class LeadImportFieldType extends AbstractType
                     'list',
                     LeadListType::class,
                     [
-                        'label'      => 'mautic.lead.lead.field.list',
+
+                        'label' => $this->translator->trans('mautic.lead.lead.field.list') . ' <a class="label label-default" href="/s/segments/new" data-toggle="ajaxmodal" data-target="#MauticSharedModal">' . $this->translator->trans('mautic.core.form.new') . '</a>',
+                        'label_html'        => true,
                         'label_attr' => ['class' => 'control-label'],
                         'attr'       => [
                             'class' => 'form-control',
