@@ -48,7 +48,8 @@ class CategoryListType extends AbstractType
 
                 return $choices;
             },
-            'label'             => 'mautic.core.category',
+            'label'             => $this->translator->trans('mautic.core.category') . ' <a class="label label-default" href="/s/categories" data-toggle="ajaxmodal" data-target="#MauticSharedModal">' . $this->translator->trans('mautic.core.category.manage') . '</a>',
+            'label_html'        => true,
             'label_attr'        => ['class' => 'control-label'],
             'multiple'          => false,
             'placeholder'       => 'mautic.core.form.uncategorized',
