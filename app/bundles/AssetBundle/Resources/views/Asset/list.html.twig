@@ -156,6 +156,15 @@
                                         'btnText'   : 'mautic.asset.asset.preview'|trans,
                                         'iconClass' : 'fa fa-image',
                                     },
+
+                                   1: {
+                                        'attr' : {
+                                            'href'        : '#',
+                                            'onclick'     : "navigator.clipboard.writeText('" ~ url('mautic_asset_action', {'objectAction' : 'preview', 'objectId' : item.getId()}) ~ "'); return false;"
+                                        },
+                                        'btnText'   : 'mautic.asset.asset.clipboard'|trans,
+                                        'iconClass' : 'ri-clipboard-line',
+                                    },
                                 },
                             }
                         ) -}}
