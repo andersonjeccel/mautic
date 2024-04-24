@@ -62,9 +62,9 @@
   --background-active: rgba(141, 141, 141, 0.5);
   --background-selected: rgba(141, 141, 141, 0.2);
   --background-selected-hover: rgba(141, 141, 141, 0.32);
-  --background-inverse: #393939;
-  --background-inverse-hover: #4c4c4c;
-  --background-inverse-dark: #161616;
+  --background-inverse: #1F252E;
+  --background-inverse-hover: #262E38;
+  --background-inverse-dark: #181D24;
   --background-brand: #4e5e9e;
   --icon-primary: #161616;
   --icon-secondary: #525252;
@@ -74,6 +74,7 @@
   --icon-interactive: #0f62fe;
   --icon-inverse: #ffffff;
   --icon-disabled: rgba(22, 22, 22, 0.25);
+  --border-inverse: #1A1F26;
 }
 @media (prefers-reduced-motion: reduce) {
   :root {
@@ -278,8 +279,8 @@ body > #app-wrapper {
 #app-header.navbar .navbar-nocollapse .navbar-nav > li > a:active,
 #app-header.navbar .navbar-nocollapse .navbar-nav > li > a:focus,
 #app-header.navbar .navbar-nocollapse .navbar-nav > li > a.active {
-  color: rgba(0, 0, 0, 0.7);
-  background-color: #f5f5f5;
+  color: var(--icon-inverse);
+  background-color: var(--background-inverse-hover);
   outline: 0;
 }
 #app-header.navbar .navbar-nocollapse .navbar-nav > li .form-control {
@@ -352,13 +353,13 @@ body > #app-wrapper {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06);
 }
 #app-header.navbar .navbar-nocollapse .navbar-nav .open > a {
-  color: rgba(0, 0, 0, 0.7);
-  background-color: #f5f5f5;
+  color: var(--icon-inverse);
+  background-color: var(--background-inverse-hover);
 }
 #app-header.navbar .navbar-nocollapse .navbar-nav .open > a:hover,
 #app-header.navbar .navbar-nocollapse .navbar-nav .open > a:focus {
-  color: rgba(0, 0, 0, 0.7);
-  background-color: #f5f5f5;
+  color: var(--icon-inverse);
+  background-color: var(--background-inverse-hover);
 }
 #app-header.navbar .navbar-nocollapse .navbar-nav .open > a > .badge,
 #app-header.navbar .navbar-nocollapse .navbar-nav .open > a > .bullet,
@@ -502,7 +503,7 @@ body > #app-wrapper {
 .app-sidebar.sidebar-left {
   width: 230px;
   left: -230px;
-  background-color: #1d232b;
+  background-color: var(--background-inverse-dark);
   box-shadow: inset -1px 0 0 0 rgba(0, 0, 0, 0.05);
   color: rgba(255, 255, 255, 0.55);
   -webkit-transition: all 0.3s ease;
@@ -515,7 +516,7 @@ body > #app-wrapper {
   -o-transition: width 0.3s ease;
   transition: width 0.3s ease;
   width: 230px;
-  background-color: #4E5D9D;
+  background-color: var(--background-inverse-dark);
 }
 .app-sidebar.sidebar-left .sidebar-header > .mautic-brand > .mautic-logo-text {
   opacity: 1;
@@ -542,7 +543,7 @@ body > #app-wrapper {
   right: 0;
   left: 50px;
   bottom: 0;
-  border-bottom: 1px solid #202830;
+  border-bottom: 1px solid var(--border-inverse);
 }
 .app-sidebar.sidebar-left .nav-sidebar > .nav > li > a {
   color: rgba(255, 255, 255, 0.5);
@@ -595,7 +596,7 @@ body > #app-wrapper {
 .app-sidebar.sidebar-right {
   width: 230px;
   right: -230px;
-  background-color: #1d232b;
+  background-color: var(--background-inverse-dark);
   box-shadow: inset 1px 0 0 0 rgba(0, 0, 0, 0.05);
   color: rgba(255, 255, 255, 0.55);
   -webkit-transition: all 0.3s ease;
@@ -605,7 +606,7 @@ body > #app-wrapper {
 .app-sidebar.sidebar-right .sidebar-header,
 .app-sidebar.sidebar-right .sidebar-footer {
   width: 230px;
-  background-color: #232b34;
+  background-color: var(--background-inverse-dark);
 }
 .app-sidebar.sidebar-right .sidebar-content {
   padding-left: 1px;
@@ -617,7 +618,7 @@ body > #app-wrapper {
   right: 0;
   left: 50px;
   bottom: 0;
-  border-bottom: 1px solid #202830;
+  border-bottom: 1px solid var(--border-inverse);
 }
 .app-sidebar.sidebar-right .nav-sidebar > .nav > li > a {
   color: rgba(255, 255, 255, 0.5);

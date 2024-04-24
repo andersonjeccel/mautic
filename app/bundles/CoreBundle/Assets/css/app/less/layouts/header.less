@@ -207,8 +207,8 @@
           &:active,
           &:focus,
           &.active {
-            color: fade(contrast(@header-bg), 70%);
-            background-color: darken(@header-bg, 4%);
+            color: var(--icon-inverse);
+            background-color: var(--background-inverse-hover);
             outline: 0;
           }
         }
@@ -302,14 +302,14 @@
 
         // `navbar-nav` anchor
         > a {
-          color: fade(contrast(@header-bg), 70%);
-          background-color: darken(@header-bg, 4%);
+          color: var(--icon-inverse);
+          background-color: var(--background-inverse-hover);
 
           // interaction
           &:hover,
           &:focus {
-            color: fade(contrast(@header-bg), 70%);
-            background-color: darken(@header-bg, 4%);
+            color: var(--icon-inverse);
+            background-color: var(--background-inverse-hover);
           }
 
           // badge & bullet

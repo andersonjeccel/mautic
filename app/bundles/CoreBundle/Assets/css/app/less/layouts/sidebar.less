@@ -42,7 +42,7 @@
   &.sidebar-left {
     width: @sidebar-left-width;
     left: -@sidebar-left-width;
-    background-color: @sidebar-left-bg;
+    background-color: var(--background-inverse-dark);
     box-shadow: inset -1px 0 0 0 rgba(0, 0, 0, 0.05);
     color: fade(contrast(@sidebar-left-bg), 55%);
     .transition(all .3s ease);
@@ -52,7 +52,7 @@
     .sidebar-footer {
       .transition(width .3s ease);
       width: @sidebar-left-width;
-      background-color: @sidebar-left-header-bg;
+      background-color: var(--background-inverse-dark);
     }
 
     .sidebar-header {
@@ -93,7 +93,7 @@
   &.sidebar-right {
     width: @sidebar-right-width;
     right: -@sidebar-right-width;
-    background-color: @sidebar-right-bg;
+    background-color: var(--background-inverse-dark);
     box-shadow:inset 1px 0 0 0 rgba(0,0,0,0.05);
     color: fade(contrast(@sidebar-right-bg), 55%);
     .transition(all .3s ease);
@@ -102,7 +102,7 @@
     .sidebar-header,
     .sidebar-footer {
       width: @sidebar-right-width;
-      background-color: @sidebar-right-header-bg;
+      background-color: var(--background-inverse-dark);
     }
 
     // sidebar content
