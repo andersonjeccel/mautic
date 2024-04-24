@@ -9726,6 +9726,23 @@ button.close {
 :root {
   --timing: 0.3s ease;
   --all: all var(--timing);
+  --background: #ffffff;
+  --background-hover: #8d8d8d;
+  --background-active: rgba(141, 141, 141, 0.5);
+  --background-selected: rgba(141, 141, 141, 0.2);
+  --background-selected-hover: rgba(141, 141, 141, 0.32);
+  --background-inverse: #393939;
+  --background-inverse-hover: #4c4c4c;
+  --background-inverse-dark: #161616;
+  --background-brand: #4e5e9e;
+  --icon-primary: #161616;
+  --icon-secondary: #525252;
+  --icon-secondary-inverse: #c6c6c6;
+  --icon-on-color: #ffffff;
+  --icon-on-color-disabled: #8d8d8d;
+  --icon-interactive: #0f62fe;
+  --icon-inverse: #ffffff;
+  --icon-disabled: rgba(22, 22, 22, 0.25);
 }
 @media (prefers-reduced-motion: reduce) {
   :root {

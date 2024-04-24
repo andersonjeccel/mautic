@@ -29,14 +29,13 @@
 #app-header.navbar {
   .transition(all .3s ease);
 
-  background-color: @header-bg;
+  background-color: var(--background-inverse-dark);
   float: left;
   z-index: @header-zindex;
   min-height: @header-height;
   border-width: 0;
   border-radius: 0;
   margin-bottom: 0;
-  .box-shadow(0 1px 0 rgba(0,0,0,0.05));
 
   // fixed header
   .header-fixed & {
@@ -45,7 +44,7 @@
     left: 0;
     top: 0;
     //box-shadow: 0 2px 2px rgba(0,0,0,0.05), 0 1px 0 rgba(0,0,0,0.05);
-    box-shadow: 0 5px 5px -5px rgba(0,0,0,0.15), 0 1px 0 rgba(0,0,0,0.03);
+    
 
     // Add top padding to `app-content` if header is fixed
     ~ #app-content {
@@ -98,7 +97,7 @@
 
         // `navbar-nav` anchor
         > a {
-          color: fade(contrast(@header-bg), 60%);
+          color: var(--icon-secondary-inverse);
           line-height: @header-height;
           padding-top: 0;
           padding-bottom: 0;
@@ -202,7 +201,7 @@
           // interaction
           // -------------------------
           &:hover {
-            color: fade(contrast(@header-bg), 70%);
+            color: var(--icon-inverse);
             background-color: transparent;
           }
           &:active,
@@ -211,6 +210,56 @@
             color: fade(contrast(@header-bg), 70%);
             background-color: darken(@header-bg, 4%);
             outline: 0;
+          }
+        }
+
+        .form-control {
+          background-color: transparent;
+          border: none;
+        }
+
+        .search-button {
+          color: var(--icon-secondary-inverse);
+
+          &:hover {
+            color: var(--icon-inverse);
+          }
+        }
+
+        //Search
+        .search-container {
+          position: relative;
+          line-height: 60px;
+          .transition(all 0.3s ease);
+
+          .search {
+            
+            position: absolute;
+            left: 0px;
+            width: 24px;
+            height: 34px;
+            padding: 0 0 0 32px;
+            margin: 12px 0 0 5px;
+            z-index: 1;
+            .transition(all 0.5s ease);
+          }
+          a.search-button {
+            color: var(--icon-secondary-inverse);
+            position: absolute;
+            left: 12px;
+            z-index: 5;
+
+            &:hover {
+              color: var(--icon-inverse);
+            }
+          }
+
+          &.active {
+            .search {
+              width: 225px;
+              border: none;
+              box-shadow: none;
+            }
           }
         }
       }
