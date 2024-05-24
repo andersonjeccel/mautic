@@ -5,9 +5,9 @@
 // Background color
 // ------------------------
 
-.background-blur() {
-  backdrop-filter: var(--blur);
-  background-color: var(--layer-translucent);
+.background-blur(@bg) {
+  backdrop-filter: blur(10px);
+  background-color: @bg;
 }
 
 .bg-color(@bg-color; @color) {

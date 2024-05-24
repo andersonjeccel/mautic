@@ -121,7 +121,8 @@ label.required:after {
   .transition(all 0.3s ease);
 
   .search {
-    border: 1px solid #fff;
+    background-color: transparent;
+    border: none;
     position: absolute;
     left: 0px;
     width: 24px;
@@ -130,9 +131,13 @@ label.required:after {
     margin: 12px 0 0 5px;
     z-index: 1;
     .transition(all 0.5s ease);
+    
+    &:focus {
+      box-shadow: none;
+    }
   }
   a.search-button {
-    color: rgba(0, 0, 0, 0.6);
+    color: white;
     position: absolute;
     left: 12px;
     z-index: 5;
@@ -141,10 +146,10 @@ label.required:after {
   &.active {
     .search {
       width: 225px;
-      border: 1px solid @input-border;
+      border: none;
     }
     i {
-      color: @brand-primary;
+      color: white;
     }
   }
 }

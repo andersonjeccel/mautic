@@ -560,7 +560,7 @@
 //== Header layout
 //
 //## common main header variable.
-@header-bg:                                 #ffffff;
+@header-bg:                                 #161616;
 @header-height:                             60px;
 @header-zindex:                             @zindex-navbar + 5; // 1005
 
@@ -571,14 +571,14 @@
 @sidebar-zindex:                           (@header-zindex - 20 + 5);  // 990
 //** left sidebar option
 @sidebar-left-bg:                           darken(#27303a, 5%);
-@sidebar-left-header-bg:                    @mautic-primary;
+@sidebar-left-header-bg:                    @header-bg;
 @sidebar-left-width:                        230px;
 @sidebar-left-collapse-width:               60px;
 @sidebar-left-dark:							darken(@sidebar-left-bg, 8%);
 
 //** right sidebar option - coming soon
 @sidebar-right-bg:                          @sidebar-left-bg;
-@sidebar-right-header-bg:                   lighten(@sidebar-right-bg, 3%);
+@sidebar-right-header-bg:                   @header-bg;
 @sidebar-right-width:                       230px;
 
 
