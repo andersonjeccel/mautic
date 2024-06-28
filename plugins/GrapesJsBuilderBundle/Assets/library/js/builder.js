@@ -2,8 +2,8 @@ import AssetService from './asset.service';
 import BuilderService from './builder.service';
 
 // all css get combined into one builder.css and automatically loaded via js/parcel
-import 'grapesjs/dist/css/grapes.min.css';
-import './grapesjs-custom.css';
+import grapesjsCss from 'grapesjs/dist/css/grapes.min.css';
+import customCss from './grapesjs-custom.css';
 
 /**
  * Launch builder
@@ -39,6 +39,19 @@ function launchBuilderGrapesjs(formName) {
   AssetService.getAssetsXhr(function (result) {
     builder.editor.AssetManager.add(result.data);
   });
+
+  // Process and apply CSS to replace color
+  function replaceColorInCss(cssContent, oldColor, newColor) {
+    return cssContent.replace(new RegExp(oldColor, 'g'), newColor);
+  }
+
+  const modifiedGrapesjsCss = replaceColorInCss(grapesjsCss, '#3b97e3', 'var(--interactive)');
+  const modifiedCustomCss = replaceColorInCss(customCss, '#3b97e3', 'var(--interactive)');
+
+  // Create a style element and append the modified CSS
+  const styleElement = document.createElement('style');
+  styleElement.innerHTML = `${modifiedGrapesjsCss}\n${modifiedCustomCss}`;
+  document.head.appendChild(styleElement);
 }
 
 /**
