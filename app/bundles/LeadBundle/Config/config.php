@@ -284,35 +284,35 @@ return [
     'menu' => [
         'main' => [
             'items' => [
+                'mautic.lead.audience' => [
+                'id'        => 'mautic_audience_root',
+                'iconClass' => 'ri-group-2-fill',
+                'priority'  => 90,
+            ],
                 'mautic.lead.leads' => [
                     'iconClass' => 'ri-user-6-fill',
                     'access'    => ['lead:leads:viewown', 'lead:leads:viewother'],
                     'route'     => 'mautic_contact_index',
-                    'priority'  => 80,
+                    'parent' => 'mautic.lead.audience',
                 ],
                 'mautic.companies.menu.index' => [
                     'route'     => 'mautic_company_index',
                     'iconClass' => 'ri-building-2-fill',
                     'access'    => ['lead:leads:viewother'],
-                    'priority'  => 75,
+                    'parent' => 'mautic.lead.audience',
                 ],
                 'mautic.lead.list.menu.index' => [
                     'iconClass' => 'ri-pie-chart-fill',
                     'access'    => ['lead:lists:viewown', 'lead:lists:viewother'],
                     'route'     => 'mautic_segment_index',
-                    'priority'  => 70,
+                    'parent' => 'mautic.lead.audience',
                 ],
-            ],
-        ],
-        'admin' => [
-            'priority' => 50,
-            'items'    => [
                 'mautic.lead.field.menu.index' => [
                     'id'        => 'mautic_lead_field',
                     'iconClass' => 'ri-input-field',
                     'route'     => 'mautic_contactfield_index',
                     'access'    => 'lead:fields:full',
-                    'priority'  => 19,
+                    'parent' => 'mautic.lead.audience',
                 ],
             ],
         ],

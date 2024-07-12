@@ -57,7 +57,7 @@ return [
                 'route'     => 'mautic_tagmanager_index',
                 'access'    => 'tagManager:tagManager:view',
                 'iconClass' => 'ri-hashtag',
-                'priority'  => 1,
+                'parent' => 'mautic.lead.audience',
             ],
         ],
     ],
