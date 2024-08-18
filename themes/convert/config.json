@@ -1,0 +1,9 @@
+{
+  "name": "Convert",
+  "author": "Anderson J. Eccel",
+  "authorUrl": "https://andersonjeccel.com.br",
+  "builder": ["grapesjsbuilder"],
+  "features": [
+    "email"
+  ]
+}

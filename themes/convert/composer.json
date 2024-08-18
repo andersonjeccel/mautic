@@ -1,0 +1,13 @@
+{
+  "name": "mautic/theme-convert",
+  "description": "Convert email theme",
+  "type": "mautic-theme",
+  "keywords": ["mautic","theme"],
+  "extra": {
+    "install-directory-name": "convert"
+  },
+  "minimum-stability": "dev",
+  "require": {
+    "mautic/core-lib": "^5.0"
+  }
+}
