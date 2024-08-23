@@ -12,6 +12,9 @@
     <link rel="apple-touch-icon" href="{{ getOverridableUrl('images/apple-touch-icon.png') }}" />
 
     {{ outputSystemStylesheets() }}
+    <link rel="stylesheet" href="{{ asset('app/bundles/CoreBundle/Assets/js/libraries/tour/shepherd.css') }}"/>
+    <script type="module" src="{{ asset('app/bundles/CoreBundle/Assets/js/libraries/tour/shepherd.mjs') }}"></script>
+    <script type="module" src="{{ asset('app/bundles/CoreBundle/Assets/js/libraries/tour/tour.js') }}"></script>
 
     {% include('@MauticCore/Default/script.html.twig') %}
 
