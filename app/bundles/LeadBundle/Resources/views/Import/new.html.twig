@@ -8,6 +8,10 @@
     - modalView
     - template
 #}
+{% set contentOnly = true %}
+{% if app.request.isXmlHttpRequest() %}
+    {% set contentOnly = true %}
+{% endif %}
 {% extends '@MauticCore/Default/content.html.twig' %}
 
 {% block mauticContent %}leadImport{% endblock %}
