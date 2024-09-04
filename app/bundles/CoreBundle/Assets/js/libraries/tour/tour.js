@@ -51,25 +51,30 @@ function initTourForCurrentPage() {
   console.log('Current path:', currentPath);
   console.log('Shepherd library:', typeof Shepherd !== 'undefined' ? 'Loaded' : 'Not loaded');
   let tourSteps;
-
-  // Check if the tour has already been completed
-  if (localStorage.getItem('tourCompleted') === 'true') {
-    console.log('Tour already completed, not starting again.');
-    return; // Exit if the tour has already been completed
-  }
+  let tourKey;
 
   if (currentPath.startsWith('/s/dashboard') || currentPath.startsWith('/s/config')) {
     console.log('Initializing dashboard tour');
     tourSteps = dashboardTourSteps;
+    tourKey = 'dashboardTour';
   } else if (currentPath === '/s/contacts') {
     console.log('Initializing contacts tour');
     tourSteps = contactsTourSteps;
+    tourKey = 'contactsTour';
   } else if (currentPath === '/s/contacts/import/new') {
     console.log('Initializing import contacts tour');
     tourSteps = importContactsTourSteps;
+    tourKey = 'importContactsTour';
   } else {
     console.log('No tour steps for this path');
     tourSteps = [];
+    tourKey = 'unknownTour';
+  }
+
+  // Check if this specific tour has already been completed
+  if (localStorage.getItem(`${tourKey}Completed`) === 'true') {
+    console.log(`${tourKey} already completed, not starting again.`);
+    return; // Exit if this specific tour has already been completed
   }
 
   if (tourSteps.length > 0) {
@@ -86,7 +91,7 @@ function initTourForCurrentPage() {
       window.currentTour.addStep(step);
     });
 
-    const currentStep = sessionStorage.getItem('tourStep');
+    const currentStep = sessionStorage.getItem(`${tourKey}Step`);
     if (currentStep) {
       window.currentTour.show(currentStep);
     } else {
@@ -94,13 +99,13 @@ function initTourForCurrentPage() {
       window.currentTour.start();
     }
 
-    // Store completed tour status
+    // Store completed tour status for this specific tour
     window.currentTour.on('complete', () => {
-      localStorage.setItem('tourCompleted', 'true');
+      localStorage.setItem(`${tourKey}Completed`, 'true');
     });
 
     window.currentTour.on('show', (e) => {
-      sessionStorage.setItem('tourStep', e.step.id);
+      sessionStorage.setItem(`${tourKey}Step`, e.step.id);
     });
   }
 }
