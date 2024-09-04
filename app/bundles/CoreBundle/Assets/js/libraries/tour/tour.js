@@ -242,6 +242,10 @@ const contactsTourSteps = [
       element: () => document.querySelector('button.btn.btn-default.btn-nospin.dropdown-toggle'),
       on: 'left'
     },
+    advanceOn: {
+      selector: 'a[href="/s/contacts/import/new"][data-toggle="ajax"]',
+      event: 'click'
+    },
     buttons: [] // No buttons for this step
   }
 ];
@@ -271,6 +275,7 @@ const importContactsTourSteps = [
       element: '#lead_field_import_list_chosen',
       on: 'left'
     },
+    beforeShowPromise: () => lazyElement('#lead_field_import_list_chosen'),
     buttons: [
       {
         text: 'Next',
@@ -298,7 +303,7 @@ const importContactsTourSteps = [
     title: 'Match Your Fields',
     text: "Mautic will attempt to automatically match fields in your import file based on the header rows. If a direct match isn't found, manually select the appropriate field by clicking into it and searching by the field name.",
     attachTo: {
-      element: () => document.querySelectorAll('.panel-title')[1],
+      element: '#match-fields',
       on: 'top'
     },
     buttons: [
@@ -344,7 +349,8 @@ const importContactsTourSteps = [
           window.currentTour.next();
         }
       }
-    ]
+    ],
+    beforeShowPromise: () => lazyElement('a.btn.btn-success[href="/s/contacts/import"]'),
   },
   {
     id: 'import-step7',
