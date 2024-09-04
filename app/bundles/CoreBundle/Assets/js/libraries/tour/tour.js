@@ -11,7 +11,28 @@ window.resetTour = function() {
 };
 
 function lazyElement(selector) {
-  return () => mQuery(selector);
+  return new Promise((resolve) => {
+    const element = mQuery(selector);
+    if (element.length) {
+      resolve(element);
+      return;
+    }
+
+    const observer = new MutationObserver((mutations, obs) => {
+      const element = mQuery(selector);
+      if (element.length) {
+        resolve(element);
+        obs.disconnect();
+      }
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+
+    // No timeout, observer will run indefinitely until the element is found
+  });
 }
 
 function initTourForCurrentPage() {
@@ -39,7 +60,8 @@ function initTourForCurrentPage() {
       defaultStepOptions: {
         cancelIcon: { enabled: true },
         classes: 'shepherd-theme-default',
-        scrollTo: { behavior: 'smooth', block: 'center' }
+        scrollTo: { behavior: 'smooth', block: 'center' },
+        beforeshowpremise: ''
       },
     });
 
@@ -75,8 +97,10 @@ const dashboardTourSteps = [
     buttons: [{
       text: 'Go to Configuration',
       action: function () {
-        window.currentTour.next();
         mQuery('a#mautic_config_index').click();
+        lazyElement('a[href="#trackingconfig"]').then(() => {
+          window.currentTour.next();
+        });
       }
     }]
   },
@@ -85,10 +109,11 @@ const dashboardTourSteps = [
     title: 'Tracking Settings',
     text: 'Click here to find your tracking settings',
     attachTo: {
-      element: lazyElement('a[href="#trackingconfig"]'),
+      element: 'a[href="#trackingconfig"]',
       on: 'right'
     },
-    buttons: [{ text: 'Next', action: () => window.currentTour.next() }]
+    buttons: [{ text: 'Next', action: () => window.currentTour.next() }],
+    advanceOn: {selector: 'a[href="#trackingconfig"]', event: 'click'}
   },
   {
     id: 'step3',
@@ -108,7 +133,11 @@ const dashboardTourSteps = [
       element: 'a[href="/s/dashboard"]',
       on: 'bottom'
     },
-    buttons: [{ text: 'Next', action: () => window.currentTour.next() }]
+    buttons: [{ text: 'Next', action: () => window.currentTour.next() }],
+    advanceOn: {
+      selector: 'a[data-menu-link="mautic_dashboard_index"]',
+      event: 'click'
+    },
   },
   {
     id: 'step5',
@@ -119,6 +148,12 @@ const dashboardTourSteps = [
       on: 'bottom'
     },
     buttons: [{ text: 'Next', action: () => window.currentTour.next() }],
+        beforeShowPromise: () => lazyElement('form[name="daterange"]').then(() => {
+      // Wait for the form[name="daterange"] element to be present
+      document.querySelector('a[data-menu-link="mautic_dashboard_index"]').addEventListener('click', () => {
+        lazyElement('form[name="daterange"]');
+      });
+    }),
     modalOverlayOpeningPadding: 8
   },
   {
@@ -196,7 +231,7 @@ const importContactsTourSteps = [
     title: 'Select Your Contacts List',
     text: "Select your contacts list. You do not need a template, fields can be matched in the next screen. But it will be great to have your contacts name separated in First name and Last name. When you're ready, click Upload.",
     attachTo: {
-      element: lazyElement('.input-group.well.mt-lg'),
+      element: '.input-group.well.mt-lg',
       on: 'bottom'
     },
     buttons: [
@@ -211,7 +246,7 @@ const importContactsTourSteps = [
     title: 'Adding to a Segment',
     text: 'In the future, you might want to add imported contacts to a previously created segment, for specific targeting in campaigns.',
     attachTo: {
-      element: lazyElement('#lead_field_import_list_chosen'),
+      element: '#lead_field_import_list_chosen',
       on: 'left'
     },
     buttons: [
@@ -226,7 +261,7 @@ const importContactsTourSteps = [
     title: 'Adding Tags',
     text: 'You can also add specific tags to the contacts by selecting or creating a tag to help you track their source.',
     attachTo: {
-      element: lazyElement('#lead_field_import_tags_chosen'),
+      element: '#lead_field_import_tags_chosen',
       on: 'left'
     },
     buttons: [
@@ -256,7 +291,7 @@ const importContactsTourSteps = [
     title: 'Importing Options',
     text: 'For importing over 100 contacts, opt to import in the background. You will receive a notification under the bell icon once the import is complete. For fewer than 100 contacts, you can choose to import in the browser.',
     attachTo: {
-      element: lazyElement('#lead_field_import_buttons_apply_toolbar'),
+      element: '#lead_field_import_buttons_apply_toolbar',
       on: 'left'
     },
     buttons: [
@@ -271,7 +306,7 @@ const importContactsTourSteps = [
     title: 'Import History',
     text: 'In the import history, you can check more details about each list imported over the time. This page is also accessible using the menu on the Contacts page.',
     attachTo: {
-      element: lazyElement('a.btn.btn-success[href="/s/contacts/import"]'),
+      element: 'a.btn.btn-success[href="/s/contacts/import"]',
       on: 'bottom'
     },
     buttons: [
@@ -294,7 +329,7 @@ const importContactsTourSteps = [
     title: 'View New Contacts',
     text: 'Click here to see your new contacts.',
     attachTo: {
-      element: lazyElement('a.btn.btn-success[href="/s/contacts?search=import_id:1"]'),
+      element: 'a.btn.btn-success[href="/s/contacts?search=import_id:1"]',
       on: 'bottom'
     },
     buttons: [
