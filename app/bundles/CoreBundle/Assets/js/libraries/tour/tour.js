@@ -12,26 +12,31 @@ window.resetTour = function() {
 
 function lazyElement(selector) {
   return new Promise((resolve) => {
-    const element = mQuery(selector);
-    if (element.length) {
-      resolve(element);
-      return;
-    }
-
-    const observer = new MutationObserver((mutations, obs) => {
+    // Check if the element is already present
+    const checkElement = () => {
       const element = mQuery(selector);
       if (element.length) {
         resolve(element);
-        obs.disconnect();
+        return true;
+      }
+      return false;
+    };
+
+    // If the element is already present, resolve immediately
+    if (checkElement()) return;
+
+    // Create a MutationObserver to watch for changes in the DOM
+    const observer = new MutationObserver(() => {
+      if (checkElement()) {
+        observer.disconnect(); // Stop observing once the element is found
       }
     });
 
+    // Start observing the document body for added/removed nodes
     observer.observe(document.body, {
       childList: true,
       subtree: true
     });
-
-    // No timeout, observer will run indefinitely until the element is found
   });
 }
 
@@ -61,7 +66,6 @@ function initTourForCurrentPage() {
         cancelIcon: { enabled: true },
         classes: 'shepherd-theme-default',
         scrollTo: { behavior: 'smooth', block: 'center' },
-        beforeshowpremise: ''
       },
     });
 
@@ -123,7 +127,8 @@ const dashboardTourSteps = [
       element: '#trackingconfig pre',
       on: 'bottom'
     },
-    buttons: [{ text: 'Next', action: () => window.currentTour.next() }]
+    buttons: [{ text: 'Next', action: () => window.currentTour.next() }],
+    beforeShowPromise: () => lazyElement('#trackingconfig pre'),
   },
   {
     id: 'step4',
@@ -148,12 +153,7 @@ const dashboardTourSteps = [
       on: 'bottom'
     },
     buttons: [{ text: 'Next', action: () => window.currentTour.next() }],
-        beforeShowPromise: () => lazyElement('form[name="daterange"]').then(() => {
-      // Wait for the form[name="daterange"] element to be present
-      document.querySelector('a[data-menu-link="mautic_dashboard_index"]').addEventListener('click', () => {
-        lazyElement('form[name="daterange"]');
-      });
-    }),
+    beforeShowPromise: () => lazyElement('form[name="daterange"]'),
     modalOverlayOpeningPadding: 8
   },
   {
