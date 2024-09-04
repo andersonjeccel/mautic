@@ -2,10 +2,16 @@
 import Shepherd from '/app/bundles/CoreBundle/Assets/js/libraries/tour/shepherd.mjs';
 
 window.resetTour = function() {
+  // Remove the current step from sessionStorage
   sessionStorage.removeItem('tourStep');
+  // Remove the completed tour status from localStorage
+  localStorage.removeItem('tourCompleted');
+
   if (window.currentTour) {
     window.currentTour.complete();
   }
+
+  // Re-initialize the tour for the current page
   initTourForCurrentPage();
   console.log('Tour has been reset and restarted.');
 };
@@ -46,6 +52,12 @@ function initTourForCurrentPage() {
   console.log('Shepherd library:', typeof Shepherd !== 'undefined' ? 'Loaded' : 'Not loaded');
   let tourSteps;
 
+  // Check if the tour has already been completed
+  if (localStorage.getItem('tourCompleted') === 'true') {
+    console.log('Tour already completed, not starting again.');
+    return; // Exit if the tour has already been completed
+  }
+
   if (currentPath.startsWith('/s/dashboard') || currentPath.startsWith('/s/config')) {
     console.log('Initializing dashboard tour');
     tourSteps = dashboardTourSteps;
@@ -81,6 +93,11 @@ function initTourForCurrentPage() {
       console.log('Starting tour');
       window.currentTour.start();
     }
+
+    // Store completed tour status
+    window.currentTour.on('complete', () => {
+      localStorage.setItem('tourCompleted', 'true');
+    });
 
     window.currentTour.on('show', (e) => {
       sessionStorage.setItem('tourStep', e.step.id);
