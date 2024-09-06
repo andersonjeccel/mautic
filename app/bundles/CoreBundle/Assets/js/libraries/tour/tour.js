@@ -2,18 +2,27 @@
 import Shepherd from '/app/bundles/CoreBundle/Assets/js/libraries/tour/shepherd.mjs';
 
 window.resetTour = function() {
-  // Remove the current step from sessionStorage
-  sessionStorage.removeItem('tourStep');
-  // Remove the completed tour status from localStorage
-  localStorage.removeItem('tourCompleted');
+  // Define all tour keys
+  const tourKeys = ['dashboardTour', 'contactsTour', 'importContactsTour'];
 
+  // Remove the current step from sessionStorage for all tours
+  tourKeys.forEach(key => {
+    sessionStorage.removeItem(`${key}Step`);
+  });
+
+  // Remove the completed tour status from localStorage for all tours
+  tourKeys.forEach(key => {
+    localStorage.removeItem(`${key}Completed`);
+  });
+
+  // If there's a current tour, complete it
   if (window.currentTour) {
     window.currentTour.complete();
   }
 
   // Re-initialize the tour for the current page
   initTourForCurrentPage();
-  console.log('Tour has been reset and restarted.');
+  console.log('All tours have been reset and the current tour has been restarted.');
 };
 
 function lazyElement(selector) {
