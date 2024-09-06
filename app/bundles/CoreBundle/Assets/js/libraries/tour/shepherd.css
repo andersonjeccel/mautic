@@ -2,7 +2,7 @@
     background: #3288e6;
     border: 0;
     border-radius: 3px;
-    color: var(--text-primary);;
+    color: var(--text-inverse);;
     cursor: pointer;
     margin-right: .5rem;
     padding: .5rem 1.5rem;
@@ -11,17 +11,17 @@
 
 .shepherd-button:not(:disabled):hover {
     background: #196fcc;
-    color: var(--text-primary);
+    color: var(--text-inverse);
 }
 
 .shepherd-button.shepherd-button-secondary {
     background: #f1f2f3;
-    color: var(--text-primary);
+    color: var(--text-inverse);
 }
 
 .shepherd-button.shepherd-button-secondary:not(:disabled):hover {
     background: #d6d9db;
-    color: var(--text-primary);
+    color: var(--text-inverse);
 }
 
 .shepherd-button:disabled {
@@ -53,7 +53,7 @@
 }
 
 .shepherd-cancel-icon:hover {
-    color: var(--text-primary);
+    color: var(--text-inverse);
 }
 
 .shepherd-has-title .shepherd-content .shepherd-cancel-icon {
@@ -61,11 +61,11 @@
 }
 
 .shepherd-has-title .shepherd-content .shepherd-cancel-icon:hover {
-    color: var(--text-primary);
+    color: var(--text-inverse);
 }
 
 .shepherd-title {
-    color: var(--text-primary);;
+    color: var(--text-inverse);;
     display: flex;
     flex: 1 0 auto;
 
@@ -85,15 +85,15 @@
 }
 
 .shepherd-has-title .shepherd-content .shepherd-header {
-    background: var(--background-hover);
-    padding: 8px 16px;
+    background: var(--background-inverse-hover);
+    padding: 1em
 }
 
 .shepherd-text {
-    color: var(--text-primary);;
-    line-height: 1.4em;
-    padding: 16px;
-    font-size: 14px;
+    color: var(--text-inverse);;
+
+    line-height: 1.3em;
+    padding: .75em
 }
 
 .shepherd-text p {
@@ -111,9 +111,9 @@
 }
 
 .shepherd-element {
-    background: var(--background);
+    background: var(--background-inverse);
     box-shadow: 0 1px 4px rgba(0, 0, 0, .2);
-    max-width: 340px;
+    max-width: 400px;
     opacity: 0;
     outline: none;
     transition: opacity .3s, visibility .3s;
@@ -149,7 +149,7 @@
 }
 
 .shepherd-arrow:before {
-    background: var(--background);
+    background: var(--background-inverse);
     content: "";
     transform: rotate(45deg)
 }
@@ -175,7 +175,7 @@
 }
 
 .shepherd-element.shepherd-has-title[data-popper-placement^=bottom]>.shepherd-arrow:before {
-    background-color: var(--background-hover);
+    background-color: var(--background-inverse-hover);
 }
 
 .shepherd-target-click-disabled.shepherd-enabled.shepherd-target,
