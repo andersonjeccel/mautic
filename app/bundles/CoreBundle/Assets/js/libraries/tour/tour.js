@@ -122,51 +122,11 @@ function initTourForCurrentPage() {
 // Dashboard tour
 const dashboardTourSteps = [
   {
-    id: 'step1',
-    title: 'Connect Tracking Script',
-    text: 'We need to connect the tracking script in your website. Click the button below to go to the configuration page.',
-    attachTo: {
-      element: '.pull-left.page-header-title',
-      on: 'right'
-    },
-    buttons: [{
-      text: 'Go to Configuration',
-      action: function () {
-        mQuery('a#mautic_config_index').click();
-        lazyElement('a[href="#trackingconfig"]').then(() => {
-          window.currentTour.next();
-        });
-      }
-    }]
-  },
-  {
-    id: 'step2',
-    title: 'Tracking Settings',
-    text: 'Click here to find your tracking settings',
-    attachTo: {
-      element: 'a[href="#trackingconfig"]',
-      on: 'right'
-    },
-    buttons: [{ text: 'Next', action: () => window.currentTour.next() }],
-    advanceOn: {selector: 'a[href="#trackingconfig"]', event: 'click'}
-  },
-  {
-    id: 'step3',
-    title: 'Copy Tracking Code',
-    text: 'Copy this code and paste it at the end of the body tag in your website',
-    attachTo: {
-      element: '#trackingconfig pre',
-      on: 'bottom'
-    },
-    buttons: [{ text: 'Next', action: () => window.currentTour.next() }],
-    beforeShowPromise: () => lazyElement('#trackingconfig pre'),
-  },
-  {
-    id: 'step4',
-    title: 'Go to Dashboard',
+    id: 'dashboard1',
+    title: 'Welcome to your Dashboard',
     text: 'Click here to go to the dashboard',
     attachTo: {
-      element: 'a[href="/s/dashboard"]',
+      element: '.pull-left.page-header-title',
       on: 'bottom'
     },
     buttons: [{ text: 'Next', action: () => window.currentTour.next() }],
@@ -176,7 +136,7 @@ const dashboardTourSteps = [
     },
   },
   {
-    id: 'step5',
+    id: 'dashboard2',
     title: 'Date Range Filter',
     text: 'Use this date picker to filter and display the data of the widgets within your chosen date range. By default, Mautic displays data from the past 30 days up to today. To change this, blablaba. It filters all widgets.',
     attachTo: {
@@ -188,7 +148,7 @@ const dashboardTourSteps = [
     modalOverlayOpeningPadding: 8
   },
   {
-    id: 'step6',
+    id: 'dashboard3',
     title: 'Create New Widget',
     text: 'Here you create a new widget. That\'s how we call the charts used to display information based on available data. As soon as the data starts being collected, check this page again.',
     attachTo: {
@@ -199,16 +159,33 @@ const dashboardTourSteps = [
     modalOverlayOpeningPadding: 8
   },
   {
-    id: 'step7',
+    id: 'dashboard4',
     title: 'Main Menu Navigation',
     text: 'In the meanwhile, navigate through Mautic\'s main menu to easily access and explore its various components. That\'s all for now. Explore other pages.',
     attachTo: {
       element: 'nav.nav-sidebar',
       on: 'right'
     },
-    buttons: [{ text: 'Finish', action: () => window.currentTour.complete() }],
+    buttons: [{ text: 'Next', action: () => window.currentTour.next() }],
     modalOverlayOpeningPadding: 8
-  }
+  },
+  {
+    id: 'dashboard5',
+    title: 'Connect tracking script',
+    text: 'To improve your experience and start collecting visitor data, go to the configuration and set up your tracking script.',
+    attachTo: {
+      element: '#admin-menu',
+      on: 'bottom'
+    },
+    buttons: [{
+      text: 'Go to Configuration',
+      action: function () {
+        window.currentTour.complete();
+        mQuery('a#mautic_config_index').click();
+      }
+    }],
+    modalOverlayOpeningPadding: 8
+  },
 ];
 
 // Contacts tour
@@ -386,7 +363,48 @@ const importContactsTourSteps = [
   }
 ];
 
-
+const configTour = [
+  {
+  id: 'config1',
+    title: 'Connect Tracking Script',
+    text: 'We need to connect the tracking script in your website. Click the button below to go to the configuration page.',
+    attachTo: {
+      element: '.pull-left.page-header-title',
+      on: 'right'
+    },
+    buttons: [{
+      text: 'Go to Configuration',
+      action: function () {
+        mQuery('a#mautic_config_index').click();
+        lazyElement('a[href="#trackingconfig"]').then(() => {
+          window.currentTour.next();
+        });
+      }
+    }]
+  },
+  {
+    id: 'config2',
+    title: 'Tracking Settings',
+    text: 'Click here to find your tracking settings',
+    attachTo: {
+      element: 'a[href="#trackingconfig"]',
+      on: 'right'
+    },
+    buttons: [{ text: 'Next', action: () => window.currentTour.next() }],
+    advanceOn: {selector: 'a[href="#trackingconfig"]', event: 'click'}
+  },
+  {
+    id: 'config3',
+    title: 'Copy Tracking Code',
+    text: 'Copy this code and paste it at the end of the body tag in your website',
+    attachTo: {
+      element: '#trackingconfig pre',
+      on: 'bottom'
+    },
+    buttons: [{ text: 'Next', action: () => window.currentTour.next() }],
+    beforeShowPromise: () => lazyElement('#trackingconfig pre'),
+  },
+]
 
 // Make the whole functionality loads
 document.addEventListener('DOMContentLoaded', function () {
