@@ -1,16 +1,16 @@
 .shepherd-button {
-    background: #3288e6;
+    background: var(--button-primary);
     border: 0;
     border-radius: 3px;
     color: var(--text-inverse);;
     cursor: pointer;
     margin-right: .5rem;
-    padding: .5rem 1.5rem;
-    transition: all .5s ease
+    padding: 6px 18px;
+    transition: var(--transition-all-productive);
 }
 
 .shepherd-button:not(:disabled):hover {
-    background: #196fcc;
+    background: var(--button-primary-hover);
     color: var(--text-inverse);
 }
 
@@ -33,7 +33,7 @@
     border-bottom-right-radius: 5px;
     display: flex;
     justify-content: flex-end;
-    padding: 0 .75rem .75rem
+    padding: 0px 16px 16px;
 }
 
 .shepherd-footer .shepherd-button:last-child {
@@ -68,7 +68,7 @@
     color: var(--text-inverse);;
     display: flex;
     flex: 1 0 auto;
-
+    opacity: 0.8;
     font-weight: 400;
     margin: 0;
     padding: 0
@@ -86,14 +86,14 @@
 
 .shepherd-has-title .shepherd-content .shepherd-header {
     background: var(--background-inverse-hover);
-    padding: 1em
+    padding: 8px 16px;
 }
 
 .shepherd-text {
-    color: var(--text-inverse);;
-
-    line-height: 1.3em;
-    padding: .75em
+    color: var(--text-inverse);
+    line-height: 1.5em;
+    padding: 16px;
+    font-size: 14px;
 }
 
 .shepherd-text p {
