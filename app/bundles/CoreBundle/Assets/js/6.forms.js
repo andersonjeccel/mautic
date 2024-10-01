@@ -483,31 +483,49 @@ Mautic.updateEntitySelect = function (response) {
  * @param changedId
  */
 Mautic.toggleYesNo = function(element) {
-    var $label = mQuery(element);
-    var $toggle = $label.closest('.toggle');
-    var yesId = $label.data('yes-id');
-    var noId = $label.data('no-id');
-    var $yesInput = mQuery('#' + yesId);
-    var $noInput = mQuery('#' + noId);
-    var $switchEl = $toggle.find('.toggle__switch');
-    var $textEl = $toggle.find('.toggle__text');
 
-    var yesText = $toggle.data('yes');
-    var noText = $toggle.data('no');
+    Array.from(
+        document.querySelectorAll('input[type=checkbox][role^=switch]')
+    ).forEach((element) => {
+        
+    });
 
-    if ($yesInput.is(':checked')) {
-        // Switch to 'No'
-        $noInput.prop('checked', true).trigger('change');
-        $yesInput.prop('checked', false);
-        $switchEl.removeClass('toggle__switch--checked');
-        $textEl.text(noText);
-    } else {
-        // Switch to 'Yes'
-        $yesInput.prop('checked', true).trigger('change');
-        $noInput.prop('checked', false);
-        $switchEl.addClass('toggle__switch--checked');
-        $textEl.text(yesText);
-    }
+    $toggleInput = mQuery('input[type=checkbox][role^=switch]');
+    $toggleInput.each(function() {
+        $element = $(this);
+        $element.on('focus', function() {
+            $(this).parent('.toggle').addClass('focus');
+        });
+        $element.on('blur', function() {
+            $(this).parent('.toggle').removeClass('focus');
+        });
+    });
+
+    // var $label = mQuery(element);
+    // var $toggle = $label.closest('.toggle');
+    // var yesId = $label.data('yes-id');
+    // var noId = $label.data('no-id');
+    // var $yesInput = mQuery('#' + yesId);
+    // var $noInput = mQuery('#' + noId);
+    // var $switchEl = $toggle.find('.toggle__switch');
+    // var $textEl = $toggle.find('.toggle__text');
+
+    // var yesText = $toggle.data('yes');
+    // var noText = $toggle.data('no');
+
+    // if ($yesInput.is(':checked')) {
+    //     // Switch to 'No'
+    //     $noInput.prop('checked', true).trigger('change');
+    //     $yesInput.prop('checked', false);
+    //     $switchEl.removeClass('toggle__switch--checked');
+    //     $textEl.text(noText);
+    // } else {
+    //     // Switch to 'Yes'
+    //     $yesInput.prop('checked', true).trigger('change');
+    //     $noInput.prop('checked', false);
+    //     $switchEl.addClass('toggle__switch--checked');
+    //     $textEl.text(yesText);
+    // }
 };
 
 
