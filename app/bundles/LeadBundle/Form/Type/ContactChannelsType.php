@@ -77,7 +77,7 @@ class ContactChannelsType extends AbstractType
                         'attr'       => array_merge(
                             $attr,
                             [
-                                'class' => 'frequency form-control',
+                                'class' => 'form-control',
                             ]
                         ),
                         'required' => false,
