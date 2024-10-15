@@ -1,0 +1,55 @@
+{% set container_tag = container_tag|default('div') %}
+{% set container_classes = 'dropdown' ~ (extra_classes is defined ? ' ' ~ extra_classes : '') %}
+{% if dropup|default(false) %}
+    {% set container_classes = container_classes ~ ' dropup' %}
+{% endif %}
+{% set toggle_class = toggle_class|default('dropdown-toggle') %}
+{% set menu_alignment = menu_alignment|default('left') %}
+{% set show_caret = show_caret|default(true) %}
+{% set toggle_id = 'dropdown-toggle-' ~ random() %}
+{% set aria_labelledby = aria_labelledby|default(toggle_id) %}
+
+<{{ container_tag }} class="{{ container_classes }}">
+    {# Dropdown toggle #}
+    <a class="{{ toggle_class }}" href="#" id="{{ toggle_id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-labelledby="{{ aria_labelledby }}">
+        {% if toggle_icon is defined %}
+            <i class="{{ toggle_icon }}"></i>
+        {% endif %}
+        {% if toggle_text is defined %}
+            <span>{{ toggle_text|trans }}</span>
+        {% endif %}
+        {% if show_caret %}
+            <span class="caret"></span>
+        {% endif %}
+    </a>
+
+    {# Dropdown menu #}
+    <ul class="dropdown-menu {% if menu_alignment == 'right' %}dropdown-menu-right{% endif %}" aria-labelledby="{{ aria_labelledby }}">
+        {% for item in items %}
+            {# Verificar condição de segurança, se definida #}
+            {% if item.security is not defined or securityIsGranted(item.security) %}
+                {# Verificar se o item é um separador #}
+                {% if item.divider %}
+                    <li role="separator" class="divider"></li>
+                {% elseif item.type is defined and item.type == 'custom' %}
+                    <li>
+                        {{ item.content|raw }}
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="{{ item.href|default('#') }}"
+                           {% for attr, value in item.attributes|default({}) %}
+                               {{ attr }}="{{ value }}"
+                           {% endfor %}
+                        >
+                            {% if item.icon is defined %}
+                                <i class="{{ item.icon }}"></i>
+                            {% endif %}
+                            <span>{{ item.label|trans }}</span>
+                        </a>
+                    </li>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </ul>
+</{{ container_tag }}>
