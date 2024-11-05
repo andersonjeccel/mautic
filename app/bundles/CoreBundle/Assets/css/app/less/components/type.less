@@ -181,6 +181,21 @@ kbd {
   border-radius: 5px;
 }
 
+kbd.addon {
+  position: absolute;
+  right: 45px;
+  z-index: 2;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  box-shadow: none;
+  color: var(--text-secondary);
+  background-color: var(--layer-translucent);
+  border-color: var(--border-subtle);
+  font-size: 10px;
+  line-height: normal;
+}
+
 .tooltip-inner { padding: 12px; }
 .popover {
   border-radius: 10px;
