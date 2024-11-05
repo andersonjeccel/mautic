@@ -102,12 +102,6 @@
     color: #FFFFFF;
 }
 
-.btn-leadnote-add {
-    margin-left: 0 !important;
-    border-bottom-left-radius: 2px !important;
-    border-top-left-radius: 2px !important;
-}
-
 ul.tag-cloud li {
     list-style-type: none;
     float:left;
@@ -193,10 +187,6 @@ ul.tag-cloud li {
 
 #contact-timeline .dl-horizontal dd {
     margin-left: 0px;
-}
-
-#contact-timeline tr.timeline-row-highlighted {
-    background-color: #fafafa;
 }
 
 #contact-timeline tr.timeline-details img {
