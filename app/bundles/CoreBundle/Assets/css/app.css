@@ -6033,8 +6033,6 @@ ul.dropdown-menu-form {
   color: #a0acb8;
 }
 .nav-tabs {
-  border-top-right-radius: var(--border-radius-sm);
-  border-top-left-radius: var(--border-radius-sm);
   display: flex;
   flex-wrap: nowrap;
   overflow: hidden;
@@ -6045,6 +6043,17 @@ ul.dropdown-menu-form {
 .nav-tabs > li > a {
   line-height: 20px;
   color: var(--text-secondary);
+  outline: 2px var(--outline-style) transparent;
+  outline-offset: -2px;
+}
+.nav-tabs > li > a:hover {
+  outline: 2px var(--outline-style) transparent;
+}
+.nav-tabs > li > a:active,
+.nav-tabs > li > a.active,
+.nav-tabs > li > a:focus,
+.nav-tabs > li > a.focus {
+  outline: 2px var(--outline-style) var(--focus);
 }
 .nav-tabs > li > a:hover {
   color: var(--text-primary);
@@ -6061,7 +6070,7 @@ ul.dropdown-menu-form {
 .nav-tabs > li.active > a {
   overflow: hidden;
   border-top-color: transparent;
-  font-weight: 600;
+  font-weight: bold;
 }
 .nav-tabs > li.active > a:after {
   background-color: var(--border-interactive);
@@ -6070,6 +6079,7 @@ ul.dropdown-menu-form {
   background-color: transparent;
   padding: 6px 16px;
   margin-right: -2px;
+  border-radius: 0;
 }
 .nav-tabs.nav-tabs-line > li > a:after {
   top: unset;
