@@ -1,0 +1,37 @@
+<!-- asset detail collapseable -->
+<div class="pr-md pl-md" id="asset-details">
+    <div class="pr-md pl-md pb-md">
+        <div class="panel shd-none mb-0">
+            <table class="table table-hover mb-0">
+                <tbody>
+                {{- include(
+                    '@MauticCore/Helper/details.html.twig',
+                    {'entity' : activeAsset}
+                ) -}}
+                <tr>
+                    <td width="20%">
+                    <span class="fw-b textTitle">
+                    {% trans %}mautic.asset.asset.size{% endtrans %}
+                    </span>
+                    </td>
+                    <td>{{ activeAsset.getSize() }}</td>
+                </tr>
+                <tr>
+                    <td width="20%"><span class="fw-b textTitle">{% trans %}mautic.asset.asset.path.relative{% endtrans %}</span></td>
+                    <td>{{ assetDownloadUrl }}</td>
+                </tr>
+                <tr>
+                    <td width="20%"><span class="fw-b textTitle">{% trans %}mautic.asset.filename.original{% endtrans %}</span></td>
+                    <td>{{ activeAsset.getOriginalFilename() }}</td>
+                </tr>
+                <tr>
+                    {% set location = activeAsset.getStorageLocation() %}
+                    <td width="20%"><span class="fw-b textTitle">{{ ('mautic.asset.filename.' ~ location)|trans }}</span></td>
+                    <td>{{ ('local' == location) ? activeAsset.getPath() : activeAsset.getRemotePath() }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!--/ asset detail collapseable -->

@@ -1,3 +1,28 @@
+{# Set defaults for tabs #}
+{% for key, tab in tabs %}
+    {# Set active to false if not defined #}
+    {% set tab = tab|merge({
+        'active': tab.active is defined ? tab.active : false
+    }) %}
+
+    {# Handle name translation if it's a translation string #}
+    {% set name = tab.name|trans %}
+    {% set tab = tab|merge({
+        'name': name
+    }) %}
+
+    {# Generate ID from translation string if not defined #}
+    {% if tab.id is not defined %}
+        {% set translationParts = tab.name|split('.') %}
+        {% set lastParts = translationParts|slice(-2)|join('-')|lower %}
+        {% set tab = tab|merge({
+            'id': lastParts
+        }) %}
+    {% endif %}
+
+    {% set tabs = tabs|merge({(key): tab}) %}
+{% endfor %}
+
 {% set overflow = overflow is defined ? 'nav-overflow-tabs' : '' %}
 {% if verticalTabColWidth is not defined %}
     {% set verticalTabColWidth = 3 %}

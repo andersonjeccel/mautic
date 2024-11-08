@@ -1,0 +1,71 @@
+{% extends '@MauticCore/Default/content.html.twig' %}
+{% block mauticContent %}asset{% endblock %}
+{% block headerTitle %}{{ activeAsset.getTitle() }}{% endblock %}
+{% block actions %}
+{{- include('@MauticCore/Helper/page_actions.html.twig',
+        {
+            'item'            : activeAsset,
+            'templateButtons' : {
+                'edit' : securityHasEntityAccess(
+                    permissions['asset:assets:editown'],
+                    permissions['asset:assets:editother'],
+                    activeAsset.getCreatedBy()
+                ),
+                'clone'  : permissions['asset:assets:create'],
+                'delete' : securityHasEntityAccess(
+                    permissions['asset:assets:deleteown'],
+                    permissions['asset:assets:deleteother'],
+                    activeAsset.getCreatedBy()
+                ),
+                'close' : securityHasEntityAccess(
+                    permissions['asset:assets:viewown'],
+                    permissions['asset:assets:viewother'],
+                    activeAsset.getCreatedBy()
+                ),
+            },
+            'routeBase'  : 'asset',
+            'langVar'    : 'asset.asset',
+            'nameGetter' : 'getTitle',
+}) -}}
+{% endblock %}
+
+{% block publishStatus %}
+    {{- include('@MauticCore/Helper/publishstatus_badge.html.twig', {
+        'entity': activeAsset,
+        'status': 'available'
+    }) -}}
+{% endblock %}
+
+{% block content %}
+
+<!-- asset detail header -->
+
+<div class="row-no-gutters ml-md">
+    <div class="well pa-sm description">
+        <div class="d-flex jc-space-between gap-sm">
+            <div class="small fw-b text-muted">{{ 'mautic.core.description'|trans }}</div>
+            <a href="javascript:void(0)" class="arrow text-muted pr-xs" data-toggle="collapse" data-target="#description"><i class="ri-arrow-up-wide-line"></i></a>
+        </div>
+        <div id="description" class="collapse in">
+            <div class="well layer-two description-content mb-0 pa-sm mt-md">{{ activeAsset.getDescription()|purify }}</div>
+        </div>
+    </div>
+</div>
+
+<!--/ asset detail header -->
+
+{% include '@MauticCore/Helper/nav_tabs.html.twig' with {
+    'tabs': [
+        {
+            'title': 'mautic.core.overview',
+            'content': include('@MauticAsset/Asset/Details/details--tab_overview.html.twig')
+        },
+        {
+            'title': 'mautic.core.details',
+            'content': include('@MauticAsset/Asset/Details/details--tab_details.html.twig')
+        }
+    ],
+    'style': 'line'
+} %}
+
+{% endblock %}
