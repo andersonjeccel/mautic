@@ -253,7 +253,6 @@
   --border-tile-02: #a6a190;
   --border-inverse: #073642;
   --border-disabled: #bfb7a3;
-  --border-transparent: transparent;
   --text-primary: #002b36;
   --text-secondary: #586e75;
   --text-placeholder: #93a1a1;
@@ -701,7 +700,6 @@
   --border-tile-02: #2A2A40;
   --border-inverse: #F7B84B;
   --border-disabled: #3A3A52;
-  --border-transparent: transparent;
   --text-primary: #FFFFFF;
   --text-secondary: #A0A0B0;
   --text-placeholder: #6E6E80;
@@ -1333,6 +1331,8 @@
 :root[reduce-motion="true"] {
   --duration-productive: 0;
   --duration-expressive: 0;
+  --easing-standard-productive: none;
+  --easing-standard-expressive: none;
 }
 :root[contrast-borders="true"] {
   --outline-style: dashed;
@@ -1368,25 +1368,6 @@
 :root[enable-underlines="true"] .accordion-title:hover,
 :root[enable-underlines="true"] td a:not(.label):not([class*="dropdown-"]):not(.dropdown-menu a):hover {
   text-decoration: underline;
-}
-.modal-content > *,
-.tile > *,
-.nav-tabs-contained + .tab-content > *,
-.nav-tabs-contained + form > .tab-content > * {
-  --layer: var(--layer-alternate);
-  --layer-hover: var(--layer-hover-alternate);
-  --layer-active: var(--layer-active-alternate);
-  --layer-selected: var(--layer-selected-alternate);
-  --layer-selected-hover: var(--layer-selected-hover-alternate);
-  --layer-accent: var(--layer-accent-alternate);
-  --layer-accent-hover: var(--layer-accent-hover-alternate);
-  --layer-accent-active: var(--layer-accent-active-alternate);
-  --field: var(--field-alternate);
-  --field-hover: var(--field-hover-alternate);
-  --border-subtle: var(--border-subtle-alternate);
-  --border-subtle-selected: var(--border-subtle-selected-alternate);
-  --border-strong: var(--border-strong-alternate);
-  --border-tile: var(--border-tile-alternate);
 }
 .ri-spin {
   -webkit-animation: ri-spin 2s infinite linear;
@@ -4807,7 +4788,7 @@ fieldset[disabled] .btn-ghost.btn-icon.focus i {
   width: 130px;
 }
 .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box > div > div {
-  background: var(--layer-alternate);
+  background: var(--layer-02);
   border-top: none;
   height: 32px;
   line-height: 32px;
@@ -7277,6 +7258,10 @@ ul.line-legend li {
 .input-group .input-group-btn button {
   height: 32px;
   width: 100%;
+  background-color: var(--field);
+}
+.input-group .input-group-btn button:hover {
+  background-color: var(--field-hover);
 }
 .input-group .input-group-btn:last-child .btn {
   border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
@@ -7478,7 +7463,7 @@ ul.line-legend li {
 }
 .panel:hover,
 .panel2:hover {
-  border-color: var(--border-subtle-alternate);
+  border-color: var(--border-subtle-02);
 }
 .panel-heading {
   padding: 0 15px;
@@ -10290,11 +10275,11 @@ a.inline-token .text-muted {
   width: auto;
 }
 .nav-tabs-contained + .tab-content .tile {
-  background-color: var(--layer-alternate);
+  background-color: var(--layer-02);
 }
 .nav-tabs-contained + .tab-content .tile.tile-clickable:hover,
 .nav-tabs-contained + .tab-content .tile.tile-selectable:hover {
-  background: var(--layer-hover-alternate);
+  background: var(--layer-hover-02);
 }
 @media (min-width: 992px) {
   .modal-xl {
@@ -10636,6 +10621,29 @@ code:hover > .copy-icon {
   background-color: var(--background);
   border: 1px solid var(--border-subtle);
   box-shadow: rgba(0, 0, 0, 0.07) 0px -1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px;
+}
+.well {
+  box-shadow: none;
+}
+.collapsed .arrow {
+  transform: scaleY(-1);
+}
+.description {
+  width: 410px;
+  max-width: 410px;
+  transition-delay: 2s;
+  -webkit-transition: var(--transition-all-expressive);
+  -o-transition: var(--transition-all-expressive);
+  transition: var(--transition-all-expressive);
+}
+.description:has(.collapsed) {
+  width: 140px;
+  -webkit-transition: all 1.5s var(--easing-standard-expressive);
+  -o-transition: all 1.5s var(--easing-standard-expressive);
+  transition: all 1.5s var(--easing-standard-expressive);
+}
+.description-content {
+  width: 388px;
 }
 .toggle {
   display: inline-block;
