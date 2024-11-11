@@ -1,6 +1,26 @@
 {% extends '@MauticCore/Default/content.html.twig' %}
 {% block mauticContent %}asset{% endblock %}
-{% block headerTitle %}{{ activeAsset.getTitle() }}{% endblock %}
+{% block indexButton %}
+{{- include('@MauticCore/Helper/page_actions.html.twig',
+        {
+            'item'            : activeAsset,
+            'templateButtons' : {
+                'close' : securityHasEntityAccess(
+                    permissions['asset:assets:viewown'],
+                    permissions['asset:assets:viewother'],
+                    activeAsset.getCreatedBy()
+                ),
+            },
+            'routeBase'  : 'asset',
+            'langVar'    : 'asset.asset',
+            'nameGetter' : 'getTitle',
+            'targetLabel': 'mautic.asset.assets'|trans
+        }
+    ) -}}
+{% endblock %}
+
+{% block headerTitle %} {{ activeAsset.getTitle() }} {% endblock %}
+
 {% block actions %}
 {{- include('@MauticCore/Helper/page_actions.html.twig',
         {
@@ -15,11 +35,6 @@
                 'delete' : securityHasEntityAccess(
                     permissions['asset:assets:deleteown'],
                     permissions['asset:assets:deleteother'],
-                    activeAsset.getCreatedBy()
-                ),
-                'close' : securityHasEntityAccess(
-                    permissions['asset:assets:viewown'],
-                    permissions['asset:assets:viewother'],
                     activeAsset.getCreatedBy()
                 ),
             },
