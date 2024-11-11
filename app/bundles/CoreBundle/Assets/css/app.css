@@ -5805,6 +5805,14 @@ a.media {
   padding: 0;
   vertical-align: middle;
 }
+.list-group-item:first-child > a {
+  border-top-left-radius: clamp(4px, var(--border-radius-md), 12px);
+  border-top-right-radius: clamp(4px, var(--border-radius-md), 12px);
+}
+.list-group-item:last-child > a {
+  border-bottom-left-radius: clamp(4px, var(--border-radius-md), 12px);
+  border-bottom-right-radius: clamp(4px, var(--border-radius-md), 12px);
+}
 .list-group-item > a,
 .list-group-item > label {
   position: relative;
@@ -5813,6 +5821,22 @@ a.media {
   padding: 10px 15px;
   cursor: pointer;
   color: var(--text-secondary);
+  outline: 2px var(--outline-style) transparent;
+  outline-offset: -2px;
+}
+.list-group-item > a:hover,
+.list-group-item > label:hover {
+  outline: 2px var(--outline-style) transparent;
+}
+.list-group-item > a:active,
+.list-group-item > label:active,
+.list-group-item > a.active,
+.list-group-item > label.active,
+.list-group-item > a:focus,
+.list-group-item > label:focus,
+.list-group-item > a.focus,
+.list-group-item > label.focus {
+  outline: 2px var(--outline-style) var(--focus);
 }
 .list-group-item > a input,
 .list-group-item > label input {
