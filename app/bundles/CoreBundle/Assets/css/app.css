@@ -5921,6 +5921,14 @@ label.list-group-item:focus {
 .dropdown-menu .panel .panel-heading {
   border-radius: 0;
 }
+.dropdown-menu > li:first-child > a {
+  border-top-left-radius: var(--border-radius-md);
+  border-top-right-radius: var(--border-radius-md);
+}
+.dropdown-menu > li:last-child > a {
+  border-bottom-left-radius: var(--border-radius-md);
+  border-bottom-right-radius: var(--border-radius-md);
+}
 .dropdown-menu > li > a {
   display: inline-flex;
   inline-size: 100%;
