@@ -10538,16 +10538,18 @@ ul.media-list.media-list-feed div.media-body {
   display: inline-flex;
   opacity: 0;
   transform: translateX(-0.25rem);
-  transition: var(--transition-all-expressive);
-  margin-right: -22px;
+  transition: var(--transition-all-productive);
+  margin-right: -18px;
   background-color: var(--layer);
   z-index: 2;
   position: relative;
-  border-radius: 0 3px 3px 0;
+  border-radius: clamp(1px, var(--border-radius-sm), 4px);
   aspect-ratio: 1 / 1;
   color: var(--icon-interactive);
-  height: 17px;
+  height: 18px;
   vertical-align: middle;
+  justify-content: center;
+  align-items: center;
 }
 code:hover > .copy-icon {
   opacity: 1;
