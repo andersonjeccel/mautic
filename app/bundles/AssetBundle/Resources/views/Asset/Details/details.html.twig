@@ -39,19 +39,7 @@
 {% block content %}
 
 <!-- asset detail header -->
-
-<div class="row-no-gutters ml-md">
-    <div class="well pa-sm description">
-        <div class="d-flex jc-space-between gap-sm">
-            <div class="small fw-b text-muted">{{ 'mautic.core.description'|trans }}</div>
-            <a href="javascript:void(0)" class="arrow text-muted pr-xs" data-toggle="collapse" data-target="#description"><i class="ri-arrow-up-wide-line"></i></a>
-        </div>
-        <div id="description" class="collapse in">
-            <div class="well layer-two description-content mb-0 pa-sm mt-md">{{ activeAsset.getDescription()|purify }}</div>
-        </div>
-    </div>
-</div>
-
+{% include '@MauticCore/Helper/description.html.twig' with {'description': activeAsset.description} %}
 <!--/ asset detail header -->
 
 {% include '@MauticCore/Helper/nav_tabs.html.twig' with {
