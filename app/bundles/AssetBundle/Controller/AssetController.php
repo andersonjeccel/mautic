@@ -134,7 +134,7 @@ class AssetController extends FormController
         // set the asset we came from
         $page = $request->getSession()->get('mautic.asset.page', 1);
 
-        $tmpl = $request->isXmlHttpRequest() ? $request->get('tmpl', '/Details/details') : '/Details/details';
+        $tmpl = $request->isXmlHttpRequest() ? $request->get('tmpl', 'details') : 'details';
 
         // Init the date range filter form
         $dateRangeValues = $request->get('daterange', []);
