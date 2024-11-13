@@ -74,12 +74,7 @@
       <div class="col-md-9 height-auto">
           <div>
               <!-- page detail header -->
-              {% include '@MauticCore/Helper/description.html.twig' with {
-                    'description': entity.description,
-                    'extra_content': block('extra_content')
-                } %}
-
-                {% block extra_content %}
+                {% set description %}
                     {% if entity.isVariant(true) %}
                         <div class="small">
                             <a href="{{ path('mautic_dynamicContent_action', {'objectAction': 'view', 'objectId': variants.parent.id}) }}" data-toggle="ajax">
@@ -99,7 +94,9 @@
                             {{ 'mautic.dynamicContent.header.is_filter_based'|trans({'%slot%': entity.slotName}) }}
                         </div>
                     {% endif %}
-                {% endblock %}
+                {% endset %}
+
+                {% include '@MauticCore/Helper/description.html.twig' with { 'description': description } %}
               <!--/ page detail header -->
               <!-- page detail collapseable -->
               <div class="collapse pr-md pl-md" id="page-details">

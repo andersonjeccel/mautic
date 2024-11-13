@@ -105,12 +105,7 @@
       <div class="col-md-9 height-auto">
           <div>
               <!-- page detail header -->
-                {% include '@MauticCore/Helper/description.html.twig' with {
-                    'description': activePage.metaDescription,
-                    'extra_content': block('extra_content')
-                } %}
-
-                {% block extra_content %}
+                {% set extra_content %}
                     {% if activePage.isVariant(true) %}
                         <div class="small">
                             <a href="{{ path('mautic_page_action', {'objectAction': 'view', 'objectId': variants.parent.id}) }}" data-toggle="ajax">
@@ -130,7 +125,12 @@
                             {{ 'mautic.core.icon_tooltip.preference_center'|trans }}
                         </div>
                     {% endif %}
-                {% endblock %}
+                {% endset %}
+
+                {% include '@MauticCore/Helper/description.html.twig' with {
+                    'description': activePage.metaDescription,
+                    'extra_content': extra_content
+                } %}
               <!--/ page detail header -->
 
               <!-- page detail collapseable -->

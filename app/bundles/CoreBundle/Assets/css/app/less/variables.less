@@ -94,6 +94,16 @@
     --layer-selected-02: #e0e0e0;
     --layer-selected-hover-01: #cacaca;
     --layer-selected-hover-02: #cacaca;
+    --layer-01: #f4f4f4;
+    --layer-02: #ffffff;
+    --layer-hover-01: #e8e8e8;
+    --layer-hover-02: #e8e8e8;
+    --layer-active-01: #c6c6c6;
+    --layer-active-02: #c6c6c6;
+    --layer-selected-01: #e0e0e0;
+    --layer-selected-02: #e0e0e0;
+    --layer-selected-hover-01: #cacaca;
+    --layer-selected-hover-02: #cacaca;
     --layer-selected-inverse: #161616;
     --layer-selected-disabled: #8d8d8d;
     --layer-translucent: hsla(0, 0%, 100%, 0.7);
@@ -1590,5 +1600,35 @@
     td a:not(.label):not([class*="dropdown-"]):not(.dropdown-menu a) {
         &,
         &:hover {text-decoration: underline;}
+    }
+}
+
+// Handle alternate layer colors automatically
+.modal-content,
+.tile,
+.nav-tabs-contained + .tab-content,
+.nav-tabs-contained + form > .tab-content {
+    > * {
+        /// Layer
+        --layer: var(--layer-02);
+        --layer-hover: var(--layer-hover-02);
+        --layer-active: var(--layer-active-02);
+        --layer-selected: var(--layer-selected-02);
+        --layer-selected-hover: var(--layer-selected-hover-02);
+
+        /// Layer accent
+        --layer-accent: var(--layer-accent-02);
+        --layer-accent-hover: var(--layer-accent-hover-02);
+        --layer-accent-active: var(--layer-accent-active-02);
+
+        /// Field
+        --field: var(--field-02);
+        --field-hover: var(--field-hover-02);
+
+        /// Border
+        --border-subtle: var(--border-subtle-02);
+        --border-subtle-selected: var(--border-subtle-selected-02);
+        --border-strong: var(--border-strong-02);
+        --border-tile: var(--border-tile-02);
     }
 }
