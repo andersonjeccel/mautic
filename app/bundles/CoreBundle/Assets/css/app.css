@@ -1369,25 +1369,6 @@
 :root[enable-underlines="true"] td a:not(.label):not([class*="dropdown-"]):not(.dropdown-menu a):hover {
   text-decoration: underline;
 }
-.modal-content > *,
-.tile > *,
-.nav-tabs-contained + .tab-content > *,
-.nav-tabs-contained + form > .tab-content > * {
-  --layer: var(--layer-02);
-  --layer-hover: var(--layer-hover-02);
-  --layer-active: var(--layer-active-02);
-  --layer-selected: var(--layer-selected-02);
-  --layer-selected-hover: var(--layer-selected-hover-02);
-  --layer-accent: var(--layer-accent-02);
-  --layer-accent-hover: var(--layer-accent-hover-02);
-  --layer-accent-active: var(--layer-accent-active-02);
-  --field: var(--field-02);
-  --field-hover: var(--field-hover-02);
-  --border-subtle: var(--border-subtle-02);
-  --border-subtle-selected: var(--border-subtle-selected-02);
-  --border-strong: var(--border-strong-02);
-  --border-tile: var(--border-tile-02);
-}
 .ri-spin {
   -webkit-animation: ri-spin 2s infinite linear;
   animation: ri-spin 2s infinite linear;
