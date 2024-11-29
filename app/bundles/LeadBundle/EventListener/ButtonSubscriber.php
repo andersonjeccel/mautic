@@ -32,76 +32,166 @@ class ButtonSubscriber implements EventSubscriberInterface
             return;
         }
 
-        if (!$this->security->isAdmin() && !$this->security->isGranted('lead:export:enable', 'MATCH_ONE')) {
-            return;
+        if ($this->security->isAdmin() || $this->security->isGranted('lead:export:enable', 'MATCH_ONE')) {
+            $exportRoute = $this->router->generate('mautic_contact_action', ['objectAction' => 'batchExport']);
+
+            $event->addButton(
+                [
+                    'attr'      => [
+                        'data-toggle'           => 'confirmation',
+                        'href'                  => $exportRoute.'?filetype=xlsx',
+                        'data-precheck'         => 'batchActionPrecheck',
+                        'data-message'          => $this->translator->trans(
+                            'mautic.core.export.items',
+                            ['%items%' => 'contacts']
+                        ),
+                        'data-confirm-text'     => $this->translator->trans('mautic.core.export.xlsx'),
+                        'data-confirm-callback' => 'executeBatchAction',
+                        'data-cancel-text'      => $this->translator->trans('mautic.core.form.cancel'),
+                        'data-cancel-callback'  => 'dismissConfirmation',
+                    ],
+                    'btnText'   => $this->translator->trans('mautic.core.export.xlsx'),
+                    'iconClass' => 'ri-file-excel-line',
+                ],
+                ButtonHelper::LOCATION_BULK_ACTIONS
+            );
+
+            $event->addButton(
+                [
+                    'attr'      => [
+                        'data-toggle'           => 'confirmation',
+                        'href'                  => $exportRoute.'?filetype=csv',
+                        'data-precheck'         => 'batchActionPrecheck',
+                        'data-message'          => $this->translator->trans(
+                            'mautic.core.export.items',
+                            ['%items%' => 'contacts']
+                        ),
+                        'data-confirm-text'     => $this->translator->trans('mautic.core.export.csv'),
+                        'data-confirm-callback' => 'executeBatchAction',
+                        'data-cancel-text'      => $this->translator->trans('mautic.core.form.cancel'),
+                        'data-cancel-callback'  => 'dismissConfirmation',
+                    ],
+                    'btnText'   => $this->translator->trans('mautic.core.export.csv'),
+                    'iconClass' => 'ri-file-text-line',
+                ],
+                ButtonHelper::LOCATION_TOOLBAR_BULK_ACTIONS
+            );
+
+            $event->addButton(
+                [
+                    'attr'      => [
+                        'href'        => $exportRoute.'?filetype=xlsx',
+                        'data-toggle' => null,
+                    ],
+                    'btnText'   => $this->translator->trans('mautic.core.export.xlsx'),
+                    'iconClass' => 'ri-file-excel-line',
+                ],
+                ButtonHelper::LOCATION_PAGE_ACTIONS
+            );
+
+            $event->addButton(
+                [
+                    'attr'      => [
+                        'href'        => $exportRoute.'?filetype=csv',
+                        'data-toggle' => null,
+                    ],
+                    'btnText'   => $this->translator->trans('mautic.core.export.csv'),
+                    'iconClass' => 'ri-file-text-line',
+                ],
+                ButtonHelper::LOCATION_PAGE_ACTIONS
+            );
         }
 
-        $exportRoute = $this->router->generate('mautic_contact_action', ['objectAction' => 'batchExport']);
-
-        $event->addButton(
-            [
-                'attr'      => [
-                    'data-toggle'           => 'confirmation',
-                    'href'                  => $exportRoute.'?filetype=xlsx',
-                    'data-precheck'         => 'batchActionPrecheck',
-                    'data-message'          => $this->translator->trans(
-                        'mautic.core.export.items',
-                        ['%items%' => 'contacts']
-                    ),
-                    'data-confirm-text'     => $this->translator->trans('mautic.core.export.xlsx'),
-                    'data-confirm-callback' => 'executeBatchAction',
-                    'data-cancel-text'      => $this->translator->trans('mautic.core.form.cancel'),
-                    'data-cancel-callback'  => 'dismissConfirmation',
+        if ($this->security->isGranted(['lead:leads:editown', 'lead:leads:editother'], 'MATCH_ONE')) {
+            $event->addButton(
+                [
+                    'attr' => [
+                        'class'       => 'btn btn-ghost btn-sm btn-nospin',
+                        'data-toggle' => 'ajaxmodal',
+                        'data-target' => '#MauticSharedModal',
+                        'href'        => $this->router->generate('mautic_segment_batch_contact_view'),
+                        'data-header' => $this->translator->trans('mautic.lead.batch.lists'),
+                    ],
+                    'btnText'   => $this->translator->trans('mautic.lead.batch.lists'),
+                    'iconClass' => 'ri-pie-chart-line',
                 ],
-                'btnText'   => $this->translator->trans('mautic.core.export.xlsx'),
-                'iconClass' => 'ri-file-excel-line',
-            ],
-            ButtonHelper::LOCATION_BULK_ACTIONS
-        );
+                ButtonHelper::LOCATION_BULK_ACTIONS
+            );
 
-        $event->addButton(
-            [
-                'attr'      => [
-                    'data-toggle'           => 'confirmation',
-                    'href'                  => $exportRoute.'?filetype=csv',
-                    'data-precheck'         => 'batchActionPrecheck',
-                    'data-message'          => $this->translator->trans(
-                        'mautic.core.export.items',
-                        ['%items%' => 'contacts']
-                    ),
-                    'data-confirm-text'     => $this->translator->trans('mautic.core.export.csv'),
-                    'data-confirm-callback' => 'executeBatchAction',
-                    'data-cancel-text'      => $this->translator->trans('mautic.core.form.cancel'),
-                    'data-cancel-callback'  => 'dismissConfirmation',
+            $event->addButton(
+                [
+                    'attr' => [
+                        'class'       => 'btn btn-ghost btn-sm btn-nospin',
+                        'data-toggle' => 'ajaxmodal',
+                        'data-target' => '#MauticSharedModal',
+                        'href'        => $this->router->generate('mautic_contact_action', ['objectAction' => 'batchStages']),
+                        'data-header' => $this->translator->trans('mautic.lead.batch.stages'),
+                    ],
+                    'btnText'   => $this->translator->trans('mautic.lead.batch.stages'),
+                    'iconClass' => 'ri-barricade-line flip-vertically',
                 ],
-                'btnText'   => $this->translator->trans('mautic.core.export.csv'),
-                'iconClass' => 'ri-file-text-line',
-            ],
-            ButtonHelper::LOCATION_TOOLBAR_BULK_ACTIONS
-        );
+                ButtonHelper::LOCATION_BULK_ACTIONS
+            );
 
-        $event->addButton(
-            [
-                'attr'      => [
-                    'href'        => $exportRoute.'?filetype=xlsx',
-                    'data-toggle' => null,
+            $event->addButton(
+                [
+                    'attr' => [
+                        'class'       => 'btn btn-ghost btn-sm btn-nospin',
+                        'data-toggle' => 'ajaxmodal',
+                        'data-target' => '#MauticSharedModal',
+                        'href'        => $this->router->generate('mautic_tagmanager_batch_index_action'),
+                        'data-header' => $this->translator->trans('mautic.tagmanager.batch.tags'),
+                    ],
+                    'btnText'   => $this->translator->trans('mautic.tagmanager.batch.tags'),
+                    'iconClass' => 'ri-hashtag',
                 ],
-                'btnText'   => $this->translator->trans('mautic.core.export.xlsx'),
-                'iconClass' => 'ri-file-excel-line',
-            ],
-            ButtonHelper::LOCATION_PAGE_ACTIONS
-        );
+                ButtonHelper::LOCATION_BULK_ACTIONS
+            );
 
-        $event->addButton(
-            [
-                'attr'      => [
-                    'href'        => $exportRoute.'?filetype=csv',
-                    'data-toggle' => null,
+            $event->addButton(
+                [
+                    'attr' => [
+                        'class'       => 'btn btn-ghost btn-sm btn-nospin',
+                        'data-toggle' => 'ajaxmodal',
+                        'data-target' => '#MauticSharedModal',
+                        'href'        => $this->router->generate('mautic_contact_action', ['objectAction' => 'batchCampaigns']),
+                        'data-header' => $this->translator->trans('mautic.lead.batch.campaigns'),
+                    ],
+                    'btnText'   => $this->translator->trans('mautic.lead.batch.campaigns'),
+                    'iconClass' => 'ri-megaphone-line',
                 ],
-                'btnText'   => $this->translator->trans('mautic.core.export.csv'),
-                'iconClass' => 'ri-file-text-line',
-            ],
-            ButtonHelper::LOCATION_PAGE_ACTIONS
-        );
+                ButtonHelper::LOCATION_BULK_ACTIONS
+            );
+
+            $event->addButton(
+                [
+                    'attr' => [
+                        'class'       => 'btn btn-ghost btn-sm btn-nospin',
+                        'data-toggle' => 'ajaxmodal',
+                        'data-target' => '#MauticSharedModal',
+                        'href'        => $this->router->generate('mautic_contact_action', ['objectAction' => 'batchOwners']),
+                        'data-header' => $this->translator->trans('mautic.lead.batch.owner'),
+                    ],
+                    'btnText'   => $this->translator->trans('mautic.lead.batch.owner'),
+                    'iconClass' => 'ri-user-2-line',
+                ],
+                ButtonHelper::LOCATION_BULK_ACTIONS
+            );
+
+            $event->addButton(
+                [
+                    'attr' => [
+                        'class'       => 'btn btn-ghost btn-sm btn-nospin',
+                        'data-toggle' => 'ajaxmodal',
+                        'data-target' => '#MauticSharedModal',
+                        'href'        => $this->router->generate('mautic_contact_action', ['objectAction' => 'batchDnc']),
+                        'data-header' => $this->translator->trans('mautic.lead.batch.dnc'),
+                    ],
+                    'btnText'   => $this->translator->trans('mautic.lead.batch.dnc'),
+                    'iconClass' => 'ri-prohibited-line text-danger',
+                ],
+                ButtonHelper::LOCATION_BULK_ACTIONS
+            );
+        }
     }
 }
