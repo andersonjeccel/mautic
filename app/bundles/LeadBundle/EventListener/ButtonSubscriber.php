@@ -6,7 +6,10 @@ use Mautic\CoreBundle\CoreEvents;
 use Mautic\CoreBundle\Event\CustomButtonEvent;
 use Mautic\CoreBundle\Security\Permissions\CorePermissions;
 use Mautic\CoreBundle\Twig\Helper\ButtonHelper;
+use Mautic\LeadBundle\Model\LeadModel;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -15,7 +18,10 @@ class ButtonSubscriber implements EventSubscriberInterface
     public function __construct(
         private TranslatorInterface $translator,
         private RouterInterface $router,
-        private CorePermissions $security
+        private CorePermissions $security,
+        private RequestStack $requestStack,
+        private SessionInterface $session,
+        private LeadModel $leadModel,
     ) {
     }
 
@@ -191,6 +197,49 @@ class ButtonSubscriber implements EventSubscriberInterface
                     'iconClass' => 'ri-prohibited-line text-danger',
                 ],
                 ButtonHelper::LOCATION_BULK_ACTIONS
+            );
+        }
+
+        $event->addButton(
+            [
+                'attr' => [
+                    'class'       => 'hidden-xs btn btn-ghost btn-icon btn-nospin',
+                    'size'        => 'lg',
+                    'href'        => 'javascript: void(0)',
+                    'onclick'     => 'Mautic.toggleLiveLeadListUpdate();',
+                    'id'          => 'liveModeButton',
+                    'data-toggle' => false,
+                    'data-max-id' => $this->leadModel->getRepository()->getMaxLeadId(),
+                ],
+                'tooltip'   => $this->translator->trans('mautic.lead.lead.live_update'),
+                'iconClass' => 'ri-refresh-line',
+            ],
+            ButtonHelper::LOCATION_TOOLBAR_ACTIONS
+        );
+
+        $request          = $this->requestStack->getCurrentRequest();
+        $indexMode        = $request->get('view', $this->session->get('mautic.lead.indexmode', 'list'));
+        $anonymous        = $this->translator->trans('mautic.lead.lead.searchcommand.isanonymous');
+        $search           = $request->get('search', '');
+        $anonymousShowing = 'list' === $indexMode
+            && str_contains($search, $anonymous)
+            && !str_contains($search, '!'.$anonymous);
+
+        if ('list' === $indexMode) {
+            $event->addButton(
+                [
+                    'attr' => [
+                        'class'          => 'hidden-xs btn btn-ghost btn-icon btn-nospin'.($anonymousShowing ? ' btn-primary' : ''),
+                        'size'           => 'lg',
+                        'href'           => 'javascript: void(0)',
+                        'onclick'        => 'Mautic.toggleAnonymousLeads();',
+                        'id'             => 'anonymousLeadButton',
+                        'data-anonymous' => $this->translator->trans('mautic.lead.lead.searchcommand.isanonymous'),
+                    ],
+                    'tooltip'   => $this->translator->trans('mautic.lead.lead.anonymous_leads'),
+                    'iconClass' => 'ri-spy-line',
+                ],
+                ButtonHelper::LOCATION_TOOLBAR_ACTIONS
             );
         }
     }
