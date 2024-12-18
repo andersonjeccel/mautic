@@ -16,7 +16,7 @@
         {% endif %}
     {% endfor %}
 
-    <div class="d-flex fd-column gap-xs">
+    <div class="quickfilters--content d-flex fd-column gap-xs" data-filter-location="{{ action }}">
         {% for header, pattern in filterGroups %}
             {% set groupFilters = pattern
                 ? quickFilters|filter(f => f.search matches '/' ~ pattern ~ '/')
