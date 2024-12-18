@@ -17,6 +17,9 @@ Mautic.loadContent = function (route, link, method, target, showPageLoading, cal
         Mautic.loadContentXhr[target].abort();
     }
 
+    Mautic.initFilterCommands();
+    Mautic.handlePopoverInsertion();
+
     showPageLoading = (typeof showPageLoading == 'undefined' || showPageLoading) ? true : false;
 
     Mautic.loadContentXhr[target] = mQuery.ajax({
@@ -1961,9 +1964,3 @@ Mautic.handlePopoverInsertion = function () {
         });
     });
 };
-
-// Initialize filter commands on page load
-document.addEventListener('DOMContentLoaded', function () {
-    Mautic.initFilterCommands();
-    Mautic.handlePopoverInsertion();
-});
