@@ -5,6 +5,7 @@ namespace Mautic\CoreBundle\Form\Type;
 use Mautic\CoreBundle\Form\DataTransformer\ArrayStringTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -29,6 +30,34 @@ class ConfigThemeType extends AbstractType
                 ],
                 'required' => false,
                 'data'     => $options['data']['brand_name'] ?? '',
+            ]
+        );
+
+        $builder->add(
+            'logo_white_bg',
+            FileType::class,
+            [
+                'label' => 'mautic.core.config.form.logo_white_bg',
+                'attr'  => [
+                    'class'   => 'form-control',
+                    'tooltip' => 'mautic.core.config.form.logo_white_bg.tooltip',
+                    'accept'  => 'image/*',
+                ],
+                'required' => false,
+            ]
+        );
+
+        $builder->add(
+            'logo_color_bg',
+            FileType::class,
+            [
+                'label' => 'mautic.core.config.form.logo_color_bg',
+                'attr'  => [
+                    'class'   => 'form-control',
+                    'tooltip' => 'mautic.core.config.form.logo_color_bg.tooltip',
+                    'accept'  => 'image/*',
+                ],
+                'required' => false,
             ]
         );
 
