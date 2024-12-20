@@ -890,6 +890,8 @@ return [
         'brand_name'                      => 'Your Brand (configurable)',
         'primary_brand_color'             => '000000',
         'rounded_corners'                 => '0',
+        'logo_white_bg'                   => '',
+        'logo_color_bg'                   => '',
         'db_driver'                       => 'pdo_mysql',
         'db_host'                         => '127.0.0.1',
         'db_port'                         => 3306,
