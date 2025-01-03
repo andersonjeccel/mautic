@@ -78,7 +78,7 @@ class ConfigThemeType extends AbstractType
                     /** @var Asset $asset */
                     $asset = $this->entityManager->getRepository(Asset::class)->find($value);
                     if ($asset && $asset->isImage()) {
-                        return $asset->getTitle(); // Customize if needed, e.g., include thumbnails
+                        return $asset->getTitle();
                     }
 
                     return $key;
@@ -103,7 +103,7 @@ class ConfigThemeType extends AbstractType
                     /** @var Asset $asset */
                     $asset = $this->entityManager->getRepository(Asset::class)->find($value);
                     if ($asset && $asset->isImage()) {
-                        return $asset->getTitle(); // Customize if needed, e.g., include thumbnails
+                        return $asset->getTitle();
                     }
 
                     return $key;
