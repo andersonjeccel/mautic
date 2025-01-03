@@ -51,6 +51,26 @@ class ConfigThemeType extends AbstractType
             ]
         );
 
+        // Existing primary_brand_color field
+        $builder->add(
+            'primary_brand_color',
+            TextType::class,
+            [
+                'label'      => 'mautic.core.config.form.primary_brand_color',
+                'label_attr' => [
+                    'class' => 'control-label',
+                ],
+                'attr'  => [
+                    'class'        => 'form-control minicolors-input',
+                    'tooltip'      => 'mautic.core.config.form.primary_brand_color.tooltip',
+                    'data-toggle'  => 'color',
+                    'autocomplete' => 'false',
+                    'size'         => '7',
+                ],
+                'required' => false,
+            ]
+        );
+
         // Retrieve image assets from the Asset repository
         $imageAssets = $this->getImageAssets();
 
@@ -68,7 +88,7 @@ class ConfigThemeType extends AbstractType
             [
                 'label'       => 'mautic.core.config.form.logo_white_bg',
                 'choices'     => $choices,
-                'placeholder' => 'mautic.core.config.form.choose_asset',
+                'placeholder' => 'mautic.core.select',
                 'required'    => false,
                 'attr'        => [
                     'class'   => 'form-control',
@@ -93,7 +113,7 @@ class ConfigThemeType extends AbstractType
             [
                 'label'       => 'mautic.core.config.form.logo_color_bg',
                 'choices'     => $choices,
-                'placeholder' => 'mautic.core.config.form.choose_asset',
+                'placeholder' => 'mautic.core.select',
                 'required'    => false,
                 'attr'        => [
                     'class'   => 'form-control',
@@ -108,26 +128,6 @@ class ConfigThemeType extends AbstractType
 
                     return $key;
                 },
-            ]
-        );
-
-        // Existing primary_brand_color field
-        $builder->add(
-            'primary_brand_color',
-            TextType::class,
-            [
-                'label'      => 'mautic.core.config.form.primary_brand_color',
-                'label_attr' => [
-                    'class' => 'control-label',
-                ],
-                'attr'  => [
-                    'class'        => 'form-control minicolors-input',
-                    'tooltip'      => 'mautic.core.config.form.primary_brand_color.tooltip',
-                    'data-toggle'  => 'color',
-                    'autocomplete' => 'false',
-                    'size'         => '7',
-                ],
-                'required' => false,
             ]
         );
 
