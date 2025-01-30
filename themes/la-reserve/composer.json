@@ -1,0 +1,13 @@
+{
+  "name": "mautic/theme-lareserve",
+  "description": "La Réserve",
+  "type": "mautic-theme",
+  "keywords": ["mautic","theme"],
+  "extra": {
+    "install-directory-name": "la-reserve"
+  },
+  "minimum-stability": "dev",
+  "require": {
+    "mautic/core-lib": "^5.0"
+  }
+}

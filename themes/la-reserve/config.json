@@ -1,0 +1,10 @@
+{
+  "name": "La Réserve",
+  "author": "Dropsolid",
+  "authorUrl": "https://dropsolid.io",
+  "builder": ["grapesjsbuilder", "legacy"],
+  "features": [
+    "email",
+    "form"
+  ]
+}

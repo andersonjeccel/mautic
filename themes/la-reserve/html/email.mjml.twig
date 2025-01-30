@@ -1,0 +1,379 @@
+<mjml>
+	<mj-head>
+	  <mj-style inline="inline">
+		mj-text {
+		font-size: 16px;
+		}
+		p, li {margin:0 !important; padding:0; line-height:1.4em; font-family:Arial, Helvetica, sans-serif;}
+		/*
+		need this reset to avoid border on column + on nested table
+		showing separately (double border)
+		when user sets a border using the UI
+		This is for the Builder UI only, because in the output,
+		you only get the one from the table element anyway.
+		but the builder (for whatever reason) sets the border on the mj-column itself + the nested table
+		Note: don't reset the padding, you need it in order to hover on the column
+		*/
+		.gjs-dashed *[data-highlightable][data-gjs-type="mj-column"] {
+		border: 0 none !important;
+		}
+
+	  </mj-style>
+	</mj-head>
+	<mj-body background-color="#e1dedb">
+	  <mj-section background-color="#f3f0ec">
+		<mj-column>
+		  <mj-image src="{{ getAssetUrl('themes/'~template~'/assets/logo.png', null, null, true) }}" border="none" padding-left="25px" padding-right="0px" padding-bottom="20px" padding-top="0" width="250px" align="left">
+		  </mj-image>
+		</mj-column>
+		<mj-column vertical-align="middle" padding-top="30px">
+		  <mj-text align="right" color="#000000" font-size="11px" padding-top="0" padding-right="10px">
+			<a href="{webview_url}" style="font-size:11px;color:#000000;">{webview_text}</a>
+		  </mj-text>
+		</mj-column>
+	  </mj-section>
+	  <mj-section padding-top="0" padding-bottom="0">
+		<mj-column padding-top="0" padding-bottom="0">
+		  <mj-image src="{{ getAssetUrl('themes/'~template~'/assets/image1.jpeg', null, null, true) }}" padding-top="0" padding-bottom="0" padding-right="0" padding-left="0">
+		  </mj-image>
+		</mj-column>
+	  </mj-section>
+	  <mj-section text-align="left" background-color="#f3f0ec">
+		<mj-column width="70%" padding-top="15px" padding-bottom="15px">
+			<mj-spacer></mj-spacer>
+		  <mj-text font-size="22px">
+			<p>Section with one column
+			</p>
+		  </mj-text>
+		  <mj-text font-size="16px">
+			<p>The full-width banner has 600px width. This description covers half of a section, ideal to bring quick introductions regarding offers and similar.
+			</p>
+		  </mj-text>
+		  <mj-button href="https://" background-color="rgba(255,255,255,0)" border-bottom="1px solid black" border-radius="0px 0px 0px 0px" color="#000000" letter-spacing="2px" inner-padding="0px" font-size="11px" align="left">
+			<p>VISIT OUR WEBSITE
+			</p>
+		  </mj-button>
+		  <mj-spacer>
+		  </mj-spacer>
+		</mj-column>
+	  </mj-section>
+	  <mj-section padding-bottom="0px" padding-top="0px">
+		<mj-column width="50%" padding-bottom="0px" padding-top="0px">
+		  <mj-image src="{{ getAssetUrl('themes/'~template~'/assets/image2.jpg', null, null, true) }}" padding-top="0px" padding-bottom="0px" padding-right="0px" padding-left="0px">
+		  </mj-image>
+		</mj-column>
+		<mj-column width="50%" padding-bottom="0px" padding-top="0px">
+		  <mj-image src="{{ getAssetUrl('themes/'~template~'/assets/image3.jpg', null, null, true) }}" padding-top="0px" padding-bottom="0px" padding-right="0px" padding-left="0px">
+		  </mj-image>
+		</mj-column>
+	  </mj-section>
+	  <mj-section background-color="#ffffff">
+		<mj-column>
+		  <mj-image src="{{ getAssetUrl('themes/'~template~'/assets/logo_square.jpg', null, null, true) }}" padding-right="0px" padding-left="0px">
+		  </mj-image>
+		</mj-column>
+		<mj-column vertical-align="middle" padding-top="15px" padding-bottom="15px">
+		  <mj-spacer>
+		  </mj-spacer>
+		  <mj-spacer>
+		  </mj-spacer>
+		  <mj-text font-size="22px">
+			<p>Section with two columns
+			</p>
+		  </mj-text>
+		  <mj-text font-size="16px">
+			<p>Content featuring two columns, being the first an image. It provides flexibility for your company to adapt the content.
+			</p>
+		  </mj-text>
+		  <mj-spacer>
+		  </mj-spacer>
+		</mj-column>
+	  </mj-section>
+	  <mj-section background-color="#ffffff">
+		<mj-column width="80%">
+			<mj-spacer>
+			</mj-spacer>
+		  <mj-text font-size="18px" align="center">
+			<p>La Réserve Resort in Knokke-Heist is a true luxury getaway. It's the perfect place to escape and indulge in refined relaxation.
+			</p>
+		  </mj-text>
+		  <mj-text align="center" letter-spacing="2px" font-size="11px">
+			<p style="text-transform:uppercase;">Bart Versluys
+			</p>
+		  </mj-text>
+		  <mj-button href="https://" background-color="#000000" border-radius="0px 0px 0px 0px" inner-padding="15px 30px" font-size="11px" letter-spacing="2px">
+			<p>TAKE AN ACTION NOW
+			</p>
+		  </mj-button>
+		  <mj-spacer>
+		</mj-spacer>
+		</mj-column>
+	  </mj-section>
+	  <mj-section background-color="#000000">
+		<mj-column width="70%">
+			<mj-spacer>
+			</mj-spacer>
+		  <mj-text font-size="20px" color="#ffffff" padding-right="35px" padding-left="35px">
+			<p>Use spacers before/after content </p>
+		  </mj-text>
+		  <mj-text font-size="16px" color="#ffffff" padding-right="35px" padding-left="35px">
+			<p>See that we have one before the title and another after the button. This ensures your email looks great on different email clients.</p>
+		  </mj-text>
+		  <mj-button align="left" border="1px solid #ffffff" inner-padding="15px 30px" href="#" padding-top="15px" letter-spacing="2px" border-radius="0 0 0 0" padding-right="35px" padding-left="35px" font-size="11px" background-color="rgba(255,255,255,0)">FIND THE BLOCK ON THE SIDEBAR
+		  </mj-button>
+		  <mj-spacer>
+		</mj-spacer>
+		</mj-column>
+	  </mj-section>
+	  <mj-section background-color="#ffffff">
+		<mj-column padding-right="0px">
+			<mj-spacer>
+			</mj-spacer>
+		  <mj-image src="{{ getAssetUrl('themes/'~template~'/assets/logo_square.jpg', null, null, true) }}" padding-right="20px" padding-left="20px">
+		  </mj-image>
+		  <mj-text font-size="16px" font-weight="600" align="center">
+			<p>Crop 1:1 images to place here
+			</p>
+		  </mj-text>
+		  <mj-text font-size="14px" align="center">
+			<p>It'll help to make them fit great on mobile.
+			</p>
+		  </mj-text>
+		  <mj-spacer>
+		</mj-spacer>
+		</mj-column>
+		<mj-column>
+			<mj-spacer>
+			</mj-spacer>
+		  <mj-image src="{{ getAssetUrl('themes/'~template~'/assets/logo_square.jpg', null, null, true) }}" padding-right="20px" padding-left="20px">
+		  </mj-image>
+		  <mj-text font-size="16px" font-weight="600" align="center">
+			<p>Resize before importing
+			</p>
+		  </mj-text>
+		  <mj-text font-size="14px" align="center">
+			<p>Use an online tool, it'll make your emails load faster.
+			</p>
+		  </mj-text>
+		  <mj-spacer>
+		</mj-spacer>
+		</mj-column>
+		<mj-column>
+			<mj-spacer>
+			</mj-spacer>
+		  <mj-image src="{{ getAssetUrl('themes/'~template~'/assets/logo_square.jpg', null, null, true) }}" padding-right="20px" padding-left="20px">
+		  </mj-image>
+		  <mj-text font-size="16px" font-weight="600" align="center">
+			<p>Avoid the spam folder
+			</p>
+		  </mj-text>
+		  <mj-text font-size="14px" align="center">
+			<p>Lightweight emails get delivered to more people.
+			</p>
+		  </mj-text>
+		  <mj-spacer>
+		</mj-spacer>
+		</mj-column>
+	  </mj-section>
+	  <mj-section padding-top="0px" background-color="#ffffff">
+		<mj-column>
+		  <mj-button href="https://" border-radius="0px 0px 0px 0px" font-size="11px" color="#000000" padding-top="0px" width="100%" background-color="rgba(0,0,0,0)" border="1px solid black" letter-spacing="2px" inner-padding="15px 30px">
+			<p>DESIGN MOBILE-FIRST EMAILS
+			</p>
+		  </mj-button>
+		  <mj-spacer>
+		</mj-spacer>
+		</mj-column>
+	  </mj-section>
+	  <mj-section background-color="#ffffff">
+		<mj-column vertical-align="middle">
+		  <mj-spacer>
+		  </mj-spacer>
+		  <mj-spacer>
+		  </mj-spacer>
+		  <mj-text font-size="22px">
+			<p>Another w/ two columns
+			</p>
+		  </mj-text>
+		  <mj-text font-size="16px">
+			<p>Now things are inverse. It provides flexibility for you to adapt the content.
+			</p>
+		  </mj-text>
+		  <mj-spacer>
+		</mj-spacer>
+		</mj-column>
+		<mj-column>
+		  <mj-image src="{{ getAssetUrl('themes/'~template~'/assets/logo_square.jpg', null, null, true) }}" padding-top="0px" padding-right="0px" padding-left="0px">
+		  </mj-image>
+		</mj-column>
+	  </mj-section>
+	  <mj-section padding-top="0px" padding-bottom="0px">
+		<mj-column padding-bottom="0px">
+		  <mj-image src="{{ getAssetUrl('themes/'~template~'/assets/gallery1.jpg', null, null, true) }}" padding-top="0px" padding-bottom="0px" padding-right="0px" padding-left="0px">
+		  </mj-image>
+		</mj-column>
+		<mj-column padding-bottom="0px">
+		  <mj-image src="{{ getAssetUrl('themes/'~template~'/assets/gallery2.jpg', null, null, true) }}" padding-top="0px" padding-bottom="0px" padding-right="0px" padding-left="0px">
+		  </mj-image>
+		</mj-column>
+		<mj-column padding-bottom="0px">
+		  <mj-image src="{{ getAssetUrl('themes/'~template~'/assets/gallery3.jpg', null, null, true) }}" padding-top="0px" padding-bottom="0px" padding-right="0px" padding-left="0px">
+		  </mj-image>
+		</mj-column>
+	  </mj-section>
+	  <mj-section padding-top="0px" padding-bottom="0px">
+		<mj-column padding-bottom="0px">
+		  <mj-image src="{{ getAssetUrl('themes/'~template~'/assets/gallery4.jpg', null, null, true) }}" padding-top="0px" padding-bottom="0px" padding-right="0px" padding-left="0px">
+		  </mj-image>
+		</mj-column>
+		<mj-column padding-bottom="0px">
+		  <mj-image src="{{ getAssetUrl('themes/'~template~'/assets/gallery5.jpg', null, null, true) }}" padding-top="0px" padding-bottom="0px" padding-right="0px" padding-left="0px">
+		  </mj-image>
+		</mj-column>
+		<mj-column padding-bottom="0px">
+		  <mj-image src="{{ getAssetUrl('themes/'~template~'/assets/gallery6.jpg', null, null, true) }}" padding-top="0px" padding-bottom="0px" padding-right="0px" padding-left="0px">
+		  </mj-image>
+		</mj-column>
+	  </mj-section>
+	  <mj-section padding-top="0px" padding-bottom="0px">
+		<mj-column padding-bottom="0px">
+		  <mj-image src="{{ getAssetUrl('themes/'~template~'/assets/gallery7.jpg', null, null, true) }}" padding-top="0px" padding-bottom="0px" padding-right="0px" padding-left="0px">
+		  </mj-image>
+		</mj-column>
+		<mj-column padding-bottom="0px">
+		  <mj-image src="{{ getAssetUrl('themes/'~template~'/assets/gallery8.jpg', null, null, true) }}" padding-top="0px" padding-bottom="0px" padding-right="0px" padding-left="0px">
+		  </mj-image>
+		</mj-column>
+		<mj-column padding-bottom="0px">
+		  <mj-image src="{{ getAssetUrl('themes/'~template~'/assets/gallery9.jpg', null, null, true) }}" padding-top="0px" padding-bottom="0px" padding-right="0px" padding-left="0px">
+		  </mj-image>
+		</mj-column>
+	  </mj-section>
+	  <mj-section background-color="#ffffff" text-align="left">
+		<mj-column width="80%">
+			<mj-spacer>
+			</mj-spacer>
+		  <mj-text color="#000000" font-size="16px">
+			<p>Use this space to elaborate on what sets you apart from competitors. Keep your audience informed about upcoming events, or important announcements, using only a few lines.</p>
+		  </mj-text>
+		  <mj-spacer>
+		</mj-spacer>
+		  <mj-divider border-width="1px" border-color="#b4b4b4">
+		  </mj-divider>
+		  <mj-spacer>
+		</mj-spacer>
+		  <mj-text color="#000000" font-size="16px">
+			<p>Images can be crucial to showcase your brand.
+			</p>
+		  </mj-text>
+		  <mj-button href="https://" border-radius="0px 0px 0px 0px" font-size="11px" color="#000000" background-color="rgba(0,0,0,0)" border="1px solid black" letter-spacing="2px" inner-padding="15px 30px" align="left">
+			<p>ACTION
+			</p>
+		  </mj-button>
+		  <mj-spacer>
+		</mj-spacer>
+		</mj-column>
+	  </mj-section>
+	  <mj-section padding-top="0px" padding-bottom="0px">
+		<mj-column background-color="#000000">
+		  <mj-spacer height="134px">
+		  </mj-spacer>
+		  <mj-image src="{{ getAssetUrl('themes/'~template~'/assets/larigue.png', null, null, true) }}" padding-top="0px" padding-bottom="0px" padding-right="0px" padding-left="0px" width="100%">
+		  </mj-image>
+		  <mj-spacer height="134px">
+		  </mj-spacer>
+		</mj-column>
+		<mj-column>
+		  <mj-image src="{{ getAssetUrl('themes/'~template~'/assets/chef.jpg', null, null, true) }}" padding-top="0px" padding-bottom="0px" padding-right="0px" padding-left="0px">
+		  </mj-image>
+		</mj-column>
+	  </mj-section>
+	  <mj-section background-color="#ffffff">
+		<mj-column width="100%">
+			<mj-spacer>
+			</mj-spacer>
+		  <mj-text color="#000000" font-size="20px" padding-bottom="0px" padding-top="0" line-height="30px">
+			<p>
+			  <span color="#404040"><strong>Unordered list</strong></span>
+			</p>
+		  </mj-text>
+		  <mj-text color="#000000" font-size="16px" padding-bottom="0px" padding-top="0px" line-height="21px">
+			<ul>
+			  <li>
+				<span color="#393f4c">Lorem ipsum dolor sit amet</span>
+			  </li>
+			  <li>
+				<span color="#393f4c">consectetur adipiscing elit. Proin rutrum enim eget magna efficitur, eu semper augue semper</span>
+			  </li>
+			  <li>
+				<span color="#393f4c">Aliquam erat volutpat</span>
+			  </li>
+			</ul>
+		  </mj-text>
+		  <mj-spacer>
+		</mj-spacer>
+		  <mj-divider border-width="1px" border-color="#b4b4b4" padding-right="0" padding-left="0">
+		  </mj-divider>
+		  <mj-spacer>
+		</mj-spacer>
+		  <mj-text color="#000000" font-size="20px" padding-bottom="0px" padding-top="0" line-height="30px">
+			<p>
+			  <span color="#404040"><strong>Ordered list</strong></span>
+			</p>
+		  </mj-text>
+		  <mj-text color="#000000" font-size="16px" padding-bottom="0px" padding-top="0px" line-height="21px">
+			<ol>
+			  <li>
+				<span color="#393f4c">Lorem ipsum dolor sit amet</span>
+			  </li>
+			  <li>
+				<span color="#393f4c">consectetur adipiscing elit. Proin rutrum enim eget magna efficitur, eu semper augue semper</span>
+			  </li>
+			  <li>
+				<span color="#393f4c">Aliquam erat volutpat</span>
+			  </li>
+			</ol>
+		  </mj-text>
+		  <mj-spacer>
+		</mj-spacer>
+		</mj-column>
+	  </mj-section>
+	  <mj-section background-color="#f3f0ec" padding-top="0px" padding-bottom="0px">
+		<mj-column vertical-align="middle" width="74%">
+		  <mj-text align="right" padding-right="25" font-size="16px" font-weight="700">
+			<p>Follow us</p>
+		  </mj-text>
+		</mj-column>
+		<mj-column vertical-align="middle" width="26%" padding-left="0px">
+		  <mj-social font-size="12px" icon-size="24px" border-radius="5px 5px 5px 5px" mode="horizontal" align="right" padding-left="0" padding-right="20px">
+			<mj-social-element name="twitter-noshare" href="#" background-color="#000000">
+			</mj-social-element>
+			<mj-social-element name="facebook-noshare" href="#" background-color="#000000">
+			</mj-social-element>
+			<mj-social-element name="instagram-noshare" href="#" background-color="#000000">
+			</mj-social-element>
+			<mj-social-element name="linkedin-noshare" href="#" background-color="#000000">
+			</mj-social-element>
+		  </mj-social>
+		</mj-column>
+	  </mj-section>
+	  <mj-section text-align="left" background-color="#f3f0ec" padding-top="0px">
+		<mj-column width="30%">
+		  <mj-image src="{{ getAssetUrl('themes/'~template~'/assets/logo.png', null, null, true) }}" padding-top="10px" padding-right="10px" padding-left="20px">
+		  </mj-image>
+		</mj-column>
+		<mj-column width="70%" vertical-align="middle">
+		  <mj-text line-height="21px" padding-top="20px" padding-bottom="20px" align="right">
+			<p>
+			  <a href="#">Privacy policy</a> -
+			  <a href="{unsubscribe_url}">Uitschrijven</a> -
+			  <a href="{unsubscribe_url}">Beheer voorkeuren</a>
+			</p>
+			<p>
+			  <strong>La Réserve</strong> - Elizabetlaan 160, 8300 Knokke-Heist
+			</p>
+		  </mj-text>
+		</mj-column>
+	  </mj-section>
+	</mj-body>
+  </mjml>
