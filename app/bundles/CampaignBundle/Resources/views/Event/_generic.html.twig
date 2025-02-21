@@ -13,6 +13,7 @@
 {% endif %}
     <div class="campaign-event-type">
 
+        {{ dump(event)}}
     {% if event['eventType'] == 'decision' %}
     <div class="campaign-event-content fw-nowrap gap-xs ai-center fd-row d-flex fg-1 pa-md">
         <span class="h5 fw-b event-type-color">{{ 'mautic.campaign.when'|trans }}</span>

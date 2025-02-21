@@ -5,6 +5,112 @@
  * @param container
  */
 Mautic.campaignOnLoad = function (container, response) {
+
+    Mautic.alignCampaignEvents = function() {
+        // Helper: get event info in one place
+        const events = [];
+        mQuery('#CampaignCanvas .list-campaign-event').each(function() {
+          const $el = mQuery(this);
+          const id = $el.attr('id');
+          events.push({
+            id,
+            type: $el.data('type'),       // action, condition, decision, etc.
+            event: $el.data('event'),     // e.g. lead.field_value
+            connected: $el.data('connected') // e.g. 'yes', 'no', 'bottom', 'leadsource', etc.
+          });
+        });
+
+        // Root or "source" events (e.g. your segment or form source)
+        // This example just looks for data-type="source"
+        const root = events.find(e => e.type === 'source');
+        if (!root) {
+          console.warn('No source event found.');
+          return;
+        }
+
+        // Arbitrary base position for the first (root) event
+        let rootX = parseInt(mQuery('#' + root.id).css('left')) || 400;
+        let rootY = parseInt(mQuery('#' + root.id).css('top'))  || 50;
+
+        // We’ll keep track of vertical positioning as we go down the flow.
+        // This snippet uses a naive approach:
+        // 1) Put the source at rootX, rootY.
+        // 2) Place subsequent events below it, or to the left/right if we see “yes/no.”
+
+        // Place the source event first
+        placeEvent(root.id, rootX, rootY);
+
+        // Arbitrary offsets:
+        const sameTypeGap = 5;
+        const diffTypeGap = 64;
+        // For branches from condition/decision
+        const branchOffsetX = 200; // how far left/right the yes/no branches go
+        let currentY = rootY;
+
+        // The naive approach: step through events sorted by their data-event-id,
+        // place them with spacing that depends on same/different type.
+        // Then for condition/decision, push “yes” events left and “no” events right.
+        // (In real usage, you’d parse actual connections in a BFS/DFS to handle deeper trees.)
+
+        // Sort by event ID so that, in your example, 1 appears first, then 2, etc.
+        const sorted = events.sort((a, b) => {
+          const aid = parseInt(a.id.replace('CampaignEvent_',''),10) || 0;
+          const bid = parseInt(b.id.replace('CampaignEvent_',''),10) || 0;
+          return aid - bid;
+        });
+
+        // Track the last type so we can decide the spacing
+        let lastType = root.type;
+
+        // Start after root
+        for (let i = 0; i < sorted.length; i++) {
+          const ev = sorted[i];
+          if (ev.id === root.id) continue; // skip the source again
+
+          let gap = (ev.type === lastType) ? sameTypeGap : diffTypeGap;
+          currentY += gap;
+          let newX = rootX; // default to same X as the root, or adjust based on branch:
+
+          // If condition or decision, it might have “yes” or “no”:
+          if (ev.type === 'condition' || ev.type === 'decision') {
+            // We'll just place it straight below for simplicity:
+            // (In a real BFS/DFS, you'd look at which node connects to this condition.)
+            placeEvent(ev.id, newX, currentY);
+            lastType = ev.type;
+          }
+          else {
+            // It's an action or something else
+            if (ev.connected === 'yes') {
+              // place to the left
+              newX = rootX - branchOffsetX;
+            } else if (ev.connected === 'no') {
+              // place to the right
+              newX = rootX + branchOffsetX;
+            }
+            placeEvent(ev.id, newX, currentY);
+            lastType = ev.type;
+          }
+        }
+
+        // Force jsPlumb to redraw lines
+        Mautic.campaignBuilderInstance.repaintEverything();
+
+        // -----------------------------------------------
+        // Helper function to place an event in the DOM
+        function placeEvent(eventId, x, y) {
+          mQuery('#' + eventId).css({ left: x + 'px', top: y + 'px' });
+          Mautic.campaignBuilderEventPositions[eventId] = { left: x, top: y };
+        }
+      };
+
+      // Attach to a button click
+      mQuery('#alignCampaignEventsBtn').on('click', function() {
+        Mautic.alignCampaignEvents();
+      });
+
+
+
+
     Mautic.lazyLoadContactListOnCampaignDetail();
 
     const $flashes = mQuery('#flashes');
@@ -198,6 +304,9 @@ Mautic.lazyLoadContactListOnCampaignDetail = function() {
         Mautic.processPageContent(response);
     });
 };
+
+
+
 
 /**
  * Update chosen tooltips
