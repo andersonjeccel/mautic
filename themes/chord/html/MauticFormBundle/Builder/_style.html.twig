@@ -3,7 +3,6 @@
         --form-primary-60: #f4f0ec;
         --form-primary-70: hsl(30, 27%, 90%);
         --form-primary-80: hsl(30, 27%, 86%);
-        --form-font-family: Arial, Helvetica, sans-serif;
 
         --form-field: #ffffff;
         --form-field-hover: #ffffff;
@@ -75,7 +74,7 @@
     .mauticform_wrapper {
         max-width: 600px;
         margin: 10px auto;
-        font-family: var(--form-font-family);
+        font-family: inherit;
     }
 
     .mauticform-innerform {}
@@ -348,5 +347,64 @@
         .autoComplete_wrapper>input {
             width: 18rem;
         }
+    }
+
+    @keyframes falling {
+        0% {
+            transform: translateY(-180px) scale(.4) rotate(-45deg);
+            animation-timing-function: cubic-bezier(.66,.0,1,.72);
+            border-radius: 100% 0% 100% 100%;
+        }
+        45% {
+            transform: translateY(-10px) scale(.4) rotate(-45deg);
+        }
+        50% {
+            transform: translateY(0px) scale(.4) rotate(0deg);
+            background-color: var(--form-support-success);
+            border-radius: 100%;
+        }
+        70% {
+            transform: translateY(-70px) scale(.7);
+        }
+        80% {
+            transform: translateY(-10px) scale(1);
+            background-color: white;
+        }
+        85% {
+            transform: translateY(0px) scale(1);
+        }
+        100% {
+            transform: translateY(0px) scale(1) rotate(0deg);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='rgba(36,161,72,1)'%3E%3Cpath d='M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z'%3E%3C/path%3E%3C/svg%3E");
+            background-color: white;
+        }
+    }
+
+    .mauticform-post-success .mauticform-message:not(:empty) {
+        font-size: 20pt;
+        margin-top: 3em;
+    }
+
+    .mauticform-post-success:has(.mauticform-message:not(:empty)) .mauticform-innerform {
+        display: none;
+    }
+
+    .mauticform-post-success .mauticform-message:not(:empty):before {
+        content: "";
+        display: block;
+        width: 50px;
+        aspect-ratio: 1/1;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='rgba(36,161,72,1)'%3E%3Cpath d='M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z'%3E%3C/path%3E%3C/svg%3E");
+        background-color: var(--form-support-success);
+        outline: 8px solid rgb(from var(--form-support-success) r g b / 50%);
+        outline-offset: -7px;
+        margin-bottom: 20px;
+        border-radius: 100%;
+        animation-delay: 0s;
+        animation-duration: 1s;
+        animation-fill-mode: both;
+        animation-name: falling;
+        animation-timing-function: linear;
+        animation-iteration-count: 1;
     }
 </style>

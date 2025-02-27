@@ -44,6 +44,7 @@ class FormFieldHelper extends AbstractFormFieldHelper
         'freehtml'      => [],
         'hidden'        => [],
         'companyLookup' => [],
+        'color'         => [],
         'number'        => [
             'filter' => 'float',
         ],
