@@ -1,6 +1,8 @@
 {% extends "@themes/"~template~"/html/base.html.twig" %}
 
 {% block content %}
+{{ include('@MauticCore/Theme/_brand_helper.html.twig') }}
+{{ restore('_brand_helper') }}
 <div class="wrapper">
     <div class="wrapper--content">
         <img class="logo--medium" src="{{ getOverridableUrl('images/placeholder-logo.png') }}">
@@ -69,7 +71,7 @@
         width: 100%;
         max-width: 100%;
         height: 100%;
-        border-radius: 24px;
+        border-radius: {{_rounded_corners__lg}}px;
         background-color: #F7F1ED;
         padding: 65px 15px;
         display: flex;
@@ -77,25 +79,6 @@
         box-sizing: border-box;
         font-size: 12px;
         box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-    }
-
-    .sidebar--right {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        width: 100%;
-        max-width: 100%;
-        min-width: 290px;
-        height: auto;
-        min-height: 200px;
-        margin: 0;
-        padding: 100px 15px;
-        background-repeat: repeat;
-        background-position: center center;
-        background-attachment: scroll;
-        background-size: cover;
-        background-image: url({{ getAssetUrl('themes/'~template~'/assets/mymind-3dmu0gu23uc-unsplash.jpg', null, null, true) }});
-        border-radius: 44px 0px 44px 0px;
     }
 
     .wrapper--content .mauticform_wrapper {
@@ -164,12 +147,6 @@
             min-width: 420px;
             max-width: 480px;
             padding: 50px 35px;
-        }
-
-        .sidebar--right {
-            width: 50%;
-            padding: 50px;
-            align-self: stretch;
         }
 
         .h3 {
