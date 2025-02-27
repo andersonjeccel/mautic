@@ -22,4 +22,21 @@
     {% set _text_on_color__helper = 'b3b3b3' %}
 {% endif %}
 
-{{ save('_color_helper') }}
+{# ------- Border radius ------- #}
+{% set _rounded_corners__lg = configGetParameter('rounded_corners')|default('0') %}
+
+{% set _rounded_corners__md = 0 %}
+{% set _rounded_corners__sm = 0 %}
+
+{% if _rounded_corners__lg == 8 %}
+    {% set _rounded_corners__md = 4 %}
+    {% set _rounded_corners__sm = 3 %}
+{% elseif _rounded_corners__lg == 16 %}
+    {% set _rounded_corners__md = 6 %}
+    {% set _rounded_corners__sm = 4 %}
+{% elseif _rounded_corners__lg == 32 %}
+    {% set _rounded_corners__md = 8 %}
+    {% set _rounded_corners__sm = 5 %}
+{% endif %}
+
+{{ save('_brand_helper') }}
