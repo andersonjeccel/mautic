@@ -1,8 +1,7 @@
 {% extends "@themes/"~template~"/html/base.html.twig" %}
 
 {% block content %}
-{{ include('@MauticCore/Theme/_brand_helper.html.twig') }}
-{{ restore('_brand_helper') }}
+{{ include('@MauticCore/Theme/_brand_helper.html.twig') }}{{ restore('_brand_helper') }}
 <div class="wrapper">
     <div class="wrapper--content">
         <img class="logo--medium" src="{{ getOverridableUrl('images/placeholder-logo.png') }}">
