@@ -1,4 +1,3 @@
-{{ include('@MauticCore/Theme/_brand_helper.html.twig') }}{{ restore('_brand_helper') }}
 <mjml>
   <mj-head>
 	<!-- CSS-STYLE -->
@@ -88,11 +87,11 @@
 		<mj-spacer>
 		</mj-spacer>
 		<mj-social font-size="12px" icon-size="30px" border-radius="12px" mode="horizontal">
-		  <mj-social-element name="facebook" background-color="#{{ _primary_color }}" border-radius="14px 14px 14px 14px" padding-right="10px">
+		  <mj-social-element name="facebook" background-color="#{{ getBrandPrimaryColor() }}" border-radius="14px 14px 14px 14px" padding-right="10px">
 		  </mj-social-element>
-		  <mj-social-element name="instagram" background-color="#{{ _primary_color }}" border-radius="14px 14px 14px 14px" padding-right="10px" padding-left="10px">
+		  <mj-social-element name="instagram" background-color="#{{ getBrandPrimaryColor() }}" border-radius="14px 14px 14px 14px" padding-right="10px" padding-left="10px">
 		  </mj-social-element>
-		  <mj-social-element name="youtube" background-color="#{{ _primary_color }}" border-radius="14px 14px 14px 14px" padding-left="10px">
+		  <mj-social-element name="youtube" background-color="#{{ getBrandPrimaryColor() }}" border-radius="14px 14px 14px 14px" padding-left="10px">
 		  </mj-social-element>
 		</mj-social>
 		<mj-spacer>
