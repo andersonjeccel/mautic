@@ -95,7 +95,7 @@
         background-attachment: scroll;
         background-size: cover;
         background-image: url({{ getAssetUrl('themes/'~template~'/assets/chris-lee-70l1tDAI6rM-unsplash.jpg', null, null, true) }});
-        border-radius: {{_rounded_corners__lg}}px;
+        border-radius: {{ getRoundedCorners('lg') }}px;
     }
 
     .sidebar--left .mauticform_wrapper {
@@ -159,7 +159,7 @@
             width: 40%;
             padding: 50px 0;
             align-self: stretch;
-            border-radius: {{_rounded_corners__lg}}px;
+            border-radius: {{ getRoundedCorners('lg') }}px;
         }
 
         .h3 {
