@@ -94,7 +94,7 @@ class FocusController extends AbstractStandardFormController
      */
     public function viewAction(Request $request, $objectId)
     {
-        return parent::viewStandard($request, $objectId, 'focus', 'plugin.focus');
+        return parent::viewStandard($request, $objectId, 'focus', 'focus');
     }
 
     /**
