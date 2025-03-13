@@ -8470,6 +8470,9 @@ lesshat-selector { -lh-property: 0 ;
   border-spacing: 5px 0;
   border-collapse: separate;
 }
+.pos-relative {
+  position: relative;
+}
 .bg-picture {
   position: relative;
   min-height: 210px;
