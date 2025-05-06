@@ -1,0 +1,33 @@
+{% set toggletip %}
+    {% if title and content %}
+        {% include '@MauticCore/Helper/toggletip.html.twig' with {
+            title: title,
+            content: content,
+        } %}
+    {% endif %}
+{% endset %}
+
+{% if h2 %}
+<h2>{{ h2|trans }}</h2>
+{% endif %}
+
+{% if h3 %}
+<h3 id="personal-info" class="pt-20 mb-xs">
+    {{ h3|trans }}
+    {{ toggletip }}
+</h3>
+{% endif %}
+
+{% if h4 %}
+<h4>
+    {{ h4|trans }}
+    {{ toggletip }}
+</h4>
+{% endif %}
+
+{% if description %}
+<div class="text-secondary small pb-20">
+    {{ description|trans }}
+    {{ toggletip }}
+</div>
+{% endif %}
