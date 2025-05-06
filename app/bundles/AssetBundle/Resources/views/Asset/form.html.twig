@@ -15,10 +15,24 @@
 <!-- start: box layout -->
 <div class="box-layout">
     <!-- container -->
-    <div class="col-md-9 height-auto bdr-r">
+    <div class="col-md-9 height-auto">
         <div class="pa-md">
-	        <div class="row">
-		        <div class="col-md-6">
+			<div class="row">
+				<div class="col-md-6">
+					{{ form_row(form.title) }}
+				</div>
+			</div>
+            <div class="row">
+                <div class="col-xs-12">
+					{{ form_row(form.description) }}
+                </div>
+            </div>
+	        <div class="row mt-64">
+				<div class="col-xs-12">
+				{% set fileOptions %}
+				<div class="row">
+
+		        <div class="col-xs-12">
 					<div class="col-md-7 pl-0">
 						{{ form_row(form.storageLocation) }}
 					</div>
@@ -63,7 +77,16 @@
 						{{ form_row(form.remotePath) }}
 			        </div>
 		    	</div>
-		    	<div class="col-md-6">
+			</div>
+
+				{% endset %}
+
+				{% include '@MauticCore/Components/content-block.html.twig' with {
+					'heading': 'File upload options',
+					'childContainer': fileOptions
+				} %}
+			</div>
+		    	<div class="col-xs-12">
 		    		<div class="row">
 				    	<div class="form-group col-xs-12 preview">
 				    		{{- include('@MauticAsset/Asset/preview.html.twig', {
@@ -75,37 +98,74 @@
 		    		</div>
 		    	</div>
 		    </div>
-		    <div class="row">
-				<div class="col-md-6">
-					{{ form_row(form.title) }}
-				</div>
-				<div class="col-md-6">
-					{{ form_row(form.alias) }}
-				</div>
-			</div>
-            <div class="row">
-                <div class="col-xs-12">
-					{{ form_row(form.description) }}
-                </div>
-            </div>
+
 		</div>
 	</div>
  	<div class="col-md-3 height-auto">
-		<div class="pr-lg pl-lg pt-md pb-md">
-			{{ form_row(form.category) }}
-			{{ form_row(form.language) }}
-			{{ form_row(form.isPublished, {
-				'attr': {
-					'data-none': 'mautic.core.form.unavailable_regardless_of_scheduling',
-					'data-start': 'mautic.core.form.available_on_scheduled_date',
-					'data-both': 'mautic.core.form.available_during_scheduled_period',
-					'data-end': 'mautic.core.form.available_until_scheduled_end'
-				}
-			}) }}
-			{{ form_row(form.publishUp, {'label': 'mautic.core.form.available.available_from'}) }}
-    		{{ form_row(form.publishDown, {'label': 'mautic.core.form.available.unavailable_from'}) }}
-			{{ form_row(form.disallow) }}
+
+
+        {% set schedulingTileAboveFold %}
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="d-flex jc-space-between">
+					<div class="fw-b">{{ 'Scheduling options'|trans }}</div>
+					<i class="ri-calendar-schedule-line"></i>
+				</div>
+			</div>
+			<hr>
 		</div>
+            {{ form_row(form.isPublished, {
+                'attr': {
+                    'data-none': 'mautic.core.form.unavailable_regardless_of_scheduling',
+                    'data-start': 'mautic.core.form.available_on_scheduled_date',
+                    'data-both': 'mautic.core.form.available_during_scheduled_period',
+                    'data-end': 'mautic.core.form.available_until_scheduled_end'
+                }
+            }) }}
+        {% endset %}
+        {% set schedulingTileBelowFold %}
+			{{ form_row(form.publishUp, {'label': 'mautic.core.form.available.available_from'}) }}
+			{{ form_row(form.publishDown, {'label': 'mautic.core.form.available.unavailable_from'}) }}
+        {% endset %}
+		{% include '@MauticCore/Components/tile--expandable-interactive.html.twig' with {
+			'tiles': [
+				{
+					'aboveFoldContent': schedulingTileAboveFold|trim,
+					'belowFoldContent': schedulingTileBelowFold|trim
+				}
+			]
+		} %}
+		{% set settingsTileContent %}
+                <div class="row layer-two">
+                    <div class="col-xs-12">
+                        {{ form_row(form.category) }}
+						{{ form_row(form.language) }}
+                        <div class="row">
+                            {% set moreOptions %}
+								{{ form_row(form.disallow) }}
+								{{ form_row(form.alias) }}
+                            {% endset %}
+                            {% include '@MauticCore/Helper/accordion.html.twig' with {
+                                'items': [
+                                    {
+                                        'title': 'mautic.core.form.visibility',
+                                        'content': moreOptions
+                                    }
+                                ]
+                            } %}
+                        </div>
+                    </div>
+                </div>
+            {% endset %}
+            
+            {% include '@MauticCore/Components/tile--base.html.twig' with {
+                'tiles': [
+                    {
+                        'content': settingsTileContent
+                    }
+                ]
+            } %}
+
 	</div>
 </div>
 {{ form_end(form) }}

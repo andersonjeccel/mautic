@@ -1,5 +1,5 @@
 {% for tile in tiles %}
-    <div class="tile" id="tile-{{ loop.index }}">
+    <div class="tile mb-md" id="tile-{{ loop.index }}">
         {% if tile.content is defined %}
             {{ tile.content|raw }}
         {% endif %}
