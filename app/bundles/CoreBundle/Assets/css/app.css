@@ -10198,6 +10198,7 @@ lesshat-selector { -lh-property: 0 ;
   transition: var(--transition-all-productive);
   outline: 2px solid transparent;
   outline-offset: -2px;
+  text-align: unset;
 }
 .tile.tile--clickable:hover,
 .tile.tile--selectable:hover,
