@@ -9,65 +9,65 @@
 //== Logo
 //
 //## common logo color
-@mautic-logo-figure-width:                  32px;
-@mautic-logo-figure-circle-fill:            @mautic-primary;
-@mautic-logo-figure-m-fill:                 @brand-warning;
-@mautic-logo-text-width:                    98px;
-@mautic-logo-text-fill:                     @mautic-primary;
+${mautic-logo-figure-width}:                  32px;
+${mautic-logo-figure-circle-fill}:            ${mautic-primary};
+${mautic-logo-figure-m-fill}:                 ${brand-warning};
+${mautic-logo-text-width}:                    98px;
+${mautic-logo-text-fill}:                     ${mautic-primary};
 
 // Brand Colors
-@mautic-primary:							#4e5e9e;
-@mautic-secondary:							#fdb933;
-@mautic-tertiary:							#35b5b9;
+${mautic-primary}: #4e5e9e;
+${mautic-secondary}: #fdb933;
+${mautic-tertiary}: #35b5b9;
 
-@alert-mautic-bg:             @brand-primary;
-@alert-mautic-text:           #fff;
-@alert-mautic-border:         rgba(0,0,0,0.03);
+${alert-mautic-bg}:             ${brand-primary};
+${alert-mautic-text}:           #fff;
+${alert-mautic-border}:         rgba(0,0,0,0.03);
 
 //== Header layout
 //
 //## common main header variable.
-@header-bg:                                 var(--background);
-@header-height:                             48px;
-@header-zindex:                             @zindex-navbar + 5; // 1005
+${header-bg}:                                 var(--background);
+${header-height}:                             48px;
+${header-zindex}:                             ${zindex-navbar} + 5; // 1005
 
 
 //== Sidebar layout
 //
 //## common main sidebar variable.
-@sidebar-zindex:                           (@header-zindex - 20 + 5);  // 990
+${sidebar-zindex}:                           (${header-zindex} - 20 + 5);  // 990
 //** left sidebar option
-@sidebar-left-bg:                           darken(#27303a, 5%);
-@sidebar-left-header-bg:                    @mautic-primary;
-@sidebar-left-width:                        230px;
-@sidebar-left-collapse-width:               60px;
-@sidebar-left-dark:							darken(@sidebar-left-bg, 8%);
+${sidebar-left-bg}:                           darken(#27303a, 5%);
+${sidebar-left-header-bg}:                    ${mautic-primary};
+${sidebar-left-width}:                        230px;
+${sidebar-left-collapse-width}:               60px;
+${sidebar-left-dark}: darken(${sidebar-left-bg}, 8%);
 
 //** right sidebar option - coming soon
-@sidebar-right-bg:                          @sidebar-left-bg;
-@sidebar-right-header-bg:                   lighten(@sidebar-right-bg, 3%);
-@sidebar-right-width:                       230px;
+${sidebar-right-bg}:                          ${sidebar-left-bg};
+${sidebar-right-header-bg}:                   lighten(${sidebar-right-bg}, 3%);
+${sidebar-right-width}:                       230px;
 
 
 
 //== Content layout
 //
 //## common main content variable.
-@content-zindex:                            (@header-zindex - 10 + 5);  // 1000
-@content-bg:                                #f8f8f8;
+${content-zindex}:                            (${header-zindex} - 10 + 5);  // 1000
+${content-bg}:                                #f8f8f8;
 
 
 //== Footer layout
 //
 //## common footer variable.
-@footer-height:                             46px;
-@footer-bg:                                 transparent;
-@footer-zindex:                             @content-zindex;  // 1000
+${footer-height}:                             46px;
+${footer-bg}:                                 transparent;
+${footer-zindex}:                             ${content-zindex};  // 1000
 
 
-@brand-facebook:        #3b5998;
-@brand-twitter:         #55acee;
-@brand-google:          #dd4b39;
+${brand-facebook}:        #3b5998;
+${brand-twitter}:         #55acee;
+${brand-google}:          #dd4b39;
 
 // Themes
 /// Light theme

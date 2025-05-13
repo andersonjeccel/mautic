@@ -4,7 +4,8 @@
   "description": "Mautic Open Source Distribution",
   "devDependencies": {
     "grunt": "^1.6.1",
-    "grunt-contrib-less": "^3.0.0",
+    "grunt-sass": "^3.1.0",
+    "sass": "^1.69.7",
     "grunt-contrib-watch": "^1.1.0",
     "patch-package": "^7.0.0",
     "webpack-cli": "^5.1.4"
@@ -43,7 +44,7 @@
     "@ckeditor/ckeditor5-word-count": "^43.1.1",
     "@claviska/jquery-minicolors": "^2.3.6",
     "at.js": "^1.5.4",
-    "bootstrap": "^3.4.1",
+    "bootstrap": "^4.6.0",
     "chart.js": "^2.9.4",
     "chosen-js": "^1.8.7",
     "dropzone": "^4.3.0",
