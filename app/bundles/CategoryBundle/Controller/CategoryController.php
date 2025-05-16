@@ -369,20 +369,6 @@ class CategoryController extends AbstractFormController
                         ]
                     );
 
-                    /** @var SubmitButton $applySubmitButton */
-                    $applySubmitButton = $form->get('buttons')->get('apply');
-                    if ($applySubmitButton->isClicked()) {
-                        // Rebuild the form with new action so that apply doesn't keep creating a clone
-                        $action = $this->generateUrl(
-                            'mautic_category_action',
-                            [
-                                'objectAction' => 'edit',
-                                'objectId'     => $entity->getId(),
-                                'bundle'       => $bundle,
-                            ]
-                        );
-                        $form = $model->createForm($entity, $this->formFactory, $action, ['bundle' => $bundle]);
-                    }
                 }
             } else {
                 $success = 1;
