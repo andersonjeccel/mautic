@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Mautic\CoreBundle\DependencyInjection\MauticCoreExtension;
 use Mautic\CoreBundle\EventListener\OptimisticLockSubscriber;
+use Mautic\CoreBundle\EventListener\UUIDListener;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -30,6 +31,8 @@ return function (ContainerConfigurator $configurator): void {
         'Helper/Update/PreUpdateChecks',
         'Predis/Replication/StrategyConfig.php',
         'Predis/Replication/MasterOnlyStrategy.php',
+        'ProcessSignal/Exception',
+        'ProcessSignal/ProcessSignalState.php',
         'Session/Storage/Handler/RedisSentinelSessionHandler.php',
         'Twig/Helper/ThemeHelper.php',
         'Translation/TranslatorLoader.php',
@@ -47,7 +50,6 @@ return function (ContainerConfigurator $configurator): void {
     $services->alias(GuzzleHttp\Client::class, 'mautic.http.client');
     $services->alias(Psr\Http\Client\ClientInterface::class, 'mautic.http.client');
     $services->alias(Symfony\Component\DependencyInjection\ContainerInterface::class, 'service_container');
-    $services->alias('mautic.factory', Mautic\CoreBundle\Factory\MauticFactory::class);
     $services->alias(Symfony\Component\HttpKernel\Controller\ArgumentResolverInterface::class, 'argument_resolver');
 
     $services->alias(Mautic\CoreBundle\Doctrine\Provider\VersionProviderInterface::class, Mautic\CoreBundle\Doctrine\Provider\VersionProvider::class);
@@ -68,5 +70,8 @@ return function (ContainerConfigurator $configurator): void {
         ->arg('$ormConfiguration', service('doctrine.orm.default_configuration'))
         ->tag('doctrine.event_subscriber');
     $services->get(OptimisticLockSubscriber::class)
+        ->tag('doctrine.event_subscriber');
+    $services->set(UUIDListener::class)
+        ->arg('$em', service('doctrine.orm.entity_manager'))
         ->tag('doctrine.event_subscriber');
 };
