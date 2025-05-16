@@ -78,10 +78,25 @@ class BuilderSubscriberTest extends MauticMysqlTestCase
         ], UrlGeneratorInterface::ABSOLUTE_PATH);
 
         $crawler = $this->client->request('GET', $unsubscribeUrl);
-
-        self::assertTrue($this->client->getResponse()->isSuccessful(), $this->client->getResponse()->getContent());
+        
+        $response = $this->client->getResponse();
+        $responseContent = $response->getContent();
+        
+        if (!$response->isSuccessful()) {
+            file_put_contents('/tmp/mautic_test_error.html', $responseContent);
+            echo "Response saved to /tmp/mautic_test_error.html\n";
+        }
+        
+        self::assertTrue($response->isSuccessful(), $responseContent);
 
         $form = $crawler->filter(static::FORM_SELECTOR);
+        
+        if ($form->count() === 0) {
+            file_put_contents('/tmp/mautic_test_form_not_found.html', $responseContent);
+            echo "Form not found in response. Response saved to /tmp/mautic_test_form_not_found.html\n";
+            echo "Looking for form with selector: " . static::FORM_SELECTOR . "\n";
+        }
+        
         $html = $form->html();
 
         foreach ($selectorsAndExpectedCounts as $selector => $expectedCount) {
