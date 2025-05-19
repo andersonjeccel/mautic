@@ -390,7 +390,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = $this->isFormValid($form)) {
                     if ($valid = $this->checkOptimisticLockVersion($entity, $form, $isClone) && $this->beforeEntitySave($entity, $form, 'edit', $objectId, $isClone)) {
-                        $model->saveEntity($entity, $this->getFormButton($form, ['buttons', 'save'])->isClicked());
+                        $model->saveEntity($entity, false);
 
                         $this->afterEntitySave($entity, $form, 'edit', $valid);
 

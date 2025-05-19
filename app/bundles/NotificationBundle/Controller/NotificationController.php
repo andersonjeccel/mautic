@@ -453,7 +453,7 @@ class NotificationController extends AbstractFormController
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = $this->isFormValid($form)) {
                     // form is valid so process the data
-                    $model->saveEntity($entity, $this->getFormButton($form, ['buttons', 'save'])->isClicked());
+                    $model->saveEntity($entity, false);
 
                     $this->addFlashMessage(
                         'mautic.core.notice.updated',

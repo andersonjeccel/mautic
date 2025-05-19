@@ -248,15 +248,17 @@ abstract class AbstractFormController extends CommonController
         return $vars;
     }
 
-    protected function getFormButton(FormInterface $form, array $elements): ClickableInterface
+    protected function getFormButton(FormInterface $form, array $elements): ?ClickableInterface
     {
-        foreach ($elements as $element) {
-            $form = $form->get($element);
+        try {
+            foreach ($elements as $element) {
+                $form = $form->get($element);
+            }
+
+            return $form instanceof ClickableInterface ? $form : null;
+        } catch (OutOfBoundsException $e) {
+            return null;
         }
-
-        \assert($form instanceof ClickableInterface);
-
-        return $form;
     }
 
     protected function isButtonClicked(FormInterface $form, string $name): bool
