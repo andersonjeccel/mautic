@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Mautic\CoreBundle\DependencyInjection\MauticCoreExtension;
+use Mautic\LeadBundle\Segment\Decorator\DateOperatorTranslator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $configurator): void {
@@ -49,6 +50,9 @@ return function (ContainerConfigurator $configurator): void {
     $services->alias('mautic.lead.model.segment.action', Mautic\LeadBundle\Model\SegmentActionModel::class);
     $services->alias('mautic.lead.model.ipaddress', Mautic\LeadBundle\Model\IpAddressModel::class);
     $services->alias('mautic.lead.model.export_scheduler', Mautic\LeadBundle\Model\ContactExportSchedulerModel::class);
+    
+    // Register the DateOperatorTranslator
+    $services->set('mautic.lead.segment.date_operator_translator', DateOperatorTranslator::class);
     $services->alias('mautic.lead.repository.company', Mautic\LeadBundle\Entity\CompanyRepository::class);
     $services->alias('mautic.lead.repository.company_lead', Mautic\LeadBundle\Entity\CompanyLeadRepository::class);
     $services->alias('mautic.lead.repository.stages_lead_log', Mautic\LeadBundle\Entity\StagesChangeLogRepository::class);

@@ -12,9 +12,22 @@ use Symfony\Contracts\EventDispatcher\Event;
 final class TypeOperatorsEvent extends Event
 {
     /**
-     * @var array<string,mixed[]>
+     * @var array<string, array<string, array<int, string>>>
      */
     private array $operators = [];
+
+    /**
+     * @var string|null
+     */
+    private ?string $type;
+
+    /**
+     * @param string|null $type
+     */
+    public function __construct($type = null)
+    {
+        $this->type = $type;
+    }
 
     /**
      * $operators example:
@@ -23,18 +36,39 @@ final class TypeOperatorsEvent extends Event
      *      'exclude' => ['!=' => '!like'],
      * ].
      *
-     * @param array<string,mixed[]> $operators
+     * @param string                                 $fieldType
+     * @param array<string, array<int, string>>|null $operators
      */
-    public function setOperatorsForFieldType(string $fieldType, array $operators): void
+    public function setOperatorsForFieldType(string $fieldType, ?array $operators): void
     {
         $this->operators[$fieldType] = $operators;
     }
 
     /**
-     * @return array<string,mixed[]>
+     * @return array<string, array<string, array<int, string>>>
      */
     public function getOperatorsForAllFieldTypes(): array
     {
         return $this->operators;
+    }
+
+    /**
+     * @param string $type
+     *
+     * @return array<string, array<int, string>>|null
+     */
+    public function getOperatorsForFieldType(string $type): ?array
+    {
+        return $this->operators[$type] ?? null;
+    }
+    
+    /**
+     * Get the field type for which operators are being collected.
+     *
+     * @return string|null
+     */
+    public function getFieldType(): ?string
+    {
+        return $this->type;
     }
 }

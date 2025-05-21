@@ -4,6 +4,7 @@ namespace Mautic\LeadBundle\Form\Type;
 
 use Mautic\LeadBundle\Model\ListModel;
 use Mautic\LeadBundle\Provider\FormAdjustmentsProviderInterface;
+use Mautic\LeadBundle\Segment\DateOperatorTranslationService;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -22,6 +23,7 @@ class FilterType extends AbstractType
     public function __construct(
         private FormAdjustmentsProviderInterface $formAdjustmentsProvider,
         private ListModel $listModel,
+        private DateOperatorTranslationService $dateOperatorTranslationService,
     ) {
     }
 
@@ -59,12 +61,16 @@ class FilterType extends AbstractType
                 $operator = array_key_first($operators);
             }
 
+            // Apply date-specific translations for operators when dealing with date fields
+            $fieldType = $field['properties']['type'] ?? '';
+            $translatedOperators = $this->dateOperatorTranslationService->translateOperators($operators, $fieldType);
+            
             $form->add(
                 'operator',
                 ChoiceType::class,
                 [
                     'label'   => false,
-                    'choices' => $operators,
+                    'choices' => $translatedOperators,
                     'attr'    => [
                         'class'    => 'form-control not-chosen',
                         'onchange' => 'Mautic.convertLeadFilterInput(this)',

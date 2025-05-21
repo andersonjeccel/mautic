@@ -20,6 +20,7 @@ use Mautic\LeadBundle\Helper\FormFieldHelper;
 use Mautic\LeadBundle\LeadEvents;
 use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\LeadBundle\Model\ListModel;
+use Mautic\LeadBundle\Segment\Decorator\DateOperatorLabelDecorator;
 use Mautic\LeadBundle\Segment\OperatorOptions;
 use Mautic\StageBundle\Model\StageModel;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -36,6 +37,7 @@ final class TypeOperatorSubscriber implements EventSubscriberInterface
     private const EMAIL_ALIAS = 'email';
 
     private TranslatorInterface $translator;
+    private DateOperatorLabelDecorator $dateOperatorLabelDecorator;
 
     public function __construct(
         private LeadModel $leadModel,
@@ -47,7 +49,8 @@ final class TypeOperatorSubscriber implements EventSubscriberInterface
         private AssetModel $assetModel,
         TranslatorInterface $translator,
     ) {
-        $this->translator    = $translator;
+        $this->translator = $translator;
+        $this->dateOperatorLabelDecorator = new DateOperatorLabelDecorator($translator);
     }
 
     public static function getSubscribedEvents(): array
@@ -82,6 +85,65 @@ final class TypeOperatorSubscriber implements EventSubscriberInterface
 
         foreach (['lookup', 'text', 'email', 'url', 'tel'] as $textAlias) {
             $event->setOperatorsForFieldType($textAlias, $this->typeOperators['text']);
+        }
+        
+        // Apply date-specific operator translations for date field types
+        $this->applyDateOperatorTranslations($event);
+    }
+    
+    /**
+     * Apply date-specific operator translations for date field types.
+     */
+    private function applyDateOperatorTranslations(TypeOperatorsEvent $event): void
+    {
+        $dateFieldTypes = ['date', 'datetime', 'time'];
+        
+        foreach ($dateFieldTypes as $dateFieldType) {
+            $operators = $event->getOperatorsForFieldType($dateFieldType);
+            
+            if (!$operators || !isset($operators['include'])) {
+                continue;
+            }
+            
+            // Get the operator list for this field type
+            $operatorList = $this->getOperatorChoiceList($operators);
+            
+            // Apply date-specific translations
+            $translatedOperators = [];
+            foreach ($operatorList as $label => $operator) {
+                $translatedLabel = $label;
+                
+                // Check if we have a date-specific translation for this operator
+                switch ($operator) {
+                    case OperatorOptions::GREATER_THAN:
+                        $translatedLabel = $this->translator->trans('mautic.lead.list.form.operator.date.gt');
+                        break;
+                    case OperatorOptions::GREATER_THAN_OR_EQUAL:
+                        $translatedLabel = $this->translator->trans('mautic.lead.list.form.operator.date.gte');
+                        break;
+                    case OperatorOptions::LESS_THAN:
+                        $translatedLabel = $this->translator->trans('mautic.lead.list.form.operator.date.lt');
+                        break;
+                    case OperatorOptions::LESS_THAN_OR_EQUAL:
+                        $translatedLabel = $this->translator->trans('mautic.lead.list.form.operator.date.lte');
+                        break;
+                    case OperatorOptions::BETWEEN:
+                        $translatedLabel = $this->translator->trans('mautic.lead.list.form.operator.date.between');
+                        break;
+                    case OperatorOptions::NOT_BETWEEN:
+                        $translatedLabel = $this->translator->trans('mautic.lead.list.form.operator.date.notbetween');
+                        break;
+                }
+                
+                $translatedOperators[$translatedLabel] = $operator;
+            }
+            
+            // Create a new operators array with the translated labels
+            $newOperators = $operators;
+            $newOperators['translatedLabels'] = $translatedOperators;
+            
+            // Update the operators for this field type
+            $event->setOperatorsForFieldType($dateFieldType, $newOperators);
         }
     }
 

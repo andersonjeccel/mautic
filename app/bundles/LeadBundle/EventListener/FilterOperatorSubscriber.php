@@ -13,6 +13,7 @@ use Mautic\LeadBundle\Helper\FormFieldHelper;
 use Mautic\LeadBundle\LeadEvents;
 use Mautic\LeadBundle\Provider\FieldChoicesProviderInterface;
 use Mautic\LeadBundle\Provider\TypeOperatorProviderInterface;
+use Mautic\LeadBundle\Segment\Decorator\DateOperatorTranslator;
 use Mautic\LeadBundle\Segment\OperatorOptions;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -25,6 +26,7 @@ final class FilterOperatorSubscriber implements EventSubscriberInterface
         private TypeOperatorProviderInterface $typeOperatorProvider,
         private FieldChoicesProviderInterface $fieldChoicesProvider,
         private TranslatorInterface $translator,
+        private DateOperatorTranslator $dateOperatorTranslator,
     ) {
     }
 
@@ -42,8 +44,53 @@ final class FilterOperatorSubscriber implements EventSubscriberInterface
 
     public function onListOperatorsGenerate(LeadListFiltersOperatorsEvent $event): void
     {
-        foreach ($this->operatorOptions->getFilterExpressionFunctionsNonStatic() as $operatorName => $operatorOptions) {
+        // Get all standard operators
+        $operators = $this->operatorOptions->getFilterExpressionFunctionsNonStatic();
+        
+        // Add date-specific operator translations
+        $dateOperators = [
+            OperatorOptions::GREATER_THAN => [
+                'label' => 'mautic.lead.list.form.operator.date.gt',
+                'expr' => 'gt',
+                'negate_expr' => 'lt',
+            ],
+            OperatorOptions::GREATER_THAN_OR_EQUAL => [
+                'label' => 'mautic.lead.list.form.operator.date.gte',
+                'expr' => 'gte',
+                'negate_expr' => 'lt',
+            ],
+            OperatorOptions::LESS_THAN => [
+                'label' => 'mautic.lead.list.form.operator.date.lt',
+                'expr' => 'lt',
+                'negate_expr' => 'gt',
+            ],
+            OperatorOptions::LESS_THAN_OR_EQUAL => [
+                'label' => 'mautic.lead.list.form.operator.date.lte',
+                'expr' => 'lte',
+                'negate_expr' => 'gt',
+            ],
+            OperatorOptions::BETWEEN => [
+                'label' => 'mautic.lead.list.form.operator.date.between',
+                'expr' => 'between',
+                'negate_expr' => 'notBetween',
+                'hide' => true,
+            ],
+            OperatorOptions::NOT_BETWEEN => [
+                'label' => 'mautic.lead.list.form.operator.date.notbetween',
+                'expr' => 'notBetween',
+                'negate_expr' => 'between',
+                'hide' => true,
+            ],
+        ];
+        
+        // Add all operators to the event
+        foreach ($operators as $operatorName => $operatorOptions) {
             $event->addOperator($operatorName, $operatorOptions);
+        }
+        
+        // Add date-specific operators with the 'date_' prefix to distinguish them
+        foreach ($dateOperators as $operatorName => $operatorOptions) {
+            $event->addOperator('date_' . $operatorName, $operatorOptions);
         }
     }
 
@@ -69,6 +116,12 @@ final class FilterOperatorSubscriber implements EventSubscriberInterface
                 }
             }
 
+            // Get the appropriate operators based on field type
+            $operators = $this->typeOperatorProvider->getOperatorsForFieldType($type);
+            
+            // Apply date-specific translations for date fields
+            $operators = $this->dateOperatorTranslator->translateOperators($operators, $type);
+            
             $event->addChoice(
                 $field->getObject(),
                 $field->getAlias(),
@@ -76,7 +129,7 @@ final class FilterOperatorSubscriber implements EventSubscriberInterface
                     'label'      => $field->getLabel(),
                     'properties' => $properties,
                     'object'     => $field->getObject(),
-                    'operators'  => $this->typeOperatorProvider->getOperatorsForFieldType($type),
+                    'operators'  => $operators,
                 ]
             );
         });
@@ -108,25 +161,53 @@ final class FilterOperatorSubscriber implements EventSubscriberInterface
             'date_added' => [
                 'label'      => $this->translator->trans('mautic.core.date.added'),
                 'properties' => ['type' => 'date'],
+<<<<<<< Updated upstream
                 'operators'  => $this->typeOperatorProvider->getOperatorsForFieldType('date'),
+=======
+                'operators'  => $this->dateOperatorTranslator->translateOperators(
+                    $this->typeOperatorProvider->getOperatorsForFieldType('default'),
+                    'date'
+                ),
+>>>>>>> Stashed changes
                 'object'     => 'lead',
             ],
             'date_identified' => [
                 'label'      => $this->translator->trans('mautic.lead.list.filter.date_identified'),
                 'properties' => ['type' => 'date'],
+<<<<<<< Updated upstream
                 'operators'  => $this->typeOperatorProvider->getOperatorsForFieldType('date'),
+=======
+                'operators'  => $this->dateOperatorTranslator->translateOperators(
+                    $this->typeOperatorProvider->getOperatorsForFieldType('default'),
+                    'date'
+                ),
+>>>>>>> Stashed changes
                 'object'     => 'lead',
             ],
             'last_active' => [
                 'label'      => $this->translator->trans('mautic.lead.list.filter.last_active'),
                 'properties' => ['type' => 'datetime'],
+<<<<<<< Updated upstream
                 'operators'  => $this->typeOperatorProvider->getOperatorsForFieldType('datetime'),
+=======
+                'operators'  => $this->dateOperatorTranslator->translateOperators(
+                    $this->typeOperatorProvider->getOperatorsForFieldType('default'),
+                    'datetime'
+                ),
+>>>>>>> Stashed changes
                 'object'     => 'lead',
             ],
             'date_modified' => [
                 'label'      => $this->translator->trans('mautic.lead.list.filter.date_modified'),
                 'properties' => ['type' => 'datetime'],
+<<<<<<< Updated upstream
                 'operators'  => $this->typeOperatorProvider->getOperatorsForFieldType('datetime'),
+=======
+                'operators'  => $this->dateOperatorTranslator->translateOperators(
+                    $this->typeOperatorProvider->getOperatorsForFieldType('default'),
+                    'datetime'
+                ),
+>>>>>>> Stashed changes
                 'object'     => 'lead',
             ],
             'owner_id' => [
@@ -359,12 +440,40 @@ final class FilterOperatorSubscriber implements EventSubscriberInterface
                 'label'      => $this->translator->trans('mautic.lead.list.filter.lead_email_sent_date'),
                 'object'     => 'lead',
                 'properties' => ['type' => 'datetime'],
+<<<<<<< Updated upstream
                 'operators'  => $this->typeOperatorProvider->getOperatorsForFieldType('datetime'),
+=======
+                'operators'  => $this->dateOperatorTranslator->translateOperators(
+                    $this->typeOperatorProvider->getOperatorsIncluding([
+                        OperatorOptions::EQUAL_TO,
+                        OperatorOptions::NOT_EQUAL_TO,
+                        OperatorOptions::GREATER_THAN,
+                        OperatorOptions::LESS_THAN,
+                        OperatorOptions::GREATER_THAN_OR_EQUAL,
+                        OperatorOptions::LESS_THAN_OR_EQUAL,
+                    ]),
+                    'datetime'
+                ),
+>>>>>>> Stashed changes
             ],
             'lead_email_read_date' => [
                 'label'      => $this->translator->trans('mautic.lead.list.filter.lead_email_read_date'),
                 'properties' => ['type' => 'datetime'],
+<<<<<<< Updated upstream
                 'operators'  => $this->typeOperatorProvider->getOperatorsForFieldType('datetime'),
+=======
+                'operators'  => $this->dateOperatorTranslator->translateOperators(
+                    $this->typeOperatorProvider->getOperatorsIncluding([
+                        OperatorOptions::EQUAL_TO,
+                        OperatorOptions::NOT_EQUAL_TO,
+                        OperatorOptions::GREATER_THAN,
+                        OperatorOptions::LESS_THAN,
+                        OperatorOptions::GREATER_THAN_OR_EQUAL,
+                        OperatorOptions::LESS_THAN_OR_EQUAL,
+                    ]),
+                    'datetime'
+                ),
+>>>>>>> Stashed changes
                 'object' => 'lead',
             ],
             'lead_email_read_count' => [
@@ -549,31 +658,20 @@ final class FilterOperatorSubscriber implements EventSubscriberInterface
 
     private function setIncludeExcludeOperatorsToTextFilters(LeadListFiltersChoicesEvent $event): void
     {
-        $choices = $event->getChoices();
+        $textFilters = [
+            'hit_url_count',
+            'page_id',
+            'email_id',
+            'redirect_id',
+            'notification',
+            'page_hit',
+        ];
 
-        foreach ($choices as $group => $groups) {
-            foreach ($groups as $alias => $choice) {
-                $type = $choice['properties']['type'] ?? null;
-                if ('text' === $type) {
-                    $choices[$group][$alias]['operators'] = $this->typeOperatorProvider->getOperatorsIncluding([
-                        OperatorOptions::EQUAL_TO,
-                        OperatorOptions::NOT_EQUAL_TO,
-                        OperatorOptions::EMPTY,
-                        OperatorOptions::NOT_EMPTY,
-                        OperatorOptions::LIKE,
-                        OperatorOptions::NOT_LIKE,
-                        OperatorOptions::REGEXP,
-                        OperatorOptions::NOT_REGEXP,
-                        OperatorOptions::IN,
-                        OperatorOptions::NOT_IN,
-                        OperatorOptions::STARTS_WITH,
-                        OperatorOptions::ENDS_WITH,
-                        OperatorOptions::CONTAINS,
-                    ]);
-                }
-            }
+        foreach ($textFilters as $filter) {
+            $event->addOperatorsToChoice('behaviors', $filter, [
+                OperatorOptions::IN,
+                OperatorOptions::NOT_IN,
+            ]);
         }
-
-        $event->setChoices($choices);
     }
 }
