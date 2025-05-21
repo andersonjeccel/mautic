@@ -12,4 +12,11 @@ interface FilterOperatorProviderInterface
      * @return mixed[]
      */
     public function getAllOperators(): array;
+
+    /**
+     * Get operators with date-specific labels for date fields
+     *
+     * @return mixed[]
+     */
+    public function getOperatorsForDateField(): array;
 }

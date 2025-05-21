@@ -39,6 +39,35 @@ final class FilterOperatorProvider implements FilterOperatorProviderInterface
     }
 
     /**
+     * Get operators with date-specific labels for date fields
+     *
+     * @return mixed[]
+     */
+    public function getOperatorsForDateField(): array
+    {
+        $operators = $this->getAllOperators();
+        $dateOperators = $operators;
+
+        // Replace labels with date-specific versions for certain operators
+        $dateSpecificOperators = [
+            '>' => 'mautic.core.operator.date.greaterthan',
+            '>=' => 'mautic.core.operator.date.greaterthanequals',
+            '<' => 'mautic.core.operator.date.lessthan',
+            '<=' => 'mautic.core.operator.date.lessthanequals',
+            'between' => 'mautic.core.operator.date.between',
+            '!between' => 'mautic.core.operator.date.notbetween',
+        ];
+
+        foreach ($dateSpecificOperators as $operator => $translationKey) {
+            if (isset($dateOperators[$operator])) {
+                $dateOperators[$operator]['label'] = $this->translator->trans($translationKey);
+            }
+        }
+
+        return $dateOperators;
+    }
+
+    /**
      * @param mixed[] $operators
      *
      * @return mixed[]

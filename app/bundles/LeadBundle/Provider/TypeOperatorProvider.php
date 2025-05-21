@@ -55,6 +55,11 @@ final class TypeOperatorProvider implements TypeOperatorProviderInterface
             $this->cachedTypeOperatorsChoices[$fieldType] = $this->getOperatorChoiceList($typeOperators['default']);
         }
 
+        // Use date-specific operator labels for date fields
+        if ($fieldType === 'date' || $fieldType === 'datetime') {
+            $this->cachedTypeOperatorsChoices[$fieldType] = $this->getDateOperatorChoiceList($typeOperators[$fieldType] ?? $typeOperators['default']);
+        }
+
         return $this->cachedTypeOperatorsChoices[$fieldType];
     }
 
@@ -103,5 +108,36 @@ final class TypeOperatorProvider implements TypeOperatorProviderInterface
         $operatorOptions = $this->filterOperatorProvider->getAllOperators();
 
         return (null === $operator) ? $operatorOptions : $operatorOptions[$operator];
+    }
+
+    /**
+     * Get operator choice list with date-specific labels
+     *
+     * @param mixed[] $definition
+     * @param mixed[] $overrideHiddenOperators
+     *
+     * @return mixed[]
+     */
+    public function getDateOperatorChoiceList($definition, $overrideHiddenOperators = []): array
+    {
+        // Get date-specific operators
+        $operatorList = $this->filterOperatorProvider->getOperatorsForDateField();
+        $dateOperatorChoices = [];
+        foreach ($operatorList as $operator => $def) {
+            if (empty($def['hide']) || in_array($operator, $overrideHiddenOperators)) {
+                $dateOperatorChoices[$operator] = $def['label'];
+            }
+        }
+
+        $choices = $dateOperatorChoices;
+        if (isset($definition['include'])) {
+            // Inclusive operators
+            $choices = array_intersect_key($choices, array_flip($definition['include']));
+        } elseif (isset($definition['exclude'])) {
+            // Exclusive operators
+            $choices = array_diff_key($choices, array_flip($definition['exclude']));
+        }
+
+        return array_flip($choices);
     }
 }
