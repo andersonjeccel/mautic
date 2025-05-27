@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function (grunt) {
-    grunt.loadNpmTasks('grunt-contrib-less');
+    grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Define the configuration for all the tasks
@@ -17,30 +17,31 @@ module.exports = function (grunt) {
 
         // Watches files for changes and runs tasks based on the changed files
         watch: {
-            less: {
-                files: ['<%= mautic.bundleAssets %>/**/*.less', '<%= mautic.bundleAssets %>/../builder/*.less'],
-                tasks: ['less']
+            sass: {
+                files: ['<%= mautic.bundleAssets %>/**/*.scss', '<%= mautic.bundleAssets %>/../builder/*.scss'],
+                tasks: ['sass']
             }
         },
 
-        // Compiles less files in bundle's Assets/css root and single level directory to CSS
-        less: {
+        // Compiles scss files in bundle's Assets/css root and single level directory to CSS
+        sass: {
             files: {
-                src: ['<%= mautic.bundleAssets %>/*.less', '<%= mautic.pluginAssets %>/*.less', '<%= mautic.bundleAssets %>/*/*.less', '<%= mautic.bundleAssets %>/../builder/*.less'],
+                src: ['<%= mautic.bundleAssets %>/*.scss', '<%= mautic.pluginAssets %>/*.scss', '<%= mautic.bundleAssets %>/*/*.scss', '<%= mautic.bundleAssets %>/../builder/*.scss'],
                 expand: true,
                 rename: function (dest, src) {
-                    return dest + src.replace('.less', '.css')
+                    return dest + src.replace('.scss', '.css')
                 },
                 dest: ''
             },
             options: {
-                javascriptEnabled: true
+                implementation: require('sass'),
+                sourceMap: true
             }
         }
     });
 
-    grunt.registerTask('compile-less', [
-        'less',
+    grunt.registerTask('compile-sass', [
+        'sass',
         'watch'
     ]);
 };
