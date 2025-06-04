@@ -16,17 +16,15 @@
                         <div class="col-xs-4 col-sm-2 pl-0 pr-0 pt-10 pb-10 text-right">
                             <i class="hidden-xs ri-shuffle-line ri-lg"></i>
                             {% include '@MauticCore/Components/button.html.twig' with {
-                                buttons: [
-                                    {
-                                        label: 'mautic.core.select',
-                                        variant: 'ghost',
-                                        size: 'sm',
-                                        attributes: {
-                                            class: 'visible-xs pull-right text-success',
-                                            'data-type': 'Decision'
-                                        }
+                                buttons: [{
+                                    label: 'mautic.core.select',
+                                    variant: 'ghost',
+                                    size: 'sm',
+                                    className: 'visible-xs pull-right text-success',
+                                    attributes: {
+                                        'data-type': 'Decision'
                                     }
-                                ]
+                                }]
                             } %}
                         </div>
                     </div>
@@ -35,17 +33,15 @@
                     </div>
                     <div class="hidden-xs panel-footer text-center">
                         {% include '@MauticCore/Components/button.html.twig' with {
-                            buttons: [
-                                {
-                                    label: 'mautic.core.select',
-                                    variant: 'ghost',
-                                    size: 'md',
-                                    attributes: {
-                                        'data-type': 'Decision',
-                                        type: 'button'
-                                    }
+                            buttons: [{
+                                label: 'mautic.core.select',
+                                variant: 'ghost',
+                                size: 'md',
+                                type: 'button',
+                                attributes: {
+                                    'data-type': 'Decision'
                                 }
-                            ]
+                            }]
                         } %}
                     </div>
                 </div>
@@ -59,18 +55,16 @@
                         <div class="col-xs-4 col-sm-2 pl-0 pr-0 pt-10 pb-10 text-right">
                             <i class="hidden-xs ri-focus-2-line ri-lg"></i>
                             {% include '@MauticCore/Components/button.html.twig' with {
-                                buttons: [
-                                    {
-                                        label: 'mautic.core.select',
-                                        size: 'sm',
-                                        attributes: {
-                                            'class': 'visible-xs pull-right',
-                                            'data-type': 'Action',
-                                            type: 'button'
-                                        },
-                                        variant: 'ghost',
+                                buttons: [{
+                                    label: 'mautic.core.select',
+                                    variant: 'ghost',
+                                    size: 'sm',
+                                    className: 'visible-xs pull-right',
+                                    type: 'button',
+                                    attributes: {
+                                        'data-type': 'Action'
                                     }
-                                ]
+                                }]
                             } %}
                         </div>
                     </div>
@@ -79,17 +73,15 @@
                     </div>
                     <div class="hidden-xs panel-footer text-center">
                         {% include '@MauticCore/Components/button.html.twig' with {
-                            buttons: [
-                                {
-                                    label: 'mautic.core.select',
-                                    variant: 'ghost',
-                                    size: 'md',
-                                    attributes: {
-                                        'data-type': 'Action',
-                                        type: 'button'
-                                    }
+                            buttons: [{
+                                label: 'mautic.core.select',
+                                variant: 'ghost',
+                                size: 'md',
+                                type: 'button',
+                                attributes: {
+                                    'data-type': 'Action'
                                 }
-                            ]
+                            }]
                         } %}
                     </div>
                 </div>
@@ -103,35 +95,31 @@
                         <div class="col-xs-4 col-sm-2 pl-0 pr-0 pt-10 pb-10 text-right">
                             <i class="hidden-xs ri-filter-2-fill ri-lg"></i>
                             {% include '@MauticCore/Components/button.html.twig' with {
-                                buttons: [
-                                    {
-                                        label: 'mautic.core.select',
-                                        size: 'sm',
-                                        attributes: {
-                                            'class': 'visible-xs pull-right',
-                                            'data-type': 'Condition',
-                                            type: 'button'
-                                        },
-                                        variant: 'ghost',
+                                buttons: [{
+                                    label: 'mautic.core.select',
+                                    variant: 'ghost',
+                                    size: 'sm',
+                                    className: 'visible-xs pull-right',
+                                    type: 'button',
+                                    attributes: {
+                                        'data-type': 'Condition'
                                     }
-                                ]
+                                }]
                             } %}
                         </div>
                     </div>
                     <div class="panel-body">{{ 'mautic.campaign.event.condition.descr'|trans }}</div>
                     <div class="hidden-xs panel-footer text-center">
                         {% include '@MauticCore/Components/button.html.twig' with {
-                            buttons: [
-                                {
-                                    label: 'mautic.core.select',
-                                    variant: 'ghost',
-                                    size: 'md',
-                                    attributes: {
-                                        'data-type': 'Condition',
-                                        type: 'button'
-                                    }
+                            buttons: [{
+                                label: 'mautic.core.select',
+                                variant: 'ghost',
+                                size: 'md',
+                                type: 'button',
+                                attributes: {
+                                    'data-type': 'Condition'
                                 }
-                            ]
+                            }]
                         } %}
                     </div>
                 </div>
@@ -148,27 +136,25 @@
                     </div>
                     <div class="panel-footer">
                         {% include '@MauticCore/Components/button.html.twig' with {
-                            buttons: [
-                                {
-                                    label: 'mautic.campaign.event.clone.insert',
-                                    size: 'md',
-                                    href: path(route, {
-                                        'objectAction': 'insert',
-                                        'campaignId': campaignId,
-                                        'anchor': 'none',
-                                        'anchorEventType': 'none'
-                                    }),
-                                    variant: 'ghost',
-                                    attributes: {
-                                        'id': 'EventInsertButton',
-                                        'data-toggle': 'ajax',
-                                        'data-target': 'CampaignEvent_',
-                                        'data-ignore-formexit': 'true',
-                                        'data-method': 'POST',
-                                        'data-hide-loadingbar': 'true'
-                                    }
+                            buttons: [{
+                                label: 'mautic.campaign.event.clone.insert',
+                                variant: 'ghost',
+                                size: 'md',
+                                href: path(route, {
+                                    'objectAction': 'insert',
+                                    'campaignId': campaignId,
+                                    'anchor': 'none',
+                                    'anchorEventType': 'none'
+                                }),
+                                attributes: {
+                                    'id': 'EventInsertButton',
+                                    'data-toggle': 'ajax',
+                                    'data-target': 'CampaignEvent_',
+                                    'data-ignore-formexit': 'true',
+                                    'data-method': 'POST',
+                                    'data-hide-loadingbar': 'true'
                                 }
-                            ]
+                            }]
                         } %}
                     </div>
                 </div>

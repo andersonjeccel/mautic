@@ -57,16 +57,15 @@
             buttons: [
                 {
                     label: 'mautic.core.search_everything',
-                    tooltip_placement: 'right',
+                    tooltipPosition: 'right',
                     variant: 'ghost',
-                    icon: 'ri-search-line ri-xl',
-                    icon_only: true,
+                    renderIcon: 'ri-search-line ri-xl',
+                    hasIconOnly: true,
+                    className: 'search-button',
                     attributes: {
-                    'type': 'button',
-                    'data-toggle': 'modal',
-                    'data-target': '#gsearchModal',
-                    'class': 'search-button'
-                }
+                        'data-toggle': 'modal',
+                        'data-target': '#gsearchModal'
+                    }
                 }
             ]
         } %}

@@ -17,45 +17,43 @@
 {% if update is not defined or update is empty %}
   <div class="campaign-event-buttons hide">
     {% include '@MauticCore/Components/button.html.twig' with {
-      buttons: [
-          {
-              href: path('mautic_campaignsource_action', {
-                  'objectAction': 'edit',
-                  'objectId': campaignId,
-                  'sourceType': sourceType
-              }),
-              variant: 'secondary',
-              icon: 'ri-edit-line',
-              size: 'xs',
-              icon_only: true,
-              label: 'mautic.campaign.event.edit.btn.tooltip'|trans,
-              attributes: {
-                  'data-toggle': 'ajaxmodal',
-                  'data-prevent-dismiss': 'true',
-                  'data-target': '#CampaignEventModal',
-                  'class': 'btn-edit'
-              }
-          },
-          {
-              href: path('mautic_campaignsource_action', {
-                  'objectAction': 'delete',
-                  'objectId': campaignId,
-                  'sourceType': sourceType
-              }),
-              variant: 'primary',
-              danger: true,
-              icon: 'ri-close-line',
-              size: 'xs',
-              icon_only: true,
-              label: 'mautic.campaign.event.remove.btn.tooltip'|trans,
-              attributes: {
-                  'data-toggle': 'ajax',
-                  'data-target': 'CampaignEvent_' ~ sourceType,
-                  'data-ignore-formexit': 'true',
-                  'data-method': 'POST',
-                  'data-hide-loadingbar': 'true',
-                  'class': 'btn-delete'
-              }
+      buttons: [{
+          href: path('mautic_campaignsource_action', {
+              'objectAction': 'edit',
+              'objectId': campaignId,
+              'sourceType': sourceType
+          }),
+          variant: 'secondary',
+          renderIcon: 'ri-edit-line',
+          size: 'xs',
+          hasIconOnly: true,
+          label: 'mautic.campaign.event.edit.btn.tooltip',
+          className: 'btn-edit',
+          attributes: {
+              'data-toggle': 'ajaxmodal',
+              'data-prevent-dismiss': 'true',
+              'data-target': '#CampaignEventModal'
+          }
+      }, {
+          href: path('mautic_campaignsource_action', {
+              'objectAction': 'delete',
+              'objectId': campaignId,
+              'sourceType': sourceType
+          }),
+          variant: 'primary',
+          danger: true,
+          renderIcon: 'ri-close-line',
+          size: 'xs',
+          hasIconOnly: true,
+          label: 'mautic.campaign.event.remove.btn.tooltip',
+          className: 'btn-delete',
+          attributes: {
+                'data-toggle': 'ajax',
+                'data-target': 'CampaignEvent_' ~ sourceType,
+                'data-ignore-formexit': 'true',
+                'data-method': 'POST',
+                'data-hide-loadingbar': 'true'
+            }
           }
       ]
   } %}

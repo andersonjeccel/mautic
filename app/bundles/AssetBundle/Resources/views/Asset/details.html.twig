@@ -231,16 +231,14 @@
                            readonly value="{{ assetDownloadUrl|escape }}"/>
                 <span class="input-group-btn">
                     {% include '@MauticCore/Components/button.html.twig' with {
-                        buttons: [
-                            {
-                                icon: 'ri-external-link-line',
-                                icon_only: true,
-                                tooltip_placement: 'left',
-                                label: 'mautic.core.open_link',
-                                onclick: "window.open('" ~ assetDownloadUrl ~ "', '_blank')",
-                                variant: 'ghost',
-                            }
-                        ]
+                        buttons: [{
+                            renderIcon: 'ri-external-link-line',
+                            hasIconOnly: true,
+                            tooltipPosition: 'left',
+                            label: 'mautic.core.open_link',
+                            onClick: "window.open('" ~ assetDownloadUrl ~ "', '_blank')",
+                            variant: 'ghost'
+                        }]
                     } %}
                 </span>
                 </div>

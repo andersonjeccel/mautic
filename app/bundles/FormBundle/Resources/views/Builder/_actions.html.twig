@@ -13,14 +13,14 @@
           {
               variant: 'ghost',
               label: 'mautic.core.form.edit',
-              icon_only: true,
-              icon: 'ri-edit-line text-interactive',
+              hasIconOnly: true,
+              renderIcon: 'ri-edit-line text-interactive',
               size: 'sm',
               href: path(route, {'objectAction': 'edit', 'objectId': id, 'formId': formId}),
+              className: 'btn-edit',
               attributes: {
                   'data-toggle': 'ajaxmodal',
                   'data-target': '#formComponentModal',
-                  'class': 'btn-edit'
               }
           }
       ]
@@ -33,9 +33,9 @@
                 label: 'mautic.form.builder.formfield.remove_row',
                 variant: 'ghost',
                 danger: 'true',
-                icon_only: 'true',
+                hasIconOnly: true,
                 size: 'sm',
-                icon: 'ri-delete-bin-line text-danger',
+                renderIcon: 'ri-delete-bin-line text-danger',
                 href: path(route, {'objectAction': 'delete', 'objectId': id, 'formId': formId}),
                 attributes: {
                     'data-hide-panel': 'true',

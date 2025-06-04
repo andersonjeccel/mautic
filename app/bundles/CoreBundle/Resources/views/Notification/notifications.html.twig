@@ -16,12 +16,10 @@
                                         label: 'mautic.core.notifications.clearall',
                                         variant: 'ghost',
                                         size: 'xs',
-                                        icon_only: true,
-                                        icon: 'ri-delete-bin-2-line',
-                                        attributes: {
-                                            'class': 'pull-right',
-                                        },
-                                        onclick: 'Mautic.clearNotification(0);'
+                                        renderIcon: 'ri-delete-bin-2-line',
+                                        hasIconOnly: true,
+                                        className: 'pull-right',
+                                        onClick: 'Mautic.clearNotification(0);'
                                     }
                                 ]
                             } %}

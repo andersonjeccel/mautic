@@ -37,19 +37,17 @@
                                     href: '#',
                                     label: 'mautic.core.select',
                                     variant: 'ghost',
+                                    className: 'select-theme-link' ~ (isSelected ? ' hide' : ''),
                                     attributes: {
-                                        'type': 'button',
                                         'data-theme': themeKey,
-                                        'class': 'select-theme-link' ~ (isSelected ? ' hide' : ''),
                                         'onclick': "mQuery('#dynamic-content-tab').addClass('hidden')"
                                     }
                                 },
                                 {
                                     label: 'mautic.core.form.filters.selected',
                                     variant: 'ghost',
+                                    className: 'select-theme-selected' ~ (not isSelected ? ' hide' : ''),
                                     attributes: {
-                                        'type': 'button',
-                                        'class': 'select-theme-selected' ~ (not isSelected ? ' hide' : ''),
                                         'disabled': ''
                                     }
                                 }

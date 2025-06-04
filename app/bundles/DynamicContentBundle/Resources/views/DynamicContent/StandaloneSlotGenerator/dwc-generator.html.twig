@@ -43,25 +43,21 @@
                         {% include '@MauticCore/Components/button.html.twig' with {
                         buttons: [
                         {
-                        icon: 'ri-code-s-slash-line ri-lg',
+                        renderIcon: 'ri-code-s-slash-line ri-lg',
                         label: 'mautic.dynamiccontent.generator.switch_html_tag',
-                        icon_only: true,
+                        hasIconOnly: true,
                         variant: 'ghost',
                         size: 'sm',
-                        attributes: {
-                        'class': 'ma-0',
-                        'type': 'button'
-                        }
+                        className: 'ma-0',
                         },
                         {
-                        icon: 'ri-question-line ri-lg',
+                        renderIcon: 'ri-question-line ri-lg',
                         label: 'mautic.dynamiccontent.generator.more_information.html',
-                        icon_only: true,
+                        hasIconOnly: true,
                         variant: 'ghost',
                         size: 'sm',
+                        className: 'ma-0',
                         attributes: {
-                        'class': 'ma-0',
-                        'type': 'button',
                         'data-toggle': 'popover',
                         'title': 'mautic.dynamiccontent.generator.html_tag_title'|trans,
                         'data-content': 'mautic.dynamiccontent.generator.html_tag_info'|trans,
@@ -90,29 +86,25 @@
                         {% include '@MauticCore/Components/button.html.twig' with {
                         buttons: [
                         {
-                        icon: 'ri-brackets-line ri-lg',
+                        renderIcon: 'ri-brackets-line ri-lg',
                         label: 'mautic.dynamiccontent.generator.switch_code_wrapper',
-                        icon_only: true,
+                        hasIconOnly: true,
                         variant: 'ghost',
                         size: 'sm',
-                        attributes: {
-                        'class': 'ma-0',
-                        'type': 'button'
-                        }
+                        className: 'ma-0',
                         },
                         {
-                        icon: 'ri-question-line ri-lg',
+                        renderIcon: 'ri-question-line ri-lg',
                         label: 'mautic.dynamiccontent.generator.more_information.plugins',
-                        icon_only: true,
+                        hasIconOnly: true,
                         variant: 'ghost',
                         size: 'sm',
+                        className: 'ma-0',
                         attributes: {
-                        'class': 'ma-0',
                         'data-toggle': 'popover',
                         'title': 'mautic.dynamiccontent.generator.when_to_change_brackets'|trans,
                         'data-content': 'mautic.dynamiccontent.generator.joomla_syntax_info'|trans,
                         'data-container': 'body',
-                        'type': 'button'
                         }
                         }
                         ]
@@ -135,13 +127,11 @@
         buttons: [
         {
         label: 'mautic.dynamiccontent.generator.copy_dynamic_content_slot',
-        icon: 'ri-clipboard-line',
+        renderIcon: 'ri-clipboard-line',
         variant: 'secondary',
         size: 'xl',
         wide: 'true',
-        attributes: {
-            'class': 'dwc--generator-copy'
-        }
+        className: 'dwc--generator-copy',
         }
         ]
         } %}

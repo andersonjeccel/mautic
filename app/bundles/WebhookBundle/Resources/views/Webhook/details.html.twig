@@ -128,9 +128,9 @@
                                 {
                                     label: 'mautic.core.open_link',
                                     variant: 'ghost',
-                                    icon_only: true,
-                                    icon: 'ri-external-link-line',
-                                    onclick: 'window.open("' ~ item.getWebhookUrl()|escape('html_attr') ~ '", "_blank");',
+                                    hasIconOnly: true,
+                                    renderIcon: 'ri-external-link-line',
+                                    onClick: 'window.open("' ~ item.getWebhookUrl()|escape('html_attr') ~ '", "_blank");',
                                 }
                             ]
                         } %}

@@ -469,13 +469,12 @@
                                         {
                                             label: 'mautic.core.open_link',
                                             variant: 'ghost',
-                                            icon_only: true,
-                                            icon: 'ri-external-link-line',
+                                            hasIconOnly: true,
+                                            renderIcon: 'ri-external-link-line',
                                             attributes: {
                                                 'id': 'content_preview_url_button',
-                                                'type': 'button'
                                             },
-                                            onclick: 'window.open("' ~ previewUrl ~ '", "_blank");'
+                                            onClick: 'window.open("' ~ previewUrl ~ '", "_blank");'
                                         }
                                     ]
                                 } %}

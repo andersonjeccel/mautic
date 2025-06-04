@@ -230,9 +230,9 @@
                                 label: 'mautic.core.ab_test.create',
                                 variant: 'tertiary',
                                 href: path('mautic_page_action', {'objectAction': 'abtest', 'objectId': activePage.id}),
-                                icon: 'ri-arrow-right-s-line',
+                                renderIcon: 'ri-arrow-right-s-line',
+                                className: 'create-abtest-link',
                                 attributes: {
-                                    'class': 'create-abtest-link',
                                     'data-toggle': 'ajax'
                                 }
                             }
@@ -263,12 +263,10 @@
                                 {
                                     label: 'mautic.core.open_link',
                                     variant: 'ghost',
-                                    icon_only: true,
-                                    icon: 'ri-external-link-line',
-                                    onclick: 'window.open("' ~ pageUrl ~ '", "_blank");',
-                                    attributes: {
-                                        'class': 'btn-nospin'
-                                    }
+                                    hasIconOnly: true,
+                                    renderIcon: 'ri-external-link-line',
+                                    onClick: 'window.open("' ~ pageUrl ~ '", "_blank");',
+                                    className: 'btn-nospin',
                                 }
                             ]
                         } %}
@@ -329,12 +327,12 @@
                                         {
                                             label: 'mautic.core.open_link',
                                             variant: 'ghost',
-                                            icon_only: true,
-                                            icon: 'ri-external-link-line',
-                                            onclick: 'window.open("' ~ previewUrl ~ '", "_blank");',
+                                            hasIconOnly: true,
+                                            renderIcon: 'ri-external-link-line',
+                                            onClick: 'window.open("' ~ previewUrl ~ '", "_blank");',
+                                            className: 'btn-nospin',
                                             attributes: {
                                                 'id': 'content_preview_url_button',
-                                                'class': 'btn-nospin'
                                             }
                                         }
                                     ]

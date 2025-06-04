@@ -15,14 +15,12 @@
         buttons: [
             {
                 variant: 'ghost',
-                icon_only: true,
-                icon: 'ri-close-line do-not-close',
+                renderIcon: 'ri-close-line do-not-close',
+                hasIconOnly: true,
                 label: 'mautic.core.notifications.clear',
                 size: 'xs',
-                attributes: {
-                    'class': 'pull-right close do-not-close'
-                },
-                onclick: 'Mautic.clearNotification(' ~ n.id ~ ');'
+                className: 'pull-right close do-not-close',
+                onClick: 'Mautic.clearNotification(' ~ n.id ~ ');',
             }
         ]
     } %}

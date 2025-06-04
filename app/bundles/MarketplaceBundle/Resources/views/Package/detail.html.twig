@@ -14,11 +14,11 @@
                 label: 'mautic.core.close_back'|trans({'%target%': 'mautic.marketplace.marketplace'|trans}),
                 size: 'xs',
                 variant: 'tertiary',
-                icon: 'ri-arrow-left-line',
+                renderIcon: 'ri-arrow-left-line',
                 href: path(constant('Mautic\\MarketplaceBundle\\Service\\RouteProvider::ROUTE_LIST')),
+                className: 'btn-back mb-lg',
                 attributes: {
-                    'data-toggle': 'ajax',
-                    'class': 'btn-back mb-lg'
+                    'data-toggle': 'ajax'
                 }
             }
         ]

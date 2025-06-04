@@ -18,14 +18,11 @@
                     {
                         label: 'mautic.dwc.delete_new',
                         variant: 'ghost',
-                        icon_only: true,
-                        icon: 'ri-delete-bin-line',
+                        renderIcon: 'ri-delete-bin-line',
+                        hasIconOnly: true,
                         danger: true,
                         size: 'xs',
-                        attributes: {
-                            'class': 'remove-item as-end',
-                            'type': 'button'
-                        }
+                        className: 'remove-item as-end'
                     }
                 ]
             } %}
@@ -72,13 +69,11 @@
                     {
                         label: 'mautic.report.report.label.removefilter',
                         variant: 'ghost',
-                        icon_only: true,
-                        icon: 'ri-delete-bin-line',
+                        hasIconOnly: true,
+                        renderIcon: 'ri-delete-bin-line',
                         danger: true,
                         size: 'xs',
-                        attributes: {
-                            'class': 'remove-selected pull-right'
-                        }
+                        className: 'remove-selected pull-right'
                     }
                 ]
             } %}

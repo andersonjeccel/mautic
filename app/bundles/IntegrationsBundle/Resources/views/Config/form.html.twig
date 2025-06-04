@@ -75,12 +75,12 @@
                             {
                                 label: integrationObject.isAuthorized() ? 'mautic.integration.form.reauthorize' : 'mautic.integration.form.authorize',
                                 variant: 'success',
-                                icon: 'ri-key-2-line',
+                                renderIcon: 'ri-key-2-line',
                                 attributes: {
                                     'id': 'integration_details_authButton',
                                     'name': 'integration_details[authButton]'
                                 },
-                                onclick: 'Mautic.authorizeIntegration()'
+                                onClick: 'Mautic.authorizeIntegration()'
                             }
                         ]
                     } %}

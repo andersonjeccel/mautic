@@ -10,14 +10,13 @@
         {
             label: 'mautic.core.search.clear',
             variant: 'ghost',
-            icon: 'ri-search-line ri-fw',
-            icon_only: true,
+            renderIcon: 'ri-search-line ri-fw',
+            hasIconOnly: true,
             size: 'lg',
+            className: 'input-group-btn btn-search',
             attributes: {
-                'type': 'button',
                 'id': 'btn-filter',
-                'data-livesearch-parent': id,
-                'class': 'input-group-btn btn-search'
+                'data-livesearch-parent': id
             }
         }
     ]
@@ -55,13 +54,13 @@
                 {
                     label: 'mautic.core.reset_filter',
                     variant: 'secondary',
-                    onclick: 'Mautic.resetFilters()',
+                    onClick: 'Mautic.resetFilters()',
                     size: 'lg'
                 },
                 {
                     label: 'mautic.core.apply_filter',
                     variant: 'primary',
-                    onclick: 'Mautic.applyFilters()',
+                    onClick: 'Mautic.applyFilters()',
                     size: 'lg'
                 }
             ]
@@ -74,10 +73,9 @@
     buttons: [
     {
         variant: 'ghost',
-        icon_only: true,
-        icon: 'ri-filter-line ri-1x',
+        hasIconOnly: true,
+        renderIcon: 'ri-filter-line ri-1x',
         attributes: {
-            'type': 'button',
             'data-container': 'body',
             'data-toggle': 'popover',
             'data-html': 'true',

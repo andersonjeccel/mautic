@@ -30,8 +30,8 @@ Variables:
                                 {
                                     label: 'mautic.lead.note.header.edit',
                                     variant: 'ghost',
-                                    icon_only: true,
-                                    icon: 'ri-edit-line',
+                                    hasIconOnly: true,
+                                    renderIcon: 'ri-edit-line',
                                     size: 'xs',
                                     href: url('mautic_contactnote_action', {'leadId': lead.id, 'objectAction': 'edit', 'objectId': note.id}),
                                     attributes: {
@@ -48,9 +48,9 @@ Variables:
                                 {
                                     label: 'mautic.lead.note.confirmdelete',
                                     variant: 'ghost',
-                                    icon_only: true,
-                                    danger: 'true',
-                                    icon: 'ri-delete-bin-line',
+                                    hasIconOnly: true,
+                                    danger: true,
+                                    renderIcon: 'ri-delete-bin-line',
                                     size: 'xs',
                                     href: path('mautic_contactnote_action', {'objectAction': 'delete', 'objectId': note.id, 'leadId': lead.id}),
                                     attributes: {

@@ -166,12 +166,12 @@
                                 label: 'mautic.lead.timeline.toggle_details',
                                 variant: 'ghost',
                                 size: 'xs',
-                                icon: icon,
-                                icon_only: true,
-                                onclick: "mQuery('#timeline-details-{{ loop.index }}').toggleClass('hide')",
+                                renderIcon: icon,
+                                hasIconOnly: true,
+                                onClick: "mQuery('#timeline-details-{{ loop.index }}').toggleClass('hide')",
+                                className: details is empty ? 'disabled' : '',
                                 attributes: {
                                     'data-activate-details': loop.index,
-                                    'class': details is empty ? 'disabled' : '',
                                     'data-toggle': 'tooltip',
                                 }
                             }

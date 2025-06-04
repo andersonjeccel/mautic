@@ -14,10 +14,10 @@
                   {
                       label: 'mautic.lead.add.note',
                       variant: 'primary',
-                      icon: 'ri-add-line',
+                      renderIcon: 'ri-add-line',
                       href: path('mautic_contactnote_action', {'leadId': lead.id, 'objectAction': 'new'}),
+                      className: 'btn-leadnote-add pull-right',
                       attributes: {
-                          'class': 'btn-leadnote-add pull-right',
                           'data-toggle': 'ajaxmodal',
                           'data-target': '#MauticSharedModal',
                           'data-header': 'mautic.lead.note.header.new'|trans

@@ -56,25 +56,21 @@
                             {
                                 label: 'mautic.lead_list.filter.label.clonefilter',
                                 variant: 'ghost',
-                                icon_only: true,
+                                hasIconOnly: true,
                                 size: 'sm',
-                                icon: 'ri-file-copy-line',
+                                renderIcon: 'ri-file-copy-line',
                                 href: 'javascript: void(0);',
-                                attributes: {
-                                'class': 'copy-filter-group',
-                            },
+                                className: 'copy-filter-group',
                             },
                             {
                                 label: 'mautic.lead_list.filter.label.removefilter',
                                 variant: 'ghost',
-                                icon_only: true,
+                                hasIconOnly: true,
                                 size: 'sm',
-                                danger: 'true',
-                                icon: 'ri-delete-bin-line',
+                                danger: true,
+                                renderIcon: 'ri-delete-bin-line',
                                 href: 'javascript: void(0);',
-                                attributes: {
-                                'class': 'remove-selected',
-                            },
+                                className: 'remove-selected',
                             }
                         ]
                     } %}
