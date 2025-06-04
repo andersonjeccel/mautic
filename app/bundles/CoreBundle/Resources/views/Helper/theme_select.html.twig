@@ -38,6 +38,7 @@
                                     label: 'mautic.core.select',
                                     variant: 'ghost',
                                     className: 'select-theme-link' ~ (isSelected ? ' hide' : ''),
+                                    wide: true,
                                     attributes: {
                                         'data-theme': themeKey,
                                         'onclick': "mQuery('#dynamic-content-tab').addClass('hidden')"
@@ -47,6 +48,7 @@
                                     label: 'mautic.core.form.filters.selected',
                                     variant: 'ghost',
                                     className: 'select-theme-selected' ~ (not isSelected ? ' hide' : ''),
+                                    wide: true,
                                     attributes: {
                                         'disabled': ''
                                     }

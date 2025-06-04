@@ -3149,12 +3149,6 @@ kbd {
 .btn.btn-block {
   width: 100%;
 }
-.btn ~ .btn,
-.btn ~ .btn-group,
-.btn-group ~ .btn,
-.btn-group ~ .btn-group {
-  margin-left: 5px;
-}
 .btn-primary,
 .btn-primary + .dropdown-toggle {
   background-color: var(--button-primary);
@@ -6562,7 +6556,6 @@ input[style]:hover {
   padding: var(--spacing-01) var(--spacing-04);
 }
 .form-control[disabled],
-.form-control[readonly],
 fieldset[disabled] .form-control {
   color: var(--text-disabled);
 }
@@ -7458,9 +7451,6 @@ ul.line-legend li {
   background-color: var(--background);
   transition: var(--transition-all-productive);
 }
-.panel-heading {
-  padding: 0 15px;
-}
 .panel-heading:before,
 .panel-heading:after {
   display: table;
@@ -7470,7 +7460,6 @@ ul.line-legend li {
   clear: both;
 }
 .panel-heading .panel-title {
-  padding: 10px 0;
   display: table-cell;
   vertical-align: middle;
   font-weight: 600;
