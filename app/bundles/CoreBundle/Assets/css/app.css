@@ -7477,9 +7477,6 @@ ul.line-legend li {
   background-color: var(--background);
   transition: var(--transition-all-productive);
 }
-.panel-heading {
-  padding: 0 15px;
-}
 .panel-heading:before,
 .panel-heading:after {
   display: table;
@@ -7489,7 +7486,6 @@ ul.line-legend li {
   clear: both;
 }
 .panel-heading .panel-title {
-  padding: 9.5px 0;
   display: table-cell;
   vertical-align: middle;
   font-weight: 600;
