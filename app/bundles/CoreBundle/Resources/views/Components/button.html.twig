@@ -15,19 +15,12 @@
     {% set wide_modifier = button.wide is defined and button.wide ? 'btn-block' : '' %}
     {% set spin = button.spin is defined and button.spin ? '' : 'btn-nospin' %}
     {% set button_classes = ['btn', 'btn-' ~ variant] %}
-
-    {% if icon_only %}
-        {% set button_classes = button_classes|merge([icon_only]) %}
-    {% endif %}
-    {% if danger_modifier %}
-        {% set button_classes = button_classes|merge([danger_modifier]) %}
-    {% endif %}
-    {% if wide_modifier %}
-        {% set button_classes = button_classes|merge([wide_modifier]) %}
-    {% endif %}
-    {% if spin %}
-        {% set button_classes = button_classes|merge([spin]) %}
-    {% endif %}
+    
+    {% for modifier in [icon_only, danger_modifier, wide_modifier, spin] %}
+        {% if modifier %}
+            {% set button_classes = button_classes|merge([modifier]) %}
+        {% endif %}
+    {% endfor %}
 
     {% set extra_classes = button.attributes.class is defined ? button.attributes.class|split(' ') : [] %}
     {% set button_classes = button_classes|merge(extra_classes) %}
@@ -53,31 +46,23 @@
         {% set custom_attributes = custom_attributes ~ ' size="' ~ button.size ~ '"' %}
     {% endif %}
 
+    {% set icon_attributes = '' %}
     {% if button.icon_only is defined and button.icon_only %}
         {% set tooltip_placement = button.tooltip_placement is defined ? button.tooltip_placement : 'top' %}
         {% set icon_attributes = ' data-toggle="tooltip" title="' ~ button.label|trans ~ '" data-placement="' ~ tooltip_placement ~ '"' %}
-    {% else %}
-        {% set icon_attributes = '' %}
     {% endif %}
 
-    {% if button.href is defined %}
-        <a class="{{ button_classes|join(' ') }}" aria-label="{{ button.label|trans }}" href="{{ button.href }}"{{ custom_attributes|raw }}>
-            {% if button.icon is defined %}
-                <i class="{{ button.icon }}" aria-hidden="true" focusable="false" {{ icon_attributes|raw }}></i>
-            {% endif %}
-            {% if button.label is defined and not (button.icon_only is defined and button.icon_only) %}
-                <span>{{ button.label|trans }}</span>
-            {% endif %}
-        </a>
-    {% else %}
-        {% set button_type = button.attributes.type is defined ? button.attributes.type : (button.onclick is defined and button.onclick != '' ? 'button' : 'submit') %}
-        <button type="{{ button_type }}" aria-label="{{ button.label|trans }}" class="{{ button_classes|join(' ') }}" onclick="{{ button.onclick is defined ? button.onclick|e('html_attr') : '' }}"{{ custom_attributes|raw }}>
-            {% if button.icon is defined %}
-                <i class="{{ button.icon }}" aria-hidden="true" focusable="false" {{ icon_attributes|raw }}></i>
-            {% endif %}
-            {% if button.label is defined and not (button.icon_only is defined and button.icon_only) %}
-                <span>{{ button.label|trans }}</span>
-            {% endif %}
-        </button>
-    {% endif %}
+    {% set tag = button.href is defined ? 'a' : 'button' %}
+    {% set type_attr = tag == 'button' ? ' type="' ~ (button.attributes.type is defined ? button.attributes.type : (button.onclick is defined and button.onclick != '' ? 'button' : 'submit')) ~ '"' : '' %}
+    {% set href_attr = tag == 'a' ? ' href="' ~ button.href ~ '"' : '' %}
+    {% set onclick_attr = tag == 'button' and button.onclick is defined ? ' onclick="' ~ button.onclick|e('html_attr') ~ '"' : '' %}
+
+    <{{ tag }} class="{{ button_classes|join(' ') }}" aria-label="{{ button.label|trans }}"{{ href_attr }}{{ type_attr }}{{ onclick_attr }}{{ custom_attributes|raw }}>
+        {% if button.icon is defined %}
+            <i class="{{ button.icon }}" aria-hidden="true" focusable="false" {{ icon_attributes|raw }}></i>
+        {% endif %}
+        {% if button.label is defined and not (button.icon_only is defined and button.icon_only) %}
+            <span>{{ button.label|trans }}</span>
+        {% endif %}
+    </{{ tag }}>
 {% endfor %}
