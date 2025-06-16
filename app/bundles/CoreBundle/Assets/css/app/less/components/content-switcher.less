@@ -1,0 +1,97 @@
+.content-switcher {
+    --layout-size-height-local: 40px;
+    border: 1px solid var(--border-inverse);
+    border-radius: clamp(4px, var(--border-radius-md), 12px);
+    overflow: hidden;
+    padding-left: 0;
+    margin-bottom: 20px;
+    margin-top: 0;
+    display: flex;  
+    justify-content: space-evenly;
+    block-size: var(--layout-size-height-local);
+
+    &[size="sm"] { 
+        --layout-size-height-local: 32px; 
+        .content-switcher__icon { font-size: 16px; }
+    }
+    &[size="md"] { 
+        --layout-size-height-local: 40px; 
+        .content-switcher__icon { font-size: 16px; }
+    }
+    &[size="lg"] { 
+        --layout-size-height-local: 48px; 
+        .content-switcher__icon { font-size: 20px; }
+    }
+}
+
+.content-switcher-item  {
+    inline-size: 100%;
+    transition: var(--transition-all-productive);
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+
+    &:hover {
+        background-color: var(--layer-hover);
+        .content-switcher__label, .content-switcher__icon {color: var(--text-primary);}
+    }
+
+    &:first-child > a {
+        border-top-left-radius: clamp(4px, var(--border-radius-md), 12px);
+        border-top-right-radius: clamp(4px, var(--border-radius-md), 12px);
+    }
+
+    &:last-child > a {
+        border-bottom-left-radius: clamp(4px, var(--border-radius-md), 12px);
+        border-bottom-right-radius: clamp(4px, var(--border-radius-md), 12px);
+    }
+
+    &.active {
+        background-color: var(--layer-selected-inverse);
+
+        .content-switcher__label, .content-switcher__icon { color: var(--text-inverse); }
+    }
+}
+
+.content-switcher-btn {
+    block-size: 100%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background-color: transparent;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    color: var(--text-secondary);
+    padding-inline: 16px;
+    position: relative;
+    z-index: 1;
+    .outline();
+}
+
+.content-switcher__label {
+    display: none;
+    @media (min-width: @screen-sm-min) {
+        .content-switcher:not(.content-switcher--icon-only) & {
+            display: inline-flex;
+        }
+    }
+}
+
+.content-switcher__icon {
+    display: inline-flex;
+    transition: var(--transition-all-productive);
+    @media (min-width: @screen-sm-min) {
+        .content-switcher:not(.content-switcher--icon-only) & {
+            display: none;
+        }
+    }
+}
+
+.content-switcher--icon-only {
+    inline-size: fit-content;
+
+    .content-switcher-btn {
+        padding-inline: unset;
+        aspect-ratio: 1/1;
+    }
+}

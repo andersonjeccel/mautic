@@ -1,0 +1,34 @@
+{# 
+    Variables
+    - children {switcherLabel, switcherContent, renderIcon}
+    - className
+    - iconOnly
+    - selectedIndex
+    - size
+#}
+
+<ul role="tablist" class="content-switcher {{ className|default('') }} {{ iconOnly ? 'content-switcher--icon-only' : '' }}" size="{{ size|default('md') }}">
+    {% for child in children %}
+    <li class="content-switcher-item {{ loop.index0 == selectedIndex|default(0) ? 'active' : '' }}" 
+        {% if iconOnly %}data-toggle="tooltip" title="{{ child.switcherLabel }}"{% endif %}>
+        <a type="button" role="tab" tabindex="{{ loop.index0 == selectedIndex|default(0) ? '0' : '-1' }}" 
+            aria-selected="{{ loop.index0 == selectedIndex|default(0) ? 'true' : 'false' }}" 
+            class="content-switcher-btn" 
+            data-toggle="tab" data-target="#{{ child.switcherLabel|replace({'.': '-'})|lower }}">
+            <span class="content-switcher__icon"><i class="{{ child.renderIcon }} ri-fw"></i></span>
+            {% if not iconOnly %}
+                <span class="content-switcher__label" title="{{ child.switcherLabel }}">{{ child.switcherLabel }}</span>
+            {% endif %}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+
+<div class="content-switcher__content tab-content">
+    {% for child in children %}
+        <div class="content-switcher__content-item tab-pane fade {{ loop.index0 == selectedIndex|default(0) ? 'in active' : '' }}" 
+            id="{{ child.switcherLabel|replace({'.': '-'})|lower }}">
+            <div class="content-switcher__content-item__content">{{ child.switcherContent }}</div>
+        </div>
+    {% endfor %}
+</div>
