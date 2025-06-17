@@ -1,0 +1,119 @@
+{# 
+Variables
+    - headerName {prefix, children, className, href}
+    - headerNavigation { children (headerMenu or headerMenuItem), className}
+    - headerGlobal { children, className}
+    - headerMenu { className, focusRef, isActive, menuLinkName, onBlur, onClick, onKeyDown, renderMenuContent, tabIndex}
+    - headerMenuItem { as, children, className, isActive, role, tabIndex, href}
+#}
+
+<header aria-label="IBM Platform Name" class="header">
+    <a class="skip-to-content" href="#main-content" tabindex="0">Skip to main content</a>
+    <button aria-expanded="false" aria-label="Open menu"
+        class="header__action header__menu-trigger header__menu-toggle header__menu-toggle__hidden"
+        title="Open menu" type="button">
+        <svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor"
+            width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 14.8H18V16H2zM2 11.2H18V12.399999999999999H2zM2 7.6H18V8.799999999999999H2zM2 4H18V5.2H2z">
+            </path>
+        </svg>
+    </button>
+    <a href="#" class="header__name">
+        <span class="header__name--prefix">IBM</span>&nbsp;[Platform]</a>
+    <nav aria-label="IBM [Platform]" class="header__nav">
+        <ul class="header__menu-bar">
+            <li><a href="#" class="header__menu-item" tabindex="0"><span class="text-truncate--end">Link
+                        1</span></a></li>
+            <li><a href="#" class="header__menu-item" tabindex="0"><span class="text-truncate--end">Link
+                        2</span></a></li>
+            <li><a href="#" class="header__menu-item" tabindex="0"><span class="text-truncate--end">Link
+                        3</span></a></li>
+            <li class="header__submenu"><a aria-haspopup="menu" aria-expanded="false"
+                    class="header__menu-item header__menu-title header__menu-item--current" href="#"
+                    tabindex="0" aria-label="Link 4">Link 4<svg focusable="false" preserveAspectRatio="xMidYMid meet"
+                        fill="currentColor" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"
+                        class="header__menu-arrow" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 11L3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"></path>
+                    </svg></a>
+                <ul aria-label="Link 4" class="header__menu">
+                    <li><a href="#" class="header__menu-item" tabindex="0"><span
+                                class="text-truncate--end">Sub-link 1</span></a></li>
+                    <li><a href="#" class="header__menu-item" tabindex="0"><span
+                                class="text-truncate--end">Sub-link 2</span></a></li>
+                    <li><a href="#" class="header__menu-item" tabindex="0"><span
+                                class="text-truncate--end">Sub-link 3</span></a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <div class="header__global"><span
+            class="popover-container popover--caret popover--high-contrast popover--bottom tooltip icon-tooltip">
+            <div class="tooltip-trigger__wrapper"><button aria-label="Search"
+                    class="header__action btn btn--lg layout--size-lg btn--ghost btn--icon-only"
+                    type="button"><svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor"
+                        width="20" height="20" viewBox="0 0 32 32" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M29,27.5859l-7.5521-7.5521a11.0177,11.0177,0,1,0-1.4141,1.4141L27.5859,29ZM4,13a9,9,0,1,1,9,9A9.01,9.01,0,0,1,4,13Z">
+                        </path>
+                    </svg></button></div><span aria-hidden="true" id="tooltip-:r1t:" role="tooltip"
+                class="popover"><span class="popover-content tooltip-content">Search</span><span
+                    class="popover-caret"></span></span>
+        </span><span
+            class="popover-container popover--caret popover--high-contrast popover--bottom tooltip icon-tooltip">
+            <div class="tooltip-trigger__wrapper"><button aria-label="Notifications"
+                    class="header__action btn btn--lg layout--size-lg btn--ghost btn--icon-only"
+                    type="button"><svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor"
+                        width="20" height="20" viewBox="0 0 32 32" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M28.7071,19.293,26,16.5859V13a10.0136,10.0136,0,0,0-9-9.9492V1H15V3.0508A10.0136,10.0136,0,0,0,6,13v3.5859L3.2929,19.293A1,1,0,0,0,3,20v3a1,1,0,0,0,1,1h7v.7768a5.152,5.152,0,0,0,4.5,5.1987A5.0057,5.0057,0,0,0,21,25V24h7a1,1,0,0,0,1-1V20A1,1,0,0,0,28.7071,19.293ZM19,25a3,3,0,0,1-6,0V24h6Zm8-3H5V20.4141L7.707,17.707A1,1,0,0,0,8,17V13a8,8,0,0,1,16,0v4a1,1,0,0,0,.293.707L27,20.4141Z">
+                        </path>
+                    </svg></button></div><span aria-hidden="true" id="tooltip-:r21:" role="tooltip"
+                class="popover"><span class="popover-content tooltip-content">Notifications</span><span
+                    class="popover-caret"></span></span>
+        </span><span
+            class="popover-container popover--caret popover--high-contrast popover--bottom-end tooltip icon-tooltip">
+            <div class="tooltip-trigger__wrapper"><button aria-label="App Switcher"
+                    class="header__action btn btn--lg layout--size-lg btn--ghost btn--icon-only"
+                    type="button"><svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor"
+                        width="20" height="20" viewBox="0 0 32 32" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M14 4H18V8H14zM4 4H8V8H4zM24 4H28V8H24zM14 14H18V18H14zM4 14H8V18H4zM24 14H28V18H24zM14 24H18V28H14zM4 24H8V28H4zM24 24H28V28H24z">
+                        </path>
+                    </svg></button></div><span aria-hidden="true" id="tooltip-:r25:" role="tooltip"
+                class="popover"><span class="popover-content tooltip-content">App Switcher</span><span
+                    class="popover-caret"></span></span>
+        </span></div>
+    <div class="side-nav__overlay"></div>
+    <nav tabindex="-1" class="side-nav__navigation side-nav side-nav--ux side-nav--hidden"
+        aria-label="Side navigation">
+        <ul class="side-nav__items">
+            <ul class="side-nav__header-navigation">
+                <li><a href="#" class="header__menu-item" tabindex="0"><span class="text-truncate--end">Link
+                            1</span></a></li>
+                <li><a href="#" class="header__menu-item" tabindex="0"><span class="text-truncate--end">Link
+                            2</span></a></li>
+                <li><a href="#" class="header__menu-item" tabindex="0"><span class="text-truncate--end">Link
+                            3</span></a></li>
+                <li class="header__submenu"><a aria-haspopup="menu" aria-expanded="false"
+                        class="header__menu-item header__menu-title" href="#" tabindex="0"
+                        aria-label="Link 4">Link 4<svg focusable="false" preserveAspectRatio="xMidYMid meet"
+                            fill="currentColor" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"
+                            class="header__menu-arrow" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 11L3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"></path>
+                        </svg></a>
+                    <ul aria-label="Link 4" class="header__menu">
+                        <li><a href="#" class="header__menu-item" tabindex="0"><span
+                                    class="text-truncate--end">Sub-link 1</span></a></li>
+                        <li><a href="#" class="header__menu-item" tabindex="0"><span
+                                    class="text-truncate--end">Sub-link 2</span></a></li>
+                        <li><a href="#" class="header__menu-item" tabindex="0"><span
+                                    class="text-truncate--end">Sub-link 3</span></a></li>
+                    </ul>
+                </li>
+            </ul>
+        </ul>
+    </nav>
+</header>
