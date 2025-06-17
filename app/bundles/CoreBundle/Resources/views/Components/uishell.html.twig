@@ -1,13 +1,14 @@
 {# 
 Variables
-    - header { children, ariaLabel (trans string), ariaLabelledBy}
-    - headerMenuButton { ariaLabel (trans string), ariaLabelledBy, className, renderMenuIcon (icon class), renderCloseIcon (icon class), isActive (true/false), isCollapsible (true/false), onClick }
+    - header { children, ariaLabel (trans string)}
+    - headerMenuButton { ariaLabel (trans string), className, renderMenuIcon (icon class), renderCloseIcon (icon class), isActive (true/false), isCollapsible (true/false), onClick }
     - headerName {prefix (trans string), children (trans string), className, href}
     - headerNavigation { className, children (headerMenu or headerMenuItem)}
     - headerMenu { className, focusRef, isActive, menuLinkName (trans string), onBlur, onClick, onKeyDown, tabIndex, renderMenuContent}
     - headerMenuItem { as, children (trans string), className, isActive, role, tabIndex, href}
     - headerGlobal { children, className}
-    - headerGlobalAction { ariaLabel (trans string), ariaLabelledBy, className, renderActionIcon (icon class), isActive, onClick, tooltipAlignment }
+    - headerGlobalAction { ariaLabel (trans string), className, renderActionIcon (icon class), isActive, onClick, tooltipAlignment }
+    - headerGlobalDropdown { ariaLabel (trans string), className, renderDropdownIcon (icon class), tabIndex, renderMenuContent}
     - skipToContent { children, className, href, tabIndex }
 #}
 
@@ -22,8 +23,8 @@ Example
                 'ariaLabel': 'Open menu',
                 'ariaLabelledBy': 'header-menu-button',
                 'className': 'header__menu-trigger',
-                'renderMenuIcon': true,
-                'renderCloseIcon': true,
+                'renderMenuIcon': 'ri-menu-line',
+                'renderCloseIcon': 'ri-close-line',
                 'isActive': true,
                 'isCollapsible': true,
                 'onClick': 'Mautic.openMenu();',
@@ -184,6 +185,7 @@ Example
     {% if header.children.headerGlobal is defined %}
     <div class="header__global {{ header.children.headerGlobal.className|default('') }}">
         {% for action in header.children.headerGlobal.children %}
+            {% if action.headerGlobalAction is defined %}
             <span data-toggle="tooltip" data-placement="{{ action.tooltipAlignment|default('bottom') }}" title="{{ action.ariaLabel|default('')|trans }}">
                 <div class="tooltip-trigger__wrapper">
                     <button aria-label="{{ action.ariaLabel|default('') }}"
@@ -193,6 +195,17 @@ Example
                     </button>
                 </div>
             </span>
+            {% elseif action.headerGlobalDropdown is defined %}
+            <span data-toggle="tooltip" data-placement="{{ action.tooltipAlignment|default('bottom') }}" title="{{ action.ariaLabel|default('')|trans }}">
+                <div class="tooltip-trigger__wrapper">
+                    <button aria-label="{{ action.ariaLabel|default('') }}"
+                        class="header__action btn btn--lg layout--size-lg btn-ghost btn--icon-only {{ action.className|default('') }}"
+                        type="button" onclick="{{ action.onClick|default('') }}">
+                        <i class="{{ action.renderActionIcon }} fs-20"></i>
+                    </button>
+                </div>
+            </span>
+            {% endif %}
         {% endfor %}
     </div>
     {% endif %}
