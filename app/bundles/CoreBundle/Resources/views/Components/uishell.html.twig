@@ -18,11 +18,9 @@ Example
 {% include '@MauticCore/Components/uishell.html.twig' with {
     'header': {
         'ariaLabel': 'Header',
-        'ariaLabelledBy': 'header',
         'children': {
             'headerMenuButton': {
                 'ariaLabel': 'Open menu',
-                'ariaLabelledBy': 'header-menu-button',
                 'className': 'header__menu-trigger',
                 'renderMenuIcon': 'ri-menu-line',
                 'renderCloseIcon': 'ri-close-line',
@@ -41,7 +39,7 @@ Example
                 'children': [
                     {
                         'headerMenuItem': {
-                            'as': 'link',
+                            'as': 'a',
                             'children': 'Link 1',
                             'className': 'header__menu-item',
                             'isActive': true,
@@ -52,7 +50,7 @@ Example
                     },
                     {
                         'headerMenuItem': {
-                            'as': 'link',
+                            'as': 'a',
                             'children': 'Link 2',
                             'className': 'header__menu-item',
                             'isActive': true,
@@ -63,7 +61,7 @@ Example
                     },
                     {
                         'headerMenu': {
-                            'className': 'header__menu',
+                            'className': 'hey',
                             'focusRef': '#header-menu',
                             'isActive': true,
                             'menuLinkName': 'Link 3',
@@ -74,7 +72,7 @@ Example
                             'renderMenuContent': [
                                 {
                                     'headerMenuItem': {
-                                        'as': 'link',
+                                        'as': 'a',
                                         'children': 'Header',
                                         'className': 'header__menu-item',
                                         'isActive': true,
@@ -85,7 +83,7 @@ Example
                                 },
                                 {
                                     'headerMenuItem': {
-                                        'as': 'link',
+                                        'as': 'a',
                                         'children': 'Header',
                                         'className': 'header__menu-item',
                                         'isActive': true,
@@ -100,14 +98,29 @@ Example
                 ],
             },
             'headerGlobal': {
-                'children': {
-                    'headerGlobalAction': {
-                        'children': 'ri-filter-2-fill',
-                        'className': 'header__global-action',
+                'children': [
+                    {
+                        'headerGlobalAction': {
+                            'ariaLabel': 'mautic.core.form.apply',
+                            'onClick': 'Mautic.saveCampaignFromBuilder();',
+                            'children': 'ri-save-line'
+                        }
                     },
-                },
+                    {
+                        'headerGlobalAction': {
+                            'ariaLabel': 'mautic.core.close.builder',
+                            'onClick': 'Mautic.closeCampaignBuilder();',
+                            'children': 'ri-close-line'
+                        }
+                    }
+                ],
                 'className': 'header__global',
             },
+            'skipToContent': {
+                'children': 'Skip to content',
+                'href': '#main-content',
+                'tabIndex': 0
+            }
         },
     },
 } %}
