@@ -103,7 +103,7 @@ Variables
                     <button aria-label="{{ item.headerGlobalAction.ariaLabel|default('')|trans }}"
                         class="header__action btn btn--lg layout--size-lg btn-ghost btn--icon-only {{ item.headerGlobalAction.className|default('') }}"
                         type="button" onclick="{{ item.headerGlobalAction.onClick|default('') }}">
-                        <i class="{{ item.headerGlobalAction.children }} fs-20"></i>
+                        <i class="{{ item.headerGlobalAction.renderActionIcon }} fs-20"></i>
                     </button>
                 </div>
             </span>
