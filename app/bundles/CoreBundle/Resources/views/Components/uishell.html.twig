@@ -59,7 +59,7 @@ Example
                             'className': 'header__menu',
                             'focusRef': '#header-menu',
                             'isActive': true,
-                            'menuLinkName': 'Header',
+                            'menuLinkName': 'Link 3',
                             'onBlur': 'Mautic.closeMenu();',
                             'onClick': 'Mautic.openMenu();',
                             'onKeyDown': 'Mautic.openMenu();',
@@ -123,11 +123,12 @@ Example
         {% if headerName.prefix is defined %}
             <span class="header__name--prefix">{{ headerName.prefix }}</span>
         {% endif %}
-        {{ headerName.children }}
+        &nbsp;{{ headerName.children }}
     </a>
     <nav aria-label="{{ headerName.prefix|default('') }} {{ headerName.children }}" class="header__nav {{ headerNavigation.className|default('') }}">
         <ul class="header__menu-bar">
-            <!-- headerMenuItem -->
+            <!-- the following items have to be rendered in order as they're defined in the include array, even if repeated because we might want to have several links or menus. this means, if we have 3 headerMenuItems and 2 headerMenus, we should render all of them and in the order they are defined -->
+            <!-- headerMenuItem, we might have several of them -->
             <li {% if headerMenuItem.role is defined %} role="{{ headerMenuItem.role }}" {% endif %} {% if headerMenuItem.className is defined %} class="{{ headerMenuItem.className }}" {% endif %}>
                 <a href="{{ headerMenuItem.href }}" class="header__menu-item" tabindex="{{ headerMenuItem.tabIndex|default(0) }}">
                     <span class="text-truncate--end">{{ headerMenuItem.children }}</span>
@@ -135,7 +136,7 @@ Example
             </li>
             <!--/ headerMenuItem -->
 
-            <!-- headerMenu -->
+            <!-- headerMenu, we might have several of them too in any order -->
             <li class="header__submenu {{ headerMenu.className|default('') }}">
                 <a aria-haspopup="menu" aria-expanded="false" class="header__menu-item header__menu-title header__menu-item--current" href="#" tabindex="{{ headerMenu.tabIndex|default(0) }}" aria-label="{{ headerMenu.menuLinkName }}">{{ headerMenu.menuLinkName }}
                     <svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" class="header__menu-arrow" xmlns="http://www.w3.org/2000/svg">
@@ -144,9 +145,10 @@ Example
                 </a>
                 <ul aria-label="{{ headerMenu.menuLinkName }}" class="header__menu">
                     {% for headerMenuItem in headerMenu.renderMenuContent %}
-                    <li>
-                        <a href="#" class="header__menu-item" tabindex="0">
-                            <span class="text-truncate--end">Sub-link 1</span>
+                    <!-- headerMenuItem, we might define several here too -->
+                    <li {% if headerMenuItem.role is defined %} role="{{ headerMenuItem.role }}" {% endif %} {% if headerMenuItem.className is defined %} class="{{ headerMenuItem.className }}" {% endif %}>
+                        <a href="{{ headerMenuItem.href }}" class="header__menu-item" tabindex="{{ headerMenuItem.tabIndex|default(0) }}">
+                            <span class="text-truncate--end">{{ headerMenuItem.children }}</span>
                         </a>
                     </li>
                     {% endfor %}
