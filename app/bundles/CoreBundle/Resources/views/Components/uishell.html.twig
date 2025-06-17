@@ -21,19 +21,17 @@ Variables
     {% if header.children.headerMenuButton is defined %}
     <button aria-expanded="false" aria-label="{{ header.children.headerMenuButton.ariaLabel|trans }}" class="header__action header__menu-trigger header__menu-toggle header__menu-toggle__hidden {{ header.children.headerMenuButton.className|default('') }}" title="{{ header.children.headerMenuButton.ariaLabel|trans }}" type="button" onclick="{{ header.children.headerMenuButton.onClick|default('') }}">
         {% if header.children.headerMenuButton.renderMenuIcon %}
-        <svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor"
-            width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-            <path d="M2 14.8H18V16H2zM2 11.2H18V12.399999999999999H2zM2 7.6H18V8.799999999999999H2zM2 4H18V5.2H2z">
-            </path>
+        <svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 14.8H18V16H2zM2 11.2H18V12.4H2zM2 7.6H18V8.8H2zM2 4H18V5.2H2z"></path>
         </svg>
         {% endif %}
     </button>
     {% endif %}
 
     {% if header.children.headerName is defined %}
-    <a {% if header.children.headerName.href is defined %} href="{{ header.children.headerName.href }}" {% endif %} class="header__name {{ header.children.headerName.className|default('') }}">
+    <a {% if header.children.headerName.href is defined %}href="{{ header.children.headerName.href }}"{% endif %} class="header__name {{ header.children.headerName.className|default('') }}">
         {% if header.children.headerName.prefix is defined %}
-            <span class="header__name--prefix">{{ header.children.headerName.prefix|trans }}</span>
+        <span class="header__name--prefix">{{ header.children.headerName.prefix|trans }}</span>
         {% endif %}
         &nbsp;{{ header.children.headerName.children|trans }}
     </a>
@@ -44,7 +42,7 @@ Variables
         <ul class="header__menu-bar">
             {% for item in header.children.headerNavigation.children %}
                 {% if item.headerMenuItem is defined %}
-                <li {% if item.headerMenuItem.role is defined %} role="{{ item.headerMenuItem.role }}" {% endif %} {% if item.headerMenuItem.className is defined %} class="{{ item.headerMenuItem.className }}" {% endif %}>
+                <li {% if item.headerMenuItem.role is defined %}role="{{ item.headerMenuItem.role }}"{% endif %} {% if item.headerMenuItem.className is defined %}class="{{ item.headerMenuItem.className }}"{% endif %}>
                     <{{ item.headerMenuItem.as|default('a') }} href="{{ item.headerMenuItem.href }}" class="header__menu-item" tabindex="{{ item.headerMenuItem.tabIndex|default(0) }}">
                         <span class="text-truncate--end">{{ item.headerMenuItem.children|trans }}</span>
                     </{{ item.headerMenuItem.as|default('a') }}>
@@ -55,9 +53,9 @@ Variables
                        class="header__menu-item header__menu-title dropdown-toggle {% if item.headerMenu.isActive %}header__menu-item--current{% endif %}" 
                        href="#" tabindex="{{ item.headerMenu.tabIndex|default(0) }}" 
                        aria-label="{{ item.headerMenu.menuLinkName|trans }}"
-                       {% if item.headerMenu.onClick is defined %} onclick="{{ item.headerMenu.onClick }}" {% endif %}
-                       {% if item.headerMenu.onKeyDown is defined %} onkeydown="{{ item.headerMenu.onKeyDown }}" {% endif %}
-                       {% if item.headerMenu.onBlur is defined %} onblur="{{ item.headerMenu.onBlur }}" {% endif %}
+                       {% if item.headerMenu.onClick is defined %}onclick="{{ item.headerMenu.onClick }}"{% endif %}
+                       {% if item.headerMenu.onKeyDown is defined %}onkeydown="{{ item.headerMenu.onKeyDown }}"{% endif %}
+                       {% if item.headerMenu.onBlur is defined %}onblur="{{ item.headerMenu.onBlur }}"{% endif %}
                        data-toggle="dropdown">{{ item.headerMenu.menuLinkName|trans }}
                         <svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" class="header__menu-arrow" xmlns="http://www.w3.org/2000/svg">
                             <path d="M8 11L3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"></path>
@@ -66,7 +64,7 @@ Variables
                     <ul aria-label="{{ item.headerMenu.menuLinkName|trans }}" class="header__menu dropdown-menu" role="menu">
                         {% for menuItem in item.headerMenu.renderMenuContent %}
                             {% if menuItem.headerMenuItem is defined %}
-                            <li {% if menuItem.headerMenuItem.role is defined %} role="{{ menuItem.headerMenuItem.role }}" {% endif %} {% if menuItem.headerMenuItem.className is defined %} class="{{ menuItem.headerMenuItem.className }}" {% endif %}>
+                            <li {% if menuItem.headerMenuItem.role is defined %}role="{{ menuItem.headerMenuItem.role }}"{% endif %} {% if menuItem.headerMenuItem.className is defined %}class="{{ menuItem.headerMenuItem.className }}"{% endif %}>
                                 <{{ menuItem.headerMenuItem.as|default('a') }} href="{{ menuItem.headerMenuItem.href }}" class="header__menu-item dropdown-item" tabindex="{{ menuItem.headerMenuItem.tabIndex|default(0) }}">
                                     <span class="text-truncate--end">{{ menuItem.headerMenuItem.children|trans }}</span>
                                 </{{ menuItem.headerMenuItem.as|default('a') }}>
