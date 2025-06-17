@@ -1,0 +1,205 @@
+{# 
+Variables
+    - header { children, ariaLabel, ariaLabelledBy}
+    - headerMenuButton { ariaLabel, ariaLabelledBy, className, renderMenuIcon, renderCloseIcon, isActive, isCollapsible, onClick }
+    - headerName {prefix, children, className, href}
+    - headerNavigation { className, children (headerMenu or headerMenuItem)}
+    - headerMenu { className, focusRef, isActive, menuLinkName, onBlur, onClick, onKeyDown, tabIndex, renderMenuContent}
+    - headerMenuItem { as, children, className, isActive, role, tabIndex, href}
+    - headerGlobal { children, className}
+    - headerGlobalAction { ariaLabel, ariaLabelledBy, className, children (icon class), isActive, onClick, tooltipAlignment }
+#}
+
+{# 
+Example
+{% include '@MauticCore/Components/uishell.html.twig' with {
+    'header': {
+        'ariaLabel': 'Header',
+        'ariaLabelledBy': 'header',
+        'children': {
+            'headerMenuButton': {
+                'ariaLabel': 'Open menu',
+                'ariaLabelledBy': 'header-menu-button',
+                'className': 'header__menu-trigger',
+                'renderMenuIcon': true,
+                'renderCloseIcon': true,
+                'isActive': true,
+                'isCollapsible': true,
+                'onClick': 'Mautic.openMenu();',
+            },
+            'headerName': {
+                'prefix': 'Mautic',
+                'children': 'Campaign Builder',
+                'className': 'header__name',
+                'href': '#header',
+            },
+            'headerNavigation': {
+                'className': 'header__nav',
+                'children': [
+                    {
+                        'headerMenuItem': {
+                            'as': 'link',
+                            'children': 'Link 1',
+                            'className': 'header__menu-item',
+                            'isActive': true,
+                            'role': 'button',
+                            'tabIndex': 0,
+                            'href': '#header',
+                        },
+                        'headerMenuItem': {
+                            'as': 'link',
+                            'children': 'Link 2',
+                            'className': 'header__menu-item',
+                            'isActive': true,
+                            'role': 'button',
+                            'tabIndex': 0,
+                            'href': '#header',
+                        },
+                        'headerMenu': {
+                            'className': 'header__menu',
+                            'focusRef': '#header-menu',
+                            'isActive': true,
+                            'menuLinkName': 'Header',
+                            'onBlur': 'Mautic.closeMenu();',
+                            'onClick': 'Mautic.openMenu();',
+                            'onKeyDown': 'Mautic.openMenu();',
+                            'tabIndex': 0,
+                            'renderMenuContent': [
+                                {
+                                    'headerMenuItem': {
+                                        'as': 'link',
+                                        'children': 'Header',
+                                        'className': 'header__menu-item',
+                                        'isActive': true,
+                                        'role': 'button',
+                                        'tabIndex': 0,
+                                        'href': '#header',
+                                    },
+                                    'headerMenuItem': {
+                                        'as': 'link',
+                                        'children': 'Header',
+                                        'className': 'header__menu-item',
+                                        'isActive': true,
+                                        'role': 'button',
+                                        'tabIndex': 0,
+                                        'href': '#header',
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+            'headerGlobal': {
+                'children': {
+                    'headerGlobalAction': {
+                        'children': 'ri-filter-2-fill',
+                        'className': 'header__global-action',
+                    },
+                },
+                'className': 'header__global',
+            },
+        },
+    },
+} %}
+#}
+
+<header aria-label="{{ header.ariaLabel }}" class="header">
+    <a class="skip-to-content" href="#main-content" tabindex="0">Skip to main content</a>
+
+    {% if headerMenuButton is defined %}
+    <button aria-expanded="false" aria-label="Open menu"
+        class="header__action header__menu-trigger header__menu-toggle header__menu-toggle__hidden"
+        title="Open menu" type="button">
+        <svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor"
+            width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 14.8H18V16H2zM2 11.2H18V12.399999999999999H2zM2 7.6H18V8.799999999999999H2zM2 4H18V5.2H2z">
+            </path>
+        </svg>
+    </button>
+    {% endif %}
+
+    <a href="{{ headerName.href }}" class="header__name">
+        {% if headerName.prefix is defined %}
+            <span class="header__name--prefix">{{ headerName.prefix }}</span>
+        {% endif %}
+        {{ headerName.children }}
+    </a>
+    <nav aria-label="{{ headerName.prefix|default('') }} {{ headerName.children }}" class="header__nav {{ headerNavigation.className|default('') }}">
+        <ul class="header__menu-bar">
+            <!-- headerMenuItem -->
+            <li {% if headerMenuItem.role is defined %} role="{{ headerMenuItem.role }}" {% endif %} {% if headerMenuItem.className is defined %} class="{{ headerMenuItem.className }}" {% endif %}>
+                <a href="{{ headerMenuItem.href }}" class="header__menu-item" tabindex="{{ headerMenuItem.tabIndex|default(0) }}">
+                    <span class="text-truncate--end">{{ headerMenuItem.children }}</span>
+                </a>
+            </li>
+            <!--/ headerMenuItem -->
+
+            <!-- headerMenu -->
+            <li class="header__submenu {{ headerMenu.className|default('') }}">
+                <a aria-haspopup="menu" aria-expanded="false" class="header__menu-item header__menu-title header__menu-item--current" href="#" tabindex="{{ headerMenu.tabIndex|default(0) }}" aria-label="{{ headerMenu.menuLinkName }}">{{ headerMenu.menuLinkName }}
+                    <svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" class="header__menu-arrow" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 11L3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"></path>
+                    </svg>
+                </a>
+                <ul aria-label="{{ headerMenu.menuLinkName }}" class="header__menu">
+                    {% for headerMenuItem in headerMenu.renderMenuContent %}
+                    <li>
+                        <a href="#" class="header__menu-item" tabindex="0">
+                            <span class="text-truncate--end">Sub-link 1</span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <!--/ headerMenu -->
+        </ul>
+    </nav>
+
+    <div class="header__global">
+        <!-- headerGlobalAction -->
+        <span class="popover-container popover--caret popover--high-contrast popover--bottom tooltip icon-tooltip" data-toggle="tooltip" data-placement="{{ headerGlobalAction.tooltipAlignment }}">
+            <div class="tooltip-trigger__wrapper"><button aria-label="{{ headerGlobalAction.ariaLabel }}"
+                    class="header__action btn btn--lg layout--size-lg btn--ghost btn--icon-only"
+                    type="button">
+                    <i class="{{ headerGlobalAction.children }}"></i>
+                </button>
+            </div>
+        </span>
+        <!-- /headerGlobalAction -->
+    </div>
+
+
+
+
+    <div class="side-nav__overlay"></div>
+    <nav tabindex="-1" class="side-nav__navigation side-nav side-nav--ux side-nav--hidden"
+        aria-label="Side navigation">
+        <ul class="side-nav__items">
+            <ul class="side-nav__header-navigation">
+                <li><a href="#" class="header__menu-item" tabindex="0"><span class="text-truncate--end">Link
+                            1</span></a></li>
+                <li><a href="#" class="header__menu-item" tabindex="0"><span class="text-truncate--end">Link
+                            2</span></a></li>
+                <li><a href="#" class="header__menu-item" tabindex="0"><span class="text-truncate--end">Link
+                            3</span></a></li>
+                <li class="header__submenu"><a aria-haspopup="menu" aria-expanded="false"
+                        class="header__menu-item header__menu-title" href="#" tabindex="0"
+                        aria-label="Link 4">Link 4<svg focusable="false" preserveAspectRatio="xMidYMid meet"
+                            fill="currentColor" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"
+                            class="header__menu-arrow" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 11L3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"></path>
+                        </svg></a>
+                    <ul aria-label="Link 4" class="header__menu">
+                        <li><a href="#" class="header__menu-item" tabindex="0"><span
+                                    class="text-truncate--end">Sub-link 1</span></a></li>
+                        <li><a href="#" class="header__menu-item" tabindex="0"><span
+                                    class="text-truncate--end">Sub-link 2</span></a></li>
+                        <li><a href="#" class="header__menu-item" tabindex="0"><span
+                                    class="text-truncate--end">Sub-link 3</span></a></li>
+                    </ul>
+                </li>
+            </ul>
+        </ul>
+    </nav>
+</header>
