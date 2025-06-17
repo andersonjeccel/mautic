@@ -182,17 +182,17 @@ Example
 
     {% if header.children.headerGlobal is defined %}
     <div class="header__global {{ header.children.headerGlobal.className|default('') }}">
-        {% if header.children.headerGlobal.children.headerGlobalAction is defined %}
-        <span data-toggle="tooltip" data-placement="{{ header.children.headerGlobal.children.headerGlobalAction.tooltipAlignment|default('bottom') }}" title="{{ header.children.headerGlobal.children.headerGlobalAction.ariaLabel|default('') }}">
-            <div class="tooltip-trigger__wrapper">
-                <button aria-label="{{ header.children.headerGlobal.children.headerGlobalAction.ariaLabel|default('') }}"
-                    class="header__action btn btn--lg layout--size-lg btn--ghost btn--icon-only {{ header.children.headerGlobal.children.headerGlobalAction.className|default('') }}"
-                    type="button" onclick="{{ header.children.headerGlobal.children.headerGlobalAction.onClick|default('') }}">
-                    <i class="{{ header.children.headerGlobal.children.headerGlobalAction.children }}"></i>
-                </button>
-            </div>
-        </span>
-        {% endif %}
+        {% for key, action in header.children.headerGlobal.children %}
+            <span data-toggle="tooltip" data-placement="{{ action.tooltipAlignment|default('bottom') }}" title="{{ action.ariaLabel|default('') }}">
+                <div class="tooltip-trigger__wrapper">
+                    <button aria-label="{{ action.ariaLabel|default('') }}"
+                        class="header__action btn btn--lg layout--size-lg btn--ghost btn--icon-only {{ action.className|default('') }}"
+                        type="button" onclick="{{ action.onClick|default('') }}">
+                        <i class="{{ action.children }}"></i>
+                    </button>
+                </div>
+            </span>
+        {% endfor %}
     </div>
     {% endif %}
 
