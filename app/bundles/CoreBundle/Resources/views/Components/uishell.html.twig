@@ -1,18 +1,3 @@
-{# 
-Variables
-    - header { children, ariaLabel (trans string)}
-    - headerMenuButton { ariaLabel (trans string), className, renderMenuIcon (icon class), renderCloseIcon (icon class), isActive (true/false), isCollapsible (true/false), onClick }
-    - headerName {prefix (trans string), children (trans string), className, href}
-    - headerNavigation { className, children (headerMenu or headerMenuItem)}
-    - headerMenu { className, focusRef, isActive, menuLinkName (trans string), onBlur, onClick, onKeyDown, tabIndex, renderMenuContent}
-    - headerMenuDropdown { className, menuLinkName (trans string), renderMenuContent, tabIndex }
-    - headerMenuItem { as, children (trans string), className, isActive, role, tabIndex, href}
-    - headerGlobal { children, className}
-    - headerGlobalAction { ariaLabel (trans string), className, renderActionIcon (icon class), isActive, onClick, tooltipAlignment }
-    - headerGlobalDropdown { ariaLabel (trans string), className, renderDropdownIcon (icon class), tabIndex, renderMenuContent}
-    - skipToContent { children, className, href, tabIndex }
-#}
-
 <header aria-label="{{ header.children.headerName is defined ? header.children.headerName.prefix ~ ' ' ~ header.children.headerName.children|trans : header.ariaLabel|trans }}" class="header">
     {% if header.children.skipToContent is defined %}
     <a class="skip-to-content {{ header.children.skipToContent.className|default('') }}" href="{{ header.children.skipToContent.href }}" tabindex="{{ header.children.skipToContent.tabIndex|default(0) }}">{{ header.children.skipToContent.children|trans }}</a>
