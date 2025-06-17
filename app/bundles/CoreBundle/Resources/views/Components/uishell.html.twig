@@ -1,13 +1,13 @@
 {# 
 Variables
-    - header { children, ariaLabel, ariaLabelledBy}
-    - headerMenuButton { ariaLabel, ariaLabelledBy, className, renderMenuIcon, renderCloseIcon, isActive, isCollapsible, onClick }
-    - headerName {prefix, children, className, href}
+    - header { children, ariaLabel (trans string), ariaLabelledBy}
+    - headerMenuButton { ariaLabel (trans string), ariaLabelledBy, className, renderMenuIcon (icon class), renderCloseIcon (icon class), isActive (true/false), isCollapsible (true/false), onClick }
+    - headerName {prefix (trans string), children (trans string), className, href}
     - headerNavigation { className, children (headerMenu or headerMenuItem)}
-    - headerMenu { className, focusRef, isActive, menuLinkName, onBlur, onClick, onKeyDown, tabIndex, renderMenuContent}
-    - headerMenuItem { as, children, className, isActive, role, tabIndex, href}
+    - headerMenu { className, focusRef, isActive, menuLinkName (trans string), onBlur, onClick, onKeyDown, tabIndex, renderMenuContent}
+    - headerMenuItem { as, children (trans string), className, isActive, role, tabIndex, href}
     - headerGlobal { children, className}
-    - headerGlobalAction { ariaLabel, ariaLabelledBy, className, children (icon class), isActive, onClick, tooltipAlignment }
+    - headerGlobalAction { ariaLabel (trans string), ariaLabelledBy, className, children (icon class), isActive, onClick, tooltipAlignment }
 #}
 
 {# 
@@ -130,9 +130,9 @@ Example
     {% if header.children.headerName is defined %}
     <a href="{{ header.children.headerName.href }}" class="header__name {{ header.children.headerName.className|default('') }}">
         {% if header.children.headerName.prefix is defined %}
-            <span class="header__name--prefix">{{ header.children.headerName.prefix }}</span>
+            <span class="header__name--prefix">{{ header.children.headerName.prefix|trans }}</span>
         {% endif %}
-        &nbsp;{{ header.children.headerName.children }}
+        &nbsp;{{ header.children.headerName.children|trans }}
     </a>
     {% endif %}
 
@@ -142,9 +142,9 @@ Example
             {% for item in header.children.headerNavigation.children %}
                 {% if item.headerMenuItem is defined %}
                 <li {% if item.headerMenuItem.role is defined %} role="{{ item.headerMenuItem.role }}" {% endif %} {% if item.headerMenuItem.className is defined %} class="{{ item.headerMenuItem.className }}" {% endif %}>
-                    <a href="{{ item.headerMenuItem.href }}" class="header__menu-item" tabindex="{{ item.headerMenuItem.tabIndex|default(0) }}">
-                        <span class="text-truncate--end">{{ item.headerMenuItem.children }}</span>
-                    </a>
+                    <{{ item.headerMenuItem.as|default('a') }} href="{{ item.headerMenuItem.href }}" class="header__menu-item" tabindex="{{ item.headerMenuItem.tabIndex|default(0) }}">
+                        <span class="text-truncate--end">{{ item.headerMenuItem.children|trans }}</span>
+                    </{{ item.headerMenuItem.as|default('a') }}>
                 </li>
                 {% endif %}
 
@@ -154,9 +154,9 @@ Example
                        class="header__menu-item header__menu-title dropdown-toggle {% if item.headerMenu.isActive %}header__menu-item--current{% endif %}" 
                        href="#" tabindex="{{ item.headerMenu.tabIndex|default(0) }}" 
                        aria-label="{{ item.headerMenu.menuLinkName }}"
-                       onclick="{{ item.headerMenu.onClick|default('') }}"
-                       onkeydown="{{ item.headerMenu.onKeyDown|default('') }}"
-                       onblur="{{ item.headerMenu.onBlur|default('') }}"
+                       {% if item.headerMenu.onClick is defined %} onclick="{{ item.headerMenu.onClick }}" {% endif %}
+                       {% if item.headerMenu.onKeyDown is defined %} onkeydown="{{ item.headerMenu.onKeyDown }}" {% endif %}
+                       {% if item.headerMenu.onBlur is defined %} onblur="{{ item.headerMenu.onBlur }}" {% endif %}
                        data-toggle="dropdown">{{ item.headerMenu.menuLinkName }}
                         <svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" class="header__menu-arrow" xmlns="http://www.w3.org/2000/svg">
                             <path d="M8 11L3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"></path>
@@ -166,9 +166,9 @@ Example
                         {% for menuItem in item.headerMenu.renderMenuContent %}
                             {% if menuItem.headerMenuItem is defined %}
                             <li {% if menuItem.headerMenuItem.role is defined %} role="{{ menuItem.headerMenuItem.role }}" {% endif %} {% if menuItem.headerMenuItem.className is defined %} class="{{ menuItem.headerMenuItem.className }}" {% endif %}>
-                                <a href="{{ menuItem.headerMenuItem.href }}" class="header__menu-item dropdown-item" tabindex="{{ menuItem.headerMenuItem.tabIndex|default(0) }}">
-                                    <span class="text-truncate--end">{{ menuItem.headerMenuItem.children }}</span>
-                                </a>
+                                <{{ menuItem.headerMenuItem.as|default('a') }} href="{{ menuItem.headerMenuItem.href }}" class="header__menu-item dropdown-item" tabindex="{{ menuItem.headerMenuItem.tabIndex|default(0) }}">
+                                    <span class="text-truncate--end">{{ menuItem.headerMenuItem.children|trans }}</span>
+                                </{{ menuItem.headerMenuItem.as|default('a') }}>
                             </li>
                             {% endif %}
                         {% endfor %}
@@ -182,11 +182,11 @@ Example
 
     {% if header.children.headerGlobal is defined %}
     <div class="header__global {{ header.children.headerGlobal.className|default('') }}">
-        {% for key, action in header.children.headerGlobal.children %}
+        {% for action in header.children.headerGlobal.children %}
             <span data-toggle="tooltip" data-placement="{{ action.tooltipAlignment|default('bottom') }}" title="{{ action.ariaLabel|default('')|trans }}">
                 <div class="tooltip-trigger__wrapper">
                     <button aria-label="{{ action.ariaLabel|default('') }}"
-                        class="header__action btn btn--lg layout--size-lg btn--ghost btn--icon-only {{ action.className|default('') }}"
+                        class="header__action btn btn--lg layout--size-lg btn-ghost btn--icon-only {{ action.className|default('') }}"
                         type="button" onclick="{{ action.onClick|default('') }}">
                         <i class="{{ action.children }} fs-20"></i>
                     </button>
@@ -194,38 +194,5 @@ Example
             </span>
         {% endfor %}
     </div>
-    {% endif %}
-
-    {% if sideNav is defined %}
-    <div class="side-nav__overlay"></div>
-    <nav tabindex="-1" class="side-nav__navigation side-nav side-nav--ux side-nav--hidden"
-        aria-label="Side navigation">
-        <ul class="side-nav__items">
-            <ul class="side-nav__header-navigation">
-                <li><a href="#" class="header__menu-item" tabindex="0"><span class="text-truncate--end">Link
-                            1</span></a></li>
-                <li><a href="#" class="header__menu-item" tabindex="0"><span class="text-truncate--end">Link
-                            2</span></a></li>
-                <li><a href="#" class="header__menu-item" tabindex="0"><span class="text-truncate--end">Link
-                            3</span></a></li>
-                <li class="header__submenu"><a aria-haspopup="menu" aria-expanded="false"
-                        class="header__menu-item header__menu-title" href="#" tabindex="0"
-                        aria-label="Link 4">Link 4<svg focusable="false" preserveAspectRatio="xMidYMid meet"
-                            fill="currentColor" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"
-                            class="header__menu-arrow" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 11L3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"></path>
-                        </svg></a>
-                    <ul aria-label="Link 4" class="header__menu">
-                        <li><a href="#" class="header__menu-item" tabindex="0"><span
-                                    class="text-truncate--end">Sub-link 1</span></a></li>
-                        <li><a href="#" class="header__menu-item" tabindex="0"><span
-                                    class="text-truncate--end">Sub-link 2</span></a></li>
-                        <li><a href="#" class="header__menu-item" tabindex="0"><span
-                                    class="text-truncate--end">Sub-link 3</span></a></li>
-                    </ul>
-                </li>
-            </ul>
-        </ul>
-    </nav>
     {% endif %}
 </header>
