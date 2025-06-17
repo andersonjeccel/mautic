@@ -183,12 +183,12 @@ Example
     {% if header.children.headerGlobal is defined %}
     <div class="header__global {{ header.children.headerGlobal.className|default('') }}">
         {% for key, action in header.children.headerGlobal.children %}
-            <span data-toggle="tooltip" data-placement="{{ action.tooltipAlignment|default('bottom') }}" title="{{ action.ariaLabel|default('') }}">
+            <span data-toggle="tooltip" data-placement="{{ action.tooltipAlignment|default('bottom') }}" title="{{ action.ariaLabel|default('')|trans }}">
                 <div class="tooltip-trigger__wrapper">
                     <button aria-label="{{ action.ariaLabel|default('') }}"
                         class="header__action btn btn--lg layout--size-lg btn--ghost btn--icon-only {{ action.className|default('') }}"
                         type="button" onclick="{{ action.onClick|default('') }}">
-                        <i class="{{ action.children }}"></i>
+                        <i class="{{ action.children }} fs-20"></i>
                     </button>
                 </div>
             </span>
