@@ -7,7 +7,7 @@ Variables
     - headerMenu { className, focusRef, isActive, menuLinkName (trans string), onBlur, onClick, onKeyDown, tabIndex, renderMenuContent}
     - headerMenuItem { as, children (trans string), className, isActive, role, tabIndex, href}
     - headerGlobal { children, className}
-    - headerGlobalAction { ariaLabel (trans string), ariaLabelledBy, className, children (icon class), isActive, onClick, tooltipAlignment }
+    - headerGlobalAction { ariaLabel (trans string), ariaLabelledBy, className, renderActionIcon (icon class), isActive, onClick, tooltipAlignment }
     - skipToContent { children, className, href, tabIndex }
 #}
 
@@ -189,7 +189,7 @@ Example
                     <button aria-label="{{ action.ariaLabel|default('') }}"
                         class="header__action btn btn--lg layout--size-lg btn-ghost btn--icon-only {{ action.className|default('') }}"
                         type="button" onclick="{{ action.onClick|default('') }}">
-                        <i class="{{ action.children }} fs-20"></i>
+                        <i class="{{ action.renderActionIcon }} fs-20"></i>
                     </button>
                 </div>
             </span>
