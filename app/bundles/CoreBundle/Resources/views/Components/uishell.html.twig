@@ -8,6 +8,7 @@ Variables
     - headerMenuItem { as, children (trans string), className, isActive, role, tabIndex, href}
     - headerGlobal { children, className}
     - headerGlobalAction { ariaLabel (trans string), ariaLabelledBy, className, children (icon class), isActive, onClick, tooltipAlignment }
+    - skipToContent { children, className, href, tabIndex }
 #}
 
 {# 
@@ -110,13 +111,13 @@ Example
 } %}
 #}
 
-<header aria-label="{{ header.ariaLabel }}" class="header">
-    <a class="skip-to-content" href="#main-content" tabindex="0">Skip to main content</a>
+<header aria-label="{{ header.children.headerName is defined ? header.children.headerName.prefix ~ ' ' ~ header.children.headerName.children|trans : header.ariaLabel|trans }}" class="header">
+    {% if header.children.skipToContent is defined %}
+    <a class="skip-to-content {{ header.children.skipToContent.className|default('') }}" href="{{ header.children.skipToContent.href }}" tabindex="{{ header.children.skipToContent.tabIndex|default(0) }}">{{ header.children.skipToContent.children|trans }}</a>
+    {% endif %}
 
     {% if header.children.headerMenuButton is defined %}
-    <button aria-expanded="false" aria-label="{{ header.children.headerMenuButton.ariaLabel }}"
-        class="header__action header__menu-trigger header__menu-toggle header__menu-toggle__hidden {{ header.children.headerMenuButton.className|default('') }}"
-        title="{{ header.children.headerMenuButton.ariaLabel }}" type="button" onclick="{{ header.children.headerMenuButton.onClick|default('') }}">
+    <button aria-expanded="false" aria-label="{{ header.children.headerMenuButton.ariaLabel }}" class="header__action header__menu-trigger header__menu-toggle header__menu-toggle__hidden {{ header.children.headerMenuButton.className|default('') }}" title="{{ header.children.headerMenuButton.ariaLabel }}" type="button" onclick="{{ header.children.headerMenuButton.onClick|default('') }}">
         {% if header.children.headerMenuButton.renderMenuIcon %}
         <svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor"
             width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
@@ -128,7 +129,7 @@ Example
     {% endif %}
 
     {% if header.children.headerName is defined %}
-    <a href="{{ header.children.headerName.href }}" class="header__name {{ header.children.headerName.className|default('') }}">
+    <a {% if header.children.headerName.href is defined %} href="{{ header.children.headerName.href }}" {% endif %} class="header__name {{ header.children.headerName.className|default('') }}">
         {% if header.children.headerName.prefix is defined %}
             <span class="header__name--prefix">{{ header.children.headerName.prefix|trans }}</span>
         {% endif %}
@@ -137,7 +138,7 @@ Example
     {% endif %}
 
     {% if header.children.headerNavigation is defined %}
-    <nav aria-label="{{ header.children.headerName.prefix|default('') }} {{ header.children.headerName.children }}" class="header__nav {{ header.children.headerNavigation.className|default('') }}">
+    <nav aria-label="{{ header.children.headerName.prefix|default('') }} {{ header.children.headerName.children|trans }}" class="header__nav {{ header.children.headerNavigation.className|default('') }}">
         <ul class="header__menu-bar">
             {% for item in header.children.headerNavigation.children %}
                 {% if item.headerMenuItem is defined %}
