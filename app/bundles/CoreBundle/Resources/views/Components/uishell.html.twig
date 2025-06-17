@@ -5,6 +5,7 @@ Variables
     - headerName {prefix (trans string), children (trans string), className, href}
     - headerNavigation { className, children (headerMenu or headerMenuItem)}
     - headerMenu { className, focusRef, isActive, menuLinkName (trans string), onBlur, onClick, onKeyDown, tabIndex, renderMenuContent}
+    - headerMenuDropdown { className, menuLinkName (trans string), renderMenuContent, tabIndex }
     - headerMenuItem { as, children (trans string), className, isActive, role, tabIndex, href}
     - headerGlobal { children, className}
     - headerGlobalAction { ariaLabel (trans string), className, renderActionIcon (icon class), isActive, onClick, tooltipAlignment }
@@ -184,27 +185,35 @@ Example
 
     {% if header.children.headerGlobal is defined %}
     <div class="header__global {{ header.children.headerGlobal.className|default('') }}">
-        {% for action in header.children.headerGlobal.children %}
-            {% if action.headerGlobalAction is defined %}
-            <span data-toggle="tooltip" data-placement="{{ action.tooltipAlignment|default('bottom') }}" title="{{ action.ariaLabel|default('')|trans }}">
+        {% for item in header.children.headerGlobal.children %}
+            {% if item.headerGlobalAction is defined %}
+            <span data-toggle="tooltip" data-placement="{{ item.headerGlobalAction.tooltipAlignment|default('bottom') }}" title="{{ item.headerGlobalAction.ariaLabel|default('')|trans }}">
                 <div class="tooltip-trigger__wrapper">
-                    <button aria-label="{{ action.ariaLabel|default('') }}"
-                        class="header__action btn btn--lg layout--size-lg btn-ghost btn--icon-only {{ action.className|default('') }}"
-                        type="button" onclick="{{ action.onClick|default('') }}">
-                        <i class="{{ action.renderActionIcon }} fs-20"></i>
+                    <button aria-label="{{ item.headerGlobalAction.ariaLabel|default('') }}"
+                        class="header__action btn btn--lg layout--size-lg btn-ghost btn--icon-only {{ item.headerGlobalAction.className|default('') }}"
+                        type="button" onclick="{{ item.headerGlobalAction.onClick|default('') }}">
+                        <i class="{{ item.headerGlobalAction.children }} fs-20"></i>
                     </button>
                 </div>
             </span>
-            {% elseif action.headerGlobalDropdown is defined %}
-            <span data-toggle="tooltip" data-placement="{{ action.tooltipAlignment|default('bottom') }}" title="{{ action.ariaLabel|default('')|trans }}">
-                <div class="tooltip-trigger__wrapper">
-                    <button aria-label="{{ action.ariaLabel|default('') }}"
-                        class="header__action btn btn--lg layout--size-lg btn-ghost btn--icon-only {{ action.className|default('') }}"
-                        type="button" onclick="{{ action.onClick|default('') }}">
-                        <i class="{{ action.renderActionIcon }} fs-20"></i>
-                    </button>
-                </div>
-            </span>
+            {% elseif item.headerGlobalDropdown is defined %}
+            <div class="dropdown">
+                <span data-toggle="tooltip" data-placement="{{ item.headerGlobalDropdown.tooltipAlignment|default('bottom') }}" title="{{ item.headerGlobalDropdown.ariaLabel|default('')|trans }}">
+                    <div class="tooltip-trigger__wrapper">
+                        <button aria-label="{{ item.headerGlobalDropdown.ariaLabel|default('') }}"
+                            class="header__action btn btn--lg layout--size-lg btn-ghost btn--icon-only btn-nospin {{ item.headerGlobalDropdown.className|default('') }} dropdown-toggle"
+                            type="button" 
+                            data-toggle="dropdown" 
+                            aria-haspopup="true" 
+                            aria-expanded="false">
+                            <i class="{{ item.headerGlobalDropdown.renderDropdownIcon }} fs-20"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            {{ item.headerGlobalDropdown.renderMenuContent|raw }}
+                        </div>
+                    </div>
+                </span>
+            </div>
             {% endif %}
         {% endfor %}
     </div>
