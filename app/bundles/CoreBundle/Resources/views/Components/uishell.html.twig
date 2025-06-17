@@ -149,9 +149,7 @@ Example
                         <span class="text-truncate--end">{{ item.headerMenuItem.children|trans }}</span>
                     </{{ item.headerMenuItem.as|default('a') }}>
                 </li>
-                {% endif %}
-
-                {% if item.headerMenu is defined %}
+                {% elseif item.headerMenu is defined %}
                 <li class="header__submenu dropdown {{ item.headerMenu.className|default('') }}">
                     <a aria-haspopup="menu" aria-expanded="false" 
                        class="header__menu-item header__menu-title dropdown-toggle {% if item.headerMenu.isActive %}header__menu-item--current{% endif %}" 
@@ -176,6 +174,21 @@ Example
                             {% endif %}
                         {% endfor %}
                     </ul>
+                </li>
+                {% elseif item.headerMenuDropdown is defined %}
+                <li class="header__submenu dropdown {{ item.headerMenuDropdown.className|default('') }}">
+                    <a aria-haspopup="menu" aria-expanded="false" 
+                       class="header__menu-item header__menu-title dropdown-toggle" 
+                       href="#" tabindex="{{ item.headerMenuDropdown.tabIndex|default(0) }}" 
+                       aria-label="{{ item.headerMenuDropdown.menuLinkName }}"
+                       data-toggle="dropdown">{{ item.headerMenuDropdown.menuLinkName }}
+                        <svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" class="header__menu-arrow" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 11L3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"></path>
+                        </svg>
+                    </a>
+                    <div aria-label="{{ item.headerMenuDropdown.menuLinkName }}" class="header__menu dropdown-menu" role="menu">
+                        {{ item.headerMenuDropdown.renderMenuContent|raw }}
+                    </div>
                 </li>
                 {% endif %}
             {% endfor %}
