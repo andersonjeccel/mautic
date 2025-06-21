@@ -1,4 +1,4 @@
-{% extends '@MauticCore/Default/content.html.twig' %}
+    {% extends '@MauticCore/Default/content.html.twig' %}
 
 {% block headerTitle %}{{ 'mautic.user.account.settings'|trans }}{% endblock %}
 {% block mauticContent %}user{% endblock %}
@@ -11,7 +11,6 @@
     <div class="row">
         <div class="col-md-3 height-auto">
 
-            {{ configGetParameter('company_name') }}
             {% if me.getId() %}
             <div class="media">
                 <div class="pull-left">
