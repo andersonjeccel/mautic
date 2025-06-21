@@ -19,6 +19,10 @@
 
   {% if isIndex %}
   {% set logoId = configGetParameter('logo_white_bg') %}{% if logoId %}{% set asset = getEntity('Mautic\\AssetBundle\\Entity\\Asset', logoId) %}{% if asset %}{{ url('mautic_asset_download', {'slug': asset.getId() ~ ':' ~ asset.getAlias()}) }}{% else %}{{ getOverridableUrl('images/placeholder-logo.png') }}{% endif %}{% else %}{{ getOverridableUrl('images/placeholder-logo.png') }}{% endif %}
+
+  ----------
+
+  {% set logoId = configGetParameter('logo_white_bg') %}{% if logoId %}{% set asset = getEntity('Mautic\\AssetBundle\\Entity\\Asset', logoId) %}{% if asset %}{% if asset.isLocal() %}{{ getAssetUrl('media/files/' ~ asset.getPath()) }}{% else %}{{ asset.getRemotePath() }}{% endif %}{% else %}{{ getOverridableUrl('images/placeholder-logo.png') }}{% endif %}{% else %}{{ getOverridableUrl('images/placeholder-logo.png') }}{% endif %}
     <div id="page-list-wrapper" class="{% if items|length > 0 or searchValue is not empty %}panel {% endif %}panel-default">
       {{- include('@MauticCore/Helper/list_toolbar.html.twig', {
         'searchValue': searchValue,
