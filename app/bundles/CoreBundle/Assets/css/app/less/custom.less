@@ -776,3 +776,19 @@ code:hover > .copy-icon {
   background-color: var(--layer);
   width: 100%;
 }
+
+.v-divider {
+  margin: 20px 0px;
+  width: 100%;
+  height: 1px;
+  border-bottom: 1px solid var(--border-subtle);
+  align-self: center;
+
+  @media (min-width: @screen-lg-min) {
+      margin: 0 40px;
+      width: 1px;
+      height: 80px;
+      border-left: 1px solid var(--border-subtle);
+      border-bottom: none;
+  }
+}
