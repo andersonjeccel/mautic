@@ -786,22 +786,44 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
                 break;
             case $this->translator->trans('mautic.lead.lead.searchcommand.list'):
             case $this->translator->trans('mautic.lead.lead.searchcommand.list', [], null, 'en_US'):
-                $sq = $this->getEntityManager()->getConnection()->createQueryBuilder();
-                $sq->select('1')
-                    ->from(MAUTIC_TABLE_PREFIX.'lead_lists_leads', 'lla')
-                    ->where(
-                        $q->expr()->and(
-                            $q->expr()->eq('l.id', 'lla.lead_id'),
-                            $q->expr()->eq('lla.manually_removed', 0),
-                            $q->expr()->in('lla.leadlist_id', ":$unique")
-                        )
-                    );
+                // Preserve the USE INDEX hint for optimal performance
                 $from = $q->getQueryPart('from')[0];
                 $q->resetQueryPart('from');
                 $q->add('from', ['hint' => 'USE INDEX FOR JOIN ('.MAUTIC_TABLE_PREFIX.'lead_date_added)'] + $from, true);
-
-                $filter->strict  = true;
-                $q->andWhere($q->expr()->{$filter->not ? 'notExists' : 'exists'}($sq->getSQL()));
+                
+                if ($filter->not) {
+                    // For NOT IN case, use LEFT JOIN and check for NULL
+                    $this->applySearchQueryRelationship(
+                        $q,
+                        [
+                            [
+                                'from_alias' => 'l',
+                                'table'      => 'lead_lists_leads',
+                                'alias'      => 'lla',
+                                'condition'  => 'l.id = lla.lead_id AND lla.manually_removed = 0 AND lla.leadlist_id IN (:' . $unique . ')',
+                            ],
+                        ],
+                        false, // Use LEFT JOIN for NOT case
+                        $q->expr()->isNull('lla.lead_id')
+                    );
+                } else {
+                    // For IN case, use INNER JOIN for better performance
+                    $this->applySearchQueryRelationship(
+                        $q,
+                        [
+                            [
+                                'from_alias' => 'l',
+                                'table'      => 'lead_lists_leads',
+                                'alias'      => 'lla',
+                                'condition'  => 'l.id = lla.lead_id AND lla.manually_removed = 0',
+                            ],
+                        ],
+                        true, // Use INNER JOIN for positive case
+                        $this->generateFilterExpression($q, 'lla.leadlist_id', 'in', $unique, false)
+                    );
+                }
+                
+                $filter->strict = true;
                 $q->setParameter($unique, $this->getListIdsByAlias($string) ?: [0], ArrayParameterType::INTEGER);
                 break;
             case $this->translator->trans('mautic.lead.lead.searchcommand.company_id'):
