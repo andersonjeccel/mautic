@@ -1,0 +1,115 @@
+{# 
+Variables
+
+MenuButton (renders 1 button with icon ri-arrow-down-line that triggers the Menu) { className, disabled, variant, label, size, tabIndex, menuTarget}
+ComboButton (renders 2 buttons, a primary button and a Menu toggle) { className, disabled, label, size, tabIndex, menuTarget}
+OverflowMenu (renders an iconOnly button) { ariaLabel, className, direction, disabled, iconClass, renderIcon, size, tabIndex, menuTarget}
+#}
+
+
+
+<div class="dropdown">
+{% if MenuButton is defined %}
+    {% set button_config = {
+        label: MenuButton.label|default('mautic.core.form.actions'),
+        variant: MenuButton.variant|default('primary'),
+        size: MenuButton.size|default('md'),
+        icon: 'ri-arrow-down-s-line',
+        icon_only: false,
+        attributes: {
+            class: MenuButton.className|default(''),
+            'data-toggle': 'dropdown',
+            'aria-haspopup': 'true',
+            'aria-expanded': 'false',
+            'tabindex': MenuButton.tabIndex|default(0),
+            'id': MenuButton.menuTarget|default('menu-button-' ~ random())
+        }
+    } %}
+    
+    {% if MenuButton.disabled is defined and MenuButton.disabled %}
+        {% set button_config = button_config|merge({
+            attributes: button_config.attributes|merge({
+                disabled: 'disabled'
+            })
+        }) %}
+    {% endif %}
+    
+    {% include '@MauticCore/Helper/button.html.twig' with { buttons: [button_config] } %}
+    
+{% elseif ComboButton is defined %}
+        {% set primary_button = {
+            label: ComboButton.label|default('mautic.core.form.actions'),
+            variant: ComboButton.variant|default('primary'),
+            size: ComboButton.size|default('md'),
+            attributes: {
+                class: ComboButton.className|default(''),
+                'tabindex': ComboButton.tabIndex|default(0)
+            }
+        } %}
+        
+        {% set dropdown_button = {
+            label: '',
+            variant: ComboButton.variant|default('primary'),
+            size: ComboButton.size|default('md'),
+            icon: 'ri-arrow-down-s-line',
+            icon_only: true,
+            attributes: {
+                class: 'dropdown-toggle dropdown-toggle-split',
+                'data-toggle': 'dropdown',
+                'aria-haspopup': 'true',
+                'aria-expanded': 'false',
+                'tabindex': ComboButton.tabIndex|default(0),
+                'id': ComboButton.menuTarget|default('combo-button-' ~ random())
+            }
+        } %}
+        
+        {% if ComboButton.disabled is defined and ComboButton.disabled %}
+            {% set primary_button = primary_button|merge({
+                attributes: primary_button.attributes|merge({
+                    disabled: 'disabled'
+                })
+            }) %}
+            {% set dropdown_button = dropdown_button|merge({
+                attributes: dropdown_button.attributes|merge({
+                    disabled: 'disabled'
+                })
+            }) %}
+        {% endif %}
+        
+        {% include '@MauticCore/Helper/button.html.twig' with { buttons: [primary_button, dropdown_button] } %}
+    
+{% elseif OverflowMenu is defined %}
+    {% set overflow_button = {
+        label: OverflowMenu.ariaLabel|default('mautic.core.form.more.actions'),
+        variant: 'ghost',
+        size: OverflowMenu.size|default('md'),
+        icon: OverflowMenu.renderIcon|default('ri-more-2-line'),
+        icon_only: true,
+        attributes: {
+            class: OverflowMenu.className|default(''),
+            'data-toggle': 'dropdown',
+            'aria-haspopup': 'true',
+            'aria-expanded': 'false',
+            'tabindex': OverflowMenu.tabIndex|default(0),
+            'id': OverflowMenu.menuTarget|default('overflow-menu-' ~ random())
+        }
+    } %}
+    
+    {% if OverflowMenu.disabled is defined and OverflowMenu.disabled %}
+        {% set overflow_button = overflow_button|merge({
+            attributes: overflow_button.attributes|merge({
+                disabled: 'disabled'
+            })
+        }) %}
+    {% endif %}
+    
+    {% include '@MauticCore/Helper/button.html.twig' with { buttons: [overflow_button] } %}
+{% endif %}
+
+{% if Menu is defined %}
+    {% if ComboButton is defined %}
+        {% set Menu = Menu|merge({'menuAlignment': 'right'}) %}
+    {% endif %}
+    {% include '@MauticCore/Components/menu.html.twig' with { Menu: Menu } %}
+{% endif %}
+</div>
