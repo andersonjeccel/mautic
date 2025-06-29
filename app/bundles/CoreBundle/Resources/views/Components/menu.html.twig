@@ -19,6 +19,47 @@
                     {% endif %}
                 </a>
             </li>
+        {% elseif item.Submenu is defined %}
+            {% set submenu = item.Submenu %}
+            <li class="dropdown-submenu">
+                <a class="dropdown-item dropdown-toggle {{ submenu.className|default('') }} {% if submenu.disabled is defined and submenu.disabled %}disabled{% endif %}"
+                    {% if submenu.disabled is defined and submenu.disabled %}aria-disabled="true"{% endif %}
+                    role="menuitem"
+                    {% if submenu.attributes is defined %}{% for attr, value in submenu.attributes %}{{ attr }}="{{ value }}" {% endfor %}{% endif %}
+                >
+                    {% if submenu.renderIcon is defined %}
+                        <i class="{{ submenu.renderIcon }}"></i>
+                    {% endif %}
+                    <span>{{ submenu.label|trans }}</span>
+                </a>
+                <ul class="dropdown-menu dropdown-submenu">
+                    {% for subItem in submenu.children %}
+                        {% if subItem.MenuItem is defined %}
+                            {% set subMenuItem = subItem.MenuItem %}
+                            <li>
+                                <a href="{{ subMenuItem.href|default('#') }}"
+                                    class="dropdown-item {{ subMenuItem.className|default('') }} {% if subMenuItem.disabled is defined and subMenuItem.disabled %}disabled{% endif %} {% if subMenuItem.variant is defined %}text-{{ subMenuItem.variant }}{% endif %}"
+                                    {% if subMenuItem.disabled is defined and subMenuItem.disabled %}aria-disabled="true"{% endif %}
+                                    role="menuitem"
+                                    {% if subMenuItem.shortcut is defined %}title="{{ subMenuItem.shortcut|trans }}"{% endif %}
+                                    {% if subMenuItem.attributes is defined %}{% for attr, value in subMenuItem.attributes %}{{ attr }}="{{ value }}" {% endfor %}{% endif %}
+                                >
+                                    {% if subMenuItem.renderIcon is defined %}
+                                        <i class="{{ subMenuItem.renderIcon }}"></i>
+                                    {% endif %}
+                                    <span>{{ subMenuItem.label|trans }}</span>
+                                    {% if subMenuItem.shortcut is defined %}
+                                        <div class="shortcut ml-auto">{{ subMenuItem.shortcut|trans }}</div>
+                                    {% endif %}
+                                </a>
+                            </li>
+                        {% elseif subItem.MenuItemDivider is defined %}
+                            {% set subDivider = subItem.MenuItemDivider %}
+                            <div class="dropdown-divider {{ subDivider.className|default('') }}"></div>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </li>
         {% elseif item.MenuItemDivider is defined %}
             {% set divider = item.MenuItemDivider %}
             <div class="dropdown-divider {{ divider.className|default('') }}"></div>

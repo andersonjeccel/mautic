@@ -429,6 +429,50 @@ Mautic.onPageLoad = function (container, response, inModal) {
         mQuery(this).css("padding-bottom", 0);
     })
 
+    // hover-based submenu dropdowns
+    mQuery(container + " .dropdown-submenu").each(function() {
+        var $submenu = mQuery(this);
+        var $dropdownMenu = $submenu.find('.dropdown-menu');
+        
+        $submenu.on('mouseenter', function() {
+            var $this = mQuery(this);
+            var $menu = $this.find('.dropdown-menu');
+            
+            var parentOffset = $this.offset();
+            var parentWidth = $this.outerWidth();
+            
+            setTimeout(function() {
+                if ($this.is(':hover')) {
+                    $menu.addClass('show');
+                }
+            }, 150);
+        });
+        
+        $submenu.on('mouseleave', function() {
+            var $this = mQuery(this);
+            var $menu = $this.find('.dropdown-menu');
+            
+            setTimeout(function() {
+                if (!$this.is(':hover') && !$menu.is(':hover')) {
+                    $menu.removeClass('show');
+                }
+            }, 100);
+        });
+        
+        $dropdownMenu.on('mouseenter', function() {
+            mQuery(this).addClass('show');
+        });
+        
+        $dropdownMenu.on('mouseleave', function() {
+            var $this = mQuery(this);
+            setTimeout(function() {
+                if (!$this.is(':hover')) {
+                    $this.removeClass('show');
+                }
+            }, 100);
+        });
+    });
+
     //initialize tab/hash activation
     mQuery(container + " .nav-tabs[data-toggle='tab-hash']").each(function() {
         // Show tab based on hash
