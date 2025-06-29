@@ -429,17 +429,15 @@ Mautic.onPageLoad = function (container, response, inModal) {
         mQuery(this).css("padding-bottom", 0);
     })
 
-    // hover-based submenu dropdowns
+    // Initialize hover-based submenu dropdowns
     mQuery(container + " .dropdown-submenu").each(function() {
         var $submenu = mQuery(this);
         var $dropdownMenu = $submenu.find('.dropdown-menu');
+        var $submenuLink = $submenu.find('> a');
         
         $submenu.on('mouseenter', function() {
             var $this = mQuery(this);
             var $menu = $this.find('.dropdown-menu');
-            
-            var parentOffset = $this.offset();
-            var parentWidth = $this.outerWidth();
             
             setTimeout(function() {
                 if ($this.is(':hover')) {
@@ -459,6 +457,24 @@ Mautic.onPageLoad = function (container, response, inModal) {
             }, 100);
         });
         
+        $submenuLink.on('focus', function() {
+            var $this = mQuery(this);
+            var $menu = $this.siblings('.dropdown-menu');
+            $menu.addClass('show');
+        });
+        
+        $submenuLink.on('blur', function() {
+            var $this = mQuery(this);
+            var $menu = $this.siblings('.dropdown-menu');
+            var $submenu = $this.parent();
+            
+            setTimeout(function() {
+                if (!$submenu.is(':hover') && !$menu.is(':hover') && !$menu.find(':focus').length) {
+                    $menu.removeClass('show');
+                }
+            }, 100);
+        });
+        
         $dropdownMenu.on('mouseenter', function() {
             mQuery(this).addClass('show');
         });
@@ -467,6 +483,22 @@ Mautic.onPageLoad = function (container, response, inModal) {
             var $this = mQuery(this);
             setTimeout(function() {
                 if (!$this.is(':hover')) {
+                    $this.removeClass('show');
+                }
+            }, 100);
+        });
+        
+        $dropdownMenu.on('focusin', function() {
+            mQuery(this).addClass('show');
+        });
+        
+        $dropdownMenu.on('focusout', function() {
+            var $this = mQuery(this);
+            var $submenu = $this.parent();
+            var $submenuLink = $submenu.find('> a');
+            
+            setTimeout(function() {
+                if (!$submenu.is(':hover') && !$this.is(':hover') && !$submenuLink.is(':focus')) {
                     $this.removeClass('show');
                 }
             }, 100);

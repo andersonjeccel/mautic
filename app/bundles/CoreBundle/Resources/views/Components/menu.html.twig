@@ -25,6 +25,7 @@
                 <a class="dropdown-item dropdown-toggle {{ submenu.className|default('') }} {% if submenu.disabled is defined and submenu.disabled %}disabled{% endif %}"
                     {% if submenu.disabled is defined and submenu.disabled %}aria-disabled="true"{% endif %}
                     role="menuitem"
+                    tabindex="0"
                     {% if submenu.attributes is defined %}{% for attr, value in submenu.attributes %}{{ attr }}="{{ value }}" {% endfor %}{% endif %}
                 >
                     {% if submenu.renderIcon is defined %}
