@@ -3,8 +3,8 @@
         {% if item.MenuItem is defined %}
             {% set menuItem = item.MenuItem %}
             <li>
-                <a href="{{ menuItem.href|default('#') }}"
-                    class="dropdown-item {{ menuItem.className|default('') }} {% if menuItem.disabled is defined and menuItem.disabled %}disabled{% endif %} {% if menuItem.variant is defined %}text-{{ menuItem.variant }}{% endif %}"
+                <a {% if menuItem.href is defined %}href="{{ menuItem.href }}"{% endif %}
+                    class="dropdown-item {{ menuItem.className|default('') }} {% if menuItem.disabled is defined and menuItem.disabled %}disabled{% endif %}"
                     {% if menuItem.disabled is defined and menuItem.disabled %}aria-disabled="true"{% endif %}
                     role="menuitem"
                     {% if menuItem.shortcut is defined %}title="{{ menuItem.shortcut|trans }}"{% endif %}
@@ -39,7 +39,7 @@
                             {% set subMenuItem = subItem.MenuItem %}
                             <li>
                                 <a href="{{ subMenuItem.href|default('#') }}"
-                                    class="dropdown-item {{ subMenuItem.className|default('') }} {% if subMenuItem.disabled is defined and subMenuItem.disabled %}disabled{% endif %} {% if subMenuItem.variant is defined %}text-{{ subMenuItem.variant }}{% endif %}"
+                                    class="dropdown-item {{ subMenuItem.className|default('') }} {% if subMenuItem.disabled is defined and subMenuItem.disabled %}disabled{% endif %}"
                                     {% if subMenuItem.disabled is defined and subMenuItem.disabled %}aria-disabled="true"{% endif %}
                                     role="menuitem"
                                     {% if subMenuItem.shortcut is defined %}title="{{ subMenuItem.shortcut|trans }}"{% endif %}
