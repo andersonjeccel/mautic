@@ -2589,12 +2589,14 @@ h6,
   line-height: var(--code-01-line-height);
   font-weight: var(--code-01-font-weight);
   letter-spacing: var(--code-01-letter-spacing);
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 .type-code-02 {
   font-size: var(--code-02-font-size);
   line-height: var(--code-02-line-height);
   font-weight: var(--code-02-font-weight);
   letter-spacing: var(--code-02-letter-spacing);
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 .type-label-01 {
   font-size: var(--label-01-font-size);
@@ -3000,6 +3002,7 @@ kbd {
   box-shadow: inset 0 -1px 0 #afb8c133;
   border: 1px solid #afb8c133;
   border-radius: 5px;
+  flex-shrink: 0;
 }
 .tooltip-inner {
   padding: 12px;
@@ -5912,16 +5915,18 @@ label.list-group-item:focus {
 }
 .dropdown-menu > li > a .fa,
 .dropdown-menu > li > a i {
-  min-width: var(--spacing-05);
-  order: 2;
+  padding-right: var(--spacing-02);
   text-align: center;
 }
 .dropdown-menu > li > a [class^="ri-"],
 .dropdown-menu > li > a [class*=" ri-"] {
-  font-size: 1.25em;
+  font-size: 1.05em;
   vertical-align: -0.05em;
   line-height: 0;
-  padding-left: var(--spacing-01);
+}
+.dropdown-menu > li > a .shortcut {
+  font-size: 10px;
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 .dropdown-menu > li > a:focus {
   outline: 2px solid var(--focus);
