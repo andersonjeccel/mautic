@@ -18,6 +18,31 @@
   {% set listCommand = 'mautic.lead.lead.searchcommand.list'|trans %}
 
   {% if isIndex %}
+  <div class="mb-64 mt-64">
+    {% include '@MauticCore/Components/checkbox.html.twig' with {
+      legendText: 'mautic.core.searchcommand.list'|trans,
+      selected: ['ismine', 'ispublished'],
+      helperText: 'mautic.core.searchcommand.list.helper',
+      options: [
+        { label: 'Option 1', value: 'option1' },
+        { label: 'Option 2', value: 'option2' },
+        { label: 'Option 3', value: 'option3' }
+      ]
+    } %}
+  </div>
+  <div class="mb-64 mt-64">
+    {% include '@MauticCore/Components/checkbox.html.twig' with {
+      legendText: 'mautic.core.searchcommand.list.legend',
+      selected: ['ismine', 'ispublished'],
+      helperText: 'mautic.core.searchcommand.list.helper',
+      orientation: 'horizontal',
+      options: [
+        { label: 'Option 1', value: 'option1' },
+        { label: 'Option 2', value: 'option2' },
+        { label: 'Option 3', value: 'option3' }
+      ]
+    } %}
+  </div>
     <div id="page-list-wrapper" class="{% if items|length > 0 or searchValue is not empty %}panel {% endif %}panel-default">
       {{- include('@MauticCore/Helper/list_toolbar.html.twig', {
         'searchValue': searchValue,

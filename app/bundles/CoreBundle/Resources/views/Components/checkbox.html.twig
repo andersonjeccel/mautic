@@ -1,0 +1,46 @@
+{#
+Variables
+- className
+- disabled
+- helperText
+- invalid (boolean)
+- invalidText
+- legendText
+- orientation (vertical or horizontal)
+- options (array of objects with label and value and attributes)
+- readOnly (boolean)
+- warn (boolean)
+- warnText
+#}
+
+<fieldset class="checkbox-group {% if orientation is defined and orientation == 'horizontal' %}checkbox-group--horizontal{% endif %} {{ className|default('') }}" aria-readonly="false"
+    aria-describedby="checkbox-group__helper-text">
+    {% if legendText is defined and legendText is not empty %}
+        <legend class="checkbox-group__legend type-label-01 text-helper">{{ legendText }}</legend>
+    {% endif %}
+    {% for option in options %}
+        <div class="checkbox-group__item">
+            <input class="checkbox-group__input" id="checkbox-{{ loop.index }}" type="checkbox"
+                {% if selected is defined and option.value in selected %}checked{% endif %}
+                {% if option.attributes is defined %}
+                    {% for attribute, value in option.attributes %}
+                        {{ attribute }}="{{ value }}"
+                    {% endfor %}
+                {% endif %}
+            >
+            <label for="checkbox-{{ loop.index }}" class="checkbox-group__label" title="">
+                <span class="checkbox-group__label-text" dir="ltr">{{ option.label }}</span>
+            </label>
+            <div class="checkbox-group__validation-msg"></div>
+        </div>
+    {% endfor %}
+    {% if helperText is defined and helperText is not empty %}
+        <div id="checkbox-group__helper-text" class="checkbox-group__helper-text type-label-01 text-helper">{{ helperText }}</div>
+    {% endif %}
+    {% if invalid is defined and invalid is not empty %}
+        <div class="checkbox-group__validation-msg">{{ invalidText }}</div>
+    {% endif %}
+    {% if warn is defined and warn is not empty %}
+        <div class="checkbox-group__validation-msg">{{ warnText }}</div>
+    {% endif %}
+</fieldset>

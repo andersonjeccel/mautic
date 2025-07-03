@@ -7133,6 +7133,49 @@ input[type=file]:focus-visible {
 .radio-inline[class^="custom"] label {
   padding-left: 4px;
 }
+.checkbox-group .checkbox-group__item {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+}
+.checkbox-group .checkbox-group__item {
+  position: relative;
+  margin-block-end: var(--spacing-02);
+}
+.checkbox-group .checkbox-group__label-text {
+  padding-inline-start: var(--spacing-03);
+}
+.checkbox-group .checkbox-group__label {
+  margin: 0;
+}
+.checkbox-group .checkbox-group__helper-text {
+  z-index: 0;
+  color: var(--text-secondary);
+  inline-size: 100%;
+  margin-block-start: var(--spacing-03);
+  opacity: 1;
+}
+.checkbox-group .checkbox-group__legend {
+  margin-block-end: var(--spacing-03);
+  border: none;
+}
+.checkbox-group--horizontal {
+  position: relative;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+}
+.checkbox-group--horizontal .checkbox-group__item {
+  flex: none;
+  -webkit-margin-after: 0;
+  margin-block-end: 0;
+}
+.checkbox-group--horizontal .checkbox-group__item:not(:last-of-type) {
+  margin-inline-end: var(--spacing-06);
+}
+.checkbox-group--horizontal .checkbox-group__label-text {
+  padding-inline-start: var(--spacing-02);
+}
 input[type="checkbox"] {
   --mtc-checkbox-size: 14px;
   aspect-ratio: 1 / 1;
