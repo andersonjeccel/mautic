@@ -1,0 +1,40 @@
+{#
+Variables
+- className
+- disabled
+- helperText
+- invalid (boolean)
+- invalidText
+- legendText
+- orientation (vertical or horizontal)
+- options (array of objects with label and value)
+- readOnly (boolean)
+- warn (boolean)
+- warnText
+#}
+
+<fieldset class="checkbox-group {{ className|default('') }}" aria-readonly="false"
+    aria-describedby="checkbox-group-helper-text-id-«r3»">
+    {% if legendText %}
+        <legend class="label">{{ legendText }}</legend>
+    {% endif %}
+    {% for option in options %}
+        <div class="form-item checkbox-wrapper">
+            <input class="checkbox" id="checkbox-label-{{ loop.index }}" type="checkbox"
+                {% if option.value in selected %}checked{% endif %}>
+            <label for="checkbox-label-{{ loop.index }}" class="checkbox-label" title="">
+                <span class="checkbox-label-text" dir="ltr">{{ option.label }}</span>
+            </label>
+            <div class="checkbox__validation-msg"></div>
+        </div>
+    {% endfor %}
+    {% if helperText %}
+        <div id="checkbox-group-helper-text-id-«r3»" class="form__helper-text">{{ helperText }}</div>
+    {% endif %}
+    {% if invalid %}
+        <div class="checkbox-group__validation-msg"></div>
+    {% endif %}
+    {% if warn %}
+        <div class="checkbox-group__validation-msg"></div>
+    {% endif %}
+</fieldset>
