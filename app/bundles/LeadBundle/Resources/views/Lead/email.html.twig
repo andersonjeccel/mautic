@@ -7,11 +7,29 @@
     <div class="alert alert-warning">{{ 'mautic.lead.do.not.contact_bounced'|trans }}: {{ dnc.comments }}</div>
 {% else %}
     {{ form_start(form) }}
-    {{ form_row(form['fromname']) }}
-    {{ form_row(form['from']) }}
-    {{ form_row(form['replyToAddress']) }}
-    {{ form_row(form['subject']) }}
-    {{ form_row(form['body']) }}
-    {{ form_row(form['templates']) }}
+    
+    {# Email mode selector #}
+    <div class="form-group">
+        {{ form_row(form['email_mode']) }}
+    </div>
+    
+    {# Manual email fields - shown by default #}
+    <div id="manual-email-fields">
+        {{ form_row(form['fromname']) }}
+        {{ form_row(form['from']) }}
+        {{ form_row(form['replyToAddress']) }}
+        {{ form_row(form['subject']) }}
+        {{ form_row(form['body']) }}
+    </div>
+    
+    {# Template selection - hidden by default #}
+    <div id="template-email-fields" style="display: none;">
+        {{ form_row(form['templates']) }}
+        <div class="alert alert-info">
+            <i class="ri-information-line"></i>
+            {{ 'mautic.lead.email.template.info'|trans }}
+        </div>
+    </div>
+    
     {{ form_end(form) }}
 {% endif %}

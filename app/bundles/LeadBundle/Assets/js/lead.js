@@ -1413,6 +1413,51 @@ Mautic.getLeadEmailContent = function (el) {
     }, false, false, "GET");
 };
 
+/**
+ * Toggle between manual and template email modes
+ */
+Mautic.toggleEmailMode = function(el) {
+    var mode = mQuery(el).val();
+    
+    if (mode === 'manual') {
+        mQuery('#manual-email-fields').show();
+        mQuery('#template-email-fields').hide();
+        
+        // Clear template selection
+        mQuery('#lead_quickemail_templates').val('');
+        
+        // Make manual fields required again
+        mQuery('#lead_quickemail_subject').prop('required', false);
+        mQuery('#lead_quickemail_body').prop('required', false);
+    } else if (mode === 'template') {
+        mQuery('#manual-email-fields').hide();
+        mQuery('#template-email-fields').show();
+        
+        // Clear manual fields
+        mQuery('#lead_quickemail_subject').val('');
+        mQuery('#lead_quickemail_body').val('');
+        if (typeof ckEditors !== 'undefined' && ckEditors.get(mQuery('#lead_quickemail_body')[0])) {
+            ckEditors.get(mQuery('#lead_quickemail_body')[0]).setData('');
+        }
+        
+        // Make template field required
+        mQuery('#lead_quickemail_templates').prop('required', true);
+    }
+};
+
+/**
+ * Handle template selection in template mode
+ */
+Mautic.handleTemplateSelection = function(el) {
+    var mode = mQuery('input[name="lead_quickemail[email_mode]"]:checked').val();
+    
+    // Only import content if in manual mode (old behavior)
+    if (mode === 'manual') {
+        Mautic.getLeadEmailContent(el);
+    }
+    // In template mode, we don't import content - just keep the template ID selected
+};
+
 Mautic.updateLeadTags = function () {
     Mautic.activateLabelLoadingIndicator('lead_tags_tags');
     var formData = mQuery('form[name="lead_tags"]').serialize();
