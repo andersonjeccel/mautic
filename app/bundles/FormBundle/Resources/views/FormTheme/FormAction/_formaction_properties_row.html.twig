@@ -11,6 +11,7 @@
       <div class="col-sm-4">
           {{ form_row(form.email_to_owner) }}
           {{ form_row(form.copy_lead) }}
+          {{ form_row(form.file_is_attached) }}
           <label class="control-label">{{ 'mautic.form.action.sendemail.dragfield'|trans }}</label>
           <div id="formFieldTokens" class="list-group field-tokens" style="max-height: 250px; overflow-y: auto;">
               {% for token, field in formFields %}

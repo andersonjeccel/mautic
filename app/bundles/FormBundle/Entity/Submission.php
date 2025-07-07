@@ -58,6 +58,11 @@ class Submission
      */
     private $results = [];
 
+    /**
+     * @var array
+     */
+    private $filePaths;
+
     public static function loadMetadata(ORM\ClassMetadata $metadata): void
     {
         $builder = new ClassMetadataBuilder($metadata);
@@ -333,5 +338,15 @@ class Submission
         }
 
         return null;
+    }
+
+    public function getFilePaths()
+    {
+        return $this->filePaths;
+    }
+
+    public function setFilePaths($filePaths)
+    {
+        $this->filePaths = $filePaths;
     }
 }

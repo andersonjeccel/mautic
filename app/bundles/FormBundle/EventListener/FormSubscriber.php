@@ -16,6 +16,7 @@ use Mautic\FormBundle\Form\Type\SubmitActionEmailType;
 use Mautic\FormBundle\Form\Type\SubmitActionRepostType;
 use Mautic\FormBundle\FormEvents;
 use Mautic\LeadBundle\Entity\Lead;
+use Mautic\FormBundle\Entity\Submission;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -155,7 +156,7 @@ class FormSubscriber implements EventSubscriberInterface
         }
 
         if (count($emails) > 0 || count($ccEmails) > 0 || count($bccEmails) > 0) {
-            $this->setMailer($config, $tokens, $emails, $lead);
+            $this->setMailer($config, $tokens, $emails, $event->getSubmission(), true);
 
             // Check for !isset to keep BC to existing behavior prior to 2.13.0
             if ((!isset($config['set_replyto']) || !empty($config['set_replyto'])) && !empty($leadEmail)) {
@@ -176,7 +177,7 @@ class FormSubscriber implements EventSubscriberInterface
 
         if ($config['copy_lead'] && !empty($leadEmail)) {
             // Send copy to lead
-            $this->setMailer($config, $tokens, [$leadEmail => null], $lead, false);
+            $this->setMailer($config, $tokens, [$leadEmail => null], $event->getSubmission(), false);
 
             $this->mailer->send(true);
         }
@@ -184,7 +185,7 @@ class FormSubscriber implements EventSubscriberInterface
         $owner = null !== $lead ? $lead->getOwner() : null;
         if (!empty($config['email_to_owner']) && $config['email_to_owner'] && null !== $owner) {
             // Send copy to owner
-            $this->setMailer($config, $tokens, [$owner->getEmail() => null], $lead);
+            $this->setMailer($config, $tokens, [$owner->getEmail() => null], $event->getSubmission(), false);
 
             $this->mailer->send(true);
         }
@@ -392,7 +393,7 @@ class FormSubscriber implements EventSubscriberInterface
      * @param array<mixed>               $tokens
      * @param array<string, string|null> $to
      */
-    private function setMailer(array $config, array $tokens, array $to, Lead $lead = null, bool $internalSend = true): void
+    private function setMailer(array $config, array $tokens, $to, Submission $eventSubmission = null, $internalSend = true): void
     {
         $this->mailer->reset();
 
@@ -405,8 +406,15 @@ class FormSubscriber implements EventSubscriberInterface
         $this->mailer->setBody($config['message']);
         $this->mailer->parsePlainText($config['message']);
 
-        if ($lead) {
-            $this->mailer->setLead($lead->getProfileFields(), $internalSend);
+        if (isset($config['file_is_attached']) && $config['file_is_attached'] && !is_null($eventSubmission->getFilePaths())) {
+            foreach ($eventSubmission->getFilePaths() as $filePath) {
+                if (file_exists($filePath)) {
+                    $this->mailer->attachFile($filePath);
+                }
+            }
+        }
+        if (!is_null($eventSubmission) && !is_null($eventSubmission->getLead())) {
+            $this->mailer->setLead($eventSubmission->getLead()->getProfileFields(), $internalSend);
         }
     }
 }

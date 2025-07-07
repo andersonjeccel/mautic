@@ -39,6 +39,9 @@ class FormUploader
                 $uploadedFiles[] =$uploadedFile;
             }
             $submission->setResults($result);
+            if (!empty($uploadedFiles)) {
+                $submission->setFilePaths($uploadedFiles);
+            }
         } catch (FileUploadException) {
             foreach ($uploadedFiles as $filePath) {
                 $this->fileUploader->delete($filePath);
