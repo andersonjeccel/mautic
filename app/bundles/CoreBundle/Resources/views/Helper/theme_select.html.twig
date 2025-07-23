@@ -32,12 +32,16 @@
                                 <i class="ri-file-image-line ri-5x text-secondary" aria-hidden="true" style="padding-top: 75px; color: #E4E4E4;"></i>
                             </div>
                         {% endif %}
+                    </div>
+                    <div>
                         {% include '@MauticCore/Helper/button.html.twig' with {
                             buttons: [
                                 {
                                     href: '#',
                                     label: 'mautic.core.select',
-                                    variant: 'ghost',
+                                    variant: 'tertiary',
+                                    size: 'xl',
+                                    wide: true,
                                     attributes: {
                                         'type': 'button',
                                         'data-theme': themeKey,
@@ -47,7 +51,9 @@
                                 },
                                 {
                                     label: 'mautic.core.form.filters.selected',
-                                    variant: 'ghost',
+                                    variant: 'tertiary',
+                                    size: 'xl',
+                                    wide: true,
                                     attributes: {
                                         'type': 'button',
                                         'class': 'select-theme-selected' ~ (not isSelected ? ' hide' : ''),
@@ -56,6 +62,7 @@
                                 }
                             ]
                         } %}
+
                     </div>
                 </div>
                 {% if hasThumbnail %}
@@ -84,30 +91,36 @@
                 <div class="panel-body text-center" style="height: 250px">
                     <i class="ri-code-s-slash-line ri-5x text-secondary" aria-hidden="true" style="padding-top: 75px; color: #E4E4E4;"></i>
                 </div>
-                {% include '@MauticCore/Helper/button.html.twig' with {
-                  buttons: [
-                      {
-                          href: '#',
-                          label: 'mautic.core.select',
-                          variant: 'ghost',
-                          attributes: {
-                              'type': 'button',
-                              'data-theme': codeMode,
-                              'class': 'select-theme-link' ~ (isCodeMode ? ' hide' : ''),
-                              'onclick': "mQuery('#dynamic-content-tab').removeClass('hidden')"
-                          }
-                      },
-                      {
-                          label: 'mautic.core.form.filters.selected',
-                          variant: 'ghost',
-                          attributes: {
-                              'type': 'button',
-                              'class': 'select-theme-selected' ~ (not isCodeMode ? ' hide' : ''),
-                              'disabled': 'disabled'
-                          }
-                      }
-                  ]
-              } %}
+            </div>
+            <div>
+            {% include '@MauticCore/Helper/button.html.twig' with {
+                buttons: [
+                    {
+                        href: '#',
+                        label: 'mautic.core.select',
+                        variant: 'tertiary',
+                        size: 'xl',
+                        wide: true,
+                        attributes: {
+                            'type': 'button',
+                            'data-theme': codeMode,
+                            'class': 'select-theme-link' ~ (isCodeMode ? ' hide' : ''),
+                            'onclick': "mQuery('#dynamic-content-tab').removeClass('hidden')"
+                        }
+                    },
+                    {
+                        label: 'mautic.core.form.filters.selected',
+                        variant: 'tertiary',
+                        size: 'xl',
+                        wide: true,
+                        attributes: {
+                            'type': 'button',
+                            'class': 'select-theme-selected' ~ (not isCodeMode ? ' hide' : ''),
+                            'disabled': 'disabled'
+                        }
+                    }
+                ]
+            } %}
             </div>
         </div>
     </div>
