@@ -19,7 +19,7 @@
                 {% set hasThumbnail = is_file(themeInfo.dir ~ '/' ~ thumbnailName) %}
             {% endif %}
             {% set thumbnailUrl = getAssetUrl(themeInfo.themesLocalDir ~ '/' ~ themeKey ~ '/' ~ thumbnailName) %}
-            <div class="col-md-3 theme-list {{ themeInfo.visibility.hidden|default(false) is empty ? '' : 'hide' }}">
+            <div class="col-lg-3 col-md-6 col-sm-12 theme-list {{ themeInfo.visibility.hidden|default(false) is empty ? '' : 'hide' }}">
                 <div class="panel panel-default {% if isSelected %}theme-selected{% endif %}">
                     <div class="panel-heading">
                         <h3 class="type-label-02 fw-sb">{{ themeInfo.name }}</h3>
@@ -86,7 +86,7 @@
             </div>
           {% endif %}
       {% endfor %}
-    <div class="col-md-3 theme-list">
+    <div class="col-lg-3 col-md-6 col-sm-12 theme-list">
         <div class="panel panel-default {% if isCodeMode %}theme-selected{% endif %}">
             <div class="panel-heading">
                 <h3 class="type-label-02 fw-sb">{{ 'mautic.core.code.mode'|trans }}</h3>
