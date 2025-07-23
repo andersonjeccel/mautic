@@ -11285,6 +11285,25 @@ code:hover > .copy-icon {
   background-color: var(--layer);
   width: 100%;
 }
+.theme-preview--image {
+  border-radius: var(--border-radius-sm);
+  transition: var(--transition-all-expressive);
+  transform: scale(1);
+  background-color: var(--background);
+  border: 1px solid transparent;
+}
+.theme-preview--image:hover {
+  transform: scale(1.05);
+  border-radius: 12px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  border-color: var(--interactive);
+}
+.theme-preview--image:active {
+  transform: scale(1.35);
+  border-radius: 24px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  border-color: var(--interactive);
+}
 .toggle {
   display: inline-block;
   -webkit-user-select: none;
