@@ -42,6 +42,7 @@ class FormFieldHelper extends AbstractFormFieldHelper
         ],
         'freetext'      => [],
         'freehtml'      => [],
+        'alert'        => [],
         'hidden'        => [],
         'companyLookup' => [],
         'number'        => [

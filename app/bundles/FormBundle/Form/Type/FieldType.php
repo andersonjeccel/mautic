@@ -581,6 +581,18 @@ class FieldType extends AbstractType
                         ]
                     );
                     break;
+                case 'alert':
+                    $builder->add(
+                        'properties',
+                        FormFieldAlertType::class,
+                        [
+                            'required' => false,
+                            'label'    => false,
+                            'editor'   => true,
+                            'data'     => $propertiesData,
+                        ]
+                    );
+                    break;
                 case 'freehtml':
                     $builder->add(
                         'properties',

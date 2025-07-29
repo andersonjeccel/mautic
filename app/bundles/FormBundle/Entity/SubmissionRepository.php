@@ -47,7 +47,7 @@ class SubmissionRepository extends CommonRepository
 
         // DBAL
         if (!isset($args['viewOnlyFields'])) {
-            $args['viewOnlyFields'] = ['button', 'freetext', 'freehtml', 'pagebreak', 'captcha'];
+            $args['viewOnlyFields'] = ['button', 'freetext', 'freehtml', 'pagebreak', 'captcha', 'alert'];
         }
         $viewOnlyFields = array_map(
             fn ($value): string => '"'.$value.'"',
