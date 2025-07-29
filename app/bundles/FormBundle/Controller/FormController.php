@@ -291,7 +291,7 @@ class FormController extends CommonFormController
      *
      * @throws \Exception
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, ThemeHelper $themeHelper)
     {
         /** @var FormModel $model */
         $model   = $this->getModel('form');
@@ -469,6 +469,7 @@ class FormController extends CommonFormController
                     'activeForm'     => $entity,
                     'form'           => $form->createView(),
                     'inBuilder'      => true,
+                    'themes'        => $themeHelper->getInstalledThemes('form', true),
                 ],
                 'contentTemplate' => '@MauticForm/Builder/index.html.twig',
                 'passthroughVars' => [
@@ -495,7 +496,7 @@ class FormController extends CommonFormController
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse|Response
      */
-    public function editAction(Request $request, $objectId, $ignorePost = false, $forceTypeSelection = false)
+    public function editAction(Request $request, ThemeHelper $themeHelper, $objectId, $ignorePost = false, $forceTypeSelection = false)
     {
         /** @var FormModel $model */
         $model            = $this->getModel('form');
@@ -849,6 +850,7 @@ class FormController extends CommonFormController
                     'form'               => $form->createView(),
                     'forceTypeSelection' => $forceTypeSelection,
                     'inBuilder'          => true,
+                    'themes'             => $themeHelper->getInstalledThemes('form', true),
                 ],
                 'contentTemplate' => '@MauticForm/Builder/index.html.twig',
                 'passthroughVars' => [

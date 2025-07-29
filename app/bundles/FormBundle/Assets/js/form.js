@@ -7,6 +7,9 @@ Mautic.formOnLoad = function (container) {
 
     Mautic.toggleThemeSelectorVisibility();
     mQuery('#mauticform_renderStyle_0, #mauticform_renderStyle_1').on('change', Mautic.toggleThemeSelectorVisibility);
+    if (mQuery('#mauticform_template').length) {
+        Mautic.initSelectTheme(mQuery('#mauticform_template'));
+    }
 
     Mautic.formBuilderNewComponentInit();
     Mautic.iniNewConditionalField();
