@@ -152,7 +152,7 @@
 <!-- start: box layout -->
 <div class="box-layout">
     <!-- left section -->
-    <div class="col-md-9 height-auto">
+    <div class="col-md-8 col-lg-9 height-auto">
         <div>
             <!--/ lead detail header -->
 
@@ -258,6 +258,30 @@
 
             {% if not isAnonymous %}
                 <div class="pa-md">
+                    {% include '@MauticLead/Lead/highlighted_info.html.twig' with {'items': [
+                        {
+                        'label': 'First seen',
+                        'highlight': dateToHumanized(lead.dateAdded),
+                        'renderIcon': 'ri-calendar-event-fill',
+                        'highlightTooltip': dateToFull(lead.dateAdded)
+                    },
+                    {
+                        'label': 'Last seen',
+                        'highlight': lead.lastActive ? dateToHumanized(lead.lastActive) : '––',
+                        'renderIcon': 'ri-calendar-schedule-fill',
+                        'highlightTooltip': lead.lastActive ? dateToFull(lead.lastActive) : ''
+                    },
+                    {
+                        'label': 'Activities total',
+                        'highlight': events.total|number_format,
+                        'renderIcon': 'ri-timeline-view',
+                    },
+                    {
+                        'label': 'Points',
+                        'highlight': lead.points|number_format,
+                        'renderIcon': 'ri-coins-fill',
+                    }
+                    ]} %}
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="panel">
@@ -402,7 +426,7 @@
     <!--/ left section -->
 
     <!-- right section -->
-    <div class="col-md-3 bdr-l height-auto">
+    <div class="col-md-4 col-lg-3 bdr-l height-auto">
         <!-- form HTML -->
         <div class="panel shd-none bdr-rds-0 bdr-w-0 mb-0">
             {% if not lead.isAnonymous %}
