@@ -6,11 +6,9 @@ Variables:
 - renderIcon: string
 - highlightTooltip: string
 #}
-
-<div class="d-flex fd-column fd-row-sm ai-center-sm mt-32 mb-32">
-{% for item in items %}
-    <div class="d-flex gap-sm ai-center">
-        <div class="">
+<div class="grid grid-cols-4 gap-sm mb-lg">
+    {% for item in items %}
+        {% set tileContent %}
             <div class="d-flex ai-center type-label-01 text-secondary mb-xs">
                 {% if item.renderIcon %}
                     <i class="{{ item.renderIcon }} mr-3 type-label-02"></i>
@@ -18,10 +16,11 @@ Variables:
                 {{ item.label }}
             </div>
             <div class="type-fluid-paragraph-01" {% if item.highlightTooltip is defined %}data-toggle="tooltip" title="{{ item.highlightTooltip }}"{% endif %}>{{ item.highlight }}</div>
-        </div>
-    </div>
-    {% if not loop.last %}
-        <div class="v-divider"></div>
-    {% endif %}
+        {% endset %}
+        
+        {% include '@MauticCore/Components/tile.html.twig' with {
+            'type': 'base',
+            'content': tileContent,
+        } %}
     {% endfor %}
 </div>
