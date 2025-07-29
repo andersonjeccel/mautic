@@ -27,6 +27,8 @@ final class MauticReportBuilder implements ReportBuilderInterface
             'neq'        => 'mautic.core.operator.notequals',
             'like'       => 'mautic.core.operator.islike',
             'notLike'    => 'mautic.core.operator.isnotlike',
+            'regexp'     => 'mautic.core.operator.regexp',
+            'notRegexp'  => 'mautic.core.operator.notregexp',
             'empty'      => 'mautic.core.operator.isempty',
             'notEmpty'   => 'mautic.core.operator.isnotempty',
             'contains'   => 'mautic.core.operator.contains',
@@ -60,6 +62,8 @@ final class MauticReportBuilder implements ReportBuilderInterface
             'notEmpty'   => 'mautic.core.operator.isnotempty',
             'like'       => 'mautic.core.operator.islike',
             'notLike'    => 'mautic.core.operator.isnotlike',
+            'regexp'     => 'mautic.core.operator.regexp',
+            'notRegexp'  => 'mautic.core.operator.notregexp',
             'contains'   => 'mautic.core.operator.contains',
             'startsWith' => 'mautic.core.operator.starts.with',
             'endsWith'   => 'mautic.core.operator.ends.with',
@@ -161,6 +165,12 @@ final class MauticReportBuilder implements ReportBuilderInterface
                                 }
 
                                 $value = '%'.$value.'%';
+                                break;
+                            case 'regexp':
+                            case 'notRegexp':
+                                if ('notRegexp' === $condition) {
+                                    $dynamicFilter['expr'] = 'notRegexp';
+                                }
                                 break;
                         }
 
@@ -447,6 +457,10 @@ final class MauticReportBuilder implements ReportBuilderInterface
                                         $exprFunction    = 'like';
                                         $filter['value'] = '%'.$filter['value'].'%';
                                         break;
+                                    case 'regexp':
+                                    case 'notRegexp':
+                                        // no value modification
+                                        break;
                                 }
 
                                 $queryBuilder->setParameter($paramName, $filter['value']);
@@ -455,7 +469,16 @@ final class MauticReportBuilder implements ReportBuilderInterface
                             default:
                                 $queryBuilder->setParameter($paramName, $filter['value']);
                         }
-                        $andGroup[] = $expr->{$exprFunction}($filter['column'], $columnValue);
+                        if (in_array($exprFunction, ['regexp', 'notRegexp'], true)) {
+                            $comparison = $expr->comparison($filter['column'], 'REGEXP', $columnValue);
+                            if ('notRegexp' === $exprFunction) {
+                                $andGroup[] = $expr->not($comparison);
+                            } else {
+                                $andGroup[] = $comparison;
+                            }
+                        } else {
+                            $andGroup[] = $expr->{$exprFunction}($filter['column'], $columnValue);
+                        }
                 }
             }
         }
