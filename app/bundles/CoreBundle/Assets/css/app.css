@@ -11506,8 +11506,26 @@ code:hover > .copy-icon {
   border-bottom: 1px solid var(--border-subtle);
   align-self: center;
 }
+@media (min-width: 768px) {
+  .v-divider-sm {
+    margin: 0 20px;
+    width: 1px;
+    height: 60px;
+    border-left: 1px solid var(--border-subtle);
+    border-bottom: none;
+  }
+}
+@media (min-width: 992px) {
+  .v-divider-md {
+    margin: 0 30px;
+    width: 1px;
+    height: 70px;
+    border-left: 1px solid var(--border-subtle);
+    border-bottom: none;
+  }
+}
 @media (min-width: 1200px) {
-  .v-divider {
+  .v-divider-lg {
     margin: 0 40px;
     width: 1px;
     height: 80px;

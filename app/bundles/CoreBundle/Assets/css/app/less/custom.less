@@ -783,7 +783,29 @@ code:hover > .copy-icon {
   height: 1px;
   border-bottom: 1px solid var(--border-subtle);
   align-self: center;
+}
 
+.v-divider-sm {
+  @media (min-width: @screen-sm-min) {
+      margin: 0 20px;
+      width: 1px;
+      height: 60px;
+      border-left: 1px solid var(--border-subtle);
+      border-bottom: none;
+  }
+}
+
+.v-divider-md {
+  @media (min-width: @screen-md-min) {
+      margin: 0 30px;
+      width: 1px;
+      height: 70px;
+      border-left: 1px solid var(--border-subtle);
+      border-bottom: none;
+  }
+}
+
+.v-divider-lg {
   @media (min-width: @screen-lg-min) {
       margin: 0 40px;
       width: 1px;
