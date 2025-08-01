@@ -1327,7 +1327,6 @@ final class SubmissionFunctionalTest extends MauticMysqlTestCase
             ],
         ];
     }
-
     public function testAllRelatedEntitiesGetsDeletedIfFormGetsDeleted(): void
     {
         $payload = [
@@ -1356,7 +1355,6 @@ final class SubmissionFunctionalTest extends MauticMysqlTestCase
 
         $this->assertSame(Response::HTTP_CREATED, $clientResponse->getStatusCode(), $clientResponse->getContent());
 
-        // Submit the form:
         $crawler     = $this->client->request(Request::METHOD_GET, "/form/{$formId}");
         $formCrawler = $crawler->filter('form[id=mauticform_submissiontestform]');
         $this->assertCount(1, $formCrawler);
@@ -1365,7 +1363,6 @@ final class SubmissionFunctionalTest extends MauticMysqlTestCase
             'mauticform[name]' => 'Name',
         ]);
         $this->client->submit($form);
-
         $clientResponse = $this->client->getResponse();
 
         $this->assertSame(Response::HTTP_OK, $clientResponse->getStatusCode(), $clientResponse->getContent());
@@ -1373,12 +1370,10 @@ final class SubmissionFunctionalTest extends MauticMysqlTestCase
         /** @var SubmissionRepository $submissionRepository */
         $submissionRepository = $this->em->getRepository(Submission::class);
 
-        // Ensure the submission was created properly.
         $submissions = $submissionRepository->findBy(['form' => $formId]);
 
         Assert::assertCount(1, $submissions);
 
-        // The previous request changes user to anonymous. We have to configure API again.
         $this->setUpSymfony($this->configParams);
 
         $this->client->request(Request::METHOD_DELETE, "/api/forms/{$formId}/delete");
@@ -1388,11 +1383,125 @@ final class SubmissionFunctionalTest extends MauticMysqlTestCase
 
         $tablePrefix = static::getContainer()->getParameter('mautic.db_table_prefix');
 
-        // we are expecting form results table to be deleted in background, so the table should exists
         $this->assertTrue($this->connection->createSchemaManager()->tablesExist("{$tablePrefix}form_results_{$formId}_{$formAlias}"));
 
         $submissions = $submissionRepository->findBy(['form' => $formId]);
 
         Assert::assertCount(0, $submissions);
+    }
+
+    public function testMessagePostActionWithFormFieldTokens(): void
+    {
+        $page = new Page();
+        $page->setTitle('Test Form Message Target Page');
+        $page->setAlias('test-form-message-target-page');
+        $page->setCustomHtml('<!DOCTYPE html><html><head></head><body>Test</body></html>');
+        $this->em->persist($page);
+        $this->em->flush();
+        $pageId = $page->getId();
+
+        $payload = [
+            'name'               => 'Message post action test form',
+            'description'        => 'Form created via submission test',
+            'formType'           => 'standalone',
+            'isPublished'        => true,
+            'postAction'         => 'message',
+            'postActionProperty' => 'Thank you! Your submitted value is: {formfield=campo}',
+
+            'fields'      => [
+                [
+                    'label'     => 'Campo',
+                    'type'      => 'text',
+                    'alias'     => 'campo',
+                    'leadField' => 'firstname',
+                ],
+                [
+                    'label' => 'Submit',
+                    'type'  => 'button',
+                ],
+            ],
+        ];
+
+        $this->client->request(Request::METHOD_POST, '/api/forms/new', $payload);
+        $clientResponse = $this->client->getResponse();
+
+        $this->assertSame(Response::HTTP_CREATED, $clientResponse->getStatusCode(), $clientResponse->getContent());
+
+        $response = json_decode($clientResponse->getContent(), true);
+        $formId   = $response['form']['id'];
+
+        $crawler     = $this->client->request(Request::METHOD_GET, "/form/{$formId}");
+        $formCrawler = $crawler->filter('form[id=mauticform_messagepostactiontestform]');
+
+        $this->assertCount(1, $formCrawler);
+
+        $form = $formCrawler->form();
+
+        $form->setValues([
+            'mauticform[campo]' => 'ABC',
+        ]);
+
+        $this->client->submit($form);
+        $clientResponse = $this->client->getResponse();
+
+        $this->assertSame(Response::HTTP_OK, $clientResponse->getStatusCode(), $clientResponse->getContent());
+
+        $responseContent = $clientResponse->getContent();
+        $this->assertStringContainsString('Thank you! Your submitted value is: ABC', $responseContent);
+    }
+
+    public function testFormattedFormFieldTokens(): void
+    {
+        $payload = [
+            'name'               => 'Formatted tokens test form',
+            'description'        => 'Form created via submission test',
+            'formType'           => 'standalone',
+            'isPublished'        => true,
+            'postAction'         => 'message',
+            'postActionProperty' => 'Original: {formfield=campo}, URL: {formfield=campo:url}, Uppercase: {formfield=campo:uppercase}, Slug: {formfield=campo:slug}',
+
+            'fields'      => [
+                [
+                    'label'     => 'Campo',
+                    'type'      => 'text',
+                    'alias'     => 'campo',
+                    'leadField' => 'firstname',
+                ],
+                [
+                    'label' => 'Submit',
+                    'type'  => 'button',
+                ],
+            ],
+        ];
+
+        $this->client->request(Request::METHOD_POST, '/api/forms/new', $payload);
+        $clientResponse = $this->client->getResponse();
+
+        $this->assertSame(Response::HTTP_CREATED, $clientResponse->getStatusCode(), $clientResponse->getContent());
+
+        $response = json_decode($clientResponse->getContent(), true);
+        $formId   = $response['form']['id'];
+
+        $crawler     = $this->client->request(Request::METHOD_GET, "/form/{$formId}");
+        $formCrawler = $crawler->filter('form[id=mauticform_formattedtokenstestform]');
+
+        $this->assertCount(1, $formCrawler);
+
+        $form = $formCrawler->form();
+
+        $form->setValues([
+            'mauticform[campo]' => 'Hello World!',
+        ]);
+
+        $this->client->submit($form);
+        $clientResponse = $this->client->getResponse();
+
+        $this->assertSame(Response::HTTP_OK, $clientResponse->getStatusCode(), $clientResponse->getContent());
+
+        $responseContent = $clientResponse->getContent();
+        $this->assertStringContainsString('Original: Hello World!', $responseContent);
+        $this->assertStringContainsString('URL: Hello+World%21', $responseContent);
+        $this->assertStringContainsString('Uppercase: HELLO WORLD!', $responseContent);
+        $this->assertStringContainsString('Slug: hello-world', $responseContent);
     }
 }

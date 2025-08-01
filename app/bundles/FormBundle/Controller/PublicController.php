@@ -22,8 +22,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PublicController extends CommonFormController
 {
-    private array $tokens = [];
-
     /**
      * @return RedirectResponse|Response
      */
@@ -405,16 +403,14 @@ class PublicController extends CommonFormController
     }
 
     /**
-     * @return string|string[]
+     * @return string
      */
-    private function replacePostSubmitTokens($string, SubmissionEvent $submissionEvent, PageTokenHelper $pageTokenHelper): string|array
+    private function replacePostSubmitTokens($string, SubmissionEvent $submissionEvent, PageTokenHelper $pageTokenHelper): string
     {
-        if (count($this->tokens)) {
-            return $this->tokens;
-        }
+        $tokens = [];
 
         if ($lead = $submissionEvent->getLead()) {
-            $this->tokens = array_merge(
+            $tokens = array_merge(
                 $submissionEvent->getTokens(),
                 TokenHelper::findLeadTokens(
                     $string,
@@ -423,12 +419,91 @@ class PublicController extends CommonFormController
             );
         }
 
-        $this->tokens = array_merge(
-            $this->tokens,
+        $tokens = array_merge(
+            $tokens,
             $pageTokenHelper->findPageTokens($string)
         );
 
-        return str_replace(array_keys($this->tokens), array_values($this->tokens), $string);
+        // Process formatted form field tokens
+        $string = $this->replaceFormattedFormFieldTokens($string, $submissionEvent);
+
+        return str_replace(array_keys($tokens), array_values($tokens), $string);
+    }
+
+    /**
+     * Replace formatted form field tokens like {formfield=campo:format}.
+     */
+    private function replaceFormattedFormFieldTokens(string $string, SubmissionEvent $submissionEvent): string
+    {
+        // Find all form field tokens with optional formatting
+        if (preg_match_all('/\{formfield=([^:}]+)(?::([^}]+))?\}/', $string, $matches, PREG_SET_ORDER)) {
+            foreach ($matches as $match) {
+                $fullToken  = $match[0];
+                $fieldAlias = $match[1];
+                $format     = $match[2] ?? '';
+
+                // Get the raw token value
+                $rawToken = "{formfield={$fieldAlias}}";
+                $rawValue = $submissionEvent->getTokens()[$rawToken] ?? '';
+
+                // Apply formatting
+                $formattedValue = $this->formatTokenValue($rawValue, $format);
+
+                // Replace the token
+                $string = str_replace($fullToken, $formattedValue, $string);
+            }
+        }
+
+        return $string;
+    }
+
+    /**
+     * Apply custom formatting to a token value.
+     */
+    private function formatTokenValue(string $value, string $format = ''): string
+    {
+        if (empty($format)) {
+            return $value;
+        }
+
+        switch ($format) {
+            case 'url':
+                return urlencode($value);
+            case 'html':
+                return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+            case 'lowercase':
+                return strtolower($value);
+            case 'uppercase':
+                return strtoupper($value);
+            case 'capitalize':
+                return ucfirst(strtolower($value));
+            case 'title':
+                return ucwords(strtolower($value));
+            case 'trim':
+                return trim($value);
+            case 'slug':
+                return $this->createSlug($value);
+            default:
+                return $value;
+        }
+    }
+
+    /**
+     * Create a URL-friendly slug from a string.
+     */
+    private function createSlug(string $string): string
+    {
+        // Convert to lowercase
+        $string = strtolower($string);
+
+        // Replace non-alphanumeric characters with hyphens
+        $string = preg_replace('/[^a-z0-9-]/', '-', $string);
+
+        // Remove multiple consecutive hyphens
+        $string = preg_replace('/-+/', '-', $string);
+
+        // Remove leading and trailing hyphens
+        return trim($string, '-');
     }
 
     public function lookupCompanyAction(Request $request, FieldModel $fieldModel, CompanyModel $companyModel): JsonResponse

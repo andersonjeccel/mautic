@@ -1194,4 +1194,53 @@ class SubmissionModel extends CommonFormModel
 
         return implode(', ', $value);
     }
+
+    /**
+     * Apply custom formatting to a token value.
+     */
+    private function formatTokenValue(string $value, string $format = ''): string
+    {
+        if (empty($format)) {
+            return $value;
+        }
+
+        switch ($format) {
+            case 'url':
+                return urlencode($value);
+            case 'html':
+                return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+            case 'lowercase':
+                return strtolower($value);
+            case 'uppercase':
+                return strtoupper($value);
+            case 'capitalize':
+                return ucfirst(strtolower($value));
+            case 'title':
+                return ucwords(strtolower($value));
+            case 'trim':
+                return trim($value);
+            case 'slug':
+                return $this->createSlug($value);
+            default:
+                return $value;
+        }
+    }
+
+    /**
+     * Create a URL-friendly slug from a string.
+     */
+    private function createSlug(string $string): string
+    {
+        // Convert to lowercase
+        $string = strtolower($string);
+
+        // Replace non-alphanumeric characters with hyphens
+        $string = preg_replace('/[^a-z0-9-]/', '-', $string);
+
+        // Remove multiple consecutive hyphens
+        $string = preg_replace('/-+/', '-', $string);
+
+        // Remove leading and trailing hyphens
+        return trim($string, '-');
+    }
 }
