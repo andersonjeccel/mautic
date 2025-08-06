@@ -133,7 +133,9 @@ final class MyEmailVerifierIntegration extends AbstractIntegration
     }
 
     /**
-     * @return string|array
+     * @param string $section
+     *
+     * @return array<string, mixed>
      */
     public function getFormNotes($section)
     {
