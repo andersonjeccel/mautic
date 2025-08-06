@@ -38,6 +38,14 @@ final class MyEmailVerifierIntegration extends AbstractIntegration
     }
 
     /**
+     * @return array<string>
+     */
+    public function getSecretKeys(): array
+    {
+        return ['apikey'];
+    }
+
+    /**
      * @param FormBuilder|Form     $builder
      * @param array<string, mixed> $data
      * @param string               $formArea
