@@ -30,6 +30,12 @@ final class EmailValidationListener implements EventSubscriberInterface
 
     public function onEmailValidation(EmailValidationEvent $event): void
     {
+        if (!$this->isCampaignContext()) {
+            $this->logger->debug('MyEmailVerifier: Skipping validation - not in campaign context');
+
+            return;
+        }
+
         try {
             $integration = $this->integrationHelper->getIntegrationObject('MyEmailVerifier');
 
@@ -101,5 +107,20 @@ final class EmailValidationListener implements EventSubscriberInterface
                 'trace'     => $e->getTraceAsString(),
             ]);
         }
+    }
+
+    private function isCampaignContext(): bool
+    {
+        $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 10);
+
+        foreach ($backtrace as $trace) {
+            if (isset($trace['class']) && 'Mautic\EmailBundle\EventListener\CampaignConditionSubscriber' === $trace['class']) {
+                $this->logger->debug('MyEmailVerifier: Detected campaign context');
+
+                return true;
+            }
+        }
+
+        return false;
     }
 }

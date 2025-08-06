@@ -67,8 +67,8 @@ final class MyEmailVerifierService
                 ];
             }
 
-            if ((isset($data['Status']) && 'false' === $data['Status']) ||
-                (isset($data['status']) && false === $data['status'])) {
+            if ((isset($data['Status']) && 'false' === $data['Status'])
+                || (isset($data['status']) && false === $data['status'])) {
                 $this->logger->error('MyEmailVerifier: API error', [
                     'response' => $data,
                 ]);
