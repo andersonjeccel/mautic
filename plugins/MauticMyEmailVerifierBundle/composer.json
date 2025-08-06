@@ -1,0 +1,19 @@
+{
+    "name": "mautic/plugin-myemailverifier",
+    "description": "MyEmailVerifier Plugin for email validation",
+    "type": "mautic-plugin",
+    "keywords": [
+        "mautic",
+        "plugin",
+        "email",
+        "validation",
+        "verification"
+    ],
+    "extra": {
+        "install-directory-name": "MauticMyEmailVerifierBundle"
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "mautic/core-lib": "^7.0"
+    }
+}
