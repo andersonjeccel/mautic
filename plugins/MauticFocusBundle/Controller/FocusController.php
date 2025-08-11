@@ -142,6 +142,10 @@ class FocusController extends AbstractStandardFormController
             /** @var Focus $item */
             $item = $args['viewParameters']['item'];
 
+            /** @var FocusModel $model */
+            $model                                    = $this->getModel('focus');
+            $args['viewParameters']['previewContent'] = $model->getContent($item->toArray(), true);
+
             // For line graphs in the view
             $dateRangeValues = $this->getCurrentRequest()->get('daterange', []);
             $dateRangeForm   = $this->formFactory->create(
@@ -169,8 +173,6 @@ class FocusController extends AbstractStandardFormController
                 // invalidate cache for entire focus item to keep AJAX loaded data consistent
                 $this->cacheProvider->invalidateTags(["focus.{$item->getId()}"]);
 
-                /** @var FocusModel $model */
-                $model = $this->getModel('focus');
                 $stats = $model->getStats(
                     $item,
                     null,

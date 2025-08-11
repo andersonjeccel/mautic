@@ -152,16 +152,48 @@
               <!--/ form detail collapseable -->
           </div>
 
-          <div>
-              <!-- form detail collapseable toggler -->
-              <div class="hr-expand nm">
-                  <span data-toggle="tooltip" title="{{ 'mautic.core.details'|trans }}">
-                      <a href="javascript:void(0)" class="arrow text-secondary collapsed" data-toggle="collapse" data-target="#focus-details"><span class="caret"></span>
-                        {{ 'mautic.core.details'|trans }}
-                      </a>
-                  </span>
-              </div>
-              <!--/ form detail collapseable toggler -->
+            <div>
+                {% if previewContent is defined and previewContent is not empty %}
+                    <div class="row mb-lg">
+                        <div class="col-sm-6">
+                            <div class="panel mb-0">
+                                <div class="panel-body">
+                                    {{ previewContent|raw }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <ul class="list-unstyled mb-0">
+                                <li><span class="fw-b">{{ 'mautic.focus.preview.purpose'|trans }}:</span> {{ ('mautic.focus.form.type.' ~ item.type)|trans }}</li>
+                                <li><span class="fw-b">{{ 'mautic.focus.preview.format'|trans }}:</span> {{ ('mautic.focus.style.' ~ item.style)|trans }}</li>
+                                {% if item.properties.colors is defined and item.properties.colors is not empty %}
+                                    <li><span class="fw-b">{{ 'mautic.focus.preview.colors'|trans }}:</span>
+                                        {% for name,color in item.properties.colors %}
+                                            <span class="mr-xs" style="display:inline-block;width:12px;height:12px;border-radius:50%;background-color:#{{ color|replace({'#':''}) }}"></span>
+                                        {% endfor %}
+                                    </li>
+                                {% endif %}
+                                {% if item.type == 'form' %}
+                                    <li><span class="fw-b">{{ 'mautic.focus.preview.content'|trans }}:</span> {{ 'mautic.focus.preview.content.has_form'|trans }}</li>
+                                {% else %}
+                                    {% set text = item.properties.content.headline ?? item.properties.content.tagline ?? item.properties.content.link_text ?? '' %}
+                                    {% if text %}
+                                        <li><span class="fw-b">{{ 'mautic.focus.preview.content'|trans }}:</span> {{ text }}</li>
+                                    {% endif %}
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+                <!-- form detail collapseable toggler -->
+                <div class="hr-expand nm">
+                    <span data-toggle="tooltip" title="{{ 'mautic.core.details'|trans }}">
+                        <a href="javascript:void(0)" class="arrow text-secondary collapsed" data-toggle="collapse" data-target="#focus-details"><span class="caret"></span>
+                          {{ 'mautic.core.details'|trans }}
+                        </a>
+                    </span>
+                </div>
+                <!--/ form detail collapseable toggler -->
 
               <!-- stats -->
               <div class="pa-md">
