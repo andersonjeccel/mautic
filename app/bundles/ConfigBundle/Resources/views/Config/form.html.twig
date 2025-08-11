@@ -28,11 +28,12 @@
      <div class="row">
          <div class="col-md-3 height-auto">
              <div class="">
-                 {% if not isWritable %}
-                     <div class="alert alert-danger">{{ 'mautic.config.notwritable'|trans }}</div>
-                 {% endif %}
-                 <!-- Nav tabs -->
-                 <ul class="list-group list-group-tabs" role="tablist">
+                {% if not isWritable %}
+                    <div class="alert alert-danger">{{ 'mautic.config.notwritable'|trans }}</div>
+                {% endif %}
+                <input type="search" id="config-search" class="form-control mb-md" placeholder="{{ 'mautic.core.search.placeholder'|trans }}" />
+                <!-- Nav tabs -->
+                <ul class="list-group list-group-tabs" role="tablist">
                      {% for key in form.children|keys|filter(v => formConfigs[v] is defined and form[v].children|length > 0) %}
                          <li role="presentation" class="list-group-item {% if loop.first %}in active{% endif %}">
                              {% set containsErrors = formContainsErrors(form[key]) %}

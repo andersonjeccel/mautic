@@ -107,4 +107,37 @@ Mautic.showAnonymizeWarningMessage = function(anonymize_ip) {
     }
 };
 
+Mautic.initConfigSearch = function() {
+    const $search = mQuery('#config-search');
+    if (!$search.length) {
+        return;
+    }
+
+    $search.on('input', function() {
+        const term = this.value.toLowerCase();
+        let $firstMatch = null;
+
+        mQuery('.tab-content .form-group').each(function() {
+            const $group = mQuery(this);
+            const label = $group.find('label').first().text().toLowerCase();
+
+            if (term && label.indexOf(term) !== -1) {
+                $group.css('background-color', '#fff3cd');
+                if (!$firstMatch) {
+                    $firstMatch = $group;
+                }
+            } else {
+                $group.css('background-color', '');
+            }
+        });
+
+        if ($firstMatch) {
+            const id = $firstMatch.closest('.tab-pane').attr('id');
+            mQuery('.list-group-tabs a[href="#' + id + '"]').tab('show');
+            mQuery('html, body').animate({scrollTop: $firstMatch.offset().top - 100}, 200);
+        }
+    });
+};
+
 mQuery(Mautic.observeConfigTabs);
+mQuery(Mautic.initConfigSearch);
