@@ -9,6 +9,7 @@ use Mautic\CoreBundle\Helper\CoreParametersHelper;
 use Mautic\CoreBundle\Helper\FileHelper;
 use Mautic\CoreBundle\Model\AuditLogModel;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
+use Mautic\ProjectBundle\Entity\Project;
 use Oneup\UploaderBundle\Templating\Helper\UploaderHelper;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,16 +57,70 @@ class AssetController extends FormController
                 ['column' => 'a.createdBy', 'expr' => 'eq', 'value' => $this->user->getId()];
         }
 
+        $projectRepo = $this->doctrine->getRepository(Project::class);
+        $projects    = array_column($projectRepo->getSimpleList(), 'label', 'value');
+
+        $session        = $request->getSession();
+        $currentFilters = $session->get('mautic.asset.list_filters', []);
+        $updatedFilters = $request->get('filters', false);
+
+        $listFilters = [
+            'filters' => [
+                'placeholder' => $this->translator->trans('mautic.asset.filter.placeholder'),
+                'multiple'    => true,
+                'groups'      => [
+                    'mautic.core.filter.projects' => [
+                        'options' => $projects,
+                        'prefix'  => 'project',
+                    ],
+                ],
+            ],
+        ];
+
+        if ($updatedFilters) {
+            $newFilters     = [];
+            $updatedFilters = json_decode($updatedFilters, true);
+            if ($updatedFilters) {
+                foreach ($updatedFilters as $updatedFilter) {
+                    [$column, $filterId]   = explode(':', $updatedFilter);
+                    $newFilters[$column][] = $filterId;
+                }
+                $currentFilters = $newFilters;
+            } else {
+                $currentFilters = [];
+            }
+        }
+        $session->set('mautic.asset.list_filters', $currentFilters);
+
+        $joinProjects = false;
+        if (!empty($currentFilters)) {
+            $projectIds = [];
+            foreach ($currentFilters as $type => $typeFilters) {
+                $listFilters['filters']['groups']['mautic.core.filter.projects']['values'] = $typeFilters;
+                foreach ($typeFilters as $fltr) {
+                    if ('project' === $type) {
+                        $projectIds[] = (int) $fltr;
+                    }
+                }
+            }
+
+            if (!empty($projectIds)) {
+                $joinProjects      = true;
+                $filter['force'][] = ['column' => 'p.id', 'expr' => 'in', 'value' => $projectIds];
+            }
+        }
+
         $orderBy    = $request->getSession()->get('mautic.asset.orderby', 'a.dateModified');
         $orderByDir = $request->getSession()->get('mautic.asset.orderbydir', $this->getDefaultOrderDirection());
 
         $assets = $assetModel->getEntities(
             [
-                'start'      => $start,
-                'limit'      => $limit,
-                'filter'     => $filter,
-                'orderBy'    => $orderBy,
-                'orderByDir' => $orderByDir,
+                'start'        => $start,
+                'limit'        => $limit,
+                'filter'       => $filter,
+                'orderBy'      => $orderBy,
+                'orderByDir'   => $orderByDir,
+                'joinProjects' => $joinProjects,
             ]
         );
 
@@ -103,6 +158,7 @@ class AssetController extends FormController
             'viewParameters' => [
                 'searchValue' => $search,
                 'items'       => $assets,
+                'filters'     => $listFilters,
                 'categories'  => $categories,
                 'limit'       => $limit,
                 'permissions' => $permissions,

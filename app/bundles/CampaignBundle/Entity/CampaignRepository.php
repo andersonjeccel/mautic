@@ -26,6 +26,10 @@ class CampaignRepository extends CommonRepository
             ->from(Campaign::class, $this->getTableAlias(), $this->getTableAlias().'.id')
             ->leftJoin($this->getTableAlias().'.category', 'cat');
 
+        if (!empty($args['joinProjects'])) {
+            $q->leftJoin($this->getTableAlias().'.projects', 'p');
+        }
+
         if (!empty($args['joinLists'])) {
             $q->leftJoin($this->getTableAlias().'.lists', 'l');
         }

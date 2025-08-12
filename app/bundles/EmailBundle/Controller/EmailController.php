@@ -28,6 +28,7 @@ use Mautic\LeadBundle\Controller\EntityContactsTrait;
 use Mautic\LeadBundle\Helper\FakeContactHelper;
 use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\LeadBundle\Model\ListModel;
+use Mautic\ProjectBundle\Entity\Project;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -119,9 +120,17 @@ class EmailController extends FormController
             'prefix'  => 'theme',
         ];
 
+        $projectRepo                                                     = $this->doctrine->getRepository(Project::class);
+        $projects                                                        = array_column($projectRepo->getSimpleList(), 'label', 'value');
+        $listFilters['filters']['groups']['mautic.core.filter.projects'] = [
+            'options' => $projects,
+            'prefix'  => 'project',
+        ];
+
         $currentFilters = $session->get('mautic.email.list_filters', []);
         $updatedFilters = $request->get('filters', false);
         $ignoreListJoin = true;
+        $joinProjects   = false;
 
         if ($updatedFilters) {
             // Filters have been updated
@@ -145,7 +154,7 @@ class EmailController extends FormController
         $session->set('mautic.email.list_filters', $currentFilters);
 
         if (!empty($currentFilters)) {
-            $listIds = $catIds = $templates = [];
+            $listIds = $catIds = $templates = $projectIds = [];
             foreach ($currentFilters as $type => $typeFilters) {
                 switch ($type) {
                     case 'list':
@@ -156,6 +165,9 @@ class EmailController extends FormController
                         break;
                     case 'theme':
                         $key = 'themes';
+                        break;
+                    case 'project':
+                        $key = 'projects';
                         break;
                 }
 
@@ -171,6 +183,9 @@ class EmailController extends FormController
                             break;
                         case 'theme':
                             $templates[] = $fltr;
+                            break;
+                        case 'project':
+                            $projectIds[] = (int) $fltr;
                             break;
                     }
                 }
@@ -188,6 +203,11 @@ class EmailController extends FormController
             if (!empty($templates)) {
                 $filter['force'][] = ['column' => 'e.template', 'expr' => 'in', 'value' => $templates];
             }
+
+            if (!empty($projectIds)) {
+                $joinProjects      = true;
+                $filter['force'][] = ['column' => 'p.id', 'expr' => 'in', 'value' => $projectIds];
+            }
         }
 
         $orderBy    = $session->get('mautic.email.orderby', 'e.dateModified');
@@ -201,6 +221,7 @@ class EmailController extends FormController
                 'orderBy'        => $orderBy,
                 'orderByDir'     => $orderByDir,
                 'ignoreListJoin' => $ignoreListJoin,
+                'joinProjects'   => $joinProjects,
             ]
         );
 

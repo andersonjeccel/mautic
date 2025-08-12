@@ -32,6 +32,7 @@ use Mautic\CoreBundle\Twig\Helper\DateHelper;
 use Mautic\FormBundle\Helper\FormFieldHelper;
 use Mautic\LeadBundle\Controller\EntityContactsTrait;
 use Psr\Log\LoggerInterface;
+use Mautic\ProjectBundle\Entity\Project;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -914,6 +915,9 @@ class CampaignController extends AbstractStandardFormController
         $updatedFilters = $this->requestStack->getCurrentRequest()->get('filters', false);
 
         $sourceLists = $this->getCampaignModel()->getSourceLists();
+        $projectRepo = $this->doctrine->getRepository(Project::class);
+        $projects    = array_column($projectRepo->getSimpleList(), 'label', 'value');
+
         $listFilters = [
             'filters' => [
                 'placeholder' => $this->translator->trans('mautic.campaign.filter.placeholder'),
@@ -926,6 +930,10 @@ class CampaignController extends AbstractStandardFormController
                     'mautic.campaign.leadsource.list' => [
                         'options' => $sourceLists['lists'],
                         'prefix'  => 'list',
+                    ],
+                    'mautic.core.filter.projects' => [
+                        'options' => $projects,
+                        'prefix'  => 'project',
                     ],
                 ],
             ],
@@ -952,17 +960,23 @@ class CampaignController extends AbstractStandardFormController
         }
         $session->set('mautic.campaign.list_filters', $currentFilters);
 
-        $joinLists = $joinForms = false;
+        $joinLists = $joinForms = $joinProjects = false;
         if (!empty($currentFilters)) {
-            $listIds = $catIds = [];
+            $listIds = $formIds = $projectIds = [];
             foreach ($currentFilters as $type => $typeFilters) {
-                $listFilters['filters']['groups']['mautic.campaign.leadsource.'.$type]['values'] = $typeFilters;
+                if ('project' === $type) {
+                    $listFilters['filters']['groups']['mautic.core.filter.projects']['values'] = $typeFilters;
+                } else {
+                    $listFilters['filters']['groups']['mautic.campaign.leadsource.'.$type]['values'] = $typeFilters;
+                }
 
                 foreach ($typeFilters as $fltr) {
-                    if ('list' == $type) {
+                    if ('list' === $type) {
                         $listIds[] = (int) $fltr;
-                    } else {
+                    } elseif ('form' === $type) {
                         $formIds[] = (int) $fltr;
+                    } elseif ('project' === $type) {
+                        $projectIds[] = (int) $fltr;
                     }
                 }
             }
@@ -976,6 +990,11 @@ class CampaignController extends AbstractStandardFormController
                 $joinForms         = true;
                 $filter['force'][] = ['column' => 'f.id', 'expr' => 'in', 'value' => $formIds];
             }
+
+            if (!empty($projectIds)) {
+                $joinProjects      = true;
+                $filter['force'][] = ['column' => 'p.id', 'expr' => 'in', 'value' => $projectIds];
+            }
         }
 
         // Store for customizeViewArguments
@@ -988,8 +1007,9 @@ class CampaignController extends AbstractStandardFormController
             $orderBy,
             $orderByDir,
             [
-                'joinLists' => $joinLists,
-                'joinForms' => $joinForms,
+                'joinLists'    => $joinLists,
+                'joinForms'    => $joinForms,
+                'joinProjects' => $joinProjects,
             ]
         );
     }

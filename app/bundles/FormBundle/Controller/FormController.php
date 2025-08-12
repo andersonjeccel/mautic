@@ -24,6 +24,7 @@ use Mautic\FormBundle\Exception\ValidationException;
 use Mautic\FormBundle\Helper\FormFieldHelper;
 use Mautic\FormBundle\Model\FormModel;
 use Mautic\FormBundle\Model\SubmissionModel;
+use Mautic\ProjectBundle\Entity\Project;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -89,6 +90,57 @@ class FormController extends CommonFormController
         $filter     = ['string' => $search, 'force' => []];
         $session->set('mautic.form.filter', $search);
 
+        $projectRepo = $this->doctrine->getRepository(Project::class);
+        $projects    = array_column($projectRepo->getSimpleList(), 'label', 'value');
+
+        $currentFilters = $session->get('mautic.form.list_filters', []);
+        $updatedFilters = $request->get('filters', false);
+
+        $listFilters = [
+            'filters' => [
+                'placeholder' => $this->translator->trans('mautic.form.filter.placeholder'),
+                'multiple'    => true,
+                'groups'      => [
+                    'mautic.core.filter.projects' => [
+                        'options' => $projects,
+                        'prefix'  => 'project',
+                    ],
+                ],
+            ],
+        ];
+
+        if ($updatedFilters) {
+            $newFilters     = [];
+            $updatedFilters = json_decode($updatedFilters, true);
+            if ($updatedFilters) {
+                foreach ($updatedFilters as $updatedFilter) {
+                    [$column, $filterId]   = explode(':', $updatedFilter);
+                    $newFilters[$column][] = $filterId;
+                }
+                $currentFilters = $newFilters;
+            } else {
+                $currentFilters = [];
+            }
+        }
+        $session->set('mautic.form.list_filters', $currentFilters);
+
+        $joinProjects = false;
+        if (!empty($currentFilters)) {
+            $projectIds = [];
+            foreach ($currentFilters as $type => $typeFilters) {
+                $listFilters['filters']['groups']['mautic.core.filter.projects']['values'] = $typeFilters;
+                foreach ($typeFilters as $fltr) {
+                    if ('project' === $type) {
+                        $projectIds[] = (int) $fltr;
+                    }
+                }
+            }
+            if (!empty($projectIds)) {
+                $joinProjects      = true;
+                $filter['force'][] = ['column' => 'p.id', 'expr' => 'in', 'value' => $projectIds];
+            }
+        }
+
         if (!$permissions['form:forms:viewother']) {
             $filter['force'][] = ['column' => 'f.createdBy', 'expr' => 'eq', 'value' => $this->user->getId()];
         }
@@ -97,11 +149,12 @@ class FormController extends CommonFormController
         $orderByDir = $session->get('mautic.form.orderbydir', $this->getDefaultOrderDirection());
         $forms      = $this->getModel('form.form')->getEntities(
             [
-                'start'      => $start,
-                'limit'      => $limit,
-                'filter'     => $filter,
-                'orderBy'    => $orderBy,
-                'orderByDir' => $orderByDir,
+                'start'        => $start,
+                'limit'        => $limit,
+                'filter'       => $filter,
+                'orderBy'      => $orderBy,
+                'orderByDir'   => $orderByDir,
+                'joinProjects' => $joinProjects,
             ]
         );
 
@@ -132,6 +185,7 @@ class FormController extends CommonFormController
             [
                 'viewParameters'  => [
                     'searchValue' => $search,
+                    'filters'     => $listFilters,
                     'items'       => $forms,
                     'totalItems'  => $count,
                     'page'        => $page,

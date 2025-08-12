@@ -19,6 +19,7 @@ use Mautic\PageBundle\Entity\Page;
 use Mautic\PageBundle\Event\PageEditSubmitEvent;
 use Mautic\PageBundle\Helper\PageConfig;
 use Mautic\PageBundle\Model\PageModel;
+use Mautic\ProjectBundle\Entity\Project;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -102,6 +103,57 @@ class PageController extends FormController
 
         $translator = $this->translator;
 
+        $projectRepo    = $this->doctrine->getRepository(Project::class);
+        $projects       = array_column($projectRepo->getSimpleList(), 'label', 'value');
+        $session        = $request->getSession();
+        $currentFilters = $session->get('mautic.page.list_filters', []);
+        $updatedFilters = $request->get('filters', false);
+
+        $listFilters = [
+            'filters' => [
+                'placeholder' => $this->translator->trans('mautic.page.filter.placeholder'),
+                'multiple'    => true,
+                'groups'      => [
+                    'mautic.core.filter.projects' => [
+                        'options' => $projects,
+                        'prefix'  => 'project',
+                    ],
+                ],
+            ],
+        ];
+
+        if ($updatedFilters) {
+            $newFilters     = [];
+            $updatedFilters = json_decode($updatedFilters, true);
+            if ($updatedFilters) {
+                foreach ($updatedFilters as $updatedFilter) {
+                    [$column, $filterId]   = explode(':', $updatedFilter);
+                    $newFilters[$column][] = $filterId;
+                }
+                $currentFilters = $newFilters;
+            } else {
+                $currentFilters = [];
+            }
+        }
+        $session->set('mautic.page.list_filters', $currentFilters);
+
+        $joinProjects = false;
+        if (!empty($currentFilters)) {
+            $projectIds = [];
+            foreach ($currentFilters as $type => $typeFilters) {
+                $listFilters['filters']['groups']['mautic.core.filter.projects']['values'] = $typeFilters;
+                foreach ($typeFilters as $fltr) {
+                    if ('project' === $type) {
+                        $projectIds[] = (int) $fltr;
+                    }
+                }
+            }
+            if (!empty($projectIds)) {
+                $joinProjects      = true;
+                $filter['force'][] = ['column' => 'pr.id', 'expr' => 'in', 'value' => $projectIds];
+            }
+        }
+
         // do not list variants in the main list
         $filter['force'][] = ['column' => 'p.variantParent', 'expr' => 'isNull'];
 
@@ -120,6 +172,7 @@ class PageController extends FormController
                 'orderBy'         => $orderBy,
                 'orderByDir'      => $orderByDir,
                 'submissionCount' => true,
+                'joinProjects'    => $joinProjects,
             ]
         );
 
@@ -145,6 +198,7 @@ class PageController extends FormController
         return $this->delegateView([
             'viewParameters' => [
                 'searchValue' => $search,
+                'filters'     => $listFilters,
                 'items'       => $pages,
                 'categories'  => $model->getLookupResults('category', '', 0),
                 'page'        => $page,

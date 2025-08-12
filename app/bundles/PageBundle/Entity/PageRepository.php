@@ -30,6 +30,10 @@ class PageRepository extends CommonRepository
             ->select($select)
             ->leftJoin('p.category', 'c');
 
+        if (!empty($args['joinProjects'])) {
+            $q->leftJoin('p.projects', 'pr');
+        }
+
         $args['qb'] = $q;
 
         return parent::getEntities($args);

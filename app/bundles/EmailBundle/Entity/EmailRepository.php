@@ -115,6 +115,10 @@ class EmailRepository extends CommonRepository
         if (empty($args['iterable_mode'])) {
             $q->leftJoin('e.category', 'c');
 
+            if (!empty($args['joinProjects'])) {
+                $q->leftJoin('e.projects', 'p');
+            }
+
             if (empty($args['ignoreListJoin']) && (!isset($args['email_type']) || 'list' == $args['email_type'])) {
                 $q->leftJoin('e.lists', 'l');
             }

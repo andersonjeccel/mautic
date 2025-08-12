@@ -29,6 +29,10 @@ class FormRepository extends CommonRepository
         $q->addSelect('('.$sq->getDql().') as submission_count');
         $q->leftJoin('f.category', 'c');
 
+        if (!empty($args['joinProjects'])) {
+            $q->leftJoin('f.projects', 'p');
+        }
+
         $args['qb'] = $q;
 
         return parent::getEntities($args);

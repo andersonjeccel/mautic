@@ -28,6 +28,10 @@ class AssetRepository extends CommonRepository
             ->select('a')
             ->leftJoin('a.category', 'c');
 
+        if (!empty($args['joinProjects'])) {
+            $q->leftJoin('a.projects', 'p');
+        }
+
         $args['qb'] = $q;
 
         return parent::getEntities($args);
