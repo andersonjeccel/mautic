@@ -4,6 +4,7 @@ namespace Mautic\UserBundle\Controller;
 
 use Mautic\CoreBundle\Controller\FormController;
 use Mautic\CoreBundle\Helper\LanguageHelper;
+use Mautic\CoreBundle\Service\FlashBag;
 use Mautic\UserBundle\Entity\User;
 use Mautic\UserBundle\Model\UserModel;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -178,7 +179,15 @@ class ProfileController extends FormController
                                 $messageVars = $fetchLanguage['vars'];
                             }
 
-                            $this->addFlashMessage($message, $messageVars);
+                            $this->addFlashMessage($message, $messageVars, FlashBag::LEVEL_NOTICE, 'flashes', true);
+                        } else {
+                            $this->addFlashMessage(
+                                $fetchLanguage['message'],
+                                ['%language%' => $me->getLocale()],
+                                FlashBag::LEVEL_NOTICE,
+                                'flashes',
+                                true
+                            );
                         }
                     }
 

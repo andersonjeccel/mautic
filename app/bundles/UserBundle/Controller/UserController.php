@@ -10,6 +10,7 @@ use Mautic\CoreBundle\Helper\IpLookupHelper;
 use Mautic\CoreBundle\Helper\LanguageHelper;
 use Mautic\CoreBundle\Model\AuditLogModel;
 use Mautic\CoreBundle\Model\FormModel;
+use Mautic\CoreBundle\Service\FlashBag;
 use Mautic\EmailBundle\Helper\MailHelper;
 use Mautic\UserBundle\Form\Type\ContactType;
 use Mautic\UserBundle\Model\RoleModel;
@@ -165,7 +166,15 @@ class UserController extends FormController
                                 $messageVars = $fetchLanguage['vars'];
                             }
 
-                            $this->addFlashMessage($message, $messageVars);
+                            $this->addFlashMessage($message, $messageVars, FlashBag::LEVEL_NOTICE, 'flashes', true);
+                        } else {
+                            $this->addFlashMessage(
+                                $fetchLanguage['message'],
+                                ['%language%' => $user->getLocale()],
+                                FlashBag::LEVEL_NOTICE,
+                                'flashes',
+                                true
+                            );
                         }
                     }
 
@@ -315,7 +324,15 @@ class UserController extends FormController
                                 $messageVars = $fetchLanguage['vars'];
                             }
 
-                            $this->addFlashMessage($message, $messageVars);
+                            $this->addFlashMessage($message, $messageVars, FlashBag::LEVEL_NOTICE, 'flashes', true);
+                        } else {
+                            $this->addFlashMessage(
+                                $fetchLanguage['message'],
+                                ['%language%' => $user->getLocale()],
+                                FlashBag::LEVEL_NOTICE,
+                                'flashes',
+                                true
+                            );
                         }
                     }
 
