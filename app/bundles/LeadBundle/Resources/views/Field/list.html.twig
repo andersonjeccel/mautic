@@ -56,12 +56,42 @@
                     'checkall': 'true',
                     'target': '#leadFieldTable',
                 }) }}
-                  <th class="col-leadfield-label">{{ 'mautic.lead.field.label'|trans }}</th>
-                  <th class="visible-md visible-lg col-leadfield-alias">{{ 'mautic.core.alias'|trans }}</th>
-                  <th class="visible-md visible-lg col-leadfield-group">{{ 'mautic.lead.field.object'|trans }}</th>
-                  <th class="visible-md visible-lg col-leadfield-group">{{ 'mautic.lead.field.group'|trans }}</th>
-                  <th class="col-leadfield-type">{{ 'mautic.lead.field.type'|trans }}</th>
-                  <th class="visible-md visible-lg col-leadfield-id">{{ 'mautic.core.id'|trans }}</th>
+                  {{ include('@MauticCore/Helper/tableheader.html.twig', {
+                    'sessionVar': 'leadfield',
+                    'text': 'mautic.lead.field.label',
+                    'class': 'col-leadfield-label',
+                    'orderBy': 'f.label',
+                  }) }}
+                  {{ include('@MauticCore/Helper/tableheader.html.twig', {
+                    'sessionVar': 'leadfield',
+                    'text': 'mautic.core.alias',
+                    'class': 'visible-md visible-lg col-leadfield-alias',
+                    'orderBy': 'f.alias',
+                  }) }}
+                  {{ include('@MauticCore/Helper/tableheader.html.twig', {
+                    'sessionVar': 'leadfield',
+                    'text': 'mautic.lead.field.object',
+                    'class': 'visible-md visible-lg col-leadfield-group',
+                    'orderBy': 'f.object',
+                  }) }}
+                  {{ include('@MauticCore/Helper/tableheader.html.twig', {
+                    'sessionVar': 'leadfield',
+                    'text': 'mautic.lead.field.group',
+                    'class': 'visible-md visible-lg col-leadfield-group',
+                    'orderBy': 'f.group',
+                  }) }}
+                  {{ include('@MauticCore/Helper/tableheader.html.twig', {
+                    'sessionVar': 'leadfield',
+                    'text': 'mautic.lead.field.type',
+                    'class': 'col-leadfield-type',
+                    'orderBy': 'f.type',
+                  }) }}
+                  {{ include('@MauticCore/Helper/tableheader.html.twig', {
+                    'sessionVar': 'leadfield',
+                    'text': 'mautic.core.id',
+                    'class': 'visible-md visible-lg col-leadfield-id',
+                    'orderBy': 'f.id',
+                  }) }}
                   <th class="visible-sm visible-md visible-lg col-leadfield-statusicons"></th>
               </tr>
               </thead>
