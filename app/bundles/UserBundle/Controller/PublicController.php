@@ -155,6 +155,17 @@ class PublicController extends FormController
 
         $user = new User();
         $user->setEmail($invite->getEmail());
+        
+        // Pre-populate the role from the invite to pass validation
+        if ($invite->getRole()) {
+            $user->setRole($invite->getRole());
+        } else {
+            // Fallback to first available role if none was set
+            $role = $this->em->getRepository(Role::class)->findOneBy([], ['id' => 'ASC']);
+            if (null !== $role) {
+                $user->setRole($role);
+            }
+        }
 
         $action = $this->generateUrl('mautic_user_invite_register', ['token' => $token]);
         $form   = $this->formFactory->create(UserType::class, $user, ['action' => $action, 'in_profile' => true, 'ignore_formexit' => true]);
@@ -166,16 +177,7 @@ class PublicController extends FormController
                 $user->setPassword($encoded);
                 $user->setEmail($invite->getEmail());
                 
-                // Use the role from the invite
-                if ($invite->getRole()) {
-                    $user->setRole($invite->getRole());
-                } else {
-                    // Fallback to first available role if none was set
-                    $role = $this->em->getRepository(Role::class)->findOneBy([], ['id' => 'ASC']);
-                    if (null !== $role) {
-                        $user->setRole($role);
-                    }
-                }
+                // The role is already set from the invite, no need to set it again
                 
                 $model->saveEntity($user);
                 $model->markInviteUsed($invite);
