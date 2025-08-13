@@ -1,4 +1,4 @@
-<form method="post" action="{{ path('mautic_user_action', {'objectAction':'invite'}) }}" data-toggle="ajax" id="mautic-user-invite-form">
+<form method="post" action="{{ path('mautic_user_action', {'objectAction':'invite'}) }}" data-toggle="ajax">
     <div class="form-group">
         <label for="invite_email" class="control-label">{{ 'mautic.user.invite.email.label'|trans }}</label>
         <input type="email" id="invite_email" name="invite_email" required="required" class="form-control" />
@@ -11,5 +11,8 @@
                 <option value="{{ role.id }}">{{ role.name }}</option>
             {% endfor %}
         </select>
+    </div>
+    <div class="text-right">
+        <button type="submit" class="btn btn-primary">{{ 'mautic.user.invite.send'|trans }}</button>
     </div>
 </form>

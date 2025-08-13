@@ -94,6 +94,7 @@ class UserController extends FormController
                     'edit'   => $this->security->isGranted('user:users:editother'),
                     'delete' => $this->security->isGranted('user:users:deleteother'),
                 ],
+                'roles'         => $this->getRoles(),
             ],
             'contentTemplate' => '@MauticUser/User/list.html.twig',
             'passthroughVars' => [
@@ -120,7 +121,7 @@ class UserController extends FormController
         if ('POST' === $request->getMethod()) {
             $email = $request->request->get('invite_email');
             $roleId = $request->request->get('invite_role');
-            
+
             if (empty($roleId)) {
                 $this->addFlashMessage('mautic.user.invite.error.role_required', [], 'error');
                 return $this->delegateView([
@@ -131,21 +132,11 @@ class UserController extends FormController
                     'passthroughVars' => [
                         'route' => $this->generateUrl('mautic_user_action', ['objectAction' => 'invite']),
                         'mauticContent' => 'user',
-                        'modalHeading' => 'mautic.user.invite.title',
-                        'buttons' => [
-                            [
-                                'text' => 'mautic.user.invite.send',
-                                'class' => 'btn btn-primary',
-                                'attr' => [
-                                    'type' => 'submit',
-                                    'form' => 'mautic-user-invite-form'
-                                ]
-                            ]
-                        ]
+                        'header' => $this->translator->trans('mautic.user.invite.title'),
                     ],
                 ]);
             }
-            
+
             $model->createInvite($email, $roleId);
             $this->addFlashMessage('mautic.user.invite.flash.sent', ['%email%' => $email]);
 
@@ -167,17 +158,7 @@ class UserController extends FormController
             'passthroughVars' => [
                 'route' => $this->generateUrl('mautic_user_action', ['objectAction' => 'invite']),
                 'mauticContent' => 'user',
-                'modalHeading' => 'mautic.user.invite.title',
-                'buttons' => [
-                    [
-                        'text' => 'mautic.user.invite.send',
-                        'class' => 'btn btn-primary',
-                        'attr' => [
-                            'type' => 'submit',
-                            'form' => 'mautic-user-invite-form'
-                        ]
-                    ]
-                ]
+                'header' => $this->translator->trans('mautic.user.invite.title'),
             ],
         ]);
     }
