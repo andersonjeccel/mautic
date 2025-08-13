@@ -6,13 +6,11 @@
     } %}
 </div>
 
-<form method="post" action="{{ path('mautic_user_action', {'objectAction':'invite'}) }}" data-toggle="ajax">
-    <div class="form-group">
-        <label for="invite_email" class="control-label">{{ 'mautic.user.invite.email.label'|trans }}</label>
-        <input type="email" id="invite_email" name="invite_email" required="required" class="form-control" />
+<form class="d-flex layer-one"  method="post" action="{{ path('mautic_user_action', {'objectAction':'invite'}) }}" data-toggle="ajax">
+    <div class="form-group fg-1">
+        <input type="email" placeholder="{{ 'mautic.user.invite.email.label'|trans }}" id="invite_email" name="invite_email" required="required" class="form-control" />
     </div>
-    <div class="form-group">
-        <label for="invite_role" class="control-label">{{ 'mautic.user.invite.role.label'|trans }}</label>
+    <div class="form-group fg-1">
         <select id="invite_role" name="invite_role" required="required" class="form-control">
             <option value="">{{ 'mautic.user.invite.role.placeholder'|trans }}</option>
             {% for role in roles %}
@@ -27,7 +25,7 @@
 {% endset %}
 
 {{ include('@MauticCore/Components/content-block.html.twig', {
-    heading: 'Invite users to join your organization',
+    heading: 'Collaborate with your organization',
     subheading: 'Add the email address of the user to send an invitation link.',
     childContainer: formContainer,
     noMargin: true,
