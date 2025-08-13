@@ -77,8 +77,9 @@
 		{% include '@MauticCore/Components/modal.html.twig' with {
 			id: 'InviteUserModal',
 			modalLabel: 'mautic.user.invite.title',
-			modalContent: include('@MauticUser/User/invite.html.twig'),
+			modalContent: '',
 			type: 'expressive',
+			loadUrl: path('mautic_user_action', {'objectAction': 'invite'}),
 			buttons: [
 				{
 					'label': 'mautic.core.form.cancel'|trans,
