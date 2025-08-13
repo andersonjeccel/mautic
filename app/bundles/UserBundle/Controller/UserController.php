@@ -146,6 +146,8 @@ class UserController extends FormController
                         'route' => $this->generateUrl('mautic_user_action', ['objectAction' => 'invite']),
                         'mauticContent' => 'user',
                         'header' => $this->translator->trans('mautic.user.invite.title'),
+                        'target' => '#InviteUserModal .modal-body-content',
+                        'updateModalContent' => 1,
                     ],
                 ]);
             }
