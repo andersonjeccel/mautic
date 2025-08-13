@@ -6,6 +6,9 @@
     } %}
 </div>
 
+{# Render flash messages inside modal body #}
+{% include '@MauticCore/Notification/flash_messages.html.twig' %}
+
 <form id="invite-user-form" class="d-flex layer-one"  method="post" action="{{ path('mautic_user_action', {'objectAction':'invite'}) }}" data-toggle="ajax">
     <div class="form-group fg-1">
         <input type="email" placeholder="{{ 'mautic.user.invite.email.label'|trans }}" id="invite_email" name="invite_email" required="required" class="form-control" />
@@ -18,6 +21,7 @@
             {% endfor %}
         </select>
     </div>
+    <button type="submit" class="sr-only" tabindex="-1" aria-hidden="true"></button>
 </form>
 {% endset %}
 
