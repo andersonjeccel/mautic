@@ -254,8 +254,9 @@ class UserType extends AbstractType
                     User::class,
                     'determineValidationGroups',
                 ],
-                'ignore_formexit' => false,
-                'in_profile'      => false,
+                'ignore_formexit'      => false,
+                'in_profile'          => false,
+                'skip_role_validation' => false,
             ]
         );
     }

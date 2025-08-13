@@ -168,7 +168,12 @@ class PublicController extends FormController
         }
 
         $action = $this->generateUrl('mautic_user_invite_register', ['token' => $token]);
-        $form   = $this->formFactory->create(UserType::class, $user, ['action' => $action, 'in_profile' => true, 'ignore_formexit' => true]);
+        $form   = $this->formFactory->create(UserType::class, $user, [
+            'action' => $action, 
+            'in_profile' => true, 
+            'ignore_formexit' => true,
+            'skip_role_validation' => true
+        ]);
 
         if ('POST' === $request->getMethod()) {
             if ($isValid = $this->isFormValid($form)) {
