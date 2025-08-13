@@ -119,11 +119,24 @@ class UserController extends FormController
         $model = $this->getModel('user.user');
 
         if ('POST' === $request->getMethod()) {
-            $email = $request->request->get('invite_email');
+            $email  = trim((string) $request->request->get('invite_email'));
             $roleId = $request->request->get('invite_role');
+
+            $hasError = false;
+            if ('' === $email) {
+                $this->addFlashMessage('mautic.user.invite.error.email_required', [], 'error');
+                $hasError = true;
+            } elseif (false === filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $this->addFlashMessage('mautic.user.invite.error.email_invalid', [], 'error');
+                $hasError = true;
+            }
 
             if (empty($roleId)) {
                 $this->addFlashMessage('mautic.user.invite.error.role_required', [], 'error');
+                $hasError = true;
+            }
+
+            if ($hasError) {
                 return $this->delegateView([
                     'viewParameters' => [
                         'roles' => $this->getRoles(),
@@ -137,12 +150,12 @@ class UserController extends FormController
                 ]);
             }
 
-            $model->createInvite($email, $roleId);
+            $model->createInvite($email, (int) $roleId);
             $this->addFlashMessage('mautic.user.invite.flash.sent', ['%email%' => $email]);
 
             return $this->postActionRedirect([
                 'returnUrl' => $this->generateUrl('mautic_user_index'),
-                'contentTemplate' => 'Mautic\UserBundle\Controller\UserController::indexAction',
+                'contentTemplate' => 'Mautic\\UserBundle\\Controller\\UserController::indexAction',
                 'passthroughVars' => [
                     'mauticContent' => 'user',
                     'closeModal' => 1,
