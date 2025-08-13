@@ -227,10 +227,7 @@ class User extends FormEntity implements UserInterface, EquatableInterface, Pass
         ));
 
         $metadata->addPropertyConstraint('role', new Assert\NotBlank(
-            [
-                'message' => 'mautic.user.user.role.notblank',
-                'groups'  => ['CheckRole'],
-            ]
+            ['message' => 'mautic.user.user.role.notblank']
         ));
 
         $metadata->addPropertyConstraint('plainPassword', new Assert\NotBlank(
@@ -262,13 +259,6 @@ class User extends FormEntity implements UserInterface, EquatableInterface, Pass
     {
         $data   = $form->getData();
         $groups = ['User', 'SecondPass'];
-        
-        // Check if role validation should be skipped (e.g., for invite registration)
-        $skipRoleValidation = $form->getConfig()->getOption('skip_role_validation', false);
-        if (!$skipRoleValidation) {
-            $groups[] = 'CheckRole';
-        }
-        
         if ($data instanceof User) {
             $isNewUser        = !$data->getId();
             $hasPlainPassword = !empty($data->getPlainPassword());
