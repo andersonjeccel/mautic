@@ -155,12 +155,19 @@ class UserController extends FormController
             $model->createInvite($email, (int) $roleId);
             $this->addFlashMessage('mautic.user.invite.flash.sent', ['%email%' => $email]);
 
-            return $this->postActionRedirect([
-                'returnUrl' => $this->generateUrl('mautic_user_index'),
-                'contentTemplate' => 'Mautic\\UserBundle\\Controller\\UserController::indexAction',
+            return $this->delegateView([
+                'viewParameters' => [
+                    'roles' => $this->getRoles(),
+                    'success' => true,
+                    'invitedEmail' => $email,
+                ],
+                'contentTemplate' => '@MauticUser/User/invite.html.twig',
                 'passthroughVars' => [
+                    'route' => $this->generateUrl('mautic_user_action', ['objectAction' => 'invite']),
                     'mauticContent' => 'user',
-                    'closeModal' => 1,
+                    'header' => $this->translator->trans('mautic.user.invite.title'),
+                    'target' => '#InviteUserModal .modal-body-content',
+                    'updateModalContent' => 1,
                 ],
             ]);
         }

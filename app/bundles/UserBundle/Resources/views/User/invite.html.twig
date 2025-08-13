@@ -9,6 +9,17 @@
 {# Render flash messages inside modal body #}
 {% include '@MauticCore/Notification/flash_messages.html.twig' %}
 
+{% if success is defined and success %}
+    <div class="alert alert-success">
+        <i class="ri-check-line"></i>
+        {{ 'mautic.user.invite.flash.sent'|trans({'%email%': invitedEmail}) }}
+    </div>
+    <div class="text-center">
+        <button type="button" class="btn btn-primary" onclick="Mautic.closeModal()">
+            {{ 'mautic.core.form.close'|trans }}
+        </button>
+    </div>
+{% else %}
 <form id="invite-user-form" class="d-flex layer-one"  method="post" action="{{ path('mautic_user_action', {'objectAction':'invite'}) }}" data-toggle="ajax">
     <div class="form-group fg-1">
         <input type="email" placeholder="{{ 'mautic.user.invite.email.label'|trans }}" id="invite_email" name="invite_email" required="required" class="form-control" />
@@ -23,6 +34,7 @@
     </div>
     <button type="submit" class="sr-only" tabindex="-1" aria-hidden="true"></button>
 </form>
+{% endif %}
 {% endset %}
 
 {{ include('@MauticCore/Components/content-block.html.twig', {
