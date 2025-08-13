@@ -244,6 +244,19 @@
                             </li>
                             <li class="focus-properties focus-notification-properties list-group-item pl-sm pr-sm" style="display: none;"></li>
 
+                            <li data-focus-style="cta" class="focus-style visible-focus-style-cta list-group-item pl-sm pr-sm">
+                                <div class="row">
+                                    <div class="col-xs-2">
+                                        <i class="pl-2 ri-2x ri-chat-1-line text-success"></i>
+                                    </div>
+                                    <div class="col-xs-10">
+                                        <h4 class="list-group-heading">{{ 'mautic.focus.style.cta'|trans }}</h4>
+                                        <p class="list-group-item-heading small">{{ 'mautic.focus.style.cta_description'|trans }}</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="focus-properties focus-cta-properties list-group-item pl-sm pr-sm" style="display: none;"></li>
+
                             <li data-focus-style="page" class="focus-style visible-focus-style-page list-group-item pl-sm pr-sm">
                                 <div class="row">
                                     <div class="col-xs-2">
@@ -277,6 +290,11 @@
                         <!-- notifications type properties -->
                         <div class="focus-hide visible-focus-style-notification">
                             {{ form_row(form.properties.notification.placement) }}
+                        </div>
+
+                        <!-- cta type properties -->
+                        <div class="focus-hide visible-focus-style-cta">
+                            {{ form_row(form.properties.cta.placement) }}
                         </div>
 
                         <!-- page type properties -->

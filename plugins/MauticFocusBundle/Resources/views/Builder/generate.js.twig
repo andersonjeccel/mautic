@@ -37,7 +37,7 @@
   {%- if props.bar.sticky -%}
       {% set iframeClass = iframeClass ~ ' mf-bar-iframe-sticky' -%}
   {%- endif -%}
-{%- elseif 'modal' is same as style or 'notification' is same as style -%}
+{%- elseif 'modal' is same as style or 'notification' is same as style or 'cta' is same as style -%}
   {%- set iframeClass = 'mf-' ~ style ~ '-iframe mf-' ~ style ~ '-iframe-' ~ props[style].placement|replace({'_': '-'})  -%}
 {%- else -%}
   {%- set iframeClass = 'mf-' ~ style ~ '-iframe' -%}
@@ -521,7 +521,7 @@
                     return false;
                 }
 
-                {% if style in ['modal', 'notification', 'bar'] %}
+                {% if style in ['modal', 'notification', 'cta', 'bar'] %}
                 Focus.iframeHeight = 0;
                 Focus.iframeWidth = 0;
                 Focus.iframeResizeInterval = setInterval(function () {
@@ -542,7 +542,7 @@
                         Focus.iframeHeight = useHeight;
                     }
 
-                    {% if style in ['modal', 'notification'] %}
+                    {% if style in ['modal', 'notification', 'cta'] %}
                     if (Focus.iframeWidth !== Focus.iframe.style.width) {
                         if (Focus.debug) {
                             console.log('window inner width = ' + window.innerWidth);
@@ -588,7 +588,7 @@
                     delete(Focus.iframeResizerEnabled);
                 }
 
-                {% if style in ['modal', 'notification', 'bar'] %}
+                {% if style in ['modal', 'notification', 'cta', 'bar'] %}
                 clearInterval(Focus.iframeResizeInterval);
                 {% endif %}
             },

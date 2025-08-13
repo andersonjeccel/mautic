@@ -106,6 +106,12 @@
 .builder-panel-focus .focus-style-notification .hidden-focus-style-notification {
   display: none !important;
 }
+.builder-panel-focus .focus-style-cta .visible-focus-style-cta {
+  display: inherit !important;
+}
+.builder-panel-focus .focus-style-cta .hidden-focus-style-cta {
+  display: none !important;
+}
 .builder-panel-focus .focus-style-page .visible-focus-style-page {
   display: inherit !important;
 }

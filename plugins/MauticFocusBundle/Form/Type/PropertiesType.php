@@ -44,6 +44,15 @@ class PropertiesType extends AbstractType
         );
 
         $builder->add(
+            'cta',
+            FocusPropertiesType::class,
+            [
+                'focus_style' => 'cta',
+                'data'        => $options['data']['cta'] ?? [],
+            ]
+        );
+
+        $builder->add(
             'page',
             FocusPropertiesType::class,
             [

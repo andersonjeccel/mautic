@@ -1,0 +1,56 @@
+{% set preview = preview|default(false) %}
+.mf-cta {
+    position: relative;
+    opacity: 1;
+    z-index: 2000;
+    margin: auto;
+    background: #fff;
+    border-radius: 30px;
+    border-width: 1px;
+    border-style: solid;
+    padding: 10px 15px;
+    min-height: 0;
+    width: auto;
+
+    .mf-content {
+        margin: 0;
+    }
+
+    .mauticform-input, .mauticform-row select, .mauticform-button, .mauticform-pagebreak {
+        width: 100%;
+        margin-bottom: 2px;
+    }
+}
+
+.mf-responsive.mf-cta, .mf-responsive .mf-cta {
+    width: 90%;
+    padding: 10px;
+    left: 0;
+    right: 0;
+}
+
+{% if preview is not empty %}
+.mf-cta {
+    position: absolute !important;
+
+    &.mf-cta-top-left {
+        top: 5px;
+        left: 5px;
+    }
+
+    &.mf-cta-top-right {
+        top: 5px;
+        right: 5px;
+    }
+
+    &.mf-cta-bottom-left {
+        bottom: 5px;
+        left: 5px;
+    }
+
+    &.mf-cta-bottom-right {
+        bottom: 5px;
+        right: 5px;
+    }
+}
+{% endif %}

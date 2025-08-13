@@ -97,6 +97,14 @@ class FocusPropertiesType extends AbstractType
                     'mautic.focus.form.placement.bottom_right' => 'bottom_right',
                 ];
                 break;
+            case 'cta':
+                $choices = [
+                    'mautic.focus.form.placement.top_left'     => 'top_left',
+                    'mautic.focus.form.placement.top_right'    => 'top_right',
+                    'mautic.focus.form.placement.bottom_left'  => 'bottom_left',
+                    'mautic.focus.form.placement.bottom_right' => 'bottom_right',
+                ];
+                break;
             case 'page':
                 break;
         }
