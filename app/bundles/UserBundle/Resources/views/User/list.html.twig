@@ -90,7 +90,7 @@
 				{
 					'label': 'mautic.user.invite.send'|trans,
 					'variant': 'primary',
-					'onclick': 'mQuery(\'#InviteUserModal\').find(\'#invite-user-form\').submit();'
+					'onclick': "mQuery('#InviteUserModal').find('#invite-user-form button[type=submit]').trigger('click');"
 				}
 			]
 		} %}
