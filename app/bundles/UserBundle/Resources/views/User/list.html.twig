@@ -49,12 +49,43 @@
 				}
 			]
 		}) -}}
+		<div class="px-md py-sm">
+			{% if permissions.create %}
+				<a href="#InviteUserModal" data-toggle="modal" class="btn btn-primary">
+					<i class="ri-team-line"></i>
+					{{ 'mautic.user.profile.invite'|trans }}
+				</a>
+			{% endif %}
+		</div>
 		<div class="page-list">
 			{{ block('listResults') }}
 		</div>
 	</div>
 	{% else %}
 		{{ block('listResults') }}
+	{% endif %}
+
+	{% if isIndex and permissions.create %}
+		{% include '@MauticCore/Components/modal.html.twig' with {
+			id: 'InviteUserModal',
+			modalLabel: 'mautic.user.invite.title',
+			modalContent: include('@MauticUser/User/invite.html.twig', { roles: roles }),
+			type: 'expressive',
+			buttons: [
+				{
+					'label': 'mautic.core.form.cancel'|trans,
+					'variant': 'secondary',
+					'attributes': {
+						'data-dismiss': 'modal'
+					}
+				},
+				{
+					'label': 'mautic.user.invite.send'|trans,
+					'variant': 'primary',
+					'onclick': 'mQuery(\'#InviteUserModal\').find(\'#invite-user-form\').submit();'
+				}
+			]
+		} %}
 	{% endif %}
 {% endblock %}
 

@@ -6,7 +6,7 @@
     } %}
 </div>
 
-<form class="d-flex layer-one"  method="post" action="{{ path('mautic_user_action', {'objectAction':'invite'}) }}" data-toggle="ajax">
+<form id="invite-user-form" class="d-flex layer-one"  method="post" action="{{ path('mautic_user_action', {'objectAction':'invite'}) }}" data-toggle="ajax">
     <div class="form-group fg-1">
         <input type="email" placeholder="{{ 'mautic.user.invite.email.label'|trans }}" id="invite_email" name="invite_email" required="required" class="form-control" />
     </div>
@@ -17,9 +17,6 @@
                 <option value="{{ role.id }}">{{ role.name }}</option>
             {% endfor %}
         </select>
-    </div>
-    <div class="bottom-form-buttons mt-md">
-        <button id="invite-submit" type="submit" class="btn btn-primary">{{ 'mautic.user.invite.send'|trans }}</button>
     </div>
 </form>
 {% endset %}
