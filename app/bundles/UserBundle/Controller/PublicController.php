@@ -7,7 +7,7 @@ use Mautic\UserBundle\Entity\User;
 use Mautic\UserBundle\Entity\Role;
 use Mautic\UserBundle\Form\Type\PasswordResetConfirmType;
 use Mautic\UserBundle\Form\Type\PasswordResetType;
-use Mautic\UserBundle\Form\Type\UserType;
+use Mautic\UserBundle\Form\Type\UserInviteRegistrationType;
 use Mautic\UserBundle\Model\UserModel;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -168,11 +168,8 @@ class PublicController extends FormController
         }
 
         $action = $this->generateUrl('mautic_user_invite_register', ['token' => $token]);
-        $form   = $this->formFactory->create(UserType::class, $user, [
-            'action' => $action, 
-            'in_profile' => true, 
-            'ignore_formexit' => true,
-            'skip_role_validation' => true
+        $form   = $this->formFactory->create(UserInviteRegistrationType::class, $user, [
+            'action' => $action
         ]);
 
         if ('POST' === $request->getMethod()) {
