@@ -24,7 +24,7 @@
 
         {% if securityIsGranted('user:users:create') %}
         <li>
-            <a href="{{ path('mautic_user_action', {objectAction: 'invite'}) }}" data-toggle="ajaxmodal" data-target="#MauticSharedModal" data-header="{{ 'mautic.user.profile.invite'|trans }}">
+            <a href="{{ path('mautic_user_index', {'open': 'invite'}) }}" data-toggle="ajax">
                 <i class="ri-team-line"></i>
                 <span>{{ 'mautic.user.profile.invite'|trans }}</span>
             </a>

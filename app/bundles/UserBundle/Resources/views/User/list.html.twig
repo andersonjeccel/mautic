@@ -11,6 +11,20 @@
 {% block content %}
 	{% if isIndex %}
 	<div id="page-list-wrapper" class="panel panel-default">
+		{# Build pageButtons similar to Lead _filter to inject a custom toolbar button #}
+		{%- set pageButtons = [] %}
+		{% if permissions.create %}
+			{% set pageButtons = pageButtons|merge([{
+				'attr': {
+					'class': 'btn btn-ghost btn--icon-only btn-nospin',
+					'href': '#InviteUserModal',
+					'data-toggle': 'modal',
+				},
+				'iconClass': 'ri-team-line',
+				'tooltip': 'mautic.user.profile.invite',
+				'primary': true,
+			}]) %}
+		{% endif %}
 		{{- include('@MauticCore/Helper/list_toolbar.html.twig', {
 			'searchValue': searchValue,
 			'action': currentRoute,
@@ -20,6 +34,7 @@
 				},
 				'routeBase': 'user',
 				'langVar': 'user.user',
+				'customButtons': pageButtons,
 			},
 			'bulk_actions': {
 				'routeBase': 'user',
@@ -49,14 +64,6 @@
 				}
 			]
 		}) -}}
-		<div class="px-md py-sm">
-			{% if permissions.create %}
-				<a href="#InviteUserModal" data-toggle="modal" class="btn btn-primary">
-					<i class="ri-team-line"></i>
-					{{ 'mautic.user.profile.invite'|trans }}
-				</a>
-			{% endif %}
-		</div>
 		<div class="page-list">
 			{{ block('listResults') }}
 		</div>
@@ -65,6 +72,7 @@
 		{{ block('listResults') }}
 	{% endif %}
 
+	{# Local expressive modal for inviting a user on the users page #}
 	{% if isIndex and permissions.create %}
 		{% include '@MauticCore/Components/modal.html.twig' with {
 			id: 'InviteUserModal',
@@ -86,6 +94,12 @@
 				}
 			]
 		} %}
+		{# Auto-open modal if arriving with ?open=invite #}
+		{% if app.request.query.get('open') == 'invite' %}
+			<script>
+				mQuery(function(){ mQuery('#InviteUserModal').modal('show'); });
+			</script>
+		{% endif %}
 	{% endif %}
 {% endblock %}
 
