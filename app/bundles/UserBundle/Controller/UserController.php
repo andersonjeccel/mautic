@@ -131,6 +131,17 @@ class UserController extends FormController
                     'passthroughVars' => [
                         'route' => $this->generateUrl('mautic_user_action', ['objectAction' => 'invite']),
                         'mauticContent' => 'user',
+                        'modalTitle' => 'mautic.user.invite.title',
+                        'modalButtons' => [
+                            [
+                                'text' => 'mautic.user.invite.send',
+                                'class' => 'btn btn-primary',
+                                'attr' => [
+                                    'type' => 'submit',
+                                    'form' => 'mautic-user-invite-form'
+                                ]
+                            ]
+                        ]
                     ],
                 ]);
             }
@@ -156,6 +167,17 @@ class UserController extends FormController
             'passthroughVars' => [
                 'route' => $this->generateUrl('mautic_user_action', ['objectAction' => 'invite']),
                 'mauticContent' => 'user',
+                'modalTitle' => 'mautic.user.invite.title',
+                'modalButtons' => [
+                    [
+                        'text' => 'mautic.user.invite.send',
+                        'class' => 'btn btn-primary',
+                        'attr' => [
+                            'type' => 'submit',
+                            'form' => 'mautic-user-invite-form'
+                        ]
+                    ]
+                ]
             ],
         ]);
     }

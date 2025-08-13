@@ -1,24 +1,15 @@
-<form method="post" action="{{ path('mautic_user_action', {'objectAction':'invite'}) }}" data-toggle="ajax">
-    <div class="modal-header">
-        <h4 class="modal-title">{{ 'mautic.user.invite.title'|trans }}</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+<form method="post" action="{{ path('mautic_user_action', {'objectAction':'invite'}) }}" data-toggle="ajax" id="mautic-user-invite-form">
+    <div class="form-group">
+        <label for="invite_email" class="control-label">{{ 'mautic.user.invite.email.label'|trans }}</label>
+        <input type="email" id="invite_email" name="invite_email" required="required" class="form-control" />
     </div>
-    <div class="modal-body">
-        <div class="form-group">
-            <label for="invite_email" class="control-label">{{ 'mautic.user.invite.email.label'|trans }}</label>
-            <input type="email" id="invite_email" name="invite_email" required="required" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label for="invite_role" class="control-label">{{ 'mautic.user.invite.role.label'|trans }}</label>
-            <select id="invite_role" name="invite_role" required="required" class="form-control">
-                <option value="">{{ 'mautic.user.invite.role.placeholder'|trans }}</option>
-                {% for role in roles %}
-                    <option value="{{ role.id }}">{{ role.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">{{ 'mautic.user.invite.send'|trans }}</button>
+    <div class="form-group">
+        <label for="invite_role" class="control-label">{{ 'mautic.user.invite.role.label'|trans }}</label>
+        <select id="invite_role" name="invite_role" required="required" class="form-control">
+            <option value="">{{ 'mautic.user.invite.role.placeholder'|trans }}</option>
+            {% for role in roles %}
+                <option value="{{ role.id }}">{{ role.name }}</option>
+            {% endfor %}
+        </select>
     </div>
 </form>
