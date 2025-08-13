@@ -77,7 +77,7 @@
 		{% include '@MauticCore/Components/modal.html.twig' with {
 			id: 'InviteUserModal',
 			modalLabel: 'mautic.user.invite.title',
-			modalContent: include('@MauticUser/User/invite.html.twig', { roles: roles }),
+			modalContent: include('@MauticUser/User/invite.html.twig'),
 			type: 'expressive',
 			buttons: [
 				{
