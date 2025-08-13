@@ -1,10 +1,16 @@
-<form method="post" action="{{ path('mautic_user_action', {'objectAction':'invite'}) }}" data-toggle="ajax">
+{% set formContainer %}
+<div class="mb-48">
+    {% include '@MauticCore/Components/pictogram.html.twig' with {
+        'pictogram': 'collaboration',
+        'size': '80'
+    } %}
+</div>
+
+<form class="form-inline layer-two" method="post" action="{{ path('mautic_user_action', {'objectAction':'invite'}) }}" data-toggle="ajax">
     <div class="form-group">
-        <label for="invite_email" class="control-label">{{ 'mautic.user.invite.email.label'|trans }}</label>
-        <input type="email" id="invite_email" name="invite_email" required="required" class="form-control" />
+        <input type="email" id="invite_email" placeholder="{{ 'mautic.user.invite.email.label'|trans }}" name="invite_email" required="required" class="form-control" />
     </div>
     <div class="form-group">
-        <label for="invite_role" class="control-label">{{ 'mautic.user.invite.role.label'|trans }}</label>
         <select id="invite_role" name="invite_role" required="required" class="form-control">
             <option value="">{{ 'mautic.user.invite.role.placeholder'|trans }}</option>
             {% for role in roles %}
@@ -12,7 +18,13 @@
             {% endfor %}
         </select>
     </div>
-    <div class="text-right">
-        <button type="submit" class="btn btn-primary">{{ 'mautic.user.invite.send'|trans }}</button>
-    </div>
+    <button type="submit" class="btn btn-primary">{{ 'mautic.user.invite.send'|trans }}</button>
 </form>
+{% endset %}
+
+{{ include('@MauticCore/Components/content-block.html.twig', {
+    heading: 'Invite users to join your organization',
+    subheading: 'Add the email address of the user to send an invitation link.',
+    childContainer: formContainer,
+    noMargin: true,
+}) }}
