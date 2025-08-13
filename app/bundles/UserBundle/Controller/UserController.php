@@ -12,6 +12,7 @@ use Mautic\CoreBundle\Model\AuditLogModel;
 use Mautic\CoreBundle\Model\FormModel;
 use Mautic\EmailBundle\Helper\MailHelper;
 use Mautic\UserBundle\Form\Type\ContactType;
+use Mautic\UserBundle\Form\Type\UserInviteType;
 use Mautic\UserBundle\Model\RoleModel;
 use Mautic\UserBundle\Model\UserModel;
 use Symfony\Component\HttpFoundation\Request;
@@ -94,7 +95,7 @@ class UserController extends FormController
                     'edit'   => $this->security->isGranted('user:users:editother'),
                     'delete' => $this->security->isGranted('user:users:deleteother'),
                 ],
-                'roles'         => $this->getRoles(),
+
             ],
             'contentTemplate' => '@MauticUser/User/list.html.twig',
             'passthroughVars' => [
@@ -118,32 +119,29 @@ class UserController extends FormController
         /** @var UserModel $model */
         $model = $this->getModel('user.user');
 
+        $action = $this->generateUrl('mautic_user_action', ['objectAction' => 'invite']);
+        $form = $this->createForm(UserInviteType::class, [], ['action' => $action]);
+
         if ('POST' === $request->getMethod()) {
-            $email  = trim((string) $request->request->get('invite_email'));
-            $roleId = $request->request->get('invite_role');
+            $form->handleRequest($request);
 
-            $hasError = false;
-            if ('' === $email) {
-                $this->addFlashMessage('mautic.user.invite.error.email_required', [], 'error');
-                $hasError = true;
-            } elseif (false === filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $this->addFlashMessage('mautic.user.invite.error.email_invalid', [], 'error');
-                $hasError = true;
-            }
+            if ($form->isSubmitted() && $form->isValid()) {
+                $data = $form->getData();
+                $email = $data['email'];
+                $role = $data['role'];
 
-            if (empty($roleId)) {
-                $this->addFlashMessage('mautic.user.invite.error.role_required', [], 'error');
-                $hasError = true;
-            }
+                $model->createInvite($email, $role->getId());
+                $this->addFlashMessage('mautic.user.invite.flash.sent', ['%email%' => $email]);
 
-            if ($hasError) {
                 return $this->delegateView([
                     'viewParameters' => [
-                        'roles' => $this->getRoles(),
+                        'form' => $form->createView(),
+                        'success' => true,
+                        'invitedEmail' => $email,
                     ],
                     'contentTemplate' => '@MauticUser/User/invite.html.twig',
                     'passthroughVars' => [
-                        'route' => $this->generateUrl('mautic_user_action', ['objectAction' => 'invite']),
+                        'route' => $action,
                         'mauticContent' => 'user',
                         'header' => $this->translator->trans('mautic.user.invite.title'),
                         'target' => '#InviteUserModal .modal-body-content',
@@ -152,18 +150,13 @@ class UserController extends FormController
                 ]);
             }
 
-            $model->createInvite($email, (int) $roleId);
-            $this->addFlashMessage('mautic.user.invite.flash.sent', ['%email%' => $email]);
-
             return $this->delegateView([
                 'viewParameters' => [
-                    'roles' => $this->getRoles(),
-                    'success' => true,
-                    'invitedEmail' => $email,
+                    'form' => $form->createView(),
                 ],
                 'contentTemplate' => '@MauticUser/User/invite.html.twig',
                 'passthroughVars' => [
-                    'route' => $this->generateUrl('mautic_user_action', ['objectAction' => 'invite']),
+                    'route' => $action,
                     'mauticContent' => 'user',
                     'header' => $this->translator->trans('mautic.user.invite.title'),
                     'target' => '#InviteUserModal .modal-body-content',
@@ -174,21 +167,15 @@ class UserController extends FormController
 
         return $this->delegateView([
             'viewParameters' => [
-                'roles' => $this->getRoles(),
+                'form' => $form->createView(),
             ],
             'contentTemplate' => '@MauticUser/User/invite.html.twig',
             'passthroughVars' => [
-                'route' => $this->generateUrl('mautic_user_action', ['objectAction' => 'invite']),
+                'route' => $action,
                 'mauticContent' => 'user',
                 'header' => $this->translator->trans('mautic.user.invite.title'),
             ],
         ]);
-    }
-
-    private function getRoles(): array
-    {
-        $roleModel = $this->getModel('user.role');
-        return $roleModel->getRepository()->findAll();
     }
 
     public function newAction(Request $request, LanguageHelper $languageHelper, UserPasswordHasherInterface $hasher)
