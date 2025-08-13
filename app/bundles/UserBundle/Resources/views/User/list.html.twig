@@ -49,29 +49,12 @@
 				}
 			]
 		}) -}}
-		<div class="px-md py-sm">
-			{% if permissions.create %}
-				<a href="#InviteUserModal" data-toggle="modal" class="btn btn-primary">
-					<i class="ri-team-line"></i>
-					{{ 'mautic.user.profile.invite'|trans }}
-				</a>
-			{% endif %}
-		</div>
 		<div class="page-list">
 			{{ block('listResults') }}
 		</div>
 	</div>
 	{% else %}
 		{{ block('listResults') }}
-	{% endif %}
-
-	{# Local modal component for inviting a user #}
-	{% if permissions.create %}
-		{% include '@MauticCore/Components/modal.html.twig' with {
-			id: 'InviteUserModal',
-			modalHeading: 'mautic.user.invite.title',
-			modalContent: include('@MauticUser/User/invite.html.twig', { roles: roles })
-		} %}
 	{% endif %}
 {% endblock %}
 
