@@ -73,13 +73,12 @@
 	{% endif %}
 
 	{# Local expressive modal for inviting a user on the users page #}
-	{% if isIndex and permissions.create %}
+	{% if isIndex and permissions.create and inviteForm %}
 		{% include '@MauticCore/Components/modal.html.twig' with {
 			id: 'InviteUserModal',
 			modalLabel: 'mautic.user.invite.title',
-			modalContent: '',
+			modalContent: include('@MauticUser/User/invite.html.twig', { form: inviteForm }),
 			type: 'expressive',
-			loadUrl: path('mautic_user_action', {'objectAction': 'invite'}),
 			buttons: [
 				{
 					'label': 'mautic.core.form.cancel'|trans,

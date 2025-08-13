@@ -1,0 +1,42 @@
+{% set formContainer %}
+<div class="mb-48">
+    {% include '@MauticCore/Components/pictogram.html.twig' with {
+        'pictogram': 'collaboration',
+        'size': '80'
+    } %}
+</div>
+
+{# Render flash messages inside modal body #}
+{% include '@MauticCore/Notification/flash_messages.html.twig' %}
+
+{% if success is defined and success %}
+    <div class="alert alert-success">
+        <i class="ri-check-line"></i>
+        {{ 'mautic.user.invite.flash.sent'|trans({'%email%': invitedEmail}) }}
+    </div>
+    <div class="text-center">
+        <button type="button" class="btn btn-primary" onclick="Mautic.closeModal()">
+            {{ 'mautic.core.form.close'|trans }}
+        </button>
+    </div>
+{% else %}
+{{ form_start(form, {'attr': {'id': 'invite-user-form', 'class': 'd-flex layer-one', 'data-toggle': 'ajax'}}) }}
+    <div class="form-group fg-1">
+        {{ form_widget(form.email) }}
+        {{ form_errors(form.email) }}
+    </div>
+    <div class="form-group fg-1">
+        {{ form_widget(form.role) }}
+        {{ form_errors(form.role) }}
+    </div>
+    <button type="submit" class="sr-only" tabindex="-1" aria-hidden="true"></button>
+{{ form_end(form, {'render_rest': false}) }}
+{% endif %}
+{% endset %}
+
+{{ include('@MauticCore/Components/content-block.html.twig', {
+    heading: 'Collaborate with your organization',
+    subheading: 'Add the email address of the user to send an invitation link.',
+    childContainer: formContainer,
+    noMargin: true,
+}) }}

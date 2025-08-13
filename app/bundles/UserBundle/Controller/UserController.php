@@ -82,6 +82,13 @@ class UserController extends FormController
 
         $pageHelper->rememberPage($page);
 
+        // Create invite form for modal
+        $inviteForm = null;
+        if ($this->security->isGranted('user:users:create')) {
+            $action = $this->generateUrl('mautic_user_action', ['objectAction' => 'invite']);
+            $inviteForm = $this->createForm(UserInviteType::class, [], ['action' => $action]);
+        }
+
         return $this->delegateView([
             'viewParameters'  => [
                 'items'         => $users,
@@ -95,7 +102,7 @@ class UserController extends FormController
                     'edit'   => $this->security->isGranted('user:users:editother'),
                     'delete' => $this->security->isGranted('user:users:deleteother'),
                 ],
-
+                'inviteForm'    => $inviteForm ? $inviteForm->createView() : null,
             ],
             'contentTemplate' => '@MauticUser/User/list.html.twig',
             'passthroughVars' => [
