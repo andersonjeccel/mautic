@@ -4,8 +4,10 @@ namespace Mautic\UserBundle\Controller;
 
 use Mautic\CoreBundle\Controller\FormController;
 use Mautic\UserBundle\Entity\User;
+use Mautic\UserBundle\Entity\Role;
 use Mautic\UserBundle\Form\Type\PasswordResetConfirmType;
 use Mautic\UserBundle\Form\Type\PasswordResetType;
+use Mautic\UserBundle\Form\Type\UserType;
 use Mautic\UserBundle\Model\UserModel;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -134,6 +136,60 @@ class PublicController extends FormController
                 'form' => $form->createView(),
             ],
             'contentTemplate' => '@MauticUser/Security/resetconfirm.html.twig',
+            'passthroughVars' => [
+                'route' => $action,
+            ],
+        ]);
+    }
+    public function inviteAction(Request $request, UserPasswordHasherInterface $hasher): mixed
+    {
+        /** @var UserModel $model */
+        $model = $this->getModel('user');
+
+        $token  = $request->get('token');
+        $invite = $model->getInvite($token);
+        if (null === $invite) {
+            $this->addFlashMessage('mautic.user.invite.invalid', [], 'error');
+            return $this->redirectToRoute('login');
+        }
+
+        $user = new User();
+        $user->setEmail($invite->getEmail());
+
+        $action = $this->generateUrl('mautic_user_invite_register', ['token' => $token]);
+        $form   = $this->formFactory->create(UserType::class, $user, ['action' => $action, 'in_profile' => true, 'ignore_formexit' => true]);
+
+        if ('POST' === $request->getMethod()) {
+            if ($isValid = $this->isFormValid($form)) {
+                $encoded = $model->checkNewPassword($user, $hasher, $user->getPlainPassword());
+
+                $user->setPassword($encoded);
+                $user->setEmail($invite->getEmail());
+                
+                // Use the role from the invite
+                if ($invite->getRole()) {
+                    $user->setRole($invite->getRole());
+                } else {
+                    // Fallback to first available role if none was set
+                    $role = $this->em->getRepository(Role::class)->findOneBy([], ['id' => 'ASC']);
+                    if (null !== $role) {
+                        $user->setRole($role);
+                    }
+                }
+                
+                $model->saveEntity($user);
+                $model->markInviteUsed($invite);
+                $this->addFlashMessage('mautic.user.invite.account_created');
+
+                return $this->redirectToRoute('login');
+            }
+        }
+
+        return $this->delegateView([
+            'viewParameters' => [
+                'form' => $form->createView(),
+            ],
+            'contentTemplate' => '@MauticUser/Security/register.html.twig',
             'passthroughVars' => [
                 'route' => $action,
             ],

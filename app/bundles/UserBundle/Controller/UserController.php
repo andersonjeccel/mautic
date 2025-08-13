@@ -108,6 +108,64 @@ class UserController extends FormController
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse|Response
      */
+    public function inviteAction(Request $request)
+    {
+        if (!$this->security->isGranted('user:users:create')) {
+            return $this->accessDenied();
+        }
+
+        /** @var UserModel $model */
+        $model = $this->getModel('user.user');
+
+        if ('POST' === $request->getMethod()) {
+            $email = $request->request->get('invite_email');
+            $roleId = $request->request->get('invite_role');
+            
+            if (empty($roleId)) {
+                $this->addFlashMessage('mautic.user.invite.error.role_required', [], 'error');
+                return $this->delegateView([
+                    'viewParameters' => [
+                        'roles' => $this->getRoles(),
+                    ],
+                    'contentTemplate' => '@MauticUser/User/invite.html.twig',
+                    'passthroughVars' => [
+                        'route' => $this->generateUrl('mautic_user_action', ['objectAction' => 'invite']),
+                        'mauticContent' => 'user',
+                    ],
+                ]);
+            }
+            
+            $model->createInvite($email, $roleId);
+            $this->addFlashMessage('mautic.user.invite.flash.sent', ['%email%' => $email]);
+
+            return $this->postActionRedirect([
+                'returnUrl' => $this->generateUrl('mautic_user_index'),
+                'contentTemplate' => 'Mautic\UserBundle\Controller\UserController::indexAction',
+                'passthroughVars' => [
+                    'mauticContent' => 'user',
+                    'closeModal' => 1,
+                ],
+            ]);
+        }
+
+        return $this->delegateView([
+            'viewParameters' => [
+                'roles' => $this->getRoles(),
+            ],
+            'contentTemplate' => '@MauticUser/User/invite.html.twig',
+            'passthroughVars' => [
+                'route' => $this->generateUrl('mautic_user_action', ['objectAction' => 'invite']),
+                'mauticContent' => 'user',
+            ],
+        ]);
+    }
+
+    private function getRoles(): array
+    {
+        $roleModel = $this->getModel('user.role');
+        return $roleModel->getRepository()->findAll();
+    }
+
     public function newAction(Request $request, LanguageHelper $languageHelper, UserPasswordHasherInterface $hasher)
     {
         if (!$this->security->isGranted('user:users:create')) {
