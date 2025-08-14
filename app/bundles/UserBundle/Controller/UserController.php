@@ -83,7 +83,6 @@ class UserController extends FormController
 
         $pageHelper->rememberPage($page);
 
-        // Create invite form for modal
         $inviteForm = null;
         if ($this->security->isGranted('user:users:create')) {
             $action     = $this->generateUrl('mautic_user_action', ['objectAction' => 'invite']);
@@ -141,7 +140,6 @@ class UserController extends FormController
                 $model->createInvite($email, $role->getId());
                 $this->addFlashMessage('mautic.user.invite.flash.sent', ['%email%' => $email], 'notice', 'flashes');
 
-                // Return a JSON response for AJAX that closes modal and redirects
                 if ($request->isXmlHttpRequest()) {
                     return new JsonResponse([
                         'closeModal' => 1,

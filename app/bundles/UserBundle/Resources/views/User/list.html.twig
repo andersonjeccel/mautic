@@ -11,7 +11,6 @@
 {% block content %}
 	{% if isIndex %}
 	<div id="page-list-wrapper" class="panel panel-default">
-		{# Build pageButtons similar to Lead _filter to inject a custom toolbar button #}
 		{%- set pageButtons = [] %}
 		{% if permissions.create %}
 			{% set pageButtons = pageButtons|merge([{
@@ -72,9 +71,7 @@
 		{{ block('listResults') }}
 	{% endif %}
 
-	{# Local expressive modal for inviting a user on the users page #}
 	{% if isIndex and permissions.create and inviteForm %}
-		{# Auto-open modal if arriving with ?open=invite #}
 		{% set modalAttributes = {} %}
 		{% if app.request.query.get('open') == 'invite' %}
 			{% set modalAttributes = modalAttributes|merge({'data-auto-open': 'true'}) %}

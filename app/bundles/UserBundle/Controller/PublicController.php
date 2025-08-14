@@ -156,11 +156,9 @@ class PublicController extends FormController
         $user = new User();
         $user->setEmail($invite->getEmail());
 
-        // Pre-populate the role from the invite to pass validation
         if ($invite->getRole()) {
             $user->setRole($invite->getRole());
         } else {
-            // Fallback to first available role if none was set
             $role = $this->em->getRepository(Role::class)->findOneBy([], ['id' => 'ASC']);
             if (null !== $role) {
                 $user->setRole($role);
@@ -178,9 +176,6 @@ class PublicController extends FormController
 
                 $user->setPassword($encoded);
                 $user->setEmail($invite->getEmail());
-
-                // The role is already set from the invite, no need to set it again
-
                 $model->saveEntity($user);
                 $model->markInviteUsed($invite);
                 $this->addFlashMessage('mautic.user.invite.account_created', [], 'notice', 'flashes');
