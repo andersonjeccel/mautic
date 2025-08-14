@@ -139,7 +139,7 @@ class UserController extends FormController
                 $role  = $data['role'];
 
                 $model->createInvite($email, $role->getId());
-                $this->addFlashMessage('mautic.user.invite.flash.sent', ['%email%' => $email]);
+                $this->addFlashMessage('mautic.user.invite.flash.sent', ['%email%' => $email], 'notice', 'flashes');
 
                 // Return a JSON response for AJAX that closes modal and redirects
                 if ($request->isXmlHttpRequest()) {
