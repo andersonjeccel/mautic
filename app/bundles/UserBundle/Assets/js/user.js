@@ -8,8 +8,8 @@ Mautic.userOnLoad = function (container) {
         if (mQuery(container + ' #list-search').length) {
             Mautic.activateSearchAutocomplete('list-search', 'user.user');
         }
-        
-        // Auto-open invite modal if arriving with ?open=invite
+
+                // Auto-open invite modal if arriving with ?open=invite
         if (mQuery('#InviteUserModal').length && mQuery('#InviteUserModal').data('auto-open')) {
             mQuery('#InviteUserModal').modal('show');
         }
