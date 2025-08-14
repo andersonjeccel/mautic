@@ -147,6 +147,8 @@ class UserController extends FormController
                     'passthroughVars' => [
                         'closeModal' => 1,
                         'mauticContent' => 'user',
+                        'updateMainContent' => 1,
+                        'route' => $this->generateUrl('mautic_user_index'),
                     ],
                 ]);
             }
