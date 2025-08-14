@@ -180,7 +180,7 @@ class UserController extends FormController
         ]);
     }
 
-    public function newAction(Request $request, LanguageHelper $languageHelper, UserPasswordHasherInterface $hasher)
+    public function newAction(Request $request, LanguageHelper $languageHelper, UserPasswordHasherInterface $hasher): Response
     {
         if (!$this->security->isGranted('user:users:create')) {
             return $this->accessDenied();
