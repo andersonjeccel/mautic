@@ -74,11 +74,18 @@
 
 	{# Local expressive modal for inviting a user on the users page #}
 	{% if isIndex and permissions.create and inviteForm %}
+		{# Auto-open modal if arriving with ?open=invite #}
+		{% set modalAttributes = {} %}
+		{% if app.request.query.get('open') == 'invite' %}
+			{% set modalAttributes = modalAttributes|merge({'data-auto-open': 'true'}) %}
+		{% endif %}
+
 		{% include '@MauticCore/Components/modal.html.twig' with {
 			id: 'InviteUserModal',
 			modalLabel: 'mautic.user.invite.title',
 			modalContent: include('@MauticUser/User/invite.html.twig', { form: inviteForm }),
 			type: 'expressive',
+			modalAttributes: modalAttributes,
 			buttons: [
 				{
 					'label': 'mautic.core.form.cancel'|trans,
@@ -94,12 +101,6 @@
 				}
 			]
 		} %}
-		{# Auto-open modal if arriving with ?open=invite #}
-		{% if app.request.query.get('open') == 'invite' %}
-			<script>
-				mQuery(function(){ mQuery('#InviteUserModal').modal('show'); });
-			</script>
-		{% endif %}
 	{% endif %}
 {% endblock %}
 
