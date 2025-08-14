@@ -143,7 +143,6 @@ class UserController extends FormController
                 // Close modal and refresh page to show flash message
                 return $this->delegateView([
                     'viewParameters' => [],
-                    'contentTemplate' => '@MauticUser/User/invite.html.twig',
                     'passthroughVars' => [
                         'closeModal' => 1,
                         'mauticContent' => 'user',
