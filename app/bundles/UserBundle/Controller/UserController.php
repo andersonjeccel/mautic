@@ -85,7 +85,7 @@ class UserController extends FormController
         // Create invite form for modal
         $inviteForm = null;
         if ($this->security->isGranted('user:users:create')) {
-            $action = $this->generateUrl('mautic_user_action', ['objectAction' => 'invite']);
+            $action     = $this->generateUrl('mautic_user_action', ['objectAction' => 'invite']);
             $inviteForm = $this->createForm(UserInviteType::class, [], ['action' => $action]);
         }
 
@@ -127,27 +127,26 @@ class UserController extends FormController
         $model = $this->getModel('user.user');
 
         $action = $this->generateUrl('mautic_user_action', ['objectAction' => 'invite']);
-        $form = $this->createForm(UserInviteType::class, [], ['action' => $action]);
+        $form   = $this->createForm(UserInviteType::class, [], ['action' => $action]);
 
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $data = $form->getData();
+                $data  = $form->getData();
                 $email = $data['email'];
-                $role = $data['role'];
+                $role  = $data['role'];
 
                 $model->createInvite($email, $role->getId());
                 $this->addFlashMessage('mautic.user.invite.flash.sent', ['%email%' => $email]);
 
-                // Close modal and refresh page to show flash message
-                return $this->delegateView([
-                    'viewParameters' => [],
+                // Use postActionRedirect to properly handle modal close and flash message
+                return $this->postActionRedirect([
+                    'returnUrl'       => $this->generateUrl('mautic_user_index'),
+                    'contentTemplate' => 'Mautic\UserBundle\Controller\UserController::indexAction',
                     'passthroughVars' => [
-                        'closeModal' => 1,
+                        'closeModal'    => 1,
                         'mauticContent' => 'user',
-                        'updateMainContent' => 1,
-                        'route' => $this->generateUrl('mautic_user_index'),
                     ],
                 ]);
             }
@@ -158,10 +157,10 @@ class UserController extends FormController
                 ],
                 'contentTemplate' => '@MauticUser/User/invite.html.twig',
                 'passthroughVars' => [
-                    'route' => $action,
-                    'mauticContent' => 'user',
-                    'header' => $this->translator->trans('mautic.user.invite.title'),
-                    'target' => '#InviteUserModal .modal-body-content',
+                    'route'              => $action,
+                    'mauticContent'      => 'user',
+                    'header'             => $this->translator->trans('mautic.user.invite.title'),
+                    'target'             => '#InviteUserModal .modal-body-content',
                     'updateModalContent' => 1,
                 ],
             ]);
@@ -173,9 +172,9 @@ class UserController extends FormController
             ],
             'contentTemplate' => '@MauticUser/User/invite.html.twig',
             'passthroughVars' => [
-                'route' => $action,
+                'route'         => $action,
                 'mauticContent' => 'user',
-                'header' => $this->translator->trans('mautic.user.invite.title'),
+                'header'        => $this->translator->trans('mautic.user.invite.title'),
             ],
         ]);
     }
