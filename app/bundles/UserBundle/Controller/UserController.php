@@ -15,6 +15,7 @@ use Mautic\UserBundle\Form\Type\ContactType;
 use Mautic\UserBundle\Form\Type\UserInviteType;
 use Mautic\UserBundle\Model\RoleModel;
 use Mautic\UserBundle\Model\UserModel;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -26,7 +27,7 @@ class UserController extends FormController
      *
      * @param int $page
      *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse|Response
+     * @return JsonResponse|Response
      */
     public function indexAction(Request $request, PageHelperFactoryInterface $pageHelperFactory, $page = 1)
     {
@@ -115,7 +116,7 @@ class UserController extends FormController
     /**
      * Generate's form and processes new post data.
      *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse|Response
+     * @return JsonResponse|Response
      */
     public function inviteAction(Request $request)
     {
@@ -140,15 +141,15 @@ class UserController extends FormController
                 $model->createInvite($email, $role->getId());
                 $this->addFlashMessage('mautic.user.invite.flash.sent', ['%email%' => $email]);
 
-                // Use postActionRedirect to properly handle modal close and flash message
-                return $this->postActionRedirect([
-                    'returnUrl'       => $this->generateUrl('mautic_user_index'),
-                    'contentTemplate' => 'Mautic\UserBundle\Controller\UserController::indexAction',
-                    'passthroughVars' => [
-                        'closeModal'    => 1,
-                        'mauticContent' => 'user',
-                    ],
-                ]);
+                // Return a JSON response for AJAX that closes modal and redirects
+                if ($request->isXmlHttpRequest()) {
+                    return new JsonResponse([
+                        'closeModal' => 1,
+                        'redirect'   => $this->generateUrl('mautic_user_index'),
+                    ]);
+                }
+
+                return $this->redirect($this->generateUrl('mautic_user_index'));
             }
 
             return $this->delegateView([
@@ -283,7 +284,7 @@ class UserController extends FormController
      * @param int  $objectId
      * @param bool $ignorePost
      *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse|Response
+     * @return JsonResponse|Response
      */
     public function editAction(Request $request, LanguageHelper $languageHelper, UserPasswordHasherInterface $hasher, $objectId, $ignorePost = false)
     {
