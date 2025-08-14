@@ -140,19 +140,13 @@ class UserController extends FormController
                 $model->createInvite($email, $role->getId());
                 $this->addFlashMessage('mautic.user.invite.flash.sent', ['%email%' => $email]);
 
+                // Close modal and refresh page to show flash message
                 return $this->delegateView([
-                    'viewParameters' => [
-                        'form' => $form->createView(),
-                        'success' => true,
-                        'invitedEmail' => $email,
-                    ],
+                    'viewParameters' => [],
                     'contentTemplate' => '@MauticUser/User/invite.html.twig',
                     'passthroughVars' => [
-                        'route' => $action,
+                        'closeModal' => 1,
                         'mauticContent' => 'user',
-                        'header' => $this->translator->trans('mautic.user.invite.title'),
-                        'target' => '#InviteUserModal .modal-body-content',
-                        'updateModalContent' => 1,
                     ],
                 ]);
             }
