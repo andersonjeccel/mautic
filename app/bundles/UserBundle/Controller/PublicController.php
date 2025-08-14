@@ -149,7 +149,7 @@ class PublicController extends FormController
         $token  = $request->get('token');
         $invite = $model->getInvite($token);
         if (null === $invite) {
-            $this->addFlashMessage('mautic.user.invite.invalid', [], 'error');
+            $this->addFlashMessage('mautic.user.invite.invalid', [], 'error', 'flashes');
             return $this->redirectToRoute('login');
         }
 
