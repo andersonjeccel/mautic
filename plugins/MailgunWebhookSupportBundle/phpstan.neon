@@ -1,0 +1,11 @@
+includes:
+    - ../../vendor/phpstan/phpstan/conf/level8.neon
+    - phpstan-baseline.php
+
+parameters:
+    level: 8
+    paths:
+        - .
+    excludePaths:
+        - Tests/
+        - vendor/ 
