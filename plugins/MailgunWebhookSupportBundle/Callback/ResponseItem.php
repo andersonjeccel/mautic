@@ -17,7 +17,7 @@ class ResponseItem
         $this->email     = $data['recipient'] ?? '';
         $this->reason    = $this->determineReason($data);
         $this->dncReason = CallbackEnum::convertEventToDncReason($data['event'] ?? '', $data);
-        $this->channel   = null; // Will be passed as null to use default 'email' channel
+        $this->channel   = $this->extractChannelId($data);
     }
 
     public function getEmail(): string
@@ -84,5 +84,114 @@ class ResponseItem
             CallbackEnum::FAILED      => 'permanent' === $severity ? 'Permanent failure' : 'Failed to deliver',
             default                   => 'Unknown',
         };
+    }
+
+    /**
+     * Attempt to extract a specific email channel ID (Mautic email ID) from Mailgun webhook payload.
+     *
+     * Supported sources:
+     * - user-variables.mautic_metadata (string serialized or JSON)
+     * - user-variables.emailId (int)
+     * - message.headers.mautic_metadata (string serialized)
+     * - message.headers.X-Mailgun-Variables (JSON containing mautic_metadata/emailId)
+     *
+     * @param array<string, mixed> $data
+     */
+    private function extractChannelId(array $data): ?int
+    {
+        $recipient = $this->email;
+
+        // 1) user-variables
+        if (isset($data['user-variables']) && is_array($data['user-variables'])) {
+            $vars = $data['user-variables'];
+
+            // Direct emailId
+            if (isset($vars['emailId']) && is_numeric($vars['emailId'])) {
+                return (int) $vars['emailId'];
+            }
+
+            // Serialized or JSON metadata under mautic_metadata
+            if (isset($vars['mautic_metadata'])) {
+                $emailId = $this->parseMetadataForEmailId($vars['mautic_metadata'], $recipient);
+                if (null !== $emailId) {
+                    return $emailId;
+                }
+            }
+        }
+
+        // 2) message.headers.mautic_metadata
+        if (isset($data['message']['headers']['mautic_metadata'])) {
+            $emailId = $this->parseMetadataForEmailId($data['message']['headers']['mautic_metadata'], $recipient);
+            if (null !== $emailId) {
+                return $emailId;
+            }
+        }
+
+        // 3) message.headers.X-Mailgun-Variables (JSON string)
+        if (isset($data['message']['headers']['X-Mailgun-Variables'])) {
+            $json = $data['message']['headers']['X-Mailgun-Variables'];
+            if (is_string($json)) {
+                $decoded = json_decode($json, true);
+                if (is_array($decoded)) {
+                    // Try direct emailId
+                    if (isset($decoded['emailId']) && is_numeric($decoded['emailId'])) {
+                        return (int) $decoded['emailId'];
+                    }
+                    // Try mautic_metadata inside variables
+                    if (isset($decoded['mautic_metadata'])) {
+                        $emailId = $this->parseMetadataForEmailId($decoded['mautic_metadata'], $recipient);
+                        if (null !== $emailId) {
+                            return $emailId;
+                        }
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param mixed $rawMetadata
+     */
+    private function parseMetadataForEmailId($rawMetadata, string $recipient): ?int
+    {
+        $metadata = null;
+
+        // Try PHP serialized array first
+        if (is_string($rawMetadata)) {
+            $unserialized = @unserialize($rawMetadata);
+            if (false !== $unserialized && is_array($unserialized)) {
+                $metadata = $unserialized;
+            }
+        }
+
+        // Try JSON as fallback
+        if (null === $metadata) {
+            if (is_string($rawMetadata)) {
+                $decoded = json_decode($rawMetadata, true);
+                if (is_array($decoded)) {
+                    $metadata = $decoded;
+                }
+            } elseif (is_array($rawMetadata)) {
+                $metadata = $rawMetadata;
+            }
+        }
+
+        if (!is_array($metadata)) {
+            return null;
+        }
+
+        // Preferred: keyed by recipient address
+        if (isset($metadata[$recipient]['emailId']) && is_numeric($metadata[$recipient]['emailId'])) {
+            return (int) $metadata[$recipient]['emailId'];
+        }
+
+        // Fallback: top-level emailId
+        if (isset($metadata['emailId']) && is_numeric($metadata['emailId'])) {
+            return (int) $metadata['emailId'];
+        }
+
+        return null;
     }
 }
