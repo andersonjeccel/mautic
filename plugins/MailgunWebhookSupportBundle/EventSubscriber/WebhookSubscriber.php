@@ -44,11 +44,14 @@ class WebhookSubscriber implements EventSubscriberInterface
 
         $message = $event->getMessage();
         if ($message instanceof MauticMessage) {
-            $metadata = $message->getMetadata();
-            $list     = [];
+            $metadata      = $message->getMetadata();
+            $list          = [];
+            $recipientVars = [];
             foreach ($message->getTo() as $address) {
                 if (isset($metadata[$address->getAddress()]['emailId'])) {
-                    $list[$address->getAddress()]['emailId'] = $metadata[$address->getAddress()]['emailId'];
+                    $emailId                                 = $metadata[$address->getAddress()]['emailId'];
+                    $list[$address->getAddress()]['emailId'] = $emailId;
+                    $recipientVars[$address->getAddress()]   = ['emailId' => $emailId];
                 }
             }
 
@@ -60,6 +63,13 @@ class WebhookSubscriber implements EventSubscriberInterface
                 $payload = json_encode(['mautic_metadata' => $list]);
                 if (false !== $payload) {
                     $message->getHeaders()->addTextHeader('X-Mailgun-Variables', $payload);
+                }
+
+                if (!empty($recipientVars)) {
+                    $rv = json_encode($recipientVars);
+                    if (false !== $rv) {
+                        $message->getHeaders()->addTextHeader('X-Mailgun-Recipient-Variables', $rv);
+                    }
                 }
             }
         }
