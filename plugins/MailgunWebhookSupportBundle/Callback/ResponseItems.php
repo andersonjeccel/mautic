@@ -60,6 +60,15 @@ class ResponseItems implements \Iterator
             return;
         }
 
+        // If payload itself is a single event object
+        if (isset($formData['event']) && isset($formData['recipient'])) {
+            if (CallbackEnum::shouldBeEventProcessed((string) $formData['event'], $formData)) {
+                $this->items[] = new ResponseItem($formData);
+            }
+
+            return;
+        }
+
         // Mailgun typically posts under 'event-data'. It can be an array or a JSON string.
         if (isset($formData['event-data'])) {
             $eventData = $formData['event-data'];
