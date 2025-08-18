@@ -88,6 +88,13 @@ class WebhookSubscriber implements EventSubscriberInterface
             $responseItems  = new ResponseItems($request);
             $processedCount = 0;
 
+            // Log the raw request data for debugging
+            $this->logger->info('Mailgun Webhook: Raw request data', [
+                'request_all'  => $request->request->all(),
+                'content'      => $request->getContent(),
+                'content_type' => $request->headers->get('Content-Type'),
+            ]);
+
             foreach ($responseItems as $item) {
                 $this->logger->info('Mailgun Webhook: Processing item', [
                     'email'      => $item->getEmail(),

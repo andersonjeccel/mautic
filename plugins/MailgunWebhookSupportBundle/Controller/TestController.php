@@ -5,91 +5,50 @@ declare(strict_types=1);
 namespace MauticPlugin\MailgunWebhookSupportBundle\Controller;
 
 use Mautic\CoreBundle\Controller\CommonController;
+use MauticPlugin\MailgunWebhookSupportBundle\Callback\ResponseItems;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class TestController extends CommonController
 {
-    public function testWebhookAction(Request $request): Response
+    #[Route('/mailgun/test', name: 'mautic_mailgun_test', methods: ['GET'])]
+    public function testAction(): Response
     {
-        $data = json_decode($request->getContent(), true);
-
-        if (!is_array($data)) {
-            return new JsonResponse(['error' => 'Invalid JSON data'], 400);
-        }
-
-        // Forward the test data to the actual webhook endpoint
-        $webhookRequest = Request::create(
-            '/mailer/callback',
-            'POST',
-            [],
-            [],
-            [],
-            ['CONTENT_TYPE' => 'application/json'],
-            json_encode($data)
-        );
-
-        // Set Mailgun-like headers
-        $webhookRequest->headers->set('User-Agent', 'Mailgun Webhook');
-        $webhookRequest->headers->set('Content-Type', 'application/json');
-
-        // Dispatch the webhook event
-        $event = new \Mautic\EmailBundle\Event\TransportWebhookEvent($webhookRequest);
-        $this->dispatcher->dispatch($event, \Mautic\EmailBundle\EmailEvents::ON_TRANSPORT_WEBHOOK);
-
-        return new JsonResponse([
-            'status'  => 'success',
-            'message' => 'Test webhook processed',
-            'data'    => $data,
-        ]);
+        return new Response('Mailgun Webhook Test Controller');
     }
 
-    public function sampleDataAction(): Response
+    #[Route('/mailgun/test-webhook', name: 'mautic_mailgun_test_webhook', methods: ['POST'])]
+    public function testWebhookAction(Request $request): Response
     {
-        $sampleData = [
-            // Bounce event
-            [
-                'event'      => 'bounced',
-                'recipient'  => 'test@example.com',
-                'reason'     => 'Mailbox not found',
-                'error'      => '550 5.1.1 The email account that you tried to reach does not exist.',
-                'timestamp'  => time(),
-                'message-id' => 'test-message-id-123',
-            ],
-            // Unsubscribe event
-            [
-                'event'      => 'unsubscribed',
-                'recipient'  => 'user@example.com',
-                'timestamp'  => time(),
-                'message-id' => 'test-message-id-456',
-            ],
-            // Spam complaint
-            [
-                'event'      => 'complained',
-                'recipient'  => 'spam@example.com',
-                'timestamp'  => time(),
-                'message-id' => 'test-message-id-789',
-            ],
-            // Dropped event
-            [
-                'event'      => 'dropped',
-                'recipient'  => 'dropped@example.com',
-                'reason'     => 'Suppressed',
-                'timestamp'  => time(),
-                'message-id' => 'test-message-id-101',
-            ],
-        ];
+        try {
+            $responseItems = new ResponseItems($request);
+            $items         = [];
 
-        return new JsonResponse([
-            'message' => 'Sample Mailgun webhook data',
-            'data'    => $sampleData,
-            'usage'   => [
-                'description'  => 'Use this data to test the webhook endpoint',
-                'endpoint'     => '/mailgun/test/webhook',
-                'method'       => 'POST',
-                'content_type' => 'application/json',
-            ],
-        ]);
+            foreach ($responseItems as $item) {
+                $items[] = [
+                    'email'      => $item->getEmail(),
+                    'reason'     => $item->getReason(),
+                    'dnc_reason' => $item->getDncReason(),
+                    'channel'    => $item->getChannel(),
+                ];
+            }
+
+            return new JsonResponse([
+                'success'      => true,
+                'items'        => $items,
+                'raw_data'     => $request->request->all(),
+                'content_type' => $request->headers->get('Content-Type'),
+            ]);
+        } catch (\Exception $e) {
+            return new JsonResponse([
+                'success'      => false,
+                'error'        => $e->getMessage(),
+                'trace'        => $e->getTraceAsString(),
+                'raw_data'     => $request->request->all(),
+                'content_type' => $request->headers->get('Content-Type'),
+            ], 500);
+        }
     }
 }
