@@ -42,10 +42,6 @@ class WebhookSubscriber implements EventSubscriberInterface
     {
         $dsn = Dsn::fromString($this->coreParametersHelper->get('mailer_dsn'));
 
-        if ('mailgun+api' !== $dsn->getScheme()) {
-            return;
-        }
-
         $message = $event->getMessage();
         if ($message instanceof MauticMessage) {
             $metadata = $message->getMetadata();
@@ -55,7 +51,17 @@ class WebhookSubscriber implements EventSubscriberInterface
                     $list[$address->getAddress()]['emailId'] = $metadata[$address->getAddress()]['emailId'];
                 }
             }
-            $message->getHeaders()->add(new MetadataHeader('mautic_metadata', serialize($list)));
+
+            if (!empty($list)) {
+                if ('mailgun+api' === $dsn->getScheme()) {
+                    $message->getHeaders()->add(new MetadataHeader('mautic_metadata', serialize($list)));
+                }
+
+                $payload = json_encode(['mautic_metadata' => $list]);
+                if (false !== $payload) {
+                    $message->getHeaders()->addTextHeader('X-Mailgun-Variables', $payload);
+                }
+            }
         }
     }
 
