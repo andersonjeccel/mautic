@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 class StageController extends AbstractFormController
 {
@@ -491,7 +492,17 @@ class StageController extends AbstractFormController
                         return $this->isLocked($postActionVars, $primaryStage, 'stage');
                     }
 
-                    $model->stageMerge($primaryStage, $secondaryStage);
+                    try {
+                        $model->stageMerge($primaryStage, $secondaryStage);
+                    } catch (UniqueConstraintViolationException $e) {
+                        $flashes[] = [
+                            'type'    => 'error',
+                            'msg'     => 'mautic.core.error.general',
+                            'msgVars' => ['%message%' => $e->getMessage()],
+                        ];
+                        $valid = false; // Mark as invalid to prevent redirect
+                    }
+                } else {
                 }
 
                 if ($valid) {
@@ -503,7 +514,7 @@ class StageController extends AbstractFormController
                             '%into%' => $primaryStage->getName(),
                         ],
                     ];
-                    
+
                     $viewParameters = [
                         'page' => $page,
                     ];
@@ -514,11 +525,17 @@ class StageController extends AbstractFormController
                 ];
             }
 
+            if (!isset($viewParameters)) { // Added this block
+                $viewParameters = [
+                    'page' => $page,
+                ];
+            }
+
             return $this->postActionRedirect(
                 [
                     'returnUrl'       => $this->generateUrl('mautic_stage_index', $viewParameters),
                     'viewParameters'  => $viewParameters,
-                    'contentTemplate' => 'Mautic\\StageBundle\\Controller\\StageController::indexAction',
+                    'contentTemplate' => 'Mautic\StageBundle\Controller\StageController::indexAction',
                     'passthroughVars' => [
                         'closeModal' => 1,
                         'activeLink' => '#mautic_stage_index',
@@ -529,29 +546,20 @@ class StageController extends AbstractFormController
             );
         }
 
-        $tmpl = $request->get('tmpl', 'index');
-
-        return $this->delegateView(
-            [
-                'viewParameters' => [
-                    'tmpl'         => $tmpl,
-                    'action'       => $action,
-                    'form'         => $form->createView(),
-                    'currentRoute' => $this->generateUrl(
-                        'mautic_stage_action',
-                        [
-                            'objectAction' => 'merge',
-                            'objectId'     => $secondaryStage->getId(),
-                        ]
-                    ),
-                ],
-                'contentTemplate' => '@MauticStage/Stage/merge.html.twig',
-                'passthroughVars' => [
-                    'route'  => false,
-                    'target' => ('update' == $tmpl) ? '.stage-merge-options' : null,
-                ],
-            ]
-        );
+        return $this->delegateView([
+            'viewParameters' => [
+                'stage'          => $secondaryStage,
+                'form'           => $form->createView(),
+                'template'       => '@MauticStage/Stage/form.html.twig',
+                'stages'         => $stageChoices,
+            ],
+            'contentTemplate' => 'MauticStageBundle:Stage:merge.html.twig',
+            'passthroughVars' => [
+                'activeLink'    => '#mautic_stage_index',
+                'mauticContent' => 'stage',
+                'mauticLastAction' => 'merge',
+            ],
+        ]);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace Mautic\StageBundle\Form\Type;
 
 use Mautic\CoreBundle\Form\Type\FormButtonsType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -17,12 +18,13 @@ class StageMergeType extends AbstractType
     {
         $builder->add(
             'stage_to_merge',
-            StageListType::class,
+            ChoiceType::class,
             [
+                'choices'     => $options['stages'],
                 'multiple'    => false,
                 'label'       => 'mautic.stage.to.merge.into',
                 'required'    => true,
-                'choices'     => $options['stages'],
+                'placeholder' => 'mautic.core.form.chooseone',
                 'constraints' => [
                     new NotBlank(
                         ['message' => 'mautic.core.value.required']
