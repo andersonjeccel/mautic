@@ -1737,14 +1737,16 @@ class LeadModel extends FormModel
     /**
      * Modify tags with support to remove via a prefixed minus sign.
      *
-     * @param bool            $persist    True if tags modified
-     * @param string[]|string $tags       can be CSV string
-     * @param string[]        $removeTags
+     * @param bool                      $persist    True if tags modified
+     * @param string[]|string           $tags       can be CSV string
+     * @param string[]                  $removeTags
+     * @param \DateTimeInterface|null  $expiresAt
      */
-    public function modifyTags(Lead $lead, $tags, ?array $removeTags = null, bool $persist = true): bool
+    public function modifyTags(Lead $lead, $tags, ?array $removeTags = null, bool $persist = true, ?\DateTimeInterface $expiresAt = null): bool
     {
         $tagsModified = false;
         $leadTags     = $lead->getTags();
+        $addedTags    = [];
 
         if (!$leadTags->isEmpty()) {
             $this->logger->debug('CONTACT: Contact currently has tags '.implode(', ', $leadTags->getKeys()));
@@ -1793,6 +1795,7 @@ class LeadModel extends FormModel
 
                 if ($tagToBeAdded) {
                     $lead->addTag($tagToBeAdded);
+                    $addedTags[] = $tagToBeAdded;
                     $tagsModified = true;
                     $this->logger->debug('CONTACT: Added '.$tag);
                 }
@@ -1825,6 +1828,15 @@ class LeadModel extends FormModel
 
         if ($persist) {
             $this->saveEntity($lead);
+
+            if ($addedTags && null !== $expiresAt) {
+                $tagRepo = $this->getTagRepository();
+                foreach ($addedTags as $tagEntity) {
+                    if ($tagEntity->getId()) {
+                        $tagRepo->setLeadTagExpiration($lead->getId(), $tagEntity->getId(), $expiresAt);
+                    }
+                }
+            }
         }
 
         return $tagsModified;

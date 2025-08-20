@@ -120,25 +120,28 @@ class TagRepository extends CommonRepository
     /**
      * Add tags to leads.
      *
-     * @param array<int> $leadIds
-     * @param array<int> $tagIds
+     * @param array<int>                 $leadIds
+     * @param array<int>                 $tagIds
+     * @param \DateTimeInterface|null   $expiresAt
      *
      * @return array<mixed>
      */
-    public function addTagsToLeads(array $leadIds, array $tagIds): array
+    public function addTagsToLeads(array $leadIds, array $tagIds, ?\DateTimeInterface $expiresAt = null): array
     {
-        return $this->updateTagsInLeads($leadIds, $tagIds);
+        return $this->updateTagsInLeads($leadIds, $tagIds, 'add', $expiresAt);
     }
 
     /**
      * Update tags in leads.
      *
-     * @param array<int> $leadIds
-     * @param array<int> $tagIds
+     * @param array<int>               $leadIds
+     * @param array<int>               $tagIds
+     * @param string                   $addOrRemove
+     * @param \DateTimeInterface|null $expiresAt
      *
      * @return array<mixed>
      */
-    public function updateTagsInLeads(array $leadIds, array $tagIds, string $addOrRemove = 'add'): array
+    public function updateTagsInLeads(array $leadIds, array $tagIds, string $addOrRemove = 'add', ?\DateTimeInterface $expiresAt = null): array
     {
         $result = [];
 
@@ -164,9 +167,24 @@ class TagRepository extends CommonRepository
             }
             $this->_em->persist($lead);
             $this->_em->flush();
+
+            if ('add' === $addOrRemove && null !== $expiresAt) {
+                foreach ($tags as $tag) {
+                    $this->setLeadTagExpiration($leadId, $tag->getId(), $expiresAt);
+                }
+            }
         }
 
         return $result;
+    }
+
+    public function setLeadTagExpiration(int $leadId, int $tagId, \DateTimeInterface $expiresAt): void
+    {
+        $this->_em->getConnection()->update(
+            MAUTIC_TABLE_PREFIX.'lead_tags_xref',
+            ['expires_at' => $expiresAt->format('Y-m-d H:i:s')],
+            ['lead_id' => $leadId, 'tag_id' => $tagId]
+        );
     }
 
     /**

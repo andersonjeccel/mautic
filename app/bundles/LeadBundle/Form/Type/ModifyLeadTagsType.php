@@ -3,6 +3,7 @@
 namespace Mautic\LeadBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -31,6 +32,16 @@ class ModifyLeadTagsType extends AbstractType
                 ],
                 'data'            => $options['data']['add_tags'] ?? null,
                 'add_transformer' => true,
+            ]
+        );
+
+        $builder->add(
+            'expires_at',
+            DateTimeType::class,
+            [
+                'label'    => 'mautic.lead.tags.expires_at',
+                'widget'   => 'single_text',
+                'required' => false,
             ]
         );
 

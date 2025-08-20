@@ -229,8 +229,12 @@ class FormSubscriber implements EventSubscriberInterface
         $properties = $event->getAction()->getProperties();
         $addTags    = $properties['add_tags'] ?: [];
         $removeTags = $properties['remove_tags'] ?: [];
+        $expiresAt  = null;
+        if (!empty($properties['expires_at'])) {
+            $expiresAt = new \DateTime($properties['expires_at']);
+        }
 
-        $this->leadModel->modifyTags($contact, $addTags, $removeTags);
+        $this->leadModel->modifyTags($contact, $addTags, $removeTags, true, $expiresAt);
     }
 
     public function onFormSubmitActionAddUtmTags(SubmissionEvent $event): void

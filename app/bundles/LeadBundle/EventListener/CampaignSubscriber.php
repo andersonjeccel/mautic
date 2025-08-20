@@ -401,8 +401,12 @@ class CampaignSubscriber implements EventSubscriberInterface
 
         $addTags    = (!empty($config['add_tags'])) ? $config['add_tags'] : [];
         $removeTags = (!empty($config['remove_tags'])) ? $config['remove_tags'] : [];
+        $expiresAt  = null;
+        if (!empty($config['expires_at'])) {
+            $expiresAt = new \DateTime($config['expires_at']);
+        }
 
-        $this->leadModel->modifyTags($lead, $addTags, $removeTags);
+        $this->leadModel->modifyTags($lead, $addTags, $removeTags, true, $expiresAt);
 
         return $event->setResult(true);
     }

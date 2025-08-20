@@ -58,8 +58,12 @@ class PointSubscriber implements EventSubscriberInterface
         $properties = $event->getTriggerEvent()->getProperties();
         $addTags    = $properties['add_tags'] ?: [];
         $removeTags = $properties['remove_tags'] ?: [];
+        $expiresAt  = null;
+        if (!empty($properties['expires_at'])) {
+            $expiresAt = new \DateTime($properties['expires_at']);
+        }
 
-        if ($this->leadModel->modifyTags($event->getLead(), $addTags, $removeTags)) {
+        if ($this->leadModel->modifyTags($event->getLead(), $addTags, $removeTags, true, $expiresAt)) {
             $event->setSucceded();
         }
     }

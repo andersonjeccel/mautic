@@ -80,8 +80,13 @@ class BatchTagController extends AbstractFormController
             ]);
         }
 
+        $expiresAt = null;
+        if (!empty($params['tags']['expires_at'])) {
+            $expiresAt = new \DateTime($params['tags']['expires_at']);
+        }
+
         if (!empty($tagsToAdd)) {
-            $tagModel->getRepository()->addTagsToLeads($ids, $tagsToAdd);
+            $tagModel->getRepository()->addTagsToLeads($ids, $tagsToAdd, $expiresAt);
         }
 
         if (!empty($tagsToRemove)) {
