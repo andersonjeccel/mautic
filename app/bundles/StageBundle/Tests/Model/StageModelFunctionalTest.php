@@ -164,29 +164,34 @@ class StageModelFunctionalTest extends MauticMysqlTestCase
         $secondary = new Stage();
         $secondary->setName('Secondary');
 
-        $lead = new Lead();
-        $lead->setEmail('test@example.com');
-        $lead->setStage($secondary);
+        $lead1 = new Lead();
+        $lead1->setEmail('test1@example.com');
+        $lead1->setStage($secondary);
 
+        $lead2 = new Lead();
+        $lead2->setEmail('test2@example.com');
+        $lead2->setStage($secondary);
+
+        // Create one log entry for each lead to avoid composite primary key violation
         $log1 = new LeadStageLog();
         $log1->setStage($secondary);
-        $log1->setLead($lead);
+        $log1->setLead($lead1);
         $log1->setDateFired(new \DateTime());
 
         $log2 = new LeadStageLog();
         $log2->setStage($secondary);
-        $log2->setLead($lead);
+        $log2->setLead($lead2);
         $log2->setDateFired(new \DateTime());
 
         $change1 = new StagesChangeLog();
-        $change1->setLead($lead)
+        $change1->setLead($lead1)
             ->setStage($secondary)
             ->setEventName('event1')
             ->setActionName('action1')
             ->setDateAdded(new \DateTime());
 
         $change2 = new StagesChangeLog();
-        $change2->setLead($lead)
+        $change2->setLead($lead2)
             ->setStage($secondary)
             ->setEventName('event2')
             ->setActionName('action2')
@@ -194,7 +199,8 @@ class StageModelFunctionalTest extends MauticMysqlTestCase
 
         $this->em->persist($primary);
         $this->em->persist($secondary);
-        $this->em->persist($lead);
+        $this->em->persist($lead1);
+        $this->em->persist($lead2);
         $this->em->persist($log1);
         $this->em->persist($log2);
         $this->em->persist($change1);
@@ -210,6 +216,13 @@ class StageModelFunctionalTest extends MauticMysqlTestCase
 
         $this->assertEquals($primary->getId(), $changeStageId1);
         $this->assertEquals($primary->getId(), $changeStageId2);
+
+        // Verify that both leads were updated to the primary stage
+        $leadStageId1 = $this->connection->fetchOne('SELECT stage_id FROM '.MAUTIC_TABLE_PREFIX.'stage_lead_action_log WHERE lead_id = ?', [$lead1->getId()]);
+        $leadStageId2 = $this->connection->fetchOne('SELECT stage_id FROM '.MAUTIC_TABLE_PREFIX.'stage_lead_action_log WHERE lead_id = ?', [$lead2->getId()]);
+
+        $this->assertEquals($primary->getId(), $leadStageId1);
+        $this->assertEquals($primary->getId(), $leadStageId2);
     }
 
     public function testStageMergeDeletesSecondaryStage(): void

@@ -140,19 +140,7 @@ class StageRepository extends CommonRepository
 
         $q->orderBy('s.name');
 
-        // Debug output for test environment
-        if (defined('MAUTIC_TEST_ENVIRONMENT') && MAUTIC_TEST_ENVIRONMENT) {
-            error_log("DEBUG: getStages query - user: $user, id: $id");
-            error_log("DEBUG: getStages SQL: " . $q->getQuery()->getSQL());
-            error_log("DEBUG: getStages params: " . json_encode($q->getQuery()->getParameters()));
-        }
-
         $results = $q->getQuery()->getArrayResult();
-
-        // Debug output for test environment
-        if (defined('MAUTIC_TEST_ENVIRONMENT') && MAUTIC_TEST_ENVIRONMENT) {
-            error_log("DEBUG: getStages results: " . json_encode($results));
-        }
 
         $stages[$key] = $results;
 
