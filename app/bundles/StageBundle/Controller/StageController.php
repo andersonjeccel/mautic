@@ -446,6 +446,7 @@ class StageController extends AbstractFormController
         }
 
         $stages       = $model->getRepository()->getStages(false, $secondaryStage->getId());
+        
         $stageChoices = [];
         foreach ($stages as $stage) {
             $stageChoices[$stage['name']] = $stage['id'];

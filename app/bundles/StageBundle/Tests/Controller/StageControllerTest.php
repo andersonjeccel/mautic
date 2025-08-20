@@ -13,9 +13,14 @@ class StageControllerTest extends MauticMysqlTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         // Configure test client to not follow redirects automatically
         $this->client->followRedirects(false);
+
+        // Ensure test environment constant is defined
+        if (!defined('MAUTIC_TEST_ENVIRONMENT')) {
+            define('MAUTIC_TEST_ENVIRONMENT', true);
+        }
     }
 
     protected function beforeBeginTransaction(): void
@@ -130,30 +135,45 @@ class StageControllerTest extends MauticMysqlTestCase
 
     public function testMergeActionShowsAvailableStages(): void
     {
+        // Use unique names to avoid conflicts with other tests
+        $uniqueId = uniqid();
+
+        // Create stages in a more isolated way
         $stage1 = new Stage();
-        $stage1->setName('Stage 1');
+        $stage1->setName("Stage 1 - {$uniqueId}");
         $stage1->setIsPublished(true);
         $this->em->persist($stage1);
 
         $stage2 = new Stage();
-        $stage2->setName('Stage 2');
+        $stage2->setName("Stage 2 - {$uniqueId}");
         $stage2->setIsPublished(true);
         $this->em->persist($stage2);
 
         $stage3 = new Stage();
-        $stage3->setName('Stage 3');
+        $stage3->setName("Stage 3 - {$uniqueId}");
         $stage3->setIsPublished(true);
         $this->em->persist($stage3);
 
         $this->em->flush();
 
+        // Force the entity manager to complete all operations
+        $this->em->clear();
+        $this->em->flush();
+
+        // Verify the stages were created correctly
+        $allStages = $this->em->getRepository(Stage::class)->findAll();
+        $this->assertCount(3, $allStages, 'Expected 3 stages to be created');
+
+        // Make the request
         $this->client->request(Request::METHOD_GET, "/s/stages/merge/{$stage1->getId()}");
         $response = $this->client->getResponse();
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
-        $this->assertStringContainsString('Stage 2', $response->getContent());
-        $this->assertStringContainsString('Stage 3', $response->getContent());
-        $this->assertStringNotContainsString('Stage 1', $response->getContent());
+
+        // Make the assertions
+        $this->assertStringContainsString("Stage 2 - {$uniqueId}", $response->getContent());
+        $this->assertStringContainsString("Stage 3 - {$uniqueId}", $response->getContent());
+        $this->assertStringNotContainsString("Stage 1 - {$uniqueId}", $response->getContent());
     }
 
     public function testMergeActionRedirectsToListAfterSuccess(): void
