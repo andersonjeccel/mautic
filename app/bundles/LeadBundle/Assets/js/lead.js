@@ -1289,6 +1289,12 @@ Mautic.removeTagFromLead = function (el, leadId, tagId) {
 
 };
 
+Mautic.applyTagToLead = function(tag, leadId) {
+    Mautic.ajaxActionRequest('lead:addTagToLead', {'leadId': leadId, 'tag': tag}, function() {
+        window.location.reload();
+    });
+};
+
 Mautic.toggleLiveLeadListUpdate = function () {
     if (typeof MauticVars.moderatedIntervals['leadListLiveUpdate'] == 'undefined') {
         Mautic.setModeratedInterval('leadListLiveUpdate', 'updateLeadList', 5000);

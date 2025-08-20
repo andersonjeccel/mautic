@@ -881,6 +881,18 @@ class AjaxController extends CommonAjaxController
         return $this->sendJsonResponse([]);
     }
 
+    public function addTagToLeadAction(Request $request, LeadModel $leadModel): JsonResponse
+    {
+        $leadId = (int) $request->request->get('leadId');
+        $tag    = (string) $request->request->get('tag');
+
+        if ($leadId && $tag) {
+            $leadModel->addTagToLead($leadId, $tag);
+        }
+
+        return $this->sendJsonResponse([]);
+    }
+
     public function updateLeadFieldOrderChoiceListAction(Request $request): Response
     {
         $object = InputHelper::clean($request->request->get('object'));

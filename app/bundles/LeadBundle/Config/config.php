@@ -211,6 +211,10 @@ return [
                 'path'       => '/contacts/list/fields',
                 'controller' => 'Mautic\LeadBundle\Controller\Api\LeadApiController::getFieldsAction',
             ],
+            'mautic_api_getcontacttagsuggestions' => [
+                'path'       => '/contacts/{id}/tags/suggestions',
+                'controller' => 'Mautic\LeadBundle\Controller\Api\LeadApiController::getTagSuggestionsAction',
+            ],
             'mautic_api_getcontactsegments' => [
                 'path'       => '/contacts/list/segments',
                 'controller' => 'Mautic\LeadBundle\Controller\Api\ListApiController::getListsAction',

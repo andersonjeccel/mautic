@@ -55,6 +55,7 @@ use Mautic\LeadBundle\Field\FieldsWithUniqueIdentifier;
 use Mautic\LeadBundle\Form\Type\LeadType;
 use Mautic\LeadBundle\Helper\IdentifyCompanyHelper;
 use Mautic\LeadBundle\LeadEvents;
+use Mautic\LeadBundle\Services\TagSuggestionService;
 use Mautic\LeadBundle\Tracker\ContactTracker;
 use Mautic\LeadBundle\Tracker\DeviceTracker;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
@@ -128,6 +129,7 @@ class LeadModel extends FormModel
         protected UserProvider $userProvider,
         private ContactTracker $contactTracker,
         private DeviceTracker $deviceTracker,
+        private TagSuggestionService $tagSuggestionService,
         private IpAddressModel $ipAddressModel,
         EntityManager $em,
         CorePermissions $security,
@@ -196,6 +198,16 @@ class LeadModel extends FormModel
     public function getUtmTagRepository()
     {
         return $this->em->getRepository(UtmTag::class);
+    }
+
+    /**
+     * Get suggested tags for the given lead.
+     *
+     * @return string[]
+     */
+    public function getTagSuggestions(Lead $lead): array
+    {
+        return $this->tagSuggestionService->suggestTags($lead);
     }
 
     /**
@@ -2379,6 +2391,15 @@ class LeadModel extends FormModel
         $statRepository = $this->em->getRepository(Stat::class);
 
         return $statRepository->getStatsSummaryForContacts([$lead->getId()])[$lead->getId()];
+    }
+
+    public function addTagToLead(int $leadId, string $tag): void
+    {
+        $lead = $this->getEntity($leadId);
+
+        if ($lead) {
+            $this->modifyTags($lead, [$tag]);
+        }
     }
 
     public function removeTagFromLead(int $leadId, int $tagId): void

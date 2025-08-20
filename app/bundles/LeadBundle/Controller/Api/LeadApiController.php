@@ -146,6 +146,26 @@ class LeadApiController extends CommonApiController
     }
 
     /**
+     * Get suggested tags for a contact.
+     */
+    public function getTagSuggestionsAction(int $id)
+    {
+        $entity = $this->model->getEntity($id);
+        if (null === $entity) {
+            return $this->notFound();
+        }
+        if (!$this->security->hasEntityAccess('lead:leads:viewown', 'lead:leads:viewother', $entity->getPermissionUser())) {
+            return $this->accessDenied();
+        }
+
+        $tags = $this->model->getTagSuggestions($entity);
+
+        $view = $this->view(['tags' => $tags], Response::HTTP_OK);
+
+        return $this->handleView($view);
+    }
+
+    /**
      * Obtains a list of notes on a specific lead.
      *
      * @return Response

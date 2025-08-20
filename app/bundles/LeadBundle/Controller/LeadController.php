@@ -338,10 +338,10 @@ class LeadController extends FormController
      */
     public function viewAction(Request $request, IntegrationHelper $integrationHelper, PointGroupModel $pointGroupModel, CoreParametersHelper $coreParametersHelper, $objectId)
     {
-        /** @var LeadModel $model */
-        $model = $this->getModel('lead.lead');
+        /** @var LeadModel $leadModel */
+        $leadModel = $this->getModel('lead.lead');
 
-        $lead = $model->getEntity($objectId);
+        $lead = $leadModel->getEntity($objectId);
 
         if (null === $lead) {
             // get the page we came from
@@ -371,7 +371,7 @@ class LeadController extends FormController
         }
 
         /** @var Lead $lead */
-        $model->getRepository()->refetchEntity($lead);
+        $leadModel->getRepository()->refetchEntity($lead);
 
         // set some permissions
         $permissions = $this->security->isGranted(
@@ -437,6 +437,7 @@ class LeadController extends FormController
             [
                 'viewParameters' => [
                     'lead'                   => $lead,
+                    'tagSuggestions'         => $leadModel->getTagSuggestions($lead),
                     'avatarPanelState'       => $request->cookies->get('mautic_lead_avatar_panel', 'expanded'),
                     'fields'                 => $fields,
                     'companies'              => $companies,

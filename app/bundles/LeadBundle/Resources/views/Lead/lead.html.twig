@@ -622,6 +622,19 @@
                 } %}
             {% endif %}
         </div>
+        {% if tagSuggestions is defined and tagSuggestions is not empty %}
+        <div class="pa-sm">
+            <div class="d-flex jc-space-between">
+                <span class="fw-b ellipsis mb-md">{{ 'mautic.lead.tags.suggested'|trans }}</span>
+                <i class="ri-lightbulb-line" aria-hidden="true"></i>
+            </div>
+            <div class="d-flex fw-wrap gap-xs mt-xs">
+                {% for tag in tagSuggestions %}
+                    <button type="button" class="btn btn-xs btn-default" onclick="Mautic.applyTagToLead('{{ tag|e('js') }}', {{ lead.id }})">{{ tag|purify }}</button>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
         <div class="pa-sm panel-companies layout--size-0">
             {% set companiesList = [] %}
             {% for key, company in companies %}

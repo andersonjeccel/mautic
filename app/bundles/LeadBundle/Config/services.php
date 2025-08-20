@@ -5,6 +5,8 @@ declare(strict_types=1);
 use Mautic\CoreBundle\DependencyInjection\MauticCoreExtension;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
+use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
+
 return function (ContainerConfigurator $configurator): void {
     $services = $configurator->services()
         ->defaults()
@@ -70,4 +72,10 @@ return function (ContainerConfigurator $configurator): void {
     $services->alias('mautic.lead.field.settings.background_service', Mautic\LeadBundle\Field\BackgroundService::class);
     $services->alias('mautic.lead.report.dnc_report_service', Mautic\LeadBundle\Report\DncReportService::class);
     $services->get(Mautic\LeadBundle\Validator\Constraints\SegmentDateValidator::class)->tag('validator.constraint_validator');
+
+    $services->alias('mautic.lead.service.tag_suggestion', Mautic\LeadBundle\Services\TagSuggestionService::class);
+    $services->get(Mautic\LeadBundle\Services\TagSuggestionService::class)
+        ->arg('$strategies', tagged_iterator('mautic.lead.tag_suggestion_strategy'));
+    $services->get(Mautic\LeadBundle\Services\FieldTagSuggestionStrategy::class)
+        ->tag('mautic.lead.tag_suggestion_strategy');
 };
