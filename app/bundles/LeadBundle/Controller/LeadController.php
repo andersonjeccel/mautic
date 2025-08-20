@@ -46,6 +46,7 @@ use Mautic\LeadBundle\Twig\Helper\AvatarHelper;
 use Mautic\PluginBundle\Entity\IntegrationEntity;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
 use Mautic\PointBundle\Model\PointGroupModel;
+use Mautic\StageBundle\Model\StageModel;
 use Mautic\UserBundle\Model\UserModel;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormError;
@@ -432,6 +433,9 @@ class LeadController extends FormController
         \assert($leadNoteModel instanceof NoteModel);
 
         $leadDeviceRepository = $this->doctrine->getRepository(LeadDevice::class);
+        /** @var StageModel $stageModel */
+        $stageModel = $this->getModel('stage');
+        $stages     = $stageModel->getUserStages();
 
         return $this->delegateView(
             [
@@ -451,6 +455,7 @@ class LeadController extends FormController
                     'noteCount'              => $leadNoteModel->getNoteCount($lead, true),
                     'integrations'           => $integrationRepo->getIntegrationEntityByLead($lead->getId()),
                     'devices'                => $leadDeviceRepository->getLeadDevices($lead),
+                    'stages'                 => $stages,
                     'auditlog'               => $this->getAuditlogs($lead),
                     'doNotContact'           => end($dnc),
                     'doNotContactSms'        => end($dncSms),
