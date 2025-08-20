@@ -21,6 +21,9 @@ class StageControllerTest extends MauticMysqlTestCase
         if (!defined('MAUTIC_TEST_ENVIRONMENT')) {
             define('MAUTIC_TEST_ENVIRONMENT', true);
         }
+
+        // Clear the static cache in StageRepository
+        \Mautic\StageBundle\Entity\StageRepository::clearCache();
     }
 
     protected function beforeBeginTransaction(): void

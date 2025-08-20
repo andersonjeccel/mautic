@@ -104,19 +104,17 @@ class StageRepository extends CommonRepository
      *
      * @return array
      */
+    private static $stages = [];
+
     public function getStages($user = false, $id = '')
     {
-        static $stages = [];
 
         if (is_object($user)) {
             $user = $user->getId();
         }
 
         $key = (int) $user.$id;
-        // For testing purposes, bypass cache if in test environment
-        if (defined('MAUTIC_TEST_ENVIRONMENT') && MAUTIC_TEST_ENVIRONMENT) {
-            // Bypass caching in tests
-        } elseif (isset($stages[$key])) {
+        if (isset($stages[$key])) {
             return $stages[$key];
         }
 
@@ -145,6 +143,14 @@ class StageRepository extends CommonRepository
         $stages[$key] = $results;
 
         return $results;
+    }
+
+    /**
+     * Clear the static cache for testing purposes
+     */
+    public static function clearCache(): void
+    {
+        self::$stages = [];
     }
 
     /**
