@@ -241,42 +241,34 @@ class CommonController extends AbstractController implements MauticController
         $request = $this->getCurrentRequest();
 
         $returnUrl = array_key_exists('returnUrl', $args) ? $args['returnUrl'] : $this->generateUrl('mautic_dashboard_index');
+        $flashes   = array_key_exists('flashes', $args) ? $args['flashes'] : [];
 
-        // Debug: Check if it's an AJAX request and the return URL
-        if (defined('MAUTIC_TEST_ENVIRONMENT') && MAUTIC_TEST_ENVIRONMENT) {
-            error_log("DEBUG: postActionRedirect - isXmlHttpRequest: " . ($request->isXmlHttpRequest() ? 'true' : 'false'));
-            error_log("DEBUG: postActionRedirect - returnUrl: " . $returnUrl);
-        }
+        // forward the controller by default
+        $args['forwardController'] = (array_key_exists('forwardController', $args)) ? $args['forwardController'] : true;
 
-        if ($request->isXmlHttpRequest()) {
-            if (!empty($args['contentTemplate']) && (!isset($args['closeModal']) || !$args['closeModal'])) {
-                // forward the controller by default
-                $args['forwardController'] = (array_key_exists('forwardController', $args)) ? $args['forwardController'] : true;
-
-                if (!empty($flashes)) {
-                    foreach ($flashes as $flash) {
-                        $this->addFlashMessage(
-                            $flash['msg'],
-                            !empty($flash['msgVars']) ? $flash['msgVars'] : [],
-                            !empty($flash['type']) ? $flash['type'] : 'notice',
-                            !empty($flash['domain']) ? $flash['domain'] : 'flashes'
-                        );
-                    }
-                }
-
-                if (isset($args['passthroughVars']['closeModal'])) {
-                    $args['passthroughVars']['updateMainContent'] = true;
-                }
-
-                $code = $args['responseCode'] ?? 302;
-
-                return $this->redirect($returnUrl, $code);
-            } else {
-                return new JsonResponse(array_merge($args['passthroughVars'] ?? [], ['redirect' => $returnUrl]));
+        if (!empty($flashes)) {
+            foreach ($flashes as $flash) {
+                $this->addFlashMessage(
+                    $flash['msg'],
+                    !empty($flash['msgVars']) ? $flash['msgVars'] : [],
+                    !empty($flash['type']) ? $flash['type'] : 'notice',
+                    !empty($flash['domain']) ? $flash['domain'] : 'flashes'
+                );
             }
-        } else {
-            return $this->redirect($returnUrl);
         }
+
+        if (isset($args['passthroughVars']['closeModal'])) {
+            $args['passthroughVars']['updateMainContent'] = true;
+        }
+
+        if (!$request->isXmlHttpRequest() || !empty($args['ignoreAjax'])) {
+            $code = $args['responseCode'] ?? 302;
+
+            return $this->redirect($returnUrl, $code);
+        }
+
+        // load by ajax
+        return $this->ajaxAction($request, $args);
     }
 
     /**

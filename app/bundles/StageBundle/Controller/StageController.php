@@ -11,7 +11,6 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 class StageController extends AbstractFormController
 {
@@ -458,14 +457,16 @@ class StageController extends AbstractFormController
             StageMergeType::class,
             [],
             [
-                'action' => $action,
                 'stages' => $stageChoices,
+                'action' => $action,
             ]
         );
 
         if (Request::METHOD_POST === $request->getMethod()) {
-            $valid = true;
-            if (!$this->isFormCancelled($form)) {
+            $valid = false;
+            $flashes = [];
+
+            if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = $this->isFormValid($form)) {
                     $data         = $form->getData();
                     $primaryId    = $data['stage_to_merge'];
@@ -492,20 +493,8 @@ class StageController extends AbstractFormController
                         return $this->isLocked($postActionVars, $primaryStage, 'stage');
                     }
 
-                    try {
-                        $model->stageMerge($primaryStage, $secondaryStage);
-                    } catch (UniqueConstraintViolationException $e) {
-                        $flashes[] = [
-                            'type'    => 'error',
-                            'msg'     => 'mautic.core.error.general',
-                            'msgVars' => ['%message%' => $e->getMessage()],
-                        ];
-                        $valid = false; // Mark as invalid to prevent redirect
-                    }
-                } else {
-                }
+                    $model->stageMerge($primaryStage, $secondaryStage);
 
-                if ($valid) {
                     $flashes[] = [
                         'type'    => 'notice',
                         'msg'     => 'mautic.stage.notice.merged',
@@ -515,51 +504,51 @@ class StageController extends AbstractFormController
                         ],
                     ];
 
-                    $viewParameters = [
-                        'page' => $page,
-                    ];
+                    // Only redirect if the form was valid and processing succeeded
+                    $viewParameters = ['page' => $page];
+                    return $this->postActionRedirect(
+                        [
+                            'returnUrl'       => $this->generateUrl('mautic_stage_index', $viewParameters),
+                            'viewParameters'  => $viewParameters,
+                            'contentTemplate' => 'Mautic\\StageBundle\\Controller\\StageController::indexAction',
+                            'passthroughVars' => [
+                                'closeModal' => 1,
+                                'activeLink' => '#mautic_stage_index',
+                                'mauticContent' => 'stage',
+                            ],
+                            'flashes' => $flashes,
+                        ]
+                    );
                 }
-            } else {
-                $viewParameters = [
-                    'page' => $page,
-                ];
             }
 
-            if (!isset($viewParameters)) { // Added this block
-                $viewParameters = [
-                    'page' => $page,
-                ];
-            }
-
-            return $this->postActionRedirect(
-                [
-                    'returnUrl'       => $this->generateUrl('mautic_stage_index', $viewParameters),
-                    'viewParameters'  => $viewParameters,
-                    'contentTemplate' => 'Mautic\StageBundle\Controller\StageController::indexAction',
-                    'passthroughVars' => [
-                        'closeModal' => 1,
-                        'activeLink' => '#mautic_stage_index',
-                        'mauticContent' => 'stage',
-                    ],
-                    'flashes' => $flashes ?? [],
-                ]
-            );
+            // If we get here, the form was either cancelled, invalid, or had errors
+            // Re-render the form with any validation errors
         }
 
-        return $this->delegateView([
-            'viewParameters' => [
-                'stage'          => $secondaryStage,
-                'form'           => $form->createView(),
-                'template'       => '@MauticStage/Stage/form.html.twig',
-                'stages'         => $stageChoices,
-            ],
-            'contentTemplate' => 'MauticStageBundle:Stage:merge.html.twig',
-            'passthroughVars' => [
-                'activeLink'    => '#mautic_stage_index',
-                'mauticContent' => 'stage',
-                'mauticLastAction' => 'merge',
-            ],
-        ]);
+        $tmpl = $request->get('tmpl', 'index');
+
+        return $this->delegateView(
+            [
+                'viewParameters' => [
+                    'tmpl'         => $tmpl,
+                    'action'       => $action,
+                    'form'         => $form->createView(),
+                    'currentRoute' => $this->generateUrl(
+                        'mautic_stage_action',
+                        [
+                            'objectAction' => 'merge',
+                            'objectId'     => $secondaryStage->getId(),
+                        ]
+                    ),
+                ],
+                'contentTemplate' => '@MauticStage/Stage/merge.html.twig',
+                'passthroughVars' => [
+                    'route'  => false,
+                    'target' => ('update' == $tmpl) ? '.stage-merge-options' : null,
+                ],
+            ]
+        );
     }
 
     /**
@@ -691,5 +680,22 @@ class StageController extends AbstractFormController
                 ]
             )
         );
+    }
+
+    /**
+     * Helper method to get form errors for debugging
+     */
+    private function getFormErrors($form): array
+    {
+        $errors = [];
+        foreach ($form->getErrors() as $error) {
+            $errors[] = $error->getMessage();
+        }
+        foreach ($form->all() as $child) {
+            if (!$child->isValid()) {
+                $errors[$child->getName()] = $this->getFormErrors($child);
+            }
+        }
+        return $errors;
     }
 }

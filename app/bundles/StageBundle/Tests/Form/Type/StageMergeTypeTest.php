@@ -73,8 +73,8 @@ class StageMergeTypeTest extends TypeTestCase
         $form->submit($formData);
 
         $this->assertTrue($form->isSynchronized());
-        $this->assertTrue($form->isValid());
-        $this->assertEquals($formData, $form->getData());
+        $this->assertFalse($form->isValid());
+        $this->assertTrue($form->get('stage_to_merge')->getErrors()->count() > 0);
     }
 
     public function testFormStructure(): void

@@ -19,6 +19,9 @@ class StageMergeIntegrationTest extends MauticMysqlTestCase
         if (!defined('MAUTIC_TEST_ENVIRONMENT')) {
             define('MAUTIC_TEST_ENVIRONMENT', true);
         }
+
+        // Configure test client to not follow redirects automatically
+        $this->client->followRedirects(false);
     }
 
     /**
@@ -106,24 +109,14 @@ class StageMergeIntegrationTest extends MauticMysqlTestCase
         $primaryStage = new Stage();
         $primaryStage->setName('Primary Stage');
         $primaryStage->setIsPublished(true);
-        $primaryStage->setDateAdded(new \DateTime());
-        $primaryStage->setCreatedBy(1);
 
         $secondaryStage = new Stage();
         $secondaryStage->setName('Secondary Stage');
         $secondaryStage->setIsPublished(true);
-        $secondaryStage->setDateAdded(new \DateTime());
-        $secondaryStage->setCreatedBy(1);
 
-        // Set specific IDs to avoid cache collisions
-        $this->setId($primaryStage, 1001);
-        $this->setId($secondaryStage, 1002);
-
-        $model->saveEntity($primaryStage);
-        $model->saveEntity($secondaryStage);
-
-        // Clear entity manager and flush to ensure stages are persisted
-        $this->em->clear();
+        $this->em->persist($primaryStage);
+        $this->em->persist($secondaryStage);
+        $this->em->flush();
 
         $crawler = $this->client->request(Request::METHOD_GET, "/s/stages/merge/{$secondaryStage->getId()}");
         $response = $this->client->getResponse();
@@ -131,9 +124,7 @@ class StageMergeIntegrationTest extends MauticMysqlTestCase
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
         $form = $crawler->filter('form[name="stage_merge"]')->form();
-        $form->setValues([
-            'stage_merge[stage_to_merge]' => $primaryStage->getId(),
-        ]);
+        $form->setValues(['stage_merge[stage_to_merge]' => $primaryStage->getId()]);
 
         $this->client->submit($form);
         $response = $this->client->getResponse();
@@ -169,9 +160,7 @@ class StageMergeIntegrationTest extends MauticMysqlTestCase
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
         $form = $crawler->filter('form[name="stage_merge"]')->form();
-        $form->setValues([
-            'stage_merge[stage_to_merge]' => $targetStage->getId(),
-        ]);
+        $form->setValues(['stage_merge[stage_to_merge]' => $targetStage->getId()]);
 
         $this->client->submit($form);
         $response = $this->client->getResponse();
@@ -243,9 +232,7 @@ class StageMergeIntegrationTest extends MauticMysqlTestCase
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
         $form = $crawler->filter('form[name="stage_merge"]')->form();
-        $form->setValues([
-            'stage_merge[stage_to_merge]' => '',
-        ]);
+        $form->setValues(['stage_merge[stage_to_merge]' => '']);
 
         $this->client->submit($form);
         $response = $this->client->getResponse();
@@ -281,9 +268,7 @@ class StageMergeIntegrationTest extends MauticMysqlTestCase
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
         $form = $crawler->filter('form[name="stage_merge"]')->form();
-        $form->setValues([
-            'stage_merge[stage_to_merge]' => $primaryStage->getId(),
-        ]);
+        $form->setValues(['stage_merge[stage_to_merge]' => $primaryStage->getId()]);
 
         $this->client->submit($form);
         $response = $this->client->getResponse();

@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Choice;
 
 /**
  * @extends AbstractType<mixed>
@@ -29,6 +30,10 @@ class StageMergeType extends AbstractType
                     new NotBlank(
                         ['message' => 'mautic.core.value.required']
                     ),
+                    new Choice([
+                        'choices' => array_values($options['stages']),
+                        'message' => 'mautic.core.value.invalid',
+                    ]),
                 ],
             ]
         );
