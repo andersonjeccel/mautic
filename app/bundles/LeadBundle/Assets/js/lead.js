@@ -1807,3 +1807,16 @@ Mautic.lazyLoadContactStatsOnLeadLoad = function() {
         Mautic.processPageContent(response);
     });
 };
+
+document.addEventListener('DOMContentLoaded', function () {
+    const container = document.querySelector('.lead-stage-progress');
+    if (!container) {
+        return;
+    }
+
+    const currentStage = container.querySelector('.stage-step.current');
+    if (currentStage && container.scrollTo) {
+        const offset = currentStage.offsetLeft - container.clientWidth / 2 + currentStage.clientWidth / 2;
+        container.scrollTo({left: offset, behavior: 'smooth'});
+    }
+});
