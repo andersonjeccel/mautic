@@ -1014,6 +1014,12 @@ class LeadController extends FormController
                         'passthroughVars' => [
                             'closeModal' => 1,
                         ],
+                        'flashes' => [
+                            [
+                                'type' => 'notice',
+                                'msg'  => 'mautic.lead.lead.notice.merged',
+                            ],
+                        ],
                     ]
                 );
             }

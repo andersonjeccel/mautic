@@ -12,14 +12,12 @@ use Mautic\CoreBundle\Doctrine\Paginator\SimplePaginator;
 use Mautic\CoreBundle\Helper\CoreParametersHelper;
 use Mautic\CoreBundle\Helper\InputHelper;
 use Mautic\CoreBundle\Helper\UserHelper;
-use Mautic\CoreBundle\Model\CannotBeDeletedInterface;
 use Mautic\CoreBundle\Model\FormModel;
 use Mautic\CoreBundle\Security\Permissions\CorePermissions;
 use Mautic\CoreBundle\Translation\Translator;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Entity\LeadField;
 use Mautic\LeadBundle\Entity\LeadFieldRepository;
-use Mautic\LeadBundle\Entity\LeadList;
 use Mautic\LeadBundle\Entity\LeadRepository;
 use Mautic\LeadBundle\Event\LeadFieldEvent;
 use Mautic\LeadBundle\Exception\NoListenerException;
@@ -31,7 +29,6 @@ use Mautic\LeadBundle\Field\Exception\CustomFieldLimitException;
 use Mautic\LeadBundle\Field\FieldList;
 use Mautic\LeadBundle\Field\LeadFieldDeleter;
 use Mautic\LeadBundle\Field\LeadFieldSaver;
-use Mautic\LeadBundle\Field\SchemaDefinition;
 use Mautic\LeadBundle\Form\Type\FieldType;
 use Mautic\LeadBundle\Helper\FormFieldHelper;
 use Mautic\LeadBundle\LeadEvents;
@@ -46,7 +43,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 /**
  * @extends FormModel<LeadField>
  */
-class FieldModel extends FormModel implements CannotBeDeletedInterface
+class FieldModel extends FormModel
 {
     public static $coreFields = [
         // Listed according to $order for installation
@@ -732,6 +729,14 @@ class FieldModel extends FormModel implements CannotBeDeletedInterface
     }
 
     /**
+     * Filter used field ids.
+     */
+    public function filterUsedFieldIds(array $ids): array
+    {
+        return array_filter($ids, fn ($id): bool => false === $this->isUsedField($this->getEntity($id)));
+    }
+
+    /**
      * Reorder fields based on passed entity position.
      */
     public function reorderFieldsByEntity($entity): void
@@ -1011,60 +1016,21 @@ class FieldModel extends FormModel implements CannotBeDeletedInterface
         return $leadFields;
     }
 
-    /**
-     * Get the MySQL database type based on the field type
-     * Use a static function so that it's accessible from DoctrineSubscriber
-     * without causing a circular service injection error.
-     *
-     * @deprecated Use SchemaDefinition::getSchemaDefinition method instead
-     *
-     * @param bool $isUnique
-     */
-    public static function getSchemaDefinition($alias, $type, $isUnique = false): array
-    {
-        return SchemaDefinition::getSchemaDefinition($alias, $type, $isUnique);
-    }
-
     public function getEntityByAlias($alias, $categoryAlias = null, $lang = null)
     {
         return $this->getRepository()->findOneByAlias($alias);
     }
 
-    public function cannotBeDeleted(array $ids): array
+    public function generateUniqueFieldAlias(string $alias): string
     {
-        $usedFields = [];
-        foreach ($ids as $id) {
-            $field    = $this->getEntity($id);
-            if ($field->isFixed()) {
-                $usedFields[$id] = [
-                    'type'    => 'error',
-                    'msg'     => 'mautic.lead.field.error.cannot.delete.is_fixed',
-                    'msgVars' => [
-                        '%name%' => $field->getName(),
-                    ],
-                ];
-                continue;
-            }
+        $originalAlias = $alias;
+        $i             = 1;
 
-            $segments = $this->getFieldSegments($field);
-            if (0 === $segments->count()) {
-                continue;
-            }
-            $segmentNames = [];
-            /** @var LeadList $segment */
-            foreach ($segments as $segment) {
-                $segmentNames[] = $segment->getName();
-            }
-            $usedFields[$id] = [
-                'type'    => 'error',
-                'msg'     => 'mautic.lead.field.error.cannot.delete.batch',
-                'msgVars' => [
-                    '%name%'         => $field->getName(),
-                    '%dependencies%' => implode(',<br>', $segmentNames),
-                ],
-            ];
+        while ($this->getRepository()->findOneByAlias($alias)) {
+            $alias = $originalAlias.'_'.$i;
+            ++$i;
         }
 
-        return $usedFields;
+        return $alias;
     }
 }

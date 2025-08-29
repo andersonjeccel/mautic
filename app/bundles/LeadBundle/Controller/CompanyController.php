@@ -890,6 +890,13 @@ class CompanyController extends FormController
                 }
 
                 if ($valid) {
+                    $this->addFlashMessage(
+                        'mautic.company.notice.merged',
+                        [
+                            '%primary%'   => $primaryCompany->getName(),
+                            '%secondary%' => $secondaryCompany->getName(),
+                        ]
+                    );
                     $viewParameters = [
                         'objectId'     => $primaryCompany->getId(),
                         'objectAction' => 'view',
