@@ -484,6 +484,8 @@ class FieldController extends FormController
      */
     public function batchDeleteAction(Request $request)
     {
+        return $this->batchDeleteStandard($request);
+        // Fallback legacy implementation retained below (unreachable)
         if (!$this->security->isGranted('lead:fields:full')) {
             return $this->accessDenied();
         }

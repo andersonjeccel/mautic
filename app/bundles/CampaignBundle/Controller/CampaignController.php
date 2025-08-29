@@ -27,6 +27,7 @@ use Mautic\CoreBundle\Helper\ExportHelper;
 use Mautic\CoreBundle\Helper\UserHelper;
 use Mautic\CoreBundle\Security\Permissions\CorePermissions;
 use Mautic\CoreBundle\Service\FlashBag;
+use Mautic\CoreBundle\Service\BatchDeleteService;
 use Mautic\CoreBundle\Translation\Translator;
 use Mautic\CoreBundle\Twig\Helper\DateHelper;
 use Mautic\FormBundle\Helper\FormFieldHelper;
@@ -104,9 +105,10 @@ class CampaignController extends AbstractStandardFormController
         private LoggerInterface $logger,
         private RequestStack $requestStack,
         CorePermissions $security,
+        BatchDeleteService $batchDeleteService,
         private EntityManager $em,
     ) {
-        parent::__construct($formFactory, $fieldHelper, $managerRegistry, $modelFactory, $userHelper, $coreParametersHelper, $dispatcher, $translator, $flashBag, $requestStack, $security);
+        parent::__construct($formFactory, $fieldHelper, $managerRegistry, $modelFactory, $userHelper, $coreParametersHelper, $dispatcher, $translator, $flashBag, $requestStack, $security, $batchDeleteService);
     }
 
     protected function getPermissions(): array

@@ -12,13 +12,16 @@ use Mautic\CoreBundle\Doctrine\Paginator\SimplePaginator;
 use Mautic\CoreBundle\Helper\CoreParametersHelper;
 use Mautic\CoreBundle\Helper\InputHelper;
 use Mautic\CoreBundle\Helper\UserHelper;
+use Mautic\CoreBundle\Entity\CommonRepository;
 use Mautic\CoreBundle\Model\FormModel;
+use Mautic\CoreBundle\Model\CannotBeDeletedInterface;
 use Mautic\CoreBundle\Security\Permissions\CorePermissions;
 use Mautic\CoreBundle\Translation\Translator;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Entity\LeadField;
 use Mautic\LeadBundle\Entity\LeadFieldRepository;
 use Mautic\LeadBundle\Entity\LeadRepository;
+use Mautic\LeadBundle\Entity\LeadList;
 use Mautic\LeadBundle\Event\LeadFieldEvent;
 use Mautic\LeadBundle\Exception\NoListenerException;
 use Mautic\LeadBundle\Field\CustomFieldColumn;
@@ -40,10 +43,7 @@ use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
-/**
- * @extends FormModel<LeadField>
- */
-class FieldModel extends FormModel
+class FieldModel extends FormModel implements CannotBeDeletedInterface
 {
     public static $coreFields = [
         // Listed according to $order for installation
@@ -497,7 +497,7 @@ class FieldModel extends FormModel
         parent::__construct($em, $security, $dispatcher, $router, $translator, $userHelper, $mauticLogger, $coreParametersHelper);
     }
 
-    public function getRepository(): LeadFieldRepository
+    public function getRepository(): CommonRepository
     {
         return $this->leadFieldRepository;
     }
@@ -1019,6 +1019,57 @@ class FieldModel extends FormModel
     public function getEntityByAlias($alias, $categoryAlias = null, $lang = null)
     {
         return $this->getRepository()->findOneByAlias($alias);
+    }
+
+    /**
+     * Returns list of fields that cannot be deleted with reasons.
+     *
+     * @param array<int> $ids
+     *
+     * @return array<string|int, array{type: string, msg: string, msgVars: array<string, mixed>}>  Flash messages for dependencies
+     */
+    public function cannotBeDeleted(array $ids): array
+    {
+        $usedFields = [];
+        foreach ($ids as $id) {
+            $field = $this->getEntity($id);
+            if (!$field instanceof LeadField) {
+                continue;
+            }
+
+            if ($field->isFixed()) {
+                $usedFields[$id] = [
+                    'type'    => 'error',
+                    'msg'     => 'mautic.lead.field.error.cannot.delete.is_fixed',
+                    'msgVars' => [
+                        '%name%' => $field->getName(),
+                    ],
+                ];
+                continue;
+            }
+
+            $segments = $this->getFieldSegments($field);
+            if (0 === $segments->count()) {
+                continue;
+            }
+
+            $segmentNames = [];
+            /** @var LeadList $segment */
+            foreach ($segments as $segment) {
+                $segmentNames[] = $segment->getName();
+            }
+
+            $usedFields[$id] = [
+                'type'    => 'error',
+                'msg'     => 'mautic.lead.field.error.cannot.delete.batch',
+                'msgVars' => [
+                    '%name%'         => $field->getName(),
+                    '%dependencies%' => implode(',<br>', $segmentNames),
+                ],
+            ];
+        }
+
+        return $usedFields;
     }
 
     public function generateUniqueFieldAlias(string $alias): string
