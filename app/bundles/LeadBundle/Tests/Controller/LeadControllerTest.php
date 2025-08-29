@@ -80,7 +80,7 @@ class LeadControllerTest extends MauticMysqlTestCase
 
         $responseContent = json_decode($clientResponse->getContent(), true);
         $contentDom      = new \DOMDocument();
-        $contentDom->loadHTML($responseContent['newContent']);
+        $contentDom->loadHTML($responseContent['newContent'], LIBXML_NOERROR | LIBXML_NOWARNING);
 
         $xpath = new \DOMXPath($contentDom);
 
