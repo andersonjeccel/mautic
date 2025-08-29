@@ -69,13 +69,22 @@ class AppKernel extends Kernel
                 $base   = $request->getBaseUrl();
                 $prefix = '';
                 // check to see if the .htaccess file exists or if not running under apache
-                if (false === stripos($request->server->get('SERVER_SOFTWARE', ''), 'apache')
-                    || !file_exists($this->getProjectDir().'/.htaccess')
-                    && false === strpos(
-                        $base,
-                        'index'
-                    )
-                ) {
+                // Only prefix with /index.php when appropriate so /installer resolves under test kernel too
+                $serverSoftware = $request->server->get('SERVER_SOFTWARE', '');
+                $scriptName     = (string) $request->getScriptName();
+                $needsIndex     = false;
+
+                // In non-Apache (e.g., CLI server/test kernel), prefer script name signal over forcing index
+                if (false === stripos($serverSoftware, 'apache')) {
+                    $needsIndex = (false !== stripos($scriptName, 'index.php'));
+                }
+
+                // If there is no .htaccess and base URL does not already contain index, we may need the prefix
+                if (!file_exists($this->getProjectDir().'/.htaccess') && false === strpos($base, 'index')) {
+                    $needsIndex = true;
+                }
+
+                if ($needsIndex) {
                     $prefix .= '/index.php';
                 }
 
