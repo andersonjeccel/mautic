@@ -1,6 +1,6 @@
 # Mautic plugin for Mailgun Webhook support
 
-Handles permanent failures, spam reports and unsubscribe events sent from Mailgun. This plugin works with **any mailer configuration** - you can use SMTP for sending emails while still receiving Mailgun webhooks for DNC management.
+Handles permanent failures, spam reports and unsubscribe events sent from Mailgun. This plugin works with SMTP for sending emails while still receiving Mailgun webhooks for DNC management.
 
 Make sure to set up your Mailgun webhook to send data to `/mailer/callback` and select the following events:
 
