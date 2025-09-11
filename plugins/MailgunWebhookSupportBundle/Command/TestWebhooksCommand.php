@@ -11,17 +11,17 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\HttpFoundation\Request;
 
 #[AsCommand(
-    name: 'mailgun:test-all-webhook-types',
-    description: 'Test all 4 Mailgun webhook types: permanent failure, temporary failure, unsubscribed, complained',
+    name: 'mailgun:test-webhooks',
+    description: 'Test all Mailgun webhook types: permanent failure, temporary failure, unsubscribed, complained',
 )]
-class TestAllWebhookTypesCommand extends Command
+class TestWebhooksCommand extends Command
 {
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
-        $io->title('Testing All Mailgun Webhook Types');
-        $io->info('Testing the 4 essential webhook types we need to track');
+        $io->title('Testing Mailgun Webhooks');
+        $io->info('Testing all essential webhook types: permanent failure, temporary failure, unsubscribed, complained');
 
         $webhookTests = $this->getWebhookTestData();
 
@@ -29,13 +29,11 @@ class TestAllWebhookTypesCommand extends Command
             $testNumber = $index + 1;
             $io->section("Test {$testNumber}: {$testData['title']}");
 
-            // Create request
             $request = new Request();
             $request->initialize([], [], [], [], [], [], json_encode($testData['webhook']));
             $request->setMethod('POST');
             $request->headers->set('Content-Type', 'application/json');
 
-            // Parse webhook data
             $responseItems = new ResponseItems($request);
 
             $processedCount = 0;
