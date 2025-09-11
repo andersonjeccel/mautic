@@ -145,36 +145,73 @@ Simply configure your `MAILER_DSN` to use SMTP and set up Mailgun webhooks point
 
 ### Unsubscribed (Creates DNC - UNSUBSCRIBED)
 
-```json
+```json	
 {
   "signature": {
-    "token": "a75b70e1bf6b01077a8e4a5994376bf6d5c407556396dccd8d",
-    "timestamp": "1751479217",
-    "signature": "c61d6a863f0f1f82e69cea58693d579e2d417823726f3337a432731972e28b9a"
+    "token": "613337b7a1742d92c4c2555ca7483e0fe22c952c563ff4c99f",
+    "timestamp": "1757598411",
+    "signature": "de04a19d53aea884fb2e48c8591a8f89231268ea32d024af71642ae0c795d098"
   },
   "event-data": {
-    "id": "Ase7i2zsRYeDXztHGENqRA",
-    "timestamp": 1521243339.873676,
-    "log-level": "info",
-    "event": "unsubscribed",
-    "recipient": "alice@example.com",
+    "event": "failed",
+    "id": "9rEw5V8HRjabLEHgu6QupQ",
+    "timestamp": 1757598410.9787407,
+    "flags": {
+      "is-authenticated": true,
+      "is-routed": false,
+      "is-big": false,
+      "is-system-test": false,
+      "is-test-mode": false
+    },
     "message": {
+      "attachments": [],
       "headers": {
-        "to": "Alice <alice@example.com>",
-        "message-id": "20130503182626.18666.16540@ampldigital.com",
-        "from": "Bob <bob@ampldigital.com>",
-        "subject": "Welcome to our newsletter",
-        "X-Mailgun-Variables": "{\"mautic_metadata\":{\"alice@example.com\":{\"emailId\":123}}}"
-      }
+        "message-id": "9c57f026361e8c6a3b3b6940704c8f4a@milk4u.org",
+        "from": "American Dairy Association North East <schools@milk4u.org>",
+        "to": "Development Support <2q3w4e567iu8kjythrbesz@gmail.com>",
+        "subject": "Your class can adopt your own COW!"
+      },
+      "size": 30864
+    },
+    "storage": {
+      "key": "BAABAAEo9OtZdwsIEL5MBrUHJb_EMpzQYw",
+      "url": "https://storage-us-east4.api.mailgun.net/v3/domains/ampldigital.com/messages/BAABAAEo9OtZdwsIEL5MBrUHJb_EMpzQYw"
+    },
+    "log-level": "error",
+    "recipient": "2q3w4e567iu8kjythrbesz@gmail.com",
+    "recipient-domain": "gmail.com",
+    "primary-dkim": "pdk1._domainkey.ampldigital.com",
+    "tags": [],
+    "reason": "bounce",
+    "recipient-provider": "Gmail",
+    "severity": "permanent",
+    "campaigns": [],
+    "delivery-status": {
+      "attempt-no": 1,
+      "code": 550,
+      "message": "5.1.1 The email account that you tried to reach does not exist. Please try\n5.1.1 double-checking the recipient's email address for typos or\n5.1.1 unnecessary spaces. For more information, go to\n5.1.1  https://support.google.com/mail/?p=NoSuchUser d75a77b69052e-4b639dd586bsi7418741cf.389 - gsmtp",
+      "description": null,
+      "session-seconds": 0.125,
+      "enhanced-code": "5.1.1",
+      "mx-host": "gmail-smtp-in.l.google.com",
+      "certificate-verified": true,
+      "tls": true,
+      "utf8": true,
+      "first-delivery-attempt-seconds": 0.029,
+      "bounce-type": "hard"
+    },
+    "envelope": {
+      "sender": "schools@milk4u.org",
+      "targets": "2q3w4e567iu8kjythrbesz@gmail.com",
+      "transport": "smtp",
+      "sending-ip": "204.220.183.28"
     },
     "user-variables": {
-      "mautic_metadata": "a:1:{s:17:\"alice@example.com\";a:1:{s:7:\"emailId\";i:123;}}"
-    },
-    "ip": "50.56.129.169",
-    "geolocation": {
-      "country": "US",
-      "region": "CA",
-      "city": "San Francisco"
+      "mautic_metadata": {
+        "2q3w4e567iu8kjythrbesz@gmail.com": {
+          "emailId": 45
+        }
+      }
     }
   }
 }
@@ -205,3 +242,120 @@ This command tests all webhook types:
 - Temporary failure (ignored)
 - Unsubscribed (creates DNC)
 - Complained (creates DNC)
+
+### Manual Webhook Testing
+
+To test webhooks manually with cURL, use the **actual Mailgun webhook format**:
+
+```bash
+# Permanent Failure (creates DNC)
+curl -X POST https://your-mautic-site.com/mailer/callback \
+  -H "Content-Type: application/json" \
+  -H "User-Agent: Mailgun/Webhook" \
+  -d '{
+    "signature": {
+      "token": "b25f02242b55eeb32b677022a9f21326bca6a6a7957bfc1f87",
+      "timestamp": "1751478836",
+      "signature": "efab4d02c138cf13ea3a3cc39c16a62a0d0310bd1e5662c61327f702abec0c00"
+    },
+    "event-data": {
+      "id": "G9Bn5sl1TC6nu79C8C0bwg",
+      "timestamp": 1521233195.375624,
+      "log-level": "error",
+      "event": "failed",
+      "severity": "permanent",
+      "reason": "suppress-bounce",
+      "recipient": "bounce@example.com",
+      "delivery-status": {
+        "attempt-no": 1,
+        "message": "5.1.1 The email account that you tried to reach does not exist",
+        "code": 550,
+        "enhanced-code": "5.1.1",
+        "description": "User not found",
+        "session-seconds": 0
+      }
+    }
+  }'
+
+# Unsubscribed (creates DNC)
+curl -X POST https://your-mautic-site.com/mailer/callback \
+  -H "Content-Type: application/json" \
+  -H "User-Agent: Mailgun/Webhook" \
+  -d '{
+    "signature": {
+      "token": "a75b70e1bf6b01077a8e4a5994376bf6d5c407556396dccd8d",
+      "timestamp": "1751479217",
+      "signature": "c61d6a863f0f1f82e69cea58693d579e2d417823726f3337a432731972e28b9a"
+    },
+    "event-data": {
+      "id": "Ase7i2zsRYeDXztHGENqRA",
+      "timestamp": 1521243339.873676,
+      "log-level": "info",
+      "event": "unsubscribed",
+      "recipient": "unsubscribed@example.com",
+      "message": {
+        "headers": {
+          "message-id": "20130503182626.18666.16540@ampldigital.com"
+        }
+      },
+      "ip": "50.56.129.169",
+      "geolocation": {
+        "country": "US",
+        "region": "CA",
+        "city": "San Francisco"
+      }
+    }
+  }'
+
+# Spam Complaint (creates DNC)
+curl -X POST https://your-mautic-site.com/mailer/callback \
+  -H "Content-Type: application/json" \
+  -H "User-Agent: Mailgun/Webhook" \
+  -d '{
+    "signature": {
+      "token": "cc09ebd5e7b8ab6975b1e09014523b60022dc92067598be10a",
+      "timestamp": "1751479239",
+      "signature": "56ef2473e365fe80fc8c97584ae75bb4d7038d4c18aff73702fb9444b39cf745"
+    },
+    "event-data": {
+      "id": "-Agny091SquKnsrW2NEKUA",
+      "timestamp": 1521233123.501324,
+      "log-level": "warn",
+      "event": "complained",
+      "recipient": "spam@example.com",
+      "message": {
+        "headers": {
+          "message-id": "20110215055645.25246.63817@ampldigital.com"
+        },
+        "size": 111
+      }
+    }
+  }'
+```
+
+**Key Points:**
+
+1. **Real Mailgun Format**: This is the exact format Mailgun sends in production
+2. **No Metadata Required**: Webhooks work without `user-variables` or email ID tracking
+3. **Simple Structure**: Just `signature` and `event-data` fields
+4. **Recipient Must Exist**: The recipient email must exist in Mautic contacts
+
+### Troubleshooting
+
+**Issue**: Webhooks return 200 OK but no DNC entries are created
+- **Solution**: Ensure the webhook data is wrapped in `event-data` field
+- **Check**: Verify the recipient email exists in Mautic contacts
+- **Note**: Use the exact Mailgun format shown above - no `user-variables` needed
+
+**Issue**: Webhook not recognized as Mailgun webhook
+- **Solution**: Ensure the request goes to `/mailer/callback` endpoint
+- **Check**: Verify `Content-Type: application/json` and `User-Agent: Mailgun/Webhook` headers
+
+**Issue**: Temporary failures creating DNC entries
+- **Expected**: Temporary failures should be ignored (no DNC created)
+- **Check**: Ensure `severity` is set to `"temporary"` in the webhook data
+
+**Issue**: Email ID tracking not working
+- **Note**: Email ID tracking requires additional setup in the `WebhookSubscriber`
+- **For Testing**: Use the simple format above without metadata
+- **For Production**: Configure email metadata headers in outgoing emails

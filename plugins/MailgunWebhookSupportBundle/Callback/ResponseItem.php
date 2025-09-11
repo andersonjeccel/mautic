@@ -87,13 +87,12 @@ class ResponseItem
     }
 
     /**
-     * Attempt to extract a specific email channel ID (Mautic email ID) from Mailgun webhook payload.
-     *
-     * Supported sources:
-     * - user-variables.mautic_metadata (string serialized or JSON)
-     * - user-variables.emailId (int)
-     * - message.headers.mautic_metadata (string serialized)
-     * - message.headers.X-Mailgun-Variables (JSON containing mautic_metadata/emailId)
+     * Extract the Mautic email ID from real Mailgun webhook data
+     * 
+     * Supports email identification in this order:
+     * - user-variables.emailId (direct)
+     * - user-variables.mautic_metadata (serialized PHP data from WebhookSubscriber)
+     * - message.headers.X-Mailgun-Variables (JSON containing mautic_metadata)
      *
      * @param array<string, mixed> $data
      */
@@ -101,7 +100,7 @@ class ResponseItem
     {
         $recipient = $this->email;
 
-        // 1) user-variables
+        // 1) user-variables (Mailgun's standard way to pass custom data)
         if (isset($data['user-variables']) && is_array($data['user-variables'])) {
             $vars = $data['user-variables'];
 
@@ -110,7 +109,7 @@ class ResponseItem
                 return (int) $vars['emailId'];
             }
 
-            // Serialized or JSON metadata under mautic_metadata
+            // Serialized metadata (what WebhookSubscriber actually sends)
             if (isset($vars['mautic_metadata'])) {
                 $emailId = $this->parseMetadataForEmailId($vars['mautic_metadata'], $recipient);
                 if (null !== $emailId) {
@@ -119,30 +118,15 @@ class ResponseItem
             }
         }
 
-        // 2) message.headers.mautic_metadata
-        if (isset($data['message']['headers']['mautic_metadata'])) {
-            $emailId = $this->parseMetadataForEmailId($data['message']['headers']['mautic_metadata'], $recipient);
-            if (null !== $emailId) {
-                return $emailId;
-            }
-        }
-
-        // 3) message.headers.X-Mailgun-Variables (JSON string)
+        // 2) message.headers.X-Mailgun-Variables (JSON format)
         if (isset($data['message']['headers']['X-Mailgun-Variables'])) {
             $json = $data['message']['headers']['X-Mailgun-Variables'];
             if (is_string($json)) {
                 $decoded = json_decode($json, true);
-                if (is_array($decoded)) {
-                    // Try direct emailId
-                    if (isset($decoded['emailId']) && is_numeric($decoded['emailId'])) {
-                        return (int) $decoded['emailId'];
-                    }
-                    // Try mautic_metadata inside variables
-                    if (isset($decoded['mautic_metadata'])) {
-                        $emailId = $this->parseMetadataForEmailId($decoded['mautic_metadata'], $recipient);
-                        if (null !== $emailId) {
-                            return $emailId;
-                        }
+                if (is_array($decoded) && isset($decoded['mautic_metadata'])) {
+                    $emailId = $this->parseMetadataForEmailId($decoded['mautic_metadata'], $recipient);
+                    if (null !== $emailId) {
+                        return $emailId;
                     }
                 }
             }
@@ -152,37 +136,36 @@ class ResponseItem
     }
 
     /**
+     * Parse metadata to extract email ID for the recipient
+     * Supports both serialized PHP data and JSON formats
+     * 
      * @param mixed $rawMetadata
      */
     private function parseMetadataForEmailId($rawMetadata, string $recipient): ?int
     {
         $metadata = null;
 
-        // Try PHP serialized array first
+        // Try PHP serialized array (what WebhookSubscriber sends)
         if (is_string($rawMetadata)) {
             $unserialized = @unserialize($rawMetadata);
             if (false !== $unserialized && is_array($unserialized)) {
                 $metadata = $unserialized;
-            }
-        }
-
-        // Try JSON as fallback
-        if (null === $metadata) {
-            if (is_string($rawMetadata)) {
+            } else {
+                // Try JSON as fallback
                 $decoded = json_decode($rawMetadata, true);
                 if (is_array($decoded)) {
                     $metadata = $decoded;
                 }
-            } elseif (is_array($rawMetadata)) {
-                $metadata = $rawMetadata;
             }
+        } elseif (is_array($rawMetadata)) {
+            $metadata = $rawMetadata;
         }
 
         if (!is_array($metadata)) {
             return null;
         }
 
-        // Preferred: keyed by recipient address
+        // Look for emailId keyed by recipient address (preferred format)
         if (isset($metadata[$recipient]['emailId']) && is_numeric($metadata[$recipient]['emailId'])) {
             return (int) $metadata[$recipient]['emailId'];
         }
