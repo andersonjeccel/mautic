@@ -10,7 +10,9 @@ use Mautic\EmailBundle\EmailEvents;
 use Mautic\EmailBundle\Event as Events;
 use Mautic\EmailBundle\Mailer\Message\MauticMessage;
 use Mautic\EmailBundle\Model\TransportCallback;
+use MauticPlugin\MailgunWebhookSupportBundle\Callback\ResponseItem;
 use MauticPlugin\MailgunWebhookSupportBundle\Callback\ResponseItems;
+use MauticPlugin\MailgunWebhookSupportBundle\Service\WebhookLogger;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,6 +26,7 @@ class WebhookSubscriber implements EventSubscriberInterface
         private TransportCallback $transportCallback,
         private CoreParametersHelper $coreParametersHelper,
         private LoggerInterface $logger,
+        private WebhookLogger $webhookLogger,
     ) {
     }
 
@@ -75,6 +78,8 @@ class WebhookSubscriber implements EventSubscriberInterface
     public function onTransportWebhook(Events\TransportWebhookEvent $event): void
     {
         $request = $event->getRequest();
+        $responseItems = [];
+        $exception = null;
 
         $this->logger->info('Mailgun Webhook: Received request', [
             'path'         => $request->getPathInfo(),
@@ -87,7 +92,7 @@ class WebhookSubscriber implements EventSubscriberInterface
 
         if (!$this->isMailgunWebhook($request)) {
             $this->logger->debug('Mailgun Webhook: Request rejected (not a Mailgun webhook)');
-
+            $this->webhookLogger->logWebhook($request, $responseItems, $exception);
             return;
         }
 
@@ -96,6 +101,7 @@ class WebhookSubscriber implements EventSubscriberInterface
         try {
             $responseItems  = new ResponseItems($request);
             $processedCount = 0;
+            $itemsArray = [];
 
             $this->logger->info('Mailgun Webhook: Raw request data', [
                 'request_all'  => $request->request->all(),
@@ -103,7 +109,13 @@ class WebhookSubscriber implements EventSubscriberInterface
                 'content_type' => $request->headers->get('Content-Type'),
             ]);
 
+            $temporaryBounceItem = $this->checkForTemporaryBounce($request);
+            if ($temporaryBounceItem) {
+                $itemsArray[] = $temporaryBounceItem;
+            }
+
             foreach ($responseItems as $item) {
+                $itemsArray[] = $item;
                 $this->logger->info('Mailgun Webhook: Processing item', [
                     'email'      => $item->getEmail(),
                     'reason'     => $item->getReason(),
@@ -120,12 +132,15 @@ class WebhookSubscriber implements EventSubscriberInterface
             }
 
             $this->logger->info('Mailgun Webhook: Processed items', ['count' => $processedCount]);
+            $this->webhookLogger->logWebhook($request, $itemsArray, $exception);
             $event->setResponse(new Response('OK'));
         } catch (\Exception $e) {
+            $exception = $e;
             $this->logger->error('Mailgun Webhook: Error processing webhook', [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
             ]);
+            $this->webhookLogger->logWebhook($request, $responseItems, $exception);
             $event->setResponse(new Response('Error: '.$e->getMessage(), 500));
         }
     }
@@ -147,5 +162,25 @@ class WebhookSubscriber implements EventSubscriberInterface
         return str_contains($contentType, 'application/x-www-form-urlencoded')
                || str_contains($contentType, 'multipart/form-data')
                || str_contains($contentType, 'application/json');
+    }
+
+    private function checkForTemporaryBounce(Request $request): ?ResponseItem
+    {
+        $content = $request->getContent();
+        if (empty($content)) {
+            return null;
+        }
+
+        $data = json_decode($content, true);
+        if (!is_array($data) || !isset($data['event-data'])) {
+            return null;
+        }
+
+        $eventData = $data['event-data'];
+        if (($eventData['event'] ?? '') === 'failed' && ($eventData['severity'] ?? '') === 'temporary') {
+            return new ResponseItem($eventData);
+        }
+
+        return null;
     }
 }
