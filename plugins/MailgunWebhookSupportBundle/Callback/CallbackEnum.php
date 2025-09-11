@@ -1,18 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MauticPlugin\MailgunWebhookSupportBundle\Callback;
 
 use Mautic\LeadBundle\Entity\DoNotContact;
 
-class CallbackEnum
+final class CallbackEnum
 {
-    public const COMPLAINED   = 'complained';
-    public const UNSUBSCRIBE  = 'unsubscribed';
-    public const FAILED       = 'failed';
+    public const COMPLAINED = 'complained';
+    public const UNSUBSCRIBE = 'unsubscribed';
+    public const FAILED = 'failed';
 
+    /**
+     * @param array<string, mixed> $eventData
+     */
     public static function shouldBeEventProcessed(string $event, array $eventData = []): bool
     {
-        if (!in_array($event, self::getSupportedEvents(), true)) {
+        if (! in_array($event, self::getSupportedEvents(), true)) {
             return false;
         }
 
@@ -25,9 +30,12 @@ class CallbackEnum
         return true;
     }
 
+    /**
+     * @param array<string, mixed> $eventData
+     */
     public static function convertEventToDncReason(string $event, array $eventData = []): ?int
     {
-        if (!self::shouldBeEventProcessed($event, $eventData)) {
+        if (! self::shouldBeEventProcessed($event, $eventData)) {
             return null;
         }
 
@@ -36,6 +44,9 @@ class CallbackEnum
         return $mapping[$event];
     }
 
+    /**
+     * @return array<string>
+     */
     private static function getSupportedEvents(): array
     {
         return [
@@ -45,12 +56,15 @@ class CallbackEnum
         ];
     }
 
+    /**
+     * @return array<string, int>
+     */
     private static function eventMappingToDncReason(): array
     {
         return [
-            self::COMPLAINED  => DoNotContact::BOUNCED,
+            self::COMPLAINED => DoNotContact::BOUNCED,
             self::UNSUBSCRIBE => DoNotContact::UNSUBSCRIBED,
-            self::FAILED      => DoNotContact::BOUNCED,
+            self::FAILED => DoNotContact::BOUNCED,
         ];
     }
 }

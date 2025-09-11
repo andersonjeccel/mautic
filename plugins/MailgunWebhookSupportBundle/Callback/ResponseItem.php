@@ -1,20 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MauticPlugin\MailgunWebhookSupportBundle\Callback;
 
-class ResponseItem
+final class ResponseItem
 {
     private string $email;
     private string $reason;
     private ?int $dncReason;
     private ?int $channel;
 
+    /**
+     * @param array<string, mixed> $data
+     */
     public function __construct(array $data)
     {
-        $this->email     = $data['recipient'] ?? '';
-        $this->reason    = $this->determineReason($data);
+        $this->email = $data['recipient'] ?? '';
+        $this->reason = $this->determineReason($data);
         $this->dncReason = CallbackEnum::convertEventToDncReason($data['event'] ?? '', $data);
-        $this->channel   = $this->extractChannelId($data);
+        $this->channel = $this->extractChannelId($data);
     }
 
     public function getEmail(): string
@@ -37,24 +42,27 @@ class ResponseItem
         return $this->channel;
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
     private function determineReason(array $data): string
     {
-        $event          = $data['event'] ?? '';
-        $reason         = $data['reason'] ?? '';
-        $error          = $data['error'] ?? '';
-        $severity       = $data['severity'] ?? '';
+        $event = $data['event'] ?? '';
+        $reason = $data['reason'] ?? '';
+        $error = $data['error'] ?? '';
+        $severity = $data['severity'] ?? '';
         $deliveryStatus = $data['delivery-status'] ?? [];
 
         if (CallbackEnum::FAILED === $event && is_array($deliveryStatus)) {
-            if (!empty($deliveryStatus['message'])) {
+            if (! empty($deliveryStatus['message'])) {
                 return trim($deliveryStatus['message']);
             }
 
-            if (!empty($deliveryStatus['description'])) {
+            if (! empty($deliveryStatus['description'])) {
                 return trim($deliveryStatus['description']);
             }
 
-            if (!empty($deliveryStatus['enhanced-code']) && !empty($deliveryStatus['description'])) {
+            if (! empty($deliveryStatus['enhanced-code']) && ! empty($deliveryStatus['description'])) {
                 return trim($deliveryStatus['enhanced-code'].' '.$deliveryStatus['description']);
             }
         }
@@ -68,13 +76,16 @@ class ResponseItem
         }
 
         return match ($event) {
-            CallbackEnum::COMPLAINED  => 'Spam complaint',
+            CallbackEnum::COMPLAINED => 'Spam complaint',
             CallbackEnum::UNSUBSCRIBE => 'Unsubscribed',
-            CallbackEnum::FAILED      => 'permanent' === $severity ? 'Permanent failure' : 'Failed to deliver',
-            default                   => 'Unknown',
+            CallbackEnum::FAILED => 'permanent' === $severity ? 'Permanent failure' : 'Failed to deliver',
+            default => 'Unknown',
         };
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
     private function extractChannelId(array $data): ?int
     {
         $recipient = $this->email;
@@ -110,9 +121,9 @@ class ResponseItem
         return null;
     }
 
-    private function parseMetadataForEmailId($rawMetadata, string $recipient): ?int
+    private function parseMetadataForEmailId(mixed $rawMetadata, string $recipient): ?int
     {
-        if (!is_array($rawMetadata)) {
+        if (! is_array($rawMetadata)) {
             return null;
         }
 

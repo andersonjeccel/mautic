@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class TestController extends CommonController
+final class TestController extends CommonController
 {
     #[Route('/mailgun/test', name: 'mautic_mailgun_test', methods: ['GET'])]
     public function testAction(): Response
@@ -24,29 +24,29 @@ class TestController extends CommonController
     {
         try {
             $responseItems = new ResponseItems($request);
-            $items         = [];
+            $items = [];
 
             foreach ($responseItems as $item) {
                 $items[] = [
-                    'email'      => $item->getEmail(),
-                    'reason'     => $item->getReason(),
+                    'email' => $item->getEmail(),
+                    'reason' => $item->getReason(),
                     'dnc_reason' => $item->getDncReason(),
-                    'channel'    => $item->getChannel(),
+                    'channel' => $item->getChannel(),
                 ];
             }
 
             return new JsonResponse([
-                'success'      => true,
-                'items'        => $items,
-                'raw_data'     => $request->request->all(),
+                'success' => true,
+                'items' => $items,
+                'raw_data' => $request->request->all(),
                 'content_type' => $request->headers->get('Content-Type'),
             ]);
         } catch (\Exception $e) {
             return new JsonResponse([
-                'success'      => false,
-                'error'        => $e->getMessage(),
-                'trace'        => $e->getTraceAsString(),
-                'raw_data'     => $request->request->all(),
+                'success' => false,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'raw_data' => $request->request->all(),
                 'content_type' => $request->headers->get('Content-Type'),
             ], 500);
         }

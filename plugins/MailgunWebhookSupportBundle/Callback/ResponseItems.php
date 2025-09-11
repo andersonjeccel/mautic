@@ -1,12 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MauticPlugin\MailgunWebhookSupportBundle\Callback;
 
 use Symfony\Component\HttpFoundation\Request;
 
-class ResponseItems implements \Iterator
+final class ResponseItems implements \Iterator
 {
-    private array $items  = [];
+    /**
+     * @var array<int, ResponseItem>
+     */
+    private array $items = [];
     private int $position = 0;
 
     public function __construct(Request $request)
@@ -47,13 +52,13 @@ class ResponseItems implements \Iterator
         }
 
         $data = json_decode($content, true);
-        if (!is_array($data)) {
+        if (! is_array($data)) {
             return;
         }
 
         if (isset($data['event-data']) && is_array($data['event-data'])) {
             $eventData = $data['event-data'];
-            
+
             if (isset($eventData['event']) && isset($eventData['recipient'])) {
                 if (CallbackEnum::shouldBeEventProcessed($eventData['event'], $eventData)) {
                     $this->items[] = new ResponseItem($eventData);

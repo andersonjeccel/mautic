@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Event\MessageEvent;
 use Symfony\Component\Mailer\Header\MetadataHeader;
 
-class WebhookSubscriber implements EventSubscriberInterface
+final class WebhookSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private TransportCallback $transportCallback,
@@ -34,7 +34,7 @@ class WebhookSubscriber implements EventSubscriberInterface
     {
         return [
             EmailEvents::ON_TRANSPORT_WEBHOOK => ['onTransportWebhook', 0],
-            MessageEvent::class               => ['onMessage', 0],
+            MessageEvent::class => ['onMessage', 0],
         ];
     }
 
@@ -44,18 +44,18 @@ class WebhookSubscriber implements EventSubscriberInterface
 
         $message = $event->getMessage();
         if ($message instanceof MauticMessage) {
-            $metadata      = $message->getMetadata();
-            $list          = [];
+            $metadata = $message->getMetadata();
+            $list = [];
             $recipientVars = [];
             foreach ($message->getTo() as $address) {
                 if (isset($metadata[$address->getAddress()]['emailId'])) {
-                    $emailId                                 = $metadata[$address->getAddress()]['emailId'];
+                    $emailId = $metadata[$address->getAddress()]['emailId'];
                     $list[$address->getAddress()]['emailId'] = $emailId;
-                    $recipientVars[$address->getAddress()]   = ['emailId' => $emailId];
+                    $recipientVars[$address->getAddress()] = ['emailId' => $emailId];
                 }
             }
 
-            if (!empty($list)) {
+            if (! empty($list)) {
                 if ('mailgun+api' === $dsn->getScheme()) {
                     $message->getHeaders()->add(new MetadataHeader('mautic_metadata', serialize($list)));
                 }
@@ -65,7 +65,7 @@ class WebhookSubscriber implements EventSubscriberInterface
                     $message->getHeaders()->addTextHeader('X-Mailgun-Variables', $payload);
                 }
 
-                if (!empty($recipientVars)) {
+                if (! empty($recipientVars)) {
                     $rv = json_encode($recipientVars);
                     if (false !== $rv) {
                         $message->getHeaders()->addTextHeader('X-Mailgun-Recipient-Variables', $rv);
@@ -82,30 +82,31 @@ class WebhookSubscriber implements EventSubscriberInterface
         $exception = null;
 
         $this->logger->info('Mailgun Webhook: Received request', [
-            'path'         => $request->getPathInfo(),
-            'method'       => $request->getMethod(),
+            'path' => $request->getPathInfo(),
+            'method' => $request->getMethod(),
             'content_type' => $request->headers->get('Content-Type'),
-            'user_agent'   => $request->headers->get('User-Agent'),
-            'mailer_dsn'   => $this->coreParametersHelper->get('mailer_dsn'),
-            'note'         => 'Processing webhooks regardless of mailer configuration',
+            'user_agent' => $request->headers->get('User-Agent'),
+            'mailer_dsn' => $this->coreParametersHelper->get('mailer_dsn'),
+            'note' => 'Processing webhooks regardless of mailer configuration',
         ]);
 
-        if (!$this->isMailgunWebhook($request)) {
+        if (! $this->isMailgunWebhook($request)) {
             $this->logger->debug('Mailgun Webhook: Request rejected (not a Mailgun webhook)');
             $this->webhookLogger->logWebhook($request, $responseItems, $exception);
+
             return;
         }
 
         $this->logger->info('Mailgun Webhook: Processing webhook request');
 
         try {
-            $responseItems  = new ResponseItems($request);
+            $responseItems = new ResponseItems($request);
             $processedCount = 0;
             $itemsArray = [];
 
             $this->logger->info('Mailgun Webhook: Raw request data', [
-                'request_all'  => $request->request->all(),
-                'content'      => $request->getContent(),
+                'request_all' => $request->request->all(),
+                'content' => $request->getContent(),
                 'content_type' => $request->headers->get('Content-Type'),
             ]);
 
@@ -117,8 +118,8 @@ class WebhookSubscriber implements EventSubscriberInterface
             foreach ($responseItems as $item) {
                 $itemsArray[] = $item;
                 $this->logger->info('Mailgun Webhook: Processing item', [
-                    'email'      => $item->getEmail(),
-                    'reason'     => $item->getReason(),
+                    'email' => $item->getEmail(),
+                    'reason' => $item->getReason(),
                     'dnc_reason' => $item->getDncReason(),
                 ]);
 
@@ -140,7 +141,11 @@ class WebhookSubscriber implements EventSubscriberInterface
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
             ]);
-            $this->webhookLogger->logWebhook($request, $responseItems, $exception);
+            $responseItemsArray = [];
+            foreach ($responseItems as $item) {
+                $responseItemsArray[] = $item;
+            }
+            $this->webhookLogger->logWebhook($request, $responseItemsArray, $exception);
             $event->setResponse(new Response('Error: '.$e->getMessage(), 500));
         }
     }
@@ -153,7 +158,7 @@ class WebhookSubscriber implements EventSubscriberInterface
         }
 
         $contentType = $request->headers->get('Content-Type', '');
-        $method      = $request->getMethod();
+        $method = $request->getMethod();
 
         if ('POST' !== $method) {
             return false;
@@ -172,7 +177,7 @@ class WebhookSubscriber implements EventSubscriberInterface
         }
 
         $data = json_decode($content, true);
-        if (!is_array($data) || !isset($data['event-data'])) {
+        if (! is_array($data) || ! isset($data['event-data'])) {
             return null;
         }
 
