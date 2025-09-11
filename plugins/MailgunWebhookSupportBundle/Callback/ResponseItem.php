@@ -91,7 +91,7 @@ class ResponseItem
      * 
      * Supports email identification in this order:
      * - user-variables.emailId (direct)
-     * - user-variables.mautic_metadata (serialized PHP data from WebhookSubscriber)
+     * - user-variables.mautic_metadata (JSON object from real Mailgun format)
      * - message.headers.X-Mailgun-Variables (JSON containing mautic_metadata)
      *
      * @param array<string, mixed> $data
@@ -109,7 +109,7 @@ class ResponseItem
                 return (int) $vars['emailId'];
             }
 
-            // Serialized metadata (what WebhookSubscriber actually sends)
+            // mautic_metadata (JSON object from real Mailgun format)
             if (isset($vars['mautic_metadata'])) {
                 $emailId = $this->parseMetadataForEmailId($vars['mautic_metadata'], $recipient);
                 if (null !== $emailId) {
@@ -137,42 +137,25 @@ class ResponseItem
 
     /**
      * Parse metadata to extract email ID for the recipient
-     * Supports both serialized PHP data and JSON formats
+     * Handles JSON objects from real Mailgun webhook format
      * 
      * @param mixed $rawMetadata
      */
     private function parseMetadataForEmailId($rawMetadata, string $recipient): ?int
     {
-        $metadata = null;
-
-        // Try PHP serialized array (what WebhookSubscriber sends)
-        if (is_string($rawMetadata)) {
-            $unserialized = @unserialize($rawMetadata);
-            if (false !== $unserialized && is_array($unserialized)) {
-                $metadata = $unserialized;
-            } else {
-                // Try JSON as fallback
-                $decoded = json_decode($rawMetadata, true);
-                if (is_array($decoded)) {
-                    $metadata = $decoded;
-                }
-            }
-        } elseif (is_array($rawMetadata)) {
-            $metadata = $rawMetadata;
-        }
-
-        if (!is_array($metadata)) {
+        // Handle JSON object (real Mailgun format)
+        if (!is_array($rawMetadata)) {
             return null;
         }
 
         // Look for emailId keyed by recipient address (preferred format)
-        if (isset($metadata[$recipient]['emailId']) && is_numeric($metadata[$recipient]['emailId'])) {
-            return (int) $metadata[$recipient]['emailId'];
+        if (isset($rawMetadata[$recipient]['emailId']) && is_numeric($rawMetadata[$recipient]['emailId'])) {
+            return (int) $rawMetadata[$recipient]['emailId'];
         }
 
         // Fallback: top-level emailId
-        if (isset($metadata['emailId']) && is_numeric($metadata['emailId'])) {
-            return (int) $metadata['emailId'];
+        if (isset($rawMetadata['emailId']) && is_numeric($rawMetadata['emailId'])) {
+            return (int) $rawMetadata['emailId'];
         }
 
         return null;

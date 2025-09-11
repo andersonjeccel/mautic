@@ -248,31 +248,37 @@ This command tests all webhook types:
 To test webhooks manually with cURL, use the **actual Mailgun webhook format**:
 
 ```bash
-# Permanent Failure (creates DNC)
+# Real Mailgun Permanent Failure (creates DNC with email ID tracking)
 curl -X POST https://your-mautic-site.com/mailer/callback \
   -H "Content-Type: application/json" \
   -H "User-Agent: Mailgun/Webhook" \
   -d '{
     "signature": {
-      "token": "b25f02242b55eeb32b677022a9f21326bca6a6a7957bfc1f87",
-      "timestamp": "1751478836",
-      "signature": "efab4d02c138cf13ea3a3cc39c16a62a0d0310bd1e5662c61327f702abec0c00"
+      "token": "613337b7a1742d92c4c2555ca7483e0fe22c952c563ff4c99f",
+      "timestamp": "1757598411",
+      "signature": "de04a19d53aea884fb2e48c8591a8f89231268ea32d024af71642ae0c795d098"
     },
     "event-data": {
-      "id": "G9Bn5sl1TC6nu79C8C0bwg",
-      "timestamp": 1521233195.375624,
-      "log-level": "error",
       "event": "failed",
+      "id": "9rEw5V8HRjabLEHgu6QupQ",
+      "timestamp": 1757598410.9787407,
+      "log-level": "error",
+      "recipient": "permanent@example.com",
+      "reason": "bounce",
       "severity": "permanent",
-      "reason": "suppress-bounce",
-      "recipient": "bounce@example.com",
       "delivery-status": {
         "attempt-no": 1,
-        "message": "5.1.1 The email account that you tried to reach does not exist",
         "code": 550,
+        "message": "5.1.1 The email account that you tried to reach does not exist",
         "enhanced-code": "5.1.1",
-        "description": "User not found",
-        "session-seconds": 0
+        "bounce-type": "hard"
+      },
+      "user-variables": {
+        "mautic_metadata": {
+          "permanent@example.com": {
+            "emailId": 45
+          }
+        }
       }
     }
   }'
@@ -336,9 +342,10 @@ curl -X POST https://your-mautic-site.com/mailer/callback \
 **Key Points:**
 
 1. **Real Mailgun Format**: This is the exact format Mailgun sends in production
-2. **No Metadata Required**: Webhooks work without `user-variables` or email ID tracking
-3. **Simple Structure**: Just `signature` and `event-data` fields
+2. **Email ID Tracking**: Supports both JSON objects and serialized PHP data in `user-variables.mautic_metadata`
+3. **Works Without Metadata**: Webhooks also work without `user-variables` for basic DNC creation
 4. **Recipient Must Exist**: The recipient email must exist in Mautic contacts
+5. **Production Ready**: Handles all real Mailgun webhook fields and structures
 
 ### Troubleshooting
 
