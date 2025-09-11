@@ -10,16 +10,12 @@ class CallbackEnum
     public const UNSUBSCRIBE  = 'unsubscribed';
     public const FAILED       = 'failed';
 
-    /**
-     * @see https://documentation.mailgun.com/en/latest/user_manual.html#webhooks
-     */
     public static function shouldBeEventProcessed(string $event, array $eventData = []): bool
     {
         if (!in_array($event, self::getSupportedEvents(), true)) {
             return false;
         }
 
-        // For failed events, only process permanent failures
         if (self::FAILED === $event) {
             $severity = $eventData['severity'] ?? '';
 
@@ -40,9 +36,6 @@ class CallbackEnum
         return $mapping[$event];
     }
 
-    /**
-     * @return array<string>
-     */
     private static function getSupportedEvents(): array
     {
         return [
@@ -52,9 +45,6 @@ class CallbackEnum
         ];
     }
 
-    /**
-     * @return array<string, int>
-     */
     private static function eventMappingToDncReason(): array
     {
         return [

@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ResponseItems implements \Iterator
 {
-    /** @var array<int, ResponseItem> */
     private array $items  = [];
     private int $position = 0;
 
@@ -42,7 +41,6 @@ class ResponseItems implements \Iterator
 
     private function parseRequest(Request $request): void
     {
-        // Get JSON data from request body
         $content = $request->getContent();
         if (empty($content)) {
             return;
@@ -53,7 +51,6 @@ class ResponseItems implements \Iterator
             return;
         }
 
-        // Real Mailgun format: check for event-data
         if (isset($data['event-data']) && is_array($data['event-data'])) {
             $eventData = $data['event-data'];
             

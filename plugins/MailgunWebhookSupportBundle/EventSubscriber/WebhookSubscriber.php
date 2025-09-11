@@ -35,9 +35,6 @@ class WebhookSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * Add metadata.
-     */
     public function onMessage(MessageEvent $event): void
     {
         $dsn = Dsn::fromString($this->coreParametersHelper->get('mailer_dsn'));
@@ -75,14 +72,10 @@ class WebhookSubscriber implements EventSubscriberInterface
         }
     }
 
-    /**
-     * Add an entry.
-     */
     public function onTransportWebhook(Events\TransportWebhookEvent $event): void
     {
         $request = $event->getRequest();
 
-        // Log all webhook requests for debugging
         $this->logger->info('Mailgun Webhook: Received request', [
             'path'         => $request->getPathInfo(),
             'method'       => $request->getMethod(),
@@ -104,7 +97,6 @@ class WebhookSubscriber implements EventSubscriberInterface
             $responseItems  = new ResponseItems($request);
             $processedCount = 0;
 
-            // Log the raw request data for debugging
             $this->logger->info('Mailgun Webhook: Raw request data', [
                 'request_all'  => $request->request->all(),
                 'content'      => $request->getContent(),
@@ -140,13 +132,11 @@ class WebhookSubscriber implements EventSubscriberInterface
 
     private function isMailgunWebhook(Request $request): bool
     {
-        // Check if this is coming to the webhook endpoint
         $path = $request->getPathInfo();
         if ('/mailer/callback' !== $path) {
             return false;
         }
 
-        // Check content type and method
         $contentType = $request->headers->get('Content-Type', '');
         $method      = $request->getMethod();
 
@@ -154,7 +144,6 @@ class WebhookSubscriber implements EventSubscriberInterface
             return false;
         }
 
-        // Mailgun sends webhooks as form-encoded, multipart, or JSON
         return str_contains($contentType, 'application/x-www-form-urlencoded')
                || str_contains($contentType, 'multipart/form-data')
                || str_contains($contentType, 'application/json');
