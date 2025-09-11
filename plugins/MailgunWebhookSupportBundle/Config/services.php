@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Mautic\CoreBundle\DependencyInjection\MauticCoreExtension;
 use MauticPlugin\MailgunWebhookSupportBundle\Service\WebhookLogger;
+use MauticPlugin\MailgunWebhookSupportBundle\Integration\MailgunWebhookIntegration;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $configurator): void {
@@ -25,4 +26,10 @@ return function (ContainerConfigurator $configurator): void {
 
     $services->set(WebhookLogger::class)
         ->args(['%kernel.project_dir%']);
+
+    $services->set('mautic.integration.mailgunwebhook', MailgunWebhookIntegration::class)
+        ->autowire()
+        ->autoconfigure()
+        ->public();
+
 };

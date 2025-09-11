@@ -21,16 +21,17 @@ final class WebhookLogger
      */
     public function logWebhook(Request $request, array $responseItems = [], ?\Exception $exception = null): void
     {
+        $lines = [];
         if ($exception) {
-            $logLine = sprintf('[%s] ERROR: %s', date('c'), $exception->getMessage());
+            $lines[] = sprintf('[%s] ERROR: %s', date('c'), $exception->getMessage());
         } elseif (empty($responseItems)) {
-            $logLine = sprintf('[%s] REJECTED: Not a Mailgun webhook', date('c'));
+            $lines[] = sprintf('[%s] REJECTED: Not a Mailgun webhook', date('c'));
         } else {
             foreach ($responseItems as $item) {
-                $emailId = $item->getChannel() ? "email [{$item->getChannel()}]" : 'email [unknown]';
+                $emailId  = $item->getChannel() ? "email [{$item->getChannel()}]" : 'email [unknown]';
                 $dncResult = $this->getDncResult($item);
 
-                $logLine = sprintf(
+                $lines[] = sprintf(
                     '[%s] %s [%s] from %s, resulting in [%s]',
                     date('c'),
                     $item->getEmail(),
@@ -41,7 +42,9 @@ final class WebhookLogger
             }
         }
 
-        file_put_contents($this->logFile, $logLine."\n", FILE_APPEND | LOCK_EX);
+        if (!empty($lines)) {
+            file_put_contents($this->logFile, implode("\n", $lines)."\n", FILE_APPEND | LOCK_EX);
+        }
     }
 
     private function getDncResult(ResponseItem $item): string

@@ -12,6 +12,8 @@ use Mautic\EmailBundle\Mailer\Message\MauticMessage;
 use Mautic\EmailBundle\Model\TransportCallback;
 use MauticPlugin\MailgunWebhookSupportBundle\Callback\ResponseItem;
 use MauticPlugin\MailgunWebhookSupportBundle\Callback\ResponseItems;
+use Mautic\PluginBundle\Helper\IntegrationHelper;
+use MauticPlugin\MailgunWebhookSupportBundle\Service\SignatureValidator;
 use MauticPlugin\MailgunWebhookSupportBundle\Service\WebhookLogger;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -27,6 +29,8 @@ final class WebhookSubscriber implements EventSubscriberInterface
         private CoreParametersHelper $coreParametersHelper,
         private LoggerInterface $logger,
         private WebhookLogger $webhookLogger,
+        private SignatureValidator $signatureValidator,
+        private IntegrationHelper $integrationHelper,
     ) {
     }
 
@@ -40,6 +44,10 @@ final class WebhookSubscriber implements EventSubscriberInterface
 
     public function onMessage(MessageEvent $event): void
     {
+        $integration = $this->integrationHelper->getIntegrationObject('MailgunWebhook');
+        if (!$integration || !$integration->getIntegrationSettings()->isPublished()) {
+            return;
+        }
         $dsn = Dsn::fromString($this->coreParametersHelper->get('mailer_dsn'));
 
         $message = $event->getMessage();
@@ -98,6 +106,23 @@ final class WebhookSubscriber implements EventSubscriberInterface
         }
 
         $this->logger->info('Mailgun Webhook: Processing webhook request');
+
+        $integration = $this->integrationHelper->getIntegrationObject('MailgunWebhook');
+        if (!$integration || !$integration->getIntegrationSettings()->isPublished()) {
+            $this->logger->warning('Mailgun Webhook: Integration is disabled; rejecting request');
+            $event->setResponse(new Response('Integration disabled', 403));
+            $this->webhookLogger->logWebhook($request, [], null);
+
+            return;
+        }
+
+        if (! $this->signatureValidator->isValid($request)) {
+            $this->logger->warning('Mailgun Webhook: Invalid or missing signature; rejecting request');
+            $event->setResponse(new Response('Invalid signature', 401));
+            $this->webhookLogger->logWebhook($request, [], null);
+
+            return;
+        }
 
         try {
             $responseItems = new ResponseItems($request);
@@ -164,9 +189,12 @@ final class WebhookSubscriber implements EventSubscriberInterface
             return false;
         }
 
+        $ua = (string) $request->headers->get('User-Agent', '');
+
         return str_contains($contentType, 'application/x-www-form-urlencoded')
                || str_contains($contentType, 'multipart/form-data')
-               || str_contains($contentType, 'application/json');
+               || str_contains($contentType, 'application/json')
+               || str_contains($ua, 'Mailgun');
     }
 
     private function checkForTemporaryBounce(Request $request): ?ResponseItem

@@ -2,6 +2,8 @@
 
 Handles permanent failures, spam reports and unsubscribe events sent from Mailgun. This plugin works with SMTP for sending emails while still receiving Mailgun webhooks for DNC management.
 
+Security: Webhook requests must be signed by Mailgun. The plugin validates the HMAC signature included in the request body. Unsigned or invalidly signed requests are rejected with 401 and do not change contact statuses.
+
 Make sure to set up your Mailgun webhook to send data to `/mailer/callback` and select the following events:
 
 - **Permanent Failure** (failed events with severity=permanent) → Creates DNC BOUNCED
@@ -19,11 +21,14 @@ Make sure to set up your Mailgun webhook to send data to `/mailer/callback` and 
 | `complained` | - | ✅ Create DNC | 2 (BOUNCED) | Prevent delivery to users who marked as spam |
 | `unsubscribed` | - | ✅ Create DNC | 1 (UNSUBSCRIBED) | Honor user unsubscribe requests |
 
-## Using SMTP with Mailgun Webhooks
+## Configuration
 
-- **Receive webhooks from Mailgun** for DNC management
+- Set up your Mailgun webhooks to POST to `https://yourdomain.com/mailer/callback`.
+- Open Integrations → Mailgun Webhook Support:
+  - Toggle Active to Yes
+  - Set “Webhook Signing Key” to your Mailgun Webhook Signing Key
 
-Simply configure your `MAILER_DSN` to use SMTP and set up Mailgun webhooks pointing to `https://yourdomain.com/mailer/callback`.
+Only the Integration’s “Webhook Signing Key” is used for verification.
 
 ## Webhook Examples
 
@@ -245,5 +250,3 @@ curl -X POST https://your-mautic-site.com/mailer/callback \
 
 **Quick Test Without Email ID Tracking:**
 Remove the `user-variables` section from any example to test basic DNC creation without email identification.
-
-
