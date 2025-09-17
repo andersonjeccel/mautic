@@ -31,6 +31,24 @@
                     'delete': permissions['tagManager:tagManager:delete'],
                 },
             },
+            'quickFilters': {
+                'mautic.core.quick_filters.others': {
+                    'filters': [
+                        {
+                            'search': 'mautic.lead.tag.searchcommand.hascontacts',
+                            'label': 'mautic.tagmanager.search.quickfilter.has_contacts',
+                            'tooltip': 'mautic.lead.tag.searchcommand.hascontacts.description',
+                            'icon': 'ri-user-follow-line'
+                        },
+                        {
+                            'search': 'mautic.lead.tag.searchcommand.unused',
+                            'label': 'mautic.tagmanager.search.quickfilter.unused',
+                            'tooltip': 'mautic.lead.tag.searchcommand.unused.description',
+                            'icon': 'ri-user-unfollow-line'
+                        }
+                    ],
+                }
+            }
         }) -}}
         <div class="page-list">
             {% if items is defined and items is not empty %}

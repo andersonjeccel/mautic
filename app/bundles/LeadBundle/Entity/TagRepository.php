@@ -3,6 +3,7 @@
 namespace Mautic\LeadBundle\Entity;
 
 use Doctrine\DBAL\ArrayParameterType;
+use Doctrine\ORM\QueryBuilder;
 use Mautic\CoreBundle\Entity\CommonRepository;
 
 /**
@@ -211,5 +212,62 @@ class TagRepository extends CommonRepository
         }
 
         return $this->getTagsByName($tagsIdName);
+    }
+
+    public function getSearchCommands(): array
+    {
+        $commands = [
+            'mautic.lead.tag.searchcommand.hascontacts',
+            'mautic.lead.tag.searchcommand.unused',
+        ];
+
+        return array_merge($commands, parent::getSearchCommands());
+    }
+
+    protected function addSearchCommandWhereClause($q, $filter): array
+    {
+        [$expr, $parameters] = parent::addSearchCommandWhereClause($q, $filter);
+
+        if ($expr) {
+            return [$expr, $parameters];
+        }
+
+        $command = $filter->command;
+        $expr    = false;
+
+        switch ($command) {
+            case $this->translator->trans('mautic.lead.tag.searchcommand.hascontacts'):
+            case $this->translator->trans('mautic.lead.tag.searchcommand.hascontacts', [], null, 'en_US'):
+                if ($q instanceof QueryBuilder) {
+                    $expr = $q->expr()->exists($this->getLeadAssignmentSubquery());
+                }
+                break;
+            case $this->translator->trans('mautic.lead.tag.searchcommand.unused'):
+            case $this->translator->trans('mautic.lead.tag.searchcommand.unused', [], null, 'en_US'):
+                if ($q instanceof QueryBuilder) {
+                    $expr = $q->expr()->not(
+                        $q->expr()->exists($this->getLeadAssignmentSubquery())
+                    );
+                }
+                break;
+        }
+
+        if ($expr && $filter->not) {
+            $expr = $q->expr()->not($expr);
+        }
+
+        return [$expr, []];
+    }
+
+    private function getLeadAssignmentSubquery(): string
+    {
+        $alias = $this->getTableAlias();
+        $qb    = $this->_em->createQueryBuilder();
+        $qb->select('1')
+            ->from(Lead::class, 'lead')
+            ->join('lead.tags', 'assignedTag')
+            ->where($qb->expr()->eq('assignedTag', $alias));
+
+        return $qb->getDQL();
     }
 }
