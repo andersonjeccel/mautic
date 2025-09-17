@@ -57,14 +57,19 @@
             'delete': permissions['lead:leads:deleteother']
         },
     },
-    'quickFilters': [
-        {
-            'search': 'mautic.core.searchcommand.ismine',
-            'label': 'mautic.core.searchcommand.ismine.label',
-            'tooltip': 'mautic.core.searchcommand.ismine.description',
-            'icon': 'ri-user-line'
-        }
-    ],
+    'quickFilters': {
+                'mautic.core.quick_filters.ownership': {
+                    'conflictGroup': true,
+                    'filters': [
+                        {
+                            'search': 'mautic.core.searchcommand.ismine',
+                            'label': 'mautic.core.searchcommand.ismine.label',
+                            'tooltip': 'mautic.core.searchcommand.ismine.description',
+                            'icon': 'ri-user-line'
+                        }
+                    ]
+                }
+            },
     toolbarOptionsLabel: 'mautic.lead.import_export',
     toolbarOptionsIcon: 'ri-arrow-up-down-fill ri-1x'
 }) -}}

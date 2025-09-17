@@ -28,26 +28,35 @@
 					'delete': permissions['delete']
 				}
 			},
-			'quickFilters': [
-				{
-					'search': 'mautic.user.user.searchcommand.isadmin',
-					'label': 'mautic.user.role.form.isadmin',
-					'tooltip': 'mautic.core.search.quickfilter.is_admin',
-					'icon': 'ri-admin-line'
-				},
-				{
-					'search': 'mautic.core.searchcommand.ispublished',
-					'label': 'mautic.core.form.active',
-					'tooltip': 'mautic.core.search.quickfilter.is_published',
-					'icon': 'ri-check-line'
-				},
-				{
-					'search': 'mautic.core.searchcommand.isunpublished',
-					'label': 'mautic.core.form.inactive',
-					'tooltip': 'mautic.core.search.quickfilter.is_unpublished',
-					'icon': 'ri-close-line'
-				}
-			]
+			'quickFilters': {
+                'mautic.core.quick_filters.status': {
+                    'conflictGroup': true,
+                    'filters': [
+                        {
+                            'search': 'mautic.core.searchcommand.ispublished',
+                            'label': 'mautic.core.form.active',
+                            'tooltip': 'mautic.core.search.quickfilter.is_published',
+                            'icon': 'ri-check-line'
+                        },
+                        {
+                            'search': 'mautic.core.searchcommand.isunpublished',
+                            'label': 'mautic.core.form.inactive',
+                            'tooltip': 'mautic.core.search.quickfilter.is_unpublished',
+                            'icon': 'ri-close-line'
+                        }
+                    ]
+                },
+                'mautic.core.quick_filters.others': {
+                    'filters': [
+                        {
+                            'search': 'mautic.user.user.searchcommand.isadmin',
+                            'label': 'mautic.user.role.form.isadmin',
+                            'tooltip': 'mautic.core.search.quickfilter.is_admin',
+                            'icon': 'ri-admin-line'
+                        }
+                    ]
+                }
+            }
 		}) -}}
 		<div class="page-list">
 			{{ block('listResults') }}
