@@ -6,6 +6,7 @@ use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Query\Expr;
+use Doctrine\ORM\QueryBuilder;
 use Mautic\CampaignBundle\Entity\Result\CountResult;
 use Mautic\CampaignBundle\Executioner\ContactFinder\Limiter\ContactLimiter;
 use Mautic\CoreBundle\Entity\CommonRepository;
@@ -252,7 +253,7 @@ class CampaignRepository extends CommonRepository
     }
 
     /**
-     * @param \Doctrine\ORM\QueryBuilder|\Doctrine\DBAL\Query\QueryBuilder $q
+     * @param QueryBuilder|\Doctrine\DBAL\Query\QueryBuilder $q
      */
     protected function addCatchAllWhereClause($q, $filter): array
     {
@@ -263,7 +264,7 @@ class CampaignRepository extends CommonRepository
     }
 
     /**
-     * @param \Doctrine\ORM\QueryBuilder|\Doctrine\DBAL\Query\QueryBuilder $q
+     * @param QueryBuilder|\Doctrine\DBAL\Query\QueryBuilder $q
      */
     protected function addSearchCommandWhereClause($q, $filter): array
     {
@@ -272,7 +273,10 @@ class CampaignRepository extends CommonRepository
             return [$expr, $parameters];
         }
 
-        $unique  = $this->generateRandomParameterName();
+        $unique          = $this->generateRandomParameterName();
+        $forceParameters = [];
+        $applyNot        = true;
+        $alias           = $this->getTableAlias();
 
         switch ($filter->command) {
             case $this->translator->trans('mautic.campaign.campaign.searchcommand.isexpired'):
@@ -295,6 +299,34 @@ class CampaignRepository extends CommonRepository
                 );
                 $forceParameters = [$unique => true];
                 break;
+            case $this->translator->trans('mautic.campaign.campaign.searchcommand.source.segment'):
+            case $this->translator->trans('mautic.campaign.campaign.searchcommand.source.segment', [], null, 'en_US'):
+                if ($q instanceof QueryBuilder) {
+                    $expr     = $filter->not ? sprintf('%s.lists IS EMPTY', $alias) : sprintf('%s.lists IS NOT EMPTY', $alias);
+                    $applyNot = false;
+                } else {
+                    $expr = sprintf(
+                        'EXISTS(SELECT 1 FROM %1$scampaign_leadlist_xref cl WHERE cl.campaign_id = %2$s.id)',
+                        MAUTIC_TABLE_PREFIX,
+                        $alias
+                    );
+                }
+                $parameters = [];
+                break;
+            case $this->translator->trans('mautic.campaign.campaign.searchcommand.source.form'):
+            case $this->translator->trans('mautic.campaign.campaign.searchcommand.source.form', [], null, 'en_US'):
+                if ($q instanceof QueryBuilder) {
+                    $expr     = $filter->not ? sprintf('%s.forms IS EMPTY', $alias) : sprintf('%s.forms IS NOT EMPTY', $alias);
+                    $applyNot = false;
+                } else {
+                    $expr = sprintf(
+                        'EXISTS(SELECT 1 FROM %1$scampaign_form_xref cf WHERE cf.campaign_id = %2$s.id)',
+                        MAUTIC_TABLE_PREFIX,
+                        $alias
+                    );
+                }
+                $parameters = [];
+                break;
             case $this->translator->trans('mautic.project.searchcommand.name'):
             case $this->translator->trans('mautic.project.searchcommand.name', [], null, 'en_US'):
                 return $this->handleProjectFilter(
@@ -307,7 +339,7 @@ class CampaignRepository extends CommonRepository
                 );
         }
 
-        if ($expr && $filter->not) {
+        if ($expr && $applyNot && $filter->not) {
             $expr = $q->expr()->not($expr);
         }
 
@@ -326,6 +358,8 @@ class CampaignRepository extends CommonRepository
         return array_merge([
             'mautic.campaign.campaign.searchcommand.isexpired',
             'mautic.campaign.campaign.searchcommand.ispending',
+            'mautic.campaign.campaign.searchcommand.source.segment',
+            'mautic.campaign.campaign.searchcommand.source.form',
             'mautic.project.searchcommand.name',
         ], $this->getStandardSearchCommands());
     }
