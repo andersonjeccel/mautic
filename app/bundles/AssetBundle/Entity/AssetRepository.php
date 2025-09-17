@@ -7,6 +7,7 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Mautic\CoreBundle\Entity\CommonRepository;
+use Mautic\FormBundle\Entity\Action;
 use Mautic\ProjectBundle\Entity\ProjectRepositoryTrait;
 
 /**
@@ -107,6 +108,43 @@ class AssetRepository extends CommonRepository
                 );
                 $forceParameters = [$unique => true];
                 break;
+            case $this->translator->trans('mautic.asset.asset.searchcommand.attached_to_form'):
+            case $this->translator->trans('mautic.asset.asset.searchcommand.attached_to_form', [], null, 'en_US'):
+                $typeParameter = $this->generateRandomParameterName();
+                $subQ          = $this->_em->createQueryBuilder();
+                $patternInt    = $subQ->expr()->concat(
+                    $subQ->expr()->concat($subQ->expr()->literal('%s:5:"asset";i:'), 'a.id'),
+                    $subQ->expr()->literal(';%')
+                );
+                $patternString = $subQ->expr()->concat(
+                    $subQ->expr()->concat($subQ->expr()->literal('%s:5:"asset";s:%:"'), 'a.id'),
+                    $subQ->expr()->literal('";%')
+                );
+
+                $subExpr = $subQ->expr()->orX(
+                    $subQ->expr()->like('fa.properties', $patternInt),
+                    $subQ->expr()->like('fa.properties', $patternString)
+                );
+
+                $subQ->select('1')
+                    ->from(Action::class, 'fa')
+                    ->where($subQ->expr()->eq('fa.type', ":$typeParameter"))
+                    ->andWhere($subExpr);
+
+                $expr            = $q->expr()->exists($subQ->getDQL());
+                $forceParameters = [$typeParameter => 'asset.download'];
+                $returnParameter = false;
+                break;
+            case $this->translator->trans('mautic.asset.asset.searchcommand.local'):
+            case $this->translator->trans('mautic.asset.asset.searchcommand.local', [], null, 'en_US'):
+                $expr            = $q->expr()->eq('a.storageLocation', ":$unique");
+                $forceParameters = [$unique => 'local'];
+                break;
+            case $this->translator->trans('mautic.asset.asset.searchcommand.remote'):
+            case $this->translator->trans('mautic.asset.asset.searchcommand.remote', [], null, 'en_US'):
+                $expr            = $q->expr()->eq('a.storageLocation', ":$unique");
+                $forceParameters = [$unique => 'remote'];
+                break;
             case $this->translator->trans('mautic.asset.asset.searchcommand.lang'):
                 $langUnique      = $this->generateRandomParameterName();
                 $langValue       = $filter->string.'_%';
@@ -158,6 +196,9 @@ class AssetRepository extends CommonRepository
             'mautic.asset.asset.searchcommand.isexpired',
             'mautic.asset.asset.searchcommand.ispending',
             'mautic.core.searchcommand.category',
+            'mautic.asset.asset.searchcommand.attached_to_form',
+            'mautic.asset.asset.searchcommand.local',
+            'mautic.asset.asset.searchcommand.remote',
             'mautic.asset.asset.searchcommand.lang',
             'mautic.project.searchcommand.name',
         ];

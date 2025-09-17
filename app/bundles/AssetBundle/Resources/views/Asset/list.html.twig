@@ -70,6 +70,23 @@
                             }
                         ]
                     },
+                    'mautic.asset.quick_filters.storage': {
+                        'conflictGroup': true,
+                        'filters': [
+                            {
+                                'search': 'mautic.asset.asset.searchcommand.local',
+                                'label': 'mautic.asset.search.quickfilter.local',
+                                'tooltip': 'mautic.asset.search.quickfilter.local.description',
+                                'icon': 'ri-hard-drive-2-line'
+                            },
+                            {
+                                'search': 'mautic.asset.asset.searchcommand.remote',
+                                'label': 'mautic.asset.search.quickfilter.remote',
+                                'tooltip': 'mautic.asset.search.quickfilter.remote.description',
+                                'icon': 'ri-cloud-line'
+                            }
+                        ]
+                    },
                     'mautic.core.quick_filters.others': {
                         'filters': [
                             {
@@ -77,6 +94,12 @@
                                 'label': 'mautic.core.form.uncategorized',
                                 'tooltip': 'mautic.core.search.quickfilter.is_uncategorized',
                                 'icon': 'ri-folder-unknow-line'
+                            },
+                            {
+                                'search': 'mautic.asset.asset.searchcommand.attached_to_form',
+                                'label': 'mautic.asset.search.quickfilter.attached_to_form',
+                                'tooltip': 'mautic.asset.search.quickfilter.attached_to_form.description',
+                                'icon': 'ri-survey-line'
                             }
                         ]
                     }
