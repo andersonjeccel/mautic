@@ -524,7 +524,11 @@ class FieldModel extends FormModel
      */
     public function getEntities(array $args = [])
     {
-        return $this->getRepository()->getEntities($args);
+        $repo = $this->getRepository();
+        $repo->setTranslator($this->translator);
+        $repo->setCurrentUser($this->userHelper->getUser());
+
+        return $repo->getEntities($args);
     }
 
     /**
