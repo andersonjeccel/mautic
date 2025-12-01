@@ -34,7 +34,6 @@ final class Version20251201120000 extends AbstractMauticMigration
                 name VARCHAR(191) NOT NULL,
                 description LONGTEXT DEFAULT NULL,
                 alias VARCHAR(50) NOT NULL,
-                field_order INT DEFAULT NULL,
                 is_system TINYINT(1) DEFAULT 0 NOT NULL,
                 is_published TINYINT(1) DEFAULT 1 NOT NULL,
                 date_added DATETIME DEFAULT NULL,
@@ -51,10 +50,10 @@ final class Version20251201120000 extends AbstractMauticMigration
             ) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         ");
 
-        $this->addSql("INSERT IGNORE INTO {$tableName} (name, alias, field_order, is_system, is_published) VALUES ('Core', 'core', 1, 1, 1)");
-        $this->addSql("INSERT IGNORE INTO {$tableName} (name, alias, field_order, is_system, is_published) VALUES ('Social', 'social', 2, 1, 1)");
-        $this->addSql("INSERT IGNORE INTO {$tableName} (name, alias, field_order, is_system, is_published) VALUES ('Personal', 'personal', 3, 1, 1)");
-        $this->addSql("INSERT IGNORE INTO {$tableName} (name, alias, field_order, is_system, is_published) VALUES ('Professional', 'professional', 4, 1, 1)");
+        $this->addSql("INSERT IGNORE INTO {$tableName} (name, alias, is_system, is_published) VALUES ('Core', 'core', 1, 1)");
+        $this->addSql("INSERT IGNORE INTO {$tableName} (name, alias, is_system, is_published) VALUES ('Social', 'social', 1, 1)");
+        $this->addSql("INSERT IGNORE INTO {$tableName} (name, alias, is_system, is_published) VALUES ('Personal', 'personal', 1, 1)");
+        $this->addSql("INSERT IGNORE INTO {$tableName} (name, alias, is_system, is_published) VALUES ('Professional', 'professional', 1, 1)");
     }
 
     public function down(Schema $schema): void
