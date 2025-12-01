@@ -63,8 +63,9 @@ class LeadFieldGroupModel extends FormModel
         }
 
         if (empty($entity->getAlias())) {
-            $alias = InputHelper::alphanum($entity->getName(), false, '-');
-            $alias = strtolower(preg_replace('/[^a-z0-9_]+/', '_', $alias));
+            $alias = strtolower(InputHelper::alphanum($entity->getName(), false, '-'));
+            $alias = preg_replace('/[^a-z0-9_]+/', '_', $alias);
+            $alias = trim($alias, '_');
             $entity->setAlias($this->ensureUniqueAlias($alias, $entity->getId()));
         }
 

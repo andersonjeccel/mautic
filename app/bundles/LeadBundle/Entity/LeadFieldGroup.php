@@ -67,20 +67,6 @@ class LeadFieldGroup extends FormEntity
             'max'        => 191,
             'maxMessage' => 'mautic.lead.field.group.name.maxlength',
         ]));
-
-        $metadata->addPropertyConstraint('alias', new Assert\NotBlank([
-            'message' => 'mautic.lead.field.group.alias.required',
-        ]));
-
-        $metadata->addPropertyConstraint('alias', new Assert\Length([
-            'max'        => 50,
-            'maxMessage' => 'mautic.lead.field.group.alias.maxlength',
-        ]));
-
-        $metadata->addPropertyConstraint('alias', new Assert\Regex([
-            'pattern' => '/^[a-z][a-z0-9_]*$/',
-            'message' => 'mautic.lead.field.group.alias.invalid',
-        ]));
     }
 
     public static function loadApiMetadata(ApiMetadataDriver $metadata): void

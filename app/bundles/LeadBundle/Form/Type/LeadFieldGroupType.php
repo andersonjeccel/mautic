@@ -31,20 +31,6 @@ class LeadFieldGroupType extends AbstractType
             'required'   => true,
         ]);
 
-        $disabled = $options['data']?->isSystem() ?? false;
-
-        $builder->add('alias', TextType::class, [
-            'label'      => 'mautic.core.alias',
-            'label_attr' => ['class' => 'control-label'],
-            'attr'       => [
-                'class'   => 'form-control',
-                'length'  => 50,
-                'tooltip' => 'mautic.lead.field.group.alias.help',
-            ],
-            'required' => false,
-            'disabled' => $disabled,
-        ]);
-
         $builder->add('description', TextareaType::class, [
             'label'      => 'mautic.core.description',
             'label_attr' => ['class' => 'control-label'],
@@ -71,4 +57,3 @@ class LeadFieldGroupType extends AbstractType
         return 'leadfieldgroup';
     }
 }
-

@@ -15,11 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FieldGroupController extends AbstractFormController
 {
-    public function __construct(
-        private FormFactoryInterface $formFactory,
-    ) {
-    }
-
     public function indexAction(Request $request, LeadFieldGroupModel $model, int $page = 1): Response|JsonResponse|RedirectResponse
     {
         if (!$this->security->isGranted('lead:fields:full')) {
@@ -91,7 +86,7 @@ class FieldGroupController extends AbstractFormController
         ]);
     }
 
-    public function newAction(Request $request, LeadFieldGroupModel $model): Response|JsonResponse|RedirectResponse
+    public function newAction(Request $request, LeadFieldGroupModel $model, FormFactoryInterface $formFactory): Response|JsonResponse|RedirectResponse
     {
         if (!$this->security->isGranted('lead:fields:full')) {
             return $this->accessDenied();
@@ -100,7 +95,7 @@ class FieldGroupController extends AbstractFormController
         $entity    = new LeadFieldGroup();
         $returnUrl = $this->generateUrl('mautic_contactfieldgroup_index');
         $action    = $this->generateUrl('mautic_contactfieldgroup_action', ['objectAction' => 'new']);
-        $form      = $model->createForm($entity, $this->formFactory, $action);
+        $form      = $model->createForm($entity, $formFactory, $action);
 
         if ('POST' === $request->getMethod()) {
             $valid = false;
@@ -132,7 +127,7 @@ class FieldGroupController extends AbstractFormController
                     ],
                 ]);
             } elseif ($valid) {
-                return $this->editAction($request, $model, $entity->getId(), true);
+                return $this->editAction($request, $model, $formFactory, $entity->getId(), true);
             }
         }
 
@@ -150,7 +145,7 @@ class FieldGroupController extends AbstractFormController
         ]);
     }
 
-    public function editAction(Request $request, LeadFieldGroupModel $model, int $objectId, bool $ignorePost = false): Response|JsonResponse|RedirectResponse
+    public function editAction(Request $request, LeadFieldGroupModel $model, FormFactoryInterface $formFactory, int $objectId, bool $ignorePost = false): Response|JsonResponse|RedirectResponse
     {
         if (!$this->security->isGranted('lead:fields:full')) {
             return $this->accessDenied();
@@ -185,7 +180,7 @@ class FieldGroupController extends AbstractFormController
         }
 
         $action = $this->generateUrl('mautic_contactfieldgroup_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
-        $form   = $model->createForm($entity, $this->formFactory, $action);
+        $form   = $model->createForm($entity, $formFactory, $action);
 
         if (!$ignorePost && 'POST' === $request->getMethod()) {
             $valid = false;
@@ -217,7 +212,7 @@ class FieldGroupController extends AbstractFormController
                 );
             } elseif ($valid) {
                 $action = $this->generateUrl('mautic_contactfieldgroup_action', ['objectAction' => 'edit', 'objectId' => $entity->getId()]);
-                $form   = $model->createForm($entity, $this->formFactory, $action);
+                $form   = $model->createForm($entity, $formFactory, $action);
             }
         } else {
             $model->lockEntity($entity);
