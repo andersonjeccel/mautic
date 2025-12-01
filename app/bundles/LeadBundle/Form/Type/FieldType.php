@@ -15,6 +15,7 @@ use Mautic\LeadBundle\Entity\LeadField;
 use Mautic\LeadBundle\Entity\LeadFieldRepository;
 use Mautic\LeadBundle\Field\Helper\IndexHelper;
 use Mautic\LeadBundle\Field\IdentifierFields;
+use Mautic\LeadBundle\Model\LeadFieldGroupModel;
 use Mautic\LeadBundle\Field\SchemaDefinition;
 use Mautic\LeadBundle\Form\DataTransformer\FieldToOrderTransformer;
 use Mautic\LeadBundle\Helper\FormFieldHelper;
@@ -52,6 +53,7 @@ class FieldType extends AbstractType
         private Translator $translator,
         private IdentifierFields $identifierFields,
         private IndexHelper $indexHelper,
+        private LeadFieldGroupModel $leadFieldGroupModel,
     ) {
     }
 
@@ -71,16 +73,13 @@ class FieldType extends AbstractType
 
         $disabled = (!empty($options['data'])) ? $options['data']->isFixed() : false;
 
+        $groupChoices = $this->leadFieldGroupModel->getGroupChoices();
+
         $builder->add(
             'group',
             ChoiceType::class,
             [
-                'choices' => [
-                    'mautic.lead.field.group.core'         => 'core',
-                    'mautic.lead.field.group.social'       => 'social',
-                    'mautic.lead.field.group.personal'     => 'personal',
-                    'mautic.lead.field.group.professional' => 'professional',
-                ],
+                'choices' => $groupChoices,
                 'attr' => [
                     'class'    => 'form-control',
                     'tooltip'  => 'mautic.lead.field.form.group.help',

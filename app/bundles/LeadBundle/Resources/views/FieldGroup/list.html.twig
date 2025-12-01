@@ -1,0 +1,124 @@
+{#
+  Variables
+    - items
+    - searchValue
+    - permissions
+    - tmpl
+    - totalItems
+    - limit
+    - page
+#}
+{% set isIndex = 'index' == tmpl ? true : false %}
+{% set tmpl = 'list' %}
+{% extends isIndex ? '@MauticCore/Default/content.html.twig' : '@MauticCore/Default/raw_output.html.twig' %}
+
+{% block mauticContent %}leadfieldgroup{% endblock %}
+
+{% block headerTitle %}{{ 'mautic.lead.field.group.header.index'|trans }}{% endblock %}
+
+{% block content %}
+  {% if isIndex %}
+    <div id="page-list-wrapper" class="panel panel-default">
+        {{ include('@MauticCore/Helper/list_toolbar.html.twig', {
+            'searchValue': searchValue,
+            'action': path('mautic_contactfieldgroup_index'),
+            'page_actions': {
+                'templateButtons': {
+                    'new': permissions['lead:fields:full'],
+                },
+                'routeBase': 'contactfieldgroup',
+                'langVar': 'lead.field.group',
+            },
+        }) }}
+        <div class="page-list">
+  {% endif %}
+
+  {% if items|length > 0 %}
+      <div class="table-responsive">
+          <table class="table table-hover leadfieldgroup-list" id="leadFieldGroupTable">
+              <thead>
+              <tr>
+                  {{ include('@MauticCore/Helper/tableheader.html.twig', {
+                    'checkall': 'true',
+                    'target': '#leadFieldGroupTable',
+                  }) }}
+                  {{ include('@MauticCore/Helper/tableheader.html.twig', {
+                    'sessionVar': 'leadfieldgroup',
+                    'orderBy': 'g.name',
+                    'text': 'mautic.core.name',
+                    'class': 'col-leadfieldgroup-name'
+                  }) }}
+                  {{ include('@MauticCore/Helper/tableheader.html.twig', {
+                    'sessionVar': 'leadfieldgroup',
+                    'orderBy': 'g.alias',
+                    'text': 'mautic.core.alias',
+                    'class': 'visible-md visible-lg col-leadfieldgroup-alias'
+                  }) }}
+                  {{ include('@MauticCore/Helper/tableheader.html.twig', {
+                    'sessionVar': 'leadfieldgroup',
+                    'orderBy': 'g.order',
+                    'text': 'mautic.core.order',
+                    'class': 'visible-md visible-lg col-leadfieldgroup-order'
+                  }) }}
+                  {{ include('@MauticCore/Helper/tableheader.html.twig', {
+                    'sessionVar': 'leadfieldgroup',
+                    'orderBy': 'g.id',
+                    'text': 'mautic.core.id',
+                    'class': 'visible-md visible-lg col-leadfieldgroup-id'
+                  }) }}
+                  <th class="visible-sm visible-md visible-lg col-leadfieldgroup-actions"></th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for item in items %}
+                  <tr id="fieldgroup_{{ item.id }}">
+                      <td>
+                          {{ include('@MauticCore/Helper/list_actions.html.twig', {
+                                  'item': item,
+                                  'templateButtons': {
+                                      'edit': not item.isSystem and permissions['lead:fields:full'],
+                                      'delete': not item.isSystem and permissions['lead:fields:full'],
+                                  },
+                                  'routeBase': 'contactfieldgroup',
+                                  'langVar': 'lead.field.group',
+                                  'pull': 'left',
+                          }) }}
+                      </td>
+                      <td>
+                      <span class="ellipsis">
+                          <a href="{{ path('mautic_contactfieldgroup_action', {'objectAction': 'edit', 'objectId': item.id}) }}" data-toggle="ajax">{{ item.name }}</a>
+                          {% if item.isSystem %}
+                              <i class="ri-lock-fill ml-sm" data-toggle="tooltip" data-placement="right" title="{{ 'mautic.lead.field.group.system'|trans }}"></i>
+                          {% endif %}
+                      </span>
+                      </td>
+                      <td class="visible-md visible-lg">{{ item.alias }}</td>
+                      <td class="visible-md visible-lg">{{ item.order }}</td>
+                      <td class="visible-md visible-lg">{{ item.id }}</td>
+                      <td class="visible-sm visible-md visible-lg">
+                      </td>
+                  </tr>
+              {% endfor %}
+              </tbody>
+          </table>
+      </div>
+      <div class="panel-footer">
+          {{ include('@MauticCore/Helper/pagination.html.twig', {
+                  'totalItems': totalItems,
+                  'page': page,
+                  'limit': limit,
+                  'baseUrl': path('mautic_contactfieldgroup_index'),
+                  'sessionVar': 'leadfieldgroup',
+          }) }}
+      </div>
+  {% else %}
+      {{ include('@MauticCore/Helper/noresults.html.twig') }}
+  {% endif %}
+
+  {% if isIndex %}
+        </div>
+    </div>
+  {% endif %}
+{% endblock %}
+
+

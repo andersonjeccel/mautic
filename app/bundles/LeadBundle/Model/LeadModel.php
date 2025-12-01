@@ -39,6 +39,7 @@ use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Entity\LeadCategory;
 use Mautic\LeadBundle\Entity\LeadEventLog;
 use Mautic\LeadBundle\Entity\LeadField;
+use Mautic\LeadBundle\Entity\LeadFieldGroupRepository;
 use Mautic\LeadBundle\Entity\LeadList;
 use Mautic\LeadBundle\Entity\LeadRepository;
 use Mautic\LeadBundle\Entity\OperatorListTrait;
@@ -132,6 +133,7 @@ class LeadModel extends FormModel
         private ContactTracker $contactTracker,
         private DeviceTracker $deviceTracker,
         private IpAddressModel $ipAddressModel,
+        private LeadFieldGroupRepository $leadFieldGroupRepository,
         EntityManager $em,
         CorePermissions $security,
         EventDispatcherInterface $dispatcher,
@@ -860,11 +862,11 @@ class LeadModel extends FormModel
             }
         }
 
-        // make sure each group key is present
-        $groups = ['core', 'social', 'personal', 'professional'];
-        foreach ($groups as $g) {
-            if (!isset($array[$g])) {
-                $array[$g] = [];
+        $groups = $this->leadFieldGroupRepository->getGroups();
+        foreach ($groups as $group) {
+            $groupAlias = $group->getAlias();
+            if (!isset($array[$groupAlias])) {
+                $array[$groupAlias] = [];
             }
         }
 

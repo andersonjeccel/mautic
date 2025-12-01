@@ -42,6 +42,20 @@ return [
                 'path'       => '/contacts/fields/{objectAction}/{objectId}',
                 'controller' => 'Mautic\LeadBundle\Controller\FieldController::executeAction',
             ],
+            'mautic_contactfieldgroup_index' => [
+                'path'       => '/contacts/fieldgroups/{page}',
+                'controller' => 'Mautic\LeadBundle\Controller\FieldGroupController::indexAction',
+                'defaults'   => [
+                    'page' => 1,
+                ],
+            ],
+            'mautic_contactfieldgroup_action' => [
+                'path'       => '/contacts/fieldgroups/{objectAction}/{objectId}',
+                'controller' => 'Mautic\LeadBundle\Controller\FieldGroupController::executeAction',
+                'defaults'   => [
+                    'objectId' => 0,
+                ],
+            ],
             'mautic_contact_index' => [
                 'path'       => '/contacts/{page}',
                 'controller' => 'Mautic\LeadBundle\Controller\LeadController::indexAction',

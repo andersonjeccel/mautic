@@ -26,6 +26,7 @@ use Mautic\LeadBundle\Event\CompanyEvent;
 use Mautic\LeadBundle\Event\CompanyMergeEvent;
 use Mautic\LeadBundle\Event\LeadChangeCompanyEvent;
 use Mautic\LeadBundle\Exception\UniqueFieldNotFoundException;
+use Mautic\LeadBundle\Entity\LeadFieldGroupRepository;
 use Mautic\LeadBundle\Field\FieldList;
 use Mautic\LeadBundle\Form\Type\CompanyType;
 use Mautic\LeadBundle\LeadEvents;
@@ -77,6 +78,7 @@ class CompanyModel extends CommonFormModel implements AjaxLookupModelInterface
         LoggerInterface $mauticLogger,
         CoreParametersHelper $coreParametersHelper,
         private FieldList $fieldList,
+        private LeadFieldGroupRepository $leadFieldGroupRepository,
     ) {
         $this->leadFieldModel = $leadFieldModel;
 
@@ -218,11 +220,11 @@ class CompanyModel extends CommonFormModel implements AjaxLookupModelInterface
             }
         }
 
-        // make sure each group key is present
-        $groups = ['core', 'social', 'personal', 'professional'];
-        foreach ($groups as $g) {
-            if (!isset($array[$g])) {
-                $array[$g] = [];
+        $groups = $this->leadFieldGroupRepository->getGroups();
+        foreach ($groups as $group) {
+            $groupAlias = $group->getAlias();
+            if (!isset($array[$groupAlias])) {
+                $array[$groupAlias] = [];
             }
         }
 

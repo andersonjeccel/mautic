@@ -1,0 +1,41 @@
+{#
+  Variables
+    - form
+    - entity
+#}
+{% extends '@MauticCore/Default/content.html.twig' %}
+
+{% block mauticContent %}leadfieldgroup{% endblock %}
+
+{% block headerTitle %}
+  {%- if entity.id -%}
+    {{- 'mautic.lead.field.group.header.edit'|trans({'%name%': entity.name}) -}}
+  {%- else -%}
+    {{- 'mautic.lead.field.group.header.new'|trans -}}
+  {%- endif -%}
+{% endblock %}
+
+{% block content %}
+{{ form_start(form) }}
+<div class="box-layout">
+    <div class="col-md-8 height-auto bdr-r">
+        <div class="pa-md">
+            <div class="row">
+                <div class="col-md-6">{{ form_row(form.name) }}</div>
+                <div class="col-md-6">{{ form_row(form.alias) }}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">{{ form_row(form.description) }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 height-auto">
+        <div class="pr-lg pl-lg pt-md pb-md">
+            {{ form_rest(form) }}
+        </div>
+    </div>
+</div>
+{{ form_end(form) }}
+{% endblock %}
+
+

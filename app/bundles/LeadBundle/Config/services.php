@@ -36,7 +36,8 @@ return function (ContainerConfigurator $configurator): void {
     $services->get(Mautic\LeadBundle\Entity\LeadRepository::class)
         ->call('setUniqueIdentifiersOperator', ['%mautic.contact_unique_identifiers_operator%'])
         ->call('setListLeadRepository', [\Symfony\Component\DependencyInjection\Loader\Configurator\service('mautic.lead.repository.list_lead')])
-        ->call('setLeadFieldRepository', [\Symfony\Component\DependencyInjection\Loader\Configurator\service('mautic.lead.repository.field')]);
+        ->call('setLeadFieldRepository', [\Symfony\Component\DependencyInjection\Loader\Configurator\service('mautic.lead.repository.field')])
+        ->call('setLeadFieldGroupRepository', [\Symfony\Component\DependencyInjection\Loader\Configurator\service(Mautic\LeadBundle\Entity\LeadFieldGroupRepository::class)]);
 
     $services->alias('mautic.lead.model.field', Mautic\LeadBundle\Model\FieldModel::class);
     $services->alias('mautic.lead.model.list', Mautic\LeadBundle\Model\ListModel::class);
@@ -45,6 +46,7 @@ return function (ContainerConfigurator $configurator): void {
     $services->alias('mautic.lead.model.company', Mautic\LeadBundle\Model\CompanyModel::class);
     $services->alias('mautic.lead.model.import', Mautic\LeadBundle\Model\ImportModel::class);
     $services->alias('mautic.lead.model.tag', Mautic\LeadBundle\Model\TagModel::class);
+    $services->alias('mautic.lead.model.fieldgroup', Mautic\LeadBundle\Model\LeadFieldGroupModel::class);
     $services->alias('mautic.lead.model.company_report_data', Mautic\LeadBundle\Model\CompanyReportData::class);
     $services->alias('mautic.lead.model.dnc', Mautic\LeadBundle\Model\DoNotContact::class);
     $services->alias('mautic.lead.model.segment.action', Mautic\LeadBundle\Model\SegmentActionModel::class);
@@ -63,6 +65,7 @@ return function (ContainerConfigurator $configurator): void {
     $services->alias('mautic.lead.repository.points_change_log', Mautic\LeadBundle\Entity\PointsChangeLogRepository::class);
     $services->alias('mautic.lead.repository.merged_records', Mautic\LeadBundle\Entity\MergeRecordRepository::class);
     $services->alias('mautic.lead.repository.field', Mautic\LeadBundle\Entity\LeadFieldRepository::class);
+    $services->alias('mautic.lead.repository.fieldgroup', Mautic\LeadBundle\Entity\LeadFieldGroupRepository::class);
     $services->alias('mautic.company.deduper', Mautic\LeadBundle\Deduplicate\CompanyDeduper::class);
     $services->alias('mautic.lead.helper.contact_request_helper', Mautic\LeadBundle\Helper\ContactRequestHelper::class);
     $services->alias('mautic.lead.helper.dnc_formatter_helper', Mautic\LeadBundle\Helper\DncFormatterHelper::class);

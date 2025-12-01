@@ -59,6 +59,8 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
      */
     private $listLeadRepository;
 
+    private ?LeadFieldGroupRepository $leadFieldGroupRepository = null;
+
     /**
      * Used by search functions to search social profiles.
      */
@@ -551,9 +553,25 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
         return $contacts;
     }
 
+    public function setLeadFieldGroupRepository(LeadFieldGroupRepository $leadFieldGroupRepository): void
+    {
+        $this->leadFieldGroupRepository = $leadFieldGroupRepository;
+    }
+
     public function getFieldGroups(): array
     {
-        return ['core', 'social', 'personal', 'professional'];
+        if (null === $this->leadFieldGroupRepository) {
+            return ['core', 'social', 'personal', 'professional'];
+        }
+
+        $groups     = $this->leadFieldGroupRepository->getGroups();
+        $groupNames = [];
+
+        foreach ($groups as $group) {
+            $groupNames[] = $group->getAlias();
+        }
+
+        return $groupNames;
     }
 
     /**
