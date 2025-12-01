@@ -9,16 +9,27 @@ use Mautic\CoreBundle\Doctrine\AbstractMauticMigration;
 
 final class Version20251201120000 extends AbstractMauticMigration
 {
+    public function preUp(Schema $schema): void
+    {
+        $tableName = $this->prefix.'lead_field_groups';
+
+        if (!$schema->hasTable($tableName)) {
+            return;
+        }
+
+        $count = $this->connection->fetchOne("SELECT COUNT(*) FROM {$tableName}");
+
+        if ($count > 0) {
+            $this->skipIf(true, 'Field groups already exist');
+        }
+    }
+
     public function up(Schema $schema): void
     {
         $tableName = $this->prefix.'lead_field_groups';
 
-        if ($schema->hasTable($tableName)) {
-            return;
-        }
-
         $this->addSql("
-            CREATE TABLE {$tableName} (
+            CREATE TABLE IF NOT EXISTS {$tableName} (
                 id INT UNSIGNED AUTO_INCREMENT NOT NULL,
                 name VARCHAR(191) NOT NULL,
                 description LONGTEXT DEFAULT NULL,
@@ -36,14 +47,14 @@ final class Version20251201120000 extends AbstractMauticMigration
                 modified_by INT DEFAULT NULL,
                 modified_by_user VARCHAR(191) DEFAULT NULL,
                 PRIMARY KEY(id),
-                INDEX lead_field_group_alias (alias)
+                UNIQUE INDEX lead_field_group_alias (alias)
             ) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         ");
 
-        $this->addSql("INSERT INTO {$tableName} (name, alias, field_order, is_system, is_published) VALUES ('Core', 'core', 1, 1, 1)");
-        $this->addSql("INSERT INTO {$tableName} (name, alias, field_order, is_system, is_published) VALUES ('Social', 'social', 2, 1, 1)");
-        $this->addSql("INSERT INTO {$tableName} (name, alias, field_order, is_system, is_published) VALUES ('Personal', 'personal', 3, 1, 1)");
-        $this->addSql("INSERT INTO {$tableName} (name, alias, field_order, is_system, is_published) VALUES ('Professional', 'professional', 4, 1, 1)");
+        $this->addSql("INSERT IGNORE INTO {$tableName} (name, alias, field_order, is_system, is_published) VALUES ('Core', 'core', 1, 1, 1)");
+        $this->addSql("INSERT IGNORE INTO {$tableName} (name, alias, field_order, is_system, is_published) VALUES ('Social', 'social', 2, 1, 1)");
+        $this->addSql("INSERT IGNORE INTO {$tableName} (name, alias, field_order, is_system, is_published) VALUES ('Personal', 'personal', 3, 1, 1)");
+        $this->addSql("INSERT IGNORE INTO {$tableName} (name, alias, field_order, is_system, is_published) VALUES ('Professional', 'professional', 4, 1, 1)");
     }
 
     public function down(Schema $schema): void

@@ -31,6 +31,11 @@ return [
 
     'services' => [
         'fixtures' => [
+            'mautic.install.fixture.lead_field_group' => [
+                'class'     => Mautic\InstallBundle\InstallFixtures\ORM\LeadFieldGroupData::class,
+                'tag'       => Doctrine\Bundle\FixturesBundle\DependencyInjection\CompilerPass\FixturesCompilerPass::FIXTURE_TAG,
+                'arguments' => [],
+            ],
             'mautic.install.fixture.lead_field' => [
                 'class'     => Mautic\InstallBundle\InstallFixtures\ORM\LeadFieldData::class,
                 'tag'       => Doctrine\Bundle\FixturesBundle\DependencyInjection\CompilerPass\FixturesCompilerPass::FIXTURE_TAG,
