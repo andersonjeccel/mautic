@@ -40,7 +40,7 @@
                             'href': path('mautic_contactfieldgroup_index'),
                         },
                         'iconClass': 'ri-folder-settings-line',
-                        'btnText': 'mautic.lead.field.group.manage'|trans,
+                        'btnText': 'mautic.lead.fieldgroup.manage'|trans,
                     }
                 ],
                 'routeBase': 'contactfield',
@@ -145,7 +145,7 @@
                           } %}
                       </td>
                       <td class="visible-md visible-lg">{{ ('mautic.'~item.object~'.'~item.object)|trans }}</td>
-                      <td class="visible-md visible-lg">{{ ('mautic.lead.field.group.'~item.group)|trans }}</td>
+                      <td class="visible-md visible-lg">{{ groupNames[item.group]|default(item.group) }}</td>
                       <td>{{ translatorConditional('mautic.core.type.'~item.type, 'mautic.lead.field.type.'~item.type) }}</td>
                       <td class="visible-md visible-lg">{{ item.id }}</td>
                       <td class="visible-sm visible-md visible-lg">

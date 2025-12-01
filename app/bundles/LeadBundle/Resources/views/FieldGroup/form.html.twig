@@ -9,9 +9,9 @@
 
 {% block headerTitle %}
   {%- if entity.id -%}
-    {{- 'mautic.lead.field.group.header.edit'|trans({'%name%': entity.name}) -}}
+    {{- 'mautic.lead.fieldgroup.header.edit'|trans({'%name%': entity.name}) -}}
   {%- else -%}
-    {{- 'mautic.lead.field.group.header.new'|trans -}}
+    {{- 'mautic.lead.fieldgroup.header.new'|trans -}}
   {%- endif -%}
 {% endblock %}
 
@@ -36,5 +36,3 @@
 </div>
 {{ form_end(form) }}
 {% endblock %}
-
-

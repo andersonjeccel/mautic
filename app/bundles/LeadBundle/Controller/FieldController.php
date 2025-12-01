@@ -9,6 +9,7 @@ use Mautic\LeadBundle\Field\Exception\AbortColumnCreateException;
 use Mautic\LeadBundle\Field\Exception\AbortColumnUpdateException;
 use Mautic\LeadBundle\Helper\FieldAliasHelper;
 use Mautic\LeadBundle\Model\FieldModel;
+use Mautic\LeadBundle\Model\LeadFieldGroupModel;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -24,7 +25,7 @@ class FieldController extends FormController
      *
      * @return array|JsonResponse|RedirectResponse|Response
      */
-    public function indexAction(Request $request, FieldModel $fieldModel, $page = 1)
+    public function indexAction(Request $request, FieldModel $fieldModel, LeadFieldGroupModel $fieldGroupModel, $page = 1)
     {
         // set some permissions
         $permissions = $this->security->isGranted(['lead:fields:view', 'lead:fields:full'], 'RETURN_ARRAY');
@@ -103,6 +104,7 @@ class FieldController extends FormController
                 'totalItems'  => $count,
                 'limit'       => $limit,
                 'page'        => $page,
+                'groupNames'  => $fieldGroupModel->getGroupNames(),
             ],
             'contentTemplate' => '@MauticLead/Field/list.html.twig',
             'passthroughVars' => [
