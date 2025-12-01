@@ -76,7 +76,7 @@
                           {{ include('@MauticCore/Helper/list_actions.html.twig', {
                                   'item': item,
                                   'templateButtons': {
-                                      'edit': not item.isSystem and permissions['lead:fields:full'],
+                                      'edit': permissions['lead:fields:full'],
                                       'delete': not item.isSystem and permissions['lead:fields:full'],
                                   },
                                   'routeBase': 'contactfieldgroup',
