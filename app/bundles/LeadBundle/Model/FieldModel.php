@@ -16,6 +16,7 @@ use Mautic\CoreBundle\Security\Permissions\CorePermissions;
 use Mautic\CoreBundle\Translation\Translator;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Entity\LeadField;
+use Mautic\LeadBundle\Entity\LeadFieldGroupRepository;
 use Mautic\LeadBundle\Entity\LeadFieldRepository;
 use Mautic\LeadBundle\Entity\LeadRepository;
 use Mautic\LeadBundle\Event\LeadFieldEvent;
@@ -484,6 +485,7 @@ class FieldModel extends FormModel
         private FieldList $fieldList,
         private LeadFieldSaver $leadFieldSaver,
         private LeadFieldDeleter $leadFieldDeleter,
+        private LeadFieldGroupRepository $leadFieldGroupRepository,
         EntityManagerInterface $em,
         CorePermissions $security,
         EventDispatcherInterface $dispatcher,
@@ -504,6 +506,21 @@ class FieldModel extends FormModel
     public function getPermissionBase(): string
     {
         return 'lead:fields';
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function getGroupNames(): array
+    {
+        return $this->leadFieldGroupRepository->getGroupNames();
+    }
+
+    public function getGroupName(string $alias): string
+    {
+        $groupNames = $this->getGroupNames();
+
+        return $groupNames[$alias] ?? $alias;
     }
 
     /**
@@ -958,7 +975,7 @@ class FieldModel extends FormModel
                 'type'         => $contactField['type'],
                 'group'        => $contactField['group'],
                 'object'       => $contactField['object'],
-                'group_label'  => $this->translator->trans('mautic.lead.field.group.'.$contactField['group']),
+                'group_label'  => $this->getGroupName($contactField['group']),
                 'defaultValue' => $contactField['defaultValue'],
                 'properties'   => $contactField['properties'],
                 'isPublished'  => $contactField['isPublished'],
@@ -1025,7 +1042,7 @@ class FieldModel extends FormModel
                 'alias'        => 'ownerbyemail',
                 'type'         => 'email',
                 'group'        => 'core',
-                'group_label'  => $this->translator->trans('mautic.lead.field.group.core'),
+                'group_label'  => $this->getGroupName('core'),
                 'defaultValue' => null,
                 'properties'   => [],
                 'isPublished'  => true,
@@ -1035,7 +1052,7 @@ class FieldModel extends FormModel
                 'alias'        => 'ownerbyid',
                 'type'         => 'text',
                 'group'        => 'core',
-                'group_label'  => $this->translator->trans('mautic.lead.field.group.core'),
+                'group_label'  => $this->getGroupName('core'),
                 'defaultValue' => null,
                 'properties'   => [],
                 'isPublished'  => true,
@@ -1045,7 +1062,7 @@ class FieldModel extends FormModel
                 'alias'        => 'stagebyname',
                 'type'         => 'text',
                 'group'        => 'core',
-                'group_label'  => $this->translator->trans('mautic.lead.field.group.core'),
+                'group_label'  => $this->getGroupName('core'),
                 'defaultValue' => null,
                 'properties'   => [],
                 'isPublished'  => true,

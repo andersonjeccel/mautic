@@ -488,7 +488,7 @@ class LeadController extends FormController
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function newAction(Request $request, UserHelper $userHelper, AvatarHelper $avatarHelper, TokenStorageInterface $tokenStorage)
+    public function newAction(Request $request, UserHelper $userHelper, AvatarHelper $avatarHelper, TokenStorageInterface $tokenStorage, LeadFieldGroupModel $fieldGroupModel)
     {
         /** @var LeadModel $model */
         $model = $this->getModel('lead.lead');
@@ -594,7 +594,7 @@ class LeadController extends FormController
                         $returnUrl = $this->generateUrl('mautic_contact_action', $viewParameters);
                         $template  = 'Mautic\LeadBundle\Controller\LeadController::viewAction';
                     } else {
-                        return $this->editAction($request, $userHelper, $avatarHelper, $lead->getId(), true);
+                        return $this->editAction($request, $userHelper, $avatarHelper, $fieldGroupModel, $lead->getId(), true);
                     }
                 } else {
                     if ($request->get('qf', false)) {
@@ -637,9 +637,10 @@ class LeadController extends FormController
         return $this->delegateView(
             [
                 'viewParameters' => [
-                    'form'   => $form->createView(),
-                    'lead'   => $lead,
-                    'fields' => $model->organizeFieldsByGroup($fields),
+                    'form'       => $form->createView(),
+                    'lead'       => $lead,
+                    'fields'     => $model->organizeFieldsByGroup($fields),
+                    'groupNames' => $fieldGroupModel->getGroupNames(),
                 ],
                 'contentTemplate' => '@MauticLead/Lead/form.html.twig',
                 'passthroughVars' => [
@@ -663,7 +664,7 @@ class LeadController extends FormController
      *
      * @return array|JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function editAction(Request $request, UserHelper $userHelper, AvatarHelper $avatarHelper, $objectId, $ignorePost = false)
+    public function editAction(Request $request, UserHelper $userHelper, AvatarHelper $avatarHelper, LeadFieldGroupModel $fieldGroupModel, $objectId, $ignorePost = false)
     {
         /** @var LeadModel $model */
         $model = $this->getModel('lead.lead');
@@ -824,9 +825,10 @@ class LeadController extends FormController
         return $this->delegateView(
             [
                 'viewParameters' => [
-                    'form'   => $form->createView(),
-                    'lead'   => $lead,
-                    'fields' => $lead->getFields(), // pass in the lead fields as they are already organized by ['group']['alias']
+                    'form'       => $form->createView(),
+                    'lead'       => $lead,
+                    'fields'     => $lead->getFields(), // pass in the lead fields as they are already organized by ['group']['alias']
+                    'groupNames' => $fieldGroupModel->getGroupNames(),
                 ],
                 'contentTemplate' => '@MauticLead/Lead/form.html.twig',
                 'passthroughVars' => [

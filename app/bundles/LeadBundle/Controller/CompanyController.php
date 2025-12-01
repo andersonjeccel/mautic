@@ -10,6 +10,7 @@ use Mautic\LeadBundle\Entity\Company;
 use Mautic\LeadBundle\Form\Type\CompanyMergeType;
 use Mautic\LeadBundle\Model\CompanyModel;
 use Mautic\LeadBundle\Model\FieldModel;
+use Mautic\LeadBundle\Model\LeadFieldGroupModel;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -181,7 +182,7 @@ class CompanyController extends FormController
      *
      * @return JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function newAction(Request $request, $entity = null)
+    public function newAction(Request $request, LeadFieldGroupModel $fieldGroupModel, $entity = null)
     {
         $model = $this->getModel('lead.company');
         \assert($model instanceof CompanyModel);
@@ -251,7 +252,7 @@ class CompanyController extends FormController
                         $template  = 'Mautic\LeadBundle\Controller\CompanyController::indexAction';
                     } else {
                         // return edit view so that all the session stuff is loaded
-                        return $this->editAction($request, $entity->getId(), true);
+                        return $this->editAction($request, $fieldGroupModel, $entity->getId(), true);
                     }
                 }
             }
@@ -294,11 +295,12 @@ class CompanyController extends FormController
         return $this->delegateView(
             [
                 'viewParameters' => [
-                    'tmpl'   => $request->isXmlHttpRequest() ? $request->get('tmpl', 'index') : 'index',
-                    'entity' => $entity,
-                    'form'   => $form->createView(),
-                    'fields' => $fields,
-                    'groups' => $groups,
+                    'tmpl'       => $request->isXmlHttpRequest() ? $request->get('tmpl', 'index') : 'index',
+                    'entity'     => $entity,
+                    'form'       => $form->createView(),
+                    'fields'     => $fields,
+                    'groups'     => $groups,
+                    'groupNames' => $fieldGroupModel->getGroupNames(),
                 ],
                 'contentTemplate' => $template,
                 'passthroughVars' => [
@@ -325,7 +327,7 @@ class CompanyController extends FormController
      *
      * @return JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function editAction(Request $request, $objectId, $ignorePost = false)
+    public function editAction(Request $request, LeadFieldGroupModel $fieldGroupModel, $objectId, $ignorePost = false)
     {
         $model = $this->getModel('lead.company');
         \assert($model instanceof CompanyModel);
@@ -482,11 +484,12 @@ class CompanyController extends FormController
         return $this->delegateView(
             [
                 'viewParameters' => [
-                    'tmpl'   => $request->isXmlHttpRequest() ? $request->get('tmpl', 'index') : 'index',
-                    'entity' => $entity,
-                    'form'   => $form->createView(),
-                    'fields' => $fields,
-                    'groups' => $groups,
+                    'tmpl'       => $request->isXmlHttpRequest() ? $request->get('tmpl', 'index') : 'index',
+                    'entity'     => $entity,
+                    'form'       => $form->createView(),
+                    'fields'     => $fields,
+                    'groups'     => $groups,
+                    'groupNames' => $fieldGroupModel->getGroupNames(),
                 ],
                 'contentTemplate' => $template,
                 'passthroughVars' => [
@@ -510,7 +513,7 @@ class CompanyController extends FormController
      *
      * @return JsonResponse|Response
      */
-    public function viewAction(Request $request, $objectId)
+    public function viewAction(Request $request, LeadFieldGroupModel $fieldGroupModel, $objectId)
     {
         /** @var CompanyModel $model */
         $model  = $this->getModel('lead.company');
@@ -594,6 +597,7 @@ class CompanyController extends FormController
                     'page'              => $contacts['page'],
                     'totalItems'        => $contacts['count'],
                     'limit'             => $contacts['limit'],
+                    'groupNames'        => $fieldGroupModel->getGroupNames(),
                 ],
                 'contentTemplate' => '@MauticLead/Company/company.html.twig',
             ]
@@ -662,7 +666,7 @@ class CompanyController extends FormController
      *
      * @return array|JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function cloneAction(Request $request, $objectId)
+    public function cloneAction(Request $request, LeadFieldGroupModel $fieldGroupModel, $objectId)
     {
         $model  = $this->getModel('lead.company');
         $entity = $model->getEntity($objectId);
@@ -675,7 +679,7 @@ class CompanyController extends FormController
             $entity = clone $entity;
         }
 
-        return $this->newAction($request, $entity);
+        return $this->newAction($request, $fieldGroupModel, $entity);
     }
 
     /**

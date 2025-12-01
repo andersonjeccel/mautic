@@ -751,7 +751,7 @@ return [
                 'class'     => Mautic\LeadBundle\Field\FieldList::class,
                 'arguments' => [
                     'mautic.lead.repository.field',
-                    'translator',
+                    'mautic.lead.repository.fieldgroup',
                 ],
             ],
             'mautic.lead.field.identifier_fields' => [

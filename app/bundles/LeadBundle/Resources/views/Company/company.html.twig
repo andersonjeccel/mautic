@@ -87,7 +87,7 @@
                     {% for g in fields|keys %}
                         {% if fields[g] is not empty %}
                             <li class="{% if loop.first %}active{% endif %}">
-                                <a href="#{{ g }}" class="group" data-toggle="tab">{{ ('mautic.lead.field.group.'~g)|trans }}</a>
+                                <a href="#{{ g }}" class="group" data-toggle="tab">{{ groupNames[g]|default(g) }}</a>
                             </li>
                         {% endif %}
                     {% endfor %}
@@ -206,7 +206,7 @@
                 <hr/>
             </div>
             <div class="panel-heading">
-                <div class="panel-title">{{ 'mautic.lead.field.group.company'|trans }}</div>
+                <div class="panel-title">{{ 'mautic.company'|trans }}</div>
             </div>
             <div class="panel-body pt-sm">
                 {% if company.owner %}

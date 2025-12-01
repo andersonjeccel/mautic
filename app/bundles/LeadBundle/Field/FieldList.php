@@ -6,14 +6,14 @@ namespace Mautic\LeadBundle\Field;
 
 use Mautic\CoreBundle\Cache\ResultCacheOptions;
 use Mautic\LeadBundle\Entity\LeadField;
+use Mautic\LeadBundle\Entity\LeadFieldGroupRepository;
 use Mautic\LeadBundle\Entity\LeadFieldRepository;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class FieldList
 {
     public function __construct(
         private LeadFieldRepository $leadFieldRepository,
-        private TranslatorInterface $translator,
+        private LeadFieldGroupRepository $leadFieldGroupRepository,
     ) {
     }
 
@@ -44,9 +44,14 @@ class FieldList
 
         $leadFields = [];
 
+        $groupNames = [];
+        if ($byGroup) {
+            $groupNames = $this->leadFieldGroupRepository->getGroupChoices();
+        }
+
         foreach ($fields as $f) {
             if ($byGroup) {
-                $fieldName                              = $this->translator->trans('mautic.lead.field.group.'.$f->getGroup());
+                $fieldName                              = $groupNames[$f->getGroup()] ?? $f->getGroup();
                 $leadFields[$fieldName][$f->getAlias()] = $f->getLabel();
             } else {
                 $leadFields[$f->getAlias()] = $f->getLabel();
