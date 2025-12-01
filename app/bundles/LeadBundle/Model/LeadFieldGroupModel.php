@@ -58,10 +58,6 @@ class LeadFieldGroupModel extends FormModel
             throw new MethodNotAllowedHttpException(['LeadFieldGroup']);
         }
 
-        if ($entity->isNew()) {
-            $entity->setOrder($this->getRepository()->getMaxOrder() + 1);
-        }
-
         if (empty($entity->getAlias())) {
             $alias = strtolower(InputHelper::alphanum($entity->getName(), false, '-'));
             $alias = preg_replace('/[^a-z0-9_]+/', '_', $alias);
@@ -86,6 +82,14 @@ class LeadFieldGroupModel extends FormModel
     public function getGroups(): array
     {
         return $this->getRepository()->getGroups();
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function getGroupNames(): array
+    {
+        return $this->getRepository()->getGroupNames();
     }
 
     private function ensureUniqueAlias(string $alias, ?int $excludeId = null): string

@@ -20,10 +20,10 @@ class LeadFieldGroupData extends AbstractFixture implements OrderedFixtureInterf
     public function load(ObjectManager $manager): void
     {
         $groups = [
-            ['name' => 'Core', 'alias' => 'core', 'order' => 1],
-            ['name' => 'Social', 'alias' => 'social', 'order' => 2],
-            ['name' => 'Personal', 'alias' => 'personal', 'order' => 3],
-            ['name' => 'Professional', 'alias' => 'professional', 'order' => 4],
+            ['name' => 'Core', 'alias' => 'core'],
+            ['name' => 'Social', 'alias' => 'social'],
+            ['name' => 'Personal', 'alias' => 'personal'],
+            ['name' => 'Professional', 'alias' => 'professional'],
         ];
 
         foreach ($groups as $groupData) {
@@ -36,7 +36,6 @@ class LeadFieldGroupData extends AbstractFixture implements OrderedFixtureInterf
             $group = new LeadFieldGroup();
             $group->setName($groupData['name']);
             $group->setAlias($groupData['alias']);
-            $group->setOrder($groupData['order']);
             $group->setIsSystem(true);
 
             $manager->persist($group);

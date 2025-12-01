@@ -18,7 +18,7 @@ class LeadFieldGroupRepository extends CommonRepository
     {
         $qb = $this->createQueryBuilder('g');
         $qb->select('g.alias, g.name')
-            ->orderBy('g.order', 'ASC');
+            ->orderBy('g.name', 'ASC');
 
         $results = $qb->getQuery()->getArrayResult();
         $choices = [];
@@ -36,9 +36,30 @@ class LeadFieldGroupRepository extends CommonRepository
     public function getGroups(): array
     {
         $qb = $this->createQueryBuilder('g');
-        $qb->orderBy('g.order', 'ASC');
+        $qb->orderBy('g.name', 'ASC');
 
         return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Returns a mapping of group alias to group name.
+     *
+     * @return array<string, string>
+     */
+    public function getGroupNames(): array
+    {
+        $qb = $this->createQueryBuilder('g');
+        $qb->select('g.alias, g.name')
+            ->orderBy('g.name', 'ASC');
+
+        $results = $qb->getQuery()->getArrayResult();
+        $names   = [];
+
+        foreach ($results as $result) {
+            $names[$result['alias']] = $result['name'];
+        }
+
+        return $names;
     }
 
     public function getGroupByAlias(string $alias): ?LeadFieldGroup
@@ -61,17 +82,8 @@ class LeadFieldGroupRepository extends CommonRepository
         return (int) $qb->getQuery()->getSingleScalarResult() > 0;
     }
 
-    public function getMaxOrder(): int
-    {
-        $qb = $this->createQueryBuilder('g');
-        $qb->select('MAX(g.order)');
-
-        return (int) $qb->getQuery()->getSingleScalarResult();
-    }
-
     public function getTableAlias(): string
     {
         return 'g';
     }
 }
-

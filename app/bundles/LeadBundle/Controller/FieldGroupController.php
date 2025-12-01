@@ -29,7 +29,7 @@ class FieldGroupController extends AbstractFormController
         $search = $request->get('search', $session->get('mautic.leadfieldgroup.filter', ''));
         $session->set('mautic.leadfieldgroup.filter', $search);
 
-        $orderBy    = $session->get('mautic.leadfieldgroup.orderby', 'g.order');
+        $orderBy    = $session->get('mautic.leadfieldgroup.orderby', 'g.name');
         $orderByDir = $session->get('mautic.leadfieldgroup.orderbydir', 'ASC');
 
         $start = (1 === $page) ? 0 : (($page - 1) * $limit);
@@ -169,7 +169,7 @@ class FieldGroupController extends AbstractFormController
                     'flashes' => [
                         [
                             'type'    => 'error',
-                            'msg'     => 'mautic.lead.field.group.error.notfound',
+                            'msg'     => 'mautic.lead.fieldgroup.error.notfound',
                             'msgVars' => ['%id%' => $objectId],
                         ],
                     ],
@@ -256,13 +256,13 @@ class FieldGroupController extends AbstractFormController
             if (null === $entity) {
                 $flashes[] = [
                     'type'    => 'error',
-                    'msg'     => 'mautic.lead.field.group.error.notfound',
+                    'msg'     => 'mautic.lead.fieldgroup.error.notfound',
                     'msgVars' => ['%id%' => $objectId],
                 ];
             } elseif ($entity->isSystem()) {
                 $flashes[] = [
                     'type' => 'error',
-                    'msg'  => 'mautic.lead.field.group.error.system',
+                    'msg'  => 'mautic.lead.fieldgroup.error.system',
                 ];
             } elseif ($model->isLocked($entity)) {
                 return $this->isLocked($postActionVars, $entity, 'lead.fieldgroup');

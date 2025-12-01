@@ -14,7 +14,7 @@
 
 {% block mauticContent %}leadfieldgroup{% endblock %}
 
-{% block headerTitle %}{{ 'mautic.lead.field.group.header.index'|trans }}{% endblock %}
+{% block headerTitle %}{{ 'mautic.lead.fieldgroup.header.index'|trans }}{% endblock %}
 
 {% block content %}
   {% if isIndex %}
@@ -27,7 +27,7 @@
                     'new': permissions['lead:fields:full'],
                 },
                 'routeBase': 'contactfieldgroup',
-                'langVar': 'lead.field.group',
+                'langVar': 'lead.fieldgroup',
             },
         }) }}
         <div class="page-list">
@@ -56,12 +56,6 @@
                   }) }}
                   {{ include('@MauticCore/Helper/tableheader.html.twig', {
                     'sessionVar': 'leadfieldgroup',
-                    'orderBy': 'g.order',
-                    'text': 'mautic.core.order',
-                    'class': 'visible-md visible-lg col-leadfieldgroup-order'
-                  }) }}
-                  {{ include('@MauticCore/Helper/tableheader.html.twig', {
-                    'sessionVar': 'leadfieldgroup',
                     'orderBy': 'g.id',
                     'text': 'mautic.core.id',
                     'class': 'visible-md visible-lg col-leadfieldgroup-id'
@@ -80,7 +74,7 @@
                                       'delete': not item.isSystem and permissions['lead:fields:full'],
                                   },
                                   'routeBase': 'contactfieldgroup',
-                                  'langVar': 'lead.field.group',
+                                  'langVar': 'lead.fieldgroup',
                                   'pull': 'left',
                           }) }}
                       </td>
@@ -88,12 +82,11 @@
                       <span class="ellipsis">
                           <a href="{{ path('mautic_contactfieldgroup_action', {'objectAction': 'edit', 'objectId': item.id}) }}" data-toggle="ajax">{{ item.name }}</a>
                           {% if item.isSystem %}
-                              <i class="ri-lock-fill ml-sm" data-toggle="tooltip" data-placement="right" title="{{ 'mautic.lead.field.group.system'|trans }}"></i>
+                              <i class="ri-lock-fill ml-sm" data-toggle="tooltip" data-placement="right" title="{{ 'mautic.lead.fieldgroup.system'|trans }}"></i>
                           {% endif %}
                       </span>
                       </td>
                       <td class="visible-md visible-lg">{{ item.alias }}</td>
-                      <td class="visible-md visible-lg">{{ item.order }}</td>
                       <td class="visible-md visible-lg">{{ item.id }}</td>
                       <td class="visible-sm visible-md visible-lg">
                       </td>
@@ -120,5 +113,3 @@
     </div>
   {% endif %}
 {% endblock %}
-
-

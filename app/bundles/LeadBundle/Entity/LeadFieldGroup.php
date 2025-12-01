@@ -21,8 +21,6 @@ class LeadFieldGroup extends FormEntity
 
     private ?string $description = null;
 
-    private ?int $order = 0;
-
     private bool $isSystem = false;
 
     public function __clone()
@@ -46,11 +44,6 @@ class LeadFieldGroup extends FormEntity
             ->length(50)
             ->build();
 
-        $builder->createField('order', 'integer')
-            ->columnName('field_order')
-            ->nullable()
-            ->build();
-
         $builder->createField('isSystem', 'boolean')
             ->columnName('is_system')
             ->option('default', false)
@@ -60,12 +53,12 @@ class LeadFieldGroup extends FormEntity
     public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('name', new Assert\NotBlank([
-            'message' => 'mautic.lead.field.group.name.required',
+            'message' => 'mautic.lead.fieldgroup.name.required',
         ]));
 
         $metadata->addPropertyConstraint('name', new Assert\Length([
             'max'        => 191,
-            'maxMessage' => 'mautic.lead.field.group.name.maxlength',
+            'maxMessage' => 'mautic.lead.fieldgroup.name.maxlength',
         ]));
     }
 
@@ -77,7 +70,6 @@ class LeadFieldGroup extends FormEntity
                 'name',
                 'alias',
                 'description',
-                'order',
                 'isSystem',
             ])
             ->build();
@@ -123,19 +115,6 @@ class LeadFieldGroup extends FormEntity
     {
         $this->isChanged('description', $description);
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getOrder(): int
-    {
-        return $this->order;
-    }
-
-    public function setOrder(int $order): self
-    {
-        $this->isChanged('order', $order);
-        $this->order = $order;
 
         return $this;
     }
