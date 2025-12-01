@@ -38,6 +38,7 @@ use Mautic\LeadBundle\Model\CompanyModel;
 use Mautic\LeadBundle\Model\ContactExportSchedulerModel;
 use Mautic\LeadBundle\Model\DoNotContact as DoNotContactModel;
 use Mautic\LeadBundle\Model\FieldModel;
+use Mautic\LeadBundle\Model\LeadFieldGroupModel;
 use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\LeadBundle\Model\ListModel;
 use Mautic\LeadBundle\Model\NoteModel;
@@ -336,7 +337,7 @@ class LeadController extends FormController
      *
      * @return JsonResponse|Response
      */
-    public function viewAction(Request $request, IntegrationHelper $integrationHelper, PointGroupModel $pointGroupModel, CoreParametersHelper $coreParametersHelper, $objectId)
+    public function viewAction(Request $request, IntegrationHelper $integrationHelper, PointGroupModel $pointGroupModel, CoreParametersHelper $coreParametersHelper, LeadFieldGroupModel $fieldGroupModel, $objectId)
     {
         /** @var LeadModel $model */
         $model = $this->getModel('lead.lead');
@@ -455,6 +456,7 @@ class LeadController extends FormController
                     'doNotContact'           => end($dnc),
                     'doNotContactSms'        => end($dncSms),
                     'pointGroups'            => $pointGroupModel->getEntities(),
+                    'groupNames'             => $fieldGroupModel->getGroupNames(),
                     'enableExportPermission' => $this->security->isAdmin() || $this->security->isGranted('lead:export:enable', 'MATCH_ONE'),
                     // 'leadNotes'         => $this->forward(
                     //    'Mautic\LeadBundle\Controller\NoteController::indexAction',
