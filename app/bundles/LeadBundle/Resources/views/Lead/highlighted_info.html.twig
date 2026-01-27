@@ -7,10 +7,10 @@
             
             {% if isEven %}
                 <div class="d-flex fg-1">
-                    <div class="d-flex fd-column fg-1 fd-row-md ai-center-lg">
+                    <div class="d-flex fd-column fg-1 fd-row-sm ai-center-lg">
             {% endif %}
             
-            <div class="col-md-6 col-xs-12 ai-start gap-sm">
+            <div class="col-sm-6 col-xs-12 ai-start gap-sm">
                 <div class="d-flex ai-center type-label-01 text-secondary mb-xs">
                     {% if item.renderIcon %}
                         <i class="{{ item.renderIcon }} mr-3 type-label-02"></i>
@@ -26,7 +26,7 @@
             {% endif %}
             
             {% if not isLast %}
-                <div class="v-divider{% if isOdd %} v-divider-lg{% else %} v-divider-md{% endif %}"></div>
+                <div class="v-divider{% if isOdd %} v-divider-lg{% else %} v-divider-sm{% endif %}"></div>
             {% endif %}
         {% endfor %}
     </div>
