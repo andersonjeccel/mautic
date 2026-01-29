@@ -5,6 +5,7 @@ namespace MauticPlugin\MauticFocusBundle\Form\Type;
 use Mautic\CoreBundle\Form\Type\YesNoButtonGroupType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -96,6 +97,23 @@ class FocusPropertiesType extends AbstractType
                     'mautic.focus.form.placement.bottom_left'  => 'bottom_left',
                     'mautic.focus.form.placement.bottom_right' => 'bottom_right',
                 ];
+                break;
+            case 'button':
+                $choices = [
+                    'mautic.focus.form.placement.top_left'     => 'top_left',
+                    'mautic.focus.form.placement.top_right'    => 'top_right',
+                    'mautic.focus.form.placement.bottom_left'  => 'bottom_left',
+                    'mautic.focus.form.placement.bottom_right' => 'bottom_right',
+                ];
+
+                $builder->add(
+                    'image',
+                    HiddenType::class,
+                    [
+                        'required' => false,
+                        'label'    => false,
+                    ]
+                );
                 break;
             case 'page':
                 break;

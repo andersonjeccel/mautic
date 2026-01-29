@@ -170,6 +170,7 @@ Mautic.focusOnLoad = function () {
             }
         });
 
+        Mautic.focusInitButtonImageUpload();
         Mautic.focusInitViewportSwitcher();
     } else {
         Mautic.initDateRangePicker();
@@ -287,7 +288,7 @@ Mautic.focusUpdatePreview = function () {
 
         mQuery('.preview-body').html(container);
 
-        if (!mQuery('.mf-bar').length && mQuery('.builder-content').length) {
+        if (!mQuery('.mf-bar').length && mQuery('.builder-content').length && mQuery('#focus_style').val() !== 'button') {
             mQuery('.builder-content').on('click', function () {
                 Mautic.closeFocusModal(mQuery('#focus_style').val());
             });
@@ -295,6 +296,48 @@ Mautic.focusUpdatePreview = function () {
                 e.stopPropagation();
             });
         }
+    });
+};
+
+Mautic.focusInitButtonImageUpload = function () {
+    var uploadInput = mQuery('#focus_properties_button_image_upload');
+    var imageField = mQuery('#focus_properties_button_image');
+    var previewContainer = mQuery('.focus-button-image-preview');
+    var previewImage = previewContainer.find('img');
+
+    if (!uploadInput.length || !imageField.length) {
+        return;
+    }
+
+    var updatePreview = function (value) {
+        if (value) {
+            previewImage.attr('src', value);
+            previewContainer.removeClass('hide');
+        } else {
+            previewImage.attr('src', '');
+            previewContainer.addClass('hide');
+        }
+    };
+
+    updatePreview(imageField.val());
+
+    uploadInput.on('change', function (event) {
+        var file = event.target.files && event.target.files[0];
+        if (!file) {
+            imageField.val('');
+            updatePreview('');
+            Mautic.focusUpdatePreview();
+            return;
+        }
+
+        var reader = new FileReader();
+        reader.onload = function (readerEvent) {
+            var value = readerEvent.target.result;
+            imageField.val(value);
+            updatePreview(value);
+            Mautic.focusUpdatePreview();
+        };
+        reader.readAsDataURL(file);
     });
 };
 

@@ -1,0 +1,57 @@
+{%- set props = focus.properties -%}
+{%- set placement = (props.button is defined and props.button.placement is defined) ? props.button.placement|replace({'_': '-'}) : 'bottom-right' -%}
+{%- set buttonImage = (props.button is defined and props.button.image is defined) ? props.button.image : '' -%}
+{%- set showPopup = focus.type in ['form', 'notice'] -%}
+{%- set popupOpen = preview and showPopup ? ' mf-button-open' : '' -%}
+<style scoped>
+    .mf-button-trigger {
+        background-color: #{{ props.colors.primary|replace({'#': ''}) }};
+        color: #{{ props.colors.text|replace({'#': ''}) }};
+    }
+
+    .mf-button-popup {
+        border-color: #{{ props.colors.primary|replace({'#': ''}) }};
+    }
+</style>
+<div class="mautic-focus mf-button mf-button-{{ placement }}{{ popupOpen }}">
+    {% if focus.type == 'link' %}
+        <a href="{% if not preview %}{{ clickUrl }}{% else %}#{% endif %}"
+           class="mf-button-trigger mf-link"
+           target="{% if props.content.link_new_window %}_new{% else %}_parent{% endif %}"
+           aria-label="{{ props.content.link_text|default('') }}">
+            {% if buttonImage %}
+                <img class="mf-button-image" src="{{ buttonImage }}" alt="{{ props.content.link_text|default('') }}"/>
+            {% else %}
+                <span class="mf-button-default"></span>
+            {% endif %}
+        </a>
+    {% else %}
+        <button type="button" class="mf-button-trigger" aria-expanded="{{ popupOpen ? 'true' : 'false' }}">
+            {% if buttonImage %}
+                <img class="mf-button-image" src="{{ buttonImage }}" alt="{{ props.content.headline|default('') }}"/>
+            {% else %}
+                <span class="mf-button-default"></span>
+            {% endif %}
+        </button>
+        <div class="mf-button-popup">
+            <div class="mf-button-popup-close">
+                <a href="javascript:void(0)" class="mf-button-close">x</a>
+            </div>
+            <div class="mf-content">
+                {% if htmlMode in ['editor', 'html'] %}
+                    {{ focus[htmlMode]|raw }}
+                {% else %}
+                    <div class="mf-headline">{{ props.content.headline }}</div>
+                    {% if props.content.tagline is defined %}
+                        <div class="mf-tagline">{{ props.content.tagline }}</div>
+                    {% endif %}
+                    {% if 'form' == focus.type %}
+                        <div class="mf-inner-container">
+                            {focus_form}
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+</div>

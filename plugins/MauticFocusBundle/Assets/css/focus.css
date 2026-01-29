@@ -106,6 +106,12 @@
 .builder-panel-focus .focus-style-notification .hidden-focus-style-notification {
   display: none !important;
 }
+.builder-panel-focus .focus-style-button .visible-focus-style-button {
+  display: inherit !important;
+}
+.builder-panel-focus .focus-style-button .hidden-focus-style-button {
+  display: none !important;
+}
 .builder-panel-focus .focus-style-page .visible-focus-style-page {
   display: inherit !important;
 }
@@ -128,6 +134,14 @@
   float: left;
   margin-right: 3px;
   cursor: hand;
+}
+.builder-panel-focus .focus-button-image-preview {
+  margin-top: 8px;
+  max-width: 140px;
+}
+.builder-panel-focus .focus-button-image-preview img {
+  max-width: 140px;
+  max-height: 140px;
 }
 /* =============================================================================
   https://github.com/callmenick/CSS-Device-Mockups

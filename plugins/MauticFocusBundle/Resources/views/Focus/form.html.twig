@@ -244,6 +244,19 @@
                             </li>
                             <li class="focus-properties focus-notification-properties list-group-item pl-sm pr-sm" style="display: none;"></li>
 
+                            <li data-focus-style="button" class="focus-style visible-focus-style-button list-group-item pl-sm pr-sm">
+                                <div class="row">
+                                    <div class="col-xs-2">
+                                        <i class="pl-2 ri-2x ri-cursor-line text-primary"></i>
+                                    </div>
+                                    <div class="col-xs-10">
+                                        <h4 class="list-group-heading">{{ 'mautic.focus.style.button'|trans }}</h4>
+                                        <p class="list-group-item-heading small">{{ 'mautic.focus.style.button_description'|trans }}</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="focus-properties focus-button-properties list-group-item pl-sm pr-sm" style="display: none;"></li>
+
                             <li data-focus-style="page" class="focus-style visible-focus-style-page list-group-item pl-sm pr-sm">
                                 <div class="row">
                                     <div class="col-xs-2">
@@ -277,6 +290,25 @@
                         <!-- notifications type properties -->
                         <div class="focus-hide visible-focus-style-notification">
                             {{ form_row(form.properties.notification.placement) }}
+                        </div>
+
+                        <!-- button type properties -->
+                        <div class="focus-hide visible-focus-style-button">
+                            {{ form_row(form.properties.button.placement) }}
+                            <div class="form-group">
+                                <label class="control-label" for="focus_properties_button_image_upload">
+                                    {{ 'mautic.focus.form.button_image'|trans }}
+                                </label>
+                                {{ form_widget(form.properties.button.image) }}
+                                <input id="focus_properties_button_image_upload"
+                                       class="form-control focus-button-image-upload"
+                                       type="file"
+                                       accept="image/png,image/jpeg,image/svg+xml">
+                                <div class="help-block">{{ 'mautic.focus.form.button_image.help'|trans }}</div>
+                                <div class="focus-button-image-preview hide">
+                                    <img class="img-responsive" alt="{{ 'mautic.focus.form.button_image'|trans }}"/>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- page type properties -->

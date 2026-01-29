@@ -53,6 +53,15 @@ class PropertiesType extends AbstractType
         );
 
         $builder->add(
+            'button',
+            FocusPropertiesType::class,
+            [
+                'focus_style' => 'button',
+                'data'        => $options['data']['button'] ?? [],
+            ]
+        );
+
+        $builder->add(
             'animate',
             YesNoButtonGroupType::class,
             [

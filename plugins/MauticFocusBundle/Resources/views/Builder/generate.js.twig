@@ -12,6 +12,7 @@
 {%- set animate = props.animate is not defined or (props.animate is defined and props.animate is not empty) -%}
 {%- set linkActivation = props.link_activation is not defined or (props.link_activation is defined and props.link_activation is not empty) -%}
 {%- set clickUrl = clickUrl|default(props.content.link_url) -%}
+{%- set buttonPlacement = (props.button is defined and props.button.placement is defined) ? props.button.placement|replace({'_': '-'}) : 'bottom-right' -%}
 
 {%- if '5seconds' == props.when -%}
     {%- set useTimeout = 5 -%}
@@ -39,6 +40,8 @@
   {%- endif -%}
 {%- elseif 'modal' is same as style or 'notification' is same as style -%}
   {%- set iframeClass = 'mf-' ~ style ~ '-iframe mf-' ~ style ~ '-iframe-' ~ props[style].placement|replace({'_': '-'})  -%}
+{%- elseif 'button' is same as style -%}
+  {%- set iframeClass = 'mf-button-iframe mf-button-iframe-' ~ buttonPlacement -%}
 {%- else -%}
   {%- set iframeClass = 'mf-' ~ style ~ '-iframe' -%}
 {%- endif -%}
@@ -79,6 +82,47 @@
                         Focus.toggleBarCollapse(collapser[0], false);
                     });
                 }
+                {% elseif 'button' == style %}
+                var focusButton = Focus.iframeDoc.getElementsByClassName('mf-button');
+                var trigger = Focus.iframeDoc.getElementsByClassName('mf-button-trigger');
+                var closeButton = Focus.iframeDoc.getElementsByClassName('mf-button-close');
+
+                if (focusButton.length) {
+                    focusButton[0].onclick = function (event) {
+                        if (event) {
+                            event.stopPropagation();
+                        } else {
+                            window.event.cancelBubble = true;
+                        }
+                    };
+                }
+
+                {% if 'link' != focus.type %}
+                if (trigger.length && focusButton.length) {
+                    trigger[0].addEventListener('click', function (event) {
+                        if (event) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+
+                        if (Focus.hasClass(focusButton[0], 'mf-button-open')) {
+                            Focus.removeClass(focusButton[0], 'mf-button-open');
+                        } else {
+                            Focus.addClass(focusButton[0], 'mf-button-open');
+                        }
+                    });
+                }
+
+                if (closeButton.length && focusButton.length) {
+                    closeButton[0].addEventListener('click', function (event) {
+                        if (event) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        Focus.removeClass(focusButton[0], 'mf-button-open');
+                    });
+                }
+                {% endif %}
                 {% else %}
                 var closer = Focus.iframeDoc.getElementsByClassName('mf-{{ style }}-close');
                 var aTag = closer[0].getElementsByTagName('a');
@@ -521,7 +565,7 @@
                     return false;
                 }
 
-                {% if style in ['modal', 'notification', 'bar'] %}
+                {% if style in ['modal', 'notification', 'bar', 'button'] %}
                 Focus.iframeHeight = 0;
                 Focus.iframeWidth = 0;
                 Focus.iframeResizeInterval = setInterval(function () {
@@ -542,7 +586,7 @@
                         Focus.iframeHeight = useHeight;
                     }
 
-                    {% if style in ['modal', 'notification'] %}
+                    {% if style in ['modal', 'notification', 'button'] %}
                     if (Focus.iframeWidth !== Focus.iframe.style.width) {
                         if (Focus.debug) {
                             console.log('window inner width = ' + window.innerWidth);
@@ -588,7 +632,7 @@
                     delete(Focus.iframeResizerEnabled);
                 }
 
-                {% if style in ['modal', 'notification', 'bar'] %}
+                {% if style in ['modal', 'notification', 'bar', 'button'] %}
                 clearInterval(Focus.iframeResizeInterval);
                 {% endif %}
             },
