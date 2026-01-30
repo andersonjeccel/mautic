@@ -110,6 +110,7 @@
                         } else {
                             Focus.addClass(focusButton[0], 'mf-button-open');
                         }
+                        Focus.requestButtonResize();
                     });
                 }
 
@@ -120,6 +121,7 @@
                             event.stopPropagation();
                         }
                         Focus.removeClass(focusButton[0], 'mf-button-open');
+                        Focus.requestButtonResize();
                     });
                 }
                 {% endif %}
@@ -498,8 +500,20 @@
                 }
 
                 // Set body margin to 0
-                Focus.iframeDoc.getElementsByTagName('body')[0].style.margin = 0;
-                Focus.iframeDoc.getElementsByTagName('body')[0].style.overflowX = 'hidden';
+                var bodyEl = Focus.iframeDoc.getElementsByTagName('body')[0];
+                var htmlEl = Focus.iframeDoc.getElementsByTagName('html')[0];
+                bodyEl.style.margin = 0;
+                bodyEl.style.padding = 0;
+                bodyEl.style.overflow = 'hidden';
+                htmlEl.style.overflow = 'hidden';
+                htmlEl.style.margin = 0;
+                htmlEl.style.padding = 0;
+                {% if style == 'button' %}
+                bodyEl.style.height = '100%';
+                htmlEl.style.height = '100%';
+                bodyEl.style.display = 'flex';
+                bodyEl.style.flexDirection = 'column';
+                {% endif %}
 
                 // Find elements that should be moved to parent
                 var move = Focus.iframeDoc.getElementsByClassName('mf-move-to-parent');
@@ -521,6 +535,14 @@
                 // Get the main focus element
                 var focus = Focus.iframeDoc.getElementsByClassName('mautic-focus');
                 Focus.iframeFocus = focus[0];
+
+                {% if style == 'button' %}
+                var isBottomLeft = Focus.hasClass(Focus.iframeFocus, 'mf-button-bottom-left');
+                var isBottomRight = Focus.hasClass(Focus.iframeFocus, 'mf-button-bottom-right');
+                if (isBottomLeft || isBottomRight) {
+                    bodyEl.style.justifyContent = 'flex-end';
+                }
+                {% endif %}
 
                 // Insert style into iframe head
                 Focus.insertFocusStyleIntoIframeHead();
@@ -569,13 +591,62 @@
                 Focus.iframeHeight = 0;
                 Focus.iframeWidth = 0;
                 Focus.iframeResizeInterval = setInterval(function () {
+                    var useHeight;
+                    var useWidth;
+                    {% if style == 'button' %}
+                    var popup = Focus.iframeDoc.getElementsByClassName('mf-button-popup')[0];
+                    var triggerEl = Focus.iframeDoc.getElementsByClassName('mf-button-trigger')[0];
+                    var isOpen = popup && triggerEl && Focus.hasClass(Focus.iframeFocus, 'mf-button-open');
+                    if (isOpen && popup && triggerEl) {
+                        var triggerH = triggerEl.offsetHeight;
+                        var triggerW = triggerEl.offsetWidth;
+                        var popupH = popup.offsetHeight;
+                        var popupW = popup.offsetWidth;
+                        var isTopRight = Focus.hasClass(Focus.iframeFocus, 'mf-button-top-right');
+                        var isBottomRight = Focus.hasClass(Focus.iframeFocus, 'mf-button-bottom-right');
+                        var isTopLeft = Focus.hasClass(Focus.iframeFocus, 'mf-button-top-left');
+                        var isBottomLeft = Focus.hasClass(Focus.iframeFocus, 'mf-button-bottom-left');
+                        var isRightAligned = isTopRight || isBottomRight;
+                        var isLeftAligned = isTopLeft || isBottomLeft;
+                        var isTopPosition = isTopLeft || isTopRight;
+                        var isBottomPosition = isBottomLeft || isBottomRight;
+                        if (isTopPosition) {
+                            useHeight = Math.min(window.innerHeight, triggerH + 12 + popupH + 10);
+                        } else if (isBottomPosition) {
+                            useHeight = Math.min(window.innerHeight, popupH + 12 + triggerH + 10);
+                        } else {
+                            useHeight = Math.min(window.innerHeight, triggerH + 12 + popupH + 10);
+                        }
+                        if (isRightAligned) {
+                            useWidth = Math.min(window.innerWidth, Math.max(popupW, triggerW) + 30);
+                        } else if (isLeftAligned) {
+                            useWidth = Math.min(window.innerWidth, Math.max(popupW, triggerW) + 30);
+                        } else {
+                            useWidth = Math.min(window.innerWidth, Math.max(triggerW, popupW) + 20);
+                        }
+                    } else {
+                        var triggerEl = Focus.iframeDoc.getElementsByClassName('mf-button-trigger')[0];
+                        if (triggerEl) {
+                            useHeight = triggerEl.offsetHeight + 10;
+                            useWidth = triggerEl.offsetWidth;
+                        } else {
+                            useHeight = ((window.innerHeight < Focus.iframeFocus.offsetHeight) ?
+                                window.innerHeight : Focus.iframeFocus.offsetHeight);
+                            useHeight += 10;
+                            useWidth = Focus.iframeFocus.offsetWidth || 56;
+                        }
+                    }
+                    useHeight = useHeight + 'px';
+                    useWidth = useWidth + 'px';
+                    {% else %}
+                    useHeight = ((window.innerHeight < Focus.iframeFocus.offsetHeight) ?
+                        window.innerHeight : Focus.iframeFocus.offsetHeight);
+                    useHeight += 10;
+                    useHeight = useHeight + 'px';
+                    useWidth = (Focus.iframeFocus.offsetWidth + 'px');
+                    {% endif %}
+
                     if (Focus.iframeHeight !== Focus.iframe.style.height) {
-                        var useHeight = ((window.innerHeight < Focus.iframeFocus.offsetHeight) ?
-                            window.innerHeight : Focus.iframeFocus.offsetHeight);
-
-                        useHeight += 10;
-                        useHeight = useHeight + 'px';
-
                         if (Focus.debug) {
                             console.log('window inner height = ' + window.innerHeight);
                             console.log('iframe offset height = ' + Focus.iframeFocus.offsetHeight);
@@ -593,8 +664,7 @@
                             console.log('iframe offset width = ' +  Focus.iframeFocus.offsetWidth);
                         }
 
-                        if (window.innerWidth <  Focus.iframeFocus.offsetWidth) {
-                            // Responsive iframe
+                        if (window.innerWidth < parseInt(useWidth, 10)) {
                             Focus.addClass(Focus.iframeFocus, 'mf-responsive');
                             Focus.addClass(Focus.iframe, 'mf-responsive');
                             Focus.iframe.style.width = window.innerWidth + 'px';
@@ -603,8 +673,8 @@
                                 console.log('iframe set to responsive width: ');
 
                         } else {
-                            Focus.iframe.style.width =  Focus.iframeFocus.offsetWidth + 'px';
-                            Focus.iframe.width =  Focus.iframeFocus.offsetWidth + 'px';
+                            Focus.iframe.style.width = useWidth;
+                            Focus.iframe.width = useWidth;
                             Focus.removeClass(Focus.iframeFocus, 'mf-responsive');
                             Focus.removeClass(Focus.iframe, 'mf-responsive');
 
@@ -626,6 +696,17 @@
                 {% endif %}
             },
 
+            requestButtonResize: function () {
+                {% if style == 'button' %}
+                if (typeof Focus.iframeHeight !== 'undefined') {
+                    Focus.iframeHeight = undefined;
+                }
+                if (typeof Focus.iframeWidth !== 'undefined') {
+                    Focus.iframeWidth = undefined;
+                }
+                {% endif %}
+            },
+
             // Disable iframe resizer
             disableIFrameResizer: function () {
                 if (typeof Focus.iframeResizerEnabled !== 'undefined') {
@@ -644,10 +725,15 @@
 
                 Focus.iframe = document.createElement('iframe');
                 Focus.iframe.style.border = 0;
+                {% if style == 'button' %}
+                Focus.iframe.style.width = "56px";
+                Focus.iframe.style.height = "66px";
+                {% else %}
                 Focus.iframe.style.width = "100%";
                 Focus.iframe.style.height = "100%";
+                {% endif %}
                 Focus.iframe.src = "about:blank";
-                Focus.iframe.scrolling = "auto";
+                Focus.iframe.scrolling = "no";
                 Focus.iframe.className = "{{ iframeClass|raw }}";
 
                 var bodyFirstChild = document.body.firstChild;

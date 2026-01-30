@@ -2,7 +2,8 @@
     position: relative;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    min-height: 0;
 
     .mf-button-trigger {
         width: 56px;
@@ -34,8 +35,6 @@
 
     .mf-button-popup {
         position: absolute;
-        bottom: calc(100% + 12px);
-        right: 0;
         min-width: 280px;
         max-width: 360px;
         background: #fff;
@@ -94,6 +93,10 @@
 
 .mf-button-top-left,
 .mf-button-bottom-left {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+
     .mf-button-popup {
         left: 0;
         right: auto;
@@ -102,8 +105,30 @@
 
 .mf-button-top-right,
 .mf-button-bottom-right {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+
     .mf-button-popup {
         right: 0;
         left: auto;
+    }
+}
+
+.mf-button-top-left,
+.mf-button-top-right {
+    .mf-button-popup {
+        top: calc(100% + 12px);
+        bottom: auto;
+    }
+}
+
+.mf-button-bottom-left,
+.mf-button-bottom-right {
+    align-items: flex-end;
+
+    .mf-button-popup {
+        bottom: calc(100% + 12px);
+        top: auto;
     }
 }
