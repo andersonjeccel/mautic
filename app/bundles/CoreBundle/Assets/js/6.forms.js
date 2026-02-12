@@ -39,12 +39,365 @@ Mautic.renameFormElements = function(container, oldIdPrefix, oldNamePrefix, newI
 };
 
 /**
+ * Tracks form changes and updates cancel button label
+ *
+ * @param formName
+ */
+Mautic.initializeFormChangeTracking = function (formName) {
+    var form = mQuery('form[name="' + formName + '"]');
+    if (!form.length) {
+        return;
+    }
+
+    var cancelButtons = form.find('button.btn-cancel');
+    
+    if (!cancelButtons.length) {
+        setTimeout(function() {
+            var toolbarCancelButtons = mQuery('button.btn-cancel.btn-copy, button.btn-cancel[id*="_toolbar"]');
+            if (toolbarCancelButtons.length) {
+                Mautic.initializeFormChangeTracking(formName);
+            }
+        }, 500);
+        return;
+    }
+
+    var getAllCancelButtons = function() {
+        var toolbarCancelButtons = mQuery('button.btn-cancel.btn-copy, button.btn-cancel[id*="_toolbar"]');
+        return cancelButtons.add(toolbarCancelButtons);
+    };
+    
+    var allCancelButtons = getAllCancelButtons();
+    var initialFormData = null;
+    var hasChanges = false;
+    var closeText = typeof mauticLang !== 'undefined' && mauticLang['core.form.close'] ? mauticLang['core.form.close'] : 'Close';
+    
+    var getCancelText = function(button) {
+        var buttonHtml = button.html();
+        var textMatch = buttonHtml.match(/>([^<]+)</);
+        return textMatch ? textMatch[1].trim() : button.text().trim();
+    };
+    
+    var cancelTexts = {};
+    var storeCancelTexts = function() {
+        var buttons = getAllCancelButtons();
+        buttons.each(function() {
+            var btn = mQuery(this);
+            var btnId = btn.attr('id') || 'default';
+            if (!cancelTexts[btnId]) {
+                cancelTexts[btnId] = getCancelText(btn);
+            }
+        });
+    };
+    storeCancelTexts();
+
+    var updateCancelButtons = function() {
+        var buttons = getAllCancelButtons();
+        buttons.each(function() {
+            var btn = mQuery(this);
+            var btnId = btn.attr('id') || 'default';
+            if (!cancelTexts[btnId]) {
+                cancelTexts[btnId] = getCancelText(btn);
+            }
+            var cancelText = cancelTexts[btnId] || 'Cancel';
+            var icon = btn.find('i');
+            var iconHtml = icon.length ? icon[0].outerHTML + ' ' : '';
+            
+            if (hasChanges) {
+                btn.html(iconHtml + cancelText);
+                btn.data('has-changes', true);
+                btn.removeAttr('data-ignore-formexit');
+                
+                var cancelLink = btn.closest('a[data-toggle="ajax"]');
+                if (cancelLink.length) {
+                    cancelLink.removeAttr('data-ignore-formexit');
+                }
+                
+                var originalButtonId = btnId.replace('_toolbar', '').replace('_mobile', '');
+                if (originalButtonId !== btnId) {
+                    var originalButton = mQuery('#' + originalButtonId);
+                    if (originalButton.length) {
+                        originalButton.removeAttr('data-ignore-formexit');
+                        var originalCancelLink = originalButton.closest('a[data-toggle="ajax"]');
+                        if (originalCancelLink.length) {
+                            originalCancelLink.removeAttr('data-ignore-formexit');
+                        }
+                    }
+                }
+            } else {
+                btn.html(iconHtml + closeText);
+                btn.data('has-changes', false);
+                btn.attr('data-ignore-formexit', 'true');
+                
+                var cancelLink = btn.closest('a[data-toggle="ajax"]');
+                if (cancelLink.length) {
+                    cancelLink.attr('data-ignore-formexit', 'true');
+                }
+            }
+        });
+    };
+
+    var captureInitialState = function() {
+        setTimeout(function() {
+            initialFormData = Mautic.getFormData(form);
+            hasChanges = false;
+            updateCancelButtons();
+        }, 100);
+    };
+
+    captureInitialState();
+
+    var checkFormChanges = function() {
+        if (initialFormData === null) {
+            return;
+        }
+        var currentFormData = Mautic.getFormData(form);
+        hasChanges = !Mautic.compareFormData(initialFormData, currentFormData);
+        updateCancelButtons();
+    };
+
+    form.on('input change keyup paste', 'input, select, textarea', function() {
+        setTimeout(function() {
+            checkFormChanges();
+        }, 10);
+    });
+    
+    form.on('chosen:updated', 'select', function() {
+        setTimeout(function() {
+            checkFormChanges();
+        }, 10);
+    });
+
+    var handleCancelClick = function(e, button, skipConfirmation) {
+        if (!hasChanges || skipConfirmation) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            
+            button.attr('data-ignore-formexit', 'true');
+            
+            var cancelLink = button.closest('a[data-toggle="ajax"]');
+            if (cancelLink.length) {
+                cancelLink.attr('data-ignore-formexit', 'true');
+            }
+            
+            if (mQuery(".form-exit-unlock-id").length) {
+                var unlockParameter = (mQuery('.form-exit-unlock-parameter').length) ? mQuery('.form-exit-unlock-parameter').val() : '';
+                Mautic.unlockEntity(mQuery('.form-exit-unlock-model').val(), mQuery('.form-exit-unlock-id').val(), unlockParameter);
+            }
+            
+            var modalParent = form.closest('.modal');
+            if (modalParent.length) {
+                modalParent.modal('hide');
+            } else {
+                if (cancelLink.length) {
+                    Mautic.ajaxifyLink(cancelLink[0], e);
+                } else {
+                    var returnUrl = button.data('return-url');
+                    if (returnUrl) {
+                        Mautic.loadContent(returnUrl);
+                    } else {
+                        var originalButtonId = button.attr('id');
+                        if (originalButtonId && (originalButtonId.indexOf('_toolbar') !== -1 || originalButtonId.indexOf('_mobile') !== -1)) {
+                            var baseId = originalButtonId.replace('_toolbar', '').replace('_mobile', '');
+                            var originalButton = mQuery('#' + baseId);
+                            if (originalButton.length) {
+                                originalButton.attr('data-ignore-formexit', 'true');
+                                originalButton.trigger('click');
+                            } else {
+                                window.history.back();
+                            }
+                        } else {
+                            window.history.back();
+                        }
+                    }
+                }
+            }
+            return false;
+        } else {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            
+            var toolbarButtons = mQuery('.toolbar-form-buttons button');
+            var disabledButtons = toolbarButtons.filter(':disabled');
+            
+            var confirmMessage = typeof mauticLang !== 'undefined' && mauticLang['core.form.discard_changes'] 
+                ? mauticLang['core.form.discard_changes'] 
+                : 'Are you sure you want to discard your changes?';
+            var confirmText = typeof mauticLang !== 'undefined' && mauticLang['core.form.discard'] 
+                ? mauticLang['core.form.discard'] 
+                : 'Discard';
+            var cancelText = typeof mauticLang !== 'undefined' && mauticLang['core.form.cancel'] 
+                ? mauticLang['core.form.cancel'] 
+                : 'Cancel';
+            
+            Mautic['confirmCancelWithChanges'] = function() {
+                Mautic.dismissConfirmation();
+                handleCancelClick(e, button, true);
+            };
+            
+            var tempButton = mQuery('<a>').attr({
+                'data-message': confirmMessage,
+                'data-confirm-text': confirmText,
+                'data-cancel-text': cancelText,
+                'data-confirm-callback': 'confirmCancelWithChanges'
+            });
+            
+            Mautic.showConfirmation(tempButton[0], confirmMessage);
+            
+            var reenableButtons = function() {
+                disabledButtons.prop('disabled', false);
+                toolbarButtons.prop('disabled', false);
+                mQuery('.toolbar-form-buttons button').prop('disabled', false);
+            };
+            
+            mQuery('.confirmation-modal').off('hidden.bs.modal.formchange').on('hidden.bs.modal.formchange', function() {
+                reenableButtons();
+            });
+            
+            setTimeout(function() {
+                var cancelBtn = mQuery('.confirmation-modal .btn-primary').not('#confirm');
+                if (cancelBtn.length) {
+                    cancelBtn.off('click.formchangereenable').on('click.formchangereenable', function() {
+                        setTimeout(reenableButtons, 100);
+                    });
+                }
+            }, 100);
+            
+            return false;
+        }
+    };
+    
+    form.off('submit.formchange').on('submit.formchange', function(e) {
+        var clickedButton = form.find('input.button-clicked');
+        var clickedButtonName = clickedButton.attr('name');
+        if (clickedButton.length && clickedButtonName && (
+            clickedButtonName.indexOf('[cancel]') !== -1 ||
+            clickedButtonName.endsWith('_cancel') ||
+            clickedButtonName.indexOf('cancel') !== -1
+        )) {
+            if (!hasChanges) {
+                var cancelButton = cancelButtons.first();
+                if (cancelButton.length) {
+                    var buttonId = cancelButton.attr('id');
+                    var isToolbarButton = buttonId && (buttonId.indexOf('_toolbar') !== -1 || buttonId.indexOf('_mobile') !== -1 || cancelButton.hasClass('btn-copy'));
+                    if (!isToolbarButton) {
+                        e.preventDefault();
+                        e.stopImmediatePropagation();
+                        return handleCancelClick(e, cancelButton);
+                    }
+                }
+            }
+        }
+    });
+    
+    var setupCancelButtonHandlers = function() {
+        cancelButtons.off('click.formchange');
+        
+        cancelButtons.on('click.formchange', function(e) {
+            var btn = mQuery(this);
+            var buttonId = btn.attr('id');
+            var isToolbarButton = buttonId && (buttonId.indexOf('_toolbar') !== -1 || buttonId.indexOf('_mobile') !== -1 || btn.hasClass('btn-copy'));
+            
+            if (isToolbarButton) {
+                return;
+            }
+            
+            return handleCancelClick(e, btn);
+        });
+    };
+    setupCancelButtonHandlers();
+    
+    var originalUpdateCancelButtons = updateCancelButtons;
+    updateCancelButtons = function() {
+        originalUpdateCancelButtons();
+        setupCancelButtonHandlers();
+    };
+    
+    mQuery(document).on('mautic:onPageLoad', function() {
+        setTimeout(function() {
+            storeCancelTexts();
+            setupCancelButtonHandlers();
+            captureInitialState();
+        }, 200);
+    });
+
+};
+
+/**
+ * Gets form data as a serialized string for comparison
+ *
+ * @param form
+ * @returns {string}
+ */
+Mautic.getFormData = function(form) {
+    var formData = {};
+    form.find('input, select, textarea').each(function() {
+        var $field = mQuery(this);
+        var name = $field.attr('name');
+        var type = $field.attr('type') || '';
+        
+        if (!name || name === '_token' || $field.hasClass('button-clicked') || 
+            $field.attr('id') && $field.attr('id').indexOf('_chosen') !== -1) {
+            return;
+        }
+        
+        if (type === 'checkbox') {
+            formData[name] = $field.is(':checked') ? ($field.val() || '1') : '';
+        } else if (type === 'radio') {
+            if ($field.is(':checked')) {
+                formData[name] = $field.val() || '';
+            }
+        } else if ($field.is('select')) {
+            var selectedValues = [];
+            $field.find('option:selected').each(function() {
+                selectedValues.push(mQuery(this).val());
+            });
+            formData[name] = $field.attr('multiple') ? selectedValues.join(',') : (selectedValues[0] || '');
+        } else {
+            formData[name] = $field.val() || '';
+        }
+    });
+    
+    return JSON.stringify(formData);
+};
+
+/**
+ * Compares two form data objects
+ *
+ * @param data1
+ * @param data2
+ * @returns {boolean}
+ */
+Mautic.compareFormData = function(data1, data2) {
+    try {
+        var obj1 = JSON.parse(data1);
+        var obj2 = JSON.parse(data2);
+        
+        if (Object.keys(obj1).length !== Object.keys(obj2).length) {
+            return false;
+        }
+        
+        for (var key in obj1) {
+            if (obj1.hasOwnProperty(key)) {
+                if (obj1[key] !== obj2[key]) {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    } catch (e) {
+        return data1 === data2;
+    }
+};
+
+/**
  * Prepares form for ajax submission
  *
  * @param form
  */
 Mautic.ajaxifyForm = function (formName) {
     Mautic.initializeFormFieldStateSwitcher(formName);
+    Mautic.initializeFormChangeTracking(formName);
 
     // Prevent enter from submitting form and instead jump to next line
     var form = 'form[name="' + formName + '"]';
