@@ -69,7 +69,7 @@ Mautic.initializeFormChangeTracking = function (formName) {
     var allCancelButtons = getAllCancelButtons();
     var initialFormData = null;
     var hasChanges = false;
-    var closeText = typeof mauticLang !== 'undefined' && mauticLang['core.form.close'] ? mauticLang['core.form.close'] : 'Close';
+    var closeText = mauticLang['mautic.core.form.close'];
     
     var getCancelText = function(button) {
         var buttonHtml = button.html();
@@ -98,7 +98,7 @@ Mautic.initializeFormChangeTracking = function (formName) {
             if (!cancelTexts[btnId]) {
                 cancelTexts[btnId] = getCancelText(btn);
             }
-            var cancelText = cancelTexts[btnId] || 'Cancel';
+            var cancelText = cancelTexts[btnId] || mauticLang['mautic.core.form.cancel'];
             var icon = btn.find('i');
             var iconHtml = icon.length ? icon[0].outerHTML + ' ' : '';
             
@@ -219,15 +219,9 @@ Mautic.initializeFormChangeTracking = function (formName) {
             var toolbarButtons = mQuery('.toolbar-form-buttons button');
             var disabledButtons = toolbarButtons.filter(':disabled');
             
-            var confirmMessage = typeof mauticLang !== 'undefined' && mauticLang['core.form.discard_changes'] 
-                ? mauticLang['core.form.discard_changes'] 
-                : 'Are you sure you want to discard your changes?';
-            var confirmText = typeof mauticLang !== 'undefined' && mauticLang['core.form.discard'] 
-                ? mauticLang['core.form.discard'] 
-                : 'Discard';
-            var cancelText = typeof mauticLang !== 'undefined' && mauticLang['core.form.cancel'] 
-                ? mauticLang['core.form.cancel'] 
-                : 'Cancel';
+            var confirmMessage = mauticLang['mautic.core.form.discard_changes'];
+            var confirmText = mauticLang['mautic.core.form.discard'];
+            var cancelText = mauticLang['mautic.core.form.cancel'];
             
             Mautic['confirmCancelWithChanges'] = function() {
                 Mautic.dismissConfirmation();
