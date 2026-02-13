@@ -247,6 +247,9 @@ Mautic.initializeFormChangeTracking = function (formName) {
                 disabledButtons.prop('disabled', false);
                 toolbarButtons.prop('disabled', false);
                 mQuery('.toolbar-form-buttons button').prop('disabled', false);
+                if (typeof Mautic.stopIconSpinPostEvent === 'function') {
+                    Mautic.stopIconSpinPostEvent();
+                }
             };
             
             mQuery('.confirmation-modal').off('hidden.bs.modal.formchange').on('hidden.bs.modal.formchange', function() {
@@ -257,7 +260,7 @@ Mautic.initializeFormChangeTracking = function (formName) {
                 var cancelBtn = mQuery('.confirmation-modal .btn-primary').not('#confirm');
                 if (cancelBtn.length) {
                     cancelBtn.off('click.formchangereenable').on('click.formchangereenable', function() {
-                        setTimeout(reenableButtons, 100);
+                        reenableButtons();
                     });
                 }
             }, 100);
