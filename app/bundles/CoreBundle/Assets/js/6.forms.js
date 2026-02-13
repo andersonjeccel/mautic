@@ -167,124 +167,81 @@ Mautic.initializeFormChangeTracking = function (formName) {
         }, 10);
     });
 
-    var handleCancelClick = function(e, button, skipConfirmation) {
-        if (!hasChanges || skipConfirmation) {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            
-            button.attr('data-ignore-formexit', 'true');
-            
-            var cancelLink = button.closest('a[data-toggle="ajax"]');
-            if (cancelLink.length) {
-                cancelLink.attr('data-ignore-formexit', 'true');
-            }
-            
-            if (mQuery(".form-exit-unlock-id").length) {
-                var unlockParameter = (mQuery('.form-exit-unlock-parameter').length) ? mQuery('.form-exit-unlock-parameter').val() : '';
-                Mautic.unlockEntity(mQuery('.form-exit-unlock-model').val(), mQuery('.form-exit-unlock-id').val(), unlockParameter);
-            }
-            
-            var modalParent = form.closest('.modal');
-            if (modalParent.length) {
-                modalParent.modal('hide');
-            } else {
-                if (cancelLink.length) {
-                    Mautic.ajaxifyLink(cancelLink[0], e);
-                } else {
-                    var returnUrl = button.data('return-url');
-                    if (returnUrl) {
-                        Mautic.loadContent(returnUrl);
-                    } else {
-                        var originalButtonId = button.attr('id');
-                        if (originalButtonId && (originalButtonId.indexOf('_toolbar') !== -1 || originalButtonId.indexOf('_mobile') !== -1)) {
-                            var baseId = originalButtonId.replace('_toolbar', '').replace('_mobile', '');
-                            var originalButton = mQuery('#' + baseId);
-                            if (originalButton.length) {
-                                originalButton.attr('data-ignore-formexit', 'true');
-                                originalButton.trigger('click');
-                            } else {
-                                window.history.back();
-                            }
-                        } else {
-                            window.history.back();
-                        }
-                    }
-                }
-            }
-            return false;
-        } else {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            
-            var toolbarButtons = mQuery('.toolbar-form-buttons button');
-            var disabledButtons = toolbarButtons.filter(':disabled');
-            
-            var confirmMessage = mauticLang['mautic.core.form.discard_changes'];
-            var confirmText = mauticLang['mautic.core.form.discard'];
-            var cancelText = mauticLang['mautic.core.form.cancel'];
-            
-            Mautic['confirmCancelWithChanges'] = function() {
-                Mautic.dismissConfirmation();
-                handleCancelClick(e, button, true);
-            };
-            
-            var tempButton = mQuery('<a>').attr({
-                'data-message': confirmMessage,
-                'data-confirm-text': confirmText,
-                'data-cancel-text': cancelText,
-                'data-confirm-callback': 'confirmCancelWithChanges'
-            });
-            
-            Mautic.showConfirmation(tempButton[0], confirmMessage);
-            
-            var reenableButtons = function() {
-                disabledButtons.prop('disabled', false);
-                toolbarButtons.prop('disabled', false);
-                mQuery('.toolbar-form-buttons button').prop('disabled', false);
-                if (typeof Mautic.stopIconSpinPostEvent === 'function') {
-                    Mautic.stopIconSpinPostEvent();
-                }
-            };
-            
-            mQuery('.confirmation-modal').off('hidden.bs.modal.formchange').on('hidden.bs.modal.formchange', function() {
-                reenableButtons();
-            });
-            
-            setTimeout(function() {
-                var cancelBtn = mQuery('.confirmation-modal .btn-primary').not('#confirm');
-                if (cancelBtn.length) {
-                    cancelBtn.off('click.formchangereenable').on('click.formchangereenable', function() {
-                        reenableButtons();
-                    });
-                }
-            }, 100);
-            
-            return false;
+    var allowCancelSubmit = false;
+
+    var markCancelAsSafeExit = function(button) {
+        button.attr('data-ignore-formexit', 'true');
+
+        var cancelLink = button.closest('a[data-toggle="ajax"]');
+        if (cancelLink.length) {
+            cancelLink.attr('data-ignore-formexit', 'true');
         }
     };
-    
-    form.off('submit.formchange').on('submit.formchange', function(e) {
-        var clickedButton = form.find('input.button-clicked');
-        var clickedButtonName = clickedButton.attr('name');
-        if (clickedButton.length && clickedButtonName && (
-            clickedButtonName.indexOf('[cancel]') !== -1 ||
-            clickedButtonName.endsWith('_cancel') ||
-            clickedButtonName.indexOf('cancel') !== -1
-        )) {
-            if (!hasChanges) {
-                var cancelButton = cancelButtons.first();
-                if (cancelButton.length) {
-                    var buttonId = cancelButton.attr('id');
-                    var isToolbarButton = buttonId && (buttonId.indexOf('_toolbar') !== -1 || buttonId.indexOf('_mobile') !== -1 || cancelButton.hasClass('btn-copy'));
-                    if (!isToolbarButton) {
-                        e.preventDefault();
-                        e.stopImmediatePropagation();
-                        return handleCancelClick(e, cancelButton);
-                    }
-                }
-            }
+
+    var handleCancelClick = function(e, button) {
+        if (allowCancelSubmit || !hasChanges) {
+            allowCancelSubmit = false;
+            markCancelAsSafeExit(button);
+
+            return true;
         }
-    });
+
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        var toolbarButtons = mQuery('.toolbar-form-buttons button');
+        var disabledButtons = toolbarButtons.filter(':disabled');
+
+        var confirmMessage = mauticLang['mautic.core.form.discard_changes'];
+        var confirmText = mauticLang['mautic.core.form.discard'];
+        var cancelText = mauticLang['mautic.core.form.cancel'];
+
+        Mautic['confirmCancelWithChanges'] = function() {
+            Mautic.dismissConfirmation();
+
+            allowCancelSubmit = true;
+            markCancelAsSafeExit(button);
+
+            if (button.length && typeof button[0].click === 'function') {
+                button[0].click();
+            } else {
+                button.trigger('click');
+            }
+        };
+
+        var tempButton = mQuery('<a>').attr({
+            'data-message': confirmMessage,
+            'data-confirm-text': confirmText,
+            'data-cancel-text': cancelText,
+            'data-confirm-callback': 'confirmCancelWithChanges'
+        });
+
+        Mautic.showConfirmation(tempButton[0], confirmMessage);
+
+        var reenableButtons = function() {
+            disabledButtons.prop('disabled', false);
+            toolbarButtons.prop('disabled', false);
+            mQuery('.toolbar-form-buttons button').prop('disabled', false);
+            if (typeof Mautic.stopIconSpinPostEvent === 'function') {
+                Mautic.stopIconSpinPostEvent();
+            }
+        };
+
+        mQuery('.confirmation-modal').off('hidden.bs.modal.formchange').on('hidden.bs.modal.formchange', function() {
+            reenableButtons();
+        });
+
+        setTimeout(function() {
+            var cancelBtn = mQuery('.confirmation-modal .btn-primary').not('#confirm');
+            if (cancelBtn.length) {
+                cancelBtn.off('click.formchangereenable').on('click.formchangereenable', function() {
+                    reenableButtons();
+                });
+            }
+        }, 100);
+
+        return false;
+    };
     
     var setupCancelButtonHandlers = function() {
         cancelButtons.off('click.formchange');
