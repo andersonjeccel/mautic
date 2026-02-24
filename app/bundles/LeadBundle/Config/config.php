@@ -798,6 +798,22 @@ return [
                 'class'     => Mautic\LeadBundle\Segment\Query\Filter\ComplexRelationValueFilterQueryBuilder::class,
                 'arguments' => ['mautic.lead.model.random_parameter_name', 'event_dispatcher'],
             ],
+            'mautic.lead.query.builder.complex_relation.primary_company' => [
+                'class'     => Mautic\LeadBundle\Segment\Query\Filter\PrimaryCompanyRelationValueFilterQueryBuilder::class,
+                'arguments' => ['mautic.lead.model.random_parameter_name', 'event_dispatcher'],
+            ],
+            'mautic.lead.query.builder.complex_relation.any_company' => [
+                'class'     => Mautic\LeadBundle\Segment\Query\Filter\AnyCompanyRelationValueFilterQueryBuilder::class,
+                'arguments' => ['mautic.lead.model.random_parameter_name', 'event_dispatcher'],
+            ],
+            'mautic.lead.query.builder.complex_relation.primary_company_tag' => [
+                'class'     => Mautic\LeadBundle\Segment\Query\Filter\PrimaryCompanyTagRelationValueFilterQueryBuilder::class,
+                'arguments' => ['mautic.lead.model.random_parameter_name', 'event_dispatcher'],
+            ],
+            'mautic.lead.query.builder.complex_relation.any_company_tag' => [
+                'class'     => Mautic\LeadBundle\Segment\Query\Filter\AnyCompanyTagRelationValueFilterQueryBuilder::class,
+                'arguments' => ['mautic.lead.model.random_parameter_name', 'event_dispatcher'],
+            ],
             'mautic.lead.query.builder.channel_click.value' => [
                 'class'     => Mautic\LeadBundle\Segment\Query\Filter\ChannelClickQueryBuilder::class,
                 'arguments' => [

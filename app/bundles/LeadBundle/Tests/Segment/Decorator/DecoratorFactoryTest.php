@@ -91,6 +91,34 @@ class DecoratorFactoryTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    public function testPrimaryCompanyDecorator(): void
+    {
+        $contactSegmentFilterCrate = new ContactSegmentFilterCrate([
+            'object' => ContactSegmentFilterCrate::COMPANY_OBJECT,
+            'field'  => 'companycity',
+            'type'   => 'text',
+        ]);
+
+        $this->assertSame(
+            $this->companyDecorator,
+            $this->decoratorFactory->getDecoratorForFilter($contactSegmentFilterCrate)
+        );
+    }
+
+    public function testCompanyAllDecorator(): void
+    {
+        $contactSegmentFilterCrate = new ContactSegmentFilterCrate([
+            'object' => ContactSegmentFilterCrate::COMPANY_ALL_OBJECT,
+            'field'  => 'companycity',
+            'type'   => 'text',
+        ]);
+
+        $this->assertSame(
+            $this->companyDecorator,
+            $this->decoratorFactory->getDecoratorForFilter($contactSegmentFilterCrate)
+        );
+    }
+
     public function testDateDecoratorWhenNoSubscriberProvidesDecorator(): void
     {
         $filterDecoratorInterface  = $this->createMock(FilterDecoratorInterface::class);

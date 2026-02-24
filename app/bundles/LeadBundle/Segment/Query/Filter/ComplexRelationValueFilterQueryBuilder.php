@@ -4,6 +4,7 @@ namespace Mautic\LeadBundle\Segment\Query\Filter;
 
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Mautic\LeadBundle\Segment\ContactSegmentFilter;
+use Mautic\LeadBundle\Segment\Query\Filter\Exception\UnsupportedFilterOperatorException;
 use Mautic\LeadBundle\Segment\Query\QueryBuilder;
 
 /**
@@ -24,24 +25,13 @@ class ComplexRelationValueFilterQueryBuilder extends BaseFilterQueryBuilder
         return 'mautic.lead.query.builder.complex_relation.value';
     }
 
-    /**
-     * @throws \Exception
-     */
     public function applyQuery(QueryBuilder $queryBuilder, ContactSegmentFilter $filter): QueryBuilder
     {
         $leadsTableAlias = $queryBuilder->getTableAlias(MAUTIC_TABLE_PREFIX.'leads');
         $filterOperator  = $filter->getOperator();
 
         $filterParameters = $filter->getParameterValue();
-
-        if (is_array($filterParameters)) {
-            $parameters = [];
-            foreach ($filterParameters as $filterParameter) {
-                $parameters[] = $this->generateRandomParameterName();
-            }
-        } else {
-            $parameters = $this->generateRandomParameterName();
-        }
+        $parameters       = $this->buildParameters($filterParameters);
 
         $filterParametersHolder = $filter->getParameterHolder($parameters);
 
@@ -51,7 +41,12 @@ class ComplexRelationValueFilterQueryBuilder extends BaseFilterQueryBuilder
             $tableAlias = $this->generateRandomParameterName();
 
             $relTable = $this->generateRandomParameterName();
-            $queryBuilder->leftJoin($leadsTableAlias, $filter->getRelationJoinTable(), $relTable, $relTable.'.lead_id = '.$leadsTableAlias.'.id');
+            $queryBuilder->leftJoin(
+                $leadsTableAlias,
+                $filter->getRelationJoinTable(),
+                $relTable,
+                $this->getRelationJoinCondition($relTable, $leadsTableAlias)
+            );
             $queryBuilder->leftJoin($relTable, $filter->getTable(), $tableAlias, $tableAlias.'.id = '.$relTable.'.'
                 .$filter->getRelationJoinTableField());
         }
@@ -119,7 +114,7 @@ class ComplexRelationValueFilterQueryBuilder extends BaseFilterQueryBuilder
                 $expression = $queryBuilder->expr()->and(...$expressions);
                 break;
             default:
-                throw new \Exception('Dunno how to handle operator "'.$filterOperator.'"');
+                throw UnsupportedFilterOperatorException::fromOperator($filterOperator);
         }
 
         $queryBuilder->addLogic($expression, $filter->getGlue());
@@ -127,5 +122,22 @@ class ComplexRelationValueFilterQueryBuilder extends BaseFilterQueryBuilder
         $queryBuilder->setParametersPairs($parameters, $filterParameters);
 
         return $queryBuilder;
+    }
+
+    /**
+     * @return array<string>|string
+     */
+    protected function buildParameters(mixed $filterParameters): array|string
+    {
+        if (!is_array($filterParameters)) {
+            return $this->generateRandomParameterName();
+        }
+
+        return array_map(fn () => $this->generateRandomParameterName(), $filterParameters);
+    }
+
+    protected function getRelationJoinCondition(string $relationAlias, string $leadsTableAlias): string
+    {
+        return $relationAlias.'.lead_id = '.$leadsTableAlias.'.id';
     }
 }

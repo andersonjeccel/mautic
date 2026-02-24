@@ -107,7 +107,7 @@ class LeadListFiltersChoicesEvent extends AbstractCustomRequestEvent
 
         // ajax request to load the filter's value fields
         $request = $this->getRequest();
-        if ('loadSegmentFilterForm' === $request->attributes->get('action')) {
+        if (null !== $request && 'loadSegmentFilterForm' === $request->attributes->get('action')) {
             return true;
         }
 

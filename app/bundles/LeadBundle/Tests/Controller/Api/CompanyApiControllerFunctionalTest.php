@@ -3,7 +3,9 @@
 namespace Mautic\LeadBundle\Tests\Controller\Api;
 
 use Mautic\CoreBundle\Test\MauticMysqlTestCase;
+use Mautic\LeadBundle\Entity\Company;
 use Mautic\LeadBundle\Entity\LeadField;
+use Mautic\LeadBundle\Entity\Tag;
 use PHPUnit\Framework\Assert;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -141,6 +143,69 @@ class CompanyApiControllerFunctionalTest extends MauticMysqlTestCase
         $this->assertNotEquals($companyId, $response['company']['id']);
     }
 
+    public function testCreateCompanyWithTagsViaStandardApiPayload(): void
+    {
+        $companyId = $this->createCompanyViaApi('API tagged company', ['Enterprise', 'VIP']);
+
+        /** @var Company|null $company */
+        $company = $this->em->getRepository(Company::class)->find($companyId);
+        $this->assertInstanceOf(Company::class, $company);
+        $companyTagNames = array_map(
+            static fn (Tag $tag): string => $tag->getTag(),
+            $company->getTags()->toArray()
+        );
+        sort($companyTagNames);
+        $this->assertSame(['Enterprise', 'VIP'], $companyTagNames);
+    }
+
+    public function testEditCompanyTagsViaStandardApiPayload(): void
+    {
+        $companyId = $this->createCompanyViaApi('API edited tags company', ['Enterprise', 'VIP']);
+
+        $this->client->request('PUT', sprintf('/api/companies/%d/edit', $companyId), [
+            'companyname' => 'API edited tags company',
+            'tags'        => ['-Enterprise', 'Strategic'],
+        ]);
+        $editResponse = $this->client->getResponse();
+        $this->assertSame(Response::HTTP_OK, $editResponse->getStatusCode(), $editResponse->getContent());
+
+        $this->em->clear();
+
+        /** @var Company|null $updatedCompany */
+        $updatedCompany = $this->em->getRepository(Company::class)->find($companyId);
+        $this->assertInstanceOf(Company::class, $updatedCompany);
+        $updatedTagNames = array_map(
+            static fn (Tag $tag): string => $tag->getTag(),
+            $updatedCompany->getTags()->toArray()
+        );
+        sort($updatedTagNames);
+
+        $this->assertNotContains('Enterprise', $updatedTagNames);
+        $this->assertContains('Strategic', $updatedTagNames);
+        $this->assertContains('VIP', $updatedTagNames);
+    }
+
+    public function testCreateCompanyViaStandardApiPayloadWithEmptyTags(): void
+    {
+        $this->client->request('POST', '/api/companies/new', [
+            'companyname' => 'Invalid tags type company',
+            'tags'        => [],
+        ]);
+        $response = $this->client->getResponse();
+
+        $this->assertSame(Response::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
+
+        $payload = json_decode($response->getContent(), true);
+        $this->assertIsArray($payload);
+        $this->assertArrayHasKey('company', $payload);
+        $this->assertArrayHasKey('id', $payload['company']);
+
+        /** @var Company|null $createdCompany */
+        $createdCompany = $this->em->getRepository(Company::class)->find((int) $payload['company']['id']);
+        $this->assertInstanceOf(Company::class, $createdCompany);
+        $this->assertCount(0, $createdCompany->getTags());
+    }
+
     /**
      * Test creating a company via API Platform v2 endpoint.
      *
@@ -172,10 +237,10 @@ class CompanyApiControllerFunctionalTest extends MauticMysqlTestCase
             $this->assertArrayHasKey('score', $responseData);
 
             // Verify the company was actually created in the database
-            $companyRepository = $this->em->getRepository(\Mautic\LeadBundle\Entity\Company::class);
+            $companyRepository = $this->em->getRepository(Company::class);
             $company           = $companyRepository->find($responseData['id']);
 
-            $this->assertInstanceOf(\Mautic\LeadBundle\Entity\Company::class, $company);
+            $this->assertInstanceOf(Company::class, $company);
             $this->assertSame($companyData['name'] ?? null, $company->getName());
             $this->assertSame($companyData['score'] ?? 0, $company->getScore());
             $this->assertSame($companyData['city'] ?? null, $company->getCity());
@@ -204,5 +269,27 @@ class CompanyApiControllerFunctionalTest extends MauticMysqlTestCase
                 'expectedStatusCode' => Response::HTTP_CREATED,
             ],
         ];
+    }
+
+    /**
+     * @param array<int, string> $tags
+     */
+    private function createCompanyViaApi(string $name, array $tags = []): int
+    {
+        $payload = ['companyname' => $name];
+        if ([] !== $tags) {
+            $payload['tags'] = $tags;
+        }
+
+        $this->client->request('POST', '/api/companies/new', $payload);
+        $response = $this->client->getResponse();
+        $this->assertSame(Response::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
+
+        $payload = json_decode($response->getContent(), true);
+        $this->assertIsArray($payload);
+        $this->assertArrayHasKey('company', $payload);
+        $this->assertArrayHasKey('id', $payload['company']);
+
+        return (int) $payload['company']['id'];
     }
 }

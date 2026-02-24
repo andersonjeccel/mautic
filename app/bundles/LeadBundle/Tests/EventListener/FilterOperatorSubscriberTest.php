@@ -322,6 +322,20 @@ final class FilterOperatorSubscriberTest extends TestCase
                         'iconClass' => 'ri-shapes-line',
                     ],
                 ],
+                'company_all' => [
+                    'test_text' => [
+                        'label'      => 'Test Text',
+                        'properties' => [
+                            'type' => 'text',
+                        ],
+                        'object'    => 'company_all',
+                        'operators' => [
+                            'equals'    => '=',
+                            'not equal' => '!=',
+                        ],
+                        'iconClass' => 'ri-shapes-line',
+                    ],
+                ],
             ],
             $event->getChoices()
         );
@@ -421,6 +435,26 @@ final class FilterOperatorSubscriberTest extends TestCase
                 'iconClass' => 'ri-mail-forbid-line',
             ],
             $choices['lead']['dnc_manual_email']
+        );
+
+        $this->assertSame(
+            [
+                'label'      => 'mautic.lead.list.filter.company_tags',
+                'operators'  => [
+                    'equals'    => '=',
+                    'not equal' => '!=',
+                ],
+                'object'     => 'company',
+                'properties' => [
+                    'type' => 'tags',
+                    'list' => [
+                        'Choice A' => 'choice_a',
+                        'Choice B' => 'choice_b',
+                    ],
+                ],
+                'iconClass' => 'ri-hashtag',
+            ],
+            $choices['company']['company_tags']
         );
     }
 
@@ -626,6 +660,20 @@ final class FilterOperatorSubscriberTest extends TestCase
                         'iconClass' => 'ri-shapes-line',
                     ],
                 ],
+                'company_all' => [
+                    'test_text' => [
+                        'label'      => 'Test Text',
+                        'properties' => [
+                            'type' => 'text',
+                        ],
+                        'object'    => 'company_all',
+                        'operators' => [
+                            'equals'    => '=',
+                            'not equal' => '!=',
+                        ],
+                        'iconClass' => 'ri-shapes-line',
+                    ],
+                ],
             ],
             $event->getChoices()
         );
@@ -725,6 +773,26 @@ final class FilterOperatorSubscriberTest extends TestCase
                 'iconClass' => 'ri-mail-forbid-line',
             ],
             $choices['lead']['dnc_manual_email']
+        );
+
+        $this->assertSame(
+            [
+                'label'      => 'mautic.lead.list.filter.company_tags',
+                'operators'  => [
+                    'equals'    => '=',
+                    'not equal' => '!=',
+                ],
+                'object'     => 'company',
+                'properties' => [
+                    'type' => 'tags',
+                    'list' => [
+                        'Choice A' => 'choice_a',
+                        'Choice B' => 'choice_b',
+                    ],
+                ],
+                'iconClass' => 'ri-hashtag',
+            ],
+            $choices['company']['company_tags']
         );
     }
 
