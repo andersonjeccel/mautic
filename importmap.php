@@ -2,7 +2,7 @@
 
 return [
     'app' => [
-        'path'       => './assets/app.js',
+        'path'       => './app/bundles/CoreBundle/Assets/app.js',
         'entrypoint' => true,
     ],
 ];
