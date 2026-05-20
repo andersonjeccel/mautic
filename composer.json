@@ -23,7 +23,10 @@
   "require": {
     "composer/installers": "^2.3",
     "cweagans/composer-patches": "^1.7.3",
-    "mautic/core-lib": "^7.0"
+    "mautic/core-lib": "^7.0",
+    "symfony/asset-mapper": "~7.4.0",
+    "symfonycasts/sass-bundle": "^0.9",
+    "twbs/bootstrap-sass": "3.4.1"
   },
   "require-dev": {
     "codeception/codeception": "^5.1",
@@ -166,6 +169,8 @@
     ],
     "npm-ci": "npm ci --prefer-offline --no-audit",
     "npx-patch-package": "npx patch-package",
+    "sass:build": "php bin/console sass:build",
+    "sass:watch": "php bin/console sass:build --watch",
     "generate-assets": "bin/console mautic:assets:generate && bin/console assets:install --symlink --relative ./",
     "motd": "bin/console mautic:motd"
   },
@@ -204,6 +209,7 @@
     "symfony-var-dir": "var",
     "symfony-tests-dir": "tests",
     "symfony-assets-install": "relative",
+    "public-dir": ".",
     "incenteev-parameters": {
       "file": "app/config/parameters.yml"
     },
