@@ -295,10 +295,9 @@ Mautic.unlockEntity = function (model, id, parameter) {
 Mautic.togglePublishStatus = function (event, el, model, id, extra, backdrop) {
     event.preventDefault();
 
-    var wasPublished = mQuery(el).hasClass('ri-toggle-fill');
     var element = mQuery(el);
 
-    element.removeClass('ri-toggle-fill ri-toggle-line').addClass('ri-spin ri-loader-3-line');
+    element.addClass('ri-spin ri-loader-3-line');
 
     //destroy tooltips so it can be regenerated
     element.tooltip('destroy');
@@ -327,8 +326,7 @@ Mautic.togglePublishStatus = function (event, el, model, id, extra, backdrop) {
             }
         },
         error: function (request, textStatus, errorThrown) {
-            var addClass = (wasPublished) ? 'ri-toggle-fill' : 'ri-toggle-line';
-            element.removeClass('ri-spin ri-loader-3-line').addClass(addClass);
+            element.removeClass('ri-spin ri-loader-3-line');
 
             Mautic.processAjaxError(request, textStatus, errorThrown);
         }

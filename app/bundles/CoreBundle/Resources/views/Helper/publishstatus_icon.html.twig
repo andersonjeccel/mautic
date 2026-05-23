@@ -17,7 +17,6 @@
 {%- set status = status|default(item.publishStatus) %}
 {%- set text = text|default('') %}
 {%- set statusIndicator = 'unknown' %}
-{%- set stateClass = '' %}
 
 {%- if query is not empty %}
   {%- set queryParam = query|parse_str %}
@@ -30,15 +29,13 @@
 
 {%- if status is same as 'published' %}
   {%- set statusIndicator = 'normal' %}
-  {%- set stateClass = 'ri-toggle-fill' %}
   {%- set text = 'mautic.core.form.active'|trans %}
 {%- elseif status is same as 'unpublished' %}
-  {%- set statusIndicator = 'not-started' %}
-  {%- set stateClass = 'ri-toggle-line' %}
+  {%- set statusIndicator = 'draft' %}
   {%- set text = 'mautic.core.form.inactive'|trans %}
 {%- elseif status is same as 'expired' %}
-    {%- set statusIndicator = 'not-started' %}
-    {%- set stateClass = 'ri-toggle-line' %}
+    {%- set statusIndicator = 'succeeded' %}
+
     {%- set text = 'mautic.core.form.expired_to'|trans({'%date%': dateToFull(item.publishDown)}) %}
 {%- elseif status is same as 'pending' %}
     {%- set statusIndicator = 'not-started' %}
@@ -52,11 +49,9 @@
 {%- endif %}
 {%- if true is same as status %}
   {%- set statusIndicator = 'normal' %}
-  {%- set stateClass = 'ri-toggle-fill' %}
   {%- set text = 'mautic.core.form.public'|trans %}
 {%- elseif false is same as status %}
   {%- set statusIndicator = 'not-started' %}
-  {%- set stateClass = 'ri-toggle-line' %}
   {%- set text = 'mautic.core.form.not.public'|trans %}
 {%- endif %}
 
@@ -101,7 +96,7 @@
 
 {%- set dataAttributes = allDataAttrs|map((v, k) => '%s="%s"'|format(k, v))|join(' ') %}
 
-<span class="{{ stateClass }} {{ clickAction }} {{ idClass }} toggle-publish-status d-inline-flex"
+<span class="publishstatus_icon {{ clickAction }} {{ idClass }} toggle-publish-status d-inline-flex"
       title="{{ text }}"
       {{ dataAttributes|raw }}
       {% if disableToggle is not defined or (disableToggle is defined and disableToggle is empty) %}onclick="{{ onclick|raw }}"{% endif %}>
@@ -111,4 +106,5 @@
       size: size,
       accessible: false
   } only %}
+
 </span>
