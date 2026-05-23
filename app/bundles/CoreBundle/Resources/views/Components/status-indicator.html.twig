@@ -179,6 +179,16 @@
 </svg>
 {% endset %}
 
+{% set draft %}
+<svg xmlns="http://www.w3.org/2000/svg" width="{{ size|default(20) }}" height="{{ size|default(20) }}" viewBox="0 0 16 16" aria-hidden="true" focusable="false" class="flex-shrink-0 {{ className|default('') }}" preserveAspectRatio="xMidYMid meet">
+  {% if accessible is defined and accessible %}
+  <title>{{ statusIconDescription|default('mautic.marketplace.notification.draft')|trans }}</title>
+  {% endif %}
+  <path fill="{{ color|default('#6F6F6F') }}" d="M8,4c2.2,0,4,1.8,4,4s-1.8,4-4,4s-4-1.8-4-4C4,5.8,5.8,4,8,4 M8,2C4.7,2,2,4.7,2,8s2.7,6,6,6s6-2.7,6-6S11.3,2,8,2z"/>
+  <rect width="16" height="16" fill="none"/>
+</svg>
+{% endset %}
+
 {% set iconsMap = {
     'failed': failed,
     'caution--major': cautionMajor,
@@ -193,7 +203,8 @@
     'pending': pending,
     'unknown': unknown,
     'informative': informative,
-    'informative-alt': informativeAlt
+    'informative-alt': informativeAlt,
+    'draft': draft
 } %}
 
 {{ iconsMap[status] }}
