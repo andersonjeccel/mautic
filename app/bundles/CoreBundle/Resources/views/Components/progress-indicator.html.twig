@@ -35,7 +35,7 @@
     <li class="progress-indicator-step {{ statusClasses[step.status] }}">
         <button type="button" class="progress-indicator-step-button progress-indicator-step-button--unclickable"
             tabindex="{{ step.status == 'disabled' ? '-1' : '0' }}" title="{{ step.label|trans }}" index="{{ loop.index }}" {{ step.status == 'disabled' ? 'disabled aria-disabled="true"' : '' }}>
-            {% include 'components/status-indicator.html.twig' with {
+            {% include '@MauticCore/Components/status-indicator.html.twig' with {
                 status: statusIcons[step.status],
                 color: statusIconColors[step.status],
                 size: 16,
