@@ -1,0 +1,55 @@
+{% set statusIcons = {
+    'complete': 'succeeded',
+    'current': 'in-progress',
+    'incomplete': 'not-started',
+    'disabled': 'not-started',
+    'error': 'caution--minor-alt'
+} %}
+
+{% set statusIconColors = {
+    'complete': 'var(--interactive, #0f62fe)',
+    'current': 'var(--interactive, #0f62fe)',
+    'incomplete': 'var(--icon-primary, #161616)',
+    'disabled': 'var(--icon-disabled, rgba(22, 22, 22, .25))',
+    'error': 'var(--support-error, #da1e28)'
+} %}
+
+{% set statusClasses = {
+'complete': 'progress-indicator-step--complete',
+'current': 'progress-indicator-step--current',
+'incomplete': 'progress-indicator-step--incomplete',
+'disabled': 'progress-indicator-step--incomplete progress-indicator-step--disabled',
+'error': 'progress-indicator-step--incomplete progress-indicator-step--error'
+} %}
+
+{% set statusAssistiveText = {
+'complete': 'mautic.marketplace.upload.package.assistive.complete',
+'current': 'mautic.marketplace.upload.package.assistive.current',
+'incomplete': 'mautic.marketplace.upload.package.assistive.incomplete',
+'disabled': 'mautic.marketplace.upload.package.assistive.incomplete',
+'error': 'mautic.marketplace.upload.package.assistive.error'
+} %}
+
+<ul class="progress-indicator {% if spaceEqually is defined and spaceEqually %}progress-indicator--space-equal{% endif %} {% if vertical is defined and vertical %}progress-indicator--vertical{% endif %}">
+    {% for step in steps %}
+    <li class="progress-indicator-step {{ statusClasses[step.status] }}">
+        <button type="button" class="progress-indicator-step-button progress-indicator-step-button--unclickable"
+            tabindex="{{ step.status == 'disabled' ? '-1' : '0' }}" title="{{ step.label|trans }}" index="{{ loop.index }}" {{ step.status == 'disabled' ? 'disabled aria-disabled="true"' : '' }}>
+            {% include 'components/status-indicator.html.twig' with {
+                status: statusIcons[step.status],
+                color: statusIconColors[step.status],
+                size: 16,
+                accessible: false
+            } only %}
+            <div class="progress-indicator-text">
+                <span class="progress-indicator-label" dir="ltr">{{ step.label|trans }}</span>
+                {% if step.secondaryLabel is defined and step.secondaryLabel is not empty %}
+                    <span class="progress-indicator-optional" dir="ltr">{{ step.secondaryLabel|trans }}</span>
+                {% endif %}
+            </div>
+            <span class="visually-hidden">{{ statusAssistiveText[step.status]|trans }}</span>
+            <span class="progress-indicator-line"></span>
+        </button>
+    </li>
+    {% endfor %}
+</ul>

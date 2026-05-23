@@ -1,0 +1,31 @@
+{% set uploadStep = constant('Mautic\\LeadBundle\\Controller\\ImportController::STEP_UPLOAD_CSV') %}
+{% set matchFieldsStep = constant('Mautic\\LeadBundle\\Controller\\ImportController::STEP_MATCH_FIELDS') %}
+{% set progressBarStep = constant('Mautic\\LeadBundle\\Controller\\ImportController::STEP_PROGRESS_BAR') %}
+{% set importFromCsvStep = constant('Mautic\\LeadBundle\\Controller\\ImportController::STEP_IMPORT_FROM_CSV') %}
+{% set currentStep = step|default(uploadStep) %}
+{% set isComplete = complete|default(false) %}
+{% set isImporting = not isComplete and currentStep in [progressBarStep, importFromCsvStep] %}
+
+<div class="ml-lg mr-lg mt-md mb-lg">
+    {% include '@MauticCore/Components/progress-indicator.html.twig' with {
+        steps: [
+            {
+                label: 'mautic.lead.import.step.upload_file',
+                status: currentStep > uploadStep or isComplete ? 'complete' : 'current'
+            },
+            {
+                label: 'mautic.lead.import.step.match_fields',
+                status: currentStep > matchFieldsStep or isComplete ? 'complete' : (currentStep == matchFieldsStep ? 'current' : 'incomplete')
+            },
+            {
+                label: 'mautic.lead.import.step.importing',
+                status: isComplete ? 'complete' : (isImporting ? 'current' : 'incomplete')
+            },
+            {
+                label: 'mautic.core.form.done',
+                status: isComplete ? 'complete' : 'incomplete'
+            }
+        ],
+        spaceEqually: true
+    } only %}
+</div>

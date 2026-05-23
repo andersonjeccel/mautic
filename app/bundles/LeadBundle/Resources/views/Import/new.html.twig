@@ -32,6 +32,11 @@
 {% endblock %}
 
 {% block content %}
+
+  {{ include('@MauticLead/Import/_progress_indicator.html.twig', {
+      step: step|default(constant('Mautic\\LeadBundle\\Controller\\ImportController::STEP_UPLOAD_CSV')),
+  }) }}
+
   {% if step is defined and constant('Mautic\\LeadBundle\\Controller\\ImportController::STEP_UPLOAD_CSV') == step %}
     {{ include('@MauticLead/Import/_upload_form.html.twig') }}
   {% else %}
