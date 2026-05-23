@@ -3,20 +3,21 @@
     * item (object)
     * model (string)
     * query (optional, string)
-    * size (optional, string)
+    * size (optional, int)
     * onclick (optional, string)
     * attributes (optional, array)
     * transKeys (optional, array)
 #}
 {# set defaults #}
 {%- set query = query|default('') %}
-{%- set size = size|default('ri-lg') %}
+{%- set size = size|default(20) %}
 {%- set onclick = onclick|default('') %}
 {%- set attributes = attributes|default({}) %}
 {%- set transKeys = transKeys|default({}) %}
 {%- set status = status|default(item.publishStatus) %}
 {%- set text = text|default('') %}
-{%- set icon = text|default('') %}
+{%- set statusIndicator = 'unknown' %}
+{%- set stateClass = '' %}
 
 {%- if query is not empty %}
   {%- set queryParam = query|parse_str %}
@@ -28,37 +29,40 @@
 
 
 {%- if status is same as 'published' %}
-  {%- set icon = 'ri-toggle-fill text-success' %}
+  {%- set statusIndicator = 'normal' %}
+  {%- set stateClass = 'ri-toggle-fill' %}
   {%- set text = 'mautic.core.form.active'|trans %}
 {%- elseif status is same as 'unpublished' %}
-  {%- set icon = 'ri-toggle-line text-danger' %}
+  {%- set statusIndicator = 'not-started' %}
+  {%- set stateClass = 'ri-toggle-line' %}
   {%- set text = 'mautic.core.form.inactive'|trans %}
 {%- elseif status is same as 'expired' %}
-    {%- set icon = 'ri-checkbox-circle-line text-info' %}
+    {%- set statusIndicator = 'not-started' %}
+    {%- set stateClass = 'ri-toggle-line' %}
     {%- set text = 'mautic.core.form.expired_to'|trans({'%date%': dateToFull(item.publishDown)}) %}
 {%- elseif status is same as 'pending' %}
-    {%- set icon = 'ri-donut-chart-line text-info' %}
+    {%- set statusIndicator = 'not-started' %}
     {%- set text = 'mautic.core.form.pending.start_at'|trans({'%date%': dateToFull(item.publishUp)}) %}
 {%- elseif status is same as 'sending' %}
-    {%- set icon = 'ri-send-plane-line text-info' %}
+    {%- set statusIndicator = 'in-progress' %}
     {%- set text = 'mautic.core.form.sending'|trans %}
 {%- elseif status is same as 'sent' %}
-    {%- set icon = 'ri-checkbox-circle-line text-info' %}
+    {%- set statusIndicator = 'succeeded' %}
     {%- set text = 'mautic.core.form.sent'|trans %}
 {%- endif %}
 {%- if true is same as status %}
-  {%- set icon = 'ri-toggle-fill text-success' %}
+  {%- set statusIndicator = 'normal' %}
+  {%- set stateClass = 'ri-toggle-fill' %}
   {%- set text = 'mautic.core.form.public'|trans %}
 {%- elseif false is same as status %}
-  {%- set icon = 'ri-toggle-line text-danger' %}
+  {%- set statusIndicator = 'not-started' %}
+  {%- set stateClass = 'ri-toggle-line' %}
   {%- set text = 'mautic.core.form.not.public'|trans %}
 {%- endif %}
 
 {%- set text = text ~ aditionalLabel|default('') %}
 
-{%- if disableToggle is defined and disableToggle is not empty %}
-  {%- set icon = icon|replace({'success': 'muted', 'danger': 'muted', 'warning': 'muted'}) %}
-{%- endif %}
+{%- set statusIndicatorColor = (disableToggle is defined and disableToggle is not empty) ? 'var(--icon-disabled, rgba(22, 22, 22, .25))' : null %}
 
 {%- set clickAction = (disableToggle is defined and true is same as disableToggle) ? 'disabled' : 'has-click-event' %}
 {%- set idClass = model|replace({'.': '-'}) ~ '-publish-icon' ~ item.id ~ md5(query) %}
@@ -97,7 +101,14 @@
 
 {%- set dataAttributes = allDataAttrs|map((v, k) => '%s="%s"'|format(k, v))|join(' ') %}
 
-<i class="ri-fw {{ size }} {{ icon }} {{ clickAction }} {{ idClass }} toggle-publish-status"
-   title="{{ text }}"
-   {{ dataAttributes|raw }}
-   {% if disableToggle is not defined or (disableToggle is defined and disableToggle is empty) %}onclick="{{ onclick|raw }}"{% endif %}></i>
+<span class="{{ stateClass }} {{ clickAction }} {{ idClass }} toggle-publish-status d-inline-flex"
+      title="{{ text }}"
+      {{ dataAttributes|raw }}
+      {% if disableToggle is not defined or (disableToggle is defined and disableToggle is empty) %}onclick="{{ onclick|raw }}"{% endif %}>
+  {% include '@MauticCore/Components/status-indicator.html.twig' with {
+      status: statusIndicator,
+      color: statusIndicatorColor,
+      size: size,
+      accessible: false
+  } only %}
+</span>
