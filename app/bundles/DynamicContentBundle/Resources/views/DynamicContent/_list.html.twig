@@ -31,21 +31,21 @@
                         'sessionVar': 'dynamicContent',
                         'orderBy': 'e.slotName',
                         'text': 'mautic.dynamicContent.label.slot_name',
-                        'class': 'col-dwc-slotname visible-md visible-lg',
+                        'class': 'col-dwc-slotname d-none d-md-table-cell',
                 }) }}
 
                 {{ include('@MauticCore/Helper/tableheader.html.twig', {
                         'sessionVar': 'dynamicContent',
                         'orderBy': 'c.title',
                         'text': 'mautic.core.category',
-                        'class': 'col-dwc-category visible-md visible-lg',
+                        'class': 'col-dwc-category d-none d-md-table-cell',
                 }) }}
 
                 {{ include('@MauticCore/Helper/tableheader.html.twig', {
                         'sessionVar': 'dynamicContent',
                         'orderBy': 'e.id',
                         'text': 'mautic.core.id',
-                        'class': 'col-dwc-id visible-md visible-lg',
+                        'class': 'col-dwc-id d-none d-md-table-cell',
                 }) }}
             </tr>
             </thead>
@@ -84,16 +84,16 @@
                         </a>
                         {{ customContent('dynamiccontent.name', _context) }}
                     </td>
-                    <td class="visible-md visible-lg">{{ item.slotName }}</td>
-                    <td class="visible-md visible-lg">
+                    <td class="d-none d-md-table-cell">{{ item.slotName }}</td>
+                    <td class="d-none d-md-table-cell">
                         {{ include('@MauticCore/Modules/category--expanded.html.twig', {'category': item.category}) }}
                     </td>
-                    <td class="visible-md visible-lg">{{ item.id }}</td>
+                    <td class="d-none d-md-table-cell">{{ item.id }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
-        <div class="panel-footer">
+        <div class="card-footer">
             {{ include('@MauticCore/Helper/pagination.html.twig', {
                     'totalItems': items|length,
                     'page': page,

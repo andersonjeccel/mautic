@@ -34,7 +34,7 @@ class EmailToUserType extends AbstractType
             UserListType::class,
             [
                 'label'      => 'mautic.email.form.users',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'   => 'form-control',
                     'tooltip' => 'mautic.core.help.autocomplete',
@@ -57,7 +57,7 @@ class EmailToUserType extends AbstractType
             TextType::class,
             [
                 'label'      => 'mautic.core.send.email.to',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'       => 'form-control',
                     'placeholder' => 'mautic.core.optional',
@@ -73,7 +73,7 @@ class EmailToUserType extends AbstractType
             TextType::class,
             [
                 'label'      => 'mautic.core.send.email.cc',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'       => 'form-control',
                     'placeholder' => 'mautic.core.optional',
@@ -89,7 +89,7 @@ class EmailToUserType extends AbstractType
             TextType::class,
             [
                 'label'      => 'mautic.core.send.email.bcc',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'       => 'form-control',
                     'placeholder' => 'mautic.core.optional',

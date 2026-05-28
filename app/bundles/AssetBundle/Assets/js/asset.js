@@ -110,7 +110,7 @@ Mautic.initializeDropzone = function() {
             }
 
             messageArea.text(errorText);
-            messageArea.closest('.form-group').addClass('has-error').removeClass('is-success');
+            messageArea.closest('.form-group').addClass('is-invalid').removeClass('is-success');
 
             // invoke the error
             var node, _i, _len, _ref, _results;
@@ -124,7 +124,7 @@ Mautic.initializeDropzone = function() {
             return _results;
         } else {
             messageArea.text('');
-            messageArea.closest('.form-group').removeClass('has-error').addClass('is-success');
+            messageArea.closest('.form-group').removeClass('is-invalid').addClass('is-success');
         }
 
         var titleInput = mQuery('#asset_title');
@@ -152,7 +152,7 @@ Mautic.initializeDropzone = function() {
             }
 
             messageArea.text(errorText);
-            messageArea.closest('.form-group').addClass('has-error').removeClass('is-success');
+            messageArea.closest('.form-group').addClass('is-invalid').removeClass('is-success');
 
             // invoke the error
             var node, _i, _len, _ref, _results;

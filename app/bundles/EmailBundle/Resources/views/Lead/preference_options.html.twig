@@ -24,12 +24,12 @@
 </script>
 <div class="row text-left">
     {{ form_start(form, {'render_rest': false}) }}
-    <div class="col-xs-12 col-md-8 col-md-offset-2">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h1 class="panel-title">{{ 'mautic.lead.message.preferences'|trans }}</h1>
+    <div class="col-12 col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title">{{ 'mautic.lead.message.preferences'|trans }}</h1>
             </div>
-            <div class="panel-body">
+            <div class="card-body">
                 <div class="the-price">
                     <h4>{{ leadName }}</h4>
                     <small>{{ 'mautic.lead.message.preferences.descr'|trans }}</small>
@@ -124,7 +124,7 @@
                     {{ 'mautic.email.unsubscribe_all.text'|trans ({'%link%' : dncUrl})|purify }}
                 </div>
             </div>
-            <div class="panel-footer text-left">
+            <div class="card-footer text-left">
                 {{ form_row(form.buttons.save) }}
             </div>
         </div>

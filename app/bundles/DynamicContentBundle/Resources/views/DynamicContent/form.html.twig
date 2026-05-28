@@ -25,7 +25,7 @@
 <div class="box-layout">
     <div class="col-md-9 height-auto">
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-12">
                 <ul class="nav nav-tabs nav-tabs-contained">
                     <li class="active">
                         <a href="#details" role="tab" data-toggle="tab" class="{% if hasMainErrors %}text-danger{% endif %}">
@@ -47,30 +47,30 @@
 
                 <!-- start: tab-content -->
                 <div class="tab-content pa-md">
-                    <div class="tab-pane fade in active bdr-w-0" id="details">
+                    <div class="tab-pane fade show active bdr-w-0" id="details">
                         <div class="row">
                             <div class="col-md-6">
                                 {{ form_row(form.name) }}
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-12">
+                            <div class="col-12">
                                 {{ form_row(form.content) }}
                             </div>
                         </div>
                     </div>
                     <div class="tab-pane fade bdr-w-0" id="filters">
                         {% if hasFilterErrors and '' is not same as form_errors(form.filters) %}
-                            <div class="has-error alert alert-danger" role="alert" style="padding:5px 10px 0 10px;">
+                            <div class="is-invalid alert alert-danger" role="alert" style="padding:5px 10px 0 10px;">
                                 {{ form_errors(form.filters) }}
                             </div>
                         {% endif %}
                         <div class="dwc-filter bdr-w-0" id="{{ form.vars.id }}">
                             <div class="row">
-                                <div class="col-xs-7">
+                                <div class="col-7">
                                     <label>{{ 'Filters'|trans }}</label>
                                 </div>
-                                <div class="col-xs-5">
+                                <div class="col-5">
                                     <div class="form-group">
                                         <div class="available-filters mb-md pl-0"
                                              data-prototype="{{ form_widget(form.filters.vars.prototype)|e }}"

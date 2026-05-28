@@ -31,7 +31,7 @@ class UserStepType extends AbstractType
             TextType::class,
             [
                 'label'       => 'mautic.core.firstname',
-                'label_attr'  => ['class' => 'control-label'],
+                'label_attr'  => ['class' => 'col-form-label'],
                 'attr'        => ['class' => 'form-control'],
                 'required'    => true,
                 'data'        => (!empty($storedData->firstname)) ? $storedData->firstname : '',
@@ -50,7 +50,7 @@ class UserStepType extends AbstractType
             TextType::class,
             [
                 'label'       => 'mautic.core.lastname',
-                'label_attr'  => ['class' => 'control-label'],
+                'label_attr'  => ['class' => 'col-form-label'],
                 'attr'        => ['class' => 'form-control'],
                 'required'    => true,
                 'data'        => (!empty($storedData->lastname)) ? $storedData->lastname : '',
@@ -69,7 +69,7 @@ class UserStepType extends AbstractType
             EmailType::class,
             [
                 'label'      => 'mautic.install.form.user.email',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'    => 'form-control',
                     'preaddon' => 'ri-mail-line',
@@ -96,7 +96,7 @@ class UserStepType extends AbstractType
             TextType::class,
             [
                 'label'      => 'mautic.install.form.user.username',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class' => 'form-control',
                 ],
@@ -117,7 +117,7 @@ class UserStepType extends AbstractType
             PasswordType::class,
             [
                 'label'      => 'mautic.install.form.user.password',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'    => 'form-control',
                     'tooltip'  => 'mautic.user.user.form.help.passwordrequirements',
@@ -153,7 +153,7 @@ class UserStepType extends AbstractType
                         'label' => 'mautic.install.next.step',
                         'type'  => 'submit',
                         'attr'  => [
-                            'class'   => 'btn btn-success pull-right btn-next',
+                            'class'   => 'btn btn-success float-right btn-next',
                             'icon'    => 'ri-arrow-right-circle-line',
                             'onclick' => 'MauticInstaller.showWaitMessage(event);',
                         ],

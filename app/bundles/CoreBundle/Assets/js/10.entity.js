@@ -301,7 +301,7 @@ Mautic.togglePublishStatus = function (event, el, model, id, extra, backdrop) {
     element.removeClass('ri-toggle-fill ri-toggle-line').addClass('ri-spin ri-loader-3-line');
 
     //destroy tooltips so it can be regenerated
-    element.tooltip('destroy');
+    element.tooltip('dispose');
     //clear the lookup cache
     MauticVars.liveCache = new Array();
 
@@ -312,7 +312,7 @@ Mautic.togglePublishStatus = function (event, el, model, id, extra, backdrop) {
     if (extra) {
         extra = '&' + extra;
     }
-    element.tooltip('destroy');
+    element.tooltip('dispose');
     mQuery.ajax({
         url: mauticAjaxUrl,
         type: "POST",

@@ -56,7 +56,7 @@
             <!-- asset detail collapseable -->
             <div class="collapse pr-md pl-md" id="asset-details">
                 <div class="pr-md pl-md pb-md">
-                    <div class="panel shd-none mb-0">
+                    <div class="card shd-none mb-0">
                         <table class="table table-hover mb-0">
                             <tbody>
                                 {{ include('@MauticCore/Helper/details.html.twig', {'entity': item}) }}
@@ -126,7 +126,7 @@
             <div class="hr-expand nm">
                 <span data-toggle="tooltip" title="Detail">
                     <a href="javascript:void(0)" class="arrow text-secondary collapsed" data-toggle="collapse"
-                       data-target="#asset-details"><span class="caret"></span> {{ 'mautic.core.details'|trans }}</a>
+                       data-target="#asset-details">{{ 'mautic.core.details'|trans }}</a>
                 </span>
             </div>
             <!--/ asset detail collapseable toggler -->
@@ -136,8 +136,8 @@
             <div class="pa-md">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="panel">
-                            <div class="panel-body box-layout">
+                        <div class="card">
+                            <div class="card-body box-layout">
                                 <div class="va-m">
                                     <h5 class="text-white dark-md fw-sb mb-xs">
                                         <span class="fa-row-statuses"></span>
@@ -155,8 +155,8 @@
                         </div>
                     </div>
                     <div class="col-md-8">
-                        <div class="panel">
-                            <div class="panel-body box-layout">
+                        <div class="card">
+                            <div class="card-body box-layout">
                                 <div class="va-m">
                                     <h5 class="text-white dark-md fw-sb mb-xs">
                                         <span class="fa-row-statuses"></span>

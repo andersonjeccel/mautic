@@ -10,37 +10,37 @@
 
 // float and text alignment
 // ---------------------------------------------
-.pull-right-xs { float:right; }
-.pull-left-xs { float:left; }
+.float-right-xs { float:right; }
+.float-left-xs { float:left; }
 
 // breakpoint screen-sm and up
 @media (min-width: $screen-sm-min) {
-  .pull-right-sm { float: right; }
-  .pull-left-sm { float: left; }
+  .float-right-sm { float: right; }
+  .float-left-sm { float: left; }
   .text-right-sm { text-align: right; }
   .text-left-sm { text-align: left; }
-  .pull-right-xs { float:none; }
-  .pull-left-xs { float:none; }
+  .float-right-xs { float:none; }
+  .float-left-xs { float:none; }
 }
 
 // breakpoint screen-md and up
 @media (min-width: $screen-md-min) {
-  .pull-right-md { float: right; }
-  .pull-left-md { float: left; }
+  .float-right-md { float: right; }
+  .float-left-md { float: left; }
   .text-right-md { text-align: right; }
   .text-left-md { text-align: left; }
-  .pull-right-xs { float:none; }
-  .pull-left-xs { float:none; }
+  .float-right-xs { float:none; }
+  .float-left-xs { float:none; }
 }
 
 // breakpoint screen-lg and up
 @media (min-width: $screen-lg-min) {
-  .pull-right-lg { float: right; }
-  .pull-left-lg { float: left; }
+  .float-right-lg { float: right; }
+  .float-left-lg { float: left; }
   .text-right-lg { text-align: right; }
   .text-left-lg { text-align: left; }
-  .pull-right-xs { float:none; }
-  .pull-left-xs { float:none; }
+  .float-right-xs { float:none; }
+  .float-left-xs { float:none; }
 }
 
 // Border

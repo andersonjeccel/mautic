@@ -11,7 +11,7 @@
 
 {% block content %}
 	{% if isIndex %}
-		<div id="page-list-wrapper" class="{% if items|length > 0 or searchValue is not empty %}panel {% endif %}panel-default">
+		<div id="page-list-wrapper" class="{% if items|length > 0 or searchValue is not empty %}card {% endif %}">
 			{# //TODO - Restore these buttons to the listactions when custom content is supported #}
 			{# <div class="btn-group">
                     <button type="button" class="btn btn-ghost"><i class="ri-upload-line"></i></button>
@@ -110,14 +110,14 @@
                             'sessionVar' :  'category',
                             'orderBy'    :  'c.bundle',
                             'text'       :  'mautic.core.type',
-                            'class'      :  'visible-md visible-lg col-page-bundle',
+                            'class'      :  'd-none d-md-table-cell col-page-bundle',
                         }) -}}
 
 						{{- include('@MauticCore/Helper/tableheader.html.twig', {
                             'sessionVar' :  'category',
                             'orderBy'    :  'c.id',
                             'text'       :  'mautic.core.id',
-                            'class'      :  'visible-md visible-lg col-page-id',
+                            'class'      :  'd-none d-md-table-cell col-page-id',
                         }) -}}
 					</tr>
 				</thead>
@@ -167,16 +167,16 @@
                                     'description': item.description
                                 }) }}
                             </td>
-                            <td class="visible-md visible-lg">
+                            <td class="d-none d-md-table-cell">
                                 {% if categoryTypes[item.getBundle()] is defined %}
                                     {{ categoryTypes[item.getBundle()]|trans }}
                                 {% endif %}
                             </td>
-                            <td class="visible-md visible-lg">{{ item.getId() }}</td>
+                            <td class="d-none d-md-table-cell">{{ item.getId() }}</td>
 						</tr>
                         {% endfor %}
 					</table>
-					<div class="panel-footer">
+					<div class="card-footer">
 						{{- include('@MauticCore/Helper/pagination.html.twig',
                 {
                     'totalItems' :  items|length,
@@ -197,7 +197,7 @@
             {% if searchValue is not empty %}
                 {{- include('@MauticCore/Helper/noresults.html.twig', {'tip' : 'mautic.category.noresults.tip'}) -}}
             {% else %}
-                <div class="mt-80 col-md-offset-2 col-lg-offset-3 col-md-8 col-lg-5 height-auto">
+                <div class="mt-80 offset-md-2 offset-lg-3 col-md-8 col-lg-5 height-auto">
                     {% set childContainer %}
                         <div class="mt-32 mb-md">
                             {% include '@MauticCore/Components/pictogram.html.twig' with {

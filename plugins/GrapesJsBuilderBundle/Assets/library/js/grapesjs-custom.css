@@ -338,7 +338,7 @@ html {
 }
 
 /* revert colors for nested panels */
-.gjs-mdl-dialog .panel {
+.gjs-mdl-dialog .card {
   color: var(--gjs-main-color);
 }
 

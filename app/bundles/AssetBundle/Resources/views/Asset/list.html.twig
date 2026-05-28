@@ -10,7 +10,7 @@
 
 {% block content %}
 	{% if isIndex %}
-		<div id="page-list-wrapper" class="{% if items|length > 0 or searchValue is not empty %}panel {% endif %}panel-default">
+		<div id="page-list-wrapper" class="{% if items|length > 0 or searchValue is not empty %}card {% endif %}">
 
 			{{- include('@MauticCore/Helper/list_toolbar.html.twig', {
                 'searchValue': searchValue,
@@ -102,7 +102,7 @@
                         'sessionVar' : 'asset',
                         'orderBy'    : 'c.title',
                         'text'       : 'mautic.core.category',
-                        'class'      : 'visible-md visible-lg col-asset-category',
+                        'class'      : 'd-none d-md-table-cell col-asset-category',
                     }
                 ) -}}
                 {{- include(
@@ -111,7 +111,7 @@
                         'sessionVar' : 'asset',
                         'orderBy'    : 'a.downloadCount',
                         'text'       : 'mautic.asset.asset.thead.download.count',
-                        'class'      : 'visible-md visible-lg col-asset-download-count',
+                        'class'      : 'd-none d-md-table-cell col-asset-download-count',
                     }
                 ) -}}
                 {{- include(
@@ -120,7 +120,7 @@
                         'sessionVar' : 'asset',
                         'orderBy'    : 'a.dateAdded',
                         'text'       : 'mautic.lead.import.label.dateAdded',
-                        'class'      : 'visible-md visible-lg col-asset-dateAdded',
+                        'class'      : 'd-none d-md-table-cell col-asset-dateAdded',
                     }
                 ) -}}
                 {{- include(
@@ -129,7 +129,7 @@
                         'sessionVar' : 'asset',
                         'orderBy'    : 'a.dateModified',
                         'text'       : 'mautic.lead.import.label.dateModified',
-                        'class'      : 'visible-md visible-lg col-asset-dateModified',
+                        'class'      : 'd-none d-md-table-cell col-asset-dateModified',
                         'default'    : true,
                     }
                 ) -}}
@@ -139,7 +139,7 @@
                         'sessionVar' : 'asset',
                         'orderBy'    : 'a.createdByUser',
                         'text'       : 'mautic.core.createdby',
-                        'class'      : 'visible-md visible-lg col-asset-createdByUser',
+                        'class'      : 'd-none d-md-table-cell col-asset-createdByUser',
                     }
                 ) -}}
                 {{- include(
@@ -148,7 +148,7 @@
                         'sessionVar' : 'asset',
                         'orderBy'    : 'a.id',
                         'text'       : 'mautic.core.id',
-                        'class'      : 'visible-md visible-lg col-asset-id',
+                        'class'      : 'd-none d-md-table-cell col-asset-id',
                     }
                 ) -}}
             </tr>
@@ -229,25 +229,25 @@
                             }) }}
                         {% endif %}
                     </td>
-                    <td class="visible-md visible-lg">
+                    <td class="d-none d-md-table-cell">
                         {{ include('@MauticCore/Modules/category--expanded.html.twig', {'category': item.getCategory()}) }}
                     </td>
-                    <td class="visible-md visible-lg">{{ item.getDownloadCount() }}</td>
-                    <td class="visible-md visible-lg" title="{{ item.getDateAdded() ? dateToFullConcat(item.getDateAdded()) : '' }}">
+                    <td class="d-none d-md-table-cell">{{ item.getDownloadCount() }}</td>
+                    <td class="d-none d-md-table-cell" title="{{ item.getDateAdded() ? dateToFullConcat(item.getDateAdded()) : '' }}">
                         {{ item.getDateAdded() ? dateToDate(item.getDateAdded()) : '' }}
                     </td>
-                    <td class="visible-md visible-lg" title="{{ item.getDateModified() ? dateToFullConcat(item.getDateModified()) : '' }}">
+                    <td class="d-none d-md-table-cell" title="{{ item.getDateModified() ? dateToFullConcat(item.getDateModified()) : '' }}">
                         {{ item.getDateModified() ? dateToDate(item.getDateModified()) : '' }}
                     </td>
-                    <td class="visible-md visible-lg">{{ item.getCreatedByUser() }}</td>
-                    <td class="visible-md visible-lg">{{ item.getId() }}</td>
+                    <td class="d-none d-md-table-cell">{{ item.getCreatedByUser() }}</td>
+                    <td class="d-none d-md-table-cell">{{ item.getId() }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
 
-    <div class="panel-footer">
+    <div class="card-footer">
         {{- include('@MauticCore/Helper/pagination.html.twig', {
                 'totalItems' : items|length,
                 'page'       : page,
@@ -261,7 +261,7 @@
     {% if searchValue is not empty %}
         {{- include('@MauticCore/Helper/noresults.html.twig', {'tip' : 'mautic.asset.noresults.tip'}) -}}
     {% else %}
-        <div class="mt-80 col-md-offset-2 col-lg-offset-3 col-md-8 col-lg-5 height-auto">
+        <div class="mt-80 offset-md-2 offset-lg-3 col-md-8 col-lg-5 height-auto">
             {% set childContainer %}
                 <div class="mb-md">
                     {% include '@MauticCore/Components/pictogram.html.twig' with {

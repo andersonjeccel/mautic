@@ -3,7 +3,7 @@
 
 {% macro renderPreviewContent(activeAsset, assetDownloadUrl) %}
     {% if activeAsset.isImage() %}
-        <img src="{{ assetDownloadUrl ~ '?stream=1' }}" alt="{{ activeAsset.getTitle()|escape }}" class="img-thumbnail" />
+        <img src="{{ assetDownloadUrl ~ '?stream=1' }}" alt="{{ activeAsset.getTitle()|escape }}" class="img-card" />
     {% elseif 'pdf' == activeAsset.getFileType()|lower %}
         <iframe src="{{ assetDownloadUrl ~ '?stream=1#view=FitH' }}" style="width: 100%; height: 70vh; border: none;" title="{{ 'mautic.asset.preview.pdf_iframe_title'|trans({'%title%': activeAsset.getTitle()|escape}) }}"></iframe>
     {% elseif activeAsset.getMime() starts with 'video' or activeAsset.getExtension() in ['mpg', 'mpeg', 'mp4', 'webm'] %}
@@ -60,7 +60,7 @@
                     ]
                 } %}
             </div>
-            <div class="pdf-preview-thumbnail">
+            <div class="pdf-preview-card">
                 {{ _self.renderPreviewContent(activeAsset, assetDownloadUrl) }}
             </div>
             

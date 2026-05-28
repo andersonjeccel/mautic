@@ -25,7 +25,7 @@
 <div class="box-layout">
     <div class="col-md-9 height-auto">
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-12">
                 <ul class="nav nav-tabs nav-tabs-contained">
                     <li class="active">
                         <a href="#details" role="tab" data-toggle="tab" class="{% if formContainsErrors(form, ['filters']) %}text-danger{% endif %}">
@@ -47,7 +47,7 @@
 
                 <!-- start: tab-content -->
                 <div class="tab-content pa-md">
-                    <div class="tab-pane fade in active bdr-w-0" id="details">
+                    <div class="tab-pane fade show active bdr-w-0" id="details">
                         <div class="row">
                             <div class="col-md-6">
                                 {{ form_row(form.name) }}
@@ -60,7 +60,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-12">
+                            <div class="col-12">
                                 {{ form_row(form.description) }}
                             </div>
                         </div>
@@ -97,7 +97,7 @@
                         </div>
                         <div class="selected-filters" id="leadlist_filters">
                             {% if formContainsErrors(form.filters) %}
-                                <div class="alert alert-danger has-error">
+                                <div class="alert alert-danger is-invalid">
                                     {{ form_errors(form.filters) }}
                                 </div>
                             {% endif %}

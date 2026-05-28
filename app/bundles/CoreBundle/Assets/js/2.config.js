@@ -11,11 +11,11 @@ Mautic.downloadIpLookupDataStore = function() {
         mQuery('#iplookup_fetch_button_container .ri-loader-3-line').addClass('hide');
 
         if (response.message) {
-            mQuery('#iplookup_fetch_button_container').parent().removeClass('has-error').addClass('has-success');
-            mQuery('#iplookup_fetch_button_container').next('.help-block').html(response.message);
+            mQuery('#iplookup_fetch_button_container').parent().removeClass('is-invalid').addClass('is-valid');
+            mQuery('#iplookup_fetch_button_container').next('.form-text').html(response.message);
         } else if (response.error) {
-            mQuery('#iplookup_fetch_button_container').parent().removeClass('has-success').addClass('has-error');
-            mQuery('#iplookup_fetch_button_container').next('.help-block').html(response.error);
+            mQuery('#iplookup_fetch_button_container').parent().removeClass('is-valid').addClass('is-invalid');
+            mQuery('#iplookup_fetch_button_container').next('.form-text').html(response.error);
         }
     }, false, false, 'GET');
 };

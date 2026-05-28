@@ -76,7 +76,7 @@
             if (! dropdown.length) {
                 dropdown = $('<li class="overflow-nav dropdown"></li>');
                 if (!isVertical) {
-                    dropdown.addClass('pull-right');
+                    dropdown.addClass('float-right');
                 }
                 dropdown.append($('<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="overflow-count"></span><b class="caret"></b></a>'));
                 dropdown.append($('<ul class="dropdown-menu"></ul>'));

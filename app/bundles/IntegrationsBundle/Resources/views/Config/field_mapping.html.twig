@@ -6,7 +6,7 @@
             <div class="col-sm-12">{{ form_label(fieldForm) }}</div>
         </div>
         <div class="row">
-            <div class="col-sm-6{% if formContainsErrors(fieldForm.mappedField) %} has-error{% endif %}">
+            <div class="col-sm-6{% if formContainsErrors(fieldForm.mappedField) %} is-invalid{% endif %}">
                 {{ form_widget(fieldForm.mappedField) }}
             </div>
             <div class="col-sm-6">{{ form_widget(fieldForm.syncDirection) }}</div>

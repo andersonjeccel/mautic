@@ -47,7 +47,7 @@
 
 <div class="tab-content pa-md">
     <!-- Enabled\Auth -->
-    <div class="tab-pane fade{% if 'details-container' == activeTab %} in active{% endif %} bdr-w-0" id="details-container">
+    <div class="tab-pane fade{% if 'details-container' == activeTab %} show active{% endif %} bdr-w-0" id="details-container">
         {% if useConfigFormNotes and integrationObject.getAuthorizationNote() is instanceof('\\Mautic\\IntegrationsBundle\\DTO\\Note') %}
             <div class="alert alert-{{ integrationObject.getAuthorizationNote().getType() }}">
                 {{ integrationObject.getAuthorizationNote().getNote()|trans|purify  }}
@@ -62,13 +62,13 @@
                 {{ integrationObject.getCallbackHelpMessageTranslationKey()|trans }}
             </div>
             {% if callbackUrl is not empty %}
-            <div class="well well-sm">
+            <div class="card card-body">
                 {{ 'mautic.integration.callbackuri'|trans }}<br/>
                 <input type="text" name="callback_url" readonly onclick="this.setSelectionRange(0, this.value.length);" value="{{ callbackUrl }}" class="form-control"/>
             </div>
             {% endif %}
             <div class="row">
-                <div class="col-xs-12 text-center">
+                <div class="col-12 text-center">
                     <input type="hidden" id="integration_details_in_auth" name="integration_details[in_auth]" autocomplete="false">
                     {% include '@MauticCore/Helper/button.html.twig' with {
                         buttons: [
@@ -93,7 +93,7 @@
 
     <!-- Features -->
     {% if showFeaturesTab %}
-    <div class="tab-pane fade{% if 'features-container' == activeTab %} in active{% endif %} bdr-w-0" id="features-container">
+    <div class="tab-pane fade{% if 'features-container' == activeTab %} show active{% endif %} bdr-w-0" id="features-container">
         {% if useConfigFormNotes and integrationObject.getFeaturesNote() is instanceof('\\Mautic\\IntegrationsBundle\\DTO\\Note') %}
             <div class="alert alert-{{ integrationObject.getFeaturesNote().getType() }}">
                 {{ integrationObject.getFeaturesNote().getNote()|trans|purify  }}
@@ -129,8 +129,8 @@
     <!-- Field Mapping -->
     {% if useSyncFeatures %}
     {% for object, objectFieldMapping in form.featureSettings.sync.fieldMappings %}
-    <div class="tab-pane fade{% if activeTab == 'field-mapping-' ~ object %} in active{% endif %} bdr-w-0" id="field-mappings-{{ object }}-container">
-        <div class="has-error">
+    <div class="tab-pane fade{% if activeTab == 'field-mapping-' ~ object %} show active{% endif %} bdr-w-0" id="field-mappings-{{ object }}-container">
+        <div class="is-invalid">
             {{ form_errors(objectFieldMapping) }}
         </div>
 

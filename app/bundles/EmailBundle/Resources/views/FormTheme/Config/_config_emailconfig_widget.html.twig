@@ -1,6 +1,6 @@
 {%- macro row_if_exists(form, field) %}
   {% if form[field] is defined %}
-    <div class="col-xs-12">
+    <div class="col-12">
       {{ form_row(form[field]) }}
     </div>
   {% endif %}
@@ -19,8 +19,8 @@
     <h4 class="fw-sb mt-48 mb-xs">{{ 'mautic.email.config.header.mail'|trans }}</h4>
     <div class="text-muted small pb-md">{{ 'mautic.core.config.header.mail.description'|trans }}</div>
     <div class="row">
-        <div class="panel panel-default mb-md">
-            <div class="panel-body">
+        <div class="card mb-md">
+            <div class="card-body">
                 <div class="row">
                     {{ _self.row_if_exists(fields, 'mailer_from_name') }}
                     {{ _self.row_if_exists(fields, 'mailer_from_email') }}
@@ -39,9 +39,9 @@
 <h4 class="fw-sb mt-48 mb-xs">{{ 'mautic.email.config.header.dsn'|trans }}</h4>
 <div class="text-muted small pb-md">{{ 'mautic.core.config.header.dsn.description'|trans }}</div>
 <div class="row">
-    <div class="panel panel-default mb-md">
-        <div class="panel-body">
-            <div class="col-xs-12">
+    <div class="card mb-md">
+        <div class="card-body">
+            <div class="col-12">
                 {{ form_row(fields.mailer_dsn) }}
             </div>
         </div>
@@ -51,9 +51,9 @@
 <h4 class="fw-sb mt-48 mb-xs">{{ 'mautic.config.tab.frequency_rules'|trans }}</h4>
 <div class="text-muted small pb-md">{{ 'mautic.core.config.header.frequency_rules.description'|trans }}</div>
 <div class="row">
-    <div class="panel panel-default mb-md">
-        <div class="panel-body">
-            <div class="col-xs-12">
+    <div class="card mb-md">
+        <div class="card-body">
+            <div class="col-12">
                 {{ form_row(fields.email_frequency_number) }}
                 {{ form_row(fields.email_frequency_time) }}
             </div>
@@ -65,8 +65,8 @@
     <h4 class="fw-sb mt-48 mb-xs">{{ 'mautic.email.config.header.monitored_email'|trans }}</h4>
     <div class="text-muted small pb-md">{{ 'mautic.core.config.header.monitored_email.description'|trans }}</div>
     <div class="row">
-        <div class="panel panel-default mb-md">
-            <div class="panel-body">
+        <div class="card mb-md">
+            <div class="card-body">
                 {% if 'imap_open' is function %}
                     {{ form_widget(form.monitored_email) }}
                 {% else %}
@@ -80,8 +80,8 @@
 <h4 class="fw-sb mt-48 mb-xs">{{ 'mautic.email.config.header.message'|trans }}</h4>
 <div class="text-muted small pb-md">{{ 'mautic.core.config.header.message.description'|trans }}</div>
 <div class="row">
-    <div class="panel panel-default mb-md">
-        <div class="panel-body">
+    <div class="card mb-md">
+        <div class="card-body">
             <div class="row">
                 {{ _self.row_if_exists(fields, 'webview_text') }}
                 {{ _self.row_if_exists(fields, 'default_signature_text') }}
@@ -102,8 +102,8 @@
 <h4 class="fw-sb mt-48 mb-xs">{{ 'mautic.email.config.header.unsubscribe'|trans }}</h4>
 <div class="text-muted small pb-md">{{ 'mautic.core.config.header.unsubscribe.description'|trans }}</div>
 <div class="row">
-    <div class="panel panel-default mb-md">
-        <div class="panel-body">
+    <div class="card mb-md">
+        <div class="card-body">
             <div class="row">
                 {{ _self.row_if_exists(fields, 'unsubscribe_text') }}
                 {{ _self.row_if_exists(fields, 'unsubscribe_message') }}

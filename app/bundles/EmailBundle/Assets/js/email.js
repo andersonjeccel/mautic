@@ -114,9 +114,9 @@ Mautic.insertEmailBuilderToken = function(editorId, token) {
 };
 
 Mautic.getEmailAbTestWinnerForm = function(abKey) {
-    if (abKey && mQuery(abKey).val() && mQuery(abKey).closest('.form-group').hasClass('has-error')) {
-        mQuery(abKey).closest('.form-group').removeClass('has-error');
-        if (mQuery(abKey).next().hasClass('help-block')) {
+    if (abKey && mQuery(abKey).val() && mQuery(abKey).closest('.form-group').hasClass('is-invalid')) {
+        mQuery(abKey).closest('.form-group').removeClass('is-invalid');
+        if (mQuery(abKey).next().hasClass('form-text')) {
             mQuery(abKey).next().remove();
         }
     }
@@ -331,7 +331,7 @@ Mautic.initEmailDynamicContent = function() {
     if (mQuery('#dynamic-content-container').length) {
         mQuery('#emailFilters .remove-selected').each( function (index, el) {
             mQuery(el).on('click', function () {
-                mQuery(this).closest('.panel').animate(
+                mQuery(this).closest('.card').animate(
                     {'opacity': 0},
                     'fast',
                     function () {
@@ -407,7 +407,7 @@ Mautic.createNewDynamicContentFilter = function(el, jQueryVariant) {
     var mQuery = (typeof jQueryVariant != 'undefined') ? jQueryVariant : window.mQuery;
 
     var $this                = mQuery(el);
-    var parentElement        = $this.parents('.panel');
+    var parentElement        = $this.parents('.card');
     var tabHolder            = parentElement.find('.nav');
     var filterHolder         = parentElement.find('.tab-content');
     var filterBlockPrototype = mQuery('#filterBlockPrototype');
@@ -552,7 +552,7 @@ Mautic.initRemoveEvents = function (elements, jQueryVariant) {
     var mQuery = (typeof jQueryVariant != 'undefined') ? jQueryVariant : window.mQuery;
     if (elements.hasClass('remove-selected')) {
         elements.on('click', function() {
-            mQuery(this).closest('.panel').animate(
+            mQuery(this).closest('.card').animate(
                 {'opacity': 0},
                 'fast',
                 function () {
@@ -602,7 +602,7 @@ Mautic.addDynamicContentFilter = function (selectedFilter, jQueryVariant) {
     var label           = selectedOption.text();
 
     // create a new filter
-    var filterNum   = activeDynamicContentFilterContainer.children('.panel').length;
+    var filterNum   = activeDynamicContentFilterContainer.children('.card').length;
     var prototype   = mQuery('#filterSelectPrototype').data('prototype');
     var fieldObject = selectedOption.data('field-object');
     var fieldType   = selectedOption.data('field-type');
@@ -652,9 +652,9 @@ Mautic.addDynamicContentFilter = function (selectedFilter, jQueryVariant) {
         prototype.find('input[name="' + filterBase + '[filter]"]').replaceWith(template);
     }
 
-    if (activeDynamicContentFilterContainer.find('.panel').length == 0) {
+    if (activeDynamicContentFilterContainer.find('.card').length == 0) {
         // First filter so hide the glue footer
-        prototype.find(".panel-footer").addClass('hide');
+        prototype.find(".card-footer").addClass('hide');
     }
 
     prototype.find("input[name='" + filterBase + "[field]']").val(selectedFilter);

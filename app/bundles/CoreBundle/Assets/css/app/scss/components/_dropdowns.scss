@@ -16,18 +16,18 @@
   @include box-shadow(0 3px 6px rgba(0,0,0,.06));
 
   // Dividers (basically an hr) within the dropdown
-  .divider {
+  .dropdown-divider {
     margin: 5px 0;
   }
 
   // reset panel style
-  .panel {
+  .card {
     @include box-shadow(none);
     border-radius: 0;
     border-width: 0;
     margin: -5px 0;
 
-    .panel-heading {
+    .card-header {
       border-radius: 0;
     }
   }

@@ -6,7 +6,7 @@
 {% block headerTitle %}{{ 'mautic.point.group.header.index'|trans }}{% endblock %}
 
 {% block content %}
-    <div id="page-list-wrapper" class="{% if items|length > 0 or searchValue is not empty %}panel {% endif %}panel-default">
+    <div id="page-list-wrapper" class="{% if items|length > 0 or searchValue is not empty %}card {% endif %}">
         {{- include('@MauticCore/Helper/list_toolbar.html.twig', {
             'searchValue': searchValue,
             'action': currentRoute,
@@ -52,7 +52,7 @@
                                     'sessionVar' : 'point.group',
                                     'orderBy'    : 'pl.id',
                                     'text'       : 'mautic.core.id',
-                                    'class'      : 'visible-md visible-lg col-group-id',
+                                    'class'      : 'd-none d-md-table-cell col-group-id',
                                 }
                             ) }}
                         </tr>
@@ -96,12 +96,12 @@
                                         'description': item.description
                                     }) }}
                                 </td>
-                                <td class="visible-md visible-lg">{{ item.getId() }}</td>
+                                <td class="d-none d-md-table-cell">{{ item.getId() }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
-                    <div class="panel-footer">
+                    <div class="card-footer">
                         {{- include('@MauticCore/Helper/pagination.html.twig', {
                             'totalItems' : items|length,
                             'page'       : page,
@@ -115,7 +115,7 @@
                 {% if searchValue is not empty %}
                     {{ include('@MauticCore/Helper/noresults.html.twig') }}
                 {% else %}
-                    <div class="mt-80 col-md-offset-2 col-lg-offset-3 col-md-8 col-lg-5 height-auto">
+                    <div class="mt-80 offset-md-2 offset-lg-3 col-md-8 col-lg-5 height-auto">
                         {% set childContainer %}
                             <div class="mb-md">
                                 {% include '@MauticCore/Components/pictogram.html.twig' with {

@@ -6,11 +6,11 @@ Variables
 #}
 
 {% if stats is defined and stats is not empty %}
-    <div class="panel shd-none bdr-rds-0 bdr-w-0 mt-sm mb-0">
-        <div class="panel-heading">
-            <div class="panel-title">{{- title -}}</div>
+    <div class="card shd-none bdr-rds-0 bdr-w-0 mt-sm mb-0">
+        <div class="card-header">
+            <div class="card-title">{{- title -}}</div>
         </div>
-        <div class="panel-body pt-xs">
+        <div class="card-body pt-xs">
             {% set hasDependences = false %}
             {% for stat in stats %}
                 {% if stat.ids|length > 0 %}

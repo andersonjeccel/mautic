@@ -30,35 +30,35 @@
                         'sessionVar': 'form',
                         'orderBy': 'c.title',
                         'text': 'mautic.core.category',
-                        'class': 'visible-md visible-lg col-form-category',
+                        'class': 'd-none d-md-table-cell col-form-category',
                 }) }}
 
                 {{ include('@MauticCore/Helper/tableheader.html.twig', {
                     'sessionVar': 'form',
                     'orderBy': 'f.template',
                     'text': 'mautic.core.form.theme',
-                    'class': 'visible-md visible-lg col-form-template',
+                    'class': 'd-none d-md-table-cell col-form-template',
                 }) }}
 
                 {{ include('@MauticCore/Helper/tableheader.html.twig', {
                         'sessionVar': 'form',
                         'orderBy': 'submission_count',
                         'text': 'mautic.form.form.results',
-                        'class': 'visible-md visible-lg col-form-submissions',
+                        'class': 'd-none d-md-table-cell col-form-submissions',
                 }) }}
 
                 {{ include('@MauticCore/Helper/tableheader.html.twig', {
                         'sessionVar': 'form',
                         'orderBy': 'f.dateAdded',
                         'text': 'mautic.lead.import.label.dateAdded',
-                        'class': 'visible-md visible-lg col-form-dateAdded',
+                        'class': 'd-none d-md-table-cell col-form-dateAdded',
                 }) }}
 
                 {{ include('@MauticCore/Helper/tableheader.html.twig', {
                         'sessionVar': 'form',
                         'orderBy': 'f.dateModified',
                         'text': 'mautic.lead.import.label.dateModified',
-                        'class': 'visible-md visible-lg col-form-dateModified',
+                        'class': 'd-none d-md-table-cell col-form-dateModified',
                         'default': true,
                 }) }}
 
@@ -66,14 +66,14 @@
                         'sessionVar': 'form',
                         'orderBy': 'f.createdByUser',
                         'text': 'mautic.core.createdby',
-                        'class': 'visible-md visible-lg col-form-createdby',
+                        'class': 'd-none d-md-table-cell col-form-createdby',
                 }) }}
 
                 {{ include('@MauticCore/Helper/tableheader.html.twig', {
                         'sessionVar': 'form',
                         'orderBy': 'f.id',
                         'text': 'mautic.core.id',
-                        'class': 'visible-md visible-lg col-form-id',
+                        'class': 'd-none d-md-table-cell col-form-id',
                 }) }}
             </tr>
             </thead>
@@ -124,30 +124,30 @@
                             'description': item.description
                         }) }}
                     </td>
-                    <td class="visible-md visible-lg">
+                    <td class="d-none d-md-table-cell">
                         {{ include('@MauticCore/Modules/category--expanded.html.twig', {'category': item.category}) }}
                     </td>
-                    <td class="visible-md visible-lg">
+                    <td class="d-none d-md-table-cell">
                         {% if item.template %}
                             {{ getThemeName(item.template) }}
                         {% else %}
                             <span class="text-muted">{{ 'mautic.core.form.default'|trans }}</span>
                         {% endif %}
                     </td>
-                    <td class="visible-md visible-lg">
+                    <td class="d-none d-md-table-cell">
                         <a href="{{ path('mautic_form_action', {'objectAction': 'results', 'objectId': item.id}) }}" data-toggle="ajax" data-menu-link="mautic_form_index" size="sm" class="label label-gray" {% if 0 == i.submission_count %}disabled="disabled"{% endif %}>
                            {{- 'mautic.form.form.viewresults'|trans({'%count%': i['submission_count']}) -}}
                         </a>
                     </td>
-                    <td class="visible-md visible-lg">{% if item.dateAdded %}{{ dateToFull(item.dateAdded) }}{% endif %}</td>
-                    <td class="visible-md visible-lg">{% if item.dateModified %}{{ dateToFull(item.dateModified) }}{% endif %}</td>
-                    <td class="visible-md visible-lg">{{ item.createdByUser }}</td>
-                    <td class="visible-md visible-lg">{{ item.id }}</td>
+                    <td class="d-none d-md-table-cell">{% if item.dateAdded %}{{ dateToFull(item.dateAdded) }}{% endif %}</td>
+                    <td class="d-none d-md-table-cell">{% if item.dateModified %}{{ dateToFull(item.dateModified) }}{% endif %}</td>
+                    <td class="d-none d-md-table-cell">{{ item.createdByUser }}</td>
+                    <td class="d-none d-md-table-cell">{{ item.id }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
-        <div class="panel-footer">
+        <div class="card-footer">
             {{ include('@MauticCore/Helper/pagination.html.twig', {
                     'totalItems': totalItems,
                     'page': page,
@@ -161,7 +161,7 @@
     {% if searchValue is not empty %}
         {{ include('@MauticCore/Helper/noresults.html.twig', {'tip': 'mautic.form.noresults.tip'}) }}
     {% else %}
-        <div class="mt-80 col-md-offset-2 col-lg-offset-3 col-md-8 col-lg-5 height-auto">
+        <div class="mt-80 offset-md-2 offset-lg-3 col-md-8 col-lg-5 height-auto">
             {% set childContainer %}
                 <div class="mb-md">
                     {% include '@MauticCore/Components/pictogram.html.twig' with {
@@ -179,7 +179,7 @@
                 
                 {% set formFeaturesContainer %}
                 <div class="row">
-                    <div class="col-sm-6 col-xs-12">
+                    <div class="col-sm-6 col-12">
                         {{ include('@MauticCore/Components/content-item.html.twig', {
                             type: 'pictogram',
                             pictogram: 'select--range',
@@ -187,7 +187,7 @@
                             copy: 'mautic.form.list.feature1.copy',
                         }) }}
                     </div>
-                    <div class="col-sm-6 col-xs-12">
+                    <div class="col-sm-6 col-12">
                         {{ include('@MauticCore/Components/content-item.html.twig', {
                             type: 'pictogram',
                             pictogram: 'event-driven',

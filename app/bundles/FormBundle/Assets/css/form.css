@@ -89,7 +89,7 @@
 #mauticforms_fields .chosen-container-single .chosen-search input[type="text"] {
     width: 100%;
 }
-#mauticforms_fields .panel-footer {
+#mauticforms_fields .card-footer {
     padding: 3px 15px;
 }
 #mauticforms_fields input[type="date"],

@@ -55,14 +55,14 @@
         </div>
         <div class="row">
             <div class="mr-0 ml-0 pl-xs pr-xs mt-xs campaign-group-container col-md-12">
-                <div id="CampaignPasteContainer" class="panel mb-0">
-                    <div id="CampaignPasteDescription" class="panel-body">
+                <div id="CampaignPasteContainer" class="card mb-0">
+                    <div id="CampaignPasteDescription" class="card-body">
                         <div><b>{{ 'mautic.campaign.event.clone.header'|trans }}</b></div>
                         <div><span class="text-secondary">{{ 'mautic.campaign.event.clone.name'|trans }}: </span><span data-campaign-event-clone="sourceEventName"></span></div>
                         <div><span class="text-secondary">{{ 'mautic.campaign.event.clone.from'|trans }}: </span><span data-campaign-event-clone="sourceCampaignName"></span></div>
 
                     </div>
-                    <div class="panel-footer">
+                    <div class="card-footer">
                         {% include '@MauticCore/Helper/button.html.twig' with {
                             buttons: [
                                 {

@@ -58,7 +58,7 @@ class ConfigType extends AbstractType
             NumberType::class,
             [
                 'label'      => 'mautic.messenger.config.retry_strategy.max_retries',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'required'   => false,
                 'attr'       => [
                     'class' => 'form-control',
@@ -71,7 +71,7 @@ class ConfigType extends AbstractType
             NumberType::class,
             [
                 'label'      => 'mautic.messenger.config.retry_strategy.delay',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'required'   => false,
                 'attr'       => [
                     'class' => 'form-control',
@@ -85,7 +85,7 @@ class ConfigType extends AbstractType
             [
                 'scale'      => 2,
                 'label'      => 'mautic.messenger.config.retry_strategy.multiplier',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'required'   => false,
                 'attr'       => [
                     'class' => 'form-control',
@@ -98,7 +98,7 @@ class ConfigType extends AbstractType
             NumberType::class,
             [
                 'label'      => 'mautic.messenger.config.retry_strategy.max_delay',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'required'   => false,
                 'attr'       => [
                     'class' => 'form-control',

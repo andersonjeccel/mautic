@@ -55,20 +55,20 @@
                       'sessionVar': sessionVar,
                       'orderBy': tablePrefix~'.createdByUser',
                       'text': 'mautic.core.create.by.past.tense',
-                      'class': 'col-created visible-md visible-lg',
+                      'class': 'col-created d-none d-md-table-cell',
                   }) }}
                   {{ include('@MauticCore/Helper/tableheader.html.twig', {
                       'sessionVar': sessionVar,
                       'orderBy': tablePrefix~'.dateAdded',
                       'text': 'mautic.core.date.added',
-                      'class': 'col-date-added visible-md visible-lg',
+                      'class': 'col-date-added d-none d-md-table-cell',
                       'default': true,
                   }) }}
                   {{ include('@MauticCore/Helper/tableheader.html.twig', {
                       'sessionVar': sessionVar,
                       'orderBy': tablePrefix~'.id',
                       'text': 'mautic.core.id',
-                      'class': 'col-lead-id visible-md visible-lg',
+                      'class': 'col-lead-id d-none d-md-table-cell',
                   }) }}
               </tr>
           </thead>
@@ -86,7 +86,7 @@
           </tbody>
       </table>
   </div>
-  <div class="panel-footer">
+  <div class="card-footer">
       {{ include('@MauticCore/Helper/pagination.html.twig', {
           'totalItems': totalItems,
           'page': page,

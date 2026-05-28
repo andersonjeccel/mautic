@@ -89,6 +89,17 @@ Mautic.loadAjaxModal = function (target, route, method, header, footer, preventD
         element.find(".modal-footer").addClass('hide');
     }
 
+    // Check if dismissal is allowed
+    let modalOptions = preventDismissal
+        ? {backdrop: 'static', keyboard: false, show: false}
+        : {backdrop: true, keyboard: true, show: false};
+
+    if (typeof element.data('bs.modal') !== 'undefined') {
+        element.modal('dispose');
+    }
+
+    element.modal(modalOptions);
+
     //move the modal to the body tag to get around positioned div issues
     element.one('show.bs.modal', function () {
         if (header) {
@@ -130,29 +141,6 @@ Mautic.loadAjaxModal = function (target, route, method, header, footer, preventD
         Mautic.resetModal(target);
     });
 
-    // Check if dismissal is allowed
-    if (typeof element.data('bs.modal') !== 'undefined' && typeof element.data('bs.modal').options !== 'undefined') {
-        if (preventDismissal) {
-            element.data('bs.modal').options.keyboard = false;
-            element.data('bs.modal').options.backdrop = 'static';
-        } else {
-            element.data('bs.modal').options.keyboard = true;
-            element.data('bs.modal').options.backdrop = true;
-        }
-    } else {
-        if (preventDismissal) {
-            element.modal({
-                backdrop: 'static',
-                keyboard: false
-            });
-        } else {
-            element.modal({
-                backdrop: true,
-                keyboard: true
-            });
-        }
-    }
-
     Mautic.showModal(target);
 
     if (typeof Mautic.modalContentXhr == 'undefined') {
@@ -188,7 +176,7 @@ Mautic.loadAjaxModal = function (target, route, method, header, footer, preventD
  * @param target
  */
 Mautic.resetModal = function (target) {
-    if (mQuery(target).hasClass('in')) {
+    if (mQuery(target).hasClass('show')) {
         return;
     }
 
@@ -408,7 +396,7 @@ Mautic.loadAjaxModalBySelectValue = function (el, value, route, header) {
  * @param target
  */
 Mautic.showModal = function(target) {
-    if (mQuery('.modal.in').length) {
+    if (mQuery('.modal.show').length) {
         // another modal is activated so let's stack
 
         // is this modal within another modal?
@@ -422,13 +410,13 @@ Mautic.showModal = function(target) {
             mQuery(target).appendTo('body');
         }
 
-        var activeModal = mQuery('.modal.in .modal-dialog:not(:has(.aside))').parents('.modal').last(),
+        var activeModal = mQuery('.modal.show .modal-dialog:not(:has(.aside))').parents('.modal').last(),
             targetModal  = mQuery(target);
 
         if (activeModal.length && activeModal.attr('id') !== targetModal.attr('id')) {
             targetModal.attr('data-previous-modal', '#'+activeModal.attr('id'));
             activeModal.find('.modal-dialog').addClass('aside');
-            var stackedDialogCount = mQuery('.modal.in .modal-dialog.aside').length;
+            var stackedDialogCount = mQuery('.modal.show .modal-dialog.aside').length;
             if (stackedDialogCount <= 5) {
                 activeModal.find('.modal-dialog').addClass('aside-' + stackedDialogCount);
             }
@@ -452,5 +440,4 @@ Mautic.showModal = function(target) {
 
     mQuery(target).modal('show');
 };
-
 

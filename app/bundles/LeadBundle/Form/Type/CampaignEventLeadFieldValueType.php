@@ -36,7 +36,7 @@ class CampaignEventLeadFieldValueType extends AbstractType
             LeadFieldsType::class,
             [
                 'label'                 => 'mautic.lead.campaign.event.field',
-                'label_attr'            => ['class' => 'control-label'],
+                'label_attr'            => ['class' => 'col-form-label'],
                 'multiple'              => false,
                 'with_company_fields'   => true,
                 'with_tags'             => true,
@@ -144,7 +144,7 @@ class CampaignEventLeadFieldValueType extends AbstractType
                     'choices'    => array_flip($fieldValues),
                     'label'      => 'mautic.form.field.form.value',
                     'multiple'   => $isMultiple,
-                    'label_attr' => ['class' => 'control-label'],
+                    'label_attr' => ['class' => 'col-form-label'],
                     'attr'       => [
                         'class'                => 'form-control',
                         'onchange'             => 'Mautic.updateLeadFieldValueOptions(this)',
@@ -188,7 +188,7 @@ class CampaignEventLeadFieldValueType extends AbstractType
                     TextType::class,
                     [
                         'label'       => 'mautic.form.field.form.value',
-                        'label_attr'  => ['class' => 'control-label'],
+                        'label_attr'  => ['class' => 'col-form-label'],
                         'attr'        => $attr,
                         'constraints' => ($supportsValue) ? [
                             new NotBlank(
@@ -205,7 +205,7 @@ class CampaignEventLeadFieldValueType extends AbstractType
                 [
                     'choices'           => $this->leadModel->getOperatorsForFieldType(null == $fieldType ? 'default' : $fieldType, ['date']),
                     'label'             => 'mautic.lead.lead.submitaction.operator',
-                    'label_attr'        => ['class' => 'control-label'],
+                    'label_attr'        => ['class' => 'col-form-label'],
                     'attr'              => [
                         'onchange' => 'Mautic.updateLeadFieldValues(this)',
                     ],

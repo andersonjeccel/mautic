@@ -172,11 +172,11 @@ Mautic.initSelectTheme = function(themeField) {
             }
 
             // Manipulate classes to achieve the theme selection illusion
-            mQuery('.theme-list .panel').removeClass('theme-selected');
-            currentLink.closest('.panel').addClass('theme-selected');
+            mQuery('.theme-list .card').removeClass('theme-selected');
+            currentLink.closest('.card').addClass('theme-selected');
             mQuery('.theme-list .select-theme-selected').addClass('hide');
             mQuery('.theme-list .select-theme-link').removeClass('hide');
-            currentLink.closest('.panel').find('.select-theme-selected').removeClass('hide');
+            currentLink.closest('.card').find('.select-theme-selected').removeClass('hide');
             currentLink.addClass('hide');
         });
     }
@@ -220,7 +220,7 @@ Mautic.toggleBuilderButton = function (hide) {
 
 Mautic.removeAddVariantButton = function() {
     // Remove the Add Variant button for dynamicContent slots
-    parent.mQuery('#customize-slot-panel').find('.panel-heading button').remove();
+    parent.mQuery('#customize-slot-panel').find('.card-header button').remove();
     Mautic.reattachDEC();
 };
 

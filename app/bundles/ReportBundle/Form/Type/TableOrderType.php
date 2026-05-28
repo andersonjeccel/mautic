@@ -31,7 +31,7 @@ class TableOrderType extends AbstractType
                 'expanded'          => false,
                 'multiple'          => false,
                 'label'             => 'mautic.report.report.label.filtercolumn',
-                'label_attr'        => ['class' => 'control-label'],
+                'label_attr'        => ['class' => 'col-form-label'],
                 'placeholder'       => false,
                 'required'          => false,
                 'attr'              => [
@@ -52,7 +52,7 @@ class TableOrderType extends AbstractType
                 'expanded'    => false,
                 'multiple'    => false,
                 'label'       => 'mautic.core.order',
-                'label_attr'  => ['class' => 'control-label'],
+                'label_attr'  => ['class' => 'col-form-label'],
                 'placeholder' => false,
                 'required'    => false,
                 'attr'        => [

@@ -15,7 +15,7 @@ class MultiselectType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'label_attr'        => ['class' => 'control-label'],
+            'label_attr'        => ['class' => 'col-form-label'],
             'attr'              => ['class' => 'form-control'],
             'multiple'          => true,
             'choices_as_values' => true,

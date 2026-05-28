@@ -38,7 +38,7 @@
   <div class="box-layout">
       <div class="col-md-9 height-auto">
           <div class="row">
-              <div class="col-xs-12">
+              <div class="col-12">
 
                   <!-- tabs controls -->
                   <ul class="nav nav-tabs nav-tabs-contained">
@@ -54,7 +54,7 @@
                   <!--/ tabs controls -->
 
                   <div class="tab-content pa-md">
-                      <div class="tab-pane fade in active bdr-w-0" id="details-container">
+                      <div class="tab-pane fade show active bdr-w-0" id="details-container">
                           <div class="row">
                               <div class="col-md-6">
                                   {{ form_row(form.name) }}
@@ -89,7 +89,7 @@
                                       <div class="ml-5 mr-5" style="display:inline-block;">
                                           {{ form_widget(form.progressiveProfilingLimit) }}
                                       </div>
-                                      <div class="has-error" style="display:inline-block;">
+                                      <div class="is-invalid" style="display:inline-block;">
                                           {{ form_errors(form.progressiveProfilingLimit) }}
                                       </div>
                                   </div>

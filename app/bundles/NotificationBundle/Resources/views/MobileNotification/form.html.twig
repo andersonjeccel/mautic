@@ -26,7 +26,7 @@
   <div class="box-layout">
       <div class="col-md-9 height-auto">
           <div class="row">
-              <div class="col-xs-12">
+              <div class="col-12">
 
                   <!-- tabs controls -->
                   <ul class="nav nav-tabs nav-tabs-contained">
@@ -43,7 +43,7 @@
 
                   <!-- tabs content -->
                   <div class="tab-content pa-md">
-                      <div class="tab-pane fade in active bdr-w-0" id="notification-container">
+                      <div class="tab-pane fade show active bdr-w-0" id="notification-container">
                           <div class="row">
                               <div class="col-md-6">
                                   {{- form_row(form.name) -}}
@@ -53,7 +53,7 @@
                               <div class="col-md-6">{{ form_row(form.message) }}</div>
                           </div>
                       </div>
-                      <div class="tab-pane fade in bdr-w-0" id="data-notification-container">
+                      <div class="tab-pane fade show bdr-w-0" id="data-notification-container">
                           <div class="row">
                               <div class="col-md-6">{{ form_row(form.mobileSettings.additional_data) }}</div>
                           </div>

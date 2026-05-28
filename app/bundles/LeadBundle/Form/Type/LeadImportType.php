@@ -60,7 +60,7 @@ class LeadImportType extends AbstractType
             TextType::class,
             [
                 'label'      => 'mautic.lead.import.delimiter',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'   => 'form-control',
                     'tooltip' => 'mautic.lead.import.delimiter.help',
@@ -76,7 +76,7 @@ class LeadImportType extends AbstractType
             TextType::class,
             [
                 'label'      => 'mautic.lead.import.enclosure',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'   => 'form-control',
                     'tooltip' => 'mautic.lead.import.enclosure.help',
@@ -92,7 +92,7 @@ class LeadImportType extends AbstractType
             TextType::class,
             [
                 'label'      => 'mautic.lead.import.escape',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'   => 'form-control',
                     'tooltip' => 'mautic.lead.import.escape.help',
@@ -108,7 +108,7 @@ class LeadImportType extends AbstractType
             TextType::class,
             [
                 'label'      => 'mautic.lead.import.batchlimit',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'   => 'form-control',
                     'tooltip' => 'mautic.lead.import.batchlimit_tooltip',

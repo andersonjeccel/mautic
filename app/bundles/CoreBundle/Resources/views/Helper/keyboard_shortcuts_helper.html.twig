@@ -1,5 +1,5 @@
 {% for section, shortcut_list in shortcuts %}
-    <li class="panel">
+    <li class="card">
     <a role="button" id="heading{{section}}" class="accordion-heading collapsed" data-toggle="collapse"
         data-parent="#accordion" href="#collapse{{section}}" aria-expanded="false"
         aria-controls="collapse{{section}}">
@@ -8,7 +8,7 @@
     </a>
     <div id="collapse{{section}}" class="collapse accordion-wrapper" role="tabpanel"
         aria-labelledby="heading{{section}}">
-        <div class="accordion-content col-xs-12">
+        <div class="accordion-content col-12">
         <table class="shortcut-table bsv-xs">
             {% for key, description in shortcut_list %}
             <tr class="mb-xs">

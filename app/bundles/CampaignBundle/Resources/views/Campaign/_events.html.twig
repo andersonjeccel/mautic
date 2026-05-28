@@ -11,9 +11,9 @@
         {% set percentProp  = ('danger' == typeClass) ? 'noPercent' : 'yesPercent' %}
         <li class="list-group-item">
             <div class="progress-bar progress-bar-{{ typeClass }}" style="width:{{ event.yesPercent }}%; left: 0;"></div>
-            <div class="progress-bar progress-bar-danger" style="width:{{ event['noPercent'] }}%; left: {{ event['yesPercent'] }}%"></div>
+            <div class="progress-bar bg-danger" style="width:{{ event['noPercent'] }}%; left: {{ event['yesPercent'] }}%"></div>
             <div class="box-layout">
-                <div class="visible-sm visible-md visible-lg col-stats">
+                <div class="d-none d-sm-block col-stats">
                     <span class="mt-xs label label-{{ typeClass }}" data-toggle="tooltip" title="{{ percentLabel|trans }}">
                       {{ event[percentProp] }}%
                     </span>

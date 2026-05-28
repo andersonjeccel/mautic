@@ -21,7 +21,7 @@ class FormFieldNumberType extends AbstractType
     {
         $builder->add('placeholder', TextType::class, [
             'label'      => 'mautic.form.field.form.property_placeholder',
-            'label_attr' => ['class' => 'control-label'],
+            'label_attr' => ['class' => 'col-form-label'],
             'attr'       => ['class' => 'form-control'],
             'required'   => false,
         ]);
@@ -31,7 +31,7 @@ class FormFieldNumberType extends AbstractType
             IntegerType::class,
             [
                 'label'      => 'mautic.form.field.form.number_precision',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'data'       => $options['data']['precision'] ?? 0,
                 'attr'       => [
                     'class'   => 'form-control',

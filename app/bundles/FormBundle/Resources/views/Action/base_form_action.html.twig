@@ -8,8 +8,8 @@ Variables
 - action
 #}
 
-<div class="mauticform-row pa-0 panel {% block panel_classes %}{% endblock %}" id="mauticform_action_{{ id }}">
-    <div class="panel-body">
+<div class="mauticform-row pa-0 card {% block panel_classes %}{% endblock %}" id="mauticform_action_{{ id }}">
+    <div class="card-body">
         {% block content %}
             {% if inForm is defined %}
                 {{ include('@MauticForm/Builder/_actions.html.twig', {
@@ -31,7 +31,7 @@ Variables
     </div>
 
     {% if block('action_label')|trim is not empty %}
-        <div class="d-flex panel-footer as-stretch gap-3 ai-center">
+        <div class="d-flex card-footer as-stretch gap-3 ai-center">
             {% block action_label %}{% endblock %}
         </div>
     {% endif %}

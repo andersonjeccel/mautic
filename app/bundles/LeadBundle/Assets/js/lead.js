@@ -116,7 +116,7 @@ Mautic.leadOnLoad = function (container, response) {
     if (mQuery('.lead-avatar-panel').length) {
         mQuery('.lead-avatar-panel .avatar-collapser a.arrow').on('click', function() {
             setTimeout(function() {
-                var status = (mQuery('#lead-avatar-block').hasClass('in') ? 'expanded' : 'collapsed');
+                var status = (mQuery('#lead-avatar-block').hasClass('show') ? 'expanded' : 'collapsed');
                 document.cookie = 'mautic_lead_avatar_panel=' + status + '; path=/; max-age=' + (30 * 24 * 60 * 60) + '; SameSite=Strict';
             }, 500);
         });
@@ -148,8 +148,8 @@ Mautic.leadOnLoad = function (container, response) {
 
     Mautic.initUniqueIdentifierFields();
 
-    if (mQuery(container + ' .panel-companies').length) {
-        mQuery(container + ' .panel-companies .ri-check-line').tooltip({html: true});
+    if (mQuery(container + ' .card-companies').length) {
+        mQuery(container + ' .card-companies .ri-check-line').tooltip({html: true});
     }
 
     // Adding behavior to be able to create new tags by pressing the `Enter` or `Escape` key
@@ -454,7 +454,7 @@ Mautic.attachJsUiOnFilterForms = function() {
     });
 
     // Trigger event so plugins could attach other JS magic to the form.
-    mQuery('#leadlist_filters .panel').each(function() {
+    mQuery('#leadlist_filters .card').each(function() {
         Mautic.triggerOnPropertiesFormLoadedEvent('#' + mQuery(this).attr('id'));
     });
 };
@@ -520,12 +520,12 @@ Mautic.reorderSegmentFilters = function() {
             }
         });
 
-        $filter.find('.panel-heading').css('width', ''); // Something is setting width. Remove it.
+        $filter.find('.card-header').css('width', ''); // Something is setting width. Remove it.
 
         ++counter;
     });
 
-    const panelClass = prefix === 'leadlist' ? '.panel-glue' : '.panel-heading';
+    const panelClass = prefix === 'leadlist' ? '.card-glue' : '.card-header';
     mQuery('#'+prefix+'_filters '+panelClass).removeClass('hide');
     const $firstPanel = $filters.first();
     $firstPanel.find(panelClass).addClass('hide');
@@ -666,7 +666,7 @@ Mautic.addLeadListFilter = function (elId, elObj) {
 
     if (Mautic.segmentFilter().getFilterCount() === 0) {
         // First filter so hide the glue footer
-        prototype.find(".panel-glue").addClass('hide');
+        prototype.find(".card-glue").addClass('hide');
     }
 
     const filterTypeIcon = filterOption.data('field-icon');
@@ -738,7 +738,7 @@ Mautic.segmentFilter = function() {
                     'fast',
                     function () {
                         // Remove existing tooltip
-                        mQuery('*[role="tooltip"]').tooltip('destroy');
+                        mQuery('*[role="tooltip"]').tooltip('dispose');
                         mQuery(this).remove();
                         Mautic.reorderSegmentFilters();
                     }
@@ -783,7 +783,7 @@ Mautic.segmentFilter = function() {
         const $clone = $origin.clone(false);
 
         if (!$origin.hasClass('in-group')) {
-            const $glueWrapper = $clone.find('.panel-glue');
+            const $glueWrapper = $clone.find('.card-glue');
             $glueWrapper.find('select').val('or');
             $glueWrapper.removeClass('hide');
         }
@@ -858,7 +858,7 @@ Mautic.updateLeadFieldProperties = function(selectedVal, onload) {
         selectedVal = 'select';
     }
 
-    mQuery('#leadfield_properties [data-toggle="tooltip"]').tooltip('destroy');
+    mQuery('#leadfield_properties [data-toggle="tooltip"]').tooltip('dispose');
 
     if (mQuery('#field-templates .' + selectedVal).length) {
         mQuery('#leadfield_properties').html(
@@ -1281,7 +1281,7 @@ Mautic.removeBounceStatus = function (el, dncId, channel) {
     mQuery(el).removeClass('ri-close-line').addClass('ri-loader-3-line ri-spin');
 
     Mautic.ajaxActionRequest('lead:removeBounceStatus', {'id': dncId, 'channel': channel}, function() {
-        mQuery('#bounceLabel' + dncId).tooltip('destroy');
+        mQuery('#bounceLabel' + dncId).tooltip('dispose');
         mQuery('#bounceLabel' + dncId).fadeOut(300, function() { mQuery(this).remove(); });
     });
 };
@@ -1644,8 +1644,8 @@ Mautic.setAsPrimaryCompany = function (companyId,leadId){
     Mautic.ajaxActionRequest('lead:setAsPrimaryCompany', {'companyId': companyId, 'leadId': leadId}, function(response) {
         if (response.success) {
             // Update the company icon
-            mQuery('.panel-companies .ri-user-star-fill').removeClass('ri-user-star-fill');
-            mQuery('.panel-companies .contained-list-item__content[href$="/' + response.newPrimary + '"]').find('i').addClass('ri-user-star-fill');
+            mQuery('.card-companies .ri-user-star-fill').removeClass('ri-user-star-fill');
+            mQuery('.card-companies .contained-list-item__content[href$="/' + response.newPrimary + '"]').find('i').addClass('ri-user-star-fill');
         }
     });
 };

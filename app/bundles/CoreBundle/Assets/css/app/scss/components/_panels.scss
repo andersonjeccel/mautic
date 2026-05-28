@@ -2,7 +2,7 @@
 // Panels
 // --------------------------------------------------
 
-.panel, .panel2 {
+.card, .panel2 {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -14,12 +14,12 @@
 
 // Panel heading
 // ------------------------
-.panel-heading {
+.card-header {
   padding: 0 15px;
   @include clearfix();
 
   // Panel title
-  .panel-title {
+  .card-title {
     padding: ((33 - $font-size-base) / 2) 0;
     display: table-cell;
     vertical-align: middle;
@@ -27,7 +27,7 @@
   }
 
   // Panel toolbar
-  .panel-toolbar {
+  .card-toolbar {
     display: table-cell;
     width: 1%;
     vertical-align: middle;
@@ -35,19 +35,19 @@
 }
 
 // Panel body
-.panel-body {
+.card-body {
   flex-grow: 1;
 }
 
 // Panel group
 // ------------------------
-.panel-group {
-  .panel {
+.card-group {
+  .card {
     @include box-shadow(none);
   }
 }
 
-.panel-toolbar-wrapper {
+.card-toolbar-wrapper {
   display: block;
   background-color: var(--layer);
   border-bottom: 1px solid var(--border-subtle);

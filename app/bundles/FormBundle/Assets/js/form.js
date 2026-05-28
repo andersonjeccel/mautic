@@ -55,7 +55,7 @@ Mautic.formOnLoad = function (container) {
     if (mQuery('#mauticforms_actions')) {
         //make the fields sortable
         mQuery('#mauticforms_actions').sortable({
-            items: '.panel',
+            items: '.card',
             cancel: '',
             helper: function(e, ui) {
                 ui.children().each(function() {
@@ -230,7 +230,7 @@ Mautic.formFieldOnLoad = function (container, response) {
         } else {
             var parentContainer = mQuery('#mauticform_'+response.parent);
             if (parentContainer.length) {
-                (parentContainer.parents('.panel:first')).append(newHtml);
+                (parentContainer.parents('.card:first')).append(newHtml);
             }else {
                 //append content
                 var panel = mQuery('#mauticforms_fields .mauticform-button-wrapper').closest('.form-field-wrapper');
@@ -261,7 +261,7 @@ Mautic.formFieldOnLoad = function (container, response) {
         Mautic.initHideItemButton(fieldContainer);
 
         //show fields panel
-        if (!mQuery('#fields-panel').hasClass('in')) {
+        if (!mQuery('#fields-panel').hasClass('show')) {
             mQuery('a[href="#fields-panel"]').trigger('click');
         }
 
@@ -338,7 +338,7 @@ Mautic.formActionOnLoad = function (container, response) {
         });
 
         //show actions panel
-        if (!mQuery('#actions-panel').hasClass('in')) {
+        if (!mQuery('#actions-panel').hasClass('show')) {
             mQuery('a[href="#actions-panel"]').trigger('click');
         }
 
@@ -368,7 +368,7 @@ Mautic.onPostSubmitActionChange = function(value) {
     }
 
     mQuery('#mauticform_postActionProperty').next().html('');
-    mQuery('#mauticform_postActionProperty').parent().removeClass('has-error');
+    mQuery('#mauticform_postActionProperty').parent().removeClass('is-invalid');
 };
 
 /**

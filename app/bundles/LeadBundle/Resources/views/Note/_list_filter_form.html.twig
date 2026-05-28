@@ -1,4 +1,4 @@
-<form action="{{ path('mautic_contactnote_index', {'page': page, 'leadId': lead.id, 'tmpl': 'list'}) }}" class="panel" id="note-filters" method="post">
+<form action="{{ path('mautic_contactnote_index', {'page': page, 'leadId': lead.id, 'tmpl': 'list'}) }}" class="card" id="note-filters" method="post">
     <div class="form-control-icon pa-md">
         <input type="text"
                name="search"
@@ -12,9 +12,9 @@
         <span class="the-icon ri-search-line text-secondary"></span><!-- must below `form-control` -->
     </div>
     <input type="hidden" name="leadId" id="leadId" value="{{ lead.id|e }}" />
-    <div class="panel-footer text-secondary">
+    <div class="card-footer text-secondary">
         {% for typeKey, typeName in noteTypes %}
-            <div class="checkbox-inline custom-primary">
+            <div class="form-check form-check-inline custom-primary">
                 <label class="mb-0">
                     <input name="noteTypes[]" type="checkbox" value="{{ typeKey }}" {% if typeKey in noteType %}checked{% endif %} />
                     <span class="mr-0"></span>

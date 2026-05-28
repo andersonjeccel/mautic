@@ -3,9 +3,11 @@
 {% if checkall is defined and checkall is not empty %}
 <th class="col-actions" {% if tooltip is defined and tooltip is not empty %} data-toggle="tooltip" title="" data-placement="top" data-original-title="{{ tooltip|trans }}"{% endif %}>
     <div class="input-group input-group-sm">
-        <span class="input-group-addon">
-            <input type="checkbox" id="customcheckbox-one0" value="1" data-toggle="checkall" data-target="{{ target }}">
-        </span>
+        <div class="input-group-prepend">
+            <span class="input-group-text">
+                <input type="checkbox" id="customcheckbox-one0" value="1" data-toggle="checkall" data-target="{{ target }}">
+            </span>
+        </div>
 
         {% if templateButtons is defined and templateButtons is not empty or customButtons is defined and customButtons is not empty %}
 
@@ -100,13 +102,13 @@
                 {% if dataToggle is defined and dataToggle is not empty %} data-toggle="{{ dataToggle }}"{% endif %}
                 onchange="Mautic.filterTableData('{{ sessionVar }}','{{ filterBy }}',this.value,'{{ tmpl }}','{{ target }}'{% if baseUrl is defined and baseUrl is not empty %},'{{ baseUrl }}'{% endif %});"
             />
-            <span class="input-group-btn">
+            <div class="input-group-append">
                 <button
-                    class="btn btn-ghost btn--icon-only btn-xs"
+                    class="btn btn-ghost btn--icon-only btn-sm"
                     onclick="Mautic.filterTableData('{{ sessionVar }}','{{ filterBy }}',{{ value is defined and value is not empty ? "''," : "mQuery(this).parent().prev().val()," }}'{{ tmpl }}','{{ target }}'{% if baseUrl is defined and baseUrl is not empty %},'{{ baseUrl }}'{% endif %});"                >
                     <i class="ri-fw ri-lg {{ value is defined and value is not empty ? 'ri-close-line' : 'ri-filter-2-fill' }}"></i>
                 </button>
-            </span>
+            </div>
         </div>
         {% endif %}
     </div>

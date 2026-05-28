@@ -1,24 +1,26 @@
 {% block _campaignevent_properties_row %}
 <div class="row condition-row">
-    <div class="col-xs-4">
+    <div class="col-4">
         {{ form_row(form.field) }}
     </div>
-    <div class="col-xs-4">
+    <div class="col-4">
         {{ form_row(form.operator) }}
     </div>
-    <div class="col-xs-4">
+    <div class="col-4">
         {{ form_row(form.value) }}
     </div>
 </div>
 
 <div class="row condition-custom-date-row" style="display: none;">
-    <div class="col-sm-offset-4 col-sm-4">
+    <div class="offset-sm-4 col-sm-4">
         <div class="row">
-            <div class="form-group col-xs-12 ">
+            <div class="form-group col-12">
                 <div class="input-group">
-                    <span class="input-group-addon preaddon">
-                        <i class="symbol-hashtag"></i>
-                    </span>
+                    <div class="input-group-prepend">
+                        <span class="input-group-text preaddon">
+                            <i class="symbol-hashtag"></i>
+                        </span>
+                    </div>
                     <input autocomplete="false" type="number" id="lead-field-custom-date-interval" class="form-control" value="1" onchange="Mautic.updateLeadFieldValueOptions(mQuery('#campaignevent_properties_value'), true)">
                 </div>
             </div>
@@ -26,7 +28,7 @@
     </div>
     <div class="col-sm-4">
         <div class="row">
-            <div class="form-group col-xs-12 ">
+            <div class="form-group col-12">
                 <select id="lead-field-custom-date-unit" class="form-control chosen" autocomplete="false" onchange="Mautic.updateLeadFieldValueOptions(mQuery('#campaignevent_properties_value'), true)">
                     {% for interval in ['i', 'h', 'd', 'm', 'y'] %}
                       <option {% if 'd' == interval %}selected{% endif %} value="{{ interval }}">

@@ -23,13 +23,13 @@
 .tt-hint {
   .twitter-typeahead &{
     //validation states
-    .has-warning &{
+    .is-invalid &{
       @include typeahead-form-control($state-warning-text);
     }
-    .has-error &{
+    .is-invalid &{
       @include typeahead-form-control($state-danger-text);
     }
-    .has-success &{
+    .is-valid &{
       @include typeahead-form-control($state-success-text);
     }
   }

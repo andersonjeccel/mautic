@@ -6,7 +6,7 @@
 #}
 
 {% set start = 1 %}
-<div id="stepNavigation" class="hidden-xs">
+<div id="stepNavigation" class="d-none d-sm-block">
     <ul class="horizontal-step">
         {% for start in 1..count-1 %}
         <li{{ (start == step) ? ' class="active"' : '' }}>

@@ -3,7 +3,7 @@
     {% if showContactCategories is defined and showContactCategories and form.global_categories is defined and form.global_categories|length > 0 %}
 <div class="global-categories text-left">
     <div>
-        <label class="control-label">{{ labelText }}</label>
+        <label class="col-form-label">{{ labelText }}</label>
     </div>
         {% set categoryNumber = form.global_categories.vars.choices|length %}
         {% for temp in form.global_categories %}
@@ -20,7 +20,7 @@
 {% else %}
     <div class="global-categories text-left">
         <div>
-            <label class="control-label">{{ labelText }}</label>
+            <label class="col-form-label">{{ labelText }}</label>
         </div>
         <div id="category-1" class="text-left">
             <input type="checkbox" id="lead_contact_frequency_rules_global_categories_1" name="lead_contact_frequency_rules[global_categories][]" autocomplete="false" value="1" checked="checked">

@@ -1,4 +1,4 @@
-<div class="tab-pane fade in bdr-w-0 page-list" id="recent-activity-container">
+<div class="tab-pane fade show bdr-w-0 page-list" id="recent-activity-container">
     <!-- auditlog -->
     <div class="table-responsive">
         <table class="table table-hover" id="campaign-auditlog">
@@ -16,12 +16,12 @@
                 }) }}
                 {{ include('@MauticCore/Helper/tableheader.html.twig', {
                     'text': 'mautic.audit_log.report.action',
-                    'class': 'visible-md visible-lg timeline-type',
+                    'class': 'd-none d-md-table-cell timeline-type',
                     'target': '#recent-activity-container',
                 }) }}
                 {{ include('@MauticCore/Helper/tableheader.html.twig', {
                     'text': 'mautic.lead.timeline.event_timestamp',
-                    'class': 'visible-md visible-lg timeline-timestamp',
+                    'class': 'd-none d-md-table-cell timeline-timestamp',
                     'target': '#recent-activity-container',
                 }) }}
             </tr>

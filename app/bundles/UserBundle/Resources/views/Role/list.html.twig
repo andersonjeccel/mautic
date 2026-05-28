@@ -7,7 +7,7 @@
 
 {% block content %}
     {% if isIndex %}
-    <div id="page-list-wrapper" class="panel panel-default">
+    <div id="page-list-wrapper" class="card">
         {{- include('@MauticCore/Helper/list_toolbar.html.twig', {
             'searchValue': searchValue,
             'action': currentRoute,
@@ -72,7 +72,7 @@
                     'sessionVar' : 'role',
                     'orderBy'    : 'r.description',
                     'text'       : 'mautic.core.description',
-                    'class'      : 'visible-md visible-lg col-role-desc',
+                    'class'      : 'd-none d-md-table-cell col-role-desc',
                 }
             ) -}}
             {{- include(
@@ -81,7 +81,7 @@
                     'sessionVar' : 'role',
                     'orderBy'    : 'user_count',
                     'text'       : 'mautic.user.role.list.thead.usercount',
-                    'class'      : 'visible-md visible-lg col-rolelist-usercount',
+                    'class'      : 'd-none d-md-table-cell col-rolelist-usercount',
                 }
             ) -}}
             {{- include('@MauticCore/Helper/tableheader.html.twig',
@@ -89,7 +89,7 @@
                     'sessionVar' : 'role',
                     'orderBy'    : 'r.id',
                     'text'       : 'mautic.core.id',
-                    'class'      : 'visible-md visible-lg col-role-id',
+                    'class'      : 'd-none d-md-table-cell col-role-id',
                 }
             ) -}}
         </tr>
@@ -124,10 +124,10 @@
 
                     {% endif %}
                 </td>
-                <td class="visible-md visible-lg">
+                <td class="d-none d-md-table-cell">
                     {{ item.getDescription()|purify }}
                 </td>
-                <td class="visible-md visible-lg">
+                <td class="d-none d-md-table-cell">
                     <a size="sm" class="label label-gray" href="{{ path('mautic_user_index',
                         {'search' : (('mautic.user.user.searchcommand.role'|trans) ~ ':"' ~ item.getName() ~ '"')}) }}" data-toggle="ajax"{{ i.user_count == 0 ? 'disabled=disabled' : '' }}>
                         {{ 'mautic.user.role.list.viewusers_count'|trans(
@@ -135,7 +135,7 @@
                         ) }}
                     </a>
                 </td>
-                <td class="visible-md visible-lg">
+                <td class="d-none d-md-table-cell">
                     {{ item.getId() }}
                 </td>
             </tr>
@@ -143,7 +143,7 @@
         </tbody>
     </table>
 </div>
-<div class="panel-footer">
+<div class="card-footer">
     {{- include('@MauticCore/Helper/pagination.html.twig',
         {
             'totalItems' : items|length,

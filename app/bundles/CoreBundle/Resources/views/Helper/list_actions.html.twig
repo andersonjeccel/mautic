@@ -15,9 +15,11 @@
 {% endif %}
 
 <div class="input-group input-group-sm">
-    <span class="input-group-addon">
-        <input type="checkbox" data-target="tbody" data-toggle="selectrow" class="list-checkbox" name="cb{{ id }}" value="{{ id|escape }}"/>
-    </span>
+    <div class="input-group-prepend">
+        <span class="input-group-text">
+            <input type="checkbox" data-target="tbody" data-toggle="selectrow" class="list-checkbox" name="cb{{ id }}" value="{{ id|escape }}"/>
+        </span>
+    </div>
 
     <div class="ml-xs">
         {% include '@MauticCore/Helper/button.html.twig' with {

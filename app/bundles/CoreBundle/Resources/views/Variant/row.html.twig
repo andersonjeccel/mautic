@@ -40,7 +40,7 @@
     <div class="box-layout">
         <div class="col-md-8 va-m">
             <div class="row">
-                <div class="col-xs-1">
+                <div class="col-1">
                     <h3>
                         {{ include('@MauticCore/Helper/publishstatus_icon.html.twig', {
                                 'item': variant,
@@ -50,9 +50,9 @@
                         }) }}
                     </h3>
                 </div>
-                <div class="col-xs-11">
+                <div class="col-11">
                     {% if isWinner %}
-                        <div class="mr-xs pull-left" data-toggle="tooltip" title="{{ 'mautic.core.ab_test.make_winner'|trans }}">
+                        <div class="mr-xs float-left" data-toggle="tooltip" title="{{ 'mautic.core.ab_test.make_winner'|trans }}">
                             {% include '@MauticCore/Helper/button.html.twig' with {
                                 buttons: [
                                     {
@@ -98,7 +98,7 @@
         <div class="col-md-4 va-t text-right">
             <em class="text-white dark-sm">
                 {% if isPublished and (totalWeight > 100 or (thisCriteria and firstCriteria != thisCriteria)) %}
-                    <div class="text-danger" data-toggle="label label-danger" title="{{ 'mautic.core.variant.misconfiguration'|trans }}">
+                    <div class="text-danger" data-toggle="tooltip" title="{{ 'mautic.core.variant.misconfiguration'|trans }}">
                         <div><span class="badge">{{ weight }}%</span></div>
                         <div><i class="ri-fw ri-alert-line"></i>{{ criteriaLabel }}</div>
                     </div>

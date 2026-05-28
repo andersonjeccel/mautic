@@ -197,7 +197,7 @@ class FieldType extends AbstractType
             TextType::class,
             [
                 'label'       => !empty($labelText) ? $labelText : 'mautic.form.field.form.label',
-                'label_attr'  => ['class' => 'control-label'],
+                'label_attr'  => ['class' => 'col-form-label'],
                 'attr'        => ['class' => 'form-control'],
                 'constraints' => [
                     new Assert\NotBlank(
@@ -213,7 +213,7 @@ class FieldType extends AbstractType
                 TextType::class,
                 [
                     'label'      => 'mautic.form.field.form.alias',
-                    'label_attr' => ['class' => 'control-label'],
+                    'label_attr' => ['class' => 'col-form-label'],
                     'attr'       => [
                         'class'   => 'form-control',
                         'tooltip' => 'mautic.form.field.form.alias.tooltip',
@@ -242,7 +242,7 @@ class FieldType extends AbstractType
                 ('textarea' == $type) ? TextareaType::class : TextType::class,
                 [
                     'label'      => 'mautic.core.defaultvalue',
-                    'label_attr' => ['class' => 'control-label'],
+                    'label_attr' => ['class' => 'col-form-label'],
                     'attr'       => ['class' => 'form-control'],
                     'required'   => false,
                 ]
@@ -255,7 +255,7 @@ class FieldType extends AbstractType
                 TextType::class,
                 [
                     'label'      => 'mautic.form.field.form.helpmessage',
-                    'label_attr' => ['class' => 'control-label'],
+                    'label_attr' => ['class' => 'col-form-label'],
                     'attr'       => [
                         'class'   => 'form-control',
                         'tooltip' => 'mautic.form.field.help.helpmessage',
@@ -281,7 +281,7 @@ class FieldType extends AbstractType
                 TextType::class,
                 [
                     'label'      => 'mautic.form.field.form.validationmsg',
-                    'label_attr' => ['class' => 'control-label'],
+                    'label_attr' => ['class' => 'col-form-label'],
                     'attr'       => [
                         'class'        => 'form-control',
                         'tooltip'      => $this->translator->trans('mautic.core.form.default').': '.$this->translator->trans('mautic.form.field.generic.required', [], 'validators'),
@@ -298,7 +298,7 @@ class FieldType extends AbstractType
                 TextType::class,
                 [
                     'label'      => (!empty($labelAttributesText)) ? $labelAttributesText : 'mautic.form.field.form.labelattr',
-                    'label_attr' => ['class' => 'control-label'],
+                    'label_attr' => ['class' => 'col-form-label'],
                     'attr'       => [
                         'class'     => 'form-control',
                         'tooltip'   => 'mautic.form.field.help.attr',
@@ -315,7 +315,7 @@ class FieldType extends AbstractType
                 TextType::class,
                 [
                     'label'      => (!empty($inputAttributesText)) ? $inputAttributesText : 'mautic.form.field.form.inputattr',
-                    'label_attr' => ['class' => 'control-label'],
+                    'label_attr' => ['class' => 'col-form-label'],
                     'attr'       => [
                         'class'     => 'form-control',
                         'tooltip'   => 'mautic.form.field.help.attr',
@@ -332,7 +332,7 @@ class FieldType extends AbstractType
                 TextType::class,
                 [
                     'label'      => 'mautic.form.field.form.container_attr',
-                    'label_attr' => ['class' => 'control-label'],
+                    'label_attr' => ['class' => 'col-form-label'],
                     'attr'       => [
                         'class'     => 'form-control',
                         'tooltip'   => 'mautic.form.field.help.container_attr',
@@ -349,7 +349,7 @@ class FieldType extends AbstractType
                 ChoiceType::class,
                 [
                     'label'      => 'mautic.form.field.form.field_width',
-                    'label_attr' => ['class' => 'control-label'],
+                    'label_attr' => ['class' => 'col-form-label'],
                     'attr'       => [
                         'class'   => 'form-control',
                         'tooltip' => 'mautic.form.field.help.field_width',
@@ -418,7 +418,7 @@ class FieldType extends AbstractType
                 TextType::class,
                 [
                     'label'      => 'mautic.form.field.form.show.after.x.submissions',
-                    'label_attr' => ['class' => 'control-label'],
+                    'label_attr' => ['class' => 'col-form-label'],
                     'attr'       => [
                         'class'        => 'form-control',
                         'tooltip'      => 'mautic.form.field.help.show.after.x.submissions',
@@ -472,7 +472,7 @@ class FieldType extends AbstractType
                     [
                         'choices'    => $this->objectCollector->getObjects()->toChoices(),
                         'label'      => 'mautic.form.field.form.mapped.object',
-                        'label_attr' => ['class' => 'control-label'],
+                        'label_attr' => ['class' => 'col-form-label'],
                         'attr'       => [
                             'class'    => 'form-control',
                             'tooltip'  => 'mautic.form.field.help.mapped.object',
@@ -507,7 +507,7 @@ class FieldType extends AbstractType
                             return [];
                         },
                         'label'      => 'mautic.form.field.form.mapped.field',
-                        'label_attr' => ['class' => 'control-label'],
+                        'label_attr' => ['class' => 'col-form-label'],
                         'attr'       => [
                             'class'   => 'form-control',
                             'tooltip' => 'mautic.form.field.help.mapped.field',

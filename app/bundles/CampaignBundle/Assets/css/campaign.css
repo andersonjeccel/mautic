@@ -39,7 +39,7 @@
     display: none;
 }
 
-#CampaignEventPanelGroups .panel-body {
+#CampaignEventPanelGroups .card-body {
     height: 150px;
 }
 
@@ -61,11 +61,11 @@
     border-radius: 3px 3px 0 0;
 }
 
-#CampaignPasteContainer .panel-body {
+#CampaignPasteContainer .card-body {
     height: auto;
 }
 
-#CampaignPasteContainer .panel-body > div {
+#CampaignPasteContainer .card-body > div {
     display: block;
     white-space: nowrap;
     overflow: hidden;
@@ -73,11 +73,11 @@
     max-width: 296px;
 }
 
-#CampaignEventPanelGroups.groups-enabled-2 #CampaignPasteContainer .panel-body > div {
+#CampaignEventPanelGroups.groups-enabled-2 #CampaignPasteContainer .card-body > div {
     max-width: 164px;
 }
 
-#CampaignPasteContainer .panel-footer {
+#CampaignPasteContainer .card-footer {
     display: flex;
     justify-content: center;
     align-items: center;

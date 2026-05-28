@@ -31,35 +31,35 @@
                         'sessionVar': 'page',
                         'orderBy': 'c.title',
                         'text': 'mautic.core.category',
-                        'class': 'visible-md visible-lg col-page-category',
+                        'class': 'd-none d-md-table-cell col-page-category',
                 }) }}
 
                 {{ include('@MauticCore/Helper/tableheader.html.twig', {
                         'sessionVar': 'page',
                         'orderBy': 'p.template',
                         'text': 'mautic.core.form.theme',
-                        'class': 'visible-md visible-lg col-page-template',
+                        'class': 'd-none d-md-table-cell col-page-template',
                 }) }}
 
                 {{ include('@MauticCore/Helper/tableheader.html.twig', {
                         'sessionVar': 'page',
                         'orderBy': 'p.hits',
                         'text': 'mautic.page.thead.hits',
-                        'class': 'col-page-hits visible-md visible-lg',
+                        'class': 'col-page-hits d-none d-md-table-cell',
                 }) }}
 
                 {{ include('@MauticCore/Helper/tableheader.html.twig', {
                         'sessionVar': 'page',
                         'orderBy': 'p.dateAdded',
                         'text': 'mautic.lead.import.label.dateAdded',
-                        'class': 'col-page-dateAdded visible-md visible-lg',
+                        'class': 'col-page-dateAdded d-none d-md-table-cell',
                 }) }}
 
                 {{ include('@MauticCore/Helper/tableheader.html.twig', {
                         'sessionVar': 'page',
                         'orderBy': 'p.dateModified',
                         'text': 'mautic.lead.import.label.dateModified',
-                        'class': 'col-page-dateModified visible-md visible-lg',
+                        'class': 'col-page-dateModified d-none d-md-table-cell',
                         'default': true,
                 }) }}
 
@@ -67,21 +67,21 @@
                         'sessionVar': 'page',
                         'orderBy': 'p.createdByUser',
                         'text': 'mautic.core.createdby',
-                        'class': 'col-page-createdByUser visible-md visible-lg',
+                        'class': 'col-page-createdByUser d-none d-md-table-cell',
                 }) }}
 
                 {{ include('@MauticCore/Helper/tableheader.html.twig', {
                         'sessionVar': 'page',
                         'orderBy': 'submission_count',
                         'text': 'mautic.form.form.results',
-                        'class': 'visible-md visible-lg col-page-submissions',
+                        'class': 'd-none d-md-table-cell col-page-submissions',
                 }) }}
 
                 {{ include('@MauticCore/Helper/tableheader.html.twig', {
                         'sessionVar': 'page',
                         'orderBy': 'p.id',
                         'text': 'mautic.core.id',
-                        'class': 'col-page-id visible-md visible-lg',
+                        'class': 'col-page-id d-none d-md-table-cell',
                 }) }}
             </tr>
             </thead>
@@ -167,35 +167,35 @@
                         {{ customContent('page.name', _context) }}
                         {{ include('@MauticProject/Modules/projects.html.twig') }}
                     </td>
-                    <td class="visible-md visible-lg">
+                    <td class="d-none d-md-table-cell">
                         {{ include('@MauticCore/Modules/category--expanded.html.twig', {'category': item.category}) }}
                     </td>
-                    <td class="visible-md visible-lg">
+                    <td class="d-none d-md-table-cell">
                         {% if item.template %}
                             {{ getThemeName(item.template) }}
                         {% else %}
                             <span class="text-muted">{{ 'mautic.core.form.default'|trans }}</span>
                         {% endif %}
                     </td>
-                    <td class="visible-md visible-lg">{{ item.hits }}</td>
-                    <td class="visible-md visible-lg" title="{% if item.dateAdded %}{{ dateToFullConcat(item.dateAdded) }}{% endif %}">
+                    <td class="d-none d-md-table-cell">{{ item.hits }}</td>
+                    <td class="d-none d-md-table-cell" title="{% if item.dateAdded %}{{ dateToFullConcat(item.dateAdded) }}{% endif %}">
                         {% if item.dateAdded %}{{ dateToDate(item.dateAdded) }}{% endif %}
                     </td>
-                    <td class="visible-md visible-lg" title="{% if item.dateModified %}{{ dateToFullConcat(item.dateModified) }}{% endif %}">
+                    <td class="d-none d-md-table-cell" title="{% if item.dateModified %}{{ dateToFullConcat(item.dateModified) }}{% endif %}">
                         {% if item.dateModified %}{{ dateToDate(item.dateModified) }}{% endif %}
                     </td>
-                    <td class="visible-md visible-lg">{{ item.createdByUser }}</td>
-                    <td class="visible-md visible-lg">
+                    <td class="d-none d-md-table-cell">{{ item.createdByUser }}</td>
+                    <td class="d-none d-md-table-cell">
                         <a href="{{ path('mautic_page_results', {'objectId': item.id}) }}" data-toggle="ajax" data-menu-link="mautic_form_index" size="sm" class="label label-gray" {% if 0 == i.submission_count %}disabled="disabled"{% endif %}>
                             {{- 'mautic.form.form.viewresults'|trans({'%count%': i.submission_count}) -}}
                         </a>
                     </td>
-                    <td class="visible-md visible-lg">{{ item.id }}</td>
+                    <td class="d-none d-md-table-cell">{{ item.id }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
-        <div class="panel-footer">
+        <div class="card-footer">
             {{ include('@MauticCore/Helper/pagination.html.twig', {
                     'totalItems': items|length,
                     'page': page,
@@ -210,7 +210,7 @@
     {% if searchValue is not empty %}
         {{ include('@MauticCore/Helper/noresults.html.twig') }}
     {% else %}
-        <div class="mt-80 col-md-offset-2 col-lg-offset-3 col-md-8 col-lg-5 height-auto">
+        <div class="mt-80 offset-md-2 offset-lg-3 col-md-8 col-lg-5 height-auto">
             {% set childContainer %}
                 <div class="mb-md">
                     {% include '@MauticCore/Components/pictogram.html.twig' with {

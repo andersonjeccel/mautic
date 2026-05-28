@@ -21,7 +21,7 @@
             {{ include('@MauticCore/Helper/tableheader.html.twig', {
                 'orderBy': 'eventType',
                 'text': 'mautic.lead.timeline.event_type',
-                'class': 'visible-md visible-lg timeline-type',
+                'class': 'd-none d-md-table-cell timeline-type',
                 'sessionVar': 'lead.' ~ lead.id ~ '.timeline',
                 'baseUrl': path('mautic_contacttimeline_action', {'leadId': lead.id}),
                 'target': '#timeline-table',
@@ -30,7 +30,7 @@
             {{ include('@MauticCore/Helper/tableheader.html.twig', {
                 'orderBy': 'timestamp',
                 'text': 'mautic.lead.timeline.event_timestamp',
-                'class': 'visible-md visible-lg timeline-timestamp',
+                'class': 'd-none d-md-table-cell timeline-timestamp',
                 'sessionVar': 'lead.' ~ lead.id ~ '.timeline',
                 'baseUrl': path('mautic_contacttimeline_action', {'leadId': lead.id}),
                 'target': '#timeline-table',

@@ -27,7 +27,7 @@
                 {{ form_widget(form.glue) }}
             </div>
 
-            <div class="filter--panel panel">
+            <div class="filter--card card">
                 <div class="d-flex fw-nowrap">
                     <div class="filter--field-name d-flex ai-center pr-lg pl-lg" size="lg">
                         {% set objectLabel = translatorHasId('mautic.lead_list.filter.' ~ object) ? ('mautic.lead_list.filter.' ~ object)|trans : object|trans  %}
@@ -40,7 +40,7 @@
                     </div>
 
                     {% set hasErrors = (form.properties.vars.errors|length > 0) %}
-                    <div class="filter--field-properties fg-1 {% if hasErrors %}has-error{% endif %}">
+                    <div class="filter--field-properties fg-1 {% if hasErrors %}is-invalid{% endif %}">
                         <div class="properties-form">
                             {{ form_widget(form.properties) }}
                         </div>
@@ -51,8 +51,8 @@
                     {{ form_widget(form.object) }}
                 </div>
             </div>
-            <div class="pr-0 pull-right">
-                <div class="segment-button btn-group d-flex jc-end pull-right" role="group">
+            <div class="pr-0 float-right">
+                <div class="segment-button btn-group d-flex jc-end float-right" role="group">
                     {% include '@MauticCore/Helper/button.html.twig' with {
                         buttons: [
                             {

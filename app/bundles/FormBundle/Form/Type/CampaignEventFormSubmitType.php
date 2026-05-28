@@ -14,7 +14,7 @@ class CampaignEventFormSubmitType extends AbstractType
     {
         $builder->add('forms', FormListType::class, [
             'label'      => 'mautic.form.campaign.event.forms',
-            'label_attr' => ['class' => 'control-label'],
+            'label_attr' => ['class' => 'col-form-label'],
             'required'   => false,
             'attr'       => [
                 'class'   => 'form-control',

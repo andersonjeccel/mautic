@@ -46,7 +46,7 @@ class PasswordResetConfirmType extends AbstractType
                 'first_name'    => 'password',
                 'first_options' => [
                     'label'      => 'mautic.core.password',
-                    'label_attr' => ['class' => 'control-label'],
+                    'label_attr' => ['class' => 'col-form-label'],
                     'attr'       => [
                         'class'        => 'form-control',
                         'placeholder'  => 'mautic.user.user.passwordreset.password.placeholder',
@@ -70,7 +70,7 @@ class PasswordResetConfirmType extends AbstractType
                 'second_name'    => 'confirm',
                 'second_options' => [
                     'label'      => 'mautic.user.user.form.passwordconfirm',
-                    'label_attr' => ['class' => 'control-label'],
+                    'label_attr' => ['class' => 'col-form-label'],
                     'attr'       => [
                         'class'        => 'form-control',
                         'placeholder'  => 'mautic.user.user.passwordreset.confirm.placeholder',

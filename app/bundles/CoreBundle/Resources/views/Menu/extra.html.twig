@@ -19,7 +19,7 @@
                 {% set extras = child.getExtras() %}
 
                 {% if (extras.divider is defined and extras.divider is not empty) %}
-                    <li role="separator" class="divider"></li>
+                    <li role="separator" class="dropdown-divider"></li>
                 {% elseif (extras.header is defined and extras.header is not empty) %}
                     <li class="dropdown-header">{{ extras.header|trans|purify }}</li>
                 {% else %}
@@ -39,7 +39,7 @@
                         {% endif %}
                         <a href="{{url}}"{{ parseMenuAttributes(linkAttributes) }}>
                             {% if (extras.iconClass is defined and extras.iconClass is not empty) %}
-                            <span style="margin-top: 4px;" class="icon pull-left fa {{ extras.iconClass }}"></span>
+                            <span style="margin-top: 4px;" class="icon float-left fa {{ extras.iconClass }}"></span>
                             {% endif %}
 
                             {% set labelAttributes = child.getLabelAttributes() %}

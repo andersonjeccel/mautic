@@ -108,7 +108,7 @@ class MessageController extends AbstractStandardFormController
                     'listHeaders' => [
                         [
                             'text'  => 'mautic.core.channels',
-                            'class' => 'visible-md visible-lg',
+                            'class' => 'd-none d-md-block d-lg-none d-none d-lg-block',
                         ],
                     ],
                     'listItemTemplate'  => '@MauticChannel/Message/list_item.html.twig',

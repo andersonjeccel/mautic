@@ -96,12 +96,12 @@
       </div>
       <div id="cloned-widgets" class="dashboard-widgets cards"></div>
   {% else %}
-      <div class="well well col-md-6 col-md-offset-3 mt-md">
+      <div class="card card-body card card-body col-md-6 offset-md-3 mt-md">
           <div class="row">
-              <div class="mautibot-image col-xs-3 text-center">
-                  <img class="img-responsive" style="max-height: 125px; margin-left: auto; margin-right: auto;" src="{{ mautibotGetImage('wave') }}" />
+              <div class="mautibot-image col-3 text-center">
+                  <img class="img-fluid" style="max-height: 125px; margin-left: auto; margin-right: auto;" src="{{ mautibotGetImage('wave') }}" />
               </div>
-              <div class="col-xs-9">
+              <div class="col-9">
                   <h4><i class="ri-double-quotes-l"></i> {{ 'mautic.dashboard.nowidgets.tip.header'|trans }} <i class="ri-double-quotes-r"></i></h4>
                   <p class="mt-md">{{ 'mautic.dashboard.nowidgets.tip'|trans }}</p>
                   {% include '@MauticCore/Helper/button.html.twig' with {

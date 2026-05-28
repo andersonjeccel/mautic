@@ -24,18 +24,18 @@ delete if it is not require
                 </span>
             </div>
             {% endif %}
-            <div class="panel">
-                <div class="panel-body box-layout">
-                    <div class="col-xs-4 va-m">
+            <div class="card">
+                <div class="card-body box-layout">
+                    <div class="col-4 va-m">
                         <h5 class="text-white dark-md fw-sb mb-xs">
                             <span class="ri-mail-line"></span>
                             {% trans %}mautic.email.stats{% endtrans %}
                         </h5>
                     </div>
-                    <div class="col-xs-8 va-m">
+                    <div class="col-8 va-m">
                         {{- include('@MauticCore/Helper/graph_dateselect.html.twig', {
                             'dateRangeForm'     : dateRangeForm,
-                            'class'             : 'pull-right'
+                            'class'             : 'float-right'
                         })
                         -}}
                     </div>

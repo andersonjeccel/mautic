@@ -16,10 +16,10 @@
   {% for integrationName, details in socialProfiles %}
       {{ cycle(['', '</div><div class="row">'], loop.index0) }}
       <div class="col-md-6">
-          <div class="panel panel-default panel-{{ integrationName|lower }}">
-              <div class="panel-heading pr-0">
-                  <h3 class="panel-title">{{ ('mautic.integration.'~integrationName)|trans }}</h3>
-                  <div class="panel-toolbar text-right">
+          <div class="card card-{{ integrationName|lower }}">
+              <div class="card-header pr-0">
+                  <h3 class="card-title">{{ ('mautic.integration.'~integrationName)|trans }}</h3>
+                  <div class="card-toolbar text-right">
                       <a href="javascript:void(0);" class="btn" data-toggle="tooltip" onclick="Mautic.refreshLeadSocialProfile('{{ integrationName }}', '{{ lead.id }}', event);"
                          title="{{ 'mautic.lead.lead.social.lastupdate'|trans({'%datetime%': dateToFullConcat(details.lastRefresh, 'utc')}) }}">
                           <i class="text-white ri-refresh-line"></i>
@@ -32,7 +32,7 @@
                       <a class="hide {{ integrationName }}-panelremove" data-toggle="panelremove" data-parent=".col-md-6">&amp;</a>
                   </div>
               </div>
-               <div class="panel-collapse pull out" id="{{ integrationName }}CompleteProfile">
+               <div class="collapse pull out" id="{{ integrationName }}CompleteProfile">
                   {{ include(details.social_profile_template, {
                       'lead': lead,
                       'details': details,
@@ -47,7 +47,7 @@
 {% endif %}
 {{ include('@MauticCore/Helper/modal.html.twig', {
     'id': 'socialImageModal',
-    'body': '<img class="img-responsive img-thumbnail" />',
+    'body': '<img class="img-fluid img-card" />',
     'header': false,
     'padding': 'np',
 }) }}

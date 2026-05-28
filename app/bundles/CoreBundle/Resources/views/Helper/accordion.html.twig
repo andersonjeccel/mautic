@@ -9,7 +9,7 @@
     {%- for item in items -%}
     {%- set itemId = (item.id ?? _self.generate_id(item.title))|trim -%}
     {%- set padding_inline = item.padding_inline ?? true -%}
-        <li class="panel">
+        <li class="card">
             <a role="button" id="heading{{- itemId -}}" class="accordion-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{- itemId -}}" aria-expanded="false" aria-controls="collapse{{- itemId -}}">
                 <i class="ri-arrow-down-s-line accordion-arrow"></i>
                 <span class="accordion-title">{{ item.title|trans }}</span>

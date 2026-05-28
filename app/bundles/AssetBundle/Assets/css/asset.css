@@ -36,7 +36,7 @@
 
 .mdropzone { min-height: 150px; border: none; background: var(--field); padding: 30px 30px; transition: var(--transition-all-productive); border-radius: var(--border-radius-md);}
 .mdropzone:hover { background: var(--field-hover); }
-.has-error .mdropzone {border: 2px solid #a94442;}
+.is-invalid .mdropzone {border: 2px solid #a94442;}
 .is-success .mdropzone {border: 2px solid #00a08a;}
 .mdropzone.dz-clickable { cursor: pointer; }
 .mdropzone.dz-clickable * { cursor: default; }

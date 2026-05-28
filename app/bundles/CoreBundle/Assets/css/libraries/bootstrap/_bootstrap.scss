@@ -1,50 +1,261 @@
 // Core variables and mixins
 
-@import 'bootstrap/variables';
+@import 'functions';
+@import 'variables';
+
+$hr-border: $hr-border-color !default;
+
 @import 'bootstrap-mautic-custom-variables';
-@import 'bootstrap/mixins';
 
-// Reset and dependencies
-@import 'bootstrap/normalize';
-@import 'bootstrap/print';
-@import 'bootstrap/glyphicons';
+$primary: $brand-primary;
+$secondary: $gray-light;
+$success: $brand-success;
+$info: $brand-info;
+$warning: $brand-warning;
+$danger: $brand-danger;
+$theme-colors: map-merge(
+  $theme-colors,
+  (
+    'primary': $primary,
+    'secondary': $secondary,
+    'success': $success,
+    'info': $info,
+    'warning': $warning,
+    'danger': $danger
+  )
+);
 
-// Core CSS
-@import 'bootstrap/scaffolding';
-@import 'bootstrap/type';
-@import 'bootstrap/code';
-@import 'bootstrap/tables';
-@import 'bootstrap/forms';
-@import 'bootstrap/buttons';
+$body-color: $text-color;
+$font-size-lg: $font-size-large;
+$font-size-sm: $font-size-small;
+$h1-font-size: $font-size-h1;
+$h2-font-size: $font-size-h2;
+$h3-font-size: $font-size-h3;
+$h4-font-size: $font-size-h4;
+$h5-font-size: $font-size-h5;
+$h6-font-size: $font-size-h6;
+$border-radius: $border-radius-base;
+$border-radius-lg: $border-radius-large;
+$border-radius-sm: $border-radius-small;
+$input-btn-padding-y: $padding-base-vertical;
+$input-btn-padding-x: $padding-base-horizontal;
+$input-btn-font-size: $font-size-base;
+$input-btn-line-height: $line-height-base;
+$input-btn-padding-y-sm: $padding-small-vertical;
+$input-btn-padding-x-sm: $padding-small-horizontal;
+$input-btn-font-size-sm: $font-size-small;
+$input-btn-line-height-sm: $line-height-small;
+$input-btn-padding-y-lg: $padding-large-vertical;
+$input-btn-padding-x-lg: $padding-large-horizontal;
+$input-btn-font-size-lg: $font-size-large;
+$input-btn-line-height-lg: $line-height-large;
+$btn-padding-y: $input-btn-padding-y;
+$btn-padding-x: $input-btn-padding-x;
+$btn-font-size: $input-btn-font-size;
+$btn-line-height: $input-btn-line-height;
+$btn-padding-y-sm: $input-btn-padding-y-sm;
+$btn-padding-x-sm: $input-btn-padding-x-sm;
+$btn-font-size-sm: $input-btn-font-size-sm;
+$btn-line-height-sm: $input-btn-line-height-sm;
+$btn-padding-y-lg: $input-btn-padding-y-lg;
+$btn-padding-x-lg: $input-btn-padding-x-lg;
+$btn-font-size-lg: $input-btn-font-size-lg;
+$btn-line-height-lg: $input-btn-line-height-lg;
+$btn-border-radius: $btn-border-radius-base;
+$btn-border-radius-lg: $btn-border-radius-large;
+$btn-border-radius-sm: $btn-border-radius-small;
+$input-padding-y: $input-btn-padding-y;
+$input-padding-x: $input-btn-padding-x;
+$input-font-size: $input-btn-font-size;
+$input-line-height: $input-btn-line-height;
+$input-padding-y-sm: $input-btn-padding-y-sm;
+$input-padding-x-sm: $input-btn-padding-x-sm;
+$input-font-size-sm: $input-btn-font-size-sm;
+$input-line-height-sm: $input-btn-line-height-sm;
+$input-padding-y-lg: $input-btn-padding-y-lg;
+$input-padding-x-lg: $input-btn-padding-x-lg;
+$input-font-size-lg: $input-btn-font-size-lg;
+$input-line-height-lg: $input-btn-line-height-lg;
+$input-disabled-bg: $input-bg-disabled;
+$input-border-color: $input-border;
+$input-border-radius-lg: $input-border-radius-large;
+$input-border-radius-sm: $input-border-radius-small;
+$input-focus-border-color: $input-border-focus;
+$input-placeholder-color: $input-color-placeholder;
+$dropdown-border-color: $dropdown-border;
+$zindex-modal-backdrop: $zindex-modal-background;
+$nav-link-padding-y: 10px;
+$nav-link-padding-x: 18px;
+$nav-link-disabled-color: $nav-disabled-link-color;
+$nav-tabs-link-active-bg: $nav-tabs-active-link-hover-bg;
+$nav-tabs-link-active-color: $nav-tabs-active-link-hover-color;
+$nav-tabs-link-active-border-color: $nav-tabs-active-link-hover-border-color;
+$nav-pills-link-active-bg: $nav-pills-active-link-hover-bg;
+$nav-pills-link-active-color: $nav-pills-active-link-hover-color;
+$pagination-border-color: $pagination-border;
+$pagination-hover-border-color: $pagination-hover-border;
+$pagination-active-border-color: $pagination-active-border;
+$pagination-disabled-border-color: $pagination-disabled-border;
+$alert-success-border-color: $alert-success-border;
+$alert-success-color: $alert-success-text;
+$alert-info-border-color: $alert-info-border;
+$alert-info-color: $alert-info-text;
+$alert-warning-border-color: $alert-warning-border;
+$alert-warning-color: $alert-warning-text;
+$alert-danger-border-color: $alert-danger-border;
+$alert-danger-color: $alert-danger-text;
+$list-group-border-color: $list-group-border;
+$list-group-active-border-color: $list-group-active-border;
+$list-group-action-color: $list-group-link-color;
+$list-group-action-hover-color: $list-group-link-hover-color;
+$breadcrumb-padding-y: $breadcrumb-padding-vertical;
+$breadcrumb-padding-x: $breadcrumb-padding-horizontal;
+$breadcrumb-divider: quote($breadcrumb-separator);
+$hr-border-color: $hr-border;
 
-// Components
-@import 'bootstrap/component-animations';
-@import 'bootstrap/dropdowns';
-@import 'bootstrap/button-groups';
-@import 'bootstrap/input-groups';
-@import 'bootstrap/navs';
-@import 'bootstrap/navbar';
-@import 'bootstrap/breadcrumbs';
-@import 'bootstrap/pagination';
-@import 'bootstrap/pager';
-@import 'bootstrap/badges';
-@import 'bootstrap/jumbotron';
-@import 'bootstrap/thumbnails';
-@import 'bootstrap/alerts';
-@import 'bootstrap/progress-bars';
-@import 'bootstrap/media';
-@import 'bootstrap/list-group';
-@import 'bootstrap/panels';
-@import 'bootstrap/responsive-embed';
-@import 'bootstrap/wells';
-@import 'bootstrap/close';
+@import 'mixins';
 
-// Components w/ JavaScript
-@import 'bootstrap/modals';
-@import 'bootstrap/tooltip';
-@import 'bootstrap/popovers';
-@import 'bootstrap/carousel';
+@mixin gradient-vertical($start-color: $gray-700, $end-color: $gray-800, $start-percent: 0%, $end-percent: 100%) {
+  @include gradient-y($start-color, $end-color, $start-percent, $end-percent);
+}
+
+@mixin tab-focus() {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+@mixin opacity($opacity) {
+  opacity: $opacity;
+}
+
+@mixin user-select($select) {
+  -webkit-user-select: $select;
+  -moz-user-select: $select;
+  -ms-user-select: $select;
+  user-select: $select;
+}
+
+@mixin transition($transition...) {
+  -webkit-transition: $transition;
+  -moz-transition: $transition;
+  -ms-transition: $transition;
+  -o-transition: $transition;
+  transition: $transition;
+}
+
+@mixin translate3d($x, $y, $z) {
+  -webkit-transform: translate3d($x, $y, $z);
+  transform: translate3d($x, $y, $z);
+}
+
+@mixin scale($ratio) {
+  -webkit-transform: scale($ratio);
+  transform: scale($ratio);
+}
+
+@mixin placeholder($color) {
+  &::-moz-placeholder {
+    color: $color;
+    opacity: 1;
+  }
+
+  &:-ms-input-placeholder {
+    color: $color;
+  }
+
+  &::-webkit-input-placeholder {
+    color: $color;
+  }
+}
+
+@mixin img-fluid($display: block) {
+  display: $display;
+  max-width: 100%;
+  height: auto;
+}
+
+@mixin size($width, $height) {
+  width: $width;
+  height: $height;
+}
+
+@mixin square($size) {
+  @include size($size, $size);
+}
+
+@mixin text-overflow() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin label-variant($color) {
+  background-color: $color;
+
+  &[href] {
+    &:hover,
+    &:focus {
+      background-color: darken($color, 10%);
+    }
+  }
+}
+
+@mixin progress-bar-variant($color) {
+  background-color: $color;
+}
+
+@mixin container-fixed($gutter: $grid-gutter-width) {
+  @include make-container($gutter);
+}
+
+@mixin make-grid($class) {
+  @for $i from 1 through $grid-columns {
+    .col-#{$class}-#{$i} {
+      @include make-col($i, $grid-columns);
+    }
+  }
+
+  @for $i from 0 through ($grid-columns - 1) {
+    .col-#{$class}-offset-#{$i} {
+      @include make-col-offset($i, $grid-columns);
+    }
+  }
+}
+
+// Bootstrap core
+@import 'root';
+@import 'reboot';
+@import 'type';
+@import 'images';
+@import 'code';
+@import 'grid';
+@import 'tables';
+@import 'forms';
+@import 'buttons';
+@import 'transitions';
+@import 'dropdown';
+@import 'button-group';
+@import 'input-group';
+@import 'custom-forms';
+@import 'nav';
+@import 'navbar';
+@import 'card';
+@import 'breadcrumb';
+@import 'pagination';
+@import 'badge';
+@import 'jumbotron';
+@import 'alert';
+@import 'progress';
+@import 'media';
+@import 'list-group';
+@import 'close';
+@import 'toasts';
+@import 'modal';
+@import 'tooltip';
+@import 'popover';
+@import 'carousel';
+@import 'spinners';
 
 // Utility classes
-@import 'bootstrap/utilities';
-@import 'bootstrap/responsive-utilities';
+@import 'utilities';
+@import 'print';

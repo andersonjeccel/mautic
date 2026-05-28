@@ -18,7 +18,7 @@ label {
 
 // control label
 // -------------------------
-.control-label {
+.col-form-label {
   color: var(--text-secondary);
 
   &.text-left {
@@ -280,8 +280,7 @@ input[type=file] {@include outline();}
 // -------------------------
 .checkbox,
 .radio,
-.checkbox-inline,
-.radio-inline {
+.form-check-inline {
   label {
     font-weight: normal;
   }
@@ -470,7 +469,7 @@ input[type=file] {@include outline();}
 }
 
 // radio radius reset
-.radio-inline,
+.form-check-inline,
 .radio {
 
   &[class*=" custom"],
@@ -488,8 +487,7 @@ input[type=file] {@include outline();}
 }
 
 // label reset
-.checkbox-inline,
-.radio-inline {
+.form-check-inline {
 
   &[class*=" custom"],
   &[class^="custom"] {

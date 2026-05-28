@@ -12,22 +12,22 @@
 {% endif %}
 
 {% block content %}
-<div class="panel-heading">
-    <h2 class="panel-title">
+<div class="card-header">
+    <h2 class="card-title">
         {{ 'mautic.install.heading.check.environment'|trans }}
     </h2>
 </div>
 {% autoescape false %}
-<div class="panel-body">
+<div class="card-body">
     {% if majors|length %}
-    <div class="panel-group" id="minors">
-        <div class="panel panel-danger">
-            <div class="panel-heading">
-                <h3 class="panel-title" style="font-size: 1em;">
+    <div class="card-group" id="minors">
+        <div class="card border-danger">
+            <div class="card-header">
+                <h3 class="card-title" style="font-size: 1em;">
                     {{ 'mautic.install.heading.major.problems'|trans }}
                 </h3>
             </div>
-            <div class="panel-body alert-warning">
+            <div class="card-body alert-warning">
                 {{ 'mautic.install.sentence.major.problems'|trans ({'%majors%' : majors|length}) }}
             </div>
             <ul class="list-group">
@@ -58,15 +58,15 @@
     {% endif %}
 
     {% if minors|length %}
-    <div class="panel-group" id="minors">
-        <div class="panel panel-warning">
-            <div class="panel-heading">
-                <h3 class="panel-title" style="font-size: 1em;">
+    <div class="card-group" id="minors">
+        <div class="card border-warning">
+            <div class="card-header">
+                <h3 class="card-title" style="font-size: 1em;">
                     <a data-toggle="collapse" style="display: block; " href="#minorDetails"><i class="ri-arrow-down-s-line"></i> {{ 'mautic.install.heading.minor.problems'|trans }}</a>
                 </h3>
             </div>
-            <div id="minorDetails" class="panel-collapse collapse">
-                <div class="panel-body alert-warning">
+            <div id="minorDetails" class="collapse">
+                <div class="card-body alert-warning">
                     <p>{{ 'mautic.install.sentence.minor.problems'|trans }}</p>
                 </div>
                  <ul class="list-group">

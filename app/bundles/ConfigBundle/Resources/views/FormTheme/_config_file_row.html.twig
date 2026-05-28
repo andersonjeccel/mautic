@@ -1,14 +1,14 @@
 {%- set hasErrors = form.vars.errors|length %}
-{%- set feedbackClass = hasErrors > 0 ? 'has-error' : '' %}
+{%- set feedbackClass = hasErrors > 0 ? 'is-invalid' : '' %}
 {%- set field = form.vars.name %}
 {%- set hide = fieldValue is not defined or (fieldValue is defined and fieldValue is empty) ? 'hide' : '' %}
 {%- set filename = inputAlphanum(form.vars.label|trans, true, '_') %}
 {%- set downloadUrl = path('mautic_config_action', {'objectAction': 'download', 'objectId': field, 'filename': filename}) %}
 {%- set removeUrl = path('mautic_config_action', {'objectAction': 'remove', 'objectId': field}) %}
 <div class="row">
-    <div class="form-group col-xs-12 {{ feedbackClass }}">
+    <div class="form-group col-12 {{ feedbackClass }}">
         {{ form_label(form, form.vars.label) }}
-        <span class="small pull-right {{ hide }}">
+        <span class="small float-right {{ hide }}">
             <a
                data-toggle="confirmation"
                href="{{ removeUrl }}"

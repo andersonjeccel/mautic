@@ -18,7 +18,7 @@
             {{'mautic.core.searchcommands.heading.operators.description'|trans}}</div>
           <ul class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
             <!-- General operators -->
-            <li class="panel">
+            <li class="card">
               <a role="button" id="headingSearchOperators" class="accordion-heading collapsed" data-toggle="collapse"
                 data-parent="#accordion" href="#collapseSearchOperators" aria-expanded="false"
                 aria-controls="collapseSearchOperators">
@@ -69,7 +69,7 @@
           <ul id="specificCommandsAccordion" class="accordion">
           {% for section, commands in searchCommands %}
               {% set sectionId = section|replace({'.': '_'})|lower %}
-              <li class="panel">
+              <li class="card">
                   <a role="button" id="heading{{ sectionId|capitalize }}" class="accordion-heading collapsed" data-toggle="collapse"
                     data-parent="#specificCommandsAccordion" href="#collapse{{ sectionId|capitalize }}" aria-expanded="false" aria-controls="collapse{{ sectionId|capitalize }}">
                       <i class="ri-arrow-down-s-line accordion-arrow"></i>

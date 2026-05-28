@@ -21,10 +21,10 @@
     {% set id = hasErrors ? 'campaignImportError' : 'campaignImportSuccess' %}
 
     <div class="row ma-lg" id="{{ id }}">
-        <div class="col-sm-offset-3 col-sm-6 text-center">
-            <div class="panel panel-{% if hasErrors %}danger{% elseif isComplete %}success{% else %}info{% endif %}">
-                <div class="panel-heading text-center">
-                    <h4 class="panel-title">
+        <div class="offset-sm-3 col-sm-6 text-center">
+            <div class="card card-{% if hasErrors %}danger{% elseif isComplete %}success{% else %}info{% endif %}">
+                <div class="card-header text-center">
+                    <h4 class="card-title">
                         {{ hasErrors
                             ? 'mautic.campaign.campaign.import.error'|trans
                             : (isComplete
@@ -33,7 +33,7 @@
                         }}
                     </h4>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
 
                     {% if hasErrors %}
                         {% include '@MauticCampaign/Import/_import_error_block.html.twig' %}

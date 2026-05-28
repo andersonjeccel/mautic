@@ -20,7 +20,7 @@
                         'sessionVar': 'social.tweet',
                         'orderBy': 'e.id',
                         'text': 'mautic.core.id',
-                        'class': 'visible-md visible-lg col-asset-id',
+                        'class': 'd-none d-md-table-cell col-asset-id',
                 }) }}
             </tr>
             </thead>
@@ -53,13 +53,13 @@
                             'description': item.description
                         }) }}
                     </td>
-                    <td class="visible-md visible-lg">{{ item.id }}</td>
+                    <td class="d-none d-md-table-cell">{{ item.id }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
-    <div class="panel-footer">
+    <div class="card-footer">
         {{ include('@MauticCore/Helper/pagination.html.twig', {
                 'totalItems': items|length,
                 'page': page,

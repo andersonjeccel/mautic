@@ -82,7 +82,7 @@
             <!-- campaign detail collapseable -->
             <div class="collapse pr-md pl-md" id="campaign-details">
                 <div class="pr-md pl-md pb-md">
-                    <div class="panel shd-none mb-0">
+                    <div class="card shd-none mb-0">
                         <table class="table table-hover mb-0">
                             <tbody>
                             <tr>
@@ -130,8 +130,7 @@
             <div class="hr-expand nm">
                 <span data-toggle="tooltip" title="Detail">
                     <a href="javascript:void(0)" class="arrow text-secondary collapsed" data-toggle="collapse"
-                       data-target="#campaign-details"><span
-                            class="caret"></span> {{ 'mautic.core.details'|trans }}</a>
+                       data-target="#campaign-details">{{ 'mautic.core.details'|trans }}</a>
                 </span>
             </div>
             <!--/ campaign detail collapseable toggler -->
@@ -248,24 +247,24 @@
         <div class="tab-content pa-md" id="campaign-tab-content"
              data-event-target-url="{{ path('mautic_campaign_event_stats', {'objectId' : campaign.id, 'dateFromValue' : dateFrom|date('Y-m-d'), 'dateToValue' : dateTo|date('Y-m-d')}) }}">
             <!-- #events-container -->
-                <div class="active tab-pane fade in bdr-w-0" id="preview-container">
+                <div class="active tab-pane fade show bdr-w-0" id="preview-container">
                     <div class="spinner"><i class="fa fa-spin fa-spinner"></i></div>
                     <div class="clearfix"></div>
                 </div>
-                <div class="tab-pane fade in bdr-w-0" id="decisions-container">
+                <div class="tab-pane fade show bdr-w-0" id="decisions-container">
                     <div class="spinner"><i class="fa fa-spin fa-spinner"></i></div>
                     <div class="clearfix"></div>
                 </div>
-                <div class="tab-pane fade in bdr-w-0" id="actions-container">
+                <div class="tab-pane fade show bdr-w-0" id="actions-container">
                     <div class="spinner"><i class="fa fa-spin fa-spinner"></i></div>
                     <div class="clearfix"></div>
                 </div>
-                <div class="tab-pane fade in bdr-w-0" id="conditions-container">
+                <div class="tab-pane fade show bdr-w-0" id="conditions-container">
                     <div class="spinner"><i class="fa fa-spin fa-spinner"></i></div>
                     <div class="clearfix"></div>
                 </div>
             <!--/ #events-container -->
-            <div class="tab-pane fade in bdr-w-0 page-list"
+            <div class="tab-pane fade show bdr-w-0 page-list"
                  id="leads-container"
                  data-target-url="{{ path('mautic_campaign_contacts', {'objectId': campaign.id, 'page': app.session.get('mautic.campaign.contact.page', 1)}) }}">
                 <div class="spinner"><i class="ri-loader-3-line ri-spin"></i></div>

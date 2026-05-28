@@ -49,7 +49,7 @@ class ConfigType extends AbstractType
             UrlType::class,
             [
                 'label'      => 'mautic.core.config.form.site.url',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'   => 'form-control',
                     'tooltip' => 'mautic.core.config.form.site.url.tooltip',
@@ -70,7 +70,7 @@ class ConfigType extends AbstractType
             PageListType::class,
             [
                 'label'      => 'mautic.core.config.form.webroot',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'help'       => 'mautic.core.config.form.webroot.help',
                 'attr'       => [
                     'class'            => 'form-control',
@@ -88,7 +88,7 @@ class ConfigType extends AbstractType
             PageListType::class,
             [
                 'label'         => 'mautic.core.config.form.404_page',
-                'label_attr'    => ['class' => 'control-label'],
+                'label_attr'    => ['class' => 'col-form-label'],
                 'help'          => 'mautic.core.config.form.404_page.help',
                 'attr'          => [
                     'class'            => 'form-control',
@@ -105,7 +105,7 @@ class ConfigType extends AbstractType
             TextType::class,
             [
                 'label'      => 'mautic.core.config.form.cache.path',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'   => 'form-control',
                     'tooltip' => 'mautic.core.config.form.cache.path.tooltip',
@@ -125,7 +125,7 @@ class ConfigType extends AbstractType
             TextType::class,
             [
                 'label'      => 'mautic.core.config.form.log.path',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'   => 'form-control',
                     'tooltip' => 'mautic.core.config.form.log.path.tooltip',
@@ -145,7 +145,7 @@ class ConfigType extends AbstractType
             TextType::class,
             [
                 'label'      => 'mautic.core.config.form.image.path',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'   => 'form-control',
                     'tooltip' => 'mautic.core.config.form.image.path.tooltip',
@@ -197,7 +197,7 @@ class ConfigType extends AbstractType
                 TextType::class,
                 [
                     'label'      => 'mautic.core.config.form.trusted.hosts',
-                    'label_attr' => ['class' => 'control-label'],
+                    'label_attr' => ['class' => 'col-form-label'],
                     'attr'       => [
                         'class'   => 'form-control',
                         'tooltip' => 'mautic.core.config.form.trusted.hosts.tooltip',
@@ -260,7 +260,7 @@ class ConfigType extends AbstractType
                 TextType::class,
                 [
                     'label'      => 'mautic.core.config.form.trusted.proxies',
-                    'label_attr' => ['class' => 'control-label'],
+                    'label_attr' => ['class' => 'col-form-label'],
                     'attr'       => [
                         'class'   => 'form-control',
                         'tooltip' => 'mautic.core.config.form.trusted.proxies.tooltip',
@@ -277,7 +277,7 @@ class ConfigType extends AbstractType
                 TextareaType::class,
                 [
                     'label'      => 'mautic.core.config.form.do_not_track_ips',
-                    'label_attr' => ['class' => 'control-label'],
+                    'label_attr' => ['class' => 'col-form-label'],
                     'attr'       => [
                         'class'   => 'form-control',
                         'tooltip' => 'mautic.core.config.form.do_not_track_ips.tooltip',
@@ -294,7 +294,7 @@ class ConfigType extends AbstractType
                 TextareaType::class,
                 [
                     'label'      => 'mautic.core.config.form.do_not_track_bots',
-                    'label_attr' => ['class' => 'control-label'],
+                    'label_attr' => ['class' => 'col-form-label'],
                     'attr'       => [
                         'class'   => 'form-control',
                         'tooltip' => 'mautic.core.config.form.do_not_track_bots.tooltip',
@@ -322,7 +322,7 @@ class ConfigType extends AbstractType
                 'expanded'          => false,
                 'multiple'          => false,
                 'label'             => 'mautic.core.config.form.default.pagelimit',
-                'label_attr'        => ['class' => 'control-label'],
+                'label_attr'        => ['class' => 'col-form-label'],
                 'attr'              => [
                     'class'   => 'form-control',
                     'tooltip' => 'mautic.core.config.form.default.pagelimit.tooltip',
@@ -337,7 +337,7 @@ class ConfigType extends AbstractType
             TimezoneType::class,
             [
                 'label'      => 'mautic.core.config.form.default.timezone',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'   => 'form-control',
                     'tooltip' => 'mautic.core.config.form.default.timezone.tooltip',
@@ -353,7 +353,7 @@ class ConfigType extends AbstractType
             NumberType::class,
             [
                 'label'      => 'mautic.core.config.form.cached.data.timeout',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'          => 'form-control',
                     'tooltip'        => 'mautic.core.config.form.cached.data.timeout.tooltip',
@@ -376,7 +376,7 @@ class ConfigType extends AbstractType
             TextType::class,
             [
                 'label'      => 'mautic.core.config.form.date.format.full',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'   => 'form-control',
                     'tooltip' => 'mautic.core.config.form.date.format.full.tooltip',
@@ -396,7 +396,7 @@ class ConfigType extends AbstractType
             TextType::class,
             [
                 'label'      => 'mautic.core.config.form.date.format.short',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'   => 'form-control',
                     'tooltip' => 'mautic.core.config.form.date.format.short.tooltip',
@@ -416,7 +416,7 @@ class ConfigType extends AbstractType
             TextType::class,
             [
                 'label'      => 'mautic.core.config.form.date.format.dateonly',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'   => 'form-control',
                     'tooltip' => 'mautic.core.config.form.date.format.dateonly.tooltip',
@@ -436,7 +436,7 @@ class ConfigType extends AbstractType
             TextType::class,
             [
                 'label'      => 'mautic.core.config.form.date.format.timeonly',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'   => 'form-control',
                     'tooltip' => 'mautic.core.config.form.date.format.timeonly.tooltip',
@@ -470,7 +470,7 @@ class ConfigType extends AbstractType
                 'expanded'          => false,
                 'multiple'          => false,
                 'label'             => 'mautic.core.config.form.default.daterange_default',
-                'label_attr'        => ['class' => 'control-label'],
+                'label_attr'        => ['class' => 'col-form-label'],
                 'attr'              => [
                     'class'   => 'form-control',
                     'tooltip' => 'mautic.core.config.form.default.daterange_default.tooltip',
@@ -487,7 +487,7 @@ class ConfigType extends AbstractType
                 'choices'           => $this->getIpServicesChoices(),
                 'label'             => 'mautic.core.config.form.ip.lookup.service',
                 'label_attr'        => [
-                    'class' => 'control-label',
+                    'class' => 'col-form-label',
                 ],
                 'help'              => 'mautic.core.config.form.ip.lookup.service.help',
                 'required'          => false,
@@ -504,7 +504,7 @@ class ConfigType extends AbstractType
             TextType::class,
             [
                 'label'      => 'mautic.core.config.form.ip.lookup.auth',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'   => 'form-control',
                     'tooltip' => 'mautic.core.config.form.ip.lookup.auth.tooltip',
@@ -518,7 +518,7 @@ class ConfigType extends AbstractType
             YesNoButtonGroupType::class,
             [
                 'label'      => 'mautic.core.config.create.organization.from.ip.lookup',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'   => 'form-control',
                     'tooltip' => 'mautic.core.config.create.organization.from.ip.lookup.tooltip',
@@ -629,7 +629,7 @@ class ConfigType extends AbstractType
             NumberType::class,
             [
                 'label'      => 'mautic.core.config.form.link.max_entity_lock_time',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'help'       => 'mautic.core.config.form.link.max_entity_lock_time.help',
                 'attr'       => [
                     'class'   => 'form-control',
@@ -673,7 +673,7 @@ class ConfigType extends AbstractType
                 TextareaType::class,
                 [
                     'label'      => 'mautic.core.config.cors.valid.domains',
-                    'label_attr' => ['class' => 'control-label'],
+                    'label_attr' => ['class' => 'col-form-label'],
                     'attr'       => [
                         'class'        => 'form-control',
                         'tooltip'      => 'mautic.core.config.cors.valid.domains.tooltip',
@@ -691,7 +691,7 @@ class ConfigType extends AbstractType
                     TextareaType::class,
                     [
                         'label'      => 'mautic.core.config.allowed.remote.domains',
-                        'label_attr' => ['class' => 'control-label'],
+                        'label_attr' => ['class' => 'col-form-label'],
                         'attr'       => [
                             'class'   => 'form-control',
                             'tooltip' => 'mautic.core.config.allowed.remote.domains.tooltip',

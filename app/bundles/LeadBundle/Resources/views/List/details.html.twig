@@ -108,7 +108,7 @@
             {% include '@MauticCore/Helper/description--expanded.html.twig' with {'description': list.description} %}
             <div class="collapse pr-md pl-md" id="segment-details">
                 <div class="pr-md pl-md pb-md">
-                    <div class="panel shd-none mb-0">
+                    <div class="card shd-none mb-0">
                         <table class="table table-hover mb-0">
                             <tbody>
                             {{ include('@MauticCore/Helper/details.html.twig', {'entity': list}) }}
@@ -135,7 +135,7 @@
             <div class="hr-expand nm">
                 <span data-toggle="tooltip" title="Detail">
                     <a href="javascript:void(0)" class="arrow text-secondary collapsed" data-toggle="collapse" data-target="#segment-details">
-                        <span class="caret"></span> {{ 'mautic.core.details'|trans }}
+                        {{ 'mautic.core.details'|trans }}
                     </a>
                 </span>
             </div>
@@ -162,8 +162,8 @@
                                 }
                             ]}) }}
                         {% endif %}
-                        <div class="panel">
-                            <div class="panel-body box-layout">
+                        <div class="card">
+                            <div class="card-body box-layout">
                                 <div class="col-md-3 va-m">
                                     <h5 class="text-white dark-md fw-sb mb-xs">
                                         <span class="ri-line-chart-fill"></span>
@@ -173,7 +173,7 @@
                                 <div class="col-md-9 va-m">
                                     {{ include('@MauticCore/Helper/graph_dateselect.html.twig', {
                                           'dateRangeForm': dateRangeForm,
-                                          'class': 'pull-right',
+                                          'class': 'float-right',
                                     }) }}
                                 </div>
                             </div>
@@ -193,9 +193,9 @@
 
             <!-- tabs controls -->
             <!-- search bar-->
-            <form method="post" action="{{ path('mautic_segment_contacts', {'objectId': list.id}) }}" class="panel" id="segment-contact-filters">
+            <form method="post" action="{{ path('mautic_segment_contacts', {'objectId': list.id}) }}" class="card" id="segment-contact-filters">
                 {% if events.types is defined and events.types is iterable %}
-                    <div class="history-search panel-footer text-secondary">
+                    <div class="history-search card-footer text-secondary">
                         <div class="col-sm-5">
                             <select name="includeEvents[]" multiple="multiple" class="form-control bdr-w-0" data-placeholder="{{ 'mautic.lead.lead.filter.bundles.include.placeholder'|trans }}">
                                 {% for typeKey, typeName in events.types %}

@@ -20,14 +20,14 @@
                         'sessionVar': 'point.trigger',
                         'orderBy': 'cat.title',
                         'text': 'mautic.core.category',
-                        'class': 'col-pointtrigger-category visible-md visible-lg',
+                        'class': 'col-pointtrigger-category d-none d-md-table-cell',
                 }) }}
 
                 {{ include('@MauticCore/Helper/tableheader.html.twig', {
                         'sessionVar': 'point.trigger',
                         'orderBy': 'pl.name',
                         'text': 'mautic.point.thead.group',
-                        'class': 'visible-md visible-lg col-point-group',
+                        'class': 'd-none d-md-table-cell col-point-group',
                 }) }}
 
                 {{ include('@MauticCore/Helper/tableheader.html.twig', {
@@ -41,7 +41,7 @@
                         'sessionVar': 'point.trigger',
                         'orderBy': 't.id',
                         'text': 'mautic.core.id',
-                        'class': 'col-pointtrigger-id visible-md visible-lg',
+                        'class': 'col-pointtrigger-id d-none d-md-table-cell',
                 }) }}
             </tr>
             </thead>
@@ -76,20 +76,20 @@
                             'description': item.description
                         }) }}
                     </td>
-                    <td class="visible-md visible-lg">
+                    <td class="d-none d-md-table-cell">
                         {{ include('@MauticCore/Modules/category--expanded.html.twig', {'category': item.category}) }}
                     </td>
-                    <td class="visible-md visible-lg">
+                    <td class="d-none d-md-table-cell">
                         {{ item.group.name|default('mautic.point.group.form.nogroup'|trans) }}
                     </td>
                     <td>{{ item.points }}</td>
-                    <td class="visible-md visible-lg">{{ item.id }}</td>
+                    <td class="d-none d-md-table-cell">{{ item.id }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
-    <div class="panel-footer">
+    <div class="card-footer">
         {{ include('@MauticCore/Helper/pagination.html.twig', {
                 'totalItems': items|length,
                 'page': page,
@@ -103,7 +103,7 @@
     {% if searchValue is not empty %}
         {{ include('@MauticCore/Helper/noresults.html.twig', {'tip': 'mautic.point.trigger.noresults.tip'}) }}
     {% else %}
-        <div class="mt-80 col-md-offset-2 col-lg-offset-3 col-md-8 col-lg-5 height-auto">
+        <div class="mt-80 offset-md-2 offset-lg-3 col-md-8 col-lg-5 height-auto">
             {% set childContainer %}
             <div class="mb-md">
                 {% include '@MauticCore/Components/pictogram.html.twig' with {

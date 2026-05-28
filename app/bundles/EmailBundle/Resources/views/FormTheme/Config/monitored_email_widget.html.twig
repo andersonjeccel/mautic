@@ -1,10 +1,10 @@
 {% block monitored_email_widget %}
   {% for child in form.children %}
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">{{ child.vars.label|trans }}</h3>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ child.vars.label|trans }}</h3>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
             {% set tooltip = translatorHasId(child.vars.label ~ '.tooltip') ? (child.vars.label ~ '.tooltip')|trans : '' %}
             {% if tooltip %}
                 <p>{{ tooltip|purify }}</p>

@@ -12,7 +12,7 @@ class TwitterHashtagType extends TwitterAbstractType
     {
         $builder->add('hashtag', TextType::class, [
             'label'      => 'mautic.social.monitoring.twitter.hashtag',
-            'label_attr' => ['class' => 'control-label'],
+            'label_attr' => ['class' => 'col-form-label'],
             'attr'       => [
                 'tooltip'  => 'mautic.social.monitoring.twitter.hashtag.tooltip',
                 'class'    => 'form-control',
@@ -28,7 +28,7 @@ class TwitterHashtagType extends TwitterAbstractType
             'label'             => 'mautic.social.monitoring.twitter.namematching',
             'required'          => false,
             'placeholder'       => false,
-            'label_attr'        => ['class' => 'control-label'],
+            'label_attr'        => ['class' => 'col-form-label'],
             'attr'              => [
                 'class'   => 'form-control',
                 'tooltip' => 'mautic.social.monitoring.twitter.namematching.tooltip',

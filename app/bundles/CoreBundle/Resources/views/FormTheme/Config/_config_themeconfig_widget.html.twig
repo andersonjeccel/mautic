@@ -2,10 +2,10 @@
 <h4 class="fw-sb mt-48 mb-xs">{{ 'mautic.config.tab.themeconfig'|trans }}</h4>
 <div class="text-muted small pb-md">{{ 'mautic.core.config.header.themeconfig.description'|trans }}</div>
 <div class="row">
-    <div class="panel panel-default mb-md">
-        <div class="panel-body">
+    <div class="card mb-md">
+        <div class="card-body">
             <h3 class="pt-20">{{ 'mautic.user.account.appearance.accent_colors'|trans }}</h3>
-            <div class="help-block mb-lg">
+            <div class="form-text mb-lg">
                 {{ 'mautic.user.account.appearance.accent_help'|trans }}
                 {% include '@MauticCore/Components/toggletip.html.twig' with {
                     title: 'mautic.user.account.appearance.accent_toggletip.title',
@@ -45,10 +45,10 @@
             </div>
             <hr>
             <div class="row">
-                <div class="col-xs-12">
+                <div class="col-12">
                     <div class="row form-group">
     <div class="col-md-4">
-        <label class="control-label" for="config_themeconfig_theme" data-toggle="tooltip" data-container="body" data-placement="top" title="" data-original-title="{{ 'mautic.core.config.theme.rounded_corners.tooltip'|trans }}">
+        <label class="col-form-label" for="config_themeconfig_theme" data-toggle="tooltip" data-container="body" data-placement="top" title="" data-original-title="{{ 'mautic.core.config.theme.rounded_corners.tooltip'|trans }}">
 {{ 'mautic.core.config.theme.rounded_corners'|trans }}<i class="ri-question-line ml-3"></i></label>
 
 
@@ -88,7 +88,7 @@
             </div>
             {% for f in form.children %}
                 <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-12">
                         {{ form_row(f) }}
                     </div>
                 </div>

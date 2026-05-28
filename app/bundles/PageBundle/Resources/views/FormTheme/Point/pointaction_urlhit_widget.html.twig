@@ -7,26 +7,26 @@
 } %}
 
 <div class="row">
-    <div class="col-xs-12">
+    <div class="col-12">
         {{ form_row(form['page_url']) }}
     </div>
 </div>
 
 <div class="row">
-    <div class="col-xs-12">
+    <div class="col-12">
         {{ form_row(form['page_hits']) }}
     </div>
 </div>
 
 <div class="row">
-    <div class="col-xs-12 form-group ">
+    <div class="col-12 form-group">
         {{ form_label(form['returns_within']) }}
         <div class="input-group">
             {{ form_widget(form['returns_within']) }}
             {%- set default = form.returns_within_unit.vars.data %}
-            <div class="input-group-btn">
+            <div class="input-group-append">
                 <button type="button" class="btn btn-ghost dropdown-toggle" data-toggle="dropdown">
-                    <span class="returns_within_label">{{ timeFrames[default] }}</span> <span class="caret"></span>
+                    <span class="returns_within_label">{{ timeFrames[default] }}</span>
                 </button>
                 <ul class="dropdown-menu time-dropdown">
                     {%- for abbr, label in timeFrames %}
@@ -39,14 +39,14 @@
         {{ form_widget(form['returns_within_unit']) }}
     </div>
 
-    <div class="col-xs-12 form-group ">
+    <div class="col-12 form-group">
         {{ form_label(form['returns_after']) }}
         <div class="input-group">
             {{ form_widget(form['returns_after']) }}
             {%- set default = form['returns_after_unit'].vars['data'] %}
-            <div class="input-group-btn">
+            <div class="input-group-append">
                 <button type="button" class="btn btn-ghost dropdown-toggle" data-toggle="dropdown">
-                    <span class="returns_after_label">{{ timeFrames[default] }}</span> <span class="caret"></span>
+                    <span class="returns_after_label">{{ timeFrames[default] }}</span>
                 </button>
                 <ul class="dropdown-menu time-dropdown">
                     {%- for abbr, label in timeFrames %}
@@ -60,14 +60,14 @@
     </div>
 
 
-    <div class="col-xs-12 form-group ">
+    <div class="col-12 form-group">
         {{ form_label(form['accumulative_time']) }}
         <div class="input-group">
             {{ form_widget(form['accumulative_time']) }}
             {%- set default = form['accumulative_time_unit'].vars['data'] %}
-            <div class="input-group-btn">
+            <div class="input-group-append">
                 <button type="button" class="btn btn-ghost dropdown-toggle" data-toggle="dropdown">
-                    <span class="accumulative_time_label">{{ timeFrames[default] }}</span> <span class="caret"></span>
+                    <span class="accumulative_time_label">{{ timeFrames[default] }}</span>
                 </button>
                 <ul class="dropdown-menu time-dropdown">
                     {%- for abbr, label in timeFrames %}

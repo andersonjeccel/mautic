@@ -99,7 +99,7 @@
 
 {% block content %}
 <div class="col-md-9">
-    <div class="marketplace-header {{ packageDetail.packageBase.type|default('')|purify }} bg-picture col-xs-12 jc-center pt-lg pb-lg">
+    <div class="marketplace-header {{ packageDetail.packageBase.type|default('')|purify }} bg-picture col-12 jc-center pt-lg pb-lg">
 
         <h1 class="fw-b fs-46">{{ packageDetail.packageBase.getHumanPackageName()|escape }}</h1>
         {% if packageDetail.packageBase.description %}
@@ -181,22 +181,22 @@
 
 <div class="col-md-3 pb-lg">
     <!-- Maintainers -->
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">{% trans %}marketplace.package.maintainers{% endtrans %}</h3>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{% trans %}marketplace.package.maintainers{% endtrans %}</h3>
         </div>
 
         {% for maintainer in packageDetail.maintainers %}
         <div class="box-layout">
-            <div class="col-xs-3 va-m">
-                <div class="panel-body">
-                    <span class="img-wrapper img-rounded">
+            <div class="col-3 va-m">
+                <div class="card-body">
+                    <span class="img-wrapper rounded">
                         <img class="img" src="{{ maintainer.avatar|escape }}">
                     </span>
                 </div>
             </div>
-            <div class="col-xs-9 va-t">
-                <div class="panel-body">
+            <div class="col-9 va-t">
+                <div class="card-body">
                     <h4 class="fw-sb mb-xs ellipsis">
                         {{ maintainer.name|title|escape }}
                     </h4>

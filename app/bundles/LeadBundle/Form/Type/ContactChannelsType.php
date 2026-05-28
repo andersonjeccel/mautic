@@ -35,7 +35,7 @@ class ContactChannelsType extends AbstractType
             [
                 'choices'           => $options['channels'],
                 'expanded'          => true,
-                'label_attr'        => ['class' => 'control-label'],
+                'label_attr'        => ['class' => 'col-form-label'],
                 'attr'              => ['onClick' => 'Mautic.togglePreferredChannel(this.value);'],
                 'multiple'          => true,
                 'label'             => false,
@@ -52,7 +52,7 @@ class ContactChannelsType extends AbstractType
                     'expanded'          => false,
                     'multiple'          => false,
                     'label'             => 'mautic.lead.list.frequency.preferred.channel',
-                    'label_attr'        => ['class' => 'control-label'],
+                    'label_attr'        => ['class' => 'col-form-label'],
                     'placeholder'       => false,
                     'required'          => false,
                     'attr'              => [

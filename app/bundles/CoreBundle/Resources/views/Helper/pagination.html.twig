@@ -40,15 +40,15 @@
     {% if viewport == 'mobile' %}
         {% set paginationClass = 'sm' %}
         {% set pageClass = 'pagination-sm' %}
-        {% set responsiveClass = 'visible-xs hidden-sm hidden-md hidden-lg' %}
-        {% set paginationWrapper = 'pagination-wrapper pull-left nm' %}
+        {% set responsiveClass = 'd-block d-sm-none' %}
+        {% set paginationWrapper = 'pagination-wrapper float-left nm' %}
     {% else %}
-        {% set responsiveClass = 'hidden-xs visible-sm visible-md visible-lg' %}
+        {% set responsiveClass = 'd-none d-sm-block' %}
     {% endif %}
 
     <div class="{{ responsiveClass }}">
         {% if fixedLimit is not defined or fixedLimit is empty %}
-            <div class="pull-right">
+            <div class="float-right">
                 <select
                     autocomplete="false"
                     class="form-control not-chosen pagination-limit{% if paginationClass is defined and paginationClass is not empty %} input-{{ paginationClass }}{% endif %}"

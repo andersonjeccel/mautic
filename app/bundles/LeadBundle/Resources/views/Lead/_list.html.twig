@@ -12,7 +12,7 @@
                         {{ include([('@MauticLead/Lead/_list_header_'~column~'.html.twig'), '@MauticLead/Lead/_list_header_default.html.twig'], {
                               'label': label,
                               'column': column,
-                              'class': (column in columns|keys) ? 'hidden-xs' : '',
+                              'class': (column in columns|keys) ? 'd-none d-sm-table-cell' : '',
                         }) }}
                     {% endfor %}
                 </tr>
@@ -29,7 +29,7 @@
             </tbody>
         </table>
     </div>
-    <div class="panel-footer">
+    <div class="card-footer">
         {{ include('@MauticCore/Helper/pagination.html.twig', {
             'totalItems': totalItems,
             'page': page,
@@ -44,7 +44,7 @@
     {% if searchValue is not empty %}
     {{ include('@MauticCore/Helper/noresults.html.twig') }}
     {% else %}
-    <div class="mt-80 col-md-offset-2 col-lg-offset-3 col-md-8 col-lg-5 height-auto">
+    <div class="mt-80 offset-md-2 offset-lg-3 col-md-8 col-lg-5 height-auto">
         {% set childContainer %}
             <div class="mb-md">
                 {% include '@MauticCore/Components/pictogram.html.twig' with {
@@ -62,7 +62,7 @@
             
             {% set formFeaturesContainer %}
             <div class="row">
-                <div class="col-sm-6 col-xs-12">
+                <div class="col-sm-6 col-12">
                     {{ include('@MauticCore/Components/content-item.html.twig', {
                         type: 'pictogram',
                         heading: 'mautic.lead.list.anonymous.heading',
@@ -70,7 +70,7 @@
                         copy: 'mautic.lead.list.anonymous.copy',
                     }) }}
                 </div>
-                <div class="col-sm-6 col-xs-12">
+                <div class="col-sm-6 col-12">
                     {{ include('@MauticCore/Components/content-item.html.twig', {
                         type: 'pictogram',
                         heading: 'mautic.lead.list.known.heading',

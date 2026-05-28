@@ -13,8 +13,8 @@
                         <img src="{{ getOverridableUrl('images/mautic_logo_lb200.png') }}" height="50px" alt="Mautic" />
                     </div>
 
-                    <div class="mt-20 col-lg-6 col-lg-offset-3">
-                        <div id="app-content" class="panel panel-default">
+                    <div class="mt-20 col-lg-6 offset-lg-3">
+                        <div id="app-content" class="card">
                             {{- include('@MauticCore/Notification/flashes.html.twig') -}}
                             {{ block('content') }}
                         </div>

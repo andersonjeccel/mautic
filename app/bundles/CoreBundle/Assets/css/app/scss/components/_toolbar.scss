@@ -5,7 +5,7 @@
 .toolbar--toolbar-content {
     .input-group .twitter-typeahead:last-child .tt-input, .input-group .twitter-typeahead:last-child .tt-hint,
     .form-control.search,
-    .input-group .input-group-btn button,
+    .input-group .input-group-append button,
     .btn,
     div {
       height: 48px;
@@ -14,7 +14,7 @@
     }
     .input-group .twitter-typeahead:last-child .tt-input, .input-group .twitter-typeahead:last-child .tt-hint,
     .form-control.search,
-    .input-group .input-group-btn button,
+    .input-group .input-group-append button,
     .btn-ghost {
         border: var(--border-no-width);
         &:hover { background-color: var(--field-hover); }

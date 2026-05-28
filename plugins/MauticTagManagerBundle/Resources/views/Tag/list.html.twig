@@ -13,7 +13,7 @@
 {% set listCommand = 'mautic.tagmanager.tag.searchcommand.list'|trans %}
 
 {% block content %}
-    <div id="page-list-wrapper" class="{% if items|length > 0 or searchValue is not empty %}panel {% endif %}panel-default">
+    <div id="page-list-wrapper" class="{% if items|length > 0 or searchValue is not empty %}card {% endif %}">
         {{- include('@MauticCore/Helper/list_toolbar.html.twig', {
             'searchValue': searchValue,
             'action': currentRoute,
@@ -57,7 +57,7 @@
                                 {
                                     'sessionVar' : 'tags',
                                     'text'       : 'mautic.lead.list.thead.leadcount',
-                                    'class'      : 'visible-md visible-lg col-tag-leadcount',
+                                    'class'      : 'd-none d-md-table-cell col-tag-leadcount',
                                 }
                             ) }}
 
@@ -67,7 +67,7 @@
                                     'sessionVar' : 'tags',
                                     'orderBy'    : 'lt.id',
                                     'text'       : 'mautic.core.id',
-                                    'class'      : 'visible-md visible-lg col-tag-id',
+                                    'class'      : 'd-none d-md-table-cell col-tag-id',
                                 }
                             ) }}
                         </tr>
@@ -118,19 +118,19 @@
                                         }) }}
                                     {% endif %}
                                 </td>
-                                <td class="visible-md visible-lg">
+                                <td class="d-none d-md-table-cell">
                                     <a size="sm" class="label label-gray" href="{{-  path('mautic_contact_index', {
                                         'search' : "#{'mautic.tagmanager.lead.searchcommand.list'|trans}:\"#{item.getTag()}\"",
                                     }) -}}" data-toggle="ajax" {{- 0 == tagsCount[item.getId()] ? 'disabled=disabled' : '' -}}>
                                     {{- 'mautic.lead.list.viewleads_count'|trans({'%count%': tagsCount[item.getId()]}) -}}
                                     </a>
                                 </td>
-                                <td class="visible-md visible-lg">{{ item.getId() }}</td>
+                                <td class="d-none d-md-table-cell">{{ item.getId() }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
-                    <div class="panel-footer">
+                    <div class="card-footer">
                         {{- include('@MauticCore/Helper/pagination.html.twig', {
                             'totalItems' : items|length,
                             'page'       : page,
@@ -144,7 +144,7 @@
                 {% if searchValue is not empty %}
                     {{- include('@MauticCore/Helper/noresults.html.twig') -}}
                 {% else %}
-                    <div class="mt-80 col-md-offset-2 col-lg-offset-3 col-md-8 col-lg-5 height-auto">
+                    <div class="mt-80 offset-md-2 offset-lg-3 col-md-8 col-lg-5 height-auto">
                         {% set childContainer %}
                             <div class="mt-32 mb-md">
                                 {% include '@MauticCore/Components/pictogram.html.twig' with {

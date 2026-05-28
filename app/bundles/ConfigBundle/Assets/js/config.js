@@ -71,7 +71,7 @@ Mautic.resetEmailsToNotification = function(obj) {
     const send_to_owner = obj.value;
     if (parseInt(send_to_owner, 10) === 1)
     {
-        mQuery(obj).closest('.panel-body').find('.notification_email_addresses').val('');
+        mQuery(obj).closest('.card-body').find('.notification_email_addresses').val('');
     }
 };
 
@@ -82,10 +82,10 @@ Mautic.configDsnTestExecute = function(element, action, key) {
     $container.find('.ri-loader-3-line').removeClass('hide');
 
     Mautic.ajaxActionRequest(action, {key: key}, function(response) {
-        const theClass = (response.success) ? 'has-success' : 'has-error',
+        const theClass = (response.success) ? 'is-valid' : 'is-invalid',
             theMessage = response.message;
-        $container.find('.config-dsn-test-container').removeClass('has-success has-error').addClass(theClass);
-        $container.find('.help-block .status-msg').html(theMessage);
+        $container.find('.config-dsn-test-container').removeClass('is-valid is-invalid').addClass(theClass);
+        $container.find('.form-text .status-msg').html(theMessage);
         $container.find('.ri-loader-3-line').addClass('hide');
     });
 };
@@ -93,8 +93,8 @@ Mautic.configDsnTestExecute = function(element, action, key) {
 Mautic.configDsnTestDisable = function(element) {
     const $container = mQuery(element).closest('.config-dsn-container');
 
-    $container.find('.help-block .status-msg').html('');
-    $container.find('.help-block .save-config-msg').removeClass('hide');
+    $container.find('.form-text .status-msg').html('');
+    $container.find('.form-text .save-config-msg').removeClass('hide');
     $container.find('.config-dsn-test-button').prop('disabled', true).addClass('disabled');
 };
 

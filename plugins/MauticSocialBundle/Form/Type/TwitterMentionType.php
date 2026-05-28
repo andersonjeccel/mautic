@@ -12,7 +12,7 @@ class TwitterMentionType extends TwitterAbstractType
     {
         $builder->add('handle', TextType::class, [
             'label'      => 'mautic.social.monitoring.twitter.handle',
-            'label_attr' => ['class' => 'control-label'],
+            'label_attr' => ['class' => 'col-form-label'],
             'attr'       => [
                 'class'    => 'form-control',
                 'tooltip'  => 'mautic.social.monitoring.twitter.handle.tooltip',
@@ -28,7 +28,7 @@ class TwitterMentionType extends TwitterAbstractType
             'label'             => 'mautic.social.monitoring.twitter.namematching',
             'required'          => false,
             'placeholder'       => false,
-            'label_attr'        => ['class' => 'control-label'],
+            'label_attr'        => ['class' => 'col-form-label'],
             'attr'              => [
                 'class'   => 'form-control',
                 'tooltip' => 'mautic.social.monitoring.twitter.namematching.tooltip',

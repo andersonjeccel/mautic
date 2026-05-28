@@ -7,7 +7,7 @@
 {% if vertical is not empty %}
 <div class="box-layout">
 {% endif %}
-<div class="tab-container {{ overflow }}{{ vertical is not empty ? ' height-auto col-xs-' ~ verticalTabColWidth ~ ' pr-0 bdr-r' : '' }}">
+<div class="tab-container {{ overflow }}{{ vertical is not empty ? ' height-auto col-' ~ verticalTabColWidth ~ ' pr-0 bdr-r' : '' }}">
     {% if button is not empty %}
     <div class="tab-button{{ (vertical is not empty) ? ' tab-button-' ~ vertical : '' }}">
         <a href="javascript:void(0);"
@@ -53,7 +53,7 @@
         {% endfor %}
     </ul>
 </div>
-<div class="tab-content{{ vertical is not empty ? ' col-xs-' ~ verticalContentColWidth ~' pl-0 pt-0 height-auto' : ' pa-md' }}">
+<div class="tab-content{{ vertical is not empty ? ' col-' ~ verticalContentColWidth ~' pl-0 pt-0 height-auto' : ' pa-md' }}">
     {% for tab in tabs %}
         {% set containerClass = (tab.containerClass is defined and tab['containerClass'] is not empty) ? ' ' ~ tab['containerClass'] : '' %}
         {% if tab['containerAttr'] is defined and tab['containerAttr'] is iterable %}
@@ -64,7 +64,7 @@
             {% set tab = tab|merge({'containerAttr': attr|join(' ')}) %}
         {% endif %}
         {% set containerAttr = (tab['containerAttr'] is not empty) ? ' ' ~ tab['containerAttr'] : '' %}
-        <div class="tab-pane fade {{ (tab['active'] is not empty) ? 'in active' : '' }} bdr-w-0{{ containerClass }}" id="{{ tab['id'] }}"{{ containerAttr|purify }}>
+        <div class="tab-pane fade {{ (tab['active'] is not empty) ? 'show active' : '' }} bdr-w-0{{ containerClass }}" id="{{ tab['id'] }}"{{ containerAttr|purify }}>
             {{ tab['content']|raw }}
         </div>
     {% endfor %}

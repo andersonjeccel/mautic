@@ -24,7 +24,7 @@
 
 {% block content %}
   {% if isIndex %}
-    <div id="page-list-wrapper" class="panel panel-default">
+    <div id="page-list-wrapper" class="card">
         {{ include('@MauticCore/Helper/list_toolbar.html.twig', {
             'searchValue': searchValue,
             'action': currentRoute,
@@ -66,19 +66,19 @@
                     'sessionVar': 'leadfield',
                     'orderBy': 'f.alias',
                     'text': 'mautic.core.alias',
-                    'class': 'visible-md visible-lg col-leadfield-alias'
+                    'class': 'd-none d-md-table-cell col-leadfield-alias'
                   }) }}
                   {{ include('@MauticCore/Helper/tableheader.html.twig', {
                     'sessionVar': 'leadfield',
                     'orderBy': 'f.object',
                     'text': 'mautic.lead.field.object',
-                    'class': 'visible-md visible-lg col-leadfield-group'
+                    'class': 'd-none d-md-table-cell col-leadfield-group'
                   }) }}
                   {{ include('@MauticCore/Helper/tableheader.html.twig', {
                     'sessionVar': 'leadfield',
                     'orderBy': 'f.group',
                     'text': 'mautic.lead.field.group',
-                    'class': 'visible-md visible-lg col-leadfield-group'
+                    'class': 'd-none d-md-table-cell col-leadfield-group'
                   }) }}
                   {{ include('@MauticCore/Helper/tableheader.html.twig', {
                     'sessionVar': 'leadfield',
@@ -90,9 +90,9 @@
                     'sessionVar': 'leadfield',
                     'orderBy': 'f.id',
                     'text': 'mautic.core.id',
-                    'class': 'visible-md visible-lg col-leadfield-id'
+                    'class': 'd-none d-md-table-cell col-leadfield-id'
                   }) }}
-                   <th class="visible-sm visible-md visible-lg col-leadfield-statusicons"></th>
+                   <th class="d-none d-sm-table-cell col-leadfield-statusicons"></th>
               </tr>
               </thead>
               <tbody>
@@ -124,7 +124,7 @@
                           {{ customContent('lead.field.name', _context) }}
                       </span>
                       </td>
-                      <td class="visible-md visible-lg">
+                      <td class="d-none d-md-table-cell">
                           {% set tokenText = item.object == 'user' ? '{ownerfield=' ~ item.alias ~ '}' : '{contactfield=' ~ item.alias ~ '}' %}
                           {% include '@MauticCore/Components/code-snippet.html.twig' with {
                               variant: 'inline',
@@ -133,11 +133,11 @@
                               copyButtonDescription: 'mautic.lead.field.copy_token'
                           } %}
                       </td>
-                      <td class="visible-md visible-lg">{{ ('mautic.'~item.object~'.'~item.object)|trans }}</td>
-                      <td class="visible-md visible-lg">{{ ('mautic.lead.field.group.'~item.group)|trans }}</td>
+                      <td class="d-none d-md-table-cell">{{ ('mautic.'~item.object~'.'~item.object)|trans }}</td>
+                      <td class="d-none d-md-table-cell">{{ ('mautic.lead.field.group.'~item.group)|trans }}</td>
                       <td>{{ translatorConditional('mautic.core.type.'~item.type, 'mautic.lead.field.type.'~item.type) }}</td>
-                      <td class="visible-md visible-lg">{{ item.id }}</td>
-                      <td class="visible-sm visible-md visible-lg">
+                      <td class="d-none d-md-table-cell">{{ item.id }}</td>
+                      <td class="d-none d-sm-table-cell">
                           {% if item.isRequired %}
                               <i class="ri-asterisk" data-toggle="tooltip" data-placement="left" title="{{ 'mautic.lead.field.tooltip.required'|trans }}"></i>
                           {% endif %}
@@ -148,16 +148,16 @@
                               <i class="ri-lock-fill" data-toggle="tooltip" data-placement="left" title="{{ 'mautic.lead.field.tooltip.fixed'|trans }}"></i>
                           {% endif %}
                           {% if item.isListable %}
-                              <i class="ri-list-check " data-toggle="tooltip" data-placement="left" title="{{ 'mautic.lead.field.tooltip.listable'|trans }}"></i>
+                              <i class="ri-list-check" data-toggle="tooltip" data-placement="left" title="{{ 'mautic.lead.field.tooltip.listable'|trans }}"></i>
                           {% endif %}
                           {% if item.isPubliclyUpdatable %}
-                              <i class="ri-earth-line text-danger " data-toggle="tooltip" data-placement="left" title="{{ 'mautic.lead.field.tooltip.public'|trans }}"></i>
+                              <i class="ri-earth-line text-danger" data-toggle="tooltip" data-placement="left" title="{{ 'mautic.lead.field.tooltip.public'|trans }}"></i>
                           {% endif %}
                           {% if item.isUniqueIdentifer %}
-                              <i class="ri-key-2-line " data-toggle="tooltip" data-placement="left" title="{{ 'mautic.lead.field.tooltip.isuniqueidentifer'|trans }}"></i>
+                              <i class="ri-key-2-line" data-toggle="tooltip" data-placement="left" title="{{ 'mautic.lead.field.tooltip.isuniqueidentifer'|trans }}"></i>
                           {% endif %}
                           {% if item.isIsIndex %}
-                              <i class="ri-menu-search-line " data-toggle="tooltip" data-placement="left" title="{{ 'mautic.lead.field.tooltip.isindex'|trans }}"></i>
+                              <i class="ri-menu-search-line" data-toggle="tooltip" data-placement="left" title="{{ 'mautic.lead.field.tooltip.isindex'|trans }}"></i>
                           {% endif %}
                       </td>
                   </tr>
@@ -165,7 +165,7 @@
               </tbody>
           </table>
       </div>
-      <div class="panel-footer">
+      <div class="card-footer">
           {{ include('@MauticCore/Helper/pagination.html.twig', {
                   'totalItems': totalItems,
                   'page': page,

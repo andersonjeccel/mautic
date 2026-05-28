@@ -1,8 +1,8 @@
-<div class="panel panel-default mt-sm">
-    <div class="panel-heading">
-        <div class="panel-title">{% trans %}marketplace.package.cli.install{% endtrans %}</div>
+<div class="card mt-sm">
+    <div class="card-header">
+        <div class="card-title">{% trans %}marketplace.package.cli.install{% endtrans %}</div>
     </div>
-    <div class="panel-body">{{ 'marketplace.package.cli.install.descr'|trans({
+    <div class="card-body">{{ 'marketplace.package.cli.install.descr'|trans({
         '%vendor%' : packageDetail.packageBase.getVendorName(),
         '%package%' : packageDetail.packageBase.getPackageName(),
     })|purify }}</div>

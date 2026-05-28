@@ -16,7 +16,7 @@ class StageActionChangeType extends AbstractType
     {
         $builder->add('stage', StageActionListType::class, [
             'label'      => 'mautic.stage.selectstage',
-            'label_attr' => ['class' => 'control-label'],
+            'label_attr' => ['class' => 'col-form-label'],
             'attr'       => [
                 'class'   => 'form-control',
                 'tooltip' => 'mautic.stage.choose.stage_descr',

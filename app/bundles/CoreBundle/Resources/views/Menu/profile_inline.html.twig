@@ -10,7 +10,7 @@
             {% set extras = child.getExtras() %}
 
             {% if (extras.divider is defined and extras.divider is not empty) %}
-                <li role="separator" class="divider"></li>
+                <li role="separator" class="dropdown-divider"></li>
             {% elseif (extras.header is defined and extras.header is not empty) %}
                 <li class="dropdown-header">{{ extras.header|trans|purify }}</li>
             {% else %}

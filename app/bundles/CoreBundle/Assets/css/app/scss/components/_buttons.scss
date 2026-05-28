@@ -74,7 +74,7 @@
 
     &.btn-lg { width: ($input-height-large + 1); }
     &.btn-sm { width: ($input-height-small - 1); }
-    &.btn-xs { width: ($input-height-small - 9); }
+    &.btn-sm { width: ($input-height-small - 9); }
   }
 
   // Outline buttons
@@ -244,7 +244,7 @@
 }
 
 // Standard sizes
-.btn-xs, .btn[size="xs"] { --btn-height: var(--spacing-06); }
+.btn-sm, .btn[size="xs"] { --btn-height: var(--spacing-06); }
 .btn-sm, .btn[size="sm"] { --btn-height: var(--spacing-07); }
 .btn-md, .btn[size="md"] { --btn-height: var(--spacing-08); }
 .btn-lg, .btn[size="lg"] { --btn-height: var(--spacing-09); }

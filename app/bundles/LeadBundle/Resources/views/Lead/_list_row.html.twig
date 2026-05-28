@@ -61,7 +61,7 @@
               'column': column,
               'columns': columns,
               'noContactList': noContactList,
-              'class': (column in columns|keys) ? 'hidden-xs' : '',
+              'class': (column in columns|keys) ? 'd-none d-sm-table-cell' : '',
         }) }}
     {% endfor %}
 </tr>

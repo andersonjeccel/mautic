@@ -1,0 +1,461 @@
+// Bootstrap 3 class aliases kept for plugins that still render old markup.
+
+$btn-default-color: $btn-secondary-color !default;
+$btn-default-bg: $btn-secondary-bg !default;
+$btn-default-border: $btn-secondary-border !default;
+$input-group-addon-bg: $input-group-text-bg !default;
+$input-group-addon-border-color: $input-group-text-border-color !default;
+$panel-heading-padding: $card-header-padding !default;
+$panel-body-padding: $card-body-padding !default;
+$panel-footer-padding: $card-footer-padding !default;
+$panel-footer-bg: $card-footer-bg !default;
+$progress-bar-success-bg: $success !default;
+$progress-bar-info-bg: $info !default;
+$progress-bar-warning-bg: $warning !default;
+$progress-bar-danger-bg: $danger !default;
+$table-condensed-cell-padding: $table-cell-padding-sm !default;
+
+@for $i from 1 through $grid-columns {
+  .col-xs-#{$i} {
+    position: relative;
+    flex: 0 0 percentage($i / $grid-columns);
+    max-width: percentage($i / $grid-columns);
+    width: 100%;
+    min-height: 1px;
+    padding-right: ($grid-gutter-width / 2);
+    padding-left: ($grid-gutter-width / 2);
+  }
+}
+
+@for $i from 0 through $grid-columns {
+  .col-xs-offset-#{$i} {
+    margin-left: percentage($i / $grid-columns);
+  }
+}
+
+.pull-left {
+  float: left !important;
+}
+
+.pull-right {
+  float: right !important;
+}
+
+.center-block {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.visible-xs,
+.visible-sm,
+.visible-md,
+.visible-lg,
+.visible-xs-block,
+.visible-xs-inline,
+.visible-xs-inline-block,
+.visible-sm-block,
+.visible-sm-inline,
+.visible-sm-inline-block,
+.visible-md-block,
+.visible-md-inline,
+.visible-md-inline-block,
+.visible-lg-block,
+.visible-lg-inline,
+.visible-lg-inline-block {
+  display: none !important;
+}
+
+@media (max-width: $screen-xs-max) {
+  .visible-xs { display: block !important; }
+  table.visible-xs { display: table !important; }
+  tr.visible-xs { display: table-row !important; }
+  th.visible-xs,
+  td.visible-xs { display: table-cell !important; }
+  .visible-xs-block { display: block !important; }
+  .visible-xs-inline { display: inline !important; }
+  .visible-xs-inline-block { display: inline-block !important; }
+  .hidden-xs { display: none !important; }
+}
+
+@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+  .visible-sm { display: block !important; }
+  table.visible-sm { display: table !important; }
+  tr.visible-sm { display: table-row !important; }
+  th.visible-sm,
+  td.visible-sm { display: table-cell !important; }
+  .visible-sm-block { display: block !important; }
+  .visible-sm-inline { display: inline !important; }
+  .visible-sm-inline-block { display: inline-block !important; }
+  .hidden-sm { display: none !important; }
+}
+
+@media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+  .visible-md { display: block !important; }
+  table.visible-md { display: table !important; }
+  tr.visible-md { display: table-row !important; }
+  th.visible-md,
+  td.visible-md { display: table-cell !important; }
+  .visible-md-block { display: block !important; }
+  .visible-md-inline { display: inline !important; }
+  .visible-md-inline-block { display: inline-block !important; }
+  .hidden-md { display: none !important; }
+}
+
+@media (min-width: $screen-lg-min) {
+  .visible-lg { display: block !important; }
+  table.visible-lg { display: table !important; }
+  tr.visible-lg { display: table-row !important; }
+  th.visible-lg,
+  td.visible-lg { display: table-cell !important; }
+  .visible-lg-block { display: block !important; }
+  .visible-lg-inline { display: inline !important; }
+  .visible-lg-inline-block { display: inline-block !important; }
+  .hidden-lg { display: none !important; }
+}
+
+.btn-default {
+  color: $btn-default-color;
+  background-color: $btn-default-bg;
+  border-color: $btn-default-border;
+
+  &:hover,
+  &:focus,
+  &.focus,
+  &:active,
+  &.active,
+  .open > &.dropdown-toggle {
+    color: $btn-default-color;
+    background-color: darken($btn-default-bg, 10%);
+    border-color: darken($btn-default-border, 12%);
+  }
+
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    &,
+    &:hover,
+    &:focus,
+    &.focus {
+      color: $btn-default-color;
+      background-color: $btn-default-bg;
+      border-color: $btn-default-border;
+    }
+  }
+}
+
+.btn-xs,
+.btn-group-xs > .btn {
+  padding: $padding-xs-vertical $padding-xs-horizontal;
+  font-size: $font-size-small;
+  line-height: $line-height-small;
+  border-radius: $btn-border-radius-small;
+}
+
+.btn-group-justified {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+
+  > .btn,
+  > .btn-group {
+    display: table-cell;
+    float: none;
+    width: 1%;
+  }
+
+  > .btn-group .btn {
+    width: 100%;
+  }
+}
+
+.panel {
+  margin-bottom: $line-height-computed;
+  background-color: $panel-bg;
+  border: 1px solid transparent;
+  border-radius: $panel-border-radius;
+}
+
+.panel-heading {
+  padding: $panel-heading-padding;
+  border-bottom: 1px solid transparent;
+  border-top-left-radius: ($panel-border-radius - 1);
+  border-top-right-radius: ($panel-border-radius - 1);
+}
+
+.panel-title {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: $font-size-h4;
+  color: inherit;
+}
+
+.panel-body {
+  padding: $panel-body-padding;
+}
+
+.panel-footer {
+  padding: $panel-footer-padding;
+  background-color: $panel-footer-bg;
+  border-top: 1px solid $panel-inner-border;
+  border-bottom-right-radius: ($panel-border-radius - 1);
+  border-bottom-left-radius: ($panel-border-radius - 1);
+}
+
+@mixin panel-variant-compat($border, $heading-text-color, $heading-bg-color) {
+  border-color: $border;
+
+  > .panel-heading {
+    color: $heading-text-color;
+    background-color: $heading-bg-color;
+    border-color: $border;
+  }
+
+  > .panel-footer {
+    border-color: $border;
+  }
+}
+
+.panel-default { @include panel-variant-compat($panel-default-border, $panel-default-text, $panel-default-heading-bg); }
+.panel-primary { @include panel-variant-compat($panel-primary-border, $panel-primary-text, $panel-primary-heading-bg); }
+.panel-success { @include panel-variant-compat($panel-success-border, $panel-success-text, $panel-success-heading-bg); }
+.panel-info { @include panel-variant-compat($panel-info-border, $panel-info-text, $panel-info-heading-bg); }
+.panel-warning { @include panel-variant-compat($panel-warning-border, $panel-warning-text, $panel-warning-heading-bg); }
+.panel-danger { @include panel-variant-compat($panel-danger-border, $panel-danger-text, $panel-danger-heading-bg); }
+
+.well {
+  min-height: 20px;
+  padding: 19px;
+  margin-bottom: 20px;
+  background-color: $well-bg;
+  border: 1px solid $well-border;
+  border-radius: $border-radius-base;
+}
+
+.well-sm {
+  padding: 9px;
+  border-radius: $border-radius-small;
+}
+
+.well-lg {
+  padding: 24px;
+  border-radius: $border-radius-large;
+}
+
+.thumbnail {
+  display: block;
+  padding: $thumbnail-padding;
+  margin-bottom: $line-height-computed;
+  line-height: $line-height-base;
+  background-color: $thumbnail-bg;
+  border: 1px solid $thumbnail-border;
+  border-radius: $thumbnail-border-radius;
+
+  > img,
+  a > img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .caption {
+    padding: $thumbnail-caption-padding;
+    color: $thumbnail-caption-color;
+  }
+}
+
+.label {
+  display: inline-block;
+  padding: .25em .4em;
+  font-size: 75%;
+  font-weight: $badge-font-weight;
+  line-height: 1;
+  color: $label-color;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: $badge-border-radius;
+}
+
+a.label:hover,
+a.label:focus {
+  color: $label-link-hover-color;
+  text-decoration: none;
+}
+
+.label-default { background-color: $label-default-bg; }
+.label-primary { background-color: $label-primary-bg; }
+.label-success { background-color: $label-success-bg; }
+.label-info { background-color: $label-info-bg; }
+.label-warning { background-color: $label-warning-bg; }
+.label-danger { background-color: $label-danger-bg; }
+
+.input-group-addon {
+  display: flex;
+  align-items: center;
+  padding: $padding-base-vertical $padding-base-horizontal;
+  margin-bottom: 0;
+  font-size: $font-size-base;
+  font-weight: normal;
+  line-height: $line-height-base;
+  color: $input-color;
+  text-align: center;
+  white-space: nowrap;
+  background-color: $input-group-addon-bg;
+  border: 1px solid $input-group-addon-border-color;
+  border-radius: $input-border-radius;
+}
+
+.input-group-btn {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+
+  > .btn {
+    position: relative;
+  }
+}
+
+.progress-bar-success { background-color: $progress-bar-success-bg; }
+.progress-bar-info { background-color: $progress-bar-info-bg; }
+.progress-bar-warning { background-color: $progress-bar-warning-bg; }
+.progress-bar-danger { background-color: $progress-bar-danger-bg; }
+
+.img-responsive {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.img-rounded {
+  border-radius: $border-radius-large;
+}
+
+.img-circle {
+  border-radius: 50%;
+}
+
+.table-condensed {
+  > thead,
+  > tbody,
+  > tfoot {
+    > tr {
+      > th,
+      > td {
+        padding: $table-condensed-cell-padding;
+      }
+    }
+  }
+}
+
+.divider,
+.dropdown-divider {
+  height: 1px;
+  margin: (($line-height-computed / 2) - 1) 0;
+  overflow: hidden;
+  background-color: $dropdown-divider-bg;
+}
+
+.pager {
+  padding-left: 0;
+  margin: $line-height-computed 0;
+  text-align: center;
+  list-style: none;
+
+  li {
+    display: inline;
+
+    > a,
+    > span {
+      display: inline-block;
+      padding: 5px 14px;
+      background-color: $pager-bg;
+      border: 1px solid $pager-border;
+      border-radius: $pager-border-radius;
+    }
+
+    > a:hover,
+    > a:focus {
+      text-decoration: none;
+      background-color: $pager-hover-bg;
+    }
+  }
+
+  .next > a,
+  .next > span {
+    float: right;
+  }
+
+  .previous > a,
+  .previous > span {
+    float: left;
+  }
+
+  .disabled > a,
+  .disabled > a:hover,
+  .disabled > a:focus,
+  .disabled > span {
+    color: $pager-disabled-color;
+    cursor: not-allowed;
+    background-color: $pager-bg;
+  }
+}
+
+.help-block {
+  display: block;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  color: $text-muted;
+}
+
+.control-label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+@mixin form-state-compat($text-color, $border-color) {
+  .help-block,
+  .control-label,
+  .radio,
+  .checkbox,
+  .radio-inline,
+  .checkbox-inline {
+    color: $text-color;
+  }
+
+  .form-control {
+    border-color: $border-color;
+
+    &:focus {
+      border-color: darken($border-color, 10%);
+      box-shadow: 0 0 0 .2rem rgba($border-color, .25);
+    }
+  }
+}
+
+.has-error { @include form-state-compat($state-danger-text, $state-danger-border); }
+.has-warning { @include form-state-compat($state-warning-text, $state-warning-border); }
+.has-success { @include form-state-compat($state-success-text, $state-success-border); }
+
+.collapse.in {
+  display: block;
+}
+
+tr.collapse.in {
+  display: table-row;
+}
+
+tbody.collapse.in {
+  display: table-row-group;
+}
+
+.fade.in {
+  opacity: 1;
+}
+
+.modal.in {
+  display: block;
+}

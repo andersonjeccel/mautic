@@ -23,7 +23,7 @@ Mautic.dwcGenerator = (function() {
 
     // Determine the active tab (plugin or HTML)
     const getActiveTabType = () => {
-        const activePane = document.querySelector('.tab-pane.active.in') || document.querySelector('.tab-pane.active');
+        const activePane = document.querySelector('.tab-pane.active.show') || document.querySelector('.tab-pane.active');
         if (!activePane) return 'plugin'; // Default to 'plugin' if none found
         return activePane.id === 'dwc--generator-plugins' ? 'plugin' : 'html';
     };
@@ -202,7 +202,7 @@ Mautic.dynamicFiltersOnLoad = function(container, response) {
 
         mQuery('#' + prefix + '_filters .remove-selected').each( function (index, el) {
             mQuery(el).on('click', function () {
-                mQuery(this).closest('.panel').animate(
+                mQuery(this).closest('.card').animate(
                     {'opacity': 0},
                     'fast',
                     function () {
@@ -221,7 +221,7 @@ Mautic.dynamicFiltersOnLoad = function(container, response) {
 
         var bodyOverflow = {};
         mQuery('#' + prefix + '_filters').sortable({
-            items: '.panel',
+            items: '.card',
             helper: function(e, ui) {
                 ui.children().each(function() {
                     if (mQuery(this).is(":visible")) {
@@ -312,9 +312,9 @@ Mautic.addDwcFilter = function (elId, elObj) {
         prototype.find('input[name="' + filterBase + '[filter]"]').replaceWith(template);
     }
 
-    if (mQuery('#' + prefix + '_filters div.panel').length == 0) {
+    if (mQuery('#' + prefix + '_filters div.card').length == 0) {
         // First filter so hide the glue footer
-        prototype.find(".panel-heading").addClass('hide');
+        prototype.find(".card-header").addClass('hide');
     }
 
     if (fieldObject == 'company') {
@@ -325,7 +325,7 @@ Mautic.addDwcFilter = function (elId, elObj) {
     prototype.find(".inline-spacer").append(fieldObject);
 
     prototype.find("a.remove-selected").on('click', function() {
-        mQuery(this).closest('.panel').animate(
+        mQuery(this).closest('.card').animate(
             {'opacity': 0},
             'fast',
             function () {
@@ -455,10 +455,10 @@ Mautic.convertDwcFilterInput = function(el) {
     var filterNum = matches[1];
     var filterId  = '#' + prefix + '_filters_' + filterNum + '_filter';
 
-    // Reset has-error
-    if (mQuery(filterId).parent().hasClass('has-error')) {
-        mQuery(filterId).parent().find('div.help-block').hide();
-        mQuery(filterId).parent().removeClass('has-error');
+    // Reset is-invalid
+    if (mQuery(filterId).parent().hasClass('is-invalid')) {
+        mQuery(filterId).parent().find('div.form-text').hide();
+        mQuery(filterId).parent().removeClass('is-invalid');
     }
 
     var disabled = (operator == 'empty' || operator == '!empty');

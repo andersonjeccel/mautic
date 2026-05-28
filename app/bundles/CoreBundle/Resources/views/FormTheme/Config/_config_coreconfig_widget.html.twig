@@ -8,16 +8,16 @@
     <h4 class="fw-sb mt-48 mb-xs">{{ 'mautic.core.config.header.general'|trans }}</h4>
     <div class="text-muted small pb-md">{{ 'mautic.core.config.header.general.description'|trans }}</div>
     <div class="row">
-        <div class="panel panel-default mb-md">
-            <div class="panel-body">
+        <div class="card mb-md">
+            <div class="card-body">
                 <div class="row">
 
                     {% if form.webroot is defined %}
-                    <div class="col-xs-12">{{ form_row(form.webroot) }}</div>
+                    <div class="col-12">{{ form_row(form.webroot) }}</div>
                     {% endif %}
 
                     {% if form['404_page'] is defined %}
-                    <div class="col-xs-12">{{ form_row(form['404_page']) }}</div>
+                    <div class="col-12">{{ form_row(form['404_page']) }}</div>
                     {% endif %}
 
                     {% set technicalPathsContent %}
@@ -67,16 +67,16 @@
     <h4 class="fw-sb mt-48 mb-xs">{{ 'mautic.core.config.header.defaults'|trans }}</h4>
     <div class="text-muted small pb-md">{{ 'mautic.core.config.header.defaults.description'|trans }}</div>
     <div class="row">
-        <div class="panel panel-default mb-md">
-            <div class="panel-body">
+        <div class="card mb-md">
+            <div class="card-body">
                 <div class="row">
 
                     {% if form.locale is defined %}
-                    <div class="col-xs-12">{{ form_row(form.locale) }}</div>
+                    <div class="col-12">{{ form_row(form.locale) }}</div>
                     {% endif %}
 
                     {% if form.default_timezone is defined %}
-                    <div class="col-xs-12">{{ form_row(form.default_timezone) }}</div>
+                    <div class="col-12">{{ form_row(form.default_timezone) }}</div>
                     {% endif %}
 
                     <div class="mt-lg">
@@ -139,22 +139,22 @@
     <h4 class="fw-sb mt-48 mb-xs">{{ 'mautic.core.config.header.cors'|trans }}</h4>
     <div class="text-muted small pb-md">{{ 'mautic.core.config.header.cors.description'|trans }}</div>
     <div class="row">
-        <div class="panel panel-default mb-md">
-            <div class="panel-body">
+        <div class="card mb-md">
+            <div class="card-body">
                 <div class="row">
 
                     {% if form.cors_restrict_domains is defined %}
-                        <div class="col-xs-12">{{ form_row(form.cors_restrict_domains) }}</div>
+                        <div class="col-12">{{ form_row(form.cors_restrict_domains) }}</div>
                     {% endif %}
 
                     {% if form.cors_valid_domains is defined %}
-                        <div class="col-xs-12">{{ form_row(form.cors_valid_domains) }}</div>
+                        <div class="col-12">{{ form_row(form.cors_valid_domains) }}</div>
                     {% endif %}
 
                     <hr>
 
                     {% if form.trusted_hosts is defined %}
-                        <div class="col-xs-12">{{ form_row(form.trusted_hosts) }}</div>
+                        <div class="col-12">{{ form_row(form.trusted_hosts) }}</div>
                     {% endif %}
 
                     {% set trustSettingsContent %}
@@ -206,16 +206,16 @@
     <h4 class="fw-sb mt-48 mb-xs">{{ 'mautic.core.config.header.misc'|trans }}</h4>
     <div class="text-muted small pb-md">{{ 'mautic.core.config.header.misc.description'|trans }}</div>
     <div class="row">
-        <div class="panel panel-default mb-md">
-            <div class="panel-body">
+        <div class="card mb-md">
+            <div class="card-body">
                 <div class="row">
 
                     {% if form.max_entity_lock_time is defined %}
-                        <div class="col-xs-12">{{ form_row(form.max_entity_lock_time) }}</div>
+                        <div class="col-12">{{ form_row(form.max_entity_lock_time) }}</div>
                     {% endif %}
 
                     {% if form.transliterate_page_title is defined %}
-                        <div class="col-xs-12">{{ form_row(form.transliterate_page_title) }}</div>
+                        <div class="col-12">{{ form_row(form.transliterate_page_title) }}</div>
                     {% endif %}
 
                     {% set ipLookupContent %}
@@ -254,7 +254,7 @@
                     {% set shortenerContent %}
                         {% if form.shortener_service is defined %}
 
-                                <div class="col-xs-12">
+                                <div class="col-12">
                                     {{ form_label(form.shortener_service) }}
                                     {% if form.shortener_service.vars.choices|length > 0 %}
                                         {{ form_widget(form.shortener_service) }}
@@ -318,17 +318,17 @@
     <h4 class="fw-sb mt-48 mb-xs">{{ 'mautic.core.config.header.update'|trans }}</h4>
     <div class="text-muted small pb-md">{{ 'mautic.core.config.header.update.description'|trans }}</div>
     <div class="row">
-        <div class="panel panel-default mb-md">
-            <div class="panel-body">
+        <div class="card mb-md">
+            <div class="card-body">
                 <div class="row">
 
                     {% if form.update_stability is defined %}
-                        <div class="col-xs-12">{{ form_row(form.update_stability) }}</div>
+                        <div class="col-12">{{ form_row(form.update_stability) }}</div>
                     {% endif %}
 
                     {% if form.composer_updates is defined %}
 
-                        <div class="col-xs-12">
+                        <div class="col-12">
                             {{ form_row(form.composer_updates) }}
                             <div class="alert alert-danger" role="alert">
                                 {{ 'mautic.core.config.form.update.composer.warning'|trans({

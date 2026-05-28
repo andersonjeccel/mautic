@@ -102,7 +102,7 @@ Mautic.campaignEventDeleteModal = {
 
             // Always ensure the "Redirect Event" button is re-enabled and properly styled
             // This handles the case when modal is closed during confirmation state
-            this.confirmButton.removeClass('btn-default').addClass('btn-danger').prop('disabled', false);
+            this.confirmButton.removeClass('btn-secondary').addClass('btn-danger').prop('disabled', false);
 
             // Re-enable all buttons in the modal for next time
             this.modal.find('button').prop('disabled', false);
@@ -167,7 +167,7 @@ Mautic.campaignEventDeleteModal = {
             // Show an error message - can't delete the last event
             this.redirectLabel.html(`<span class='text-danger'>${Mautic.translate('mautic.campaign.event.delete.unable_delete_last')}</span>`);
             this.redirectSelect.removeClass('required');
-            this.confirmButton.removeClass('btn-danger').addClass('btn-default').text(Mautic.translate('mautic.campaign.event.delete'));
+            this.confirmButton.removeClass('btn-danger').addClass('btn-secondary').text(Mautic.translate('mautic.campaign.event.delete'));
             this.confirmButton.prop('disabled', true);
 
             // Add error message
@@ -193,7 +193,7 @@ Mautic.campaignEventDeleteModal = {
         // Since we now enforce that redirect selection is always mandatory
         // and we're checking for total events first, if we get here we know there are multiple events
         this.redirectLabel.html(`${Mautic.translate('mautic.campaign.event.delete.redirect_contacts')} <span class='text-danger'>*</span>`);
-        this.confirmButton.removeClass('btn-default').addClass('btn-danger').text(Mautic.translate('mautic.campaign.event.delete.redirect_event'));
+        this.confirmButton.removeClass('btn-secondary').addClass('btn-danger').text(Mautic.translate('mautic.campaign.event.delete.redirect_event'));
         this.confirmButton.prop('disabled', false);
 
         // Show the select field

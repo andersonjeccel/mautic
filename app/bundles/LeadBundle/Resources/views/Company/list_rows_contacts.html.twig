@@ -100,7 +100,7 @@
                         'sessionVar': 'company.'~company_id~'.contacts',
                         'orderBy': 'l.email',
                         'text': 'mautic.core.type.email',
-                        'class': 'col-lead-email visible-md visible-lg',
+                        'class': 'col-lead-email d-none d-md-table-cell',
                         'target': '#contacts-table',
                         'baseUrl': baseUrl,
                     }) }}
@@ -108,7 +108,7 @@
                         'sessionVar': 'company.'~company_id~'.contacts',
                         'orderBy': 'l.city, l.state',
                         'text': 'mautic.lead.lead.thead.location',
-                        'class': 'col-lead-location visible-md visible-lg',
+                        'class': 'col-lead-location d-none d-md-table-cell',
                         'target': '#contacts-table',
                         'baseUrl': baseUrl,
                     }) }}
@@ -124,7 +124,7 @@
                         'sessionVar': 'company.'~company_id~'.contacts',
                         'orderBy': 'l.points',
                         'text': 'mautic.lead.points',
-                        'class': 'visible-md visible-lg col-lead-points',
+                        'class': 'd-none d-md-table-cell col-lead-points',
                         'target': '#contacts-table',
                         'baseUrl': baseUrl,
                     }) }}
@@ -132,7 +132,7 @@
                         'sessionVar': 'company.'~company_id~'.contacts',
                         'orderBy': 'l.last_active',
                         'text': 'mautic.lead.lastactive',
-                        'class': 'col-lead-lastactive visible-md visible-lg',
+                        'class': 'col-lead-lastactive d-none d-md-table-cell',
                         'default': true,
                         'target': '#contacts-table',
                         'baseUrl': baseUrl,
@@ -141,7 +141,7 @@
                         'sessionVar': 'company.'~company_id~'.contacts',
                         'orderBy': 'l.id',
                         'text': 'mautic.core.id',
-                        'class': 'col-lead-id visible-md visible-lg',
+                        'class': 'col-lead-id d-none d-md-table-cell',
                         'target': '#contacts-table',
                         'baseUrl': baseUrl,
                     }) }}
@@ -197,8 +197,8 @@
                             <div class="small">{{ contact.secondaryIdentifier|purify }}</div>
                         </a>
                     </td>
-                    <td class="visible-md visible-lg">{{ fields.core.email.value|purify }}</td>
-                    <td class="visible-md visible-lg">
+                    <td class="d-none d-md-table-cell">{{ fields.core.email.value|purify }}</td>
+                    <td class="d-none d-md-table-cell">
                         {% set flag = fields.core.country is defined and fields.core.country.value is not empty ? assetGetCountryFlag(fields.core.country.value) : '' %}
                         {% if flag is not empty %}
                           <img src="{{ flag }}" style="max-height: 24px;" class="mr-sm" />
@@ -220,15 +220,15 @@
                           <span size="sm" class="label label-gray" style="{% if contact.color %}background-color:{{ contact.color }};{% endif %}">{{ contact.stage.name|purify }}</span>
                         {% endif %}
                     </td>
-                    <td class="visible-md visible-lg text-center">
+                    <td class="d-none d-md-table-cell text-center">
                         <span size="sm" class="label label-gray" style="{% if contact.color %}background-color:{{ contact.color }};{% endif %}">{{ contact.points }}</span>
                     </td>
-                    <td class="visible-md visible-lg">
+                    <td class="d-none d-md-table-cell">
                         <abbr title="{{ dateToFull(contact.lastActive)|e }}">
                             {{ dateToFull(contact.lastActive) }}
                         </abbr>
                     </td>
-                    <td class="visible-md visible-lg">{{ contact.id }}</td>
+                    <td class="d-none d-md-table-cell">{{ contact.id }}</td>
                 </tr>
             {% endfor %}
             </tbody>

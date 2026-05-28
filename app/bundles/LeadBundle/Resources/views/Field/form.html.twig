@@ -50,7 +50,7 @@
             {% set properties = form.properties.vars.data %}
             {% set errors = form.properties.vars.errors|length %}
             <div class="row">
-                <div class="form-group col-md-6 {% if errors > 0 %}has-error{% endif %}">
+                <div class="form-group col-md-6 {% if errors > 0 %}is-invalid{% endif %}">
                     <div id="leadfield_properties">
                         {% if 'boolean' == type %}
                             {{ include('@MauticLead/Field/properties_boolean.html.twig', {

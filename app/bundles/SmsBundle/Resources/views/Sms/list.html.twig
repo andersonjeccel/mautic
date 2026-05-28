@@ -5,7 +5,7 @@
 {% block headerTitle %}{{ 'mautic.sms.smses'|trans }}{% endblock %}
 {% block content %}
     {% if isIndex %}
-    <div id="page-list-wrapper" class="{% if items|length > 0 or searchValue is not empty %}panel {% endif %}panel-default">
+    <div id="page-list-wrapper" class="{% if items|length > 0 or searchValue is not empty %}card {% endif %}">
         {{- include('@MauticCore/Helper/list_toolbar.html.twig', {
             'searchValue': searchValue,
             'searchId': 'sms-search',
@@ -91,11 +91,11 @@
                         'sessionVar' : 'sms',
                         'orderBy'    : 'c.title',
                         'text'       : 'mautic.core.category',
-                        'class'      : 'visible-md visible-lg col-sms-category',
+                        'class'      : 'd-none d-md-table-cell col-sms-category',
                     }
                 ) -}}
 
-                <th class="visible-sm visible-md visible-lg col-sms-stats">{{ 'mautic.core.stats'|trans }}</th>
+                <th class="d-none d-sm-table-cell col-sms-stats">{{ 'mautic.core.stats'|trans }}</th>
 
                 {{- include(
                     '@MauticCore/Helper/tableheader.html.twig',
@@ -103,7 +103,7 @@
                         'sessionVar' : 'sms',
                         'orderBy'    : 'e.id',
                         'text'       : 'mautic.core.id',
-                        'class'      : 'visible-md visible-lg col-sms-id',
+                        'class'      : 'd-none d-md-table-cell col-sms-id',
                     }
                 ) -}}
             </tr>
@@ -172,17 +172,17 @@
                             {{ include('@MauticProject/Modules/projects.html.twig') }}
                         </div>
                     </td>
-                    <td class="visible-md visible-lg">
+                    <td class="d-none d-md-table-cell">
                         {{ include('@MauticCore/Modules/category--expanded.html.twig', {'category': item.getCategory()}) }}
                     </td>
                         {{- include('@MauticSms/Sms/list_stats.html.twig', { 'item' : item }) -}}
-                    <td class="visible-md visible-lg">{{ item.getId() }}</td>
+                    <td class="d-none d-md-table-cell">{{ item.getId() }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
-    <div class="panel-footer">
+    <div class="card-footer">
         {{- include('@MauticCore/Helper/pagination.html.twig', {
             'totalItems' : totalItems,
             'page'       : page,
@@ -197,7 +197,7 @@
     {% if searchValue is not empty %}
         {{- include('@MauticCore/Helper/noresults.html.twig', {'tip' : 'mautic.category.noresults.tip'}) -}}
     {% else %}
-        <div class="mt-80 col-md-offset-2 col-lg-offset-3 col-md-8 col-lg-5 height-auto">
+        <div class="mt-80 offset-md-2 offset-lg-3 col-md-8 col-lg-5 height-auto">
             {% set childContainer %}
                 <div class="mt-32 mb-md">
                     {% include '@MauticCore/Components/pictogram.html.twig' with {

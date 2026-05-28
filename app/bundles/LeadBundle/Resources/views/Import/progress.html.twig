@@ -26,7 +26,7 @@ Variables
 {% set header = complete ? 'mautic.lead.import.success' : 'mautic.lead.import.donotleave' %}
 
 <div class="row ma-lg animation--slide-in-right" id="{{ id }}">
-    <div class="col-sm-offset-3 col-sm-6 text-center">
+    <div class="offset-sm-3 col-sm-6 text-center">
         <div class="row mb-lg">
             {% if not complete %}
             <div class="col-md-12 ai-start">
@@ -67,8 +67,8 @@ Variables
             {% endif %}
         </div>
         <div class="row">
-            <div class="panel">
-            <div class="panel-heading mt-sm">
+            <div class="card">
+            <div class="card-header mt-sm">
                 <div class="progress mt-lg" style="height:4px;">
                     <div class="progress-bar-import progress-bar {% if not complete %}active{% endif %} bg-{% if complete %}success{% endif %}"
                         role="progressbar" aria-valuenow="{{ progress.done }}" aria-valuemin="0"
@@ -78,7 +78,7 @@ Variables
                 </div>
 
             </div>
-            <div class="panel-body">
+            <div class="card-body">
                 {% if complete %}
                 <h4 class="mb-md text-left fw-sb">{{ 'mautic.lead.segments.contacts.imported_database'|trans }}</h4>
                 <div class="row-no-gutters jc-space-between ai-center mb-sm">
@@ -112,7 +112,7 @@ Variables
                     } %}
                 </div>
                 <div class="row-no-gutters">
-                    <div class="col-xs-12 mt-lg">
+                    <div class="col-12 mt-lg">
                         {% set tileContent %}
                             <div class="d-flex jc-space-between">
                                 <div class="row-no-gutters fw-nowrap gap-xs ai-center">

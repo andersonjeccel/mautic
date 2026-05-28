@@ -43,7 +43,7 @@ class LookupType extends AbstractType
             YesNoButtonGroupType::class,
             [
                 'label'      => 'mautic.plugin.clearbit.notify',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class' => 'form-control',
                 ],

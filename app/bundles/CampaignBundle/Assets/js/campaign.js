@@ -346,7 +346,7 @@ Mautic.campaignBuilderUpdateEventListTooltips = function(theSelect, onlyDestroy)
         }
 
         $tooltip.tooltip('hide');
-        $tooltip.tooltip('destroy');
+        $tooltip.tooltip('dispose');
     });
     $select.data(dataAttribute, []);
 
@@ -1167,7 +1167,7 @@ Mautic.initCampaignCanvasPan = function () {
                 return;
             }
 
-            if (mQuery('.modal.in').length > 0) {
+            if (mQuery('.modal.show').length > 0) {
                 return;
             }
 
@@ -1508,7 +1508,7 @@ Mautic.closeCampaignBuilder = function() {
         spinnerLeft = (mQuery(window).width() - panelWidth - 60) / 2,
         spinnerTop = (mQuery(window).height() - panelHeight - 60) / 2;
 
-    var overlay = mQuery('<div id="builder-overlay" class="modal-backdrop fade in"><div style="position: absolute; top:' + spinnerTop + 'px; left:' + spinnerLeft + 'px" class=".builder-spinner"><i class="ri-loader-3-line ri-spin ri-5x"></i></div></div>').css(builderCss).appendTo('.builder-content');
+    var overlay = mQuery('<div id="builder-overlay" class="modal-backdrop fade show"><div style="position: absolute; top:' + spinnerTop + 'px; left:' + spinnerLeft + 'px" class=".builder-spinner"><i class="ri-loader-3-line ri-spin ri-5x"></i></div></div>').css(builderCss).appendTo('.builder-content');
 
     mQuery('#builder-errors span').text('');
     mQuery('#builder-errors').hide('fast');

@@ -528,7 +528,7 @@
   }
 }
 
-.has-error select.form-control + .chosen-container.chosen-container-single .chosen-single,
-.has-error select.form-control + .chosen-container-multi .chosen-choices {
+.is-invalid select.form-control + .chosen-container.chosen-container-single .chosen-single,
+.is-invalid select.form-control + .chosen-container-multi .chosen-choices {
   border-color: $state-danger-text;
 }

@@ -10,17 +10,17 @@ Mautic.testMonitoredEmailServerConnection = function(mailbox) {
 
     var abortCall = false;
     if (!data.host) {
-        mQuery('#config_emailconfig_monitored_email_' + mailbox + '_host').parent().addClass('has-error');
+        mQuery('#config_emailconfig_monitored_email_' + mailbox + '_host').parent().addClass('is-invalid');
         abortCall = true;
     } else {
-        mQuery('#config_emailconfig_monitored_email_' + mailbox + '_host').parent().removeClass('has-error');
+        mQuery('#config_emailconfig_monitored_email_' + mailbox + '_host').parent().removeClass('is-invalid');
     }
 
     if (!data.port) {
-        mQuery('#config_emailconfig_monitored_email_' + mailbox + '_port').parent().addClass('has-error');
+        mQuery('#config_emailconfig_monitored_email_' + mailbox + '_port').parent().addClass('is-invalid');
         abortCall = true;
     } else {
-        mQuery('#config_emailconfig_monitored_email_' + mailbox + '_port').parent().removeClass('has-error');
+        mQuery('#config_emailconfig_monitored_email_' + mailbox + '_port').parent().removeClass('is-invalid');
     }
 
     if (abortCall) {
@@ -30,10 +30,10 @@ Mautic.testMonitoredEmailServerConnection = function(mailbox) {
     mQuery('#' + mailbox + 'TestButtonContainer .ri-loader-3-line').removeClass('hide');
 
     Mautic.ajaxActionRequest('email:testMonitoredEmailServerConnection', data, function(response) {
-        var theClass = (response.success) ? 'has-success' : 'has-error';
+        var theClass = (response.success) ? 'is-valid' : 'is-invalid';
         var theMessage = response.message;
-        mQuery('#' + mailbox + 'TestButtonContainer').removeClass('has-success has-error').addClass(theClass);
-        mQuery('#' + mailbox + 'TestButtonContainer .help-block').html(theMessage);
+        mQuery('#' + mailbox + 'TestButtonContainer').removeClass('is-valid is-invalid').addClass(theClass);
+        mQuery('#' + mailbox + 'TestButtonContainer .form-text').html(theMessage);
         mQuery('#' + mailbox + 'TestButtonContainer .ri-loader-3-line').addClass('hide');
 
         if (response.folders) {

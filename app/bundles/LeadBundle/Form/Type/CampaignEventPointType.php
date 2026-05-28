@@ -37,7 +37,7 @@ class CampaignEventPointType extends AbstractType
                     OperatorOptions::LESS_THAN_OR_EQUAL,
                 ]),
                 'required'   => true,
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
             ]
         );
 
@@ -47,7 +47,7 @@ class CampaignEventPointType extends AbstractType
             [
                 'label'      => 'mautic.lead.campaign.event.point_score',
                 'attr'       => ['class' => 'form-control'],
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'scale'      => 0,
                 'required'   => true,
             ]
@@ -55,7 +55,7 @@ class CampaignEventPointType extends AbstractType
 
         $builder->add('group', GroupListType::class, [
             'label'            => 'mautic.lead.campaign.event.point_group',
-            'label_attr'       => ['class' => 'control-label'],
+            'label_attr'       => ['class' => 'col-form-label'],
             'attr'             => [
                 'class'    => 'form-control',
                 'tooltip'  => 'mautic.lead.campaign.event.point_group.help',

@@ -17,7 +17,7 @@
                 'type': 'button',
                 'id': 'btn-filter',
                 'data-livesearch-parent': id,
-                'class': 'input-group-btn btn-search'
+                'class': 'input-group-append btn-search'
             }
         }
     ]
@@ -28,7 +28,7 @@
 {% if (filters is defined and filters is not empty) or (quickFilters is defined and quickFilters is not empty) %}
 {% set filtering %}
 <div class="row">
-    <div class="{% if filters is defined and filters is not empty %}col-xs-6 pa-0{% endif %}">
+    <div class="{% if filters is defined and filters is not empty %}col-6 pa-0{% endif %}">
         {% if quickFilters is defined and quickFilters is not empty %}
         {{ include('@MauticCore/Helper/list_quickfilters.html.twig', {
             'quickFilters': quickFilters
@@ -36,7 +36,7 @@
         {% endif %}
     </div>
     {% if filters is defined and filters is not empty %}
-    <div class="col-xs-6 pa-0">
+    <div class="col-6 pa-0">
         <div class="dropdown-header mt-0">{{ 'mautic.core.quick_filters.more'|trans }}</div>
         <div class="pi-md">
             {{- include('@MauticCore/Helper/list_filters.html.twig', {
