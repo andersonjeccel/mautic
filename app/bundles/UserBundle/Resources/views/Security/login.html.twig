@@ -15,6 +15,10 @@
 {% endblock %}
 
 {% block mainContent %}
+<h1 class="type-heading-05 mb-32">{{ 'mautic.user.auth.header'|trans }}</h1>
+<div class="row">
+	<hr class="">
+</div>
 	<form class="form-group login-form" name="login" data-toggle="ajax" role="form" action="{{ path('mautic_user_logincheck') }}" method="post">
 		<div class="input-group mb-md">
 
