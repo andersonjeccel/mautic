@@ -23,9 +23,12 @@
 // navbar as header
 #app-header.navbar {
   @include transition(all .3s ease);
+  display: block;
   float: left;
+  width: 100%;
   z-index: $header-zindex;
   min-height: $header-height;
+  padding: 0;
   border-width: 0;
   border-radius: 0;
   margin-bottom: 0;
@@ -50,6 +53,8 @@
   // reset bootstrap `navbar-nav` style inside `navbar-nocollapse`
   .navbar-nocollapse {
     @include clearfix();
+    width: 100%;
+    min-height: $header-height;
 
     // navbar-header
     // -------------------------
@@ -101,6 +106,12 @@
 
       > li {
         float: left;
+
+        &:not(.open):not(.show) {
+          > a.dropdown-toggle:after {
+            display: none;
+          }
+        }
 
         // `navbar-nav` anchor
         > a {
