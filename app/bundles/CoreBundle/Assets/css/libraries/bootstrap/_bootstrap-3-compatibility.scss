@@ -47,6 +47,11 @@ $table-condensed-cell-padding: $table-cell-padding-sm !default;
   margin-left: auto;
 }
 
+.hide,
+.hidden {
+  display: none !important;
+}
+
 .visible-xs,
 .visible-sm,
 .visible-md,
