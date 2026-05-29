@@ -23,7 +23,7 @@
             <div class="text-secondary pl-md pr-md ms-2 me-2 mb-xs d-flex gap-xs{% if loop.first %} mt-md{% endif %}">
                 {{ header }}
                 {% if result.count is defined and result.count is not empty %}
-                    <span class="badge label-gray fs-10 gs-count-badge" size="sm">{{ result.count }}</span>
+                    <span class="label label-gray fs-10 gs-count-label" size="sm">{{ result.count }}</span>
                 {% endif %}
             </div>
 

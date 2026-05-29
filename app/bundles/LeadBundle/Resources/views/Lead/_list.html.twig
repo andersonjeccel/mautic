@@ -59,7 +59,7 @@
                 heading: 'mautic.lead.list.heading',
                 copy: 'mautic.lead.list.copy',
             }) }}
-            
+
             {% set formFeaturesContainer %}
             <div class="row">
                 <div class="col-sm-6 col-12">
@@ -74,7 +74,7 @@
                     {{ include('@MauticCore/Components/content-item.html.twig', {
                         type: 'pictogram',
                         heading: 'mautic.lead.list.known.heading',
-                        pictogram: 'id--badge',
+                        pictogram: 'id--label',
                         copy: 'mautic.lead.list.known.copy',
                     }) }}
                 </div>
@@ -88,7 +88,7 @@
                 childContainer: formFeaturesContainer,
             }) }}
             {% endset %}
-            
+
             {{ include('@MauticCore/Components/content-block.html.twig', {
                 heading: 'mautic.lead.list.block.heading',
                 subheading: 'mautic.lead.list.block.subheading',

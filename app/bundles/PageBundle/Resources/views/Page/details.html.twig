@@ -78,9 +78,9 @@
     {% endif %}
 
     {% if activePage.isVariant(true) %}
-        {% set grayTags = grayTags|merge([{ 
-            color: 'warm-gray', 
-            label: 'mautic.core.variant_of'|trans({'%parent%' : variants.parent.getName()}), 
+        {% set grayTags = grayTags|merge([{
+            color: 'warm-gray',
+            label: 'mautic.core.variant_of'|trans({'%parent%' : variants.parent.getName()}),
             icon: 'ri-organization-chart',
             attributes: {
                 'href': path('mautic_page_action', {'objectAction': 'view', 'objectId': variants.parent.id}),
@@ -90,9 +90,9 @@
     {% endif %}
 
     {% if activePage.isTranslation(true) %}
-        {% set grayTags = grayTags|merge([{ 
-            color: 'warm-gray', 
-            label: 'mautic.core.translation_of'|trans({'%parent%' : translations.parent.getName()}), 
+        {% set grayTags = grayTags|merge([{
+            color: 'warm-gray',
+            label: 'mautic.core.translation_of'|trans({'%parent%' : translations.parent.getName()}),
             icon: 'ri-translate',
             attributes: {
                 'href': path('mautic_page_action', {'objectAction': 'view', 'objectId': translations.parent.id}),
@@ -233,7 +233,7 @@
           </div>
           <!--/ end: tab-content -->
           {% endif %}
-          
+
           {% set additionalCards = [{
               heading: 'mautic.page.results.view',
               copy: (not showVariants and not showTranslations) ? 'mautic.page.results.view.description' : null,
@@ -244,7 +244,7 @@
                   'data-menu-link': 'mautic_form_index'
               }
           }] %}
-          
+
           {{ include('@MauticCore/Modules/suggested-actions.html.twig', {
               'entity': activePage,
               'routeBase': 'page',

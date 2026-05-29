@@ -283,7 +283,7 @@
             <ul class="nav nav-tabs nav-tabs-contained mt-10">
                 <li class="nav-item">
                     <a class="nav-link active" href="#timeline-container" role="tab" data-bs-toggle="tab">
-                        <span size="sm" class="badge bg-primary mr-sm" id="TimelineCount">
+                        <span size="sm" class="label bg-primary mr-sm" id="TimelineCount">
                             {{ events.total }}
                         </span>
                         {{ 'mautic.lead.lead.tab.history'|trans }}
@@ -291,7 +291,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#notes-container" role="tab" data-bs-toggle="tab">
-                        <span size="sm" class="badge bg-primary mr-sm" id="NoteCount">
+                        <span size="sm" class="label bg-primary mr-sm" id="NoteCount">
                             {{ noteCount }}
                         </span>
                         {{ 'mautic.lead.lead.tab.notes'|trans }}
@@ -300,7 +300,7 @@
                 {% if not isAnonymous %}
                     <li class="nav-item">
                         <a class="nav-link" href="#social-container" role="tab" data-bs-toggle="tab">
-                        <span size="sm" class="badge bg-primary mr-sm" id="SocialCount">
+                        <span size="sm" class="label bg-primary mr-sm" id="SocialCount">
                             {{ socialProfiles|length }}
                         </span>
                             {{ 'mautic.lead.lead.tab.social'|trans }}
@@ -309,7 +309,7 @@
                 {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="#integration-container" role="tab" data-bs-toggle="tab">
-                    <span size="sm" class="badge bg-primary mr-sm" id="IntegrationCount">
+                    <span size="sm" class="label bg-primary mr-sm" id="IntegrationCount">
                         {{ integrations|length }}
                     </span>
                         {{ 'mautic.lead.lead.tab.integration'|trans }}
@@ -317,7 +317,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#auditlog-container" role="tab" data-bs-toggle="tab">
-                    <span size="sm" class="badge bg-primary mr-sm" id="AuditLogCount">
+                    <span size="sm" class="label bg-primary mr-sm" id="AuditLogCount">
                         {{ auditlog.total }}
                     </span>
                         {{ 'mautic.lead.lead.tab.auditlog'|trans }}
@@ -325,7 +325,7 @@
                 </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#place-container" role="tab" data-bs-toggle="tab" id="load-lead-map">
-                        <span size="sm" class="badge bg-primary mr-sm" id="PlaceCount">
+                        <span size="sm" class="label bg-primary mr-sm" id="PlaceCount">
                             {{ places|length }}
                         </span>
                             {{ 'mautic.lead.lead.tab.places'|trans }}
@@ -561,7 +561,7 @@
                     {% endif %}
                     </div>
                 {% endset %}
-                
+
                 {% include '@MauticCore/Components/tile.html.twig' with {
                     'type': 'base',
                     'content': tagContent
@@ -570,7 +570,7 @@
                 {# Use tile--expandable-interactive for more than 8 tags #}
                 {% set firstEightTags = lead.tags|slice(0, 8) %}
                 {% set remainingTags = lead.tags|slice(8) %}
-                
+
                 {% set aboveContent %}
                 <div class="d-flex jc-space-between">
                     <span class="fw-b ellipsis mb-md">{{ 'mautic.lead.tags'|trans }}</span>
@@ -593,7 +593,7 @@
                     {% endfor %}
                     </div>
                 {% endset %}
-                
+
                 {% set belowContent %}
                 <div class="d-flex fw-wrap gap-xs mt-xs">
                     {% for tag in remainingTags %}
@@ -612,7 +612,7 @@
                     {% endfor %}
                     </div>
                 {% endset %}
-                
+
                 {% include '@MauticCore/Components/tile.html.twig' with {
                     'type': 'expandable-interactive',
                     'aboveFoldContent': aboveContent,
@@ -660,7 +660,7 @@
                 <p class="text-helper">{{ 'mautic.lead.lead.companies.no_results'|trans }}</p>
                 <div class="clearfix"></div>
                 {% endset %}
-                
+
                 {% include '@MauticCore/Components/tile.html.twig' with {'type': 'base', 'content': content} %}
             {% endif %}
         </div>
@@ -668,7 +668,7 @@
             {% if lists[lead.id] is defined and lists[lead.id]|length > 0 %}
                 {% set segments = lists[lead.id] %}
                 {% set classes = ['gray', 'red', 'magenta', 'purple', 'blue', 'cyan', 'teal', 'green'] %}
-                
+
                 {% if segments|length <= 8 %}
                     {% set content %}
                         <div class="d-flex jc-space-between">
@@ -689,7 +689,7 @@
                             {% endfor %}
                         </div>
                     {% endset %}
-                    
+
                     {% include '@MauticCore/Components/tile.html.twig' with {'type': 'base', 'content': content} %}
                 {% else %}
                     {% set aboveContent %}
@@ -711,7 +711,7 @@
                         {% endfor %}
                         </div>
                     {% endset %}
-                    
+
                     {% set belowContent %}
                         <div class="d-flex fw-wrap gap-xs mt-xs">
                         {% for key, list in segments|slice(8) %}
@@ -727,7 +727,7 @@
                         {% endfor %}
                         </div>
                     {% endset %}
-                    
+
                     {% include '@MauticCore/Components/tile.html.twig' with {
                         'type': 'expandable-interactive',
                         'aboveFoldContent': aboveContent,
@@ -743,7 +743,7 @@
                 <p class="text-helper">{{ 'mautic.lead.lead.lists.no_results'|trans }}</p>
                 <div class="clearfix"></div>
                 {% endset %}
-                
+
                 {% include '@MauticCore/Components/tile.html.twig' with {'type': 'base', 'content': content} %}
             {% endif %}
         </div>

@@ -47,13 +47,7 @@ mQuery.ajaxSetup({
 
 var MauticBootstrap = {
     getComponent: function(component) {
-        if (window.bootstrap && window.bootstrap[component]) {
-            return window.bootstrap[component];
-        }
-
-        var pluginName = component.charAt(0).toLowerCase() + component.slice(1);
-
-        return mQuery.fn[pluginName] && mQuery.fn[pluginName].Constructor ? mQuery.fn[pluginName].Constructor : null;
+        return window.bootstrap && window.bootstrap[component] ? window.bootstrap[component] : null;
     },
 
     eachComponent: function(elements, component, callback) {
@@ -124,58 +118,6 @@ var MauticBootstrap = {
                 popover.hide();
             }
         });
-    },
-
-    registerJQueryPluginFallbacks: function() {
-        var plugins = {
-            modal: {component: 'Modal', defaultMethod: 'show'},
-            tab: {component: 'Tab', defaultMethod: 'show'},
-            collapse: {component: 'Collapse'},
-            dropdown: {component: 'Dropdown'},
-            alert: {component: 'Alert'},
-            tooltip: {component: 'Tooltip'},
-            popover: {component: 'Popover'}
-        };
-
-        Object.keys(plugins).forEach(function(pluginName) {
-            if (typeof mQuery.fn[pluginName] === 'function') {
-                return;
-            }
-
-            var plugin = plugins[pluginName];
-
-            mQuery.fn[pluginName] = function(config) {
-                var bootstrapComponent = MauticBootstrap.getComponent(plugin.component);
-
-                if (!bootstrapComponent) {
-                    return this;
-                }
-
-                return this.each(function() {
-                    var options = typeof config === 'object' && config !== null ? config : {};
-                    var instance = bootstrapComponent.getOrCreateInstance(this, options);
-                    var method = 'destroy' === config ? 'dispose' : config;
-
-                    mQuery(this).data('bs.' + pluginName, instance);
-
-                    if (typeof method === 'string') {
-                        if (typeof instance[method] === 'function') {
-                            instance[method]();
-
-                            if ('dispose' === method) {
-                                mQuery(this).removeData('bs.' + pluginName);
-                            }
-                        }
-
-                        return;
-                    }
-
-                    if (plugin.defaultMethod && options.show !== false && typeof instance[plugin.defaultMethod] === 'function') {
-                        instance[plugin.defaultMethod]();
-                    }
-                });
-            };
-        });
     }
 };
 
@@ -222,8 +164,6 @@ mQuery( document ).ajaxStop(function(event) {
 });
 
 mQuery( document ).ready(function() {
-    MauticBootstrap.registerJQueryPluginFallbacks();
-
     if (typeof mauticContent !== 'undefined') {
         mQuery("html").Core({
             console: false

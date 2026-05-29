@@ -9,8 +9,8 @@
     <div class="campaign-event-icon pa-sm me-5"><i class="{{ getCampaignEventIcon(event['type']) }}"></i></div>
 
         <span class="fs-18 fw-l">{{ ('mautic.campaign.'~event['type'])|trans }}</span>
-        <span class="campaign-event-name badge bg-primary ellipsis">{% if ('dev' == constant('MAUTIC_ENV')) %}<small>{{ event['id'] }}</small> {% endif %}{{ event['name'] }}</span>
-        <a class="badge bg-primary has-click-event highlight-jump-target ml-sm" href="javascript:void(0)" onClick="Mautic.highlightJumpTarget(event, this)" data-jump-target="{{ event['properties']['jumpToEvent'] }}">
+        <span class="campaign-event-name label bg-primary ellipsis">{% if ('dev' == constant('MAUTIC_ENV')) %}<small>{{ event['id'] }}</small> {% endif %}{{ event['name'] }}</span>
+        <a class="label bg-primary has-click-event highlight-jump-target ml-sm" href="javascript:void(0)" onClick="Mautic.highlightJumpTarget(event, this)" data-jump-target="{{ event['properties']['jumpToEvent'] }}">
             {{ 'mautic.campaign.locate'|trans }}
             <i class="ri-map-pin-2-line"></i>
         </a>

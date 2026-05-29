@@ -15,7 +15,7 @@
                     <thead>
                         <tr>
                             {% for key, value in graph.data[0]|filter((v, k) => 'id' != k) %}
-                              <th class="col-report-count">{{ key|capitalize }}</th>
+                              <th class="column-report-count">{{ key|capitalize }}</th>
                             {% endfor %}
                         </tr>
                     </thead>

@@ -180,7 +180,7 @@
                     </td>
                     <td class="d-none d-sm-table-cell col-stats" data-stats="{{ item.getId() }}">
                         {{ customContent('email.stats.above', mauticTemplateVars) }}
-                        <span class="mt-xs badge label-warm-gray{{ (item.getPendingCount() > 0 and 'list' == item.getEmailType()) ? '' : ' hide' }}"
+                        <span class="mt-xs label label-warm-gray{{ (item.getPendingCount() > 0 and 'list' == item.getEmailType()) ? '' : ' hide' }}"
                               id="pending-{{ item.getId() }}"
                               data-bs-toggle="tooltip"
                               title="{{ 'mautic.email.stat.leadcount.tooltip'|trans }}">
@@ -188,7 +188,7 @@
                               {{ 'mautic.email.stat.leadcount'|trans ({'%count%' : item.getPendingCount()}) }}
                           </a>
                         </span>
-                        <span class="mt-xs badge label-magenta{{ item.getQueuedCount() > 0 ? '' : ' hide' }}"
+                        <span class="mt-xs label label-magenta{{ item.getQueuedCount() > 0 ? '' : ' hide' }}"
                               id="queued-{{ item.getId() }}"
                               data-bs-toggle="tooltip"
                               title="{{ 'mautic.email.stat.queued.tooltip'|trans }}">
@@ -196,12 +196,12 @@
                               {{ 'mautic.email.stat.queuedcount'|trans ({'%count%' : item.getQueuedCount()}) }}
                           </a>
                         </span>
-                        <span class="mt-xs badge label-blue" id="sent-count-{{ item.getId() }}">
+                        <span class="mt-xs label label-blue" id="sent-count-{{ item.getId() }}">
                             <i class="ri-mail-unread-line"></i><a href="{{ path('mautic_contact_index', {'search' : 'mautic.lead.lead.searchcommand.email_sent'|trans ~ ':' ~ item.getId()}) }}"
                              data-bs-toggle="tooltip"
                              title="{{ 'mautic.email.stat.tooltip'|trans }}">{{ 'mautic.email.stat.sentcount'|trans ({'%count%' : item.getSentCount(true)}) }}</a>
                         </span>
-                        <span class="mt-xs badge label-teal" id="read-count-{{ item.getId() }}">
+                        <span class="mt-xs label label-teal" id="read-count-{{ item.getId() }}">
                             <i class="ri-mail-open-line"></i><a href="{{ path('mautic_contact_index', {'search' : 'mautic.lead.lead.searchcommand.email_read'|trans ~ ':' ~ item.getId()}) }}"
                              data-bs-toggle="tooltip"
                              title="{{ 'mautic.email.stat.tooltip'|trans }}">{{ 'mautic.email.stat.readcount'|trans ({'%count%' : item.getReadCount(true)}) }}</a>
@@ -246,7 +246,7 @@
                         'pictogram': 'mail--verse',
                         'size': '80'
                     } %}
-                </div>                
+                </div>
             {% endset %}
 
             {{ include('@MauticCore/Components/content-block.html.twig', {

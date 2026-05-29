@@ -21,7 +21,7 @@ Variables
             {% endif %}
 
             <a data-toggle="ajaxmodal" data-target="#formComponentModal" href="{{ path('mautic_formaction_action', {'objectAction': 'edit', 'objectId': id, 'formId': formId}) }}">
-                <span class="action-badge">{{ action.name }}</span>
+                <span class="action-label">{{ action.name }}</span>
             </a>
 
             {% if action.description is not empty %}
@@ -36,4 +36,3 @@ Variables
         </div>
     {% endif %}
 </div>
-

@@ -19,7 +19,7 @@
             <div class="col-8 va-t">
                 <div class="card-body">
                     {% if contact.id in noContactList|keys %}
-                        <div class="float-end badge bg-danger"><i class="ri-prohibited-line"></i></div>
+                        <div class="float-end label bg-danger"><i class="ri-prohibited-line"></i></div>
                     {% endif %}
                     <h4 class="fw-sb mb-xs ellipsis">
                         <a href="{{ path('mautic_contact_action', {'objectAction': 'view', 'objectId': contact.id}) }}" data-toggle="ajax">

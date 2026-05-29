@@ -40,18 +40,18 @@
         {% set lastDate = null %}
         {% for event in events.events %}
             {% set eventDate = dateToDate(event.timestamp, 'local', 'Y-m-d H:i:s') %}
-            
+
             {% if lastDate != eventDate %}
                 {% set dateLabel = dateToTextShort(event.timestamp, 'local', 'Y-m-d H:i:s') %}
-                
+
                 <tr class="timeline-date-header">
                     <td colspan="5" class=text-center>
-                        <span size="md" class="badge label-warm-gray" style="font-weight: normal; font-size:13px;"><i class="ri-time-line"></i>{{ dateLabel }}</span>
+                        <span size="md" class="label label-warm-gray" style="font-weight: normal; font-size:13px;"><i class="ri-time-line"></i>{{ dateLabel }}</span>
                     </td>
                 </tr>
                 {% set lastDate = eventDate %}
             {% endif %}
-            
+
             {% set icon = event.icon is defined ? event.icon : 'ri-history-line' %}
             {% set eventLabel = event.eventLabel is defined ? event.eventLabel : event.eventType %}
             {% if eventLabel is iterable %}

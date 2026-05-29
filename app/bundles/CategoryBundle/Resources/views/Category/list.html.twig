@@ -146,7 +146,7 @@
 							</td>
 							<td>
 								{% set color = item.getColor() %}
-								<span class="badge label-gray label-category" style="background: {{ '#' not in color ? '#' : ''}}{{ color }};"> </span>
+								<span class="label label-gray label-category" style="background: {{ '#' not in color ? '#' : ''}}{{ color }};"> </span>
 							</td>
 							<td>
                                 <div>
@@ -206,7 +206,7 @@
                             } %}
                         </div>
                     {% endset %}
-        
+
                     {{ include('@MauticCore/Components/content-block.html.twig', {
                         heading: 'mautic.category.contentblock.heading',
                         subheading: 'mautic.category.contentblock.subheading',

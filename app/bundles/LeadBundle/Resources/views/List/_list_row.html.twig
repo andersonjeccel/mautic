@@ -71,7 +71,7 @@
         }) }}
     </td>
     <td class="d-none d-md-table-cell">
-        <span size="sm" class="badge {{ item.needsRebuild() ? 'bg-info' : 'label-gray' }} col-count" data-id="{{ item.id }}">
+        <span size="sm" class="label {{ item.needsRebuild() ? 'bg-info' : 'label-gray' }} col-count" data-id="{{ item.id }}">
             <a href="{{ path('mautic_contact_index', {'search': 'mautic.lead.lead.searchcommand.list'|trans ~ ':' ~ item.alias}) }}"
                 data-toggle="ajax">{{ (item.needsRebuild() ? 'mautic.lead.list.building' : 'mautic.lead.list.viewleads_count')|trans({'%count%': leadCounts[item.id]}) }}</a>
         </span>

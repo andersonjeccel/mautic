@@ -12,14 +12,14 @@
       <table class="table table-hover formresult-list">
           <thead>
             <tr>
-                <th class="col-formresult-id">{{ 'mautic.form.report.submission.id'|trans }}</th>
-                <th class="col-formresult-id">{{ 'mautic.lead.report.contact_id'|trans }}</th>
-                <th class="col-formresult-date">{{ 'mautic.form.result.thead.date'|trans }}</th>
-                <th class="col-formresult-ip">{{ 'mautic.core.ipaddress'|trans }}</th>
+                <th class="column-formresult-id">{{ 'mautic.form.report.submission.id'|trans }}</th>
+                <th class="column-formresult-id">{{ 'mautic.lead.report.contact_id'|trans }}</th>
+                <th class="column-formresult-date">{{ 'mautic.form.result.thead.date'|trans }}</th>
+                <th class="column-formresult-ip">{{ 'mautic.core.ipaddress'|trans }}</th>
                 {% set fields = form.fields %}
                 {% for f in fields %}
                   {% if f.type not in viewOnlyFields and true == f.saveResult %}
-                    <th class="col-formresult-field col-formresult-{{ f.type }} col-formresult-field{{ f.id }}">{{ f.label }}</th>
+                    <th class="column-formresult-field col-formresult-{{ f.type }} col-formresult-field{{ f.id }}">{{ f.label }}</th>
                   {% endif %}
                 {% endfor %}
             </tr>

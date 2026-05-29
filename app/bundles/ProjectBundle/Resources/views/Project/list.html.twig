@@ -119,7 +119,7 @@
                             {% endif %}
                         </td>
                         <td class="d-none d-md-table-cell">
-                            <a href="{{ path('mautic_project_action', {'objectAction': 'view', 'objectId': item.getId()}) }}" data-toggle="ajax" data-menu-link="mautic_project_index" size="sm" class="badge label-gray" {% if 0 == item.entitiesCount|default(0) %}disabled="disabled"{% endif %}>
+                            <a href="{{ path('mautic_project_action', {'objectAction': 'view', 'objectId': item.getId()}) }}" data-toggle="ajax" data-menu-link="mautic_project_index" size="sm" class="label label-gray" {% if 0 == item.entitiesCount|default(0) %}disabled="disabled"{% endif %}>
                                {{- 'mautic.project.entity.count'|trans({'%count%': item.entitiesCount|default(0)}) -}}
                             </a>
                         </td>

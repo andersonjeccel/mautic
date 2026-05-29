@@ -75,9 +75,9 @@
                                     'btnText': 'mautic.asset.asset.preview'|trans,
                                     'iconClass': 'ri-image-line',
                                     } %}
-                                {% set customButtons = hasThumbnail 
-                                    ? customButtons|merge([previewButtonSettings]) 
-                                    : customButtons 
+                                {% set customButtons = hasThumbnail
+                                    ? customButtons|merge([previewButtonSettings])
+                                    : customButtons
                                 %}
                                 {% set deleteButton = {
                                     'delete': permissions['core:themes:delete']
@@ -146,13 +146,13 @@
                                 <div class="d-flex ai-center gap-xs">
                                     {% for builder in item['config']['builder'] %}
                                     <span style="white-space: nowrap;">
-                                        <span class="badge bg-primary">{{ builder }}</span>
+                                        <span class="label bg-primary">{{ builder }}</span>
                                     </span>
                                 {% endfor %}
                                 {% if item['config']['features'] is defined and item['config']['features'] is not empty %}
                                     {% for feature in item['config']['features'] %}
 
-                                            <span class="badge label-gray">
+                                            <span class="label label-gray">
                                                 {{ ('mautic.core.theme.feature.' ~ feature|e)|trans }}
                                             </span>
 
