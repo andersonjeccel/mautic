@@ -19,10 +19,10 @@
         <div class="pa-md">
 	        <div class="row">
 		        <div class="col-lg-6">
-					<div class="col-md-7 pl-0">
+					<div class="col-md-7 ps-0">
 						{{ form_row(form.storageLocation) }}
 					</div>
-			        <div class="text-left mt-lg mb-lg{% if startOnLocal %} hide {% endif %}" id="remote-button">
+			        <div class="text-start mt-lg mb-lg{% if startOnLocal %} hide {% endif %}" id="remote-button">
 						{% if integrations %}
 							{% include '@MauticCore/Helper/button.html.twig' with {
 								buttons: [

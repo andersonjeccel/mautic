@@ -235,13 +235,13 @@ class CampaignControllerFunctionalTest extends AbstractCampaignTestCase
     {
         $crawler        = $this->getCrawlers($campaignId);
         $successPercent = [
-            trim($crawler->filter('.campaign-event-list li:nth-child(1) .label-success')->text()),
-            trim($crawler->filter('.campaign-event-list li:nth-child(2) .label-success')->text()),
+            trim($crawler->filter('.campaign-event-list li:nth-child(1) .bg-success')->text()),
+            trim($crawler->filter('.campaign-event-list li:nth-child(2) .bg-success')->text()),
         ];
 
         $completed = [
-            trim($crawler->filter('.campaign-event-list li:nth-child(1) .label-warning')->text()),
-            trim($crawler->filter('.campaign-event-list li:nth-child(2) .label-warning')->text()),
+            trim($crawler->filter('.campaign-event-list li:nth-child(1) .bg-warning')->text()),
+            trim($crawler->filter('.campaign-event-list li:nth-child(2) .bg-warning')->text()),
         ];
 
         $pending = [

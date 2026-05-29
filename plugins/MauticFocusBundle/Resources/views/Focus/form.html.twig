@@ -54,9 +54,7 @@
                     </p>
                     <div class="input-group">
                         <input id="websiteUrlPlaceholderInput" disabled type="text" class="form-control" placeholder="https://example.com">
-                        <div class="input-group-append">
                             <button class="btn btn-ghost btn-fetch" type="button">{{ 'mautic.focus.fetch_snapshot'|trans }}</button>
-                        </div>
                     </div>
                     <div class="form-text hide"></div>
                 </div>
@@ -128,7 +126,7 @@
                 <div class="card" id="focusType">
                     <div class="card-header">
                         <h4 class="focus-type-header card-title">
-                            <a role="button" data-toggle="collapse" href="#focusTypePanel" aria-expanded="true" aria-controls="focusTypePanel">
+                            <a role="button" data-bs-toggle="collapse" href="#focusTypePanel" aria-expanded="true" aria-controls="focusTypePanel">
                                 <i class="ri-focus-2-line"></i> {{ 'mautic.focus.form.type'|trans }}
                             </a>
                         </h4>
@@ -198,7 +196,7 @@
                 <div class="card" id="focusStyle">
                     <div class="card-header">
                         <h4 class="card-title focus-style-header">
-                            <a role="button" data-toggle="collapse" href="#focusStylePanel" aria-expanded="true" aria-controls="focusStylePanel">
+                            <a role="button" data-bs-toggle="collapse" href="#focusStylePanel" aria-expanded="true" aria-controls="focusStylePanel">
                                 <i class="ri-mac-line"></i> {{ 'mautic.focus.form.style'|trans }}
                             </a>
                         </h4>
@@ -208,7 +206,7 @@
                             <li data-focus-style="bar" class="focus-style visible-focus-style-bar list-group-item pl-sm pr-sm">
                                 <div class="row">
                                     <div class="col-2">
-                                        <i class="pl-2 ri-2x ri-subtract-line text-interactive"></i>
+                                        <i class="ps-2 ri-2x ri-subtract-line text-interactive"></i>
                                     </div>
                                     <div class="col-10">
                                         <h4 class="list-group-heading">{{ 'mautic.focus.style.bar'|trans }}</h4>
@@ -234,7 +232,7 @@
                             <li data-focus-style="notification" class="focus-style visible-focus-style-notification list-group-item pl-sm pr-sm">
                                 <div class="row">
                                     <div class="col-2">
-                                        <i class="pl-2 ri-2x ri-information-2-line text-info"></i>
+                                        <i class="ps-2 ri-2x ri-information-2-line text-info"></i>
                                     </div>
                                     <div class="col-10">
                                         <h4 class="list-group-heading">{{ 'mautic.focus.style.notification'|trans }}</h4>
@@ -247,7 +245,7 @@
                             <li data-focus-style="page" class="focus-style visible-focus-style-page list-group-item pl-sm pr-sm">
                                 <div class="row">
                                     <div class="col-2">
-                                        <i class="pl-2 ri-2x ri-square-line text-danger"></i>
+                                        <i class="ps-2 ri-2x ri-square-line text-danger"></i>
                                     </div>
                                     <div class="col-10">
                                         <h4 class="list-group-heading">{{ 'mautic.focus.style.page'|trans }}</h4>
@@ -289,7 +287,7 @@
                 <div class="card" id="focusColors">
                     <div class="card-header">
                         <h4 class="card-title">
-                            <a role="button" data-toggle="collapse" href="#focusColorsPanel" aria-expanded="true" aria-controls="focusColorsPanel">
+                            <a role="button" data-bs-toggle="collapse" href="#focusColorsPanel" aria-expanded="true" aria-controls="focusColorsPanel">
                                 <i class="ri-paint-brush-line"></i> {{ 'mautic.focus.tab.focus_colors'|trans }}
                             </a>
                         </h4>
@@ -301,9 +299,7 @@
                                     {{ form_label(form.properties.colors.primary) }}
                                     <div class="input-group">
                                         {{ form_widget(form.properties.colors.primary) }}
-                                        <div class="input-group-append">
                                         <button data-dropper="focus_properties_colors_primary" class="btn btn-ghost btn-nospin btn-dropper" type="button"><i class="ri-dropper-line"></i></button>
-                                    </div>
                                     </div>
                                     <div class="mt-xs site-color-list hide" id="primary_site_colors"></div>
                                     {{ form_errors(form.properties.colors.primary) }}
@@ -315,9 +311,7 @@
                                     {{ form_label(form.properties.colors.text) }}
                                     <div class="input-group">
                                         {{ form_widget(form.properties.colors.text) }}
-                                        <div class="input-group-append">
                                         <button data-dropper="focus_properties_colors_text" class="btn btn-ghost btn-nospin btn-dropper" type="button"><i class="ri-dropper-line"></i></button>
-                                    </div>
                                     </div>
                                     <div class="mt-xs site-color-list hide" id="text_site_colors"></div>
                                     {{ form_errors(form.properties.colors.text) }}
@@ -331,9 +325,7 @@
                                         {{ form_label(form.properties.colors.button) }}
                                         <div class="input-group">
                                             {{ form_widget(form.properties.colors.button) }}
-                                            <div class="input-group-append">
                                         <button data-dropper="focus_properties_colors_button" class="btn btn-ghost btn-nospin btn-dropper" type="button"><i class="ri-dropper-line"></i></button>
-                                    </div>
                                         </div>
                                         <div class="mt-xs site-color-list hide" id="button_site_colors"></div>
                                         {{ form_errors(form.properties.colors.button) }}
@@ -345,9 +337,7 @@
                                         {{ form_label(form.properties.colors.button_text) }}
                                         <div class="input-group">
                                             {{ form_widget(form.properties.colors.button_text) }}
-                                            <div class="input-group-append">
                                         <button data-dropper="focus_properties_colors_button_text" class="btn btn-ghost btn-nospin btn-dropper" type="button"><i class="ri-dropper-line"></i></button>
-                                    </div>
                                         </div>
                                         <div class="mt-xs site-color-list hide" id="button_text_site_colors"></div>
                                         {{ form_errors(form.properties.colors.button_text) }}
@@ -363,7 +353,7 @@
                 <div class="card" id="focusContent">
                     <div class="card-header">
                         <h4 class="card-title">
-                            <a role="button" data-toggle="collapse" href="#focusContentPanel" aria-expanded="true" aria-controls="focusContentPanel">
+                            <a role="button" data-bs-toggle="collapse" href="#focusContentPanel" aria-expanded="true" aria-controls="focusContentPanel">
                                 <i class="ri-newspaper-line"></i> {{ 'mautic.focus.tab.focus_content'|trans }}
                             </a>
                         </h4>

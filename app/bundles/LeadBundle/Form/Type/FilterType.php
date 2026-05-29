@@ -40,7 +40,7 @@ class FilterType extends AbstractType
                     'mautic.lead.list.form.glue.or'  => 'or',
                 ],
                 'attr' => [
-                    'class'    => 'label label-warm-gray not-chosen glue-select',
+                    'class'    => 'badge label-warm-gray not-chosen glue-select',
                     'onchange' => 'Mautic.updateFilterPositioning(this)',
                 ],
             ]

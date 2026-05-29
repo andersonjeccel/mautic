@@ -17,14 +17,14 @@
       {{ cycle(['', '</div><div class="row">'], loop.index0) }}
       <div class="col-md-6">
           <div class="card card-{{ integrationName|lower }}">
-              <div class="card-header pr-0">
+              <div class="card-header pe-0">
                   <h3 class="card-title">{{ ('mautic.integration.'~integrationName)|trans }}</h3>
-                  <div class="card-toolbar text-right">
-                      <a href="javascript:void(0);" class="btn" data-toggle="tooltip" onclick="Mautic.refreshLeadSocialProfile('{{ integrationName }}', '{{ lead.id }}', event);"
+                  <div class="card-toolbar text-end">
+                      <a href="javascript:void(0);" class="btn" data-bs-toggle="tooltip" onclick="Mautic.refreshLeadSocialProfile('{{ integrationName }}', '{{ lead.id }}', event);"
                          title="{{ 'mautic.lead.lead.social.lastupdate'|trans({'%datetime%': dateToFullConcat(details.lastRefresh, 'utc')}) }}">
                           <i class="text-white ri-refresh-line"></i>
                       </a>
-                      <a href="javascript:void(0);" class="btn" onclick="Mautic.clearLeadSocialProfile('{{ integrationName }}', '{{ lead.id }}', event);" data-toggle="tooltip"
+                      <a href="javascript:void(0);" class="btn" onclick="Mautic.clearLeadSocialProfile('{{ integrationName }}', '{{ lead.id }}', event);" data-bs-toggle="tooltip"
                          title="{{ 'mautic.lead.lead.social.removecache'|trans }}">
                           <i class="text-white ri-close-line"></i>
                       </a>

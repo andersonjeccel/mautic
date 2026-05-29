@@ -34,8 +34,8 @@ Variables
                     pictogram: 'data--processing',
                     size: 64
                 } %}
-                <h2 class="mt-lg pb-sm text-left">{{ header|trans({'object': object}) }}</h2>
-                <div class="row-no-gutters">
+                <h2 class="mt-lg pb-sm text-start">{{ header|trans({'object': object}) }}</h2>
+                <div class="row g-0">
                     <span class="text-secondary">{{ 'mautic.lead.import.inprogress'|trans }}</span>
                 </div>
             </div>
@@ -45,8 +45,8 @@ Variables
                     pictogram: 'data--storage',
                     size: 64
                 } %}
-                <h2 class="mt-lg pb-sm text-left">{{ header|trans({'object': object}) }}</h2>
-                <div class="row-no-gutters ai-center gap-sm">
+                <h2 class="mt-lg pb-sm text-start">{{ header|trans({'object': object}) }}</h2>
+                <div class="row g-0 ai-center gap-sm">
                     {% include '@MauticCore/Helper/_tag.html.twig' with {
                         tags: [{
                             label: import.object == 'lead' ? 'mautic.lead.leads'
@@ -62,7 +62,7 @@ Variables
                 </div>
             </div>
             <div class="col-md-4 ai-end jc-center">
-                
+
             </div>
             {% endif %}
         </div>
@@ -73,15 +73,15 @@ Variables
                     <div class="progress-bar-import progress-bar {% if not complete %}active{% endif %} bg-{% if complete %}success{% endif %}"
                         role="progressbar" aria-valuenow="{{ progress.done }}" aria-valuemin="0"
                         aria-valuemax="{{ progress.total }}" style="width: {{ percent }}%; height: 4px;"><span
-                            class="sr-only">{{ percent }}%</span>
+                            class="visually-hidden">{{ percent }}%</span>
                     </div>
                 </div>
 
             </div>
             <div class="card-body">
                 {% if complete %}
-                <h4 class="mb-md text-left fw-sb">{{ 'mautic.lead.segments.contacts.imported_database'|trans }}</h4>
-                <div class="row-no-gutters jc-space-between ai-center mb-sm">
+                <h4 class="mb-md text-start fw-sb">{{ 'mautic.lead.segments.contacts.imported_database'|trans }}</h4>
+                <div class="row g-0 jc-space-between ai-center mb-sm">
                     <span class="d-flex ai-center gap-xs"><i class="ri-add-box-fill ri-lg"></i>{{'mautic.lead.import.stats.created'|trans}}</span>
                     {% include '@MauticCore/Helper/_tag.html.twig' with {
                         tags: [{
@@ -91,7 +91,7 @@ Variables
                         }]
                     } %}
                 </div>
-                <div class="row-no-gutters jc-space-between ai-center mb-sm">
+                <div class="row g-0 jc-space-between ai-center mb-sm">
                     <span class="d-flex ai-center gap-xs"><i class="ri-refresh-fill ri-lg"></i>{{'mautic.lead.import.stats.merged'|trans}}</span>
                     {% include '@MauticCore/Helper/_tag.html.twig' with {
                         tags: [{
@@ -101,7 +101,7 @@ Variables
                         }]
                     } %}
                 </div>
-                <div class="row-no-gutters jc-space-between ai-center mb-sm">
+                <div class="row g-0 jc-space-between ai-center mb-sm">
                     <span class="d-flex ai-center gap-xs"><i class="ri-checkbox-fill ri-lg"></i>{{'mautic.lead.import.stats.ignored'|trans}}</span>
                     {% include '@MauticCore/Helper/_tag.html.twig' with {
                         tags: [{
@@ -111,15 +111,15 @@ Variables
                         }]
                     } %}
                 </div>
-                <div class="row-no-gutters">
+                <div class="row g-0">
                     <div class="col-12 mt-lg">
                         {% set tileContent %}
                             <div class="d-flex jc-space-between">
-                                <div class="row-no-gutters fw-nowrap gap-xs ai-center">
+                                <div class="row g-0 fw-nowrap gap-xs ai-center">
                                     <i class="ri-file-list-line ri-lg"></i>
                                     <h5>
                                         {% if import.name()|length > 40 %}
-                                            <span data-toggle="tooltip" title="{{ import.name() }}">
+                                            <span data-bs-toggle="tooltip" title="{{ import.name() }}">
                                                 {{ import.name()|slice(0, 40) }}...
                                             </span>
                                         {% else %}
@@ -146,7 +146,7 @@ Variables
                 {% for row in failedRows %}
                 {% set lineNumber = row.properties.line|default('N/A') %}
                 {% set failure = row.properties.error|default('N/A') %}
-                <div class="alert alert-danger text-left">
+                <div class="alert alert-danger text-start">
                     <a target="_new" class="text-danger">(#{{ lineNumber }}) {{ failure }}</a>
                 </div>
                 {% endfor %}

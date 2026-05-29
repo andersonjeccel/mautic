@@ -56,9 +56,9 @@ form[name="lead"] {
 
 // vertical tabs
 .bg-auto {
-  .tabs-left>li.active>a,
-  .tabs-left>li.active>a:hover,
-  .tabs-left>li.active>a:focus {
+  .tabs-left > li > .nav-link.active,
+  .tabs-left > li > .nav-link.active:hover,
+  .tabs-left > li > .nav-link.active:focus {
     border-left-width: 0;
   }
 
@@ -71,9 +71,9 @@ form[name="lead"] {
     }
   }
 
-  .tabs-right>li.active>a,
-  .tabs-right>li.active>a:hover,
-  .tabs-right>li.active>a:focus {
+  .tabs-right > li > .nav-link.active,
+  .tabs-right > li > .nav-link.active:hover,
+  .tabs-right > li > .nav-link.active:focus {
     border-right-width: 0;
   }
 }

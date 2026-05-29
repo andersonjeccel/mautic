@@ -342,8 +342,8 @@ Mautic.onPageLoad = function (container, response, inModal) {
     });
 
     //initialize tooltips
-    var pageTooltips = mQuery(container + " *[data-toggle='tooltip']");
-    pageTooltips.tooltip({html: true, container: 'body'});
+    var pageTooltips = mQuery(container + " *[data-bs-toggle='tooltip']");
+    Mautic.initTooltips(pageTooltips, {html: true, container: 'body'});
 
     // Enable tooltips on checkbox & radio input's to
     // show when hovering their parent LABEL element
@@ -355,9 +355,9 @@ Mautic.onPageLoad = function (container, response, inModal) {
             elementParent.append('<i class="ri-question-line"></i>');
 
             elementParent.hover(function () {
-                thisTooltip.tooltip('show')
+                Mautic.showTooltip(thisTooltip);
             }, function () {
-                thisTooltip.tooltip('hide');
+                Mautic.hideTooltip(thisTooltip);
             });
         }
     });
@@ -447,9 +447,9 @@ Mautic.onPageLoad = function (container, response, inModal) {
             var activeTab  = mQuery(this).find('a[href=' + hash + ']').first();
 
             if (mQuery(activeTab).length) {
-                mQuery('.nav-tabs li').removeClass('active');
+                mQuery('.nav-tabs .nav-link').removeClass('active');
                 mQuery('.tab-pane').removeClass('show active');
-                mQuery(activeTab).parent().addClass('active');
+                mQuery(activeTab).addClass('active');
                 mQuery(hash).addClass('show active');
             }
         }
@@ -813,7 +813,7 @@ Mautic.makeLinksAlive = function(jQueryObject) {
 Mautic.onPageUnload = function (container, response) {
     //unload tooltips so they don't double show
     if (typeof container != 'undefined') {
-        mQuery(container + " *[data-toggle='tooltip']").tooltip('dispose');
+        Mautic.disposeTooltips(mQuery(container + " *[data-bs-toggle='tooltip']"));
 
         //unload lingering modals from body so that there will not be multiple modals generated from new ajaxed content
         if (typeof MauticVars.modalsReset == 'undefined') {
@@ -1234,15 +1234,20 @@ Mautic.activateModalEmbeddedForms = function(container) {
     mQuery(container + " *[data-embedded-form='add']").each(function() {
         var submitButton = this;
         var modal = mQuery(this).closest('.modal');
-        var modalInstance = mQuery(modal).data('bs.modal');
+        var modalInstance = Mautic.getBootstrapInstance(modal, 'Modal');
+        var modalOptions = {
+            keyboard: false,
+            backdrop: 'static',
+            show: false
+        };
 
-        if (modalInstance && modalInstance._config) {
-            modalInstance._config.keyboard = false;
-            modalInstance._config.backdrop = 'static';
-        } else {
-            mQuery(modal).attr('data-keyboard', false);
-            mQuery(modal).attr('data-backdrop', 'static');
+        if (modalInstance) {
+            modalInstance.dispose();
         }
+
+        mQuery(modal).attr('data-bs-keyboard', false);
+        mQuery(modal).attr('data-bs-backdrop', 'static');
+        Mautic.getOrCreateBootstrapInstance(modal, 'Modal', modalOptions);
 
         mQuery(modal).on('show.bs.modal', function () {
             // Don't allow submitting with enter key
@@ -1851,9 +1856,9 @@ Mautic.applyFilters = function () {
     searchInput.value = newSearchValue;
 
     // Properly destroy and reinitialize popover
-    const popoverTrigger = mQuery('[data-toggle="popover"]');
-    popoverTrigger.popover('dispose');
-    popoverTrigger.popover({
+    const popoverTrigger = mQuery('[data-bs-toggle="popover"]');
+    Mautic.disposePopovers(popoverTrigger);
+    Mautic.initPopovers(popoverTrigger, {
         html: true,
         container: 'body'
     });
@@ -1890,8 +1895,8 @@ Mautic.resetFilters = function () {
     });
 
     // Properly destroy the popover instead of hiding it
-    const popoverTrigger = mQuery('[data-toggle="popover"]');
-    popoverTrigger.popover('dispose');
+    const popoverTrigger = mQuery('[data-bs-toggle="popover"]');
+    Mautic.disposePopovers(popoverTrigger);
 
     const enterKeyEvent = new KeyboardEvent('keyup', {
         key: 'Enter',
@@ -1992,7 +1997,7 @@ Mautic.initializePopoverFilters = function (popoverElement) {
  * Handles the insertion of the popover and initializes active filter labels.
  */
 Mautic.handlePopoverInsertion = function () {
-    mQuery(document).on('inserted.bs.popover', '[data-toggle="popover"]', function () {
+    mQuery(document).on('inserted.bs.popover', '[data-bs-toggle="popover"]', function () {
         const popoverId = mQuery(this).attr('aria-describedby');
         if (!popoverId) return;
 

@@ -1,7 +1,7 @@
 <li class="dropdown dropdown-custom" id="notificationsDropdown">
-    <a href="javascript: void(0);" onclick="Mautic.showNotifications();" class="dropdown-toggle dropdown-notification" data-toggle="dropdown" aria-label={{ 'mautic.core.notifications'|trans }}>
+    <a href="javascript: void(0);" onclick="Mautic.showNotifications();" class="dropdown-toggle dropdown-notification" data-bs-toggle="dropdown" aria-label={{ 'mautic.core.notifications'|trans }}>
         {% set hideClass = updateMessage.isNew or showNewIndicator ? '' : ' hide' %}
-        <span class="label label-danger{{ hideClass }}" id="newNotificationIndicator"><i class="ri-asterisk"></i></span>
+        <span class="badge bg-danger{{ hideClass }}" id="newNotificationIndicator"><i class="ri-asterisk"></i></span>
         <span class="ri-notification-3-line ri-xl"></span>
     </a>
     <div class="dropdown-menu">
@@ -19,7 +19,7 @@
                                         icon_only: true,
                                         icon: 'ri-delete-bin-2-line',
                                         attributes: {
-                                            'class': 'float-right',
+                                            'class': 'float-end',
                                         },
                                         onclick: 'Mautic.clearNotification(0);'
                                     }
@@ -29,7 +29,7 @@
                     </h6>
                 </div>
             </div>
-            <div class="pt-0 pb-xs pl-0 pr-0">
+            <div class="pt-0 pb-xs ps-0 pe-0">
                 <div class="scroll-content slimscroll d-flex fd-column" id="notifications">
                     {{ include('@MauticCore/Notification/notification_messages.html.twig', {
                         notifications: notifications,

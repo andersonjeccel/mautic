@@ -5,8 +5,8 @@
 {{ form_start(form) }}
 <ul class="nav nav-tabs nav-tabs-contained">
     <!-- Enabled\Auth -->
-    <li class="{% if 'details-container' == activeTab %} active{% endif %}" id="details-tab">
-        <a href="#details-container" role="tab" data-toggle="tab">
+    <li class="nav-item" id="details-tab">
+        <a class="nav-link {% if 'details-container' == activeTab %} active{% endif %}" href="#details-container" role="tab" data-bs-toggle="tab">
             {{ 'mautic.plugin.integration.tab.details'|trans }}
             {% if (hasAuthErrors) %}
                 <i class="ri-fw ri-alert-fill text-danger"></i>
@@ -17,8 +17,8 @@
 
     <!-- Features -->
     {% if showFeaturesTab is not empty %}
-        <li class="" id="features-tab">
-            <a href="#features-container" role="tab" data-toggle="tab">
+        <li class="nav-item" id="features-tab">
+            <a class="nav-link" href="#features-container" role="tab" data-bs-toggle="tab">
                 {{ 'mautic.plugin.integration.tab.features'|trans }}
                 {% if hasFeatureErrors is not empty %}
                 <i class="ri-fw ri-alert-fill text-danger"></i>
@@ -32,8 +32,8 @@
     {% if useSyncFeatures is not empty %}
     {% set objects = integrationObject.getSyncConfigObjects() %}
     {% for object, objectFieldMapping in form.featureSettings.sync.fieldMappings %}
-        <li class="{% if activeTab == 'field-mapping-' ~ object %} active{% endif %}" id="fields-{{ object }}-tab">
-            <a href="#field-mappings-{{ object }}-container" role="tab" data-toggle="tab">
+        <li class="nav-item" id="fields-{{ object }}-tab">
+            <a class="nav-link {% if activeTab == 'field-mapping-' ~ object %} active{% endif %}" href="#field-mappings-{{ object }}-container" role="tab" data-bs-toggle="tab">
                 {{ 'mautic.integration.sync_field_mapping'|trans({'%object%' : objects[object]|trans }) }}
                 {% if formContainsErrors(objectFieldMapping) %}
                     <i class="ri-fw ri-alert-fill text-danger"></i>

@@ -69,9 +69,9 @@
                                                     {% for k,v in columns[key].linkParameters %}
                                                         {% set parameters = parameters|merge({ (k) : (v is same as "%alias%" ? row[columns[key].alias] : v)}) %}
                                                     {% endfor %}
-                                                    <a href="{{ path(columns[key].link, parameters) }}" {{ parameters.objectId is defined ? 'class="label label-success"' : '' }}>
+                                                    <a href="{{ path(columns[key].link, parameters) }}" {{ parameters.objectId is defined ? 'class="badge bg-success"' : '' }}>
                                                 {% else %}
-                                                    <a href="{{ path(columns[key].link, {'objectAction': 'view', 'objectId': row[columns[key].alias]}) }}" class="label label-success">
+                                                    <a href="{{ path(columns[key].link, {'objectAction': 'view', 'objectId': row[columns[key].alias]}) }}" class="badge bg-success">
                                                 {% endif %}
                                             {% endif %}
                                             {%- set cellType = columns[key].type -%}
@@ -91,7 +91,7 @@
                                                         {{ format(cellVal, cellType)|purify }}
                                                     {% else %}
                                                         {% set value = htmlEntityDecode(format(cellVal, cellType)|purify) %}
-                                                        <div data-toggle="collapse" data-target="#audit-log-details-{{ startCount }}" class="accordion-toggle" style="cursor: pointer">
+                                                        <div data-bs-toggle="collapse" data-bs-target="#audit-log-details-{{ startCount }}" class="accordion-toggle" style="cursor: pointer">
                                                             {{ value|length > 50 ? value|slice(0, 50) ~ '...' : value }}
                                                         </div>
                                                     {% endif %}

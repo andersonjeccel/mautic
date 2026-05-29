@@ -1,17 +1,17 @@
 {% if code >= 200 and code < 300 %}
-    <span class="label label-success">
+    <span class="badge bg-success">
         {{ code }}
     </span>
 {% elseif code >= 300 and code < 500 %}
-    <span class="label label-warning">
+    <span class="badge bg-warning">
         {{ code }}
     </span>
 {% elseif code >= 500 %}
-    <span class="label label-warning">
+    <span class="badge bg-warning">
         {{ code }}
     </span>
 {% else %}
-    <span size="sm" class="label label-gray">
+    <span size="sm" class="badge label-gray">
         {{ code }}
     </span>
 {% endif %}

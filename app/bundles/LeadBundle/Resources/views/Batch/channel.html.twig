@@ -40,11 +40,11 @@
             </td>
             <td class="col-md-9" style="vertical-align: top">
                 <div>
-                    <div class="float-left">
+                    <div class="float-start">
                         {% set existingFieldClass = form['frequency_number_'~channel.value].vars['attr']['class'] %}
                         {{ form_widget(form['frequency_number_'~channel.value], {
                             'attr': {
-                              'class': existingFieldClass~' float-left',
+                              'class': existingFieldClass~' float-start',
                             }
                         }) }}
                         {{ form_label(form['frequency_time_'~channel.value]) }}

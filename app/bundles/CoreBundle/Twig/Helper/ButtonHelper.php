@@ -450,7 +450,7 @@ final class ButtonHelper
     {
         $tooltip = '';
         if (isset($button['tooltip'])) {
-            $tooltip .= ' data-toggle="tooltip"';
+            $tooltip .= ' data-bs-toggle="tooltip"';
             if (is_array($button['tooltip'])) {
                 foreach ($button['tooltip'] as $k => $v) {
                     if ('title' == $k) {
@@ -459,7 +459,7 @@ final class ButtonHelper
                     $tooltip .= " $k=".'"'.$v.'"';
                 }
             } else {
-                $tooltip .= ' title="'.$this->translator->trans($button['tooltip']).'" data-placement="left"';
+                $tooltip .= ' title="'.$this->translator->trans($button['tooltip']).'" data-bs-placement="left"';
             }
         }
 

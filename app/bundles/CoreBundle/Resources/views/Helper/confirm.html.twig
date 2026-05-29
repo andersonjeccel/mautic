@@ -64,7 +64,7 @@
     {% if tooltipPosition is not defined %}
         {% set tooltipPosition = 'left' %}
     {% endif %}
-    {% set tooltipAttr = ' data-toogle="tooltip" title="' ~ tooltip ~ '" data-placement="' ~ tooltipPosition ~ '"' %}
+    {% set tooltipAttr = ' data-bs-toggle="tooltip" title="' ~ tooltip ~ '" data-bs-placement="' ~ tooltipPosition ~ '"' %}
 {% endif %}
 
 {%- set precheck = precheck|default('') %}

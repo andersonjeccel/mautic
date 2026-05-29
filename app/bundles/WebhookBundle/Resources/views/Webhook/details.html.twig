@@ -122,7 +122,6 @@
                 <div class="input-group">
                     <input onclick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" readonly
                            value="{{ item.getWebhookUrl()|escape('html_attr') }}" />
-                    <div class="input-group-append">
                         {% include '@MauticCore/Helper/button.html.twig' with {
                             buttons: [
                                 {
@@ -134,7 +133,6 @@
                                 }
                             ]
                         } %}
-                    </div>
                 </div>
             </div>
 

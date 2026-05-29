@@ -24,8 +24,8 @@
             <div class="col-12">
                 <!-- tabs controls -->
                 <ul class="nav nav-tabs nav-tabs-contained">
-                    <li class="active"><a href="#details-container" role="tab" data-toggle="tab">{{ 'mautic.core.details'|trans }}</a></li>
-                    <li class=""><a href="#events-container" role="tab" data-toggle="tab">{{ 'mautic.point.trigger.tab.events'|trans }}</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="#details-container" role="tab" data-bs-toggle="tab">{{ 'mautic.core.details'|trans }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#events-container" role="tab" data-bs-toggle="tab">{{ 'mautic.point.trigger.tab.events'|trans }}</a></li>
                 </ul>
                 <!--/ tabs controls -->
 
@@ -53,7 +53,7 @@
                         <div id="triggerEvents">
                             <div class="mb-md">
                                 <div class="dropdown chosen-container">
-                                    <button class="btn chosen-single dropdown-toggle" type="button" data-toggle="dropdown">
+                                    <button class="btn chosen-single dropdown-toggle" type="button" data-bs-toggle="dropdown">
                                         {{ 'mautic.point.trigger.event.add'|trans }}
                                         </button>
                                     <ul class="dropdown-menu" role="menu">
@@ -67,7 +67,7 @@
                                                        data-target="#triggerEventModal"
                                                        class="list-group-item"
                                                        href="{{ path('mautic_pointtriggerevent_action', {'objectAction': 'new', 'type': k, 'tmpl': 'event', 'triggerId': sessionId}) }}">
-                                                        <div data-toggle="tooltip" title="{{ e.description }}">
+                                                        <div data-bs-toggle="tooltip" title="{{ e.description }}">
                                                             <span>{{ e.label }}</span>
                                                         </div>
                                                     </a>

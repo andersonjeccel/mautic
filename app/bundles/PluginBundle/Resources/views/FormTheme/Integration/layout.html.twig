@@ -132,11 +132,11 @@
           {% endif %}
 
           {%- if 'update_mautic' in child.vars.name -%}
-            <div class="pr-xs {{ class }}" style="padding-left: 8px;" data-toggle="tooltip" title="{{ 'mautic.plugin.direction.data.update'|trans }}">
+            <div class="pr-xs {{ class }}" style="padding-left: 8px;" data-bs-toggle="tooltip" title="{{ 'mautic.plugin.direction.data.update'|trans }}">
               <div class="row">
                 <div class="form-group col-12">
                   <div class="choice-wrapper">
-                    <div class="btn-group btn-group-toggle btn-block" data-toggle="buttons" {% if child.vars['attr']['forceDirection'] %}data-force-direction="1"{% endif %}>
+                    <div class="btn-group btn-group-toggle w-100" {% if child.vars['attr']['forceDirection'] %}data-force-direction="1"{% endif %}>
                       {% set checked = '0' == child.vars.value %}
                       <label class="btn-arrow{{ indexCount }} btn btn-ghost {% if checked %}active{% endif %} {% if child.vars['attr']['disabled'] %}disabled{% endif %}">
                         <input type="radio"

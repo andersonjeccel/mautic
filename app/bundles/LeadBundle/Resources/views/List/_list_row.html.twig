@@ -53,15 +53,15 @@
             {% if item.isGlobal %}<i title="{{ 'mautic.lead.list.form.isglobal'|trans }}" class="ri-group-2-fill fs-14"></i>{% endif %}
             {% if item.getFilters() is not empty %}<i title="{{ 'mautic.core.filters'|trans }}" class="ri-fw ri-filter-2-fill fs-14"></i>{% endif %}
             {% if hoursSinceLastBuilt >= segmentRebuildWarningThreshold %}
-                <label class="col-form-label" data-toggle="tooltip"
-                       data-container="body" data-placement="top" title=""
-                       data-original-title="{{ 'mautic.lead.list.form.config.segment_rebuild_time.message'|trans({'%count%': hoursSinceLastBuilt  | number_format(2)}) }}">
+                <label class="col-form-label" data-bs-toggle="tooltip"
+                       data-bs-container="body" data-bs-placement="top" title=""
+                       data-bs-title="{{ 'mautic.lead.list.form.config.segment_rebuild_time.message'|trans({'%count%': hoursSinceLastBuilt  | number_format(2)}) }}">
                     <i class="text-danger ri-error-warning-line fs-14"></i></label>
             {% endif %}
             {% if item.lastBuiltTime >= segmentBuildWarningThreshold %}
-                <label class="col-form-label" data-toggle="tooltip"
-                       data-container="body" data-placement="top" title=""
-                       data-original-title="{{ 'mautic.lead.list.form.config.segment_build_time.message'|trans({'%count%': item.lastBuiltTime}) }}">
+                <label class="col-form-label" data-bs-toggle="tooltip"
+                       data-bs-container="body" data-bs-placement="top" title=""
+                       data-bs-title="{{ 'mautic.lead.list.form.config.segment_build_time.message'|trans({'%count%': item.lastBuiltTime}) }}">
                     <i class="text-danger ri-time-line fs-14"></i></label>
             {% endif %}
             {{ customContent('segment.name', mauticTemplateVars) }}
@@ -71,7 +71,7 @@
         }) }}
     </td>
     <td class="d-none d-md-table-cell">
-        <span size="sm" class="label {{ item.needsRebuild() ? 'label-info' : 'label-gray' }} col-count" data-id="{{ item.id }}">
+        <span size="sm" class="badge {{ item.needsRebuild() ? 'bg-info' : 'label-gray' }} col-count" data-id="{{ item.id }}">
             <a href="{{ path('mautic_contact_index', {'search': 'mautic.lead.lead.searchcommand.list'|trans ~ ':' ~ item.alias}) }}"
                 data-toggle="ajax">{{ (item.needsRebuild() ? 'mautic.lead.list.building' : 'mautic.lead.list.viewleads_count')|trans({'%count%': leadCounts[item.id]}) }}</a>
         </span>

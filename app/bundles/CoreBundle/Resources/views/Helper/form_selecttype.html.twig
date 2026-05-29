@@ -9,14 +9,12 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <a href="javascript: void(0);" onclick="Mautic.closeModalAndRedirect('.{{ typePrefix }}-type-modal', '{{ path(cancelUrl) }}');" class="close">
-                    <span aria-hidden="true">&times;</span>
-                </a>
+                <a href="javascript: void(0);" onclick="Mautic.closeModalAndRedirect('.{{ typePrefix }}-type-modal', '{{ path(cancelUrl) }}');" class="btn-close" aria-label="{{ 'mautic.core.close'|trans }}"></a>
                 <h4 class="modal-title">{{ header|trans }}</h4>
                 <div class="modal-loading-bar"></div>
             </div>
             <div class="modal-body form-select-modal">
-                <div class="d-flex row-no-gutters fw-nowrap-lg gap-md">
+                <div class="d-flex row g-0 fw-nowrap-lg gap-md">
                     <div class="col-md-6">
 
                         {% set typeOneContent %}
@@ -42,7 +40,7 @@
                                 }]
                             } %}
                         {% endif %}
-                    
+
 
                         {% if typeOneDifferences is defined and typeOneDifferences is not empty %}
                             <div class="layer-two mt-sm text-secondary">

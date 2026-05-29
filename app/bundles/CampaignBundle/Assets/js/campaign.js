@@ -345,8 +345,8 @@ Mautic.campaignBuilderUpdateEventListTooltips = function(theSelect, onlyDestroy)
             return;
         }
 
-        $tooltip.tooltip('hide');
-        $tooltip.tooltip('dispose');
+        Mautic.hideTooltip($tooltip);
+        Mautic.disposeTooltips($tooltip);
     });
     $select.data(dataAttribute, []);
 
@@ -360,7 +360,8 @@ Mautic.campaignBuilderUpdateEventListTooltips = function(theSelect, onlyDestroy)
             // Initiate a tooltip on each option since chosen doesn't copy over the data attributes
             const chosenOption = '#' + theSelect + '_chosen .option_' + mQuery(this).attr('id');
 
-            const $tooltip = mQuery(chosenOption).tooltip({html: true, container: 'body', placement: 'left'});
+            const $tooltip = mQuery(chosenOption);
+            Mautic.initTooltips($tooltip, {html: true, container: 'body', placement: 'left'});
             $select.data(dataAttribute).push($tooltip);
         }
     });
@@ -504,7 +505,7 @@ Mautic.campaignEventOnLoad = function (container, response) {
             });
 
         //initialize tooltips
-        mQuery(eventId + " *[data-toggle='tooltip']").tooltip({html: true});
+        Mautic.initTooltips(mQuery(eventId + " *[data-bs-toggle='tooltip']"), {html: true});
 
         // Connect into last anchor clicked
         Mautic.campaignBuilderInstance.connect({
@@ -694,7 +695,7 @@ Mautic.campaignSourceOnLoad = function (container, response) {
             });
 
         //initialize tooltipslist-campaign-event
-        mQuery(eventId + " *[data-toggle='tooltip']").tooltip({html: true});
+        Mautic.initTooltips(mQuery(eventId + " *[data-bs-toggle='tooltip']"), {html: true});
         if (autoConnect) {
             // Connect into last anchor clicked
             if (Mautic.campaignBuilderAnchorClicked.search('left') !== -1) {

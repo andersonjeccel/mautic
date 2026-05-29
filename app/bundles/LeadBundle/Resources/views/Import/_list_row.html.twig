@@ -9,7 +9,7 @@
 {% endif %}
 <tr>
     <td class="col-actions text-center">
-        <span class="label label-{{ item.satusLabelClass }}">
+        <span class="badge label-{{ item.satusLabelClass }}">
             {{ ('mautic.lead.import.status.'~item.status)|trans }}
         </span>
     </td>
@@ -31,21 +31,21 @@
     <td class="d-none d-md-table-cell">{{ item.progressPercentage }}%</td>
     <td class="d-none d-md-table-cell">
         {% if objectRoute is not null %}
-            <a size="sm" class="mt-xs label label-gray" href="{{ path(objectRoute, {'search': 'mautic.lead.lead.searchcommand.import_id'|trans~':'~item.id}) }}">{{ item.lineCount }}</a>
+            <a size="sm" class="mt-xs badge label-gray" href="{{ path(objectRoute, {'search': 'mautic.lead.lead.searchcommand.import_id'|trans~':'~item.id}) }}">{{ item.lineCount }}</a>
         {% else %}
             {{ item.lineCount }}
         {% endif %}
     </td>
     <td class="d-none d-md-table-cell">
         {% if objectRoute is not null %}
-            <a size="sm" class="mt-xs label label-gray" href="{{ path(objectRoute, {'search': 'mautic.lead.lead.searchcommand.import_id'|trans~':'~item.id~' '~'mautic.lead.lead.searchcommand.import_action'|trans~':inserted'}) }}">{{ item.insertedCount }}</a>
+            <a size="sm" class="mt-xs badge label-gray" href="{{ path(objectRoute, {'search': 'mautic.lead.lead.searchcommand.import_id'|trans~':'~item.id~' '~'mautic.lead.lead.searchcommand.import_action'|trans~':inserted'}) }}">{{ item.insertedCount }}</a>
         {% else %}
             {{ item.insertedCount }}
         {% endif %}
     </td>
     <td class="d-none d-md-table-cell">
         {% if objectRoute is not null %}
-            <a size="sm" class="mt-xs label label-gray" href="{{ path(objectRoute, {'search': 'mautic.lead.lead.searchcommand.import_id'|trans~':'~item.id~' '~'mautic.lead.lead.searchcommand.import_action'|trans~':updated'}) }}">{{ item.updatedCount }}</a>
+            <a size="sm" class="mt-xs badge label-gray" href="{{ path(objectRoute, {'search': 'mautic.lead.lead.searchcommand.import_id'|trans~':'~item.id~' '~'mautic.lead.lead.searchcommand.import_action'|trans~':updated'}) }}">{{ item.updatedCount }}</a>
         {% else %}
             {{ item.updatedCount }}
         {% endif %}

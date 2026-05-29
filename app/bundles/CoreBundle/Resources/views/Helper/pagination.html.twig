@@ -41,14 +41,14 @@
         {% set paginationClass = 'sm' %}
         {% set pageClass = 'pagination-sm' %}
         {% set responsiveClass = 'd-block d-sm-none' %}
-        {% set paginationWrapper = 'pagination-wrapper float-left nm' %}
+        {% set paginationWrapper = 'pagination-wrapper float-start nm' %}
     {% else %}
         {% set responsiveClass = 'd-none d-sm-block' %}
     {% endif %}
 
     <div class="{{ responsiveClass }}">
         {% if fixedLimit is not defined or fixedLimit is empty %}
-            <div class="float-right">
+            <div class="float-end">
                 <select
                     autocomplete="false"
                     class="form-control not-chosen pagination-limit{% if paginationClass is defined and paginationClass is not empty %} input-{{ paginationClass }}{% endif %}"

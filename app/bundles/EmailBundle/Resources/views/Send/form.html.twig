@@ -14,7 +14,6 @@
                         <div class="offset-1 col-10 offset-lg-2 col-lg-8">
                             <div class="card card-body mt-lg">
                                 <div class="input-group">
-                                <div class="input-group-append text-center">
                                     {{- include('@MauticCore/Helper/confirm.html.twig', {
                                         'message'         : 'mautic.email.form.confirmsend'|trans({'%name%' : email.getName()}),
                                         'confirmText'     : 'mautic.email.send'|trans,
@@ -24,9 +23,8 @@
                                         'btnClass'        : 'btn btn-primary btn-send' ~ ((pending) ? '' : ' disabled')
                                     }) -}}
                                 </div>
-                                </div>
                                 <div class="text-center">
-                                <span class="label label-primary mt-lg">
+                                <span class="badge bg-primary mt-lg">
                                     {{ 'mautic.email.send.pending'|trans ({'%count%' : pending}) }}
                                 </span>
                                     <div class="mt-sm">

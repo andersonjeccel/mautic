@@ -3,7 +3,7 @@
         {% if optionsTitle is defined and optionsTitle is not empty %}
             <h5 class="map-options__title text-white dark-md fw-sb mb-xs">{{ optionsTitle|trans }}</h5>
         {% endif %}
-        <div class="map-options__container btn-group btn-group-toggle btn-block" data-toggle="buttons">
+        <div class="map-options__container btn-group btn-group-toggle w-100">
             {% for option in options %}
             <label class="map-options__item {{ loop.first ? 'active' : '' }} btn btn-ghost"
                    data-map-option="true"

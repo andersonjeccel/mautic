@@ -17,7 +17,7 @@ Variables
                     <a href="{{ path(stat.route, {'search': 'mautic.core.searchcommand.ids'|trans~':'~stat.ids|sort|join(',')}) }}"
                        class="btn btn-ghost mt-4">
                         {{ stat.label|trans }}
-                        <span class="mt-xs label label-primary">{{ stat.ids|length }}</span>
+                        <span class="mt-xs badge bg-primary">{{ stat.ids|length }}</span>
                     </a>
                     {% set hasDependences = true %}
                 {% endif %}

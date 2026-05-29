@@ -128,7 +128,7 @@
                     {{ item.getDescription()|purify }}
                 </td>
                 <td class="d-none d-md-table-cell">
-                    <a size="sm" class="label label-gray" href="{{ path('mautic_user_index',
+                    <a size="sm" class="badge label-gray" href="{{ path('mautic_user_index',
                         {'search' : (('mautic.user.user.searchcommand.role'|trans) ~ ':"' ~ item.getName() ~ '"')}) }}" data-toggle="ajax"{{ i.user_count == 0 ? 'disabled=disabled' : '' }}>
                         {{ 'mautic.user.role.list.viewusers_count'|trans(
                             {'%count%' : i.user_count}

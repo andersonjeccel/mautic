@@ -160,10 +160,10 @@
                           {% endif %}
                       </td>
                       <td class="d-none d-md-table-cell">
-                          <span size="sm" class="label label-gray">{{ item.score }}</span>
+                          <span size="sm" class="badge label-gray">{{ item.score }}</span>
                       </td>
                       <td class="d-none d-md-table-cell">
-                          <a size="sm" class="label label-gray"
+                          <a size="sm" class="badge label-gray"
                              href="{{ path('mautic_contact_index', {'search': 'mautic.lead.lead.searchcommand.company_id'|trans~':'~item.id}) }}"
                              data-toggle="ajax"
                              {% if 0 == leadCounts[item.id] %}disabled="disabled"{% endif %}>

@@ -7,12 +7,12 @@
 {% if vertical is not empty %}
 <div class="box-layout">
 {% endif %}
-<div class="tab-container {{ overflow }}{{ vertical is not empty ? ' height-auto col-' ~ verticalTabColWidth ~ ' pr-0 bdr-r' : '' }}">
+<div class="tab-container {{ overflow }}{{ vertical is not empty ? ' height-auto col-' ~ verticalTabColWidth ~ ' pe-0 bdr-r' : '' }}">
     {% if button is not empty %}
     <div class="tab-button{{ (vertical is not empty) ? ' tab-button-' ~ vertical : '' }}">
         <a href="javascript:void(0);"
            role="tab"
-           class="btn btn-primary btn-lg btn-block btn-nospin"
+           class="btn btn-primary btn-lg w-100 btn-nospin"
            id="{{ button.id }}"
            style="border-radius: 0;"
             {% if button.attr is not empty %}{{ button.attr }}{% endif %}
@@ -42,8 +42,8 @@
                     {% set tab = tab|merge({'icon': 'ri-checkbox-circle-line text-secondary'}) %}
                 {% endif %}
             {% endif %}
-            <li data-tab-id="{{ tab['id'] }}" class="{% if tab['active'] is not empty %}active{% endif %}{{ class }}"{{ attr }}>
-                <a href="#{{ tab['id'] }}" role="tab" data-toggle="tab" class="{{ class }}">
+            <li data-tab-id="{{ tab['id'] }}" class="nav-item{{ class }}"{{ attr }}>
+                <a href="#{{ tab['id'] }}" role="tab" data-bs-toggle="tab" class="nav-link{% if tab['active'] is not empty %} active{% endif %}{{ class }}">
                     <span>{{ tab['name'] }}</span>
                     {% if tab.icon is not empty %}
                         <i class="ri-fw {{ tab['icon'] }}"></i>
@@ -53,7 +53,7 @@
         {% endfor %}
     </ul>
 </div>
-<div class="tab-content{{ vertical is not empty ? ' col-' ~ verticalContentColWidth ~' pl-0 pt-0 height-auto' : ' pa-md' }}">
+<div class="tab-content{{ vertical is not empty ? ' col-' ~ verticalContentColWidth ~' ps-0 pt-0 height-auto' : ' pa-md' }}">
     {% for tab in tabs %}
         {% set containerClass = (tab.containerClass is defined and tab['containerClass'] is not empty) ? ' ' ~ tab['containerClass'] : '' %}
         {% if tab['containerAttr'] is defined and tab['containerAttr'] is iterable %}

@@ -184,8 +184,8 @@
                     icon: 'ri-translate-2',
                     color: 'warm-gray',
                     attributes: {
-                        'data-toggle': 'tooltip',
-                        'data-placement': 'top',
+                        'data-bs-toggle': 'tooltip',
+                        'data-bs-placement': 'top',
                         'title': 'mautic.core.language'|trans
                     }
                 }]
@@ -299,7 +299,7 @@
                               {% endif %}
                               <tr>
                                   <td width="20%">
-                                      <span class="fw-b" data-toggle="tooltip" data-placement="right" title="{{ 'mautic.email.stat.sent.details'|trans }}">{{ 'mautic.email.stat.sent'|trans }} <i class="ri-question-line"></i></span>
+                                      <span class="fw-b" data-bs-toggle="tooltip" data-bs-placement="right" title="{{ 'mautic.email.stat.sent.details'|trans }}">{{ 'mautic.email.stat.sent'|trans }} <i class="ri-question-line"></i></span>
                                   </td>
                                   <td>{{ email.sentCount }}</td>
                               </tr>
@@ -326,8 +326,8 @@
           <div>
               <!-- email detail collapseable toggler -->
               <div class="hr-expand nm">
-                <span data-toggle="tooltip" title="{{ 'mautic.core.details'|trans }}">
-                    <a href="javascript:void(0)" class="arrow text-secondary collapsed" data-toggle="collapse" data-target="#email-details">
+                <span data-bs-toggle="tooltip" title="{{ 'mautic.core.details'|trans }}">
+                    <a href="javascript:void(0)" class="arrow text-secondary collapsed" data-bs-toggle="collapse" data-bs-target="#email-details">
                       {{ 'mautic.core.details'|trans }}
                     </a>
                 </span>
@@ -383,13 +383,13 @@
               <div class="stats-menu pl-md mt-lg">
                   <!-- tabs controls -->
                   <ul class="nav nav-tabs nav-tabs-contained">
-                      <li class="active">
-                          <a href="#stats-container" role="tab" data-toggle="tab">
+                      <li class="nav-item">
+                          <a class="nav-link active" href="#stats-container" role="tab" data-bs-toggle="tab">
                               {{ 'mautic.email.thead.stats'|trans }}
                           </a>
                       </li>
-                      <li>
-                          <a href="#reads-map-container" role="tab" data-toggle="tab" data-load="map">
+                      <li class="nav-item">
+                          <a class="nav-link" href="#reads-map-container" role="tab" data-bs-toggle="tab" data-load="map">
                               {{ 'mautic.email.thead.maps'|trans }}
                           </a>
                       </li>
@@ -427,26 +427,26 @@
 
               <!-- tabs controls -->
               <ul class="nav nav-tabs nav-tabs-contained">
-                  <li class="active">
-                      <a href="#clicks-container" role="tab" data-toggle="tab">
+                  <li class="nav-item">
+                      <a class="nav-link active" href="#clicks-container" role="tab" data-bs-toggle="tab">
                           {{ 'mautic.trackable.click_counts'|trans }}
                       </a>
                   </li>
-                  <li>
-                      <a href="#contacts-container" role="tab" data-toggle="tab">
+                  <li class="nav-item">
+                      <a class="nav-link" href="#contacts-container" role="tab" data-bs-toggle="tab">
                           {{ 'mautic.email.associated.contacts'|trans }}
                       </a>
                   </li>
                   {% if showVariants %}
-                      <li>
-                          <a href="#variants-container" role="tab" data-toggle="tab">
+                      <li class="nav-item">
+                          <a class="nav-link" href="#variants-container" role="tab" data-bs-toggle="tab">
                               {{ 'mautic.core.variants'|trans }}
                           </a>
                       </li>
                   {% endif %}
                   {% if showTranslations %}
-                      <li>
-                          <a href="#translation-container" role="tab" data-toggle="tab">
+                      <li class="nav-item">
+                          <a class="nav-link" href="#translation-container" role="tab" data-bs-toggle="tab">
                               {{ 'mautic.core.translations'|trans }}
                           </a>
                       </li>
@@ -530,7 +530,6 @@
                   <div class="row">
                       <div class="form-group col-12">
                           <div class="input-group">
-                              <div class="input-group-prepend">
                                   <span class="input-group-text">
                                       {{- include('@MauticCore/Helper/publishstatus_icon.html.twig', {
                                           'item'  : email,
@@ -538,9 +537,7 @@
                                           'query' : 'customToggle=publicPreview'
                                       }) -}}
                                   </span>
-                              </div>
                               <input id="content_preview_url" data-route="email/preview" onclick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" readonly value="{{ previewUrl|escape }}"/>
-                              <div class="input-group-append">
                                 {% include '@MauticCore/Helper/button.html.twig' with {
                                     buttons: [
                                         {
@@ -556,7 +553,6 @@
                                         }
                                     ]
                                 } %}
-                          </div>
                               <input type="hidden" id="content_preview_settings_object_id" value="{{ email.id }}">
                               <input type="hidden" id="content_preview_settings_contact_id" value="">
                           </div>
@@ -573,7 +569,6 @@
               </div>
               <div class="card-body pt-xs">
                   <div class="input-group">
-                      <div class="input-group-prepend">
                           <span class="input-group-text">
                               {{- include('@MauticCore/Helper/publishstatus_icon.html.twig', {
                                   'item'  : email.getDraft(),
@@ -581,15 +576,12 @@
                                   'query' : 'customToggle=publicPreview'
                               }) -}}
                           </span>
-                      </div>
                       <input onclick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control"
                              readonly
                              value="{{ draftPreviewUrl|escape }}"/>
-                      <div class="input-group-append">
                         <button class="btn btn-secondary btn-nospin" onclick="window.open('{{ draftPreviewUrl }}', '_blank');">
                             <i class="fa fa-external-link"></i>
                         </button>
-                    </div>
                   </div>
               </div>
           </div>

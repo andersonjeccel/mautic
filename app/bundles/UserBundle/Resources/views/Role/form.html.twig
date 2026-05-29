@@ -18,8 +18,8 @@
 	<div class="col-12 height-auto">
 		<!-- tabs controls -->
 		<ul class="nav nav-tabs nav-tabs-contained">
-			<li class="active"><a href="#details-container" role="tab" data-toggle="tab">{% trans %}mautic.core.details{% endtrans %}</a></li>
-			<li class="" id="permissions-tab"><a href="#permissions-container" role="tab" data-toggle="tab">{% trans %}mautic.user.role.permissions{% endtrans %}</a></li>
+			<li class="nav-item"><a class="nav-link active" href="#details-container" role="tab" data-bs-toggle="tab">{% trans %}mautic.core.details{% endtrans %}</a></li>
+			<li class="nav-item" id="permissions-tab"><a class="nav-link" href="#permissions-container" role="tab" data-bs-toggle="tab">{% trans %}mautic.user.role.permissions{% endtrans %}</a></li>
 		</ul>
 		<!--/ tabs controls -->
 
@@ -57,7 +57,7 @@
 								<ul class="list-group list-group-tabs" role="tablist">
                                     {% for bundle, config in permissionsConfig['config'] %}
 										<li role="presentation" class="list-group-item {{ loop.index0 is same as(0) ? 'show active' : '' }}">
-											<a href="#{{ bundle }}PermissionTab" aria-controls="{{ bundle }}PermissionTab" role="tab" data-toggle="tab" class="list-group-item-heading steps">
+											<a href="#{{ bundle }}PermissionTab" aria-controls="{{ bundle }}PermissionTab" role="tab" data-bs-toggle="tab" class="list-group-item-heading steps">
 												<span>{{ config['label'] }}</span>
 												<span class="permission-ratio"> (<span class="{{ bundle }}_granted">{{ config['ratio'][0] }}</span> / <span class="{{ bundle }}_total">{{ config['ratio'][1] }}</span>)</span>
 											</a>

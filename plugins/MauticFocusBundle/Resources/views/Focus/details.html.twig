@@ -18,8 +18,8 @@
                 }[item.type],
                 color: 'high-contrast',
                 attributes: {
-                    'data-toggle': 'tooltip',
-                    'data-placement': 'top',
+                    'data-bs-toggle': 'tooltip',
+                    'data-bs-placement': 'top',
                     'title': 'mautic.focus.type'|trans
                 }
             }]
@@ -38,8 +38,8 @@
                 }[item.style],
                 color: 'blue',
                 attributes: {
-                    'data-toggle': 'tooltip',
-                    'data-placement': 'top',
+                    'data-bs-toggle': 'tooltip',
+                    'data-bs-placement': 'top',
                     'title': 'mautic.focus.style'|trans
                 }
             }]
@@ -88,8 +88,8 @@
             icon: 'ri-timer-fill',
             color: 'blue',
             attributes: {
-                'data-toggle': 'tooltip',
-                'data-placement': 'top',
+                'data-bs-toggle': 'tooltip',
+                'data-bs-placement': 'top',
                 'title': 'mautic.focus.form.timeout.description'|trans
             }
         }]
@@ -155,8 +155,8 @@
           <div>
               <!-- form detail collapseable toggler -->
               <div class="hr-expand nm">
-                  <span data-toggle="tooltip" title="{{ 'mautic.core.details'|trans }}">
-                      <a href="javascript:void(0)" class="arrow text-secondary collapsed" data-toggle="collapse" data-target="#focus-details">{{ 'mautic.core.details'|trans }}
+                  <span data-bs-toggle="tooltip" title="{{ 'mautic.core.details'|trans }}">
+                      <a href="javascript:void(0)" class="arrow text-secondary collapsed" data-bs-toggle="collapse" data-bs-target="#focus-details">{{ 'mautic.core.details'|trans }}
                       </a>
                   </span>
               </div>
@@ -191,7 +191,7 @@
                                       </h5>
                                   </div>
                                   <div class="col-8 va-m">
-                                      {{ include('@MauticCore/Helper/graph_dateselect.html.twig', {'dateRangeForm': dateRangeForm, 'class': 'float-right'}) }}
+                                      {{ include('@MauticCore/Helper/graph_dateselect.html.twig', {'dateRangeForm': dateRangeForm, 'class': 'float-end'}) }}
                                   </div>
                               </div>
                               <div class="d-flex fd-column pt-0 pl-15 pb-15 pr-15 min-h-256">
@@ -208,8 +208,8 @@
               {% if trackables is defined and trackables is not empty %}
                   <!-- tabs controls -->
                   <ul class="nav nav-tabs nav-tabs-contained">
-                      <li class="active">
-                          <a href="#clicks-container" role="tab" data-toggle="tab">
+                      <li class="nav-item">
+                          <a class="nav-link active" href="#clicks-container" role="tab" data-bs-toggle="tab">
                               {{ 'mautic.trackable.click_counts'|trans }}
                           </a>
                       </li>

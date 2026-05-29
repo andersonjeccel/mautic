@@ -68,9 +68,9 @@
 {%- set onclick = onclick is empty ? 'Mautic.togglePublishStatus(event, \'.%s\', \'%s\', \'%s\', \'%s\', %s);'|format(idClass, model, item.id, query, backdropFlag) : onclick %}
 
 {%- set defaultAttributes = {
-          'data-container': 'body',
-          'data-placement': 'right',
-          'data-toggle': 'tooltip',
+          'data-bs-container': 'body',
+          'data-bs-placement': 'right',
+          'data-bs-toggle': 'tooltip',
           'data-status': status,
 } %}
 
@@ -81,7 +81,7 @@
             'data-model': model,
             'data-item-id': item.id,
             'data-query': query,
-            'data-backdrop': backdropFlag,
+            'data-bs-backdrop': backdropFlag,
   }) %}
 {%- endif %}
 

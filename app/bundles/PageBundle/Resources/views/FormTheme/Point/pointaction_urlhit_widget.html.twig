@@ -24,8 +24,7 @@
         <div class="input-group">
             {{ form_widget(form['returns_within']) }}
             {%- set default = form.returns_within_unit.vars.data %}
-            <div class="input-group-append">
-                <button type="button" class="btn btn-ghost dropdown-toggle" data-toggle="dropdown">
+                <button type="button" class="btn btn-ghost dropdown-toggle" data-bs-toggle="dropdown">
                     <span class="returns_within_label">{{ timeFrames[default] }}</span>
                 </button>
                 <ul class="dropdown-menu time-dropdown">
@@ -33,7 +32,6 @@
                     <li><a href="#" data-time="{{ abbr }}" data-field="returns_within">{{ label }}</a></li>
                     {%- endfor %}
                 </ul>
-            </div>
         </div>
         {{ form_errors(form['returns_within']) }}
         {{ form_widget(form['returns_within_unit']) }}
@@ -44,8 +42,7 @@
         <div class="input-group">
             {{ form_widget(form['returns_after']) }}
             {%- set default = form['returns_after_unit'].vars['data'] %}
-            <div class="input-group-append">
-                <button type="button" class="btn btn-ghost dropdown-toggle" data-toggle="dropdown">
+                <button type="button" class="btn btn-ghost dropdown-toggle" data-bs-toggle="dropdown">
                     <span class="returns_after_label">{{ timeFrames[default] }}</span>
                 </button>
                 <ul class="dropdown-menu time-dropdown">
@@ -53,7 +50,6 @@
                         <li><a href="#" data-time="{{ abbr }}" data-field="returns_after">{{ label }}</a></li>
                     {%- endfor %}
                 </ul>
-            </div>
         </div>
         {{ form_errors(form['returns_after']) }}
         {{ form_widget(form['returns_after_unit']) }}
@@ -65,8 +61,7 @@
         <div class="input-group">
             {{ form_widget(form['accumulative_time']) }}
             {%- set default = form['accumulative_time_unit'].vars['data'] %}
-            <div class="input-group-append">
-                <button type="button" class="btn btn-ghost dropdown-toggle" data-toggle="dropdown">
+                <button type="button" class="btn btn-ghost dropdown-toggle" data-bs-toggle="dropdown">
                     <span class="accumulative_time_label">{{ timeFrames[default] }}</span>
                 </button>
                 <ul class="dropdown-menu time-dropdown">
@@ -74,7 +69,6 @@
                         <li><a href="#" data-time="{{ abbr }}" data-field="accumulative_time">{{ label }}</a></li>
                     {%- endfor %}
                 </ul>
-            </div>
         </div>
         {{ form_errors(form['accumulative_time']) }}
         {{ form_widget(form['accumulative_time_unit']) }}

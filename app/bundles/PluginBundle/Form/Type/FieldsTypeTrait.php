@@ -171,7 +171,7 @@ trait FieldsTypeTrait
                                 'data'              => $data,
                                 'placeholder'       => false,
                                 'attr'              => [
-                                    'data-toggle'   => 'tooltip',
+                                    'data-bs-toggle' => 'tooltip',
                                     'title'         => 'mautic.plugin.direction.data.update',
                                     'disabled'      => $disabled,
                                     'forceDirection'=> $forceDirection,

@@ -4,9 +4,9 @@
 #}
 {{ form_start(form) }}
 <ul class="nav nav-tabs nav-tabs-contained">
-    <li class="active"><a data-toggle="tab" href="#channels">{{ 'mautic.lead.contact.channels'|trans }}</a></li>
-    <li><a data-toggle="tab" href="#categories">{{ 'mautic.lead.preferred.categories'|trans }}</a></li>
-    <li><a data-toggle="tab" href="#segments">{{ 'mautic.lead.preferred.segments'|trans }}</a></li>
+    <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#channels">{{ 'mautic.lead.contact.channels'|trans }}</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#categories">{{ 'mautic.lead.preferred.categories'|trans }}</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#segments">{{ 'mautic.lead.preferred.segments'|trans }}</a></li>
 </ul>
 <div class="tab-content">
     <div id="channels" class="tab-pane fade show active">
@@ -45,9 +45,9 @@
                     </td>
                     <td class="col-md-9" style="vertical-align: top">
                             <div>
-                                <div class="float-left">
+                                <div class="float-start">
                                     {% set attr = form.lead_channels['frequency_number_' ~ channel.value].vars.attr %}
-                                    {% set attr = attr|merge({'class': attr.class ~ ' float-left'}) %}
+                                    {% set attr = attr|merge({'class': attr.class ~ ' float-start'}) %}
                                     {{ form_widget(form.lead_channels['frequency_number_' ~ channel.value], {'attr': attr}) }}
                                     {{ form_label(form.lead_channels['frequency_time_' ~ channel.value]) }}
                                     <div class="frequency-select">{{ form_widget(form.lead_channels['frequency_time_' ~ channel.value]) }}</div>

@@ -26,17 +26,17 @@
                     <span>{{ attribute(translation, nameGetter) }}</span>
                 </a>
                 {% if isCurrent %}
-                    &nbsp;<span class="label label-success">{{ 'mautic.core.current'|trans }}</span>
+                    &nbsp;<span class="badge bg-success">{{ 'mautic.core.current'|trans }}</span>
                 {% endif %}
                 {% if translations.parent.id is same as translation.id %}
-                    &nbsp;<span class="label label-warning">{{ 'mautic.core.parent'|trans }}</span>
+                    &nbsp;<span class="badge bg-warning">{{ 'mautic.core.parent'|trans }}</span>
                 {% endif %}
             </h5>
             {% if method_exists(translation, 'getAlias') %}
                 <span class="text-white dark-sm">{{ translation.alias }}</span>
             {% endif %}
         </div>
-        <div class="col-md-4 va-m text-right">
+        <div class="col-md-4 va-m text-end">
             <em class="text-white dark-sm">{{ translation.language }}</em>
         </div>
     </div>

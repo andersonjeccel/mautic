@@ -30,13 +30,13 @@
 
                   <!-- tabs controls -->
                   <ul class="nav nav-tabs nav-tabs-contained">
-                      <li class="active"><a href="#notification-container" role="tab" data-toggle="tab">{{ 'mautic.core.details'|trans }}</a></li>
-                      <li><a href="#data-notification-container" role="tab" data-toggle="tab">{{ 'mautic.notification.tab.data'|trans }}</a></li>
+                      <li class="nav-item"><a class="nav-link active" href="#notification-container" role="tab" data-bs-toggle="tab">{{ 'mautic.core.details'|trans }}</a></li>
+                      <li class="nav-item"><a class="nav-link" href="#data-notification-container" role="tab" data-bs-toggle="tab">{{ 'mautic.notification.tab.data'|trans }}</a></li>
                       {% if integrationSettings.platforms is defined and 'ios' in integrationSettings.platforms %}
-                          <li><a href="#ios-notification-container" role="tab" data-toggle="tab">{{ 'mautic.notification.tab.ios'|trans }}</a></li>
+                          <li class="nav-item"><a class="nav-link" href="#ios-notification-container" role="tab" data-bs-toggle="tab">{{ 'mautic.notification.tab.ios'|trans }}</a></li>
                       {% endif %}
                       {% if integrationSettings.platforms is defined and 'android' in integrationSettings.platforms %}
-                          <li><a href="#android-notification-container" role="tab" data-toggle="tab">{{ 'mautic.notification.tab.android'|trans }}</a></li>
+                          <li class="nav-item"><a class="nav-link" href="#android-notification-container" role="tab" data-bs-toggle="tab">{{ 'mautic.notification.tab.android'|trans }}</a></li>
                       {% endif %}
                   </ul>
                   <!--/ tabs controls -->

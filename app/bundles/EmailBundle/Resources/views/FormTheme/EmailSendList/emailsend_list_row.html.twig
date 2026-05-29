@@ -1,6 +1,6 @@
 {% block emailsend_list_row %}
 <div class="row">
-    <div class="col-12 pr-0">
+    <div class="col-12 pe-0">
         {{ form_row(form.email) }}
         <div class="mb-lg d-flex">
             {{ form_row(form.newEmailButton) }}
@@ -15,12 +15,12 @@
     </div>
     {% endif %}
     <div class="col-6 hide" id="email_send_to_dnc_status">
-        <span class="col-form-label d-block" data-toggle="tooltip" data-container="body" data-placement="top"
-            data-original-title="{{ 'mautic.email.send.dnc.tooltip.info'|trans }}">
+        <span class="col-form-label d-block" data-bs-toggle="tooltip" data-bs-container="body" data-bs-placement="top"
+            data-bs-title="{{ 'mautic.email.send.dnc.tooltip.info'|trans }}">
             {{ 'mautic.email.send.dnc.label'|trans }}
             <i class="fa fa-question-circle"></i>
         </span>
-        <span class="dnc-status-text label"></span>
+        <span class="dnc-status-text badge"></span>
     </div>
     {% if form.priority is defined %}
     <div id="priority" class="col-6 queue_hide">

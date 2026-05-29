@@ -36,7 +36,7 @@ class NoteType extends AbstractType
             TextareaType::class,
             [
                 'label'      => 'mautic.lead.note.form.text',
-                'label_attr' => ['class' => 'col-form-label sr-only'],
+                'label_attr' => ['class' => 'col-form-label visually-hidden'],
                 'attr'       => ['class' => 'mousetrap form-control editor', 'rows' => 10, 'autofocus' => 'autofocus'],
             ]
         );

@@ -94,7 +94,7 @@ Mautic.loadAjaxModal = function (target, route, method, header, footer, preventD
         ? {backdrop: 'static', keyboard: false, show: false}
         : {backdrop: true, keyboard: true, show: false};
 
-    if (typeof element.data('bs.modal') !== 'undefined') {
+    if (Mautic.getBootstrapInstance(element, 'Modal')) {
         element.modal('dispose');
     }
 
@@ -440,4 +440,3 @@ Mautic.showModal = function(target) {
 
     mQuery(target).modal('show');
 };
-

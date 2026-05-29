@@ -596,7 +596,7 @@ class SalesforceIntegration extends CrmAbstractIntegration
                     'label'             => 'mautic.salesforce.form.activity_included_events',
                     'label_attr'        => [
                         'class'       => 'col-form-label',
-                        'data-toggle' => 'tooltip',
+                        'data-bs-toggle' => 'tooltip',
                         'title'       => $this->translator->trans('mautic.salesforce.form.activity.events.tooltip'),
                     ],
                     'multiple'   => true,

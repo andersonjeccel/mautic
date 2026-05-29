@@ -52,7 +52,7 @@
                 </div>
                 <div class="col-11">
                     {% if isWinner %}
-                        <div class="mr-xs float-left" data-toggle="tooltip" title="{{ 'mautic.core.ab_test.make_winner'|trans }}">
+                        <div class="mr-xs float-start" data-bs-toggle="tooltip" title="{{ 'mautic.core.ab_test.make_winner'|trans }}">
                             {% include '@MauticCore/Helper/button.html.twig' with {
                                 buttons: [
                                     {
@@ -78,13 +78,13 @@
                             {{ attribute(variant, nameGetter) }}
                         </a>
                         {% if isCurrent %}
-                            &nbsp;<span class="label label-success">{{ 'mautic.core.current'|trans }}</span>
+                            &nbsp;<span class="badge bg-success">{{ 'mautic.core.current'|trans }}</span>
                         {% endif %}
                         {% if variants.parent.id is same as variant.id %}
-                            &nbsp;<span class="label label-warning">{{ 'mautic.core.parent'|trans }}</span>
+                            &nbsp;<span class="badge bg-warning">{{ 'mautic.core.parent'|trans }}</span>
                         {% endif %}
                         {% if variant is instanceof('\\Mautic\\CoreBundle\\Entity\\TranslationEntityInterface') and variant.isTranslation %}
-                            &nbsp;<span data-toggle="tooltip" title="{{ 'mautic.core.icon_tooltip.translation'|trans }}">
+                            &nbsp;<span data-bs-toggle="tooltip" title="{{ 'mautic.core.icon_tooltip.translation'|trans }}">
                                 <i class="ri-fw ri-translate"></i>
                             </span>
                         {% endif %}
@@ -95,21 +95,21 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4 va-t text-right">
+        <div class="col-md-4 va-t text-end">
             <em class="text-white dark-sm">
                 {% if isPublished and (totalWeight > 100 or (thisCriteria and firstCriteria != thisCriteria)) %}
-                    <div class="text-danger" data-toggle="tooltip" title="{{ 'mautic.core.variant.misconfiguration'|trans }}">
+                    <div class="text-danger" data-bs-toggle="tooltip" title="{{ 'mautic.core.variant.misconfiguration'|trans }}">
                         <div><span class="badge">{{ weight }}%</span></div>
                         <div><i class="ri-fw ri-alert-line"></i>{{ criteriaLabel }}</div>
                     </div>
                 {% elseif isPublished and criteriaLabel %}
                     <div class="text-success">
-                        <div><span class="label label-success">{{ weight }}%</span></div>
+                        <div><span class="badge bg-success">{{ weight }}%</span></div>
                         <div><i class="ri-check-line"></i>{{ criteriaLabel }}</div>
                     </div>
                 {% else %}
                     <div class="text-secondary">
-                        <div><span size="sm" class="label label-gray">{{ weight }}%</span></div>
+                        <div><span size="sm" class="badge label-gray">{{ weight }}%</span></div>
                         <div>{{ criteriaLabel }}</div>
                     </div>
                 {% endif %}

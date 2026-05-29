@@ -11,7 +11,7 @@
 {% set leadName = lead.isAnonymous ? lead.primaryIdentifier|trans : lead.primaryIdentifier %}
 {% set avatar %}
   {% if not isAnonymous %}
-    <span class="float-left img-wrapper rounded mr-10" style="width:33px"><img src="{{ leadGetAvatar(lead) }}" alt="" /></span>
+    <span class="float-start img-wrapper rounded mr-10" style="width:33px"><img src="{{ leadGetAvatar(lead) }}" alt="" /></span>
   {% endif %}
 {% endset %}
 
@@ -19,7 +19,7 @@
 {% set groups = fields|keys %}
 
 {% block headerTitle %}
-    {{ avatar }}<div class="float-left mt-5"><span class="span-block">{{ leadName|purify }}</span><span class="span-block small ml-sm">
+    {{ avatar }}<div class="float-start mt-5"><span class="span-block">{{ leadName|purify }}</span><span class="span-block small ml-sm">
     {{ lead.secondaryIdentifier|purify }}</span></div>
     {{ customContent('lead.name.after', _context) }}
 {% endblock %}
@@ -161,18 +161,18 @@
                 <ul class="pt-md nav nav-tabs nav-tabs-contained" role="tablist">
                     {% for g in groups %}
                         {% if fields[g] is not empty %}
-                            <li class="{% if loop.first %}active{% endif %}">
-                                <a href="#{{ g }}" class="group" data-toggle="tab">
+                            <li class="nav-item">
+                                <a href="#{{ g }}" class="{% if loop.first %}active{% endif %} nav-link group" data-bs-toggle="tab">
                                     {{ ('mautic.lead.field.group.'~g)|trans }}
                                 </a>
                             </li>
                         {% endif %}
                     {% endfor %}
-                        <li>
-                            <a href="#devices" class="group" data-toggle="tab">{{ 'mautic.lead.devices'|trans }}</a>
+                        <li class="nav-item">
+                            <a href="#devices" class="nav-link group" data-bs-toggle="tab">{{ 'mautic.lead.devices'|trans }}</a>
                         </li>
-                    <li>
-                        <a href="#lead-stats" class="group" data-toggle="tab">{{ 'mautic.lead.stats'|trans }}</a>
+                    <li class="nav-item">
+                        <a href="#lead-stats" class="nav-link group" data-bs-toggle="tab">{{ 'mautic.lead.stats'|trans }}</a>
                     </li>
                 </ul>
 
@@ -247,8 +247,8 @@
         <div>
             <!-- lead detail collapseable toggler -->
             <div class="hr-expand nm">
-                <span data-toggle="tooltip" title="{{ 'mautic.core.details'|trans }}">
-                    <a href="javascript:void(0)" class="arrow text-secondary collapsed" data-toggle="collapse" data-target="#lead-details">
+                <span data-bs-toggle="tooltip" title="{{ 'mautic.core.details'|trans }}">
+                    <a href="javascript:void(0)" class="arrow text-secondary collapsed" data-bs-toggle="collapse" data-bs-target="#lead-details">
                        {{ 'mautic.core.details'|trans }}
                     </a>
                 </span>
@@ -264,7 +264,7 @@
                                     <div class="col-8 va-m">
                                         <h5 class="text-white dark-md fw-sb mb-xs">{{ 'mautic.lead.field.header.engagements'|trans }}</h5>
                                     </div>
-                                    <div class="col-4 va-t text-right">
+                                    <div class="col-4 va-t text-end">
                                         <h3 class="text-white dark-sm"><span class="ri-eye-line"></span></h3>
                                     </div>
                                 </div>
@@ -281,51 +281,51 @@
         <div class="pa-md">
             <!-- tabs controls -->
             <ul class="nav nav-tabs nav-tabs-contained mt-10">
-                <li class="active">
-                    <a href="#timeline-container" role="tab" data-toggle="tab">
-                        <span size="sm" class="label label-primary mr-sm" id="TimelineCount">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#timeline-container" role="tab" data-bs-toggle="tab">
+                        <span size="sm" class="badge bg-primary mr-sm" id="TimelineCount">
                             {{ events.total }}
                         </span>
                         {{ 'mautic.lead.lead.tab.history'|trans }}
                     </a>
                 </li>
-                <li class="">
-                    <a href="#notes-container" role="tab" data-toggle="tab">
-                        <span size="sm" class="label label-primary mr-sm" id="NoteCount">
+                <li class="nav-item">
+                    <a class="nav-link" href="#notes-container" role="tab" data-bs-toggle="tab">
+                        <span size="sm" class="badge bg-primary mr-sm" id="NoteCount">
                             {{ noteCount }}
                         </span>
                         {{ 'mautic.lead.lead.tab.notes'|trans }}
                     </a>
                 </li>
                 {% if not isAnonymous %}
-                    <li class="">
-                        <a href="#social-container" role="tab" data-toggle="tab">
-                        <span size="sm" class="label label-primary mr-sm" id="SocialCount">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#social-container" role="tab" data-bs-toggle="tab">
+                        <span size="sm" class="badge bg-primary mr-sm" id="SocialCount">
                             {{ socialProfiles|length }}
                         </span>
                             {{ 'mautic.lead.lead.tab.social'|trans }}
                         </a>
                     </li>
                 {% endif %}
-                <li class="">
-                    <a href="#integration-container" role="tab" data-toggle="tab">
-                    <span size="sm" class="label label-primary mr-sm" id="IntegrationCount">
+                <li class="nav-item">
+                    <a class="nav-link" href="#integration-container" role="tab" data-bs-toggle="tab">
+                    <span size="sm" class="badge bg-primary mr-sm" id="IntegrationCount">
                         {{ integrations|length }}
                     </span>
                         {{ 'mautic.lead.lead.tab.integration'|trans }}
                     </a>
                 </li>
-                <li class="">
-                    <a href="#auditlog-container" role="tab" data-toggle="tab">
-                    <span size="sm" class="label label-primary mr-sm" id="AuditLogCount">
+                <li class="nav-item">
+                    <a class="nav-link" href="#auditlog-container" role="tab" data-bs-toggle="tab">
+                    <span size="sm" class="badge bg-primary mr-sm" id="AuditLogCount">
                         {{ auditlog.total }}
                     </span>
                         {{ 'mautic.lead.lead.tab.auditlog'|trans }}
                     </a>
                 </li>
-                    <li class="">
-                        <a href="#place-container" role="tab" data-toggle="tab" id="load-lead-map">
-                        <span size="sm" class="label label-primary mr-sm" id="PlaceCount">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#place-container" role="tab" data-bs-toggle="tab" id="load-lead-map">
+                        <span size="sm" class="badge bg-primary mr-sm" id="PlaceCount">
                             {{ places|length }}
                         </span>
                             {{ 'mautic.lead.lead.tab.places'|trans }}
@@ -409,8 +409,8 @@
                     <div class="avatar-collapser hr-expand nm">
                         <a href="javascript:void(0)"
                             class="arrow text-secondary text-center {% if 'expanded' != avatarPanelState %}collapsed{% endif %}"
-                            data-toggle="collapse"
-                            data-target="#lead-avatar-block">
+                            data-bs-toggle="collapse"
+                            data-bs-target="#lead-avatar-block">
                             </a>
                     </div>
                     <div class="collapse {% if 'expanded' == avatarPanelState %}in{% endif %}" id="lead-avatar-block">
@@ -511,7 +511,7 @@
                                 {% set errors = metadata.errors is iterable ? metadata.errors|join('<br/>') : metadata.errors %}
                             {% endif %}
                             <li class="media">
-                                <div class="media-object float-left mt-xs">
+                                <div class="media-object float-start mt-xs">
                                     <span class="figure"></span>
                                 </div>
                                 <div class="media-body">
@@ -520,7 +520,7 @@
                                           '%link%': '<a href="'~path('mautic_campaign_action', {'objectAction': 'view', 'objectId': event.campaign_id})~'" data-toggle="ajax">'~event.campaign_name~'</a>',
                                     })|purify }}
                                     {% if errors is not empty %}
-                                      <i class="ri-alert-line text-danger" data-toggle="tooltip" title="{{ errors|purify }}"></i>
+                                      <i class="ri-alert-line text-danger" data-bs-toggle="tooltip" title="{{ errors|purify }}"></i>
                                     {% endif %}
                                     <p class="fs-12 dark-sm timeline-campaign-event-date-{{ event.event_id }}">
                                       {{ dateToFull(event.trigger_date, 'utc') }}

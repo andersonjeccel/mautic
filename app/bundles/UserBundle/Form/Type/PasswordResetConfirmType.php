@@ -26,7 +26,7 @@ class PasswordResetConfirmType extends AbstractType
             TextType::class,
             [
                 'label'      => 'mautic.user.auth.form.loginusername',
-                'label_attr' => ['class' => 'sr-only'],
+                'label_attr' => ['class' => 'visually-hidden'],
                 'attr'       => [
                     'class'       => 'form-control',
                     'preaddon'    => 'ri-user-6-fill',
@@ -96,7 +96,7 @@ class PasswordResetConfirmType extends AbstractType
             SubmitType::class,
             [
                 'attr' => [
-                    'class' => 'btn btn-lg btn-primary btn-block',
+                    'class' => 'btn btn-lg btn-primary w-100',
                 ],
                 'label' => 'mautic.user.user.passwordreset.reset',
             ]

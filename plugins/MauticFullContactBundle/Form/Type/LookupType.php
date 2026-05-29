@@ -33,7 +33,7 @@ class LookupType extends AbstractType
                 'save_text'      => 'mautic.core.form.submit',
                 'cancel_onclick' => 'javascript:void(0);',
                 'cancel_attr'    => [
-                    'data-dismiss' => 'modal',
+                    'data-bs-dismiss' => 'modal',
                 ],
             ]
         );

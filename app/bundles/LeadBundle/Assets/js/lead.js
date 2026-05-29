@@ -139,7 +139,7 @@ Mautic.leadOnLoad = function (container, response) {
         leadMap = Mautic.initMap('#place-container', 'markers');
     });
 
-    mQuery('a[data-toggle="tab"]').not('a#load-lead-map').on('shown.bs.tab', function (e) {
+    mQuery('a[data-bs-toggle="tab"]').not('a#load-lead-map').on('shown.bs.tab', function (e) {
         if (leadMap.length) {
             leadMap.destroyMap();
             leadMap = undefined;
@@ -149,7 +149,7 @@ Mautic.leadOnLoad = function (container, response) {
     Mautic.initUniqueIdentifierFields();
 
     if (mQuery(container + ' .card-companies').length) {
-        mQuery(container + ' .card-companies .ri-check-line').tooltip({html: true});
+        Mautic.initTooltips(mQuery(container + ' .card-companies .ri-check-line'), {html: true});
     }
 
     // Adding behavior to be able to create new tags by pressing the `Enter` or `Escape` key
@@ -531,10 +531,8 @@ Mautic.reorderSegmentFilters = function() {
     $firstPanel.find(panelClass).addClass('hide');
     $firstPanel.find('.copy-filter-group').removeClass('hide');
 
-    const $tooltips = $filters.find("*[data-toggle='tooltip']");
-    $tooltips.each(function() {
-        mQuery(this).tooltip({html: true, container: 'body'});
-    });
+    const $tooltips = $filters.find("*[data-bs-toggle='tooltip']");
+    Mautic.initTooltips($tooltips, {html: true, container: 'body'});
 };
 
 Mautic.convertLeadFilterInput = function(el) {
@@ -738,7 +736,8 @@ Mautic.segmentFilter = function() {
                     'fast',
                     function () {
                         // Remove existing tooltip
-                        mQuery('*[role="tooltip"]').tooltip('dispose');
+                        Mautic.disposeTooltips($filter.find("*[data-bs-toggle='tooltip']"));
+                        mQuery('*[role="tooltip"]').remove();
                         mQuery(this).remove();
                         Mautic.reorderSegmentFilters();
                     }
@@ -858,7 +857,7 @@ Mautic.updateLeadFieldProperties = function(selectedVal, onload) {
         selectedVal = 'select';
     }
 
-    mQuery('#leadfield_properties [data-toggle="tooltip"]').tooltip('dispose');
+    Mautic.disposeTooltips(mQuery('#leadfield_properties [data-bs-toggle="tooltip"]'));
 
     if (mQuery('#field-templates .' + selectedVal).length) {
         mQuery('#leadfield_properties').html(
@@ -906,7 +905,7 @@ Mautic.updateLeadFieldProperties = function(selectedVal, onload) {
             }, 500);
         });
 
-        mQuery('#leadfield_properties [data-toggle="tooltip"]').tooltip();
+        Mautic.initTooltips(mQuery('#leadfield_properties [data-bs-toggle="tooltip"]'));
     } else if (!mQuery('#leadfield_properties .' + selectedVal).length) {
         mQuery('#leadfield_properties').html('');
     }
@@ -1000,7 +999,7 @@ Mautic.updateLeadFieldOrderChoiceList = function () {
         if (response) {
             mQuery('#leadfield_order_container').html(response);
             Mautic.activateChosenSelect('#leadfield_order');
-            mQuery('label[for=leadfield_order]').tooltip({html: true});
+            Mautic.initTooltips(mQuery('label[for=leadfield_order]'), {html: true});
         }
     });
 }
@@ -1256,7 +1255,7 @@ Mautic.reloadLeadImportProgress = function() {
                 if (response.progress[0] > 0) {
                     mQuery('.imported-count').html(response.progress[0]);
                     mQuery('.progress-bar-import').attr('aria-valuenow', response.progress[0]).css('width', response.percent + '%');
-                    mQuery('.progress-bar-import span.sr-only').html(response.percent + '%');
+                    mQuery('.progress-bar-import span.visually-hidden').html(response.percent + '%');
                 }
             }
         }, false, false, "GET");
@@ -1281,7 +1280,7 @@ Mautic.removeBounceStatus = function (el, dncId, channel) {
     mQuery(el).removeClass('ri-close-line').addClass('ri-loader-3-line ri-spin');
 
     Mautic.ajaxActionRequest('lead:removeBounceStatus', {'id': dncId, 'channel': channel}, function() {
-        mQuery('#bounceLabel' + dncId).tooltip('dispose');
+        Mautic.disposeTooltips(mQuery('#bounceLabel' + dncId));
         mQuery('#bounceLabel' + dncId).fadeOut(300, function() { mQuery(this).remove(); });
     });
 };
@@ -1684,7 +1683,7 @@ Mautic.listOnLoad = function(container, response) {
     let jsPlumbData = null;
 
     if (segmentDependenciesTab.length) {
-        mQuery(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+        mQuery(document).on('shown.bs.tab', 'a[data-bs-toggle="tab"]', function (e) {
             if (!mQuery(e.target).attr('id') === 'segment-dependencies') {
                 return;
             }
@@ -1714,7 +1713,7 @@ Mautic.listOnLoad = function(container, response) {
             }
         });
 
-        mQuery(document).on('hide.bs.tab', 'a[data-toggle="tab"]', function (e) {
+        mQuery(document).on('hide.bs.tab', 'a[data-bs-toggle="tab"]', function (e) {
             if (!mQuery(e.target).attr('id') !== 'segment-dependencies') {
                 Mautic.cleanSegmentDependencies();
             }

@@ -241,29 +241,29 @@ if (typeof jQuery === "undefined") { throw new Error("This application requires 
             // Per call
             // ================================
             BsTooltip: function () {
-                $("[data-toggle~=tooltip]").tooltip();
+                MauticBootstrap.initTooltips($("[data-bs-toggle~=tooltip]"));
             },
 
             // @MISC: BsPopover - Bootstrap popover
             // Per call
             // ================================
             BsPopover: function () {
-                $("[data-toggle~=popover]").popover({
+                MauticBootstrap.initPopovers($("[data-bs-toggle~=popover]"), {
                     sanitize: false
                 });
                 
                 var hideAllPopovers = function() {
-                    $("[data-toggle~=popover]").popover('hide');
+                    MauticBootstrap.hidePopovers($("[data-bs-toggle~=popover]"));
                 };
                 
                 $(document).on('click', function(e) {
                     if (!$(e.target).closest('.popover').length && 
-                        !$(e.target).closest('[data-toggle="popover"]').length) {
+                        !$(e.target).closest('[data-bs-toggle="popover"]').length) {
                         hideAllPopovers();
                     }
                 });
                 
-                $(document).on('mouseenter', '[data-toggle="popover"][data-trigger="hover"]', function() {
+                $(document).on('mouseenter', '[data-bs-toggle="popover"][data-bs-trigger="hover"]', function() {
                     hideAllPopovers();
                 });
             },

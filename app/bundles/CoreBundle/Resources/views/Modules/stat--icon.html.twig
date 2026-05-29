@@ -1,4 +1,4 @@
-<div class="lead-stats row-no-gutters gap-sm fw-nowrap-lg mb-sm">
+<div class="lead-stats row g-0 gap-sm fw-nowrap-lg mb-sm">
     {% for stat in stats %}
     <div class="col-12 col-lg-3">
         {% set tileContent %}
@@ -6,7 +6,7 @@
                 <span class="text-secondary mb-lg ellipsis">
                     {{ stat.title|trans }}
                     {% if stat.tooltip is defined %}
-                        <i class="ri-information-line ml-3" data-toggle="tooltip" title="{{ stat.tooltip|trans }}"></i>
+                        <i class="ri-information-line ms-3" data-bs-toggle="tooltip" title="{{ stat.tooltip|trans }}"></i>
                     {% endif %}
                 </span>
                 {% if stat.desc is defined %}
@@ -18,7 +18,7 @@
                         <i class="{{ stat.icon }} fs-22" aria-hidden="true"></i>
                     {% endif %}
                 </span>
-            </div>  
+            </div>
         {% endset %}
 
         {% if stat.link is defined and stat.value != 0 %}

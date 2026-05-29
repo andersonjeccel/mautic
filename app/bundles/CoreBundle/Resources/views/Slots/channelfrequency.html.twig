@@ -7,7 +7,7 @@
         {%- set channelName = getChannelLabel(channel.value)|lower %}
         <tr>
             <td>
-                <div class="text-left">
+                <div class="text-start">
                     <input type="hidden" id="{{ channel.value }}-hidden"
                            name="lead_contact_frequency_rules[lead_channels][subscribed_channels][{{ key }}]"
                            value="">
@@ -23,7 +23,7 @@
         </tr>
         <tr>
             <td>
-                <div id="frequency_{{ channel.value }}" class="text-left row">
+                <div id="frequency_{{ channel.value }}" class="text-start row">
                     {%- if
                         form.lead_channels['frequency_number_' ~ channel.value] is defined
                         and form.lead_channels['frequency_time_' ~ channel.value] is defined
@@ -76,7 +76,7 @@
     <tbody>
     <tr>
         <td>
-            <div class="text-left">
+            <div class="text-start">
                 <input type="checkbox" checked="">
                 <label class="col-form-label">
                     {{ channelfrequency['label-text']|default('mautic.lead.contact.me.label'|trans) }}</label>
@@ -85,11 +85,11 @@
     </tr>
     <tr>
         <td>
-            <div id="frequency_email" class="text-left row">
+            <div id="frequency_email" class="text-start row">
                 <div class="col-6">
                     <label class="text-secondary label1">{{ channelfrequency['label-text1']|default('mautic.lead.list.frequency.number'|trans) }}</label>
                     <input type="text" class="frequency form-control">
-                    <label class="text-secondary fw-n frequency-label label2">{{ channelfrequency['label-text2']|default('mautic.lead.list.frequency.times'|trans) }}</label>
+                    <label class="text-secondary fw-n frequency-badge label2">{{ channelfrequency['label-text2']|default('mautic.lead.list.frequency.times'|trans) }}</label>
                     <select class="form-control">
                         <option value="" selected="selected"></option>
                     </select>
@@ -97,7 +97,7 @@
                 <div class="col-6">
                     <label class="text-secondary label3">{{ channelfrequency['label-text3']|default('mautic.lead.frequency.dates.label'|trans) }}</label>
                     <input type="date" class="form-control">
-                    <label class="frequency-label text-secondary fw-n label4">{{ channelfrequency['label-text4']|default('mautic.lead.frequency.contact.end.date'|trans) }}</label>
+                    <label class="frequency-badge text-secondary fw-n label4">{{ channelfrequency['label-text4']|default('mautic.lead.frequency.contact.end.date'|trans) }}</label>
                     <input type="date" class="form-control">
                 </div>
             </div>

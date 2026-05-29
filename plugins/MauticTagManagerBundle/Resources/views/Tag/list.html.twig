@@ -119,7 +119,7 @@
                                     {% endif %}
                                 </td>
                                 <td class="d-none d-md-table-cell">
-                                    <a size="sm" class="label label-gray" href="{{-  path('mautic_contact_index', {
+                                    <a size="sm" class="badge label-gray" href="{{-  path('mautic_contact_index', {
                                         'search' : "#{'mautic.tagmanager.lead.searchcommand.list'|trans}:\"#{item.getTag()}\"",
                                     }) -}}" data-toggle="ajax" {{- 0 == tagsCount[item.getId()] ? 'disabled=disabled' : '' -}}>
                                     {{- 'mautic.lead.list.viewleads_count'|trans({'%count%': tagsCount[item.getId()]}) -}}

@@ -19,9 +19,7 @@
                         <div class="small text-secondary"> {{ 'mautic.lead.import.start.instructions.format'|trans }}: CSV</div>
                         <div class="input-group card card-body mt-xs">
                             {{ form_widget(form.file, {'label': 'mautic.lead.import.csv.parser.config'}) }}
-                            <div class="input-group-append">
                                 {{ form_widget(form.start) }}
-                            </div>
                         </div>
                         <div class="row">
                             {% set sampleContent %}
@@ -32,7 +30,7 @@
                                     {{ form_row(form.escape) }}
                                 </div>
                                 <div class="tile mt-lg">
-                                    <div class="row-no-gutters gap-sm fw-nowrap-md">
+                                    <div class="row g-0 gap-sm fw-nowrap-md">
                                         <div class="col-md-8 gap-xs">
                                             <h5 class="fw-b"> {{'mautic.lead.import.start.instructions.sample'|trans }}</h5>
                                             <span> {{ 'mautic.lead.import.start.instructions.sample.description'|trans }}</span>

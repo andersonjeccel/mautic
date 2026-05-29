@@ -119,7 +119,7 @@ class DetailsType extends AbstractType
                     'choice_attr' => function ($val) use ($tooltips): array {
                         if (array_key_exists($val, $tooltips)) {
                             return [
-                                'data-toggle' => 'tooltip',
+                                'data-bs-toggle' => 'tooltip',
                                 'title'       => $tooltips[$val],
                             ];
                         }

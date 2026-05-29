@@ -17,7 +17,7 @@
                 'type': 'button',
                 'id': 'btn-filter',
                 'data-livesearch-parent': id,
-                'class': 'input-group-append btn-search'
+                'class': 'btn-search'
             }
         }
     ]
@@ -78,11 +78,11 @@
         icon: 'ri-filter-line ri-1x',
         attributes: {
             'type': 'button',
-            'data-container': 'body',
-            'data-toggle': 'popover',
-            'data-html': 'true',
-            'data-placement': 'left',
-            'data-content': filtering|escape('html_attr')
+            'data-bs-container': 'body',
+            'data-bs-toggle': 'popover',
+            'data-bs-html': 'true',
+            'data-bs-placement': 'left',
+            'data-bs-content': filtering|escape('html_attr')
         },
         label: 'mautic.core.quick_filters'
     }

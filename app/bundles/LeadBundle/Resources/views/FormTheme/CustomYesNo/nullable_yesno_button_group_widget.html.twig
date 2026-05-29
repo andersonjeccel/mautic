@@ -7,7 +7,7 @@
     {% set yes_choice = form.vars.choices[1] %}
     {% set no_choice = form.vars.choices[0] %}
 
-    <div class="btn-group btn-group-toggle btn-block custom-button-group" data-toggle="buttons">
+    <div class="btn-group btn-group-toggle w-100 custom-button-group">
 
         {# No Button #}
         <label class="btn btn-secondary{% if value is not same as(null) and value is not same as('') and value == no_choice.value %} active{% endif %}">

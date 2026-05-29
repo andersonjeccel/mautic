@@ -164,7 +164,7 @@ Mautic.addReportRow = function (elId) {
     }
 
     Mautic.activateChosenSelect(mQuery('#' + elId + '_' + index + '_column'));
-    mQuery("#" + elId + " *[data-toggle='tooltip']").tooltip({html: true, container: 'body'});
+    Mautic.initTooltips(mQuery("#" + elId + " *[data-bs-toggle='tooltip']"), {html: true, container: 'body'});
 
 };
 
@@ -309,10 +309,11 @@ Mautic.updateReportFilterValueInput = function (filterColumn, setup) {
 
         const utcTooltipOptions = { trigger: 'manual' };
 
-        inputElement.attr('data-toggle', 'tooltip')
-            .attr('data-placement', 'bottom')
-            .attr('title', '...') // Set a placeholder title, to be replaced later
-            .tooltip(utcTooltipOptions);
+        inputElement.attr('data-bs-toggle', 'tooltip')
+            .attr('data-bs-placement', 'bottom')
+            .attr('title', '...'); // Set a placeholder title, to be replaced later
+        Mautic.disposeTooltips(inputElement);
+        Mautic.initTooltips(inputElement, utcTooltipOptions);
 
         inputElement.on('focus', function () {
             const currentOperator = mQuery('#report_filters_' + idParts[2] + '_condition').val();
@@ -325,14 +326,14 @@ Mautic.updateReportFilterValueInput = function (filterColumn, setup) {
                     message = Mautic.translate('mautic.report.filter.date_comparison_timezone_tooltip');
                 }
                 mQuery(this)
-                    .tooltip('dispose')
                     .attr('title', message)
-                    .attr('data-original-title', message)
-                    .tooltip(utcTooltipOptions)
-                    .tooltip('show');
+                    .attr('data-bs-title', message);
+                Mautic.disposeTooltips(this);
+                Mautic.initTooltips(this, utcTooltipOptions);
+                Mautic.showTooltip(this);
             }
         }).on('blur', function () {
-            mQuery(this).tooltip('hide');
+            Mautic.hideTooltip(this);
         });
 
         inputElement.data('utc-tooltip-initialized', true);
@@ -340,7 +341,7 @@ Mautic.updateReportFilterValueInput = function (filterColumn, setup) {
 };
 
 Mautic.removeReportRow = function (container) {
-    mQuery("#" + container + " *[data-toggle='tooltip']").tooltip('dispose');
+    Mautic.disposeTooltips(mQuery("#" + container + " *[data-bs-toggle='tooltip']"));
     mQuery('#' + container).remove();
 };
 
@@ -485,5 +486,5 @@ Mautic.cloneReportRow = function (containerId) {
     }
 
     // Reinitialize tooltips
-    newContainer.find("*[data-toggle='tooltip']").tooltip({ html: true, container: 'body' });
+    Mautic.initTooltips(newContainer.find("*[data-bs-toggle='tooltip']"), { html: true, container: 'body' });
 };

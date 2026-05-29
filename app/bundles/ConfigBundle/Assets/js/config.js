@@ -52,14 +52,14 @@ Mautic.observeConfigTabs = function() {
     var parameters = Mautic.parseQuery(window.location.search.substr(1));
     if ('undefined' != typeof parameters['tab']) {
         mQuery('#config_coreconfig_last_shown_tab').val(parameters['tab']);
-        mQuery('a[data-toggle="tab"]').each(function (i, tab) {
+        mQuery('a[data-bs-toggle="tab"]').each(function (i, tab) {
             if (mQuery(tab).attr('href') == ('#' + parameters['tab'])) {
                 mQuery(tab).tab('show');
             }
         });
     }
 
-    mQuery('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+    mQuery('a[data-bs-toggle="tab"]').on('show.bs.tab', function (e) {
         var tab = Mautic.parseUrlHashParameter(e.target.href);
         if (tab) {
             mQuery('#config_coreconfig_last_shown_tab').val(tab);

@@ -102,7 +102,7 @@
     {% endif %}
 
     {% if activePage.language is defined and activePage.language is not empty %}
-        {% set grayTags = grayTags|merge([{ label: activePage.language|language_name, icon: 'ri-translate-2', color: 'warm-gray', attributes: { 'data-toggle': 'tooltip', 'data-placement': 'top', 'title': 'mautic.core.language'|trans } }]) %}
+        {% set grayTags = grayTags|merge([{ label: activePage.language|language_name, icon: 'ri-translate-2', color: 'warm-gray', attributes: { 'data-bs-toggle': 'tooltip', 'data-bs-placement': 'top', 'title': 'mautic.core.language'|trans } }]) %}
     {% endif %}
 
     {% include '@MauticCore/Helper/_tag.html.twig' with { tags: blueTags|merge(grayTags) } %}
@@ -158,8 +158,8 @@
           <div>
               <!-- page detail collapseable toggler -->
               <div class="hr-expand nm">
-                  <span data-toggle="tooltip" title="Detail">
-                      <a href="javascript:void(0)" class="arrow text-secondary collapsed" data-toggle="collapse" data-target="#page-details">
+                  <span data-bs-toggle="tooltip" title="Detail">
+                      <a href="javascript:void(0)" class="arrow text-secondary collapsed" data-bs-toggle="collapse" data-bs-target="#page-details">
                           {{ 'mautic.core.details'|trans }}
                       </a>
                   </span>
@@ -179,7 +179,7 @@
                                       </h5>
                                   </div>
                                   <div class="col-md-9 va-m">
-                                      {{ include('@MauticCore/Helper/graph_dateselect.html.twig', {'dateRangeForm': dateRangeForm, 'class': 'float-right'}) }}
+                                      {{ include('@MauticCore/Helper/graph_dateselect.html.twig', {'dateRangeForm': dateRangeForm, 'class': 'float-end'}) }}
                                   </div>
                               </div>
                               <div class="d-flex fd-column pt-0 pl-15 pb-15 pr-15 min-h-256">
@@ -196,15 +196,15 @@
               <!-- tabs controls -->
               <ul class="nav nav-tabs nav-tabs-contained">
                   {% if showVariants %}
-                      <li class="active">
-                          <a href="#variants-container" role="tab" data-toggle="tab">
+                      <li class="nav-item">
+                          <a class="nav-link active" href="#variants-container" role="tab" data-bs-toggle="tab">
                               {{- 'mautic.core.variants'|trans -}}
                           </a>
                       </li>
                   {% endif %}
                   {% if showTranslations %}
-                      <li class="{% if not showVariants %}active{% endif %}">
-                          <a href="#translation-container" role="tab" data-toggle="tab">
+                      <li class="nav-item">
+                          <a class="nav-link {% if not showVariants %}active{% endif %}" href="#translation-container" role="tab" data-bs-toggle="tab">
                               {{- 'mautic.core.translations'|trans -}}
                           </a>
                       </li>
@@ -306,7 +306,6 @@
                   <div class="row">
                       <div class="form-group col-12">
                           <div class="input-group">
-                              <div class="input-group-prepend">
                                   <span class="input-group-text">
                                       {{- include('@MauticCore/Helper/publishstatus_icon.html.twig', {
                                           'item'  : activePage,
@@ -314,7 +313,6 @@
                                           'query' : 'customToggle=publicPreview'
                                       }) -}}
                                   </span>
-                              </div>
                               <input id="content_preview_url"
                                      data-route="page/preview"
                                      onclick="this.setSelectionRange(0, this.value.length);"
@@ -322,7 +320,6 @@
                                      class="form-control"
                                      readonly
                                      value="{{ previewUrl|e }}"/>
-                              <div class="input-group-append">
                                 {% include '@MauticCore/Helper/button.html.twig' with {
                                     buttons: [
                                         {
@@ -338,7 +335,6 @@
                                         }
                                     ]
                                 } %}
-                              </div>
                               <input type="hidden" id="content_preview_settings_object_id" value="{{ activePage.id }}">
                               <input type="hidden" id="content_preview_settings_contact_id" value="">
                           </div>
@@ -356,12 +352,10 @@
                           <input onclick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control"
                                  readonly
                                  value="{{ draftPreviewUrl|e }}"/>
-                          <div class="input-group-append">
                     <button class="btn btn-secondary btn-nospin"
                             onclick="window.open('{{ draftPreviewUrl }}', '_blank');">
                         <i class="fa fa-external-link"></i>
                     </button>
-                </div>
                       </div>
                   </div>
               </div>
