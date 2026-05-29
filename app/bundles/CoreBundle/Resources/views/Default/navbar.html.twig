@@ -5,7 +5,7 @@
 <div class="navbar-nocollapse">
     <!-- start: left nav -->
     <ul class="nav navbar-nav navbar-left">
-        <li class="d-block d-sm-none">
+        <li class="visible-xs">
             <a href="javascript: void(0);" data-toggle="sidebar" data-direction="ltr">
                 <i class="ri-menu-line fs-16"></i>
             </a>
@@ -13,10 +13,10 @@
         <!-- brand -->
          <li>
             <a class="pa-0" href="{{ path('mautic_dashboard_index') }}">
-                <div class="brand-logo--desktop mautic-brand d-none d-sm-block pl-md pr-lg">
+                <div class="brand-logo--desktop mautic-brand hidden-xs pl-md pr-lg">
                     {{ source('@MauticCore/Assets/images/logo--expanded.svg') }}
                 </div>
-                <div class="brand-logo--mobile mautic-brand d-block d-sm-none pr-sm">
+                <div class="brand-logo--mobile mautic-brand visible-xs pr-sm">
                     {{ source('@MauticCore/Assets/images/logo--minimized.svg') }}
                 </div>
             </a>
@@ -50,7 +50,7 @@
         {{ menuRender('admin') }}
         {{ include('@MauticCore/Menu/profile.html.twig') }}
     </ul>
-    <div class="navbar-toolbar float-right mt-15 mr-10">
+    <div class="navbar-toolbar pull-right mt-15 mr-10">
     {{ buttonReset(constant('Mautic\\CoreBundle\\Twig\\Helper\\ButtonHelper::LOCATION_NAVBAR')) }}
     {{ buttonsRender() }}
     </div>

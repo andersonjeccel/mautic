@@ -83,7 +83,11 @@
       float: left;
       margin: 0;
       display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
       align-items: center;
+      padding-left: 0;
+      list-style: none;
 
       > .mautic-brand > .mautic-logo-text {
         opacity: 1;
@@ -101,9 +105,13 @@
         // `navbar-nav` anchor
         > a {
           color: var(--text-primary);
+          position: relative;
+          display: block;
           line-height: $header-height;
           padding-top: 0;
+          padding-right: 15px;
           padding-bottom: 0;
+          padding-left: 15px;
           @include clearfix();
 
           // lineicon reset
@@ -129,6 +137,7 @@
 
             // aligment
             // -------------------------
+            &.pull-right,
             &.float-right {
               left: auto;
               right: 4px;
@@ -146,6 +155,7 @@
 
             // aligment
             // -------------------------
+            &.pull-right,
             &.float-right {
               left: auto;
               right: 4px;
@@ -203,7 +213,8 @@
       }
 
       // open state
-      .open {
+      .open,
+      .show {
         // reset default bootstrap `navbar-nav` `dropdown-menu`
         .dropdown-menu {
           background-color: var(--layer);
@@ -290,12 +301,14 @@
       float: left !important;
 
       // dropdown alignment
-      .open .dropdown-menu {
+      .open .dropdown-menu,
+      .show .dropdown-menu {
         left: 0;
         right: auto;
       }
       // dropdown-custom alignment
-      .open.dropdown-custom .dropdown-menu {
+      .open.dropdown-custom .dropdown-menu,
+      .show.dropdown-custom .dropdown-menu {
         left: 15px;
         right: auto;
       }
@@ -303,7 +316,8 @@
     .navbar-right {
       float: right !important;
 
-      .open > a:after {
+      .open > a:after,
+      .show > a:after {
         z-index: 1003;
         bottom: -7px;
         margin-left: -8px;
@@ -317,7 +331,8 @@
         border-style: solid;
       }
 
-      .open > a:before {
+      .open > a:before,
+      .show > a:before {
         z-index: 1002;
         bottom: -6px;
         margin-left: -9px;
@@ -332,12 +347,14 @@
       }
 
       // dropdown alignment
-      .open .dropdown-menu {
+      .open .dropdown-menu,
+      .show .dropdown-menu {
         left: auto;
         right: 0;
       }
       // dropdown-custom alignment
-      .open.dropdown-custom .dropdown-menu {
+      .open.dropdown-custom .dropdown-menu,
+      .show.dropdown-custom .dropdown-menu {
         left: auto;
         right: 15px;
       }
