@@ -83,7 +83,7 @@
     background-color: transparent;
     border-width: 1px;
 
-    &.btn-primary { color: $brand-primary; }
+    &.btn-primary { color: $primary; }
     &.btn-success { color: $brand-success; }
     &.btn-warning { color: $brand-warning; }
     &.btn-danger { color: $brand-danger; }
@@ -296,7 +296,7 @@
   }
 
   &:hover,
-  &:focus { 
+  &:focus {
     text-decoration: none;
   }
 }
@@ -320,7 +320,7 @@
     justify-content: flex-end;
     gap: 1px;
     margin: -15px;
-    
+
     .btn {
       align-items: flex-start;
       height: var(--spacing-10);

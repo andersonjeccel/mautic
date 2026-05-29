@@ -17,7 +17,7 @@ a.media {
     }
   }
   &.new {
-    background-color: lighten($gray-lighter, 4%);
+    background-color: lighten($gray-100, 4%);
   }
 }
 .notification .media-body {
@@ -168,14 +168,14 @@ a.media {
           left: -18px;
           right: auto;
           border-width: 10px 0 10px 10px;
-          border-color: transparent transparent transparent $brand-primary;
+          border-color: transparent transparent transparent $primary;
         }
       }
       .media-body {
         text-align: right;
         .media-text {
           color: darken(#fff, 5%);
-          background-color: $brand-primary;
+          background-color: $primary;
         }
       }
     }

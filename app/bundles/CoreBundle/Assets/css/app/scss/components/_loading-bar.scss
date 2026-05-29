@@ -45,7 +45,7 @@
   left: 0;
   right: 0;
   height: 2px;
-  background-color: lighten($brand-primary, 30%);
+  background-color: lighten($primary, 30%);
   overflow: hidden;
   @include lh-transition(opacity 0.3s ease);
 
@@ -55,7 +55,7 @@
     content: '';
     position: absolute;
     height: 2px;
-    background-color: $brand-primary;
+    background-color: $primary;
   }
   // active state
   &.active {

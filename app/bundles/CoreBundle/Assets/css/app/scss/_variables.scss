@@ -2,7 +2,7 @@
 //== Bootstrap variable
 //
 //## import bootstrap variable.
-@import '../../libraries/bootstrap/bootstrap-mautic-custom-variables';
+@import '../../libraries/bootstrap/variables';
 @import 'components/brand';
 @import 'mixins';
 
@@ -20,7 +20,7 @@ $mautic-logo-figure-m-fill:                 $brand-warning;
 $mautic-logo-text-width:                    98px;
 $mautic-logo-text-fill:                     $mautic-primary;
 
-$alert-mautic-bg:             $brand-primary;
+$alert-mautic-bg:             $primary;
 $alert-mautic-text:           #fff;
 $alert-mautic-border:         rgba(0,0,0,0.03);
 

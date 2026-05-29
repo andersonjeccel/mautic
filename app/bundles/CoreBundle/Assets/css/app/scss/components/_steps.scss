@@ -20,7 +20,7 @@
         top: -15px;
         height: 15px;
         width: 1px;
-        background-color: $gray-light;
+        background-color: $gray-600;
       }
     }
 
@@ -47,9 +47,9 @@
     a.steps {
       &:hover,
       &:focus {
-        color: darken($gray-light, 10%);
+        color: darken($gray-600, 10%);
         > .steps-figure {
-          border-color: darken($gray-light, 10%);
+          border-color: darken($gray-600, 10%);
         }
       }
     }
@@ -60,7 +60,7 @@
   .steps {
     position: relative;
     display: inline-block;
-    color: $gray-light;
+    color: $gray-600;
 
     // steps figure
     > .steps-figure {
@@ -70,7 +70,7 @@
       font-size: 14px;
       line-height: $input-height-base - 4;
       border-radius: 50%;
-      border: 2px solid $gray-light;
+      border: 2px solid $gray-600;
       + .steps-text {
         margin-left: 5px;
       }
@@ -102,7 +102,7 @@
         top: $input-height-base / 2;
         height: 1px;
         width: 18px;
-        background-color: $gray-light;
+        background-color: $gray-600;
       }
     }
 
@@ -129,21 +129,21 @@
     a.steps {
       &:hover,
       &:focus {
-        color: darken($gray-light, 10%);
+        color: darken($gray-600, 10%);
         > .steps-figure {
-          border-color: darken($gray-light, 10%);
+          border-color: darken($gray-600, 10%);
         }
       }
       &.disabled {
-        color: lighten($gray-light, 10%);
+        color: lighten($gray-600, 10%);
         > .steps-figure {
-          border-color: lighten($gray-light, 10%);
+          border-color: lighten($gray-600, 10%);
         }
         &:hover {
-          color: lighten($gray-light, 10%);
+          color: lighten($gray-600, 10%);
           cursor: not-allowed;
           > .steps-figure {
-            border-color: lighten($gray-light, 10%);
+            border-color: lighten($gray-600, 10%);
           }
         }
       }
@@ -155,7 +155,7 @@
   .steps {
     position: relative;
     display: inline-block;
-    color: $gray-light;
+    color: $gray-600;
 
     // steps figure
     > .steps-figure {
@@ -165,7 +165,7 @@
       font-size: 14px;
       line-height: $input-height-base - 4;
       border-radius: 50%;
-      border: 2px solid $gray-light;
+      border: 2px solid $gray-600;
       + .steps-text {
         margin-left: 5px;
       }

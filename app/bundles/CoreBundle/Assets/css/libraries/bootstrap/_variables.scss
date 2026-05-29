@@ -1,3 +1,11 @@
+// stylelint-disable value-keyword-case
+
+//
+// Variables
+// --------------------------------------------------
+
+@import '../../app/scss/components/brand';
+
 // Variables
 //
 // Variables should follow the `$component-state-property-size` formula for
@@ -1133,6 +1141,318 @@ $kbd-bg:                            var(--layer) !default;
 
 $pre-color:                         var(--text-primary) !default;
 $pre-scrollable-max-height:         340px !default;
+
+
+// Mautic Bootstrap 3 compatibility variables.
+//
+// Keep legacy variable names here so Bootstrap wiring stays clean and old Mautic
+// SCSS can be removed gradually.
+
+$gray-base:              $black !default;
+$gray-darker:            $gray-900 !default;
+$gray-dark:              $gray-800 !default;
+$gray:                   $gray-700 !default;
+$gray-light:             $gray-600 !default;
+$gray-lighter:           $gray-100 !default;
+
+$brand-primary:          $primary !default;
+$brand-success:          $success !default;
+$brand-info:             $info !default;
+$brand-warning:          $warning !default;
+$brand-danger:           $danger !default;
+
+$text-color:             $body-color !default;
+
+$font-family-serif:      Georgia, "Times New Roman", Times, serif !default;
+$font-size-large:        17px !default;
+$font-size-small:        12px !default;
+$font-size-h1:           36px !default;
+$font-size-h2:           30px !default;
+$font-size-h3:           21px !default;
+$font-size-h4:           17px !default;
+$font-size-h5:           15px !default;
+$font-size-h6:           14px !default;
+$line-height-large:      $line-height-lg !default;
+$line-height-small:      $line-height-sm !default;
+$line-height-computed:   19px !default;
+
+$padding-base-vertical:    6px !default;
+$padding-base-horizontal:  12px !default;
+$padding-large-vertical:   10px !default;
+$padding-large-horizontal: 16px !default;
+$padding-small-vertical:   5px !default;
+$padding-small-horizontal: 10px !default;
+$padding-xs-vertical:      1px !default;
+$padding-xs-horizontal:    5px !default;
+
+$border-radius-base:     $border-radius !default;
+$border-radius-large:    $border-radius-lg !default;
+$border-radius-small:    $border-radius-sm !default;
+
+$caret-width-base:       $caret-width !default;
+$caret-width-large:      .3125rem !default;
+
+$table-sm-cell-padding:  $table-cell-padding-sm !default;
+$table-bg-accent:        $table-accent-bg !default;
+$table-bg-hover:         $table-hover-bg !default;
+$table-bg-active:        $table-active-bg !default;
+
+$btn-secondary-color:    $body-color !default;
+$btn-secondary-border:   #ddd !default;
+$btn-secondary-bg:       #fff !default;
+$btn-primary-color:      #fff !default;
+$btn-primary-bg:         $primary !default;
+$btn-primary-border:     $primary !default;
+$btn-success-color:      #fff !default;
+$btn-success-bg:         $success !default;
+$btn-success-border:     $success !default;
+$btn-info-color:         #fff !default;
+$btn-info-bg:            $info !default;
+$btn-info-border:        $info !default;
+$btn-warning-color:      #fff !default;
+$btn-warning-bg:         $warning !default;
+$btn-warning-border:     $warning !default;
+$btn-danger-color:       #fff !default;
+$btn-danger-bg:          $danger !default;
+$btn-danger-border:      $danger !default;
+$btn-border-radius-base: $btn-border-radius !default;
+$btn-border-radius-large: $btn-border-radius-lg !default;
+$btn-border-radius-small: $btn-border-radius-sm !default;
+
+$input-bg-disabled:             $input-disabled-bg !default;
+$input-border:                  $input-border-color !default;
+$input-border-radius-large:     $input-border-radius-lg !default;
+$input-border-radius-small:     $input-border-radius-sm !default;
+$input-border-focus:            $input-focus-border-color !default;
+$input-color-placeholder:       $input-placeholder-color !default;
+$input-height-base:             40px !default;
+$input-height-large:            48px !default;
+$input-height-small:            32px !default;
+$legend-color:                  var(--text-primary) !default;
+$legend-border-color:           var(--border-subtle) !default;
+$input-group-text-bg:           $input-group-addon-bg !default;
+$input-group-text-border-color: $input-group-addon-border-color !default;
+$cursor-disabled:               not-allowed !default;
+
+$dropdown-border:              $dropdown-border-color !default;
+$dropdown-fallback-border:     #eee !default;
+$dropdown-caret-color:         gray !default;
+
+$zindex-navbar:           $zindex-sticky !default;
+$zindex-dropdown:         $zindex-dropdown !default;
+$zindex-navbar-fixed:     $zindex-fixed !default;
+$zindex-modal-background: $zindex-modal-backdrop !default;
+
+$screen-xs:         480px !default;
+$screen-xs-min:     $screen-xs !default;
+$screen-phone:      $screen-xs-min !default;
+$screen-sm:         768px !default;
+$screen-sm-min:     $screen-sm !default;
+$screen-tablet:     $screen-sm-min !default;
+$screen-md:         992px !default;
+$screen-md-min:     $screen-md !default;
+$screen-desktop:    $screen-md-min !default;
+$screen-lg:         1200px !default;
+$screen-lg-min:     $screen-lg !default;
+$screen-lg-desktop: $screen-lg-min !default;
+$screen-xs-max:     ($screen-sm-min - 1) !default;
+$screen-sm-max:     ($screen-md-min - 1) !default;
+$screen-md-max:     ($screen-lg-min - 1) !default;
+
+$grid-float-breakpoint:     $screen-sm-min !default;
+$grid-float-breakpoint-max: ($grid-float-breakpoint - 1) !default;
+$container-tablet:          (720px + $grid-gutter-width) !default;
+$container-sm:              $container-tablet !default;
+$container-desktop:         (940px + $grid-gutter-width) !default;
+$container-md:              $container-desktop !default;
+$container-large-desktop:   (1140px + $grid-gutter-width) !default;
+$container-lg:              $container-large-desktop !default;
+
+$navbar-height:                    50px !default;
+$navbar-margin-bottom:             $line-height-computed !default;
+$navbar-border-radius:             $border-radius-base !default;
+$navbar-padding-horizontal:        floor(($grid-gutter-width / 2)) !default;
+$navbar-padding-vertical:          .96875rem !default;
+$navbar-collapse-max-height:       340px !default;
+$navbar-default-color:             #777 !default;
+$navbar-default-bg:                #f8f8f8 !default;
+$navbar-default-border:            darken($navbar-default-bg, 6.5%) !default;
+$navbar-default-link-color:        #777 !default;
+$navbar-default-link-hover-color:  #333 !default;
+$navbar-default-link-hover-bg:     transparent !default;
+$navbar-default-link-active-color: #555 !default;
+$navbar-default-link-active-bg:    darken($navbar-default-bg, 6.5%) !default;
+$navbar-default-link-disabled-color: #ccc !default;
+$navbar-default-link-disabled-bg:  transparent !default;
+$navbar-default-brand-color:       $navbar-default-link-color !default;
+$navbar-default-brand-hover-color: darken($navbar-default-brand-color, 10%) !default;
+$navbar-default-brand-hover-bg:    transparent !default;
+$navbar-default-toggle-hover-bg:   #ddd !default;
+$navbar-default-toggle-icon-bar-bg: #888 !default;
+$navbar-default-toggle-border-color: #ddd !default;
+$navbar-inverse-color:             lighten($gray-light, 15%) !default;
+$navbar-inverse-bg:                #222 !default;
+$navbar-inverse-border:            darken($navbar-inverse-bg, 10%) !default;
+$navbar-inverse-link-color:        lighten($gray-light, 15%) !default;
+$navbar-inverse-link-hover-color:  #fff !default;
+$navbar-inverse-link-hover-bg:     transparent !default;
+$navbar-inverse-link-active-color: $navbar-inverse-link-hover-color !default;
+$navbar-inverse-link-active-bg:    darken($navbar-inverse-bg, 10%) !default;
+$navbar-inverse-link-disabled-color: #444 !default;
+$navbar-inverse-link-disabled-bg:  transparent !default;
+$navbar-inverse-brand-color:       $navbar-inverse-link-color !default;
+$navbar-inverse-brand-hover-color: #fff !default;
+$navbar-inverse-brand-hover-bg:    transparent !default;
+$navbar-inverse-toggle-hover-bg:   #333 !default;
+$navbar-inverse-toggle-icon-bar-bg: #fff !default;
+$navbar-inverse-toggle-border-color: #333 !default;
+
+$nav-link-padding:                        $nav-link-padding-y $nav-link-padding-x !default;
+$nav-link-hover-bg:                       var(--layer-selected) !default;
+$nav-disabled-link-color:                 $nav-link-disabled-color !default;
+$nav-disabled-link-hover-color:           $nav-link-disabled-color !default;
+$nav-tabs-active-link-hover-bg:           $nav-tabs-link-active-bg !default;
+$nav-tabs-active-link-hover-color:        $nav-tabs-link-active-color !default;
+$nav-tabs-active-link-hover-border-color: $nav-tabs-link-active-border-color !default;
+$nav-tabs-justified-link-border-color:    $nav-tabs-border-color !default;
+$nav-tabs-justified-active-link-border-color: $nav-tabs-border-color !default;
+$nav-pills-active-link-hover-bg:          $nav-pills-link-active-bg !default;
+$nav-pills-active-link-hover-color:       $nav-pills-link-active-color !default;
+
+$pagination-border:          $pagination-border-color !default;
+$pagination-hover-border:    $pagination-hover-border-color !default;
+$pagination-active-border:   $pagination-active-border-color !default;
+$pagination-disabled-border: $pagination-disabled-border-color !default;
+$pager-bg:                   $pagination-bg !default;
+$pager-border:               $pagination-border !default;
+$pager-border-radius:        .9375rem !default;
+$pager-hover-bg:             $pagination-hover-bg !default;
+$pager-active-bg:            $pagination-active-bg !default;
+$pager-active-color:         $pagination-active-color !default;
+$pager-disabled-color:       $pagination-disabled-color !default;
+
+$jumbotron-heading-color:     inherit !default;
+$jumbotron-font-size:         $font-size-base * 1.5 !default;
+$jumbotron-heading-font-size: $font-size-base * 4.5 !default;
+
+$state-success-text:   #3c763d !default;
+$state-success-bg:     #dff0d8 !default;
+$state-success-border: darken(adjust-hue($state-success-bg, -10deg), 5%) !default;
+$state-info-text:      #31708f !default;
+$state-info-bg:        #d9edf7 !default;
+$state-info-border:    darken(adjust-hue($state-info-bg, -10deg), 7%) !default;
+$state-warning-text:   #8a6d3b !default;
+$state-warning-bg:     #fcf8e3 !default;
+$state-warning-border: darken(adjust-hue($state-warning-bg, -10deg), 5%) !default;
+$state-danger-text:    #a94442 !default;
+$state-danger-bg:      #f2dede !default;
+$state-danger-border:  darken(adjust-hue($state-danger-bg, -10deg), 5%) !default;
+
+$popover-title-bg:                  $popover-header-bg !default;
+$popover-fallback-border-color:     #ccc !default;
+$popover-arrow-outer-width:         ($popover-arrow-width + 1) !default;
+$popover-arrow-outer-fallback-color: darken($popover-fallback-border-color, 20%) !default;
+
+$label-default-bg:       $gray-light !default;
+$label-primary-bg:       $primary !default;
+$label-success-bg:       $success !default;
+$label-info-bg:          $info !default;
+$label-warning-bg:       $warning !default;
+$label-danger-bg:        $danger !default;
+$label-color:            #fff !default;
+$label-link-hover-color: #fff !default;
+
+$modal-title-padding:                $modal-header-padding !default;
+$modal-content-fallback-border-color: #999 !default;
+
+$alert-padding:       $alert-padding-y !default;
+$alert-success-bg:    $state-success-bg !default;
+$alert-success-text:  $state-success-text !default;
+$alert-success-border: $state-success-border !default;
+$alert-info-bg:       $state-info-bg !default;
+$alert-info-text:     $state-info-text !default;
+$alert-info-border:   $state-info-border !default;
+$alert-warning-bg:    $state-warning-bg !default;
+$alert-warning-text:  $state-warning-text !default;
+$alert-warning-border: $state-warning-border !default;
+$alert-danger-bg:     $state-danger-bg !default;
+$alert-danger-text:   $state-danger-text !default;
+$alert-danger-border: $state-danger-border !default;
+
+$bg-success-bg: $success !default;
+$bg-warning-bg: $warning !default;
+$bg-danger-bg:  $danger !default;
+$bg-info-bg:    $info !default;
+
+$list-group-disabled-text-color: $list-group-disabled-color !default;
+$list-group-border:             $list-group-border-color !default;
+$list-group-active-border:      $list-group-active-border-color !default;
+$list-group-active-text-color:  var(--text-primary) !default;
+$list-group-link-color:         $list-group-action-color !default;
+$list-group-link-hover-color:   $list-group-action-hover-color !default;
+$list-group-link-heading-color: #333 !default;
+
+$panel-bg:                  var(--background) !default;
+$card-body-padding:         $card-spacer-y $card-spacer-x !default;
+$card-header-padding:       $card-spacer-y $card-spacer-x !default;
+$card-footer-padding:       $card-header-padding !default;
+$panel-border-radius:       $card-border-radius !default;
+$card-footer-bg:            $card-cap-bg !default;
+$panel-inner-border:        $card-footer-bg !default;
+$panel-default-text:        inherit !default;
+$panel-default-border:      $panel-inner-border !default;
+$panel-default-heading-bg:  $card-footer-bg !default;
+$panel-primary-text:        var(--text-on-color) !default;
+$panel-primary-border:      transparent !default;
+$panel-primary-heading-bg:  var(--background-brand) !default;
+$panel-success-text:        var(--text-inverse) !default;
+$panel-success-border:      transparent !default;
+$panel-success-heading-bg:  var(--support-success) !default;
+$panel-info-text:           var(--text-inverse) !default;
+$panel-info-border:         transparent !default;
+$panel-info-heading-bg:     var(--support-info) !default;
+$panel-warning-text:        var(--text-primary) !default;
+$panel-warning-border:      transparent !default;
+$panel-warning-heading-bg:  var(--support-warning) !default;
+$panel-danger-text:         var(--text-inverse) !default;
+$panel-danger-border:       transparent !default;
+$panel-danger-heading-bg:   var(--support-error) !default;
+
+$thumbnail-border:          $thumbnail-border-color !default;
+$thumbnail-caption-color:   var(--text-secondary) !default;
+$thumbnail-caption-padding: .5625rem !default;
+
+$well-bg:     var(--layer) !default;
+$well-border: transparent !default;
+
+$badge-color:            #fff !default;
+$badge-link-hover-color: #fff !default;
+$badge-bg:               $gray-light !default;
+$badge-active-color:     $link-color !default;
+$badge-active-bg:        #fff !default;
+$badge-line-height:      1.125rem !default;
+
+$breadcrumb-padding-vertical:   $breadcrumb-padding-y !default;
+$breadcrumb-padding-horizontal: $breadcrumb-padding-x !default;
+$breadcrumb-color:              #ccc !default;
+$breadcrumb-separator:          "/" !default;
+
+$carousel-text-shadow:           0 1px 2px rgba(0, 0, 0, .6) !default;
+$carousel-control-font-size:     20px !default;
+$carousel-indicator-border-color: #fff !default;
+
+$code-bg:          var(--layer) !default;
+$pre-bg:           var(--layer) !default;
+$pre-border-color: var(--border-no-color) !default;
+
+$component-offset-horizontal: 180px !default;
+$abbr-border-color:           $gray-light !default;
+$headings-small-color:        var(--text-secondary) !default;
+$blockquote-border-color:     var(--border-no-color) !default;
+$page-header-border-color:    $gray-lighter !default;
+$dl-horizontal-offset:        $component-offset-horizontal !default;
+$dl-horizontal-breakpoint:    $grid-float-breakpoint !default;
+$hr-border:                   $hr-border-color !default;
 
 
 // Utilities

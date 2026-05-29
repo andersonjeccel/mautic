@@ -367,7 +367,7 @@ input[type=file] {@include outline();}
 
   // checkbox & radio color
   &.custom-primary {
-    @include checkbox-radio-color($brand-primary);
+    @include checkbox-radio-color($primary);
   }
 
   &.custom-info {
