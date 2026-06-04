@@ -49,8 +49,8 @@ $container->loadFromExtension('framework', [
     ],
     'asset_mapper' => [
         'paths' => [
-            '%mautic.application_dir%/app/bundles/CoreBundle/Assets'             => '',
-            '%kernel.project_dir%/vendor/twbs/bootstrap-sass/assets/javascripts' => 'vendor/bootstrap',
+            '%mautic.application_dir%/app/bundles/CoreBundle/Assets' => '',
+            '%kernel.project_dir%/vendor/twbs/bootstrap/dist/js'      => 'vendor/bootstrap',
         ],
         'public_prefix'       => '/assets/build/',
         'missing_import_mode' => 'strict',
@@ -137,8 +137,9 @@ $container->loadFromExtension('symfonycasts_sass', [
     ],
     'sass_options' => [
         'load_path'  => [
-            '%kernel.project_dir%/vendor/twbs/bootstrap-sass/assets/stylesheets',
+            '%kernel.project_dir%/vendor/twbs/bootstrap/scss',
         ],
+        'error_css'  => false,
         'source_map' => false,
     ],
 ]);

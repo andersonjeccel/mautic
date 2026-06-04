@@ -380,7 +380,7 @@ a.label:focus {
 }
 
 .form-control-static {
-  min-height: ($line-height-computed + $font-size-base);
+  min-height: calc(#{$line-height-computed} + #{$font-size-base});
   padding-top: ($padding-base-vertical + 1);
   padding-bottom: ($padding-base-vertical + 1);
   margin-bottom: 0;
@@ -536,13 +536,14 @@ a.label:focus {
     opacity: .75;
   }
 
-  button& {
-    padding: 0;
-    cursor: pointer;
-    background: transparent;
-    border: 0;
-    appearance: none;
-  }
+}
+
+button.close {
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  appearance: none;
 }
 
 .media {
