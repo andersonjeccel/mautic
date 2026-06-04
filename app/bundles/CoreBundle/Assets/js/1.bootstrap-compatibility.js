@@ -117,6 +117,64 @@
         return option;
     }
 
+    function normalizePluginOptions(pluginName, option) {
+        if ('object' !== typeof option || null === option) {
+            return option;
+        }
+
+        if ('popover' === pluginName && undefined === option.html) {
+            option.html = true;
+        }
+
+        return option;
+    }
+
+    function getTabTarget(element) {
+        return element.getAttribute('data-bs-target')
+            || element.getAttribute('data-target')
+            || element.getAttribute('href');
+    }
+
+    function syncLegacyTabState(element) {
+        var target = getTabTarget(element);
+
+        if (!target || '#' !== target.charAt(0)) {
+            return;
+        }
+
+        var tabList = element.closest('.nav-tabs, .nav-pills, [role="tablist"]');
+        var tabPane = document.querySelector(target);
+        var tabContent = tabPane && tabPane.parentElement;
+
+        if (tabList) {
+            tabList.querySelectorAll('li').forEach(function (item) {
+                item.classList.remove('active');
+            });
+
+            tabList.querySelectorAll('a[data-toggle="tab"], a[data-bs-toggle="tab"]').forEach(function (tab) {
+                tab.classList.remove('active');
+                tab.setAttribute('aria-selected', 'false');
+            });
+        }
+
+        if (tabContent) {
+            tabContent.querySelectorAll(':scope > .tab-pane').forEach(function (pane) {
+                pane.classList.remove('active', 'in', 'show');
+            });
+        }
+
+        element.classList.add('active');
+        element.setAttribute('aria-selected', 'true');
+
+        if (element.parentElement) {
+            element.parentElement.classList.add('active');
+        }
+
+        if (tabPane) {
+            tabPane.classList.add('active', 'in', 'show');
+        }
+    }
+
     function wrapExistingJQueryPlugin(jQuery, pluginName) {
         var originalPlugin = jQuery && jQuery.fn[pluginName];
 
@@ -125,13 +183,25 @@
         }
 
         jQuery.fn[pluginName] = function (option) {
+            var args = Array.prototype.slice.call(arguments, 1);
+
             option = normalizeLegacyMethod(option);
 
             if (null === option) {
                 return this;
             }
 
-            return originalPlugin.apply(this, [option].concat(Array.prototype.slice.call(arguments, 1)));
+            option = normalizePluginOptions(pluginName, option);
+
+            var result = originalPlugin.apply(this, [option].concat(args));
+
+            if ('tab' === pluginName && 'show' === option) {
+                this.each(function () {
+                    syncLegacyTabState(this);
+                });
+            }
+
+            return result;
         };
 
         Object.keys(originalPlugin).forEach(function (key) {
@@ -155,7 +225,7 @@
             var args = Array.prototype.slice.call(arguments, 1);
 
             return this.each(function () {
-                var instance = BootstrapConstructor.getOrCreateInstance(this, 'object' === typeof option ? option : getBootstrapOptions(this));
+                var instance = BootstrapConstructor.getOrCreateInstance(this, normalizePluginOptions(pluginName, 'object' === typeof option ? option : getBootstrapOptions(this)));
 
                 option = normalizeLegacyMethod(option);
 
@@ -165,6 +235,10 @@
 
                 if ('string' === typeof option && 'function' === typeof instance[option]) {
                     instance[option].apply(instance, args);
+
+                    if ('tab' === pluginName && 'show' === option) {
+                        syncLegacyTabState(this);
+                    }
                 }
             });
         };
@@ -196,6 +270,10 @@
             subtree: true
         });
     }
+
+    document.addEventListener('shown.bs.tab', function (event) {
+        syncLegacyTabState(event.target);
+    });
 
     window.MauticBootstrapCompatibility = {
         mirrorLegacyMarkup: mirrorLegacyMarkup,

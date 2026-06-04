@@ -9,6 +9,7 @@ $panel-heading-padding: $card-header-padding !default;
 $panel-body-padding: $card-body-padding !default;
 $panel-footer-padding: $card-footer-padding !default;
 $panel-footer-bg: $card-footer-bg !default;
+$form-group-margin-bottom: 15px !default;
 $progress-bar-success-bg: $success !default;
 $progress-bar-info-bg: $info !default;
 $progress-bar-warning-bg: $warning !default;
@@ -184,11 +185,25 @@ $table-condensed-cell-padding: $table-cell-padding-sm !default;
   }
 }
 
+.dropdown-toggle::after {
+  display: none;
+}
+
+.dropdown-menu > li > a {
+  &:hover,
+  &:focus {
+    color: $dropdown-link-hover-color;
+    text-decoration: none;
+    background-color: $dropdown-link-hover-bg;
+  }
+}
+
 .panel {
   margin-bottom: $line-height-computed;
   background-color: $panel-bg;
-  border: 1px solid transparent;
+  border: 1px solid $panel-default-border;
   border-radius: $panel-border-radius;
+  box-shadow: 0 1px 1px rgba($black, .05);
 }
 
 .panel-collapse {
@@ -235,8 +250,26 @@ $table-condensed-cell-padding: $table-cell-padding-sm !default;
   color: inherit;
 }
 
+.panel-title > a,
+.panel-title > small,
+.panel-title > .small,
+.panel-title > small > a,
+.panel-title > .small > a {
+  color: inherit;
+}
+
 .panel-body {
   padding: $panel-body-padding;
+
+  &::before,
+  &::after {
+    display: table;
+    content: " ";
+  }
+
+  &::after {
+    clear: both;
+  }
 }
 
 .panel-footer {
@@ -340,17 +373,25 @@ a.label:focus {
 .input-group-addon {
   display: flex;
   align-items: center;
-  padding: $padding-base-vertical $padding-base-horizontal;
+  min-height: $input-height-base;
+  padding: $input-group-addon-padding-y $input-group-addon-padding-x;
   margin-bottom: 0;
   font-size: $font-size-base;
-  font-weight: normal;
+  font-weight: $input-group-addon-font-weight;
   line-height: $line-height-base;
-  color: $input-color;
+  color: $input-group-addon-color;
   text-align: center;
   white-space: nowrap;
   background-color: $input-group-addon-bg;
   border: 1px solid $input-group-addon-border-color;
   border-radius: $input-border-radius;
+
+  .control-label {
+    align-self: center;
+    margin: 0;
+    font-weight: normal;
+    line-height: inherit;
+  }
 }
 
 .input-group-btn {
@@ -384,6 +425,10 @@ a.label:focus {
   padding-top: ($padding-base-vertical + 1);
   padding-bottom: ($padding-base-vertical + 1);
   margin-bottom: 0;
+}
+
+.form-group {
+  margin-bottom: $form-group-margin-bottom;
 }
 
 .progress-bar-success { background-color: $progress-bar-success-bg; }
@@ -480,7 +525,7 @@ a.label:focus {
 
 .control-label {
   margin-bottom: 5px;
-  font-weight: bold;
+  font-weight: normal;
 }
 
 .sr-only {
@@ -520,7 +565,6 @@ a.label:focus {
 }
 
 .close {
-  float: right;
   font-size: ($font-size-base * 1.5);
   font-weight: $font-weight-bold;
   line-height: 1;
@@ -539,6 +583,7 @@ a.label:focus {
 }
 
 button.close {
+  margin-left: auto;
   padding: 0;
   cursor: pointer;
   background: transparent;
@@ -582,6 +627,81 @@ button.close {
 .pull-left-lg {
   @media (min-width: $screen-lg-min) {
     float: left !important;
+  }
+}
+
+th[class*="col-"] {
+  display: table-cell;
+  flex: none;
+  flex-direction: initial;
+  width: auto;
+  max-width: none;
+  min-height: 0;
+  padding-right: $table-cell-padding-x;
+  padding-left: $table-cell-padding-x;
+}
+
+.sf-toolbar [class*="col-"],
+#sfToolbarMainContent [class*="col-"],
+#sfMiniToolbar [class*="col-"] {
+  display: initial;
+  flex: initial;
+  flex-direction: initial;
+  width: auto;
+  max-width: none;
+  min-height: 0;
+  padding-right: initial;
+  padding-left: initial;
+}
+
+.tab-content > .tab-pane {
+  display: none;
+}
+
+.tab-content > .active {
+  display: block;
+}
+
+.tab-pane.fade {
+  opacity: 0;
+}
+
+.tab-pane.fade.in,
+.tab-pane.fade.show {
+  opacity: 1;
+}
+
+.nav-tabs {
+  border-bottom: 1px solid $nav-tabs-border-color;
+
+  > li {
+    margin-bottom: -1px;
+
+    > a {
+      display: block;
+      padding: $nav-link-padding-y $nav-link-padding-x;
+      margin-right: 2px;
+      line-height: $line-height-base;
+      border: $nav-tabs-border-width solid transparent;
+      border-radius: $nav-tabs-border-radius $nav-tabs-border-radius 0 0;
+
+      &:hover,
+      &:focus {
+        text-decoration: none;
+        background-color: $nav-link-hover-bg;
+        border-color: $nav-tabs-link-hover-border-color;
+      }
+    }
+
+    &.active > a,
+    &.active > a:hover,
+    &.active > a:focus {
+      color: $nav-tabs-link-active-color;
+      cursor: default;
+      background-color: $nav-tabs-link-active-bg;
+      border-color: $nav-tabs-link-active-border-color;
+      border-bottom-color: transparent;
+    }
   }
 }
 
