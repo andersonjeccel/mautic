@@ -513,6 +513,20 @@ a.label:focus {
   .chosen-container-single {
     width: 100%;
   }
+
+  > .btn-group,
+  .btn-group[data-toggle="buttons"] {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 100%;
+
+    > .btn,
+    > .btn-block {
+      flex: 1 1 0;
+      width: auto;
+      margin-top: 0;
+    }
+  }
 }
 
 .progress-bar-success { background-color: $progress-bar-success-bg; }
@@ -722,9 +736,15 @@ p {
   margin-bottom: 0;
 }
 
-.row > * {
+.row > :not([class^="col-"]):not([class*=" col-"]) {
   padding-right: 0;
   padding-left: 0;
+}
+
+.row > [class^="col-"],
+.row > [class*=" col-"] {
+  padding-right: ($grid-gutter-width / 2);
+  padding-left: ($grid-gutter-width / 2);
 }
 
 .pull-left-lg {
