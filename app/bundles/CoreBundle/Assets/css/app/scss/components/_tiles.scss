@@ -14,7 +14,7 @@
     &.tile--selectable,
     &.tile--expandable {
         box-sizing: border-box;
-        border: 0; 
+        border: 0;
         outline: 1px solid var(--border-tile);
         margin: 0;
         font-family: inherit;
@@ -24,7 +24,7 @@
         cursor: pointer;
         transition: background-color var(--easing-standard-productive) var(--duration-productive), outline-color var(--easing-standard-productive) var(--duration-productive);
         text-align: unset;
-        
+
         &:hover { background: var(--layer-hover); }
         &:focus {
             outline-offset: -1px;
@@ -32,8 +32,8 @@
             text-decoration: none;
         }
 
-        .tile-icon { 
-            inset-block-end: var(--layout-density-padding-inline-local); 
+        .tile-icon {
+            inset-block-end: var(--layout-density-padding-inline-local);
             inset-block-start: unset;
         }
     }
@@ -42,7 +42,7 @@
         color: var(--text-primary, #161616);
         text-decoration: none;
 
-        .tile-icon { 
+        .tile-icon {
             font-size: 20px;
             color: var(--icon-interactive, #4e5e9e);
             line-height: 1em;
@@ -57,12 +57,12 @@
 
     &.tile--expandable,
     &.tile--expandable--interactive {
-        padding-bottom: calc(var(--layout-density-padding-inline-local)* 2 + 1rem);    
+        padding-bottom: calc(var(--layout-density-padding-inline-local)* 2 + 1rem);
     }
 
     &.tile--expandable--interactive {
-        &:hover { 
-            background: var(--layer); 
+        &:hover {
+            background: var(--layer);
             cursor: default;
         }
     }
@@ -321,13 +321,13 @@
         .card__wrapper {
             position: absolute;
             inset-block-end: 0;
-            inset-inline-end: 0;   
+            inset-inline-end: 0;
         }
 
         .card__image-wrapper {
             position: relative;
             overflow: hidden;
-    
+
             &:after {
                 position: absolute;
                 background: #000000;
@@ -339,7 +339,7 @@
                 transition: opacity var(--duration-productive) var(--easing-standard-productive);
             }
         }
-    
+
         &:hover .card__image-wrapper:after { opacity: 0.08; }
     }
 }
@@ -370,7 +370,7 @@
             grid-template-rows: subgrid;
         }
     }
-    
+
 
     .card-group__item {
         display: contents;
@@ -384,7 +384,7 @@
         padding: 16px;
         inline-size: 100%;
     }
-    
+
     .card__copy {
         display: grid;
         grid-row: span 2;
@@ -401,7 +401,6 @@
 
     .card .card__wrapper::after {
         display: block;
-        aspect-ratio: 16 / 9;
         content: "";
         grid-area: 1 / 1 / -1 / -1;
     }
