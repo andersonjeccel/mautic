@@ -175,6 +175,21 @@
         }
     }
 
+    function getDropdownParent(element) {
+        return element.closest('li.dropdown, .dropdown');
+    }
+
+    function setLegacyDropdownState(element, isOpen) {
+        var parent = getDropdownParent(element);
+
+        if (!parent) {
+            return;
+        }
+
+        parent.classList.toggle('open', isOpen);
+        parent.classList.toggle('show', isOpen);
+    }
+
     function wrapExistingJQueryPlugin(jQuery, pluginName) {
         var originalPlugin = jQuery && jQuery.fn[pluginName];
 
@@ -273,6 +288,14 @@
 
     document.addEventListener('shown.bs.tab', function (event) {
         syncLegacyTabState(event.target);
+    });
+
+    document.addEventListener('shown.bs.dropdown', function (event) {
+        setLegacyDropdownState(event.target, true);
+    });
+
+    document.addEventListener('hidden.bs.dropdown', function (event) {
+        setLegacyDropdownState(event.target, false);
     });
 
     window.MauticBootstrapCompatibility = {

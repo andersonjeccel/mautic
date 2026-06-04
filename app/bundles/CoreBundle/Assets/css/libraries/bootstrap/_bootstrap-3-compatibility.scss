@@ -196,6 +196,35 @@ $table-condensed-cell-padding: $table-cell-padding-sm !default;
     text-decoration: none;
     background-color: $dropdown-link-hover-bg;
   }
+
+  span {
+    white-space: nowrap;
+    text-wrap: nowrap;
+  }
+}
+
+.dropdown-menu-right {
+  right: 0;
+  left: auto;
+}
+
+.navbar-nav .dropdown-menu {
+  position: absolute;
+}
+
+.navbar-nav > li.dropdown-custom {
+  position: relative;
+
+  > .dropdown-menu {
+    width: 320px;
+    overflow: hidden;
+  }
+}
+
+.navbar-right > li.dropdown-custom > .dropdown-menu,
+.navbar-nav.ms-auto > li.dropdown-custom > .dropdown-menu {
+  right: 15px;
+  left: auto;
 }
 
 .panel {
@@ -221,6 +250,10 @@ $table-condensed-cell-padding: $table-cell-padding-sm !default;
   .panel + .panel {
     margin-top: 5px;
   }
+}
+
+.accordion .panel {
+  margin-bottom: 0;
 }
 
 .panel-toolbar {
@@ -431,6 +464,20 @@ a.label:focus {
   margin-bottom: $form-group-margin-bottom;
 }
 
+.filter--field-properties {
+  .properties-form,
+  .properties-form > div,
+  .form-group,
+  [class*="col-"] {
+    height: 100%;
+  }
+
+  .form-control {
+    height: 100%;
+    min-height: $input-height-base;
+  }
+}
+
 .progress-bar-success { background-color: $progress-bar-success-bg; }
 .progress-bar-info { background-color: $progress-bar-info-bg; }
 .progress-bar-warning { background-color: $progress-bar-warning-bg; }
@@ -591,6 +638,12 @@ button.close {
   appearance: none;
 }
 
+.modal-header > .close,
+.modal-header > button.close {
+  order: 999;
+  margin-left: auto;
+}
+
 .media {
   display: flex;
   align-items: flex-start;
@@ -622,6 +675,10 @@ button.close {
     margin-top: 2px;
     margin-left: 0;
   }
+}
+
+.nav > li > a {
+  position: relative;
 }
 
 .pull-left-lg {
