@@ -28,7 +28,7 @@ class MessageSendType extends AbstractType
             MessageListType::class,
             [
                 'label'       => 'mautic.channel.send.selectmessages',
-                'label_attr'  => ['class' => 'col-form-label'],
+                'label_attr'  => ['class' => 'control-label'],
                 'multiple'    => false,
                 'required'    => true,
                 'constraints' => [

@@ -25,7 +25,7 @@ class FacebookType extends AbstractType
             'label'             => 'mautic.integration.Facebook.share.layout',
             'required'          => false,
             'placeholder'       => false,
-            'label_attr'        => ['class' => 'col-form-label'],
+            'label_attr'        => ['class' => 'control-label'],
             'attr'              => ['class' => 'form-control'],
         ]);
 
@@ -38,7 +38,7 @@ class FacebookType extends AbstractType
             'label'             => 'mautic.integration.Facebook.share.action',
             'required'          => false,
             'placeholder'       => false,
-            'label_attr'        => ['class' => 'col-form-label'],
+            'label_attr'        => ['class' => 'control-label'],
             'attr'              => ['class' => 'form-control'],
         ]);
 

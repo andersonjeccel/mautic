@@ -21,7 +21,7 @@ Mautic.reportOnLoad = function (container) {
         }
     } else {
         mQuery('#report-shelves .collapse').on('show.bs.collapse', function (e) {
-            var actives = mQuery('#report-shelves').find('.show, .collapsing');
+            var actives = mQuery('#report-shelves').find('.in, .collapsing');
             actives.each(function (index, element) {
                 mQuery(element).collapse('hide');
                 var id = mQuery(element).attr('id');
@@ -177,9 +177,9 @@ Mautic.updateReportGlueTriggers = function () {
         var $this = mQuery(this);
 
         if ($this.val() === 'and') {
-            $this.parents('.card').addClass('in-group');
+            $this.parents('.panel').addClass('in-group');
         } else {
-            $this.parents('.card').removeClass('in-group');
+            $this.parents('.panel').removeClass('in-group');
         }
     });
 };
@@ -307,12 +307,10 @@ Mautic.updateReportFilterValueInput = function (filterColumn, setup) {
             return;
         }
 
-        const utcTooltipOptions = { trigger: 'manual' };
-
-        inputElement.attr('data-toggle', 'tooltip')
-            .attr('data-placement', 'bottom')
+        inputElement.attr('data-bs-toggle', 'tooltip')
+            .attr('data-bs-placement', 'bottom')
             .attr('title', '...') // Set a placeholder title, to be replaced later
-            .tooltip(utcTooltipOptions);
+            .tooltip({ trigger: 'manual' });
 
         inputElement.on('focus', function () {
             const currentOperator = mQuery('#report_filters_' + idParts[2] + '_condition').val();
@@ -324,12 +322,7 @@ Mautic.updateReportFilterValueInput = function (filterColumn, setup) {
                 } else {
                     message = Mautic.translate('mautic.report.filter.date_comparison_timezone_tooltip');
                 }
-                mQuery(this)
-                    .tooltip('dispose')
-                    .attr('title', message)
-                    .attr('data-original-title', message)
-                    .tooltip(utcTooltipOptions)
-                    .tooltip('show');
+                mQuery(this).attr('title', message).tooltip('fixTitle').tooltip('show');
             }
         }).on('blur', function () {
             mQuery(this).tooltip('hide');
@@ -340,7 +333,7 @@ Mautic.updateReportFilterValueInput = function (filterColumn, setup) {
 };
 
 Mautic.removeReportRow = function (container) {
-    mQuery("#" + container + " *[data-toggle='tooltip']").tooltip('dispose');
+    mQuery("#" + container + " *[data-toggle='tooltip']").tooltip('destroy');
     mQuery('#' + container).remove();
 };
 
@@ -452,7 +445,7 @@ Mautic.cloneReportRow = function (containerId) {
     Mautic.addReportRow('report_filters');
 
     // Get the new container by finding the last filter container
-    const newContainer = mQuery('#report_filters').find('> .card.in-group').last();
+    const newContainer = mQuery('#report_filters').find('> .panel.in-group').last();
 
     // Set the 'glue' and 'column' values
     newContainer.find('.filter-glue').val(glue);

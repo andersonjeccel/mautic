@@ -77,7 +77,7 @@ Mautic.pointTriggerEventOnLoad = function (container, response) {
         });
 
         //show events panel
-        if (!mQuery('#events-panel').hasClass('show')) {
+        if (!mQuery('#events-panel').hasClass('in')) {
             mQuery('a[href="#events-panel"]').trigger('click');
         }
 

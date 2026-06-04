@@ -17,7 +17,7 @@ class TimezoneType extends AbstractType
         $resolver->setDefaults([
             'choices_as_values' => true,
             'choices'           => FormFieldHelper::getTimezonesChoices(),
-            'label_attr'        => ['class' => 'col-form-label'],
+            'label_attr'        => ['class' => 'control-label'],
             'attr'              => ['class' => 'form-control'],
             'multiple'          => false,
             'expanded'          => false,

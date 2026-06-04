@@ -448,9 +448,9 @@ Mautic.onPageLoad = function (container, response, inModal) {
 
             if (mQuery(activeTab).length) {
                 mQuery('.nav-tabs li').removeClass('active');
-                mQuery('.tab-pane').removeClass('show active');
+                mQuery('.tab-pane').removeClass('in active');
                 mQuery(activeTab).parent().addClass('active');
-                mQuery(hash).addClass('show active');
+                mQuery(hash).addClass('in active');
             }
         }
 
@@ -813,7 +813,7 @@ Mautic.makeLinksAlive = function(jQueryObject) {
 Mautic.onPageUnload = function (container, response) {
     //unload tooltips so they don't double show
     if (typeof container != 'undefined') {
-        mQuery(container + " *[data-toggle='tooltip']").tooltip('dispose');
+        mQuery(container + " *[data-toggle='tooltip']").tooltip('destroy');
 
         //unload lingering modals from body so that there will not be multiple modals generated from new ajaxed content
         if (typeof MauticVars.modalsReset == 'undefined') {
@@ -1234,11 +1234,9 @@ Mautic.activateModalEmbeddedForms = function(container) {
     mQuery(container + " *[data-embedded-form='add']").each(function() {
         var submitButton = this;
         var modal = mQuery(this).closest('.modal');
-        var modalInstance = mQuery(modal).data('bs.modal');
-
-        if (modalInstance && modalInstance._config) {
-            modalInstance._config.keyboard = false;
-            modalInstance._config.backdrop = 'static';
+        if (typeof mQuery(modal).data('bs.modal') !== 'undefined' && typeof mQuery(modal).data('bs.modal').options !== 'undefined') {
+            mQuery(modal).data('bs.modal').options.keyboard = false;
+            mQuery(modal).data('bs.modal').options.backdrop = 'static';
         } else {
             mQuery(modal).attr('data-keyboard', false);
             mQuery(modal).attr('data-backdrop', 'static');
@@ -1796,7 +1794,7 @@ Mautic.initFilterCommands = function () {
     });
 
     // Include select field options as filter commands
-    const selectFields = document.querySelectorAll('.popover-body select');
+    const selectFields = document.querySelectorAll('.popover-content select');
 
     selectFields.forEach(function (selectElement) {
         const options = Array.from(selectElement.options).map(option => option.value);
@@ -1841,7 +1839,7 @@ Mautic.applyFilters = function () {
         return filterElement.dataset.filter;
     });
 
-    const selectFields = document.querySelectorAll('.popover-body select');
+    const selectFields = document.querySelectorAll('.popover-content select');
     selectFields.forEach(function (selectElement) {
         const selectedOptions = Array.from(selectElement.selectedOptions).map(option => option.value);
         filterCommands.push(...selectedOptions);
@@ -1852,7 +1850,7 @@ Mautic.applyFilters = function () {
 
     // Properly destroy and reinitialize popover
     const popoverTrigger = mQuery('[data-toggle="popover"]');
-    popoverTrigger.popover('dispose');
+    popoverTrigger.popover('destroy');
     popoverTrigger.popover({
         html: true,
         container: 'body'
@@ -1881,7 +1879,7 @@ Mautic.resetFilters = function () {
         filterElement.classList.remove('active');
     });
 
-    const selectFields = document.querySelectorAll('.popover-body select');
+    const selectFields = document.querySelectorAll('.popover-content select');
     selectFields.forEach(function (selectElement) {
         selectElement.value = null;
         if (typeof mQuery !== 'undefined') {
@@ -1891,7 +1889,7 @@ Mautic.resetFilters = function () {
 
     // Properly destroy the popover instead of hiding it
     const popoverTrigger = mQuery('[data-toggle="popover"]');
-    popoverTrigger.popover('dispose');
+    popoverTrigger.popover('destroy');
 
     const enterKeyEvent = new KeyboardEvent('keyup', {
         key: 'Enter',
@@ -2002,7 +2000,7 @@ Mautic.handlePopoverInsertion = function () {
         Mautic.initializePopoverFilters(popoverElement);
 
         // Initialize Chosen after popover content is inserted
-        mQuery('.popover-body select').chosen({
+        mQuery('.popover-content select').chosen({
             width: '100%',
             allow_single_deselect: true
         });

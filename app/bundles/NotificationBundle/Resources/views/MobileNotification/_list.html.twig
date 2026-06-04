@@ -31,16 +31,16 @@
                         'sessionVar': 'mobile_notification',
                         'orderBy': 'c.title',
                         'text': 'mautic.core.category',
-                        'class': 'd-none d-md-table-cell col-notification-category',
+                        'class': 'visible-md visible-lg col-notification-category',
                 }) }}
 
-                <th class="d-none d-sm-table-cell col-notification-stats">{{ 'mautic.core.stats'|trans }}</th>
+                <th class="visible-sm visible-md visible-lg col-notification-stats">{{ 'mautic.core.stats'|trans }}</th>
 
                 {{ include('@MauticCore/Helper/tableheader.html.twig', {
                         'sessionVar': 'mobile_notification',
                         'orderBy': 'e.id',
                         'text': 'mautic.core.id',
-                        'class': 'd-none d-md-table-cell col-notification-id',
+                        'class': 'visible-md visible-lg col-notification-id',
                 }) }}
             </tr>
             </thead>
@@ -90,10 +90,10 @@
                             </a>
                         </div>
                     </td>
-                    <td class="d-none d-md-table-cell">
+                    <td class="visible-md visible-lg">
                         {{ include('@MauticCore/Modules/category--expanded.html.twig', {'category': item.category}) }}
                     </td>
-                    <td class="d-none d-sm-table-cell col-stats">
+                    <td class="visible-sm visible-md visible-lg col-stats">
                         <span class="mt-xs label label-green"
                               data-toggle="tooltip"
                               title="{{ 'mautic.channel.stat.leadcount.tooltip'|trans }}">
@@ -102,13 +102,13 @@
                             </a>
                         </span>
                     </td>
-                    <td class="d-none d-md-table-cell">{{ item.id }}</td>
+                    <td class="visible-md visible-lg">{{ item.id }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
-    <div class="card-footer">
+    <div class="panel-footer">
         {{ include('@MauticCore/Helper/pagination.html.twig', {
                 'totalItems': totalItems,
                 'page': page,

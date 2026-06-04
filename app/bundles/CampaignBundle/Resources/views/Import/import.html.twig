@@ -25,20 +25,20 @@
 
 {% block content %}
     <div class="row">
-        <div class="offset-sm-3 col-sm-6">
+        <div class="col-sm-offset-3 col-sm-6">
             <div class="ml-lg mr-lg mt-md pa-lg">               
-                <div class="card border-info">
-                    <div class="card-header">
-                        <div class="card-title">{{ 'mautic.campaign.campaign.import.instructions'|trans({'%size%': 100}) }}</div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <div class="panel-title">{{ 'mautic.campaign.campaign.import.instructions'|trans({'%size%': 100}) }}</div>
                     </div>
 
-                    <div class="card-body">
+                    <div class="panel-body">
                         {{ form_start(form) }}
-                        <div class="input-group card card-body mt-lg">
+                        <div class="input-group well mt-lg">
                             {{ form_widget(form.campaignFile) }}
-                            <div class="input-group-append">
+                            <span class="input-group-btn">
                                 {{ form_widget(form.start) }}
-                            </div>
+                            </span>
                         </div>
                         {{ form_end(form) }} 
                     </div>

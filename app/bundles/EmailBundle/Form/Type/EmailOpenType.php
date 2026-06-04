@@ -15,7 +15,7 @@ class EmailOpenType extends AbstractType
     {
         $defaultOptions = [
             'label'      => 'mautic.email.open.limittoemails',
-            'label_attr' => ['class' => 'col-form-label'],
+            'label_attr' => ['class' => 'control-label'],
             'attr'       => [
                 'class'   => 'form-control',
                 'tooltip' => 'mautic.email.open.limittoemails_descr',

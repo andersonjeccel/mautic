@@ -1,15 +1,15 @@
 <div class="col-md-4">
-    <div class="card report-list">
-        <div class="card-header">
-                <h3 class="card-title">
+    <div class="panel panel-default report-list">
+        <div class="panel-heading">
+                <h3 class="panel-title">
                     {{ graph.name|trans }}
-                    <div class="float-right">
+                    <div class="pull-right">
                         <span class="fa {{ graph.iconClass|default('') }}"></span>
                     </div>
                 </h3>
         </div>
         {% if graph.data|length > 0 %}
-            <div class="table-responsive collapse pull out">
+            <div class="table-responsive panel-collapse pull out">
                 {# We need to dynamically create the table headers based on the result set #}
                 <table class="table table-hover report-list" id="reportTable">
                     <thead>
@@ -47,7 +47,7 @@
                 </table>
             </div>
         {% else %}
-            <div class="card-body box-layout">
+            <div class="panel-body box-layout">
                 <p class="text-secondary">{{ 'mautic.report.table.noresults'|trans }}</p>
             </div>
         {% endif %}

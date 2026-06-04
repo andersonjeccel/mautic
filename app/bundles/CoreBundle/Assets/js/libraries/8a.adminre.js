@@ -253,7 +253,12 @@ if (typeof jQuery === "undefined") { throw new Error("This application requires 
                 });
                 
                 var hideAllPopovers = function() {
-                    $("[data-toggle~=popover]").popover('hide');
+                    $("[data-toggle~=popover]").each(function() {
+                        var popover = $(this).data('bs.popover');
+                        if (popover && popover.tip().hasClass('in')) {
+                            $(this).popover('hide');
+                        }
+                    });
                 };
                 
                 $(document).on('click', function(e) {
@@ -561,7 +566,7 @@ if (typeof jQuery === "undefined") { throw new Error("This application requires 
                 // clicker
                 $(element).on("click", toggler, function (e) {
                     // find panel element
-                    var panel       = $(this).parents(".card"),
+                    var panel       = $(this).parents(".panel"),
                         indicator   = panel.find("."+indicatorClass);
 
                     // check if demo or not
@@ -601,13 +606,13 @@ if (typeof jQuery === "undefined") { throw new Error("This application requires 
                 // clicker
                 $(element).on("click", toggler, function (e) {
                     // find panel element
-                    var panel   = $(this).parents(".card"),
-                        target  = panel.children(".collapse"),
+                    var panel   = $(this).parents(".panel"),
+                        target  = panel.children(".panel-collapse"),
                         height  = target.height();
 
                     // error handling
                     if(target.length === 0) {
-                        $.error("collapsable element need to be wrap inside '.collapse'");
+                        $.error("collapsable element need to be wrap inside '.panel-collapse'");
                     }
 
                     // collapse the element
@@ -660,7 +665,7 @@ if (typeof jQuery === "undefined") { throw new Error("This application requires 
                 // clicker
                 $(element).on("click", handler, function (e) {
                     // find panel element
-                    panel   = $(this).parents(".card");
+                    panel   = $(this).parents(".panel");
                     parent  = $(this).data("parent");
 
                     // remove panel
@@ -702,14 +707,14 @@ if (typeof jQuery === "undefined") { throw new Error("This application requires 
                     // default click event handler
                     if(e.type === "click") {
                         // toggle hide and show
-                        if($(target).hasClass("show")) {
+                        if($(target).hasClass("in")) {
                             // hide the submenu
                             $(target).collapse("hide");
                             $this.parent().removeClass("open");
                         } else {
                             // hide other showed target if parent is defined
                             if(!!parent) {
-                                $(parent+" .show").each(function () {
+                                $(parent+" .in").each(function () {
                                     $(this).collapse("hide");
                                     $(this).parent().removeClass("open");
                                 });

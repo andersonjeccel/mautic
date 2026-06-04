@@ -24,7 +24,7 @@ class OwnerType extends AbstractType
                 'multiple'          => false,
                 'choices'           => $options['items'],
                 'required'          => false,
-                'label_attr'        => ['class' => 'col-form-label'],
+                'label_attr'        => ['class' => 'control-label'],
                 'attr'              => ['class' => 'form-control'],
             ]
         );

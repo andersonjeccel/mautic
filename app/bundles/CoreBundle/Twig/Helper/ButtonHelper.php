@@ -477,11 +477,11 @@ final class ButtonHelper
             $change = &$button;
         }
 
-        // Default all text to hidden for mobile.
+        // Default all text to hidden for mobile
         if (isset($change['btnTextClass'])) {
-            $change['btnTextClass'] .= ' d-none d-md-inline';
+            $change['btnTextClass'] .= ' hidden-xs hidden-sm';
         } else {
-            $change['btnTextClass'] = 'd-none d-md-inline';
+            $change['btnTextClass'] = 'hidden-xs hidden-sm';
         }
     }
 

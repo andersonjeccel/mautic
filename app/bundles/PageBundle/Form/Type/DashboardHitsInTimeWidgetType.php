@@ -20,7 +20,7 @@ class DashboardHitsInTimeWidgetType extends AbstractType
                 'mautic.page.show.unique.visits'           => 'unique',
                 'mautic.page.show.unique.and.total.visits' => 'total_and_unique',
             ],
-            'label_attr'        => ['class' => 'col-form-label'],
+            'label_attr'        => ['class' => 'control-label'],
             'attr'              => ['class' => 'form-control'],
             'empty_data'        => '',
             'required'          => false,

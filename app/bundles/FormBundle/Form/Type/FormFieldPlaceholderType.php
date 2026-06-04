@@ -15,7 +15,7 @@ class FormFieldPlaceholderType extends AbstractType
     {
         $builder->add('placeholder', TextType::class, [
             'label'      => 'mautic.form.field.form.property_placeholder',
-            'label_attr' => ['class' => 'col-form-label'],
+            'label_attr' => ['class' => 'control-label'],
             'attr'       => ['class' => 'form-control'],
             'required'   => false,
         ]);
