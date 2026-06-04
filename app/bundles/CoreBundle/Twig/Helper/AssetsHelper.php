@@ -432,6 +432,10 @@ final class AssetsHelper
 
         if (isset($assets['css'])) {
             foreach ($assets['css'] as $url) {
+                if (str_ends_with($url, 'CoreBundle/Assets/css/app.scss')) {
+                    continue;
+                }
+
                 echo '<link rel="stylesheet" href="'.$this->getUrl($url).'" data-source="mautic" />'."\n";
             }
         }
