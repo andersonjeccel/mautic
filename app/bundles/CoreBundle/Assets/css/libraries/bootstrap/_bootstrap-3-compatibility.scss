@@ -396,9 +396,14 @@ a.label:focus {
 }
 
 .label-selectable.active,
+a.label-selectable.active,
+.label-selectable.active:hover,
+.label-selectable.active:focus,
 a.label-selectable.active:hover,
 a.label-selectable.active:focus {
+  background-color: var(--layer-selected-inverse);
   color: var(--text-inverse);
+  border-color: var(--layer-selected-inverse);
 }
 
 .label {
