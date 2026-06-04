@@ -25,7 +25,7 @@ class TrackingPixelSendType extends AbstractType
 
         $builder->add('services', ChoiceType::class, [
             'label'      => 'mautic.page.tracking.form.services',
-            'label_attr' => ['class' => 'control-label'],
+            'label_attr' => ['class' => 'col-form-label'],
             'attr'       => [
                 'class' => 'form-control',
             ],
@@ -45,7 +45,7 @@ class TrackingPixelSendType extends AbstractType
             TextType::class,
             [
                 'label'      => 'mautic.page.tracking.form.category',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'   => 'form-control',
                     'tooltip' => 'mautic.page.tracking.form.category.tooltip',
@@ -62,7 +62,7 @@ class TrackingPixelSendType extends AbstractType
             TextType::class,
             [
                 'label'      => 'mautic.page.tracking.form.action',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class' => 'form-control',
                 ],
@@ -78,7 +78,7 @@ class TrackingPixelSendType extends AbstractType
             TextType::class,
             [
                 'label'      => 'mautic.page.tracking.form.label',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class' => 'form-control',
                 ],

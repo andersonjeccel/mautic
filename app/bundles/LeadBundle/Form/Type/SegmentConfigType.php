@@ -22,7 +22,7 @@ class SegmentConfigType extends AbstractType
             NumberType::class,
             [
                 'label'      => 'mautic.lead.list.form.config.segment_rebuild_time_warning',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'   => 'form-control',
                     'tooltip' => 'mautic.lead.list.form.config.segment_rebuild_time_warning.tooltip',
@@ -36,7 +36,7 @@ class SegmentConfigType extends AbstractType
             NumberType::class,
             [
                 'label'      => 'mautic.lead.list.form.config.segment_build_time_warning',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'   => 'form-control',
                     'tooltip' => 'mautic.lead.list.form.config.segment_build_time_warning.tooltip',

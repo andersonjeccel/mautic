@@ -151,7 +151,7 @@ final class ListControllerFunctionalTest extends MauticMysqlTestCase
         $html    = $this->getSegmentCountHtml($crawler, $segmentId);
         $spClass = $this->getSegmentCountClass($crawler, $segmentId);
         self::assertSame('Building', $html);
-        self::assertSame('label label-info col-count', $spClass);
+        self::assertSame('badge bg-info col-count', $spClass);
         $html    = $this->getSegmentCountHtml($crawler, $manualSegmentId);
         $spClass = $this->getSegmentCountClass($crawler, $manualSegmentId);
         self::assertSame('No Contacts', $html);
@@ -254,13 +254,13 @@ final class ListControllerFunctionalTest extends MauticMysqlTestCase
         $html    = $this->getSegmentCountHtml($crawler, $segmentId);
         $spClass = $this->getSegmentCountClass($crawler, $segmentId);
         self::assertSame('Building (4 Contacts)', $html);
-        self::assertSame('label label-info col-count', $spClass);
+        self::assertSame('badge bg-info col-count', $spClass);
 
         // Check segment count AJAX for building 4 contacts.
         $parameter = ['id' => $segmentId];
         $response  = $this->callGetLeadCountAjaxRequest($parameter);
         self::assertSame('Building (4 Contacts)', $response['content']['html']);
-        self::assertSame('label label-info col-count', $response['content']['className']);
+        self::assertSame('badge bg-info col-count', $response['content']['className']);
         self::assertSame(4, $response['content']['leadCount']);
         self::assertSame(Response::HTTP_OK, $response['statusCode']);
     }

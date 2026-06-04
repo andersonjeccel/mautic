@@ -35,7 +35,7 @@ class ConfigMonitoredMailboxesType extends AbstractType
             TextType::class,
             [
                 'label'      => 'mautic.email.config.monitored_email_address',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'        => 'form-control',
                     'tooltip'      => 'mautic.email.config.monitored_email_address.tooltip',
@@ -57,7 +57,7 @@ class ConfigMonitoredMailboxesType extends AbstractType
             TextType::class,
             [
                 'label'      => 'mautic.email.config.monitored_email_host',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'        => 'form-control',
                     'tooltip'      => 'mautic.email.config.monitored_email_host.tooltip',
@@ -72,7 +72,7 @@ class ConfigMonitoredMailboxesType extends AbstractType
             TextType::class,
             [
                 'label'      => 'mautic.email.config.monitored_email_port',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'        => 'form-control',
                     'tooltip'      => 'mautic.email.config.monitored_email_port.tooltip',
@@ -113,7 +113,7 @@ class ConfigMonitoredMailboxesType extends AbstractType
             TextType::class,
             [
                 'label'      => 'mautic.email.config.monitored_email_user',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'        => 'form-control',
                     'tooltip'      => 'mautic.email.config.monitored_email_user.tooltip',
@@ -129,7 +129,7 @@ class ConfigMonitoredMailboxesType extends AbstractType
             PasswordType::class,
             [
                 'label'      => 'mautic.email.config.monitored_email_password',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'        => 'form-control',
                     'placeholder'  => 'mautic.user.user.form.passwordplaceholder',
@@ -148,7 +148,7 @@ class ConfigMonitoredMailboxesType extends AbstractType
                 YesNoButtonGroupType::class,
                 [
                     'label'      => 'mautic.email.config.monitored_email_override_settings',
-                    'label_attr' => ['class' => 'control-label'],
+                    'label_attr' => ['class' => 'col-form-label'],
                     'data'       => (array_key_exists('override_settings', $options['data']) && !empty($options['data']['override_settings'])) ? true : false,
                     'attr'       => [
                         'class'   => 'form-control',
@@ -186,7 +186,7 @@ class ConfigMonitoredMailboxesType extends AbstractType
                 [
                     'choices'           => $choices,
                     'label'             => 'mautic.email.config.monitored_email_folder',
-                    'label_attr'        => ['class' => 'control-label'],
+                    'label_attr'        => ['class' => 'col-form-label'],
                     'attr'              => array_merge(
                         [
                             'class'             => 'form-control',

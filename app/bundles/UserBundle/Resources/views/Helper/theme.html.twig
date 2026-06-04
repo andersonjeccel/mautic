@@ -1,5 +1,5 @@
 {% for theme in themes %}
-<div class="radio-option col-xs-12 col-md-4 mb-lg">
+<div class="radio-option col-12 col-md-4 mb-lg">
     <label class="d-flex fd-column" for="theme-{{ theme.id }}">
         {% if theme.preview ends with '.twig' %}
             {{ include(theme.preview) }}

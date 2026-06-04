@@ -42,7 +42,7 @@ export default class StorageService {
         const flashMessage = Mautic.addInfoFlashMessage(message);
         flashMessage.append(buttonContainer);
 
-        const closeButton = flashMessage.querySelector('button.close')
+        const closeButton = flashMessage.querySelector('button.btn-close, button.close')
 
         this.addMessageEventListeners(restoreButton, dismissButton, closeButton);
         Mautic.setFlashes(flashMessage, false);
@@ -70,7 +70,7 @@ export default class StorageService {
             event.preventDefault();
         });
 
-        closeButton.addEventListener('click', () => {
+        closeButton?.addEventListener('click', () => {
             this.handleUpdate();
         });
 

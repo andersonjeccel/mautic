@@ -45,19 +45,88 @@ mQuery.ajaxSetup({
     cache: false
 });
 
+var MauticBootstrap = {
+    getComponent: function(component) {
+        return window.bootstrap && window.bootstrap[component] ? window.bootstrap[component] : null;
+    },
+
+    eachComponent: function(elements, component, callback) {
+        var bootstrapComponent = MauticBootstrap.getComponent(component);
+
+        if (!bootstrapComponent) {
+            return;
+        }
+
+        mQuery(elements).each(function() {
+            callback(bootstrapComponent, this);
+        });
+    },
+
+    initTooltips: function(elements, options) {
+        MauticBootstrap.eachComponent(elements, 'Tooltip', function(Tooltip, element) {
+            Tooltip.getOrCreateInstance(element, options || {});
+        });
+    },
+
+    disposeTooltips: function(elements) {
+        MauticBootstrap.eachComponent(elements, 'Tooltip', function(Tooltip, element) {
+            var tooltip = Tooltip.getInstance(element);
+
+            if (tooltip) {
+                tooltip.dispose();
+            }
+        });
+    },
+
+    showTooltip: function(element) {
+        MauticBootstrap.eachComponent(element, 'Tooltip', function(Tooltip, tooltipElement) {
+            Tooltip.getOrCreateInstance(tooltipElement).show();
+        });
+    },
+
+    hideTooltip: function(element) {
+        MauticBootstrap.eachComponent(element, 'Tooltip', function(Tooltip, tooltipElement) {
+            var tooltip = Tooltip.getInstance(tooltipElement);
+
+            if (tooltip) {
+                tooltip.hide();
+            }
+        });
+    },
+
+    initPopovers: function(elements, options) {
+        MauticBootstrap.eachComponent(elements, 'Popover', function(Popover, element) {
+            Popover.getOrCreateInstance(element, options || {});
+        });
+    },
+
+    disposePopovers: function(elements) {
+        MauticBootstrap.eachComponent(elements, 'Popover', function(Popover, element) {
+            var popover = Popover.getInstance(element);
+
+            if (popover) {
+                popover.dispose();
+            }
+        });
+    },
+
+    hidePopovers: function(elements) {
+        MauticBootstrap.eachComponent(elements, 'Popover', function(Popover, element) {
+            var popover = Popover.getInstance(element);
+
+            if (popover) {
+                popover.hide();
+            }
+        });
+    }
+};
+
 // Attach document click handler once
 mQuery(document).on('click', function (e) {
     var target = mQuery(e.target);
     // Check if the click is outside the popover and its trigger
-    if (!target.closest('.popover').length && !target.closest('[data-toggle="popover"]').length) {
-        mQuery('[data-toggle="popover"]').each(function () {
-            var $this = mQuery(this);
-            var popover = $this.data('bs.popover');
-            if (popover && popover.tip().hasClass('in')) {
-                $this.popover('hide');
-                popover.inState.click = false; // Reset the internal click state
-            }
-        });
+    if (!target.closest('.popover').length && !target.closest('[data-bs-toggle="popover"]').length) {
+        MauticBootstrap.hidePopovers('[data-bs-toggle="popover"]');
     }
 });
 
@@ -69,21 +138,21 @@ mQuery(document).ajaxComplete(function(event, xhr, settings) {
     Mautic.attachDismissHandlers();
 
     // Initialize popovers with custom configuration
-    mQuery('[data-toggle="popover"]').popover({
+    MauticBootstrap.initPopovers('[data-bs-toggle="popover"]', {
         sanitize: false,
         content: function() {
-            return mQuery(this).data('content');
+            return mQuery(this).data('bsContent') || mQuery(this).data('content');
         }
     });
 
     // Handle popover shown event
-    mQuery('[data-toggle="popover"]').on('shown.bs.popover', function () {
-        mQuery('.popover-content select').chosen({
+    mQuery('[data-bs-toggle="popover"]').off('shown.bs.popover.mautic').on('shown.bs.popover.mautic', function () {
+        mQuery('.popover-body select').chosen({
             allow_single_deselect: true,
             disable_search_threshold: 10
         });
 
-        mQuery('.popover-content [data-toggle="tooltip"]').tooltip();
+        MauticBootstrap.initTooltips('.popover-body [data-bs-toggle="tooltip"]');
     });
 });
 
@@ -102,6 +171,7 @@ mQuery( document ).ready(function() {
     }
 
     Mautic.initListGroupToggle('body');
+    Mautic.initButtonGroupToggle('body');
 
     // Prevent backspace from activating browser back
     mQuery(document).on('keydown', function (e) {
@@ -277,7 +347,7 @@ var Mautic = {
             Mautic.keyboardShortcutHtml[sectionName] = {};
         }
 
-        Mautic.keyboardShortcutHtml[sectionName][sequence] = '<div class="col-xs-6"><mark>' + sequence + '</mark>: ' + description + '</div>';
+        Mautic.keyboardShortcutHtml[sectionName][sequence] = '<div class="col-6"><mark>' + sequence + '</mark>: ' + description + '</div>';
     },
 
     /**
@@ -395,6 +465,80 @@ var Mautic = {
             // Trigger the 'change' event on the input
             $input.trigger('change');
         });
+    },
+
+    /**
+     * Keeps legacy wrapped radio/checkbox button groups active after Bootstrap 5.
+     */
+    initButtonGroupToggle: function(container) {
+        mQuery(container).on('change', '.btn-group-toggle input[type="radio"], .btn-group-toggle input[type="checkbox"]', function() {
+            var $input = mQuery(this);
+            var $button = $input.closest('.btn');
+
+            if ('radio' === $input.attr('type')) {
+                $input.closest('.btn-group-toggle').find('input[name="' + $input.attr('name') + '"]').closest('.btn').removeClass('active');
+            }
+
+            $button.toggleClass('active', $input.prop('checked'));
+        });
+    },
+
+    getBootstrapComponent: function(component) {
+        return MauticBootstrap.getComponent(component);
+    },
+
+    eachBootstrapComponent: function(elements, component, callback) {
+        MauticBootstrap.eachComponent(elements, component, callback);
+    },
+
+    getBootstrapInstance: function(element, component) {
+        var bootstrapComponent = MauticBootstrap.getComponent(component);
+        var bootstrapElement = mQuery(element).get(0);
+
+        if (!bootstrapComponent || !bootstrapElement) {
+            return null;
+        }
+
+        return bootstrapComponent.getInstance(bootstrapElement);
+    },
+
+    getOrCreateBootstrapInstance: function(element, component, options) {
+        var bootstrapComponent = MauticBootstrap.getComponent(component);
+        var bootstrapElement = mQuery(element).get(0);
+
+        if (!bootstrapComponent || !bootstrapElement) {
+            return null;
+        }
+
+        return bootstrapComponent.getOrCreateInstance(bootstrapElement, options || {});
+    },
+
+    initTooltips: function(elements, options) {
+        MauticBootstrap.initTooltips(elements, options);
+    },
+
+    disposeTooltips: function(elements) {
+        MauticBootstrap.disposeTooltips(elements);
+    },
+
+    showTooltip: function(element) {
+        MauticBootstrap.showTooltip(element);
+    },
+
+    hideTooltip: function(element) {
+        MauticBootstrap.hideTooltip(element);
+    },
+
+    initPopovers: function(elements, options) {
+        MauticBootstrap.initPopovers(elements, options);
+    },
+
+    disposePopovers: function(elements) {
+        MauticBootstrap.disposePopovers(elements);
+    },
+
+    hidePopovers: function(elements) {
+        MauticBootstrap.hidePopovers(elements);
     },
 
     /**
@@ -692,7 +836,7 @@ var Mautic = {
             });
 
             mQuery('<div />', {
-                'class': 'modal-backdrop fade in'
+                'class': 'modal-backdrop fade show'
             }).appendTo(container);
 
             if (typeof hideWait == 'undefined') {
@@ -817,12 +961,12 @@ var Mautic = {
                     //update URL in address bar
                     history.pushState(null, "Mautic", response.route);
                 }
-            } else if (response.newContent && mQuery('.modal.in').length) {
+            } else if (response.newContent && mQuery('.modal.show').length) {
                 //assume a modal was the recipient of the information
-                mQuery('.modal.in .modal-body-content').html(response.newContent);
-                mQuery('.modal.in .modal-body-content').removeClass('hide');
-                if (mQuery('.modal.in  .loading-placeholder').length) {
-                    mQuery('.modal.in  .loading-placeholder').addClass('hide');
+                mQuery('.modal.show .modal-body-content').html(response.newContent);
+                mQuery('.modal.show .modal-body-content').removeClass('hide');
+                if (mQuery('.modal.show  .loading-placeholder').length) {
+                    mQuery('.modal.show  .loading-placeholder').addClass('hide');
                 }
             } else if (response.closeModal) {
                 if (typeof target !== "undefined") {
@@ -924,19 +1068,14 @@ var Mautic = {
         elDiv.className = 'alert alert-growl alert-growl--error alert-new';
 
         const elButton = document.createElement('button');
-        elButton.classList.add('close');
+        elButton.classList.add('btn-close');
         elButton.type = "button";
-        elButton.dataset.dismiss = "alert";
-        elButton.ariaHidden = "true";
+        elButton.dataset.bsDismiss = "alert";
         elButton.ariaLabel = "Close";
-
-        const elI = document.createElement('i');
-        elI.className = 'ri-close-line';
 
         const elSpan = document.createElement('span');
         elSpan.innerHTML = message;
 
-        elButton.append(elI);
         elDiv.append(elButton);
         elDiv.append(elSpan);
 
@@ -1001,7 +1140,7 @@ var Mautic = {
     clearNotification: function (id) {
         if (id) {
             mQuery("#notification" + id).fadeTo("fast", 0.01).slideUp("fast", function () {
-                mQuery(this).find("*[data-toggle='tooltip']").tooltip('destroy');
+                Mautic.disposeTooltips(mQuery(this).find("*[data-bs-toggle='tooltip']"));
                 mQuery(this).remove();
 
                 if (!mQuery('#notifications .notification').length) {

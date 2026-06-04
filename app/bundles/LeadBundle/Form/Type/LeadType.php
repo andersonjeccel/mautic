@@ -60,7 +60,7 @@ class LeadType extends AbstractType
                 [
                     'choices'           => $imageChoices,
                     'label'             => 'mautic.lead.lead.field.preferred_profile',
-                    'label_attr'        => ['class' => 'control-label'],
+                    'label_attr'        => ['class' => 'col-form-label'],
                     'attr'              => ['class' => 'form-control'],
                     'required'          => true,
                     'multiple'          => false,
@@ -72,7 +72,7 @@ class LeadType extends AbstractType
                 FileType::class,
                 [
                     'label'      => false,
-                    'label_attr' => ['class' => 'control-label'],
+                    'label_attr' => ['class' => 'col-form-label'],
                     'required'   => false,
                     'attr'       => [
                         'class' => 'form-control',
@@ -127,7 +127,7 @@ class LeadType extends AbstractType
             CompanyListType::class,
             [
                 'label'      => 'mautic.company.selectcompany',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'multiple'   => $allowMultipleCompanies,
                 'required'   => false,
                 'mapped'     => false,
@@ -143,7 +143,7 @@ class LeadType extends AbstractType
                 UserListType::class,
                 [
                     'label'      => 'mautic.lead.lead.field.owner',
-                    'label_attr' => ['class' => 'control-label'],
+                    'label_attr' => ['class' => 'col-form-label'],
                     'attr'       => [
                         'class' => 'form-control',
                     ],
@@ -162,7 +162,7 @@ class LeadType extends AbstractType
                 StageListType::class,
                 [
                     'label'      => 'mautic.lead.lead.field.stage',
-                    'label_attr' => ['class' => 'control-label'],
+                    'label_attr' => ['class' => 'col-form-label'],
                     'attr'       => [
                         'class' => 'form-control',
                     ],

@@ -66,14 +66,14 @@ class AjaxController extends CommonAjaxController
             ? 'mautic.webhook.label.success'
             : 'mautic.webhook.label.warning';
 
-        $cssClass = $isSuccess ? 'has-success' : 'has-error';
+        $cssClass = $isSuccess ? 'is-valid' : 'is-invalid';
 
         return $this->createJsonResponse($message, $cssClass);
     }
 
     private function createErrorResponse(string $message): JsonResponse
     {
-        return $this->createJsonResponse($message, 'has-error', Response::HTTP_BAD_REQUEST);
+        return $this->createJsonResponse($message, 'is-invalid', Response::HTTP_BAD_REQUEST);
     }
 
     private function createJsonResponse(
@@ -82,7 +82,7 @@ class AjaxController extends CommonAjaxController
         int $status = Response::HTTP_OK,
     ): JsonResponse {
         $html = sprintf(
-            '<div class="%s"><span class="help-block">%s</span></div>',
+            '<div class="%s"><span class="form-text">%s</span></div>',
             $cssClass,
             $this->translator->trans($message)
         );

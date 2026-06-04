@@ -9,7 +9,7 @@
 
 {% block content %}
 {% if isIndex %}
-<div id="page-list-wrapper" class="{% if items|length > 0 or searchValue is not empty %}panel {% endif %}panel-default">
+<div id="page-list-wrapper" class="{% if items|length > 0 or searchValue is not empty %}card {% endif %}">
     {{ include('@MauticCore/Helper/list_toolbar.html.twig', {
         'searchValue': searchValue,
         'action': currentRoute,
@@ -86,14 +86,14 @@
                         'sessionVar' : 'stage',
                         'orderBy'    : 'c.title',
                         'text'       : 'mautic.core.category',
-                        'class'      : 'visible-md visible-lg col-stage-category',
+                        'class'      : 'd-none d-md-table-cell col-stage-category',
                     }) -}}
                     {{- include('@MauticCore/Helper/tableheader.html.twig',
                     {
                         'sessionVar' : 'stage',
                         'orderBy'    : 's.id',
                         'text'       : 'mautic.core.id',
-                        'class'      : 'visible-md visible-lg col-stage-id',
+                        'class'      : 'd-none d-md-table-cell col-stage-id',
                     }) -}}
             </tr>
             </thead>
@@ -133,16 +133,16 @@
                             'description': description
                         }) }}
                     </td>
-                    <td class="visible-md visible-lg">
+                    <td class="d-none d-md-table-cell">
                         {{ include('@MauticCore/Modules/category--expanded.html.twig', {'category': item.category}) }}
                     </td>
-                    <td class="visible-md visible-lg">{{ item.getId() }}</td>
+                    <td class="d-none d-md-table-cell">{{ item.getId() }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
-    <div class="panel-footer">
+    <div class="card-footer">
         {{- include('@MauticCore/Helper/pagination.html.twig',
             {
                 'totalItems' : items|length,
@@ -158,7 +158,7 @@
             {{- include('@MauticCore/Helper/noresults.html.twig',
             {'tip' : 'mautic.stage.action.noresults.tip'}) -}}
         {% else %}
-            <div class="mt-80 col-md-offset-2 col-lg-offset-3 col-md-8 col-lg-5 height-auto">
+            <div class="mt-80 offset-md-2 offset-lg-3 col-md-8 col-lg-5 height-auto">
                 {% set childContainer %}
                     <div class="mt-32 mb-md">
                         {% include '@MauticCore/Components/pictogram.html.twig' with {

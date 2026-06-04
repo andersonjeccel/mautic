@@ -23,28 +23,28 @@
                         'sessionVar': 'focus',
                         'orderBy': 'c.title',
                         'text': 'mautic.core.category',
-                        'class': 'visible-md visible-lg col-focus-category',
+                        'class': 'd-none d-md-table-cell col-focus-category',
                 }) }}
 
                 {{ include('@MauticCore/Helper/tableheader.html.twig', {
                         'sessionVar': 'focus',
                         'orderBy': 'f.type',
                         'text': 'mautic.focus.thead.type',
-                        'class': 'visible-md visible-lg col-focus-type',
+                        'class': 'd-none d-md-table-cell col-focus-type',
                 }) }}
 
                 {{ include('@MauticCore/Helper/tableheader.html.twig', {
                         'sessionVar': 'focus',
                         'orderBy': 'f.style',
                         'text': 'mautic.focus.thead.style',
-                        'class': 'visible-md visible-lg col-focus-style',
+                        'class': 'd-none d-md-table-cell col-focus-style',
                 }) }}
 
                 {{ include('@MauticCore/Helper/tableheader.html.twig', {
                         'sessionVar': 'focus',
                         'orderBy': 'f.id',
                         'text': 'mautic.core.id',
-                        'class': 'visible-md visible-lg col-focus-id',
+                        'class': 'd-none d-md-table-cell col-focus-id',
                 }) }}
             </tr>
             </thead>
@@ -74,18 +74,18 @@
                             'description': item.description
                         }) }}
                     </td>
-                    <td class="visible-md visible-lg">
+                    <td class="d-none d-md-table-cell">
                         {{ include('@MauticCore/Modules/category--expanded.html.twig', {'category': item.category}) }}
                     </td>
-                    <td class="visible-md visible-lg">{{ ('mautic.focus.type.' ~ item.type)|trans }}</td>
-                    <td class="visible-md visible-lg">{{ ('mautic.focus.style.' ~ item.style)|trans }}</td>
-                    <td class="visible-md visible-lg">{{ item.id }}</td>
+                    <td class="d-none d-md-table-cell">{{ ('mautic.focus.type.' ~ item.type)|trans }}</td>
+                    <td class="d-none d-md-table-cell">{{ ('mautic.focus.style.' ~ item.style)|trans }}</td>
+                    <td class="d-none d-md-table-cell">{{ item.id }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
-    <div class="panel-footer">
+    <div class="card-footer">
         {{ include('@MauticCore/Helper/pagination.html.twig', {
                 'totalItems': items|length,
                 'page': page,
@@ -98,7 +98,7 @@
     {% if searchValue is not empty %}
         {{ include('@MauticCore/Helper/noresults.html.twig', {'tip': 'mautic.focus.noresults.tip'}) }}
     {% else %}
-        <div class="mt-80 col-md-offset-2 col-lg-offset-3 col-md-8 col-lg-5 height-auto">
+        <div class="mt-80 offset-md-2 offset-lg-3 col-md-8 col-lg-5 height-auto">
             {% set childContainer %}
                 <div class="mb-md">
                     {% include '@MauticCore/Components/pictogram.html.twig' with {
@@ -116,7 +116,7 @@
                 
                 {% set focusFeaturesContainer %}
                 <div class="row">
-                    <div class="col-sm-6 col-xs-12">
+                    <div class="col-sm-6 col-12">
                         {{ include('@MauticCore/Components/content-item.html.twig', {
                             type: 'pictogram',
                             pictogram: 'web--banners',
@@ -124,7 +124,7 @@
                             copy: 'mautic.focus.onboarding.style.bar.copy',
                         }) }}
                     </div>
-                    <div class="col-sm-6 col-xs-12">
+                    <div class="col-sm-6 col-12">
                         {{ include('@MauticCore/Components/content-item.html.twig', {
                             type: 'pictogram',
                             pictogram: 'design-and-development--01',
@@ -132,7 +132,7 @@
                             copy: 'mautic.focus.onboarding.style.modal.copy',
                         }) }}
                     </div>
-                    <div class="col-sm-6 col-xs-12">
+                    <div class="col-sm-6 col-12">
                         {{ include('@MauticCore/Components/content-item.html.twig', {
                             type: 'pictogram',
                             pictogram: 'notifications',
@@ -140,7 +140,7 @@
                             copy: 'mautic.focus.onboarding.style.notification.copy',
                         }) }}
                     </div>
-                    <div class="col-sm-6 col-xs-12">
+                    <div class="col-sm-6 col-12">
                         {{ include('@MauticCore/Components/content-item.html.twig', {
                             type: 'pictogram',
                             pictogram: 'maximize',

@@ -28,31 +28,31 @@ data-event-no-percent="{{ event['noPercent'] }}">
     <div class="campaign-event-content fw-nowrap gap-xs ai-center fd-row d-flex fg-1 pa-sm">
         <span class="h5 fw-b event-type-color">{{ 'mautic.campaign.when'|trans }}</span>
         <span>{{ ('mautic.campaign.'~event['type'])|trans }}</span>
-        <span class="campaign-event-name label label-info ml-5 mr-5 ellipsis">
+        <span class="campaign-event-name label bg-info ms-5 me-5 ellipsis">
             {% if ('dev' == constant('MAUTIC_ENV')) %}<small>{{ event['id'] }}</small> {% endif %}{{ event['name'] }}
         </span>
         <i class="{{ getCampaignEventIcon(event['type']) }} ri-lg ml-a campaign-event-icon event-type-color"></i>
         <div class="campaign-event-stat pa-4">
-            <span data-toggle="tooltip" title="{{ 'mautic.report.campaign.completed.actions'|trans }}"><span class="ri-check-line"></span> {{ event.logCountProcessed }}</span>
+            <span data-bs-toggle="tooltip" title="{{ 'mautic.report.campaign.completed.actions'|trans }}"><span class="ri-check-line"></span> {{ event.logCountProcessed }}</span>
             {% if (event.logCountForPending) %}
-            <span class="campaign-event-stat-divider">|</span>
-            <span data-toggle="tooltip" title="{{ 'mautic.report.campaign.pending.actions'|trans }}"><span class="ri-hourglass-line"></span> {{ event.logCountForPending }}</span>
+            <span class="campaign-event-stat-dropdown-divider">|</span>
+            <span data-bs-toggle="tooltip" title="{{ 'mautic.report.campaign.pending.actions'|trans }}"><span class="ri-hourglass-line"></span> {{ event.logCountForPending }}</span>
             {% endif %}
         </div>
     </div>
 
     {% elseif event['eventType'] == 'action' %}
         <div class="campaign-event-content d-flex fw-nowrap ai-center gap-sm">
-            <div class="campaign-event-icon pa-sm mr-5"><i class="{{ getCampaignEventIcon(event['type']) }}"></i></div>
+            <div class="campaign-event-icon pa-sm me-5"><i class="{{ getCampaignEventIcon(event['type']) }}"></i></div>
             <div class="d-flex fd-column ai-start">
                 <span class="fs-18 fw-l">{{ ('mautic.campaign.'~event['type'])|trans }}</span>
                 <span class="campaign-event-name ellipsis">{% if ('dev' == constant('MAUTIC_ENV')) %}<small>{{ event['id'] }}</small> {% endif %}{{ event['name'] }}</span>
             </div>
             <div class="campaign-event-stat pa-4">
-                <span data-toggle="tooltip" title="{{ 'mautic.report.campaign.completed.actions'|trans }}"><span class="ri-check-line"></span> {{ event.logCountProcessed }}</span>
+                <span data-bs-toggle="tooltip" title="{{ 'mautic.report.campaign.completed.actions'|trans }}"><span class="ri-check-line"></span> {{ event.logCountProcessed }}</span>
                 {% if (event.logCountForPending) %}
-                <span class="campaign-event-stat-divider">|</span>
-                <span data-toggle="tooltip" title="{{ 'mautic.report.campaign.pending.actions'|trans }}"><span class="ri-hourglass-line"></span> {{ event.logCountForPending }}</span>
+                <span class="campaign-event-stat-dropdown-divider">|</span>
+                <span data-bs-toggle="tooltip" title="{{ 'mautic.report.campaign.pending.actions'|trans }}"><span class="ri-hourglass-line"></span> {{ event.logCountForPending }}</span>
                 {% endif %}
             </div>
         </div>
@@ -61,15 +61,15 @@ data-event-no-percent="{{ event['noPercent'] }}">
     <div class="campaign-event-content fw-nowrap gap-xs ai-center fd-row d-flex fg-1 pa-sm">
         <span class="h5 fw-b event-type-color">{{ 'mautic.campaign.if'|trans }}</span>
         <span>{{ ('mautic.campaign.'~event['type'])|trans }}</span>
-            <span class="campaign-event-name label label-warning ml-5 mr-5 ellipsis">
+            <span class="campaign-event-name label bg-warning ms-5 me-5 ellipsis">
             {% if ('dev' == constant('MAUTIC_ENV')) %}<small>{{ event['id'] }}</small> {% endif %}{{ event['name'] }}
             </span>
         <i class="{{ getCampaignEventIcon(event['type']) }} ri-lg ml-a campaign-event-icon event-type-color"></i>
         <div class="campaign-event-stat pa-4">
-            <span data-toggle="tooltip" title="{{ 'mautic.report.campaign.completed.actions'|trans }}"><span class="ri-check-line"></span> {{ event.logCountProcessed }}</span>
+            <span data-bs-toggle="tooltip" title="{{ 'mautic.report.campaign.completed.actions'|trans }}"><span class="ri-check-line"></span> {{ event.logCountProcessed }}</span>
             {% if (event.logCountForPending) %}
-            <span class="campaign-event-stat-divider">|</span>
-            <span data-toggle="tooltip" title="{{ 'mautic.report.campaign.pending.actions'|trans }}"><span class="ri-hourglass-line"></span> {{ event.logCountForPending }}</span>
+            <span class="campaign-event-stat-dropdown-divider">|</span>
+            <span data-bs-toggle="tooltip" title="{{ 'mautic.report.campaign.pending.actions'|trans }}"><span class="ri-hourglass-line"></span> {{ event.logCountForPending }}</span>
             {% endif %}
         </div>
     </div>
@@ -86,13 +86,13 @@ data-event-no-percent="{{ event['noPercent'] }}">
 
 {% if update is not defined %}
 <div class="campaign-event-buttons hide">
- <a data-toggle="ajax" data-target="CampaignEvent_{{ event['id'] }}" data-ignore-formexit="true" data-method="POST" data-hide-loadingbar="true" href="{{ path(route, {'objectAction': 'clone', 'objectId': event['id'], 'campaignId': campaignId}) }}" class="btn btn-secondary btn-clone btn-xs" title="{{ 'mautic.campaign.event.clone.btn.tooltip'|trans }}">
+ <a data-toggle="ajax" data-target="CampaignEvent_{{ event['id'] }}" data-ignore-formexit="true" data-method="POST" data-hide-loadingbar="true" href="{{ path(route, {'objectAction': 'clone', 'objectId': event['id'], 'campaignId': campaignId}) }}" class="btn btn-secondary btn-clone btn-sm" title="{{ 'mautic.campaign.event.clone.btn.tooltip'|trans }}">
      <i class="ri-file-copy-line"></i>
  </a>
- <a data-toggle="ajaxmodal" data-prevent-dismiss="true" data-target="#CampaignEventModal" data-method="POST" href="{{ path(route, {'objectAction': 'edit', 'objectId': event['id'], 'campaignId': campaignId}) }}" class="btn btn-secondary btn-xs btn-edit" title="{{ 'mautic.campaign.event.edit.btn.tooltip'|trans }}">
+ <a data-toggle="ajaxmodal" data-prevent-dismiss="true" data-target="#CampaignEventModal" data-method="POST" href="{{ path(route, {'objectAction': 'edit', 'objectId': event['id'], 'campaignId': campaignId}) }}" class="btn btn-secondary btn-sm btn-edit" title="{{ 'mautic.campaign.event.edit.btn.tooltip'|trans }}">
      <i class="ri-pencil-line"></i>
  </a>
- <a data-toggle="ajax-delete" data-target="CampaignEvent_{{ event['id'] }}" data-ignore-formexit="true" data-method="POST" data-hide-loadingbar="true" href="{{ path(route, {'objectAction': 'delete', 'objectId': event['id'], 'campaignId': campaignId}) }}" class="btn btn-delete btn-danger btn-xs" title="{{ 'mautic.campaign.event.remove.btn.tooltip'|trans }}">
+ <a data-toggle="ajax-delete" data-target="CampaignEvent_{{ event['id'] }}" data-ignore-formexit="true" data-method="POST" data-hide-loadingbar="true" href="{{ path(route, {'objectAction': 'delete', 'objectId': event['id'], 'campaignId': campaignId}) }}" class="btn btn-delete btn-danger btn-sm" title="{{ 'mautic.campaign.event.remove.btn.tooltip'|trans }}">
      <i class="ri-delete-bin-line"></i>
  </a>
 </div>

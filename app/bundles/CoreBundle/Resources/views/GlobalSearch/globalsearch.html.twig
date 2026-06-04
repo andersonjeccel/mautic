@@ -1,4 +1,4 @@
-<div class="modal fade" id="gsearchModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby=""
+<div class="modal fade" id="gsearchModal" data-bs-backdrop="false" tabindex="-1" role="dialog" aria-labelledby=""
 	aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content gsearch--toolbar">
@@ -12,7 +12,7 @@
 					data-action="{{ path('mautic_core_ajax', {action: 'globalSearch'}) }}" data-overlay="true"
 					data-overlay-text="{% trans %}mautic.core.search.livesearch{% endtrans %}" />
 				<span class="gsearch--field-addon">
-					<kbd class="mr-2">f</kbd><kbd>/</kbd>
+					<kbd class="me-2">f</kbd><kbd>/</kbd>
 				</span>
 			</div>
 
@@ -20,7 +20,7 @@
 		<!-- end modal content -->
 		<!-- start results -->
 		<div class="modal-content gsearch--results hide mt-xs">
-			<div class="pt-0 pb-xs pl-0 pr-0">
+			<div class="pt-0 pb-xs ps-0 pe-0">
 				<div class="gsearch--results-scroll scroll-content slimscroll" id="globalSearchResults">
 					{{ include('@MauticCore/GlobalSearch/results.html.twig', {results: results}) }}
 				</div>

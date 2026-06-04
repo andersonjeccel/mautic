@@ -25,30 +25,30 @@
 			<div class="pa-md">
 				<div class="form-group mb-0">
 					<div class="row">
-						<div class="col-sm-6{{ form.firstName.vars.errors|length ? ' has-error' : '' }}">
+						<div class="col-sm-6{{ form.firstName.vars.errors|length ? ' is-invalid' : '' }}">
 							<h3 class="mb-lg mt-lg">{{ 'mautic.user.config.title.personal_information'|trans }}</h3>
 							<div class="form-group">
-								<label class="control-label mb-xs">{{ form_label(form.firstName) }}</label>
+								<label class="col-form-label mb-xs">{{ form_label(form.firstName) }}</label>
 								{{ form_widget(form.firstName, {'attr' : {'placeholder' : form.firstName.vars.label }}) }}
 								{{ form_errors(form.firstName) }}
 							</div>
-							<div class="form-group{{ form.lastName.vars.errors|length ? ' has-error' : '' }}">
-								<label class="control-label mb-xs">{{ form_label(form.lastName) }}</label>
+							<div class="form-group{{ form.lastName.vars.errors|length ? ' is-invalid' : '' }}">
+								<label class="col-form-label mb-xs">{{ form_label(form.lastName) }}</label>
 								{{ form_widget(form.lastName, {'attr' : {'placeholder' : form.lastName.vars.label }}) }}
 								{{ form_errors(form.lastName) }}
 							</div>
-							<div class="form-group{{ form.role.vars.errors|length ? ' has-error' : '' }}">
-								<label class="control-label mb-xs">{{ form_label(form.role) }}</label>
+							<div class="form-group{{ form.role.vars.errors|length ? ' is-invalid' : '' }}">
+								<label class="col-form-label mb-xs">{{ form_label(form.role) }}</label>
 								{{ form_widget(form.role, {'attr' : {'placeholder' : form.role.vars.label }}) }}
 								{{ form_errors(form.role) }}
 							</div>
-							<div class="form-group pb-lg{{ form.position.vars.errors|length ? ' has-error' : '' }}">
-								<label class="control-label mb-xs">{{ form_label(form.position) }}</label>
+							<div class="form-group pb-lg{{ form.position.vars.errors|length ? ' is-invalid' : '' }}">
+								<label class="col-form-label mb-xs">{{ form_label(form.position) }}</label>
 								{{ form_widget(form.position, {'attr' : {'placeholder' : form.position.vars.label }}) }}
 								{{ form_errors(form.position) }}
 							</div>
-							<div class="form-group pt-md{{ form.signature.vars.errors|length ? ' has-error' : '' }}">
-								<label class="control-label mb-xs">{{ form_label(form.signature) }}</label>
+							<div class="form-group pt-md{{ form.signature.vars.errors|length ? ' is-invalid' : '' }}">
+								<label class="col-form-label mb-xs">{{ form_label(form.signature) }}</label>
 								{{ form_widget(form.signature, {'attr' : {'placeholder' : form.signature.vars.label }}) }}
 								{{ form_errors(form.signature) }}
 								<p class="help-text">{{ 'mautic.user.config.signature.admin.helper'|trans }} </p>
@@ -56,12 +56,12 @@
 						</div>
 						<div class="col-sm-6">
 							<h3 class="mb-lg mt-lg">{{ 'mautic.user.config.title.account_data_security'|trans }}</h3>
-							<div class="form-group{{ form.username.vars.errors|length ? ' has-error' : '' }}">
+							<div class="form-group{{ form.username.vars.errors|length ? ' is-invalid' : '' }}">
 									{{ form_label(form.username) }}
 									{{ form_widget(form.username, {'attr' : {'placeholder' : form.username.vars.label }}) }}
 									{{ form_errors(form.username) }}
 							</div>
-							<div class="form-group{{ form.email.vars.errors|length ? ' has-error' : '' }}">
+							<div class="form-group{{ form.email.vars.errors|length ? ' is-invalid' : '' }}">
 								{{ form_label(form.email) }}
 								{{ form_widget(form.email, {'attr' : {'placeholder' : form.email.vars.label }}) }}
 								{{ form_errors(form.email) }}

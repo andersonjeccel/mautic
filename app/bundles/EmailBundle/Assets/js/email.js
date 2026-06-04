@@ -114,9 +114,9 @@ Mautic.insertEmailBuilderToken = function(editorId, token) {
 };
 
 Mautic.getEmailAbTestWinnerForm = function(abKey) {
-    if (abKey && mQuery(abKey).val() && mQuery(abKey).closest('.form-group').hasClass('has-error')) {
-        mQuery(abKey).closest('.form-group').removeClass('has-error');
-        if (mQuery(abKey).next().hasClass('help-block')) {
+    if (abKey && mQuery(abKey).val() && mQuery(abKey).closest('.form-group').hasClass('is-invalid')) {
+        mQuery(abKey).closest('.form-group').removeClass('is-invalid');
+        if (mQuery(abKey).next().hasClass('form-text')) {
             mQuery(abKey).next().remove();
         }
     }
@@ -186,7 +186,7 @@ Mautic.sendEmailBatch = function () {
             if (response.progress[0] > 0) {
                 mQuery('.imported-count').html(response.progress[0]);
                 mQuery('.progress-bar-send').attr('aria-valuenow', response.progress[0]).css('width', response.percent + '%');
-                mQuery('.progress-bar-send span.sr-only').html(response.percent + '%');
+                mQuery('.progress-bar-send span.visually-hidden').html(response.percent + '%');
             }
 
             if (response.progress[0] >= response.progress[1]) {
@@ -314,8 +314,8 @@ Mautic.setEmailSendToDncStatus = function (emailId) {
             if (typeof response.sendToDncStatus != "undefined") {
                 dnc_status.removeClass('hide')
                 dnc_status.find('span.dnc-status-text')
-                    .removeClass('label-danger label-primary')
-                    .addClass(response.sendToDncStatus ? 'label-danger' : 'label-primary')
+                    .removeClass('bg-danger bg-primary')
+                    .addClass(response.sendToDncStatus ? 'bg-danger' : 'bg-primary')
                     .text(response.sendToDncText);
 
                 mQuery('.queue_hide').toggleClass('hide', response.sendToDncStatus);
@@ -331,7 +331,7 @@ Mautic.initEmailDynamicContent = function() {
     if (mQuery('#dynamic-content-container').length) {
         mQuery('#emailFilters .remove-selected').each( function (index, el) {
             mQuery(el).on('click', function () {
-                mQuery(this).closest('.panel').animate(
+                mQuery(this).closest('.card').animate(
                     {'opacity': 0},
                     'fast',
                     function () {
@@ -371,7 +371,7 @@ Mautic.createNewDynamicContentItem = function(jQueryVariant) {
     var tabId                   = '#emailform_dynamicContent_' + dynamicContentIndex;
     var tokenName               = 'Dynamic Content ' + (dynamicContentIndex + 1);
     var newForm                 = dynamicContentPrototype.replace(/__name__/g, dynamicContentIndex);
-    var newTab                  = mQuery('<li><a role="tab" data-toggle="tab" href="' + tabId + '">' + tokenName + '</a></li>');
+    var newTab                  = mQuery('<li><a role="tab" data-bs-toggle="tab" href="' + tabId + '">' + tokenName + '</a></li>');
 
     tabHolder.append(newTab);
     filterHolder.append(newForm);
@@ -407,7 +407,7 @@ Mautic.createNewDynamicContentFilter = function(el, jQueryVariant) {
     var mQuery = (typeof jQueryVariant != 'undefined') ? jQueryVariant : window.mQuery;
 
     var $this                = mQuery(el);
-    var parentElement        = $this.parents('.panel');
+    var parentElement        = $this.parents('.card');
     var tabHolder            = parentElement.find('.nav');
     var filterHolder         = parentElement.find('.tab-content');
     var filterBlockPrototype = mQuery('#filterBlockPrototype');
@@ -421,7 +421,7 @@ Mautic.createNewDynamicContentFilter = function(el, jQueryVariant) {
         filterIndex++;
         filterContainerId = '#emailform_dynamicContent_' + dynamicContentIndex + '_filters_' + filterIndex ;
     }
-    var newTab            = mQuery('<li><a role="tab" data-toggle="tab" href="' + filterContainerId + '">Variation ' + (filterIndex + 1) + '</a></li>');
+    var newTab            = mQuery('<li><a role="tab" data-bs-toggle="tab" href="' + filterContainerId + '">Variation ' + (filterIndex + 1) + '</a></li>');
     var newForm           = filterPrototype.replace(/__name__/g, filterIndex)
         .replace(/dynamicContent_0_filters/g, 'dynamicContent_' + dynamicContentIndex + '_filters')
         .replace(/dynamicContent]\[0]\[filters/g, 'dynamicContent][' + dynamicContentIndex + '][filters');
@@ -514,7 +514,7 @@ Mautic.initDynamicContentItem = function (tabId, jQueryVariant, tokenName) {
 Mautic.updateDynamicContentDropdown = function () {
     var options = [];
 
-    mQuery('#dynamicContentTabs').find('a[data-toggle="tab"]').each(function () {
+    mQuery('#dynamicContentTabs').find('a[data-bs-toggle="tab"]').each(function () {
         var prototype       = '<li><a class="fr-command" data-cmd="dynamicContent" data-param1="__tokenName__">__tokenName__</a></li>';
         var newOption       = prototype.replace(/__tokenName__/g, mQuery(this).text());
 
@@ -552,7 +552,7 @@ Mautic.initRemoveEvents = function (elements, jQueryVariant) {
     var mQuery = (typeof jQueryVariant != 'undefined') ? jQueryVariant : window.mQuery;
     if (elements.hasClass('remove-selected')) {
         elements.on('click', function() {
-            mQuery(this).closest('.panel').animate(
+            mQuery(this).closest('.card').animate(
                 {'opacity': 0},
                 'fast',
                 function () {
@@ -602,7 +602,7 @@ Mautic.addDynamicContentFilter = function (selectedFilter, jQueryVariant) {
     var label           = selectedOption.text();
 
     // create a new filter
-    var filterNum   = activeDynamicContentFilterContainer.children('.panel').length;
+    var filterNum   = activeDynamicContentFilterContainer.children('.card').length;
     var prototype   = mQuery('#filterSelectPrototype').data('prototype');
     var fieldObject = selectedOption.data('field-object');
     var fieldType   = selectedOption.data('field-type');
@@ -652,9 +652,9 @@ Mautic.addDynamicContentFilter = function (selectedFilter, jQueryVariant) {
         prototype.find('input[name="' + filterBase + '[filter]"]').replaceWith(template);
     }
 
-    if (activeDynamicContentFilterContainer.find('.panel').length == 0) {
+    if (activeDynamicContentFilterContainer.find('.card').length == 0) {
         // First filter so hide the glue footer
-        prototype.find(".panel-footer").addClass('hide');
+        prototype.find(".card-footer").addClass('hide');
     }
 
     prototype.find("input[name='" + filterBase + "[field]']").val(selectedFilter);

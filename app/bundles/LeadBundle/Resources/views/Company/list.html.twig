@@ -21,7 +21,7 @@
 
 {% block content %}
   {% if isIndex %}
-    <div id="page-list-wrapper" class="{% if items|length > 0 or searchValue is not empty %}panel {% endif %}panel-default">
+    <div id="page-list-wrapper" class="{% if items|length > 0 or searchValue is not empty %}card {% endif %}">
       {%- set pageButtons = [] %}
 {% if permissions['lead:leads:create'] %}
     {% set pageButtons = pageButtons|merge([
@@ -89,31 +89,31 @@
                   {{ include('@MauticCore/Helper/tableheader.html.twig', {
                           'sessionVar': 'company',
                           'text': 'mautic.company.email',
-                          'class': 'visible-md visible-lg col-company-category',
+                          'class': 'd-none d-md-table-cell col-company-category',
                           'orderBy': 'comp.companyemail',
                   }) }}
                   {{ include('@MauticCore/Helper/tableheader.html.twig', {
                           'sessionVar': 'company',
                           'text': 'mautic.company.website',
-                          'class': 'visible-md visible-lg col-company-website',
+                          'class': 'd-none d-md-table-cell col-company-website',
                           'orderBy': 'comp.companywebsite',
                   }) }}
                   {{ include('@MauticCore/Helper/tableheader.html.twig', {
                           'sessionVar': 'company',
                           'text': 'mautic.company.score',
-                          'class': 'visible-md visible-lg col-company-score',
+                          'class': 'd-none d-md-table-cell col-company-score',
                           'orderBy': 'comp.score',
                   }) }}
                   {{ include('@MauticCore/Helper/tableheader.html.twig', {
                           'sessionVar': 'company',
                           'text': 'mautic.lead.list.thead.leadcount',
-                          'class': 'visible-md visible-lg col-leadlist-leadcount',
+                          'class': 'd-none d-md-table-cell col-leadlist-leadcount',
                   }) }}
                   {{ include('@MauticCore/Helper/tableheader.html.twig', {
                           'sessionVar': 'company',
                           'orderBy': 'comp.id',
                           'text': 'mautic.core.id',
-                          'class': 'visible-md visible-lg col-company-id',
+                          'class': 'd-none d-md-table-cell col-company-id',
                   }) }}
               </tr>
               </thead>
@@ -154,15 +154,15 @@
                           {% endif %}
                       </td>
 
-                      <td class="visible-md visible-lg">
+                      <td class="d-none d-md-table-cell">
                           {% if fields.core.companywebsite is defined %}
                             {{ inputUrl(fields.core.companywebsite.value) }}
                           {% endif %}
                       </td>
-                      <td class="visible-md visible-lg">
+                      <td class="d-none d-md-table-cell">
                           <span size="sm" class="label label-gray">{{ item.score }}</span>
                       </td>
-                      <td class="visible-md visible-lg">
+                      <td class="d-none d-md-table-cell">
                           <a size="sm" class="label label-gray"
                              href="{{ path('mautic_contact_index', {'search': 'mautic.lead.lead.searchcommand.company_id'|trans~':'~item.id}) }}"
                              data-toggle="ajax"
@@ -170,13 +170,13 @@
                                   {{ 'mautic.lead.company.viewleads_count'|trans({'%count%': leadCounts[item.id]}) }}
                           </a>
                       </td>
-                      <td class="visible-md visible-lg">{{ item.id }}</td>
+                      <td class="d-none d-md-table-cell">{{ item.id }}</td>
                   </tr>
               {% endfor %}
               </tbody>
           </table>
       </div>
-      <div class="panel-footer">
+      <div class="card-footer">
           {{ include('@MauticCore/Helper/pagination.html.twig', {
                   'totalItems': totalItems,
                   'page': page,
@@ -190,7 +190,7 @@
     {% if searchValue is not empty %}
       {{ include('@MauticCore/Helper/noresults.html.twig') }}
     {% else %}
-      <div class="mt-80 col-md-offset-2 col-lg-offset-3 col-md-8 col-lg-5 height-auto">
+      <div class="mt-80 offset-md-2 offset-lg-3 col-md-8 col-lg-5 height-auto">
         {% set childContainer %}
           <div class="mb-32">
               {% include '@MauticCore/Components/pictogram.html.twig' with {

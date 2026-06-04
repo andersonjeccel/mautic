@@ -806,7 +806,7 @@ class AjaxController extends CommonAjaxController
                 $needsRebuild ? 'mautic.lead.list.building' : 'mautic.lead.list.viewleads_count',
                 ['%count%' => $leadCount]
             ),
-            'className' => sprintf('label %s col-count', $needsRebuild ? 'label-info' : 'label-gray'),
+            'className' => sprintf('badge %s col-count', $needsRebuild ? 'bg-info' : 'label-gray'),
             'leadCount' => $leadCount,
         ];
     }

@@ -21,7 +21,7 @@ class DncType extends AbstractType
             [
                 'label'      => 'mautic.lead.batch.dnc_reason',
                 'required'   => false,
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => ['class' => 'form-control'],
             ]
         );
@@ -39,7 +39,7 @@ class DncType extends AbstractType
                 'save_text'      => 'mautic.core.form.save',
                 'cancel_onclick' => 'javascript:void(0);',
                 'cancel_attr'    => [
-                    'data-dismiss' => 'modal',
+                    'data-bs-dismiss' => 'modal',
                 ],
             ]
         );

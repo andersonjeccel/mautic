@@ -21,14 +21,14 @@
                                         href: path('mautic_contact_action', {'objectAction': 'view', 'objectId': email.lead_id}),
                                         attributes: {
                                             'data-toggle': 'ajax',
-                                            'class': 'pr-sm pl-sm fs-12 ml-3'
+                                            'class': 'pr-sm pl-sm fs-12 ms-3'
                                         }
                                     }
                                 ]
                             } %}
                         </span>
                     </div>
-                    <div class="col-md-3 va-m text-right small">
+                    <div class="col-md-3 va-m text-end small">
                         {{ dateToFull(email.trigger_date) }}
                     </div>
                 </div>

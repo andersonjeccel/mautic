@@ -11,7 +11,7 @@
 {% set leadName = lead.isAnonymous ? lead.primaryIdentifier|trans : lead.primaryIdentifier %}
 {% set avatar %}
   {% if not isAnonymous %}
-    <span class="pull-left img-wrapper img-rounded mr-10" style="width:33px"><img src="{{ leadGetAvatar(lead) }}" alt="" /></span>
+    <span class="float-start img-wrapper rounded mr-10" style="width:33px"><img src="{{ leadGetAvatar(lead) }}" alt="" /></span>
   {% endif %}
 {% endset %}
 
@@ -19,7 +19,7 @@
 {% set groups = fields|keys %}
 
 {% block headerTitle %}
-    {{ avatar }}<div class="pull-left mt-5"><span class="span-block">{{ leadName|purify }}</span><span class="span-block small ml-sm">
+    {{ avatar }}<div class="float-start mt-5"><span class="span-block">{{ leadName|purify }}</span><span class="span-block small ml-sm">
     {{ lead.secondaryIdentifier|purify }}</span></div>
     {{ customContent('lead.name.after', _context) }}
 {% endblock %}
@@ -85,10 +85,10 @@
                 'attr': {
                     'data-toggle': 'ajaxmodal',
                     'data-target': '#MauticSharedModal',
-                    'data-header': 'mautic.lead.groups.panel.title'|trans,
+                    'data-header': 'mautic.lead.groups.card.title'|trans,
                     'href': path('mautic_contact_action', {'objectId': lead.id, 'objectAction': 'contactGroupPoints'}),
                 },
-                'btnText': 'mautic.lead.groups.panel.title'|trans,
+                'btnText': 'mautic.lead.groups.card.title'|trans,
                 'iconClass': 'ri-coins-line',
             }]) %}
         {% endif %}
@@ -161,27 +161,27 @@
                 <ul class="pt-md nav nav-tabs nav-tabs-contained" role="tablist">
                     {% for g in groups %}
                         {% if fields[g] is not empty %}
-                            <li class="{% if loop.first %}active{% endif %}">
-                                <a href="#{{ g }}" class="group" data-toggle="tab">
+                            <li class="nav-item">
+                                <a href="#{{ g }}" class="{% if loop.first %}active{% endif %} nav-link group" data-bs-toggle="tab">
                                     {{ ('mautic.lead.field.group.'~g)|trans }}
                                 </a>
                             </li>
                         {% endif %}
                     {% endfor %}
-                        <li>
-                            <a href="#devices" class="group" data-toggle="tab">{{ 'mautic.lead.devices'|trans }}</a>
+                        <li class="nav-item">
+                            <a href="#devices" class="nav-link group" data-bs-toggle="tab">{{ 'mautic.lead.devices'|trans }}</a>
                         </li>
-                    <li>
-                        <a href="#lead-stats" class="group" data-toggle="tab">{{ 'mautic.lead.stats'|trans }}</a>
+                    <li class="nav-item">
+                        <a href="#lead-stats" class="nav-link group" data-bs-toggle="tab">{{ 'mautic.lead.stats'|trans }}</a>
                     </li>
                 </ul>
 
                 <!-- start: tab-content -->
                 <div class="tab-content pa-md">
                     {% for group in groups %}
-                        <div class="tab-pane fade {% if loop.first %}in active{% endif %} bdr-w-0" id="{{ group }}">
+                        <div class="tab-pane fade {% if loop.first %}show active{% endif %} bdr-w-0" id="{{ group }}">
                             <div class="pr-md pl-md pb-md">
-                                <div class="panel shd-none mb-0">
+                                <div class="card shd-none mb-0">
                                     <table class="table table-hover mb-0">
                                         <tbody>
                                         {% if 'core' == group %}
@@ -247,9 +247,8 @@
         <div>
             <!-- lead detail collapseable toggler -->
             <div class="hr-expand nm">
-                <span data-toggle="tooltip" title="{{ 'mautic.core.details'|trans }}">
-                    <a href="javascript:void(0)" class="arrow text-secondary collapsed" data-toggle="collapse" data-target="#lead-details">
-                       <span class="caret"></span>
+                <span data-bs-toggle="tooltip" title="{{ 'mautic.core.details'|trans }}">
+                    <a href="javascript:void(0)" class="arrow text-secondary collapsed" data-bs-toggle="collapse" data-bs-target="#lead-details">
                        {{ 'mautic.core.details'|trans }}
                     </a>
                 </span>
@@ -260,12 +259,12 @@
                 <div class="pa-md">
                     <div class="row">
                         <div class="col-sm-12">
-                            <div class="panel">
-                                <div class="panel-body box-layout">
-                                    <div class="col-xs-8 va-m">
+                            <div class="card">
+                                <div class="card-body box-layout">
+                                    <div class="col-8 va-m">
                                         <h5 class="text-white dark-md fw-sb mb-xs">{{ 'mautic.lead.field.header.engagements'|trans }}</h5>
                                     </div>
-                                    <div class="col-xs-4 va-t text-right">
+                                    <div class="col-4 va-t text-end">
                                         <h3 class="text-white dark-sm"><span class="ri-eye-line"></span></h3>
                                     </div>
                                 </div>
@@ -282,51 +281,51 @@
         <div class="pa-md">
             <!-- tabs controls -->
             <ul class="nav nav-tabs nav-tabs-contained mt-10">
-                <li class="active">
-                    <a href="#timeline-container" role="tab" data-toggle="tab">
-                        <span size="sm" class="label label-primary mr-sm" id="TimelineCount">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#timeline-container" role="tab" data-bs-toggle="tab">
+                        <span size="sm" class="label bg-primary mr-sm" id="TimelineCount">
                             {{ events.total }}
                         </span>
                         {{ 'mautic.lead.lead.tab.history'|trans }}
                     </a>
                 </li>
-                <li class="">
-                    <a href="#notes-container" role="tab" data-toggle="tab">
-                        <span size="sm" class="label label-primary mr-sm" id="NoteCount">
+                <li class="nav-item">
+                    <a class="nav-link" href="#notes-container" role="tab" data-bs-toggle="tab">
+                        <span size="sm" class="label bg-primary mr-sm" id="NoteCount">
                             {{ noteCount }}
                         </span>
                         {{ 'mautic.lead.lead.tab.notes'|trans }}
                     </a>
                 </li>
                 {% if not isAnonymous %}
-                    <li class="">
-                        <a href="#social-container" role="tab" data-toggle="tab">
-                        <span size="sm" class="label label-primary mr-sm" id="SocialCount">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#social-container" role="tab" data-bs-toggle="tab">
+                        <span size="sm" class="label bg-primary mr-sm" id="SocialCount">
                             {{ socialProfiles|length }}
                         </span>
                             {{ 'mautic.lead.lead.tab.social'|trans }}
                         </a>
                     </li>
                 {% endif %}
-                <li class="">
-                    <a href="#integration-container" role="tab" data-toggle="tab">
-                    <span size="sm" class="label label-primary mr-sm" id="IntegrationCount">
+                <li class="nav-item">
+                    <a class="nav-link" href="#integration-container" role="tab" data-bs-toggle="tab">
+                    <span size="sm" class="label bg-primary mr-sm" id="IntegrationCount">
                         {{ integrations|length }}
                     </span>
                         {{ 'mautic.lead.lead.tab.integration'|trans }}
                     </a>
                 </li>
-                <li class="">
-                    <a href="#auditlog-container" role="tab" data-toggle="tab">
-                    <span size="sm" class="label label-primary mr-sm" id="AuditLogCount">
+                <li class="nav-item">
+                    <a class="nav-link" href="#auditlog-container" role="tab" data-bs-toggle="tab">
+                    <span size="sm" class="label bg-primary mr-sm" id="AuditLogCount">
                         {{ auditlog.total }}
                     </span>
                         {{ 'mautic.lead.lead.tab.auditlog'|trans }}
                     </a>
                 </li>
-                    <li class="">
-                        <a href="#place-container" role="tab" data-toggle="tab" id="load-lead-map">
-                        <span size="sm" class="label label-primary mr-sm" id="PlaceCount">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#place-container" role="tab" data-bs-toggle="tab" id="load-lead-map">
+                        <span size="sm" class="label bg-primary mr-sm" id="PlaceCount">
                             {{ places|length }}
                         </span>
                             {{ 'mautic.lead.lead.tab.places'|trans }}
@@ -339,7 +338,7 @@
             <!-- start: tab-content -->
             <div class="tab-content pa-md">
                 <!-- #history-container -->
-                <div class="tab-pane fade in active bdr-w-0" id="timeline-container">
+                <div class="tab-pane fade show active bdr-w-0" id="timeline-container">
                     {{ include('@MauticLead/Timeline/list.html.twig', {'events': events, 'lead': lead}) }}
                 </div>
                 <!--/ #history-container -->
@@ -404,23 +403,22 @@
     <!-- right section -->
     <div class="col-md-3 bdr-l height-auto">
         <!-- form HTML -->
-        <div class="panel shd-none bdr-rds-0 bdr-w-0 mb-0">
+        <div class="card shd-none bdr-rds-0 bdr-w-0 mb-0">
             {% if not lead.isAnonymous %}
-                <div class="lead-avatar-panel">
+                <div class="lead-avatar-card">
                     <div class="avatar-collapser hr-expand nm">
                         <a href="javascript:void(0)"
                             class="arrow text-secondary text-center {% if 'expanded' != avatarPanelState %}collapsed{% endif %}"
-                            data-toggle="collapse"
-                            data-target="#lead-avatar-block">
-                            <span class="caret"></span>
-                        </a>
+                            data-bs-toggle="collapse"
+                            data-bs-target="#lead-avatar-block">
+                            </a>
                     </div>
                     <div class="collapse {% if 'expanded' == avatarPanelState %}in{% endif %}" id="lead-avatar-block">
-                        <img class="img-responsive" src="{{ leadGetAvatar(lead) }}" alt="{{ leadName|e }}"/>
+                        <img class="img-fluid" src="{{ leadGetAvatar(lead) }}" alt="{{ leadName|e }}"/>
                     </div>
                 </div>
             {% endif %}
-            <div class="mt-sm points-panel text-center">
+            <div class="mt-sm points-card text-center">
                 <h1 style="{% if lead.color is not empty %}font-color:{{ lead.color }} !important;{% endif %}">
                     {{ 'mautic.lead.points.count'|trans({'%count%': lead.points}) }}
                 </h1>
@@ -431,13 +429,13 @@
             </div>
 
             {% if lead.groupScores is not empty %}
-                <div class="panel-heading">
-                    <div class="panel-title">
-                        {{ 'mautic.lead.groups.panel.title'|trans }}
+                <div class="card-header">
+                    <div class="card-title">
+                        {{ 'mautic.lead.groups.card.title'|trans }}
                     </div>
                 </div>
 
-                <div class="panel-body pt-sm group-points-panel">
+                <div class="card-body pt-sm group-points-card">
                     {% for groupScore in lead.groupScores %}
                         <div class="row">
                             <h6 class="fw-sb col-md-6">
@@ -457,12 +455,12 @@
             {% if doNotContactSms %}
                 {{ include('@MauticLead/Lead/_dnc_large.html.twig', {'doNotContact': doNotContactSms}) }}
             {% endif %}
-            <div class="panel-heading">
-                <div class="panel-title">
+            <div class="card-header">
+                <div class="card-title">
                     {{ 'mautic.lead.field.header.contact'|trans }}
                 </div>
             </div>
-            <div class="panel-body pt-sm">
+            <div class="card-body pt-sm">
             {% if lead.owner %}
                 <h6 class="fw-sb">{{ 'mautic.lead.lead.field.owner'|trans }}</h6>
                 <p class="text-secondary">{{ lead.owner.name|purify }}</p>
@@ -497,14 +495,14 @@
 
             <hr class="hr-w-2" style="width:50%">
 
-            <div class="panel shd-none bdr-rds-0 bdr-w-0">
-                <div class="panel-heading">
-                    <div class="panel-title">{{ 'mautic.lead.lead.upcoming.events'|trans }}</div>
+            <div class="card shd-none bdr-rds-0 bdr-w-0">
+                <div class="card-header">
+                    <div class="card-title">{{ 'mautic.lead.lead.upcoming.events'|trans }}</div>
                 </div>
                 {% if not upcomingEvents %}
                     {{ include('@MauticCore/Helper/no_information.html.twig', {'tip': 'mautic.contact.noinformation.upcoming'}) }}
                 {% endif %}
-                <div class="panel-body pt-sm">
+                <div class="card-body pt-sm">
                     <ul class="media-list media-list-feed">
                         {% for event in upcomingEvents %}
                             {% set metadata = serializerDecode(event.metadata) %}
@@ -513,7 +511,7 @@
                                 {% set errors = metadata.errors is iterable ? metadata.errors|join('<br/>') : metadata.errors %}
                             {% endif %}
                             <li class="media">
-                                <div class="media-object pull-left mt-xs">
+                                <div class="media-object float-start mt-xs">
                                     <span class="figure"></span>
                                 </div>
                                 <div class="media-body">
@@ -522,7 +520,7 @@
                                           '%link%': '<a href="'~path('mautic_campaign_action', {'objectAction': 'view', 'objectId': event.campaign_id})~'" data-toggle="ajax">'~event.campaign_name~'</a>',
                                     })|purify }}
                                     {% if errors is not empty %}
-                                      <i class="ri-alert-line text-danger" data-toggle="tooltip" title="{{ errors|purify }}"></i>
+                                      <i class="ri-alert-line text-danger" data-bs-toggle="tooltip" title="{{ errors|purify }}"></i>
                                     {% endif %}
                                     <p class="fs-12 dark-sm timeline-campaign-event-date-{{ event.event_id }}">
                                       {{ dateToFull(event.trigger_date, 'utc') }}
@@ -563,7 +561,7 @@
                     {% endif %}
                     </div>
                 {% endset %}
-                
+
                 {% include '@MauticCore/Components/tile.html.twig' with {
                     'type': 'base',
                     'content': tagContent
@@ -572,7 +570,7 @@
                 {# Use tile--expandable-interactive for more than 8 tags #}
                 {% set firstEightTags = lead.tags|slice(0, 8) %}
                 {% set remainingTags = lead.tags|slice(8) %}
-                
+
                 {% set aboveContent %}
                 <div class="d-flex jc-space-between">
                     <span class="fw-b ellipsis mb-md">{{ 'mautic.lead.tags'|trans }}</span>
@@ -595,7 +593,7 @@
                     {% endfor %}
                     </div>
                 {% endset %}
-                
+
                 {% set belowContent %}
                 <div class="d-flex fw-wrap gap-xs mt-xs">
                     {% for tag in remainingTags %}
@@ -614,7 +612,7 @@
                     {% endfor %}
                     </div>
                 {% endset %}
-                
+
                 {% include '@MauticCore/Components/tile.html.twig' with {
                     'type': 'expandable-interactive',
                     'aboveFoldContent': aboveContent,
@@ -622,7 +620,7 @@
                 } %}
             {% endif %}
         </div>
-        <div class="pa-sm panel-companies layout--size-0">
+        <div class="pa-sm card-companies layout--size-0">
             {% if companies is defined and companies|length > 0 %}
                 {% set companiesList = [] %}
                 {% for key, company in companies %}
@@ -662,7 +660,7 @@
                 <p class="text-helper">{{ 'mautic.lead.lead.companies.no_results'|trans }}</p>
                 <div class="clearfix"></div>
                 {% endset %}
-                
+
                 {% include '@MauticCore/Components/tile.html.twig' with {'type': 'base', 'content': content} %}
             {% endif %}
         </div>
@@ -670,7 +668,7 @@
             {% if lists[lead.id] is defined and lists[lead.id]|length > 0 %}
                 {% set segments = lists[lead.id] %}
                 {% set classes = ['gray', 'red', 'magenta', 'purple', 'blue', 'cyan', 'teal', 'green'] %}
-                
+
                 {% if segments|length <= 8 %}
                     {% set content %}
                         <div class="d-flex jc-space-between">
@@ -691,7 +689,7 @@
                             {% endfor %}
                         </div>
                     {% endset %}
-                    
+
                     {% include '@MauticCore/Components/tile.html.twig' with {'type': 'base', 'content': content} %}
                 {% else %}
                     {% set aboveContent %}
@@ -713,7 +711,7 @@
                         {% endfor %}
                         </div>
                     {% endset %}
-                    
+
                     {% set belowContent %}
                         <div class="d-flex fw-wrap gap-xs mt-xs">
                         {% for key, list in segments|slice(8) %}
@@ -729,7 +727,7 @@
                         {% endfor %}
                         </div>
                     {% endset %}
-                    
+
                     {% include '@MauticCore/Components/tile.html.twig' with {
                         'type': 'expandable-interactive',
                         'aboveFoldContent': aboveContent,
@@ -745,7 +743,7 @@
                 <p class="text-helper">{{ 'mautic.lead.lead.lists.no_results'|trans }}</p>
                 <div class="clearfix"></div>
                 {% endset %}
-                
+
                 {% include '@MauticCore/Components/tile.html.twig' with {'type': 'base', 'content': content} %}
             {% endif %}
         </div>

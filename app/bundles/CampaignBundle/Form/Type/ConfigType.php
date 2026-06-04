@@ -35,7 +35,7 @@ class ConfigType extends AbstractType
             ChoiceType::class,
             [
                 'label'      => 'mautic.campaignconfig.campaign_time_wait_on_event_false',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'help'       => 'mautic.campaignconfig.campaign_time_wait_on_event_false_help',
                 'data'       => $options['data']['campaign_time_wait_on_event_false'],
                 'choices'    => [
@@ -91,7 +91,7 @@ class ConfigType extends AbstractType
             YesNoButtonGroupType::class,
             [
                 'label'      => 'mautic.campaignconfig.campaign_email_stats_enabled',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'data'       => $options['data']['campaign_email_stats_enabled'] ?? true,
                 'required'   => false,
                 'attr'       => [
@@ -106,7 +106,7 @@ class ConfigType extends AbstractType
             NumberType::class,
             [
                 'label'      => 'mautic.config.peak_interaction_timer.best_default_hour_start',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'   => 'form-control',
                     'tooltip' => 'mautic.config.peak_interaction_timer.best_default_hour_start.tooltip',
@@ -126,7 +126,7 @@ class ConfigType extends AbstractType
             NumberType::class,
             [
                 'label'      => 'mautic.config.peak_interaction_timer.best_default_hour_end',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'   => 'form-control',
                     'tooltip' => 'mautic.config.peak_interaction_timer.best_default_hour_end.tooltip',
@@ -155,7 +155,7 @@ class ConfigType extends AbstractType
             ChoiceType::class,
             [
                 'label'      => 'mautic.config.peak_interaction_timer.best_default_days',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'   => 'form-control',
                     'tooltip' => 'mautic.config.peak_interaction_timer.best_default_days.tooltip',
@@ -180,7 +180,7 @@ class ConfigType extends AbstractType
             ChoiceType::class,
             [
                 'label'      => 'mautic.config.peak_interaction_timer.cache_timeout',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'   => 'form-control',
                     'tooltip' => 'mautic.config.peak_interaction_timer.cache_timeout.tooltip',
@@ -205,7 +205,7 @@ class ConfigType extends AbstractType
             ChoiceType::class,
             [
                 'label'      => 'mautic.config.peak_interaction_timer.fetch_interactions_from',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'   => 'form-control',
                     'tooltip' => 'mautic.config.peak_interaction_timer.fetch_interactions_from.tooltip',
@@ -224,7 +224,7 @@ class ConfigType extends AbstractType
             NumberType::class,
             [
                 'label'      => 'mautic.config.peak_interaction_timer.fetch_limit',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'   => 'form-control',
                     'tooltip' => 'mautic.config.peak_interaction_timer.fetch_limit.tooltip',

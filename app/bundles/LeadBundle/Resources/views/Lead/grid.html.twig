@@ -33,7 +33,7 @@
     {% endif %}
 </div>
 {% if items|length > 0 %}
-    <div class="panel-footer">
+    <div class="card-footer">
         {% set route = route is defined ? route : (link|default('mautic_contact_index')) %}
         {% set routeParameters = routeParameters|default([]) %}
         {% if objectId is defined %}

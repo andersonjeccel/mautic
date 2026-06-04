@@ -241,34 +241,29 @@ if (typeof jQuery === "undefined") { throw new Error("This application requires 
             // Per call
             // ================================
             BsTooltip: function () {
-                $("[data-toggle~=tooltip]").tooltip();
+                MauticBootstrap.initTooltips($("[data-bs-toggle~=tooltip]"));
             },
 
             // @MISC: BsPopover - Bootstrap popover
             // Per call
             // ================================
             BsPopover: function () {
-                $("[data-toggle~=popover]").popover({
+                MauticBootstrap.initPopovers($("[data-bs-toggle~=popover]"), {
                     sanitize: false
                 });
                 
                 var hideAllPopovers = function() {
-                    $("[data-toggle~=popover]").each(function() {
-                        var popover = $(this).data('bs.popover');
-                        if (popover && popover.tip().hasClass('in')) {
-                            $(this).popover('hide');
-                        }
-                    });
+                    MauticBootstrap.hidePopovers($("[data-bs-toggle~=popover]"));
                 };
                 
                 $(document).on('click', function(e) {
                     if (!$(e.target).closest('.popover').length && 
-                        !$(e.target).closest('[data-toggle="popover"]').length) {
+                        !$(e.target).closest('[data-bs-toggle="popover"]').length) {
                         hideAllPopovers();
                     }
                 });
                 
-                $(document).on('mouseenter', '[data-toggle="popover"][data-trigger="hover"]', function() {
+                $(document).on('mouseenter', '[data-bs-toggle="popover"][data-bs-trigger="hover"]', function() {
                     hideAllPopovers();
                 });
             },
@@ -566,7 +561,7 @@ if (typeof jQuery === "undefined") { throw new Error("This application requires 
                 // clicker
                 $(element).on("click", toggler, function (e) {
                     // find panel element
-                    var panel       = $(this).parents(".panel"),
+                    var panel       = $(this).parents(".card"),
                         indicator   = panel.find("."+indicatorClass);
 
                     // check if demo or not
@@ -606,13 +601,13 @@ if (typeof jQuery === "undefined") { throw new Error("This application requires 
                 // clicker
                 $(element).on("click", toggler, function (e) {
                     // find panel element
-                    var panel   = $(this).parents(".panel"),
-                        target  = panel.children(".panel-collapse"),
+                    var panel   = $(this).parents(".card"),
+                        target  = panel.children(".collapse"),
                         height  = target.height();
 
                     // error handling
                     if(target.length === 0) {
-                        $.error("collapsable element need to be wrap inside '.panel-collapse'");
+                        $.error("collapsable element need to be wrap inside '.collapse'");
                     }
 
                     // collapse the element
@@ -665,7 +660,7 @@ if (typeof jQuery === "undefined") { throw new Error("This application requires 
                 // clicker
                 $(element).on("click", handler, function (e) {
                     // find panel element
-                    panel   = $(this).parents(".panel");
+                    panel   = $(this).parents(".card");
                     parent  = $(this).data("parent");
 
                     // remove panel
@@ -707,14 +702,14 @@ if (typeof jQuery === "undefined") { throw new Error("This application requires 
                     // default click event handler
                     if(e.type === "click") {
                         // toggle hide and show
-                        if($(target).hasClass("in")) {
+                        if($(target).hasClass("show")) {
                             // hide the submenu
                             $(target).collapse("hide");
                             $this.parent().removeClass("open");
                         } else {
                             // hide other showed target if parent is defined
                             if(!!parent) {
-                                $(parent+" .in").each(function () {
+                                $(parent+" .show").each(function () {
                                     $(this).collapse("hide");
                                     $(this).parent().removeClass("open");
                                 });

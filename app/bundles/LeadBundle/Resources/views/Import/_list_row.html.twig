@@ -27,35 +27,35 @@
             {% endif %}
         </div>
     </td>
-    <td class="visible-md visible-lg">{% if item.runTime %}{{ dateFormatRange(item.runTime) }}{% endif %}</td>
-    <td class="visible-md visible-lg">{{ item.progressPercentage }}%</td>
-    <td class="visible-md visible-lg">
+    <td class="d-none d-md-table-cell">{% if item.runTime %}{{ dateFormatRange(item.runTime) }}{% endif %}</td>
+    <td class="d-none d-md-table-cell">{{ item.progressPercentage }}%</td>
+    <td class="d-none d-md-table-cell">
         {% if objectRoute is not null %}
             <a size="sm" class="mt-xs label label-gray" href="{{ path(objectRoute, {'search': 'mautic.lead.lead.searchcommand.import_id'|trans~':'~item.id}) }}">{{ item.lineCount }}</a>
         {% else %}
             {{ item.lineCount }}
         {% endif %}
     </td>
-    <td class="visible-md visible-lg">
+    <td class="d-none d-md-table-cell">
         {% if objectRoute is not null %}
             <a size="sm" class="mt-xs label label-gray" href="{{ path(objectRoute, {'search': 'mautic.lead.lead.searchcommand.import_id'|trans~':'~item.id~' '~'mautic.lead.lead.searchcommand.import_action'|trans~':inserted'}) }}">{{ item.insertedCount }}</a>
         {% else %}
             {{ item.insertedCount }}
         {% endif %}
     </td>
-    <td class="visible-md visible-lg">
+    <td class="d-none d-md-table-cell">
         {% if objectRoute is not null %}
             <a size="sm" class="mt-xs label label-gray" href="{{ path(objectRoute, {'search': 'mautic.lead.lead.searchcommand.import_id'|trans~':'~item.id~' '~'mautic.lead.lead.searchcommand.import_action'|trans~':updated'}) }}">{{ item.updatedCount }}</a>
         {% else %}
             {{ item.updatedCount }}
         {% endif %}
     </td>
-    <td class="visible-md visible-lg">{{ item.ignoredCount }}</td>
-    <td class="visible-md visible-lg">{{ item.createdByUser }}</td>
-    <td class="visible-md visible-lg">
+    <td class="d-none d-md-table-cell">{{ item.ignoredCount }}</td>
+    <td class="d-none d-md-table-cell">{{ item.createdByUser }}</td>
+    <td class="d-none d-md-table-cell">
         <abbr title="{{ dateToFull(item.dateAdded) }}">
             {{ dateToText(item.dateAdded) }}
         </abbr>
     </td>
-    <td class="visible-md visible-lg">{{ item.id }}</td>
+    <td class="d-none d-md-table-cell">{{ item.id }}</td>
 </tr>

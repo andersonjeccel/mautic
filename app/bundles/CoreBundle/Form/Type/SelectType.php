@@ -14,7 +14,7 @@ class SelectType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'label_attr'        => ['class' => 'control-label'],
+            'label_attr'        => ['class' => 'col-form-label'],
             'attr'              => ['class' => 'form-control'],
             'multiple'          => false,
             'expanded'          => false,

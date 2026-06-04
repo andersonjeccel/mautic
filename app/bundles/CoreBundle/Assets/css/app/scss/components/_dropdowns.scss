@@ -7,6 +7,10 @@
   margin-top: -1px;
 }
 
+.dropdown-toggle::after {
+  content: unset;
+}
+
 // The dropdown menu (ul)
 .dropdown-menu {
   padding: 0;

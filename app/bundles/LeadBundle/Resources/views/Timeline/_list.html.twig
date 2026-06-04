@@ -5,7 +5,7 @@
         <tr>
             <th class="timeline-icon np"></th>
             <th class="table-expand np">
-                <a class="table-expand-button" data-activate-details="all" data-toggle="tooltip" title="{{ 'mautic.lead.timeline.toggle_all_details'|trans }}">
+                <a class="table-expand-button" data-activate-details="all" data-bs-toggle="tooltip" title="{{ 'mautic.lead.timeline.toggle_all_details'|trans }}">
                     <span class="ri-arrow-down-s-line"></span>
                 </a>
             </th>
@@ -21,7 +21,7 @@
             {{ include('@MauticCore/Helper/tableheader.html.twig', {
                 'orderBy': 'eventType',
                 'text': 'mautic.lead.timeline.event_type',
-                'class': 'visible-md visible-lg timeline-type',
+                'class': 'd-none d-md-table-cell timeline-type',
                 'sessionVar': 'lead.' ~ lead.id ~ '.timeline',
                 'baseUrl': path('mautic_contacttimeline_action', {'leadId': lead.id}),
                 'target': '#timeline-table',
@@ -30,7 +30,7 @@
             {{ include('@MauticCore/Helper/tableheader.html.twig', {
                 'orderBy': 'timestamp',
                 'text': 'mautic.lead.timeline.event_timestamp',
-                'class': 'visible-md visible-lg timeline-timestamp',
+                'class': 'd-none d-md-table-cell timeline-timestamp',
                 'sessionVar': 'lead.' ~ lead.id ~ '.timeline',
                 'baseUrl': path('mautic_contacttimeline_action', {'leadId': lead.id}),
                 'target': '#timeline-table',
@@ -40,10 +40,10 @@
         {% set lastDate = null %}
         {% for event in events.events %}
             {% set eventDate = dateToDate(event.timestamp, 'local', 'Y-m-d H:i:s') %}
-            
+
             {% if lastDate != eventDate %}
                 {% set dateLabel = dateToTextShort(event.timestamp, 'local', 'Y-m-d H:i:s') %}
-                
+
                 <tr class="timeline-date-header">
                     <td colspan="5" class=text-center>
                         <span size="md" class="label label-warm-gray" style="font-weight: normal; font-size:13px;"><i class="ri-time-line"></i>{{ dateLabel }}</span>
@@ -51,7 +51,7 @@
                 </tr>
                 {% set lastDate = eventDate %}
             {% endif %}
-            
+
             {% set icon = event.icon is defined ? event.icon : 'ri-history-line' %}
             {% set eventLabel = event.eventLabel is defined ? event.eventLabel : event.eventType %}
             {% if eventLabel is iterable %}
@@ -75,7 +75,7 @@
                     <a href="javascript:void(0);"
                        data-activate-details="{{ loop.index }}"
                        class="table-expand-button {% if details is empty %}hide{% endif %}"
-                       data-toggle="tooltip" title="{{ 'mautic.lead.timeline.toggle_details'|trans }}">
+                       data-bs-toggle="tooltip" title="{{ 'mautic.lead.timeline.toggle_details'|trans }}">
                        <span class="ri-arrow-down-s-line"></span>
                     </a>
                 </td>

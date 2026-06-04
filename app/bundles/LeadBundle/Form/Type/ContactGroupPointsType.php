@@ -42,7 +42,7 @@ class ContactGroupPointsType extends AbstractType
                         'class'       => 'form-control',
                         'placeholder' => $this->translator->trans('mautic.point.form.score_not_set'),
                     ],
-                    'label_attr' => ['class' => 'control-label'],
+                    'label_attr' => ['class' => 'col-form-label'],
                     'required'   => false,
                 ]
             );
@@ -56,7 +56,7 @@ class ContactGroupPointsType extends AbstractType
                 'save_text'      => 'mautic.core.form.save',
                 'cancel_onclick' => 'javascript:void(0);',
                 'cancel_attr'    => [
-                    'data-dismiss' => 'modal',
+                    'data-bs-dismiss' => 'modal',
                 ],
             ]
         );

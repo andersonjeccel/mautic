@@ -4,30 +4,30 @@
 #}
 <div class="ml-lg mr-lg mt-md pa-lg animation--slide-in-right">
     {{ form_start(form) }}
-    <div class="panel panel-info">
-        <div class="panel-heading">
-            <div class="panel-title">{{ 'mautic.lead.import.default.owner'|trans }}</div>
+    <div class="card border-info">
+        <div class="card-header">
+            <div class="card-title">{{ 'mautic.lead.import.default.owner'|trans }}</div>
         </div>
-        <div class="panel-body">
-            <div class="col-xs-4">
+        <div class="card-body">
+            <div class="col-4">
                 {% if form.owner is defined %}{{ form_row(form.owner) }}{% endif %}
             </div>
-            <div class="col-xs-4">
+            <div class="col-4">
                 {% if form.list is defined %}{{ form_row(form.list) }}{% endif %}
             </div>
-            <div class="col-xs-4">
+            <div class="col-4">
                 {% if form.tags is defined %}{{ form_row(form.tags) }}{% endif %}
             </div>
-            <div class="col-xs-4">
+            <div class="col-4">
                 {% if form.skip_if_exists is defined %}{{ form_row(form.skip_if_exists) }}{% endif %}
             </div>
         </div>
     </div>
-    <div class="panel panel-info">
-        <div class="panel-heading">
-            <div class="panel-title">{{ 'mautic.lead.import.fields'|trans }}</div>
+    <div class="card border-info">
+        <div class="card-header">
+            <div class="card-title">{{ 'mautic.lead.import.fields'|trans }}</div>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
             {{ form_errors(form) }}
             {% for key, child in form.children %}
                 {% if 'properties' != key and not child.isRendered %}

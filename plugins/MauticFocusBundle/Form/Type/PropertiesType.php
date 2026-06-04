@@ -104,7 +104,7 @@ class PropertiesType extends AbstractType
                     'mautic.focus.form.when.leave'         => 'leave',
                 ],
                 'label'       => 'mautic.focus.form.when',
-                'label_attr'  => ['class' => 'control-label'],
+                'label_attr'  => ['class' => 'col-form-label'],
                 'attr'        => ['class' => 'form-control'],
                 'expanded'    => false,
                 'multiple'    => false,
@@ -118,7 +118,7 @@ class PropertiesType extends AbstractType
             TextType::class,
             [
                 'label'      => 'mautic.focus.form.timeout',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr'       => [
                     'class'          => 'form-control',
                     'postaddon_text' => 'sec',
@@ -140,7 +140,7 @@ class PropertiesType extends AbstractType
                     'mautic.focus.form.frequency.daily'     => 'daily',
                 ],
                 'label'       => 'mautic.focus.form.frequency',
-                'label_attr'  => ['class' => 'control-label'],
+                'label_attr'  => ['class' => 'col-form-label'],
                 'attr'        => ['class' => 'form-control', 'tooltip' => 'mautic.focus.form.frequency.help'],
                 'expanded'    => false,
                 'multiple'    => false,

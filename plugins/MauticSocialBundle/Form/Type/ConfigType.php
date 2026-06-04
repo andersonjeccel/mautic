@@ -28,7 +28,7 @@ class ConfigType extends AbstractType
                 'choices'           => array_flip($leadFields),
                 'label'             => 'mautic.social.config.twitter.field.label',
                 'required'          => false,
-                'label_attr'        => ['class' => 'control-label'],
+                'label_attr'        => ['class' => 'col-form-label'],
                 'attr'              => ['class' => 'form-control'],
             ]
         );

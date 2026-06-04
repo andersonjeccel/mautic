@@ -24,32 +24,32 @@
 
     {# === MEDIA TYPE === #}
     {% if type == 'media' %}
-        <div class="col-sm-4 col-xs-12 mb-xs">
+        <div class="col-sm-4 col-12 mb-xs">
             {{ common_header_content }}
             {{ common_footer_content }}
         </div>
-        <div class="col-sm-8 col-xs-12">
+        <div class="col-sm-8 col-12">
             {{ common_image_content }}
         </div>
 
     {# === FEATURED TYPE === #}
     {% elseif type == 'featured' %}
-        <div class="col-sm-4 col-xs-12 mb-xs">
+        <div class="col-sm-4 col-12 mb-xs">
             {{ common_header_content }}
         </div>
-        <div class="col-sm-8 col-xs-12">
+        <div class="col-sm-8 col-12">
             {{ common_footer_content }}
         </div>
-        <div class="col-xs-12">
+        <div class="col-12">
             {{ common_image_content }}
         </div>
 
     {# === DEFAULT TYPE === #}
     {% else %}
-        <div class="col-sm-4 col-xs-12 mb-xs">
+        <div class="col-sm-4 col-12 mb-xs">
             {{ common_header_content }}
         </div>
-        <div class="col-sm-8 col-xs-12">
+        <div class="col-sm-8 col-12">
             {{ common_footer_content }}
             {{ common_image_content }}
         </div>

@@ -31,21 +31,21 @@
                         'sessionVar': 'dynamicContent',
                         'orderBy': 'e.slotName',
                         'text': 'mautic.dynamicContent.label.slot_name',
-                        'class': 'col-dwc-slotname visible-md visible-lg',
+                        'class': 'col-dwc-slotname d-none d-md-table-cell',
                 }) }}
 
                 {{ include('@MauticCore/Helper/tableheader.html.twig', {
                         'sessionVar': 'dynamicContent',
                         'orderBy': 'c.title',
                         'text': 'mautic.core.category',
-                        'class': 'col-dwc-category visible-md visible-lg',
+                        'class': 'col-dwc-category d-none d-md-table-cell',
                 }) }}
 
                 {{ include('@MauticCore/Helper/tableheader.html.twig', {
                         'sessionVar': 'dynamicContent',
                         'orderBy': 'e.id',
                         'text': 'mautic.core.id',
-                        'class': 'col-dwc-id visible-md visible-lg',
+                        'class': 'col-dwc-id d-none d-md-table-cell',
                 }) }}
             </tr>
             </thead>
@@ -71,29 +71,29 @@
                             {% if item.isVariant or item.isTranslation or item.isCampaignBased %}
                                 <span>
                                   {% if item.isVariant %}
-                                    <span data-toggle="tooltip" title="{{ 'mautic.core.icon_tooltip.ab_test'|trans }}"><i class="ri-fw ri-organization-chart"></i></span>
+                                    <span data-bs-toggle="tooltip" title="{{ 'mautic.core.icon_tooltip.ab_test'|trans }}"><i class="ri-fw ri-organization-chart"></i></span>
                                     {% endif %}
                                   {% if item.isTranslation %}
-                                    <span data-toggle="tooltip" title="{{ 'mautic.core.icon_tooltip.translation'|trans }}"><i class="ri-fw ri-translate"></i></span>
+                                    <span data-bs-toggle="tooltip" title="{{ 'mautic.core.icon_tooltip.translation'|trans }}"><i class="ri-fw ri-translate"></i></span>
                                 {% endif %}
                                     {% if item.isCampaignBased %}
-                                    <span data-toggle="tooltip" title="{{ 'mautic.dwc.form.is.campaign.tooltip'|trans }}"><i class="ri-fw ri-megaphone-line"></i></span>
+                                    <span data-bs-toggle="tooltip" title="{{ 'mautic.dwc.form.is.campaign.tooltip'|trans }}"><i class="ri-fw ri-megaphone-line"></i></span>
                                   {% endif %}
                                  </span>
                             {% endif %}
                         </a>
                         {{ customContent('dynamiccontent.name', _context) }}
                     </td>
-                    <td class="visible-md visible-lg">{{ item.slotName }}</td>
-                    <td class="visible-md visible-lg">
+                    <td class="d-none d-md-table-cell">{{ item.slotName }}</td>
+                    <td class="d-none d-md-table-cell">
                         {{ include('@MauticCore/Modules/category--expanded.html.twig', {'category': item.category}) }}
                     </td>
-                    <td class="visible-md visible-lg">{{ item.id }}</td>
+                    <td class="d-none d-md-table-cell">{{ item.id }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
-        <div class="panel-footer">
+        <div class="card-footer">
             {{ include('@MauticCore/Helper/pagination.html.twig', {
                     'totalItems': items|length,
                     'page': page,

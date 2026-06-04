@@ -19,7 +19,7 @@
 
 {% block content %}
     {% if isIndex %}
-        <div id="page-list-wrapper" class="panel panel-default">
+        <div id="page-list-wrapper" class="card">
             {{- include('@MauticCore/Helper/list_toolbar.html.twig', {
                 'searchValue': searchValue,
                 'action': currentRoute,
@@ -102,7 +102,7 @@
                                     'sessionVar' : sessionVar,
                                     'orderBy'    : (categoryTablePrefix is defined ? categoryTablePrefix : 'cat') ~ '.title',
                                     'text'       : 'mautic.core.category',
-                                    'class'      : 'visible-md visible-lg col-focus-category',
+                                    'class'      : 'd-none d-md-table-cell col-focus-category',
                             }) }}
                         {% endif %}
                     {% endif %}
@@ -122,7 +122,7 @@
                                 'sessionVar' : sessionVar,
                                 'orderBy'    : tablePrefix ~ '.id',
                                 'text'       : 'mautic.core.id',
-                                'class'      : 'visible-md visible-lg col-id',
+                                'class'      : 'd-none d-md-table-cell col-id',
                         }) -}}
                         {% endif %}
 
@@ -188,7 +188,7 @@
                                 {% endif %}
                             </td>
                             {% if attribute(item, 'getCategory') is defined %}
-                                <td class="visible-md visible-lg">
+                                <td class="d-none d-md-table-cell">
                                     {% set category = item.getCategory() %}
                                     {% set catName, color = category
                                         ? category.getTitle()
@@ -202,7 +202,7 @@
                             {{- include(listItemTemplate, templateVariables) -}}
                         {% endif %}
                         {% if ignoreStandardColumns is empty %}
-                            <td class="visible-md visible-lg">{{ item.getId() }}</td>
+                            <td class="d-none d-md-table-cell">{{ item.getId() }}</td>
                         {% endif %}
 
                         {{ customContent('list.columns', _context) }}
@@ -211,7 +211,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="panel-footer">
+        <div class="card-footer">
             {{- include('@MauticCore/Helper/pagination.html.twig',
                 {
                     'totalItems' : totalItems,

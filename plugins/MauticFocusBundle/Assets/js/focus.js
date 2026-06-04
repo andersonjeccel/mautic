@@ -199,7 +199,7 @@ Mautic.launchFocusBuilder = function (forceFetch) {
         };
 
         var spinnerLeft = (mQuery(document).width() - 300) / 2;
-        var overlay = mQuery('<div id="builder-overlay" class="modal-backdrop fade in"><div style="position: absolute; top:50%; left:' + spinnerLeft + 'px"><i class="ri-loader-3-line ri-spin ri-5x"></i></div></div>').css(builderCss).appendTo('.builder-content');
+        var overlay = mQuery('<div id="builder-overlay" class="modal-backdrop fade show"><div style="position: absolute; top:50%; left:' + spinnerLeft + 'px"><i class="ri-loader-3-line ri-spin ri-5x"></i></div></div>').css(builderCss).appendTo('.builder-content');
     }
 
     // Disable the close button until everything is loaded
@@ -244,8 +244,8 @@ Mautic.launchFocusBuilder = function (forceFetch) {
         Mautic.ajaxActionRequest('plugin:focus:checkIframeAvailability', data, function (response) {
             if (response.errorMessage && response.errorMessage.length) {
                 mQuery('.website-placeholder')
-                    .addClass('has-error')
-                    .find('.help-block')
+                    .addClass('is-invalid')
+                    .find('.form-text')
                     .html(response.errorMessage)
                     .removeClass('hide');
                 mQuery('#builder-overlay').hide();
@@ -254,8 +254,8 @@ Mautic.launchFocusBuilder = function (forceFetch) {
                 return;
             } else {
                 mQuery('.website-placeholder')
-                    .removeClass('has-error')
-                    .find('.help-block')
+                    .removeClass('is-invalid')
+                    .find('.form-text')
                     .html('')
                     .removeClass('hide');
             }

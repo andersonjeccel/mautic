@@ -19,7 +19,7 @@
 
 {% block content %}
   {% if isIndex %}
-    <div id="page-list-wrapper" class="panel panel-default">
+    <div id="page-list-wrapper" class="card">
       {{ include('@MauticCore/Helper/list_toolbar.html.twig', {
         'searchValue': searchValue,
         'searchHelp': 'mautic.page.help.searchcommands',

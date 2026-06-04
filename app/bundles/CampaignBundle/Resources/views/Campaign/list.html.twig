@@ -8,7 +8,7 @@
 
 {% block content %}
   {% if isIndex %}
-    <div id="page-list-wrapper" class="{% if items|length > 0 or searchValue is not empty %}panel {% endif %}panel-default">
+    <div id="page-list-wrapper" class="{% if items|length > 0 or searchValue is not empty %}card {% endif %}">
         {%- set pageButtons = [] %}
         {% if permissions['campaign:campaigns:create'] %}
             {% if permissions['campaign:imports:create'] %}
@@ -114,21 +114,21 @@
                   'sessionVar': 'campaign',
                   'orderBy': 'cat.title',
                   'text': 'mautic.core.category',
-                  'class': 'visible-md visible-lg col-campaign-category',
+                  'class': 'd-none d-md-table-cell col-campaign-category',
               }) -}}
 
               {{- include('@MauticCore/Helper/tableheader.html.twig', {
                   'sessionVar': 'campaign',
                   'orderBy': 'c.dateAdded',
                   'text': 'mautic.lead.import.label.dateAdded',
-                  'class': 'visible-md visible-lg col-campaign-dateAdded',
+                  'class': 'd-none d-md-table-cell col-campaign-dateAdded',
               }) -}}
 
               {{- include('@MauticCore/Helper/tableheader.html.twig', {
                   'sessionVar': 'campaign',
                   'orderBy': 'c.dateModified',
                   'text': 'mautic.lead.import.label.dateModified',
-                  'class': 'visible-md visible-lg col-campaign-dateModified',
+                  'class': 'd-none d-md-table-cell col-campaign-dateModified',
                   'default': true,
               }) -}}
 
@@ -136,14 +136,14 @@
                   'sessionVar': 'campaign',
                   'orderBy': 'c.createdByUser',
                   'text': 'mautic.core.createdby',
-                  'class': 'visible-md visible-lg col-campaign-createdByUser',
+                  'class': 'd-none d-md-table-cell col-campaign-createdByUser',
               }) -}}
 
               {{- include('@MauticCore/Helper/tableheader.html.twig', {
                   'sessionVar': 'campaign',
                   'orderBy': 'c.id',
                   'text': 'mautic.core.id',
-                  'class': 'visible-md visible-lg col-campaign-id',
+                  'class': 'd-none d-md-table-cell col-campaign-id',
               }) -}}
             </tr>
           </thead>
@@ -191,23 +191,23 @@
                         }) }}
 
                     </td>
-                    <td class="visible-md visible-lg">
+                    <td class="d-none d-md-table-cell">
                         {{ include('@MauticCore/Modules/category--expanded.html.twig', {'category': item.category}) }}
                     </td>
-                    <td class="visible-md visible-lg" title="{{ item.dateAdded ? dateToFullConcat(item.dateAdded) : '' }}">
+                    <td class="d-none d-md-table-cell" title="{{ item.dateAdded ? dateToFullConcat(item.dateAdded) : '' }}">
                         {{ item.dateAdded ? dateToDate(item.dateAdded) : '' }}
                     </td>
-                    <td class="visible-md visible-lg" title="{{ item.dateModified ? dateToFullConcat(item.dateModified) : '' }}">
+                    <td class="d-none d-md-table-cell" title="{{ item.dateModified ? dateToFullConcat(item.dateModified) : '' }}">
                         {{ item.dateModified ? dateToDate(item.dateModified) : '' }}
                     </td>
-                    <td class="visible-md visible-lg">{{ item.createdByUser }}</td>
-                    <td class="visible-md visible-lg">{{ item.id }}</td>
+                    <td class="d-none d-md-table-cell">{{ item.createdByUser }}</td>
+                    <td class="d-none d-md-table-cell">{{ item.id }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
-    <div class="panel-footer">
+    <div class="card-footer">
         {{- include('@MauticCore/Helper/pagination.html.twig', {
             'totalItems': items|length,
             'page': page,
@@ -221,7 +221,7 @@
     {% if searchValue is not empty %}
         {{- include('@MauticCore/Helper/noresults.html.twig', {'tip' : 'mautic.campaign.noresults.tip'}) -}}
     {% else %}
-        <div class="mt-80 col-md-offset-2 col-lg-offset-3 col-md-8 col-lg-5 height-auto">
+        <div class="mt-80 offset-md-2 offset-lg-3 col-md-8 col-lg-5 height-auto">
             {% set childContainer %}
                 <div class="mt-32 mb-md">
                     {% include '@MauticCore/Components/pictogram.html.twig' with {

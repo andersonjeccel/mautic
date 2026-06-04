@@ -64,7 +64,7 @@ class FullContactIntegration extends AbstractIntegration
                 'stats',
                 TextareaType::class,
                 [
-                    'label_attr' => ['class' => 'control-label'],
+                    'label_attr' => ['class' => 'col-form-label'],
                     'label'      => 'mautic.plugin.fullcontact.stats',
                     'required'   => false,
                     'attr'       => [
