@@ -105,8 +105,47 @@
         return options;
     }
 
+    function normalizeLegacyMethod(option) {
+        if ('destroy' === option) {
+            return 'dispose';
+        }
+
+        if ('fixTitle' === option) {
+            return null;
+        }
+
+        return option;
+    }
+
+    function wrapExistingJQueryPlugin(jQuery, pluginName) {
+        var originalPlugin = jQuery && jQuery.fn[pluginName];
+
+        if (!originalPlugin || originalPlugin.mauticBootstrapCompatibility) {
+            return Boolean(originalPlugin);
+        }
+
+        jQuery.fn[pluginName] = function (option) {
+            option = normalizeLegacyMethod(option);
+
+            if (null === option) {
+                return this;
+            }
+
+            return originalPlugin.apply(this, [option].concat(Array.prototype.slice.call(arguments, 1)));
+        };
+
+        Object.keys(originalPlugin).forEach(function (key) {
+            jQuery.fn[pluginName][key] = originalPlugin[key];
+        });
+
+        jQuery.fn[pluginName].Constructor = originalPlugin.Constructor;
+        jQuery.fn[pluginName].mauticBootstrapCompatibility = true;
+
+        return true;
+    }
+
     function bridgeJQueryPlugin(jQuery, pluginName, constructorName) {
-        if (!jQuery || jQuery.fn[pluginName] || !window.bootstrap || !window.bootstrap[constructorName]) {
+        if (!jQuery || wrapExistingJQueryPlugin(jQuery, pluginName) || !window.bootstrap || !window.bootstrap[constructorName]) {
             return;
         }
 
@@ -118,11 +157,9 @@
             return this.each(function () {
                 var instance = BootstrapConstructor.getOrCreateInstance(this, 'object' === typeof option ? option : getBootstrapOptions(this));
 
-                if ('destroy' === option) {
-                    option = 'dispose';
-                }
+                option = normalizeLegacyMethod(option);
 
-                if ('fixTitle' === option) {
+                if (null === option) {
                     return;
                 }
 
