@@ -392,8 +392,24 @@ $table-condensed-cell-padding: $table-cell-padding-sm !default;
 
 a.label:hover,
 a.label:focus {
-  color: $label-link-hover-color;
+  color: inherit;
   text-decoration: none;
+}
+
+.label {
+  a,
+  > a {
+    color: inherit;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      cursor: pointer;
+    }
+  }
 }
 
 .label-default { background-color: $label-default-bg; }
@@ -464,6 +480,10 @@ a.label:focus {
   margin-bottom: $form-group-margin-bottom;
 }
 
+.filter--panel {
+  margin-bottom: 0;
+}
+
 .filter--field-properties {
   .properties-form,
   .properties-form > div,
@@ -475,6 +495,23 @@ a.label:focus {
   .form-control {
     height: 100%;
     min-height: $input-height-base;
+  }
+}
+
+.choice-wrapper {
+  position: relative;
+  display: block;
+  margin-bottom: $form-group-margin-bottom;
+
+  .form-group {
+    margin-bottom: 0;
+  }
+
+  .form-control,
+  .chosen-container,
+  .chosen-container-multi,
+  .chosen-container-single {
+    width: 100%;
   }
 }
 
@@ -679,6 +716,15 @@ button.close {
 
 .nav > li > a {
   position: relative;
+}
+
+p {
+  margin-bottom: 0;
+}
+
+.row > * {
+  padding-right: 0;
+  padding-left: 0;
 }
 
 .pull-left-lg {
