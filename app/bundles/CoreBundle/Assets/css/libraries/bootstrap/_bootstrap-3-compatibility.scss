@@ -699,10 +699,18 @@ button.close {
   appearance: none;
 }
 
+.modal-header {
+  position: relative;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 .modal-header > .close,
 .modal-header > button.close {
-  order: 999;
-  margin-left: auto;
+  position: absolute;
+  top: $modal-header-padding-y;
+  right: $modal-header-padding-x;
+  margin: 0;
 }
 
 .media {
@@ -746,6 +754,11 @@ p {
   margin-bottom: 0;
 }
 
+code {
+  color: $code-color;
+  background-color: $code-bg;
+}
+
 .row > :not([class^="col-"]):not([class*=" col-"]) {
   padding-right: 0;
   padding-left: 0;
@@ -774,17 +787,38 @@ th[class*="col-"] {
   padding-left: $table-cell-padding-x;
 }
 
-.sf-toolbar [class*="col-"],
-#sfToolbarMainContent [class*="col-"],
-#sfMiniToolbar [class*="col-"] {
-  display: initial;
+.sf-toolbar,
+.sf-toolbar *,
+.sf-toolbarreset,
+.sf-toolbarreset *,
+#sfToolbarMainContent,
+#sfToolbarMainContent *,
+#sfMiniToolbar,
+#sfMiniToolbar * {
   flex: initial;
   flex-direction: initial;
-  width: auto;
+  flex-wrap: initial;
+  align-items: initial;
+  justify-content: initial;
   max-width: none;
-  min-height: 0;
-  padding-right: initial;
-  padding-left: initial;
+  min-height: initial;
+}
+
+.sf-toolbar p,
+.sf-toolbarreset p,
+#sfToolbarMainContent p,
+#sfMiniToolbar p {
+  margin-bottom: initial;
+}
+
+.sf-toolbar code,
+.sf-toolbarreset code,
+#sfToolbarMainContent code,
+#sfMiniToolbar code {
+  padding: initial;
+  color: inherit;
+  background-color: transparent;
+  border-radius: initial;
 }
 
 .tab-content > .tab-pane {
