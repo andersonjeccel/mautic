@@ -63,15 +63,15 @@ export default (editor, opts = {}) => {
     return definitions;
   };
 
-  const mjClassDefinitions = parseMjClassDefinitions(headContent);
+  let mjClassDefinitions = parseMjClassDefinitions(headContent);
 
-  // Resolve mj-class tokens into a merged attribute object
-  const resolveMjClassAttrs = (mjClassValue) => {
-    if (!mjClassValue || !mjClassDefinitions.size) return {};
+  // Resolve mj-class tokens into a merged attribute object (later tokens override earlier ones)
+  const resolveWithDefs = (mjClassValue, defs) => {
+    if (!mjClassValue || !defs.size) return {};
     const tokens = mjClassValue.split(/\s+/).filter(Boolean);
     let resolved = {};
     tokens.forEach((token) => {
-      const def = mjClassDefinitions.get(token);
+      const def = defs.get(token);
       if (def) {
         resolved = { ...resolved, ...def };
       }
@@ -79,14 +79,44 @@ export default (editor, opts = {}) => {
     return resolved;
   };
 
-  // Check if an attribute is "covered" by an existing explicit attribute
-  const shorthandGroups = {
-    padding: ['padding', 'padding-top', 'padding-right', 'padding-bottom', 'padding-left'],
-    'border-radius': ['border-radius', 'border-top-left-radius', 'border-top-right-radius', 'border-bottom-left-radius', 'border-bottom-right-radius'],
+  const resolveMjClassAttrs = (mjClassValue) => resolveWithDefs(mjClassValue, mjClassDefinitions);
+
+  // Re-parse mj-class definitions from the live component tree (after code editor updates)
+  const refreshMjClassDefinitions = () => {
+    const wrapper = editor.getWrapper?.();
+    if (!wrapper) return;
+    const newDefs = new Map();
+    const walk = (cmp) => {
+      const type = cmp.get('type');
+      const tag = (cmp.get('tagName') || '').toLowerCase();
+      if (type === 'mj-class' || tag === 'mj-class') {
+        const attrs = cmp.getAttributes?.() || cmp.get('attributes') || {};
+        const name = attrs.name;
+        if (name) {
+          const def = { ...attrs };
+          delete def.name;
+          delete def.id;
+          delete def.style;
+          delete def['data-gjs-type'];
+          newDefs.set(name, def);
+        }
+      }
+      const children = cmp.components?.();
+      if (children?.length) children.forEach((c) => walk(c));
+    };
+    wrapper.components?.().forEach((c) => walk(c));
+    if (newDefs.size) mjClassDefinitions = newDefs;
   };
 
+  // Check if an attribute is "covered" by an existing explicit attribute (shorthand awareness)
+  const shorthandGroups = [
+    ['padding', 'padding-top', 'padding-right', 'padding-bottom', 'padding-left'],
+    ['border-radius', 'border-top-left-radius', 'border-top-right-radius', 'border-bottom-left-radius', 'border-bottom-right-radius'],
+    ['border', 'border-top', 'border-right', 'border-bottom', 'border-left'],
+  ];
+
   const isAttrCoveredByExisting = (key, existingAttrs) => {
-    for (const group of Object.values(shorthandGroups)) {
+    for (const group of shorthandGroups) {
       if (group.includes(key)) {
         for (const member of group) {
           if (member in existingAttrs) return true;
@@ -96,7 +126,11 @@ export default (editor, opts = {}) => {
     return false;
   };
 
-  // Apply resolved mj-class attributes to component so views render correctly
+  // Track which attribute keys were injected from mj-class resolution (per component cid)
+  const inheritedAttrKeys = new Map();
+
+  // Apply resolved mj-class attributes to component so views render correctly.
+  // Tracks injected keys so they can be stripped before serialization.
   const applyMjClassAttrsToComponent = (component) => {
     if (!component) return;
     const attrs = component.get('attributes') || {};
@@ -107,16 +141,18 @@ export default (editor, opts = {}) => {
     if (!Object.keys(resolved).length) return;
 
     const currentAttrs = { ...attrs };
-    let changed = false;
+    const injectedKeys = [];
     Object.entries(resolved).forEach(([key, value]) => {
       if (key in currentAttrs) return;
       if (isAttrCoveredByExisting(key, currentAttrs)) return;
 
       currentAttrs[key] = value;
-      changed = true;
+      injectedKeys.push(key);
     });
 
-    if (changed) {
+    if (injectedKeys.length) {
+      const cid = component.cid || component.getId?.();
+      if (cid) inheritedAttrKeys.set(cid, injectedKeys);
       component.set('attributes', currentAttrs);
     }
   };
@@ -127,6 +163,56 @@ export default (editor, opts = {}) => {
 
     const walk = (cmp) => {
       applyMjClassAttrsToComponent(cmp);
+      const children = cmp.components?.();
+      if (children && children.length) children.forEach((c) => walk(c));
+    };
+
+    wrapper.components?.().forEach((c) => walk(c));
+  };
+
+  // Strip all tracked inherited attrs (silent, used before serialization)
+  const stripInheritedAttrsFromAll = () => {
+    if (!inheritedAttrKeys.size) return;
+
+    const wrapper = editor.getWrapper?.();
+    if (!wrapper) return;
+
+    const walk = (cmp) => {
+      const cid = cmp.cid || cmp.getId?.();
+      const keys = cid && inheritedAttrKeys.get(cid);
+      if (keys && keys.length) {
+        const attrs = { ...(cmp.get('attributes') || {}) };
+        keys.forEach((k) => delete attrs[k]);
+        cmp.set('attributes', attrs, { silent: true });
+      }
+      const children = cmp.components?.();
+      if (children && children.length) children.forEach((c) => walk(c));
+    };
+
+    wrapper.components?.().forEach((c) => walk(c));
+    inheritedAttrKeys.clear();
+  };
+
+  // Strip attrs whose value matches what `defs` resolves (removes parser-injected values)
+  const stripResolvedAttrs = (defs) => {
+    const wrapper = editor.getWrapper?.();
+    if (!wrapper) return;
+
+    const walk = (cmp) => {
+      const attrs = cmp.get('attributes') || {};
+      const mjClass = attrs['mj-class'];
+      if (mjClass) {
+        const resolved = resolveWithDefs(mjClass, defs);
+        const currentAttrs = { ...attrs };
+        let changed = false;
+        Object.entries(resolved).forEach(([k, v]) => {
+          if (k in currentAttrs && currentAttrs[k] === v) {
+            delete currentAttrs[k];
+            changed = true;
+          }
+        });
+        if (changed) cmp.set('attributes', currentAttrs, { silent: true });
+      }
       const children = cmp.components?.();
       if (children && children.length) children.forEach((c) => walk(c));
     };
@@ -248,7 +334,6 @@ export default (editor, opts = {}) => {
       const attrs = { ...(cmp.get('attributes') || {}) };
       if (attrs['mj-class']) stripDefaultAttrsForComponent(cmp);
 
-
       const children = cmp.components?.();
       if (children && children.length) children.forEach((c) => walk(c));
     };
@@ -311,11 +396,32 @@ export default (editor, opts = {}) => {
     blockColl.on('add reset', patchBlocksWithContext);
   }
 
+  // Patch getProjectData to strip inherited attrs before save, re-apply after.
+  editor.on('load', () => {
+    const originalGetProjectData = editor.getProjectData.bind(editor);
+    editor.getProjectData = (...args) => {
+      stripInheritedAttrsFromAll();
+      const data = originalGetProjectData(...args);
+      applyMjClassAttrsToAllComponents();
+      return data;
+    };
+  });
+
   // Service will call this after its setComponents + reparse workaround
   editor.on('mjml-theme-tokens:content:ready', () => {
     stripDefaultAttrsForTokenizedComponents();
     applyMjClassAttrsToAllComponents();
     patchBlocksWithContext();
     readyForNewDrops = true;
+  });
+
+  // Code editor: user may have changed mj-class definitions.
+  // Strip old resolved values, refresh definitions, re-apply new.
+  editor.on('mautic:code-editor-update', () => {
+    const oldDefs = new Map(mjClassDefinitions);
+    inheritedAttrKeys.clear();
+    refreshMjClassDefinitions();
+    stripResolvedAttrs(oldDefs);
+    applyMjClassAttrsToAllComponents();
   });
 };

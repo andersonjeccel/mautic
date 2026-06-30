@@ -1292,7 +1292,7 @@ export default class BuilderService {
       this.editor.on('load', () => {
         const canvasFrame = this.editor.Canvas?.getFrame?.();
         const frameDoc = canvasFrame?.el?.contentDocument || canvasFrame?.el?.contentWindow?.document;
-        if (frameDoc && frameDoc.head) {
+        if (frameDoc?.head) {
           const styleEl = frameDoc.createElement('style');
           styleEl.setAttribute('data-gjs-theme-styles', 'true');
           styleEl.textContent = canvasCssBlocks.join('\n');
