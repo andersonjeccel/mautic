@@ -91,7 +91,7 @@ class SendEmailToContact
         array $channel = [],
         array $customHeaders = [],
         array $assetAttachments = [],
-    ): SendEmailToContact {
+    ): self {
         // Flush anything that's pending from a previous email
         $this->flush();
 
@@ -238,7 +238,7 @@ class SendEmailToContact
         throw new FailedToSendToContactException($errorMessages);
     }
 
-    protected function processSendFailures($sendFailures)
+    protected function processSendFailures(array $sendFailures)
     {
         $failedEmailAddresses = $sendFailures['failures'];
         unset($sendFailures['failures']);

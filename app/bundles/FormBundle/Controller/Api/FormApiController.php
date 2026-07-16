@@ -67,10 +67,8 @@ class FormApiController extends CommonApiController
 
     /**
      * Delete fields from a form.
-     *
-     * @return Response
      */
-    public function deleteFieldsAction(Request $request, $formId)
+    public function deleteFieldsAction(Request $request, $formId): Response
     {
         if (!$this->security->isGranted(['form:forms:editown', 'form:forms:editother'], 'MATCH_ONE')) {
             return $this->accessDenied();
@@ -97,10 +95,8 @@ class FormApiController extends CommonApiController
 
     /**
      * Delete fields from a form.
-     *
-     * @return Response
      */
-    public function deleteActionsAction(Request $request, $formId)
+    public function deleteActionsAction(Request $request, $formId): Response
     {
         if (!$this->security->isGranted(['form:forms:editown', 'form:forms:editother'], 'MATCH_ONE')) {
             return $this->accessDenied();
@@ -179,7 +175,7 @@ class FormApiController extends CommonApiController
                     $requestFieldIds[] = $fieldParams['id'];
                 }
 
-                if (is_null($fieldEntity)) {
+                if (null === $fieldEntity) {
                     $msg = $this->translator->trans(
                         'mautic.core.error.entity.not.found',
                         [
@@ -240,7 +236,7 @@ class FormApiController extends CommonApiController
                 }
             }
 
-            if ($fieldsToDelete) {
+            if ([] !== $fieldsToDelete) {
                 $this->model->deleteFields($entity, $fieldsToDelete);
             }
         }
@@ -287,7 +283,7 @@ class FormApiController extends CommonApiController
                 }
             }
 
-            if ($actionsToDelete) {
+            if ([] !== $actionsToDelete) {
                 $this->model->deleteActions($entity, $actionsToDelete);
             }
         }

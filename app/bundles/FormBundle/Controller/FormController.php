@@ -182,7 +182,8 @@ class FormController extends CommonFormController
                     ],
                 ]
             );
-        } elseif (!$this->security->hasEntityAccess(
+        }
+        if (!$this->security->hasEntityAccess(
             'form:forms:viewown',
             'form:forms:viewother',
             $activeForm->getCreatedBy()
@@ -281,11 +282,9 @@ class FormController extends CommonFormController
     /**
      * Generates new form and processes post data.
      *
-     * @return array|\Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|Response
-     *
      * @throws \Exception
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request): Response
     {
         /** @var FormModel $model */
         $model   = $this->getModel('form');
@@ -547,7 +546,8 @@ class FormController extends CommonFormController
                     ]
                 )
             );
-        } elseif (!$this->security->hasEntityAccess(
+        }
+        if (!$this->security->hasEntityAccess(
             'form:forms:editown',
             'form:forms:editother',
             $entity->getCreatedBy()
@@ -682,7 +682,9 @@ class FormController extends CommonFormController
                         ]
                     )
                 );
-            } elseif ($valid && $form->get('buttons')->get('apply')->isClicked()) {
+            }
+
+            if ($valid && $this->isButtonClicked($form, 'apply')) {
                 // Rebuild everything to include new ids
                 $reorder    = true;
 
@@ -846,10 +848,8 @@ class FormController extends CommonFormController
      * Clone an entity.
      *
      * @param int $objectId
-     *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function cloneAction(Request $request, $objectId)
+    public function cloneAction(Request $request, $objectId): Response
     {
         $model = $this->getModel('form.form');
 

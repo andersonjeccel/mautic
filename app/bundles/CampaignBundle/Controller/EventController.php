@@ -205,7 +205,7 @@ class EventController extends CommonFormController
     /**
      * Generates edit form and processes post data.
      */
-    public function editAction(Request $request, $objectId): JsonResponse|\Symfony\Component\HttpFoundation\Response
+    public function editAction(Request $request, string $objectId): JsonResponse|\Symfony\Component\HttpFoundation\Response
     {
         $valid         = $cancelled = false;
         $method        = $request->getMethod();
@@ -353,10 +353,8 @@ class EventController extends CommonFormController
 
     /**
      * Deletes the entity.
-     *
-     * @return JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteAction(Request $request, $objectId)
+    public function deleteAction(Request $request, $objectId): JsonResponse
     {
         $this->setCampaignElements($request->request);
         $modifiedEvents = $this->getModifiedEvents();
@@ -419,10 +417,8 @@ class EventController extends CommonFormController
 
     /**
      * Undeletes the entity.
-     *
-     * @return JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function undeleteAction(Request $request, $objectId)
+    public function undeleteAction(Request $request, $objectId): JsonResponse
     {
         $campaignId     = $request->query->get('campaignId');
         $this->setCampaignElements($request->request);

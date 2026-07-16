@@ -177,7 +177,8 @@ class MobileNotificationController extends FormController
                     ],
                 ]
             );
-        } elseif (!$this->security->hasEntityAccess(
+        }
+        if (!$this->security->hasEntityAccess(
             'notification:mobile_notifications:viewown',
             'notification:mobile_notifications:viewother',
             $notification->getCreatedBy()
@@ -431,7 +432,8 @@ class MobileNotificationController extends FormController
                     ]
                 )
             );
-        } elseif (!$this->security->hasEntityAccess(
+        }
+        if (!$this->security->hasEntityAccess(
             'notification:mobile_notifications:viewown',
             'notification:mobile_notifications:viewother',
             $entity->getCreatedBy()
@@ -555,10 +557,8 @@ class MobileNotificationController extends FormController
 
     /**
      * Clone an entity.
-     *
-     * @return JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function cloneAction(Request $request, IntegrationHelper $integrationHelper, $objectId)
+    public function cloneAction(Request $request, IntegrationHelper $integrationHelper, $objectId): Response
     {
         $model  = $this->getModel('notification');
         $entity = $model->getEntity($objectId);

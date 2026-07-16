@@ -78,11 +78,9 @@ class CompanyApiController extends CommonApiController
      * @param int $companyId Company ID
      * @param int $contactId Contact ID
      *
-     * @return Response
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function addContactAction($companyId, $contactId)
+    public function addContactAction($companyId, $contactId): Response
     {
         $company = $this->model->getEntity($companyId);
         $view    = $this->view(['success' => 1], Response::HTTP_OK);
@@ -107,11 +105,9 @@ class CompanyApiController extends CommonApiController
      * @param int $companyId List ID
      * @param int $contactId Lead ID
      *
-     * @return Response
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function removeContactAction($companyId, $contactId)
+    public function removeContactAction($companyId, $contactId): Response
     {
         $company = $this->model->getEntity($companyId);
         $view    = $this->view(['success' => 1], Response::HTTP_OK);
@@ -126,7 +122,8 @@ class CompanyApiController extends CommonApiController
         // Does the contact exist and the user has permission to edit
         if (null === $contact) {
             return $this->notFound();
-        } elseif (!$this->security->hasEntityAccess('lead:leads:editown', 'lead:leads:editother', $contact->getPermissionUser())) {
+        }
+        if (!$this->security->hasEntityAccess('lead:leads:editown', 'lead:leads:editother', $contact->getPermissionUser())) {
             return $this->accessDenied();
         }
 

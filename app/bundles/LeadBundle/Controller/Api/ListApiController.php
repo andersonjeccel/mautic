@@ -97,7 +97,7 @@ class ListApiController extends CommonApiController
             if (isset($content['lists']) && is_array($content['lists'])) {
                 $segmentIds = array_column($content['lists'], 'id');
 
-                if ($segmentIds) {
+                if ([] !== $segmentIds) {
                     /** @var ListModel $model */
                     $model      = $this->model;
                     $leadCounts = $model->getSegmentContactCount($segmentIds);
@@ -119,10 +119,8 @@ class ListApiController extends CommonApiController
 
     /**
      * Obtains a list of smart lists for the user.
-     *
-     * @return Response
      */
-    public function getListsAction()
+    public function getListsAction(): Response
     {
         $listModel = $this->getModel('lead.list');
         \assert($listModel instanceof ListModel);
@@ -140,11 +138,9 @@ class ListApiController extends CommonApiController
      * @param int $id     List ID
      * @param int $leadId Lead ID
      *
-     * @return Response
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function addLeadAction($id, $leadId)
+    public function addLeadAction($id, $leadId): Response
     {
         $entity = $this->model->getEntity($id);
 
@@ -225,11 +221,9 @@ class ListApiController extends CommonApiController
      * @param int $id     List ID
      * @param int $leadId Lead ID
      *
-     * @return Response
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function removeLeadAction($id, $leadId)
+    public function removeLeadAction($id, $leadId): Response
     {
         $entity = $this->model->getEntity($id);
 
@@ -269,7 +263,8 @@ class ListApiController extends CommonApiController
     {
         if ('create' == $action || 'edit' == $action || 'view' == $action) {
             return $this->security->isGranted(LeadPermissions::LISTS_VIEW_OWN);
-        } elseif ('delete' == $action) {
+        }
+        if ('delete' == $action) {
             return $this->security->hasEntityAccess(
                 true, LeadPermissions::LISTS_DELETE_OTHER, $entity->getCreatedBy()
             );

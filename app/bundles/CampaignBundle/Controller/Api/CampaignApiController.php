@@ -82,7 +82,7 @@ class CampaignApiController extends CommonApiController
         parent::__construct($security, $translator, $entityResultHelper, $router, $formFactory, $appVersion, $requestStack, $doctrine, $modelFactory, $dispatcher, $coreParametersHelper);
     }
 
-    public function getEntitiesAction(Request $request, UserHelper $userHelper)
+    public function getEntitiesAction(Request $request, UserHelper $userHelper): Response
     {
         $response = parent::getEntitiesAction($request, $userHelper);
 
@@ -118,11 +118,9 @@ class CampaignApiController extends CommonApiController
      * @param int $id     Campaign ID
      * @param int $leadId Lead ID
      *
-     * @return Response
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function addLeadAction($id, $leadId)
+    public function addLeadAction($id, $leadId): Response
     {
         $entity = $this->model->getEntity($id);
         if (null !== $entity) {
@@ -131,7 +129,8 @@ class CampaignApiController extends CommonApiController
 
             if (null == $lead) {
                 return $this->notFound();
-            } elseif (!$this->security->hasEntityAccess('lead:leads:editown', 'lead:leads:editother', $lead->getOwner())) {
+            }
+            if (!$this->security->hasEntityAccess('lead:leads:editown', 'lead:leads:editother', $lead->getOwner())) {
                 return $this->accessDenied();
             }
 
@@ -151,11 +150,9 @@ class CampaignApiController extends CommonApiController
      * @param int $id     Campaign ID
      * @param int $leadId Lead ID
      *
-     * @return Response
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function removeLeadAction($id, $leadId)
+    public function removeLeadAction($id, $leadId): Response
     {
         $entity = $this->model->getEntity($id);
         if (null !== $entity) {
@@ -189,7 +186,8 @@ class CampaignApiController extends CommonApiController
                 $msg = $this->translator->trans('mautic.campaign.form.events.notempty', [], 'validators');
 
                 return $this->returnError($msg, Response::HTTP_BAD_REQUEST);
-            } elseif (empty($parameters['lists']) && empty($parameters['forms'])) {
+            }
+            if (empty($parameters['lists']) && empty($parameters['forms'])) {
                 $msg = $this->translator->trans('mautic.campaign.form.sources.notempty', [], 'validators');
 
                 return $this->returnError($msg, Response::HTTP_BAD_REQUEST);
@@ -267,7 +265,7 @@ class CampaignApiController extends CommonApiController
                 fn (Event $event): ConstraintViolationListInterface => $this->validator->validate($event),
                 $entity->getEvents()->toArray()
             ),
-            fn ($error): bool => $error->count() > 0
+            fn (ConstraintViolationListInterface $error): bool => $error->count() > 0
         );
 
         if (count($eventViolations) > 0) {
@@ -324,10 +322,8 @@ class CampaignApiController extends CommonApiController
 
     /**
      * Obtains a list of campaign contacts.
-     *
-     * @return Response
      */
-    public function getContactsAction(Request $request, $id)
+    public function getContactsAction(Request $request, $id): Response
     {
         $entity = $this->model->getEntity($id);
 
@@ -369,7 +365,7 @@ class CampaignApiController extends CommonApiController
         );
     }
 
-    public function cloneCampaignAction($campaignId)
+    public function cloneCampaignAction($campaignId): Response
     {
         if (empty($campaignId) || false == intval($campaignId)) {
             return $this->notFound();

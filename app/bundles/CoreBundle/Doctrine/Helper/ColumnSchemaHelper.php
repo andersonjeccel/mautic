@@ -155,7 +155,7 @@ class ColumnSchemaHelper
      * @throws SchemaException
      * @throws \OutOfRangeException
      */
-    public function updateColumnLength(string $column, ?int $length): ColumnSchemaHelper
+    public function updateColumnLength(string $column, ?int $length): self
     {
         if (empty($column)) {
             throw new SchemaException('The column name is should not be empty/missing.');
@@ -229,7 +229,7 @@ class ColumnSchemaHelper
     {
         if (!$this->sm->tablesExist([$table])) {
             if ($throwException) {
-                throw new SchemaException("Table $table does not exist!");
+                throw new SchemaException("Table {$table} does not exist!");
             }
 
             return false;

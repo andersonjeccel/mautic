@@ -40,7 +40,6 @@ use Mautic\LeadBundle\Tracker\ContactTracker;
 use Mautic\LeadBundle\Tracker\DeviceTracker;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
 use Mautic\StageBundle\Entity\Stage;
-use Mautic\StageBundle\Entity\StageRepository;
 use Mautic\UserBundle\Entity\User;
 use Mautic\UserBundle\Security\Provider\UserProvider;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -211,7 +210,7 @@ final class LeadModelTest extends \PHPUnit\Framework\TestCase
 
         $this->setupFieldModelForIpLookupTest();
         $this->companyLeadRepositoryMock->method('getEntitiesByLead')->willReturn([]);
-        $this->companyModelMock->expects($this->any())
+        $this->companyModelMock
             ->method('fetchCompanyFields')
             ->willReturn([]);
 
@@ -242,7 +241,7 @@ final class LeadModelTest extends \PHPUnit\Framework\TestCase
         $this->leadModel->saveEntity($entity);
 
         $this->assertSame($companyFromEntity, $entity->getCompany());
-        $this->assertFalse(isset($entity->getUpdatedFields()['company']));
+        $this->assertArrayNotHasKey('company', $entity->getUpdatedFields());
     }
 
     public function testCheckForDuplicateContact(): void
@@ -324,7 +323,7 @@ final class LeadModelTest extends \PHPUnit\Framework\TestCase
         try {
             $mockLeadModel->import([], [], null, null, null, true, $leadEventLog);
         } catch (\Exception) {
-            $this->assertNull($leadEventLog->getLead());
+            $this->assertNotInstanceOf(Lead::class, $leadEventLog->getLead());
         }
     }
 
@@ -388,7 +387,7 @@ final class LeadModelTest extends \PHPUnit\Framework\TestCase
         $lead->setId(1);
         $lead->setFields(['all' => 'sth']);
         $stageMock = $this->createMock(Stage::class);
-        $stageMock->expects($this->any())
+        $stageMock
             ->method('getId')
             ->willReturn(1);
         $data = ['stage' => $stageMock];
@@ -399,11 +398,20 @@ final class LeadModelTest extends \PHPUnit\Framework\TestCase
             ->with($lead->getId())
             ->willReturn(null);
 
-        $stageRepositoryMock = $this->createMock(StageRepository::class);
-        $stageRepositoryMock->expects($this->once())
-            ->method('findByIdOrName')
-            ->with(1)
-            ->willReturn($stageMock);
+        $stageRepositoryMock = new class(1, $stageMock) {
+            public function __construct(
+                private readonly int|string $expectedValue,
+                private readonly ?Stage $returnValue,
+            ) {
+            }
+
+            public function findByIdOrName(int|string $value): ?Stage
+            {
+                \PHPUnit\Framework\Assert::assertSame($this->expectedValue, $value);
+
+                return $this->returnValue;
+            }
+        };
         $matcher = $this->exactly(2);
 
         $this->entityManagerMock->expects($matcher)
@@ -439,11 +447,20 @@ final class LeadModelTest extends \PHPUnit\Framework\TestCase
             ->with($lead->getId())
             ->willReturn(null);
 
-        $stageRepositoryMock = $this->createMock(StageRepository::class);
-        $stageRepositoryMock->expects($this->once())
-            ->method('findByIdOrName')
-            ->with($data['stage'])
-            ->willReturn(null);
+        $stageRepositoryMock = new class($data['stage'], null) {
+            public function __construct(
+                private readonly int|string $expectedValue,
+                private readonly ?Stage $returnValue,
+            ) {
+            }
+
+            public function findByIdOrName(int|string $value): ?Stage
+            {
+                \PHPUnit\Framework\Assert::assertSame($this->expectedValue, $value);
+
+                return $this->returnValue;
+            }
+        };
         $matcher = $this->exactly(2);
 
         $this->entityManagerMock->expects($matcher)
@@ -555,7 +572,7 @@ final class LeadModelTest extends \PHPUnit\Framework\TestCase
 
     private function mockGetLeadRepository(): void
     {
-        $this->entityManagerMock->expects($this->any())
+        $this->entityManagerMock
             ->method('getRepository')
             ->willReturnMap(
                 [
@@ -617,7 +634,7 @@ final class LeadModelTest extends \PHPUnit\Framework\TestCase
      */
     private function getFieldPaginatorFake(): Paginator
     {
-        return new class extends Paginator {
+        return new class() extends Paginator {
             public function __construct()
             {
             }

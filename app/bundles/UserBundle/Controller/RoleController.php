@@ -106,10 +106,8 @@ class RoleController extends FormController
 
     /**
      * Generate's new role form and processes post data.
-     *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request): Response
     {
         if (!$this->security->isGranted('user:roles:create')) {
             $this->throwAccessDenied();
@@ -165,7 +163,8 @@ class RoleController extends FormController
                         'mauticContent' => 'role',
                     ],
                 ]);
-            } elseif ($valid) {
+            }
+            if ($valid) {
                 return $this->editAction($request, $entity->getId(), true);
             }
         }
@@ -232,7 +231,8 @@ class RoleController extends FormController
                     ],
                 ])
             );
-        } elseif ($model->isLocked($entity)) {
+        }
+        if ($model->isLocked($entity)) {
             // deny access if the entity is locked
             return $this->isLocked($postActionVars, $entity, 'user.role');
         }

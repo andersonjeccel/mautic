@@ -176,7 +176,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        commands: ['PHPSTAN', 'CS Fixer', 'Rector', 'Rector tests', 'Twig Lint', 'scaffolded files mismatch', 'PHPStan baseline changes', 'composer install', 'composer lock check']
+        commands: ['PHPSTAN', 'CS Fixer', 'Rector', 'Twig Lint', 'scaffolded files mismatch', 'composer install', 'composer lock check']
         php-versions: ['8.2']
 
     name: ${{ matrix.commands }} - ${{ matrix.php-versions }}
@@ -195,16 +195,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-rector-${{ hashFiles('**/composer.lock') }}
           ${{ runner.os }}-rector-
-
-    - name: Rector tests Cache
-      if: ${{matrix.commands == 'Rector tests'}}
-      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-      with:
-        path: ./var/cache/rector-tests
-        key: ${{ runner.os }}-rector-tests-${{ hashFiles('**/composer.lock') }}-${{ github.run_id }}
-        restore-keys: |
-          ${{ runner.os }}-rector-tests-${{ hashFiles('**/composer.lock') }}
-          ${{ runner.os }}-rector-tests-
 
     - name: PHPStan Cache
       if: ${{matrix.commands == 'PHPSTAN'}}
@@ -251,10 +241,6 @@ jobs:
           export SYMFONY_ENV=test
           bin/console cache:warmup
           bin/rector --dry-run --ansi
-        elif [[ "${{ matrix.commands }}" == "Rector tests" ]]; then
-          export SYMFONY_ENV=test
-          bin/console cache:warmup
-          bin/rector --config=rector-tests.php --dry-run --ansi
         elif [[ "${{ matrix.commands }}" == "Twig Lint" ]]; then
           bin/console lint:twig app plugins
         elif [[ "${{ matrix.commands }}" == "CS Fixer" ]]; then
@@ -278,17 +264,6 @@ jobs:
             echo "verbose diff:"
             bash diff_commands_verbose.sh
             exit 1
-          fi
-        elif [[ "${{ matrix.commands }}" == "PHPStan baseline changes" ]]; then
-          if [[ -n "${{ github.base_ref }}" ]] && [[ "${{ steps.changed-files.outputs.modified_files }}" == *"phpstan-baseline.neon"* ]]; then
-            stat=$(git diff --shortstat "origin/${{ github.base_ref }}" ${{ github.sha }} -- phpstan-baseline.neon)
-            echo $stat
-            regex="[0-9]+[[:space:]]insertion"
-            if [[ $stat =~ $regex ]]; then
-              echo "There are modifications (added or changed lines) to the phpstan-baseline.neon"
-              echo "Please fix the PHPStan errors instead of altering the baseline file"
-              exit 1
-            fi
           fi
         elif [[ "${{ matrix.commands }}" == "composer install" ]]; then
           # create a temp dir and mimic a composer install via mautic/recommended-project

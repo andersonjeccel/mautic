@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use PhpCsFixer\Fixer\Import\NoUnusedImportsFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 
 return ECSConfig::configure()
@@ -21,9 +20,21 @@ return ECSConfig::configure()
 
         PhpCsFixer\Fixer\Comment\SingleLineCommentStyleFixer::class,
         PhpCsFixer\Fixer\Phpdoc\GeneralPhpdocAnnotationRemoveFixer::class,
+        PhpCsFixer\Fixer\Operator\ConcatSpaceFixer::class,
+        PhpCsFixer\Fixer\Operator\BinaryOperatorSpacesFixer::class,
+        PhpCsFixer\Fixer\Operator\NotOperatorWithSpaceFixer::class,
+        PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer::class,
+        PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer::class,
+        Symplify\CodingStandard\Fixer\Spacing\MethodChainingNewlineFixer::class,
+        PhpCsFixer\Fixer\ControlStructure\YodaStyleFixer::class,
     ])
     ->withRules([
-        NoUnusedImportsFixer::class,
-        // Symplify\CodingStandard\Fixer\Spacing\StandaloneLinePromotedPropertyFixer::class,
+        Symplify\CodingStandard\Fixer\Spacing\StandaloneLinePromotedPropertyFixer::class,
     ])
-    ->withPreparedSets(comments: true, docblocks: true);
+    ->withPreparedSets(
+        comments: true,
+        docblocks: true,
+        namespaces: true,
+        cleanup: true,
+        controlStructures: true,
+    );

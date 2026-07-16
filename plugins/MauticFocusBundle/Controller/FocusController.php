@@ -26,9 +26,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FocusController extends AbstractStandardFormController
 {
-    /**
-     * @phpstan-ignore-next-line
-     */
     public function __construct(
         private readonly CacheProviderTagAwareInterface $cacheProvider,
         FormFactoryInterface $formFactory,
@@ -79,10 +76,8 @@ class FocusController extends AbstractStandardFormController
      *
      * @param int  $objectId
      * @param bool $ignorePost
-     *
-     * @return JsonResponse|Response
      */
-    public function editAction(Request $request, $objectId, $ignorePost = false)
+    public function editAction(Request $request, $objectId, $ignorePost = false): Response
     {
         return parent::editStandard($request, $objectId, $ignorePost);
     }
@@ -245,6 +240,8 @@ class FocusController extends AbstractStandardFormController
         if ($updateSelect) {
             return ['update_select' => $updateSelect];
         }
+
+        return [];
     }
 
     /**
@@ -260,7 +257,7 @@ class FocusController extends AbstractStandardFormController
         return [
             'updateSelect' => $updateSelect,
             'id'           => $entity->getId(),
-            'name'         => $entity->$nameMethod(),
+            'name'         => $entity->{$nameMethod}(),
         ];
     }
 }

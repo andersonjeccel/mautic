@@ -237,10 +237,8 @@ class ListController extends FormController
      *
      * @param int  $objectId
      * @param bool $ignorePost
-     *
-     * @return Response
      */
-    public function editAction(Request $request, SegmentDependencies $segmentDependencies, SegmentCampaignShare $segmentCampaignShare, ListModel $listModel, AuditLogModel $auditLogModel, $objectId, $ignorePost = false, bool $isNew = false)
+    public function editAction(Request $request, SegmentDependencies $segmentDependencies, SegmentCampaignShare $segmentCampaignShare, ListModel $listModel, AuditLogModel $auditLogModel, $objectId, $ignorePost = false, bool $isNew = false): Response
     {
         $postActionVars = $this->getPostActionVars($request, $objectId);
 
@@ -345,7 +343,8 @@ class ListController extends FormController
                         'mauticContent' => 'leadlist',
                     ],
                 ]));
-            } elseif ($valid) {
+            }
+            if ($valid) {
                 return $this->editAction($request, $segmentDependencies, $segmentCampaignShare, $segmentModel, $auditLogModel, $segment->getId(), true);
             }
         }
@@ -394,7 +393,7 @@ class ListController extends FormController
                         ]),
                     ]);
 
-                    if ($form->get('buttons')->get('apply')->isClicked()) {
+                    if ($this->isButtonClicked($form, 'apply')) {
                         $contentTemplate                     = '@MauticLead/List/form.html.twig';
                         $postActionVars['contentTemplate']   = $contentTemplate;
                         $postActionVars['forwardController'] = false;
@@ -587,7 +586,7 @@ class ListController extends FormController
                 }
             }
 
-            if ($deleteIds) {
+            if ([] !== $deleteIds) {
                 try {
                     $deletedEntities = $model->deleteEntities($deleteIds);
                 } catch (DeleteEntitiesDependencyException $e) {
@@ -604,7 +603,7 @@ class ListController extends FormController
                     }
                 }
 
-                if ($deletedEntities) {
+                if ([] !== $deletedEntities) {
                     $flashes[] = [
                         'type'    => 'notice',
                         'msg'     => 'mautic.lead.list.notice.batch_deleted',
@@ -623,18 +622,12 @@ class ListController extends FormController
         );
     }
 
-    /**
-     * @return Response
-     */
-    public function removeLeadAction(Request $request, $objectId)
+    public function removeLeadAction(Request $request, $objectId): Response
     {
         return $this->changeList($request, $objectId, 'remove');
     }
 
-    /**
-     * @return Response
-     */
-    public function addLeadAction(Request $request, $objectId)
+    public function addLeadAction(Request $request, $objectId): Response
     {
         return $this->changeList($request, $objectId, 'add');
     }
@@ -692,7 +685,7 @@ class ListController extends FormController
                 return $this->isLocked($postActionVars, $lead, 'lead');
             } else {
                 $function = ('remove' == $action) ? 'removeLead' : 'addLead';
-                $model->$function($lead, $list, true);
+                $model->{$function}($lead, $list, true);
 
                 $identifier = $this->translator->trans($lead->getPrimaryIdentifier());
                 $flashes[]  = [
@@ -758,7 +751,8 @@ class ListController extends FormController
                     ],
                 ],
             ]);
-        } elseif (!$this->security->hasEntityAccess(
+        }
+        if (!$this->security->hasEntityAccess(
             LeadPermissions::LISTS_VIEW_OWN,
             LeadPermissions::LISTS_VIEW_OTHER,
             $list->getCreatedBy()

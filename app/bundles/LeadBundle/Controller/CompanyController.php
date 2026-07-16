@@ -175,10 +175,8 @@ class CompanyController extends FormController
      * Generates new form and processes post data.
      *
      * @param Company $entity
-     *
-     * @return JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function newAction(Request $request, $entity = null)
+    public function newAction(Request $request, $entity = null): Response
     {
         $model = $this->getModel('lead.company');
         \assert($model instanceof CompanyModel);
@@ -363,7 +361,8 @@ class CompanyController extends FormController
                     ]
                 )
             );
-        } elseif (!$this->security->hasEntityAccess(
+        }
+        if (!$this->security->hasEntityAccess(
             'lead:leads:editown',
             'lead:leads:editother',
             $entity->getPermissionUser())) {
@@ -464,7 +463,8 @@ class CompanyController extends FormController
                         'passthroughVars' => $passthrough,
                     ]
                 );
-            } elseif ($valid) {
+            }
+            if ($valid) {
                 // Refetch and recreate the form in order to populate data manipulated in the entity itself
                 $company = $model->getEntity($objectId);
                 $form    = $model->createForm($company, $this->formFactory, $action, ['fields' => $fields, 'update_select' => $updateSelect]);
@@ -673,10 +673,8 @@ class CompanyController extends FormController
      * Clone an entity.
      *
      * @param int $objectId
-     *
-     * @return array|JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function cloneAction(Request $request, $objectId)
+    public function cloneAction(Request $request, $objectId): Response
     {
         $model  = $this->getModel('lead.company');
         $entity = $model->getEntity($objectId);
@@ -862,7 +860,7 @@ class CompanyController extends FormController
             $entities = $this->getCompanyFindReplaceEntities($request, $model, $data, $ids);
             $updated  = $this->replaceCompanyFieldValues($findReplace, $fieldAlias, $data, $entities, $model);
 
-            if ($updated) {
+            if ([] !== $updated) {
                 $model->saveEntities($updated);
             }
         }
@@ -1082,7 +1080,8 @@ class CompanyController extends FormController
                                 ]
                             )
                         );
-                    } elseif (!$permissions['lead:leads:editother']) {
+                    }
+                    if (!$permissions['lead:leads:editother']) {
                         $this->throwAccessDenied();
                     } elseif ($model->isLocked($secondaryCompany)) {
                         // deny access if the entity is locked
@@ -1155,10 +1154,8 @@ class CompanyController extends FormController
 
     /**
      * Export company's data.
-     *
-     * @return array|JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\StreamedResponse
      */
-    public function companyExportAction(Request $request, ExportHelper $exportHelper, $companyId)
+    public function companyExportAction(Request $request, ExportHelper $exportHelper, $companyId): Response|\Symfony\Component\HttpFoundation\StreamedResponse
     {
         // set some permissions
         $permissions = $this->security->isGranted(

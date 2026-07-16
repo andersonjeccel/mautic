@@ -292,7 +292,8 @@ class EmailController extends FormController
                     ],
                 ]
             );
-        } elseif (!$this->security->hasEntityAccess(
+        }
+        if (!$this->security->hasEntityAccess(
             'email:emails:viewown',
             'email:emails:viewother',
             $email->getCreatedBy()
@@ -687,7 +688,8 @@ class EmailController extends FormController
                     ]
                 )
             );
-        } elseif (!$this->security->hasEntityAccess(
+        }
+        if (!$this->security->hasEntityAccess(
             'email:emails:editown',
             'email:emails:editother',
             $entity->getCreatedBy()
@@ -729,7 +731,7 @@ class EmailController extends FormController
                     try {
                         $model->saveEntity($entity, $this->getFormButton($form, ['buttons', 'save'])->isClicked());
 
-                        if (true === $emailConfig->isDraftEnabled() && !empty($entity->getId())) {
+                        if ($emailConfig->isDraftEnabled() && !empty($entity->getId())) {
                             $this->dispatcher->dispatch(new EmailEditSubmitEvent(
                                 $existingEmail,
                                 $entity,
@@ -810,7 +812,8 @@ class EmailController extends FormController
                         ]
                     )
                 );
-            } elseif ($valid) {
+            }
+            if ($valid) {
                 // Rebuild the form in the case apply is clicked so that DEC content is properly populated if all were removed
                 $form = $model->createForm($entity, $this->formFactory, $action, ['update_select' => $updateSelect]);
                 $this->setOptimisticLockVersion($entity, $form);
@@ -851,7 +854,7 @@ class EmailController extends FormController
             'RETURN_ARRAY'
         );
         $draftPreviewUrl = '';
-        if (true === $emailConfig->isDraftEnabled() && $entity->hasDraft()) {
+        if ($emailConfig->isDraftEnabled() && $entity->hasDraft()) {
             $draftPreviewUrl = $this->generateUrl(
                 'mautic_email_preview',
                 ['objectId'       => $entity->getId(),
@@ -942,7 +945,8 @@ class EmailController extends FormController
                     ]
                 )
             );
-        } elseif (!$this->security->isGranted('email:emails:create')
+        }
+        if (!$this->security->isGranted('email:emails:create')
             || !$this->security->hasEntityAccess(
                 'email:emails:viewown',
                 'email:emails:viewother',
@@ -1222,12 +1226,10 @@ class EmailController extends FormController
     /**
      * Activate the builder.
      *
-     * @return array|JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|Response
-     *
      * @throws \Exception
      * @throws \Mautic\CoreBundle\Exception\FileNotFoundException
      */
-    public function builderAction(Request $request, ThemeHelper $themeHelper, $objectId)
+    public function builderAction(Request $request, ThemeHelper $themeHelper, $objectId): Response
     {
         /** @var EmailModel $model */
         $model = $this->getModel('email');
@@ -1282,10 +1284,8 @@ class EmailController extends FormController
 
     /**
      * Create an AB test.
-     *
-     * @return array<string, mixed>|JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function abTestAction(Request $request, AssetModel $assetModel, CorePermissions $corePermissions, EmailConfig $emailConfig, EmailModel $model, ThemeHelper $themeHelper, int $objectId)
+    public function abTestAction(Request $request, AssetModel $assetModel, CorePermissions $corePermissions, EmailConfig $emailConfig, EmailModel $model, ThemeHelper $themeHelper, int $objectId): Response
     {
         $entity = $model->getEntity($objectId);
 
