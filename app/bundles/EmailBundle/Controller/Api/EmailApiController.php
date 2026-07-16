@@ -76,10 +76,8 @@ class EmailApiController extends CommonApiController
 
     /**
      * Obtains a list of emails.
-     *
-     * @return Response
      */
-    public function getEntitiesAction(Request $request, UserHelper $userHelper)
+    public function getEntitiesAction(Request $request, UserHelper $userHelper): Response
     {
         // get parent level only
         $this->listFilters[] = [
@@ -95,11 +93,9 @@ class EmailApiController extends CommonApiController
      *
      * @param int $id Email ID
      *
-     * @return Response
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function sendAction(Request $request, $id)
+    public function sendAction(Request $request, $id): Response
     {
         $entity = $this->model->getEntity($id);
 
@@ -112,8 +108,8 @@ class EmailApiController extends CommonApiController
         }
 
         $lists = $request->request->all()['lists'] ?? [];
-        $limit = $request->request->get('limit', null);
-        $batch = $request->request->get('batch', null);
+        $limit = $request->request->get('limit');
+        $batch = $request->request->get('batch');
 
         [$count, $failed] = $this->model->sendEmailToLists($entity, $lists, $limit, $batch);
 
@@ -204,10 +200,8 @@ class EmailApiController extends CommonApiController
 
     /**
      * @param string $trackingHash
-     *
-     * @return Response
      */
-    public function replyAction(Reply $replyService, RandomHelperInterface $randomHelper, $trackingHash)
+    public function replyAction(Reply $replyService, RandomHelperInterface $randomHelper, $trackingHash): Response
     {
         try {
             $replyService->createReplyByHash($trackingHash, "api-{$randomHelper->generate()}");

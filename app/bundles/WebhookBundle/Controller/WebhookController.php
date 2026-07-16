@@ -31,6 +31,7 @@ class WebhookController extends FormController
             'mauticWebhook' // mauticContent
         );
 
+        // @phpstan-ignore-next-line FormController extends deprecated AbstractStandardFormController; fix requires class hierarchy refactoring
         parent::__construct($formFactory, $fieldHelper, $doctrine, $modelFactory, $userHelper, $coreParametersHelper, $dispatcher, $translator, $flashBag, $requestStack, $security);
     }
 
@@ -62,7 +63,7 @@ class WebhookController extends FormController
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function editAction(Request $request, $objectId, $ignorePost = false)
+    public function editAction(Request $request, $objectId, $ignorePost = false): \Symfony\Component\HttpFoundation\Response
     {
         return parent::editStandard($request, $objectId, $ignorePost);
     }

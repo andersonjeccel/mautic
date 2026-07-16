@@ -30,12 +30,7 @@ class PageController extends FormController
 {
     use FormErrorMessagesTrait;
 
-    /**
-     * @param int $page
-     *
-     * @return JsonResponse|Response
-     */
-    public function indexAction(Request $request, PageConfig $pageConfig, PageHelperFactoryInterface $pageHelperFactory, PageModel $model, $page = 1)
+    public function indexAction(Request $request, PageConfig $pageConfig, PageHelperFactoryInterface $pageHelperFactory, PageModel $model, int $page = 1): Response
     {
         // set some permissions
         $permissions = $this->security->isGranted([
@@ -53,7 +48,7 @@ class PageController extends FormController
         ], 'RETURN_ARRAY');
 
         if (!$permissions['page:pages:viewown'] && !$permissions['page:pages:viewother']) {
-            return $this->accessDenied();
+            $this->throwAccessDenied();
         }
 
         $this->setListFilters();
@@ -169,10 +164,8 @@ class PageController extends FormController
      * Loads a specific form into the detailed panel.
      *
      * @param int $objectId
-     *
-     * @return JsonResponse|Response
      */
-    public function viewAction(Request $request, PageConfig $pageConfig, PageModel $model, AuditLogModel $auditLogModel, $objectId)
+    public function viewAction(Request $request, PageConfig $pageConfig, PageModel $model, AuditLogModel $auditLogModel, $objectId): Response
     {
         // set some permissions
         $activePage = $model->getEntity($objectId);
@@ -199,14 +192,15 @@ class PageController extends FormController
                     ],
                 ],
             ]);
-        } elseif (!$this->security->hasEntityAccess(
+        }
+        if (!$this->security->hasEntityAccess(
             'page:pages:viewown', 'page:pages:viewother', $activePage->getCreatedBy()
         )
             || ($activePage->getIsPreferenceCenter()
             && !$this->security->hasEntityAccess(
                 'page:preference_center:viewown', 'page:preference_center:viewother', $activePage->getCreatedBy()
             ))) {
-            return $this->accessDenied();
+            $this->throwAccessDenied();
         }
 
         // get A/B test information
@@ -300,6 +294,8 @@ class PageController extends FormController
             'children'           => $children,
             'properties'         => $properties,
             'criteria'           => $criteria['criteria'],
+            'winnerCriteria'     => $lastCriteria ?? '',
+            'configurationError' => $variantError,
         ];
 
         $translations = [
@@ -365,10 +361,8 @@ class PageController extends FormController
      * Generates new form and processes post data.
      *
      * @param Page|null $entity
-     *
-     * @return JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function newAction(Request $request, PageConfig $pageConfig, AssetsHelper $assetsHelper, Translator $translator, RouterInterface $routerHelper, CoreParametersHelper $coreParametersHelper, ThemeHelper $themeHelper, PageModel $model, $entity = null)
+    public function newAction(Request $request, PageConfig $pageConfig, AssetsHelper $assetsHelper, Translator $translator, RouterInterface $routerHelper, CoreParametersHelper $coreParametersHelper, ThemeHelper $themeHelper, PageModel $model, $entity = null): Response
     {
         if (!$entity instanceof Page) {
             $entity = $model->getEntity();
@@ -377,7 +371,7 @@ class PageController extends FormController
         $method  = $request->getMethod();
         $session = $request->getSession();
         if (!$this->security->isGranted('page:pages:create')) {
-            return $this->accessDenied();
+            $this->throwAccessDenied();
         }
 
         // set the page we came from
@@ -388,7 +382,7 @@ class PageController extends FormController
         $form = $model->createForm($entity, $this->formFactory, $action);
 
         // /Check for a submitted form and process it
-        if ('POST' == $method) {
+        if ('POST' === $method) {
             $valid = false;
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = $this->isFormValid($form)) {
@@ -519,13 +513,14 @@ class PageController extends FormController
                     ],
                 ])
             );
-        } elseif (!$this->security->hasEntityAccess(
+        }
+        if (!$this->security->hasEntityAccess(
             'page:pages:viewown', 'page:pages:viewother', $entity->getCreatedBy()
         )
             || ($entity->getIsPreferenceCenter() && !$this->security->hasEntityAccess(
                 'page:preference_center:viewown', 'page:preference_center:viewother', $entity->getCreatedBy()
             ))) {
-            return $this->accessDenied();
+            $this->throwAccessDenied();
         } elseif ($model->isLocked($entity)) {
             // deny access if the entity is locked
             return $this->isLocked($postActionVars, $entity, 'page.page');
@@ -538,7 +533,7 @@ class PageController extends FormController
         $existingPage = clone $entity;
         $this->restoreNullifiedFieldsDuringClone($existingPage, $entity);
         // /Check for a submitted form and process it
-        if (!$ignorePost && 'POST' == $request->getMethod()) {
+        if (!$ignorePost && 'POST' === $request->getMethod()) {
             $valid = false;
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = ($this->isFormValid($form) && $this->checkOptimisticLockVersion($entity, $form, false))) {
@@ -594,7 +589,8 @@ class PageController extends FormController
                         'contentTemplate' => 'Mautic\PageBundle\Controller\PageController::viewAction',
                     ])
                 );
-            } elseif ($valid) {
+            }
+            if ($valid) {
                 // Rebuild the form in the case apply is clicked so that DEC content is properly populated if all were removed
                 $form = $model->createForm($entity, $this->formFactory, $action);
                 $this->setOptimisticLockVersion($entity, $form);
@@ -677,10 +673,8 @@ class PageController extends FormController
      * Clone an entity.
      *
      * @param int $objectId
-     *
-     * @return JsonResponse|Response
      */
-    public function cloneAction(Request $request, PageConfig $pageConfig, AssetsHelper $assetsHelper, Translator $translator, RouterInterface $routerHelper, CoreParametersHelper $coreParametersHelper, ThemeHelper $themeHelper, PageModel $model, $objectId)
+    public function cloneAction(Request $request, PageConfig $pageConfig, AssetsHelper $assetsHelper, Translator $translator, RouterInterface $routerHelper, CoreParametersHelper $coreParametersHelper, ThemeHelper $themeHelper, PageModel $model, $objectId): Response
     {
         $entity = $model->getEntity($objectId);
 
@@ -690,7 +684,7 @@ class PageController extends FormController
                     'page:pages:viewown', 'page:pages:viewother', $entity->getCreatedBy()
                 )
             ) {
-                return $this->accessDenied();
+                $this->throwAccessDenied();
             }
 
             $entity = clone $entity;
@@ -745,7 +739,7 @@ class PageController extends FormController
                 'page:pages:deleteother',
                 $entity->getCreatedBy()
             )) {
-                return $this->accessDenied();
+                $this->throwAccessDenied();
             } elseif ($model->isLocked($entity)) {
                 return $this->isLocked($postActionVars, $entity, 'page.page');
             }
@@ -788,7 +782,7 @@ class PageController extends FormController
             ],
         ];
 
-        if ('POST' == $request->getMethod()) {
+        if ('POST' === $request->getMethod()) {
             /** @var PageModel $model */
             $model     = $this->getModel('page');
             $ids       = json_decode($request->query->get('ids', '{}'));
@@ -807,7 +801,7 @@ class PageController extends FormController
                 } elseif (!$this->security->hasEntityAccess(
                     'page:pages:deleteown', 'page:pages:deleteother', $entity->getCreatedBy()
                 )) {
-                    $flashes[] = $this->accessDenied(true);
+                    $flashes[] = $this->getAccessDeniedFlash();
                 } elseif ($model->isLocked($entity)) {
                     $flashes[] = $this->isLocked($postActionVars, $entity, 'page', true);
                 } else {
@@ -840,16 +834,14 @@ class PageController extends FormController
      * Activate the builder.
      *
      * @param int $objectId
-     *
-     * @return Response
      */
-    public function builderAction(Request $request, ThemeHelper $themeHelper, PageModel $model, $objectId)
+    public function builderAction(Request $request, ThemeHelper $themeHelper, PageModel $model, $objectId): Response
     {
         // permission check
         if (str_contains((string) $objectId, 'new')) {
             $isNew = true;
             if (!$this->security->isGranted('page:pages:create')) {
-                return $this->accessDenied();
+                $this->throwAccessDenied();
             }
             $entity = $model->getEntity();
             $entity->setSessionId($objectId);
@@ -859,7 +851,7 @@ class PageController extends FormController
             if (null == $entity || !$this->security->hasEntityAccess(
                 'page:pages:viewown', 'page:pages:viewother', $entity->getCreatedBy()
             )) {
-                return $this->accessDenied();
+                $this->throwAccessDenied();
             }
         }
 
@@ -870,22 +862,23 @@ class PageController extends FormController
 
         $logicalName = $themeHelper->checkForTwigTemplate('@themes/'.$template.'/html/page.html.twig');
 
-        return $this->render($logicalName, [
-            'isNew'       => $isNew,
-            'formFactory' => $this->formFactory,
-            'content'     => $entity->getContent(),
-            'page'        => $entity,
-            'template'    => $template,
-            'basePath'    => $request->getBasePath(),
-        ]);
+        return new Response($themeHelper->renderThemeTemplate(
+            $logicalName,
+            [
+                'isNew'       => $isNew,
+                'formFactory' => $this->formFactory,
+                'content'     => $entity->getContent(),
+                'page'        => $entity,
+                'template'    => $template,
+                'basePath'    => $request->getBasePath(),
+            ]
+        ));
     }
 
     /**
      * @param int $objectId
-     *
-     * @return JsonResponse|Response
      */
-    public function abtestAction(Request $request, PageConfig $pageConfig, AssetsHelper $assetsHelper, Translator $translator, RouterInterface $routerHelper, CoreParametersHelper $coreParametersHelper, ThemeHelper $themeHelper, PageModel $model, $objectId)
+    public function abtestAction(Request $request, PageConfig $pageConfig, AssetsHelper $assetsHelper, Translator $translator, RouterInterface $routerHelper, CoreParametersHelper $coreParametersHelper, ThemeHelper $themeHelper, PageModel $model, $objectId): Response
     {
         $entity = $model->getEntity($objectId);
 
@@ -900,7 +893,7 @@ class PageController extends FormController
                     'page:pages:viewown', 'page:pages:viewother', $entity->getCreatedBy()
                 )
         ) {
-            return $this->accessDenied();
+            $this->throwAccessDenied();
         }
 
         $clone = clone $entity;
@@ -953,12 +946,12 @@ class PageController extends FormController
                 'page:pages:editother',
                 $entity->getCreatedBy()
             )) {
-                return $this->accessDenied();
+                $this->throwAccessDenied();
             } elseif ($model->isLocked($entity)) {
                 return $this->isLocked($postActionVars, $entity, 'page.page');
             }
 
-            $model->convertVariant($entity);
+            $model->convertWinnerVariant($entity);
 
             $flashes[] = [
                 'type'    => 'notice',
@@ -989,10 +982,8 @@ class PageController extends FormController
      *
      * @param int $objectId
      * @param int $page
-     *
-     * @return JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function resultsAction(Request $request, PageModel $pageModel, SubmissionModel $submissionModel, $objectId, $page = 1)
+    public function resultsAction(Request $request, PageModel $pageModel, SubmissionModel $submissionModel, $objectId, $page = 1): Response
     {
         $activePage   = $pageModel->getEntity($objectId);
         $session      = $request->getSession();
@@ -1019,16 +1010,17 @@ class PageController extends FormController
                     ],
                 ]
             );
-        } elseif (!$this->security->hasEntityAccess(
+        }
+        if (!$this->security->hasEntityAccess(
             'page:pages:viewown',
             'page:pages:viewother',
             $activePage->getCreatedBy()
         )
         ) {
-            return $this->accessDenied();
+            $this->throwAccessDenied();
         }
 
-        if ('POST' == $request->getMethod()) {
+        if ('POST' === $request->getMethod()) {
             $this->setListFilters($request->query->get('name'));
         }
 
@@ -1039,7 +1031,7 @@ class PageController extends FormController
         $start = ($page <= 1) ? 0 : (($page - 1) * $limit);
 
         // Set order direction to desc if not set
-        if (!$session->get('mautic.pageresult.'.$objectId.'.orderbydir', null)) {
+        if (!$session->get('mautic.pageresult.'.$objectId.'.orderbydir')) {
             $session->set('mautic.pageresult.'.$objectId.'.orderbydir', 'DESC');
         }
 
@@ -1050,7 +1042,7 @@ class PageController extends FormController
         if ($request->query->has('result')) {
             // Force ID
             $filters['s.id'] = ['column' => 's.id', 'expr' => 'like', 'value' => (int) $request->query->get('result'), 'strict' => false];
-            $session->set("mautic.pageresult.$objectId.filters", $filters);
+            $session->set("mautic.pageresult.{$objectId}.filters", $filters);
         }
         // get the results
         $entities = $submissionModel->getEntitiesByPage(
@@ -1127,11 +1119,9 @@ class PageController extends FormController
      * @param int    $objectId
      * @param string $format
      *
-     * @return \Symfony\Component\HttpFoundation\StreamedResponse|Response
-     *
      * @throws \Exception
      */
-    public function exportAction(Request $request, PageModel $pageModel, SubmissionModel $submissionModel, $objectId, $format = 'csv')
+    public function exportAction(Request $request, PageModel $pageModel, SubmissionModel $submissionModel, $objectId, $format = 'csv'): Response
     {
         $activePage   = $pageModel->getEntity($objectId);
         $session      = $request->getSession();
@@ -1158,13 +1148,14 @@ class PageController extends FormController
                     ],
                 ]
             );
-        } elseif (!$this->security->hasEntityAccess(
+        }
+        if (!$this->security->hasEntityAccess(
             'page:pages:viewown',
             'page:pages:viewother',
             $activePage->getCreatedBy()
         )
         ) {
-            return $this->accessDenied();
+            $this->throwAccessDenied();
         }
 
         $orderBy    = $session->get('mautic.pageresult.'.$objectId.'.orderby', 's.date_submitted');

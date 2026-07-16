@@ -17,10 +17,10 @@ class PublicController extends FormController
     /**
      * Write a notification.
      *
-     * @param string    $message   Message of the notification
-     * @param string    $header    Header for message
-     * @param string    $iconClass CSS class for the icon (e.g. ri-eye-line)
-     * @param User|null $user      User object; defaults to current user
+     * @param string $message   Message of the notification
+     * @param string $header    Header for message
+     * @param string $iconClass CSS class for the icon (e.g. ri-eye-line)
+     * @param User   $user      User object; defaults to current user
      */
     public function addNewNotification($message, $header, $iconClass, User $user): void
     {
@@ -30,11 +30,9 @@ class PublicController extends FormController
     }
 
     /**
-     * @return Response
-     *
      * @throws \InvalidArgumentException
      */
-    public function callbackAction(Request $request, LookupHelper $lookupHelper, LoggerInterface $mauticLogger)
+    public function callbackAction(Request $request, LookupHelper $lookupHelper, LoggerInterface $mauticLogger): Response
     {
         if (!$request->request->has('result') || !$request->request->has('webhookId')) {
             return new Response('ERROR');
@@ -232,9 +230,12 @@ class PublicController extends FormController
     /**
      * This is only called internally.
      *
+     * @param mixed[] $result
+     * @param mixed[] $validatedRequest
+     *
      * @throws \InvalidArgumentException
      */
-    private function compcallbackAction(LoggerInterface $mauticLogger, $result, $validatedRequest): Response
+    private function compcallbackAction(LoggerInterface $mauticLogger, array $result, array $validatedRequest): Response
     {
         $notify = $validatedRequest['notify'];
 
@@ -275,8 +276,8 @@ class PublicController extends FormController
                         $phone = $result['organization']['contactInfo']['phoneNumbers'][0];
                         foreach ($result['organization']['contactInfo']['phoneNumbers'] as $phoneNumber) {
                             if (array_key_exists('label', $phoneNumber)
-                                && 0 >= strpos(
-                                    strtolower($phoneNumber['label']),
+                                && 0 >= stripos(
+                                    $phoneNumber['label'],
                                     'fax'
                                 )
                             ) {

@@ -141,6 +141,10 @@ label.required:after {
   color: $brand-danger;
 }
 
+.form-control.form-control-narrow {
+  width: 100px;
+}
+
 //Nav header
 #app-header .nav > li > a {
   padding: 10px 12px;
@@ -309,12 +313,14 @@ ul.media-list.media-list-feed div.media-body
   color: var(--text-disabled);
 }
 
-.publishstatus_pulse {
+.publishstatus_dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   display: block;
+}
 
+.publishstatus_pulse {
   &:after {
     content: '';
     position: absolute;
