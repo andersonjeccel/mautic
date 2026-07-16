@@ -24,12 +24,7 @@ class CompanyController extends FormController
 {
     use LeadDetailsTrait;
 
-    /**
-     * @param int $page
-     *
-     * @return JsonResponse|Response
-     */
-    public function indexAction(Request $request, PageHelperFactoryInterface $pageHelperFactory, CompanyColumnsDictionary $companyColumnsDictionary, $page = 1)
+    public function indexAction(Request $request, PageHelperFactoryInterface $pageHelperFactory, CompanyColumnsDictionary $companyColumnsDictionary, int $page = 1): Response
     {
         // set some permissions
         $permissions = $this->security->isGranted(
@@ -46,7 +41,7 @@ class CompanyController extends FormController
         );
 
         if (!$permissions['lead:leads:viewother'] && !$permissions['lead:leads:viewown']) {
-            return $this->accessDenied();
+            $this->throwAccessDenied();
         }
 
         $this->setListFilters();
@@ -130,13 +125,11 @@ class CompanyController extends FormController
      *
      * @param int $objectId company id
      * @param int $page
-     *
-     * @return JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function contactsListAction(Request $request, $objectId, $page = 1)
+    public function contactsListAction(Request $request, $objectId, $page = 1): Response
     {
         if (empty($objectId)) {
-            return $this->accessDenied();
+            $this->throwAccessDenied();
         }
 
         $permissions = $this->security->isGranted(
@@ -182,10 +175,8 @@ class CompanyController extends FormController
      * Generates new form and processes post data.
      *
      * @param Company $entity
-     *
-     * @return JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function newAction(Request $request, $entity = null)
+    public function newAction(Request $request, $entity = null): Response
     {
         $model = $this->getModel('lead.company');
         \assert($model instanceof CompanyModel);
@@ -196,7 +187,7 @@ class CompanyController extends FormController
         }
 
         if (!$this->security->isGranted('lead:leads:create')) {
-            return $this->accessDenied();
+            $this->throwAccessDenied();
         }
 
         // set the page we came from
@@ -370,11 +361,12 @@ class CompanyController extends FormController
                     ]
                 )
             );
-        } elseif (!$this->security->hasEntityAccess(
+        }
+        if (!$this->security->hasEntityAccess(
             'lead:leads:editown',
             'lead:leads:editother',
             $entity->getPermissionUser())) {
-            return $this->accessDenied();
+            $this->throwAccessDenied();
         } elseif ($model->isLocked($entity)) {
             // deny access if the entity is locked
             return $this->isLocked($postActionVars, $entity, 'lead.company');
@@ -471,7 +463,8 @@ class CompanyController extends FormController
                         'passthroughVars' => $passthrough,
                     ]
                 );
-            } elseif ($valid) {
+            }
+            if ($valid) {
                 // Refetch and recreate the form in order to populate data manipulated in the entity itself
                 $company = $model->getEntity($objectId);
                 $form    = $model->createForm($company, $this->formFactory, $action, ['fields' => $fields, 'update_select' => $updateSelect]);
@@ -514,10 +507,8 @@ class CompanyController extends FormController
 
     /**
      * Loads a specific company into the detailed panel.
-     *
-     * @return JsonResponse|Response
      */
-    public function viewAction($objectId)
+    public function viewAction($objectId): Response
     {
         /** @var CompanyModel $model */
         $model  = $this->getModel('lead.company');
@@ -576,7 +567,7 @@ class CompanyController extends FormController
             $company->getPermissionUser()
         )
         ) {
-            return $this->accessDenied();
+            $this->throwAccessDenied();
         }
 
         $fields = $company->getFields();
@@ -682,17 +673,15 @@ class CompanyController extends FormController
      * Clone an entity.
      *
      * @param int $objectId
-     *
-     * @return array|JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function cloneAction(Request $request, $objectId)
+    public function cloneAction(Request $request, $objectId): Response
     {
         $model  = $this->getModel('lead.company');
         $entity = $model->getEntity($objectId);
 
         if (null != $entity) {
             if (!$this->security->isGranted('lead:leads:create')) {
-                return $this->accessDenied();
+                $this->throwAccessDenied();
             }
 
             $entity = clone $entity;
@@ -736,7 +725,7 @@ class CompanyController extends FormController
                     'msgVars' => ['%id%' => $objectId],
                 ];
             } elseif (!$this->security->isGranted('lead:leads:deleteother')) {
-                return $this->accessDenied();
+                $this->throwAccessDenied();
             } elseif ($model->isLocked($entity)) {
                 return $this->isLocked($postActionVars, $entity, 'lead.company');
             }
@@ -799,7 +788,7 @@ class CompanyController extends FormController
                         'msgVars' => ['%id%' => $objectId],
                     ];
                 } elseif (!$this->security->isGranted('lead:leads:deleteother')) {
-                    $flashes[] = $this->accessDenied(true);
+                    $flashes[] = $this->getAccessDeniedFlash();
                 } elseif ($model->isLocked($entity)) {
                     $flashes[] = $this->isLocked($postActionVars, $entity, 'lead.company', true);
                 } else {
@@ -849,7 +838,7 @@ class CompanyController extends FormController
             (!$permissions['lead:leads:viewown'] && !$permissions['lead:leads:viewother'])
             || (!$permissions['lead:leads:editown'] && !$permissions['lead:leads:editother'])
         ) {
-            return $this->accessDenied();
+            $this->throwAccessDenied();
         }
 
         if (Request::METHOD_POST === $request->getMethod()) {
@@ -871,7 +860,7 @@ class CompanyController extends FormController
             $entities = $this->getCompanyFindReplaceEntities($request, $model, $data, $ids);
             $updated  = $this->replaceCompanyFieldValues($findReplace, $fieldAlias, $data, $entities, $model);
 
-            if ($updated) {
+            if ([] !== $updated) {
                 $model->saveEntities($updated);
             }
         }
@@ -1016,7 +1005,7 @@ class CompanyController extends FormController
         );
 
         if (!$permissions['lead:leads:viewown'] && !$permissions['lead:leads:viewother']) {
-            return $this->accessDenied();
+            $this->throwAccessDenied();
         }
 
         /** @var CompanyModel $model */
@@ -1091,8 +1080,9 @@ class CompanyController extends FormController
                                 ]
                             )
                         );
-                    } elseif (!$permissions['lead:leads:editother']) {
-                        return $this->accessDenied();
+                    }
+                    if (!$permissions['lead:leads:editother']) {
+                        $this->throwAccessDenied();
                     } elseif ($model->isLocked($secondaryCompany)) {
                         // deny access if the entity is locked
                         return $this->isLocked($postActionVars, $primaryCompany, 'lead.company');
@@ -1164,10 +1154,8 @@ class CompanyController extends FormController
 
     /**
      * Export company's data.
-     *
-     * @return array|JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\StreamedResponse
      */
-    public function companyExportAction(Request $request, ExportHelper $exportHelper, $companyId)
+    public function companyExportAction(Request $request, ExportHelper $exportHelper, $companyId): Response|\Symfony\Component\HttpFoundation\StreamedResponse
     {
         // set some permissions
         $permissions = $this->security->isGranted(
@@ -1179,7 +1167,7 @@ class CompanyController extends FormController
         );
 
         if (!$permissions['lead:leads:viewown'] && !$permissions['lead:leads:viewother']) {
-            return $this->accessDenied();
+            $this->throwAccessDenied();
         }
 
         /** @var CompanyModel $companyModel */

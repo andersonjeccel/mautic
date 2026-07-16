@@ -49,10 +49,8 @@ class WidgetApiController extends CommonApiController
 
     /**
      * Obtains a list of available widget types.
-     *
-     * @return Response
      */
-    public function getTypesAction()
+    public function getTypesAction(): Response
     {
         $dispatcher = $this->dispatcher;
         $event      = new WidgetTypeListEvent();
@@ -70,7 +68,7 @@ class WidgetApiController extends CommonApiController
      *
      * @return Response
      */
-    public function getDataAction(Request $request, $type)
+    public function getDataAction(Request $request, string $type)
     {
         $start      = microtime(true);
         $timezone   = InputHelper::clean($request->get('timezone'));
