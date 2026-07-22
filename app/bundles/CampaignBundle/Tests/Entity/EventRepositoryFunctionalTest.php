@@ -13,6 +13,7 @@ use Mautic\CoreBundle\Test\MauticMysqlTestCase;
 use Mautic\EmailBundle\Entity\Email;
 use Mautic\LeadBundle\Entity\Lead;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class EventRepositoryFunctionalTest extends MauticMysqlTestCase
 {
@@ -31,7 +32,7 @@ final class EventRepositoryFunctionalTest extends MauticMysqlTestCase
         yield 'Publish Down in the future' => [null, new \DateTime('+1 day'), 1];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('dataGetContactPendingEventsConsidersCampaignPublishUpAndDown')]
+    #[DataProvider('dataGetContactPendingEventsConsidersCampaignPublishUpAndDown')]
     public function testGetContactPendingEventsConsidersCampaignPublishUpAndDown(?\DateTime $publishUp, ?\DateTime $publishDown, int $expectedCount): void
     {
         /** @var EventRepository $repository */

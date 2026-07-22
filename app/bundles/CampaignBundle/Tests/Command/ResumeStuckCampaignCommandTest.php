@@ -8,6 +8,7 @@ use Mautic\CampaignBundle\Command\ResumeStuckCampaignCommand;
 use Mautic\CampaignBundle\Entity\Campaign;
 use Mautic\CampaignBundle\Entity\Event;
 use Mautic\CampaignBundle\Entity\LeadEventLog;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\RuntimeException;
 
@@ -269,7 +270,7 @@ final class ResumeStuckCampaignCommandTest extends AbstractCampaignCommand
     /**
      * Test executing the command with a linear campaign with manually removed contacts.
      */
-    #[\PHPUnit\Framework\Attributes\RunInSeparateProcess]
+    #[RunInSeparateProcess]
     public function testCampaignWithManuallyRemovedContacts(): void
     {
         $campaign = $this->createCampaign('Campaign with Manually Removed Contacts');
@@ -365,7 +366,7 @@ final class ResumeStuckCampaignCommandTest extends AbstractCampaignCommand
     /**
      * Test executing the command with a linear campaign with deleted Events.
      */
-    #[\PHPUnit\Framework\Attributes\RunInSeparateProcess]
+    #[RunInSeparateProcess]
     public function testCampaignWithDeletedEvents(): void
     {
         $campaign = $this->createCampaign('Campaign with Deleted Events');

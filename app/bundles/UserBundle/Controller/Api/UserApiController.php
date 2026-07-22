@@ -46,10 +46,8 @@ class UserApiController extends CommonApiController
         ModelFactory $modelFactory,
         EventDispatcherInterface $dispatcher,
         CoreParametersHelper $coreParametersHelper,
+        UserModel $userModel,
     ) {
-        $userModel     = $modelFactory->getModel('user.user');
-        \assert($userModel instanceof UserModel);
-
         $this->model            = $userModel;
         $this->entityClass      = User::class;
         $this->entityNameOne    = 'user';
@@ -153,7 +151,7 @@ class UserApiController extends CommonApiController
      * @param array<mixed>         $parameters
      * @param string               $action
      */
-    protected function preSaveEntity(&$entity, $form, $parameters, $action = 'edit')
+    protected function preSaveEntity(&$entity, $form, $parameters, $action = 'edit'): void
     {
         switch ($action) {
             case 'new':

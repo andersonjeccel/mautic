@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Mautic\CoreBundle\Entity\CommonRepository;
-use MauticRector\UnserializeToSerializerDecodeRector;
 use Rector\CodeQuality\Rector\ClassMethod\OptionalParametersAfterRequiredRector;
 use Rector\CodeQuality\Rector\FunctionLike\SimplifyUselessVariableRector;
 use Rector\Config\RectorConfig;
@@ -13,6 +12,7 @@ use Rector\Symfony\CodeQuality\Rector\ClassMethod\ResponseReturnTypeControllerAc
 use Rector\TypeDeclaration\Rector\ClassMethod\ReturnTypeFromReturnNewRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\StringReturnTypeFromStrictStringReturnsRector;
 use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromAssignsRector;
+use Utils\Rector\UnserializeToSerializerDecodeRector;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -38,8 +38,8 @@ return RectorConfig::configure()
         // other objects
         CommonRepository::class,
         Mautic\CoreBundle\Security\Permissions\AbstractPermissions::class,
-        Mautic\PluginBundle\Integration\AbstractIntegration::class,
         MauticPlugin\MauticCrmBundle\Integration\CrmAbstractIntegration::class,
+        Mautic\PluginBundle\Integration\AbstractIntegration::class,
     ])
     ->withRules([
         Rector\PHPUnit\CodeQuality\Rector\ClassMethod\AssertClassToThisAssertRector::class,
@@ -75,15 +75,8 @@ return RectorConfig::configure()
             __DIR__.'/app/bundles/CoreBundle/Controller/AbstractFormController.php',
             __DIR__.'/app/bundles/CoreBundle/Controller/CommonController.php',
         ],
-
-        Rector\CodeQuality\Rector\If_\CombineIfRector::class,
-        Rector\CodeQuality\Rector\If_\ExplicitBoolCompareRector::class,
-
-        Rector\TypeDeclaration\Rector\ClassMethod\ReturnTypeFromGetRepositoryDocblockRector::class => [
-            // a getRepository() override
-            __DIR__.'/app/bundles/LeadBundle/Model/TagModel.php',
-            // list lead vs lead list diff
-            __DIR__.'/app/bundles/LeadBundle/Model/ListModel.php',
+        Rector\TypeDeclaration\Rector\ClassMethod\ScalarParamTypeByMethodCallTypeRector::class => [
+            __DIR__.'/app/bundles/PageBundle/Model/TrackableModel.php',
         ],
 
         Rector\Php81\Rector\FuncCall\NullToStrictStringFuncCallArgRector::class,
@@ -97,7 +90,6 @@ return RectorConfig::configure()
 
         // too many changes
         Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector::class,
-        Rector\CodeQuality\Rector\If_\SimplifyIfElseToTernaryRector::class,
 
         // Avoiding breaking BC breaks with forced return types in public methods
         ReturnTypeFromReturnNewRector::class => [
@@ -112,8 +104,6 @@ return RectorConfig::configure()
             // test fixture
             __DIR__.'/app/bundles/CoreBundle/Tests/Unit/Doctrine/ArrayTypeTest.php',
         ],
-
-        Rector\CodeQuality\Rector\If_\ObjectExplicitBoolCompareRector::class,
 
         StringReturnTypeFromStrictStringReturnsRector::class => [
             __DIR__.'/app/bundles/CoreBundle/Entity/FormEntity.php',

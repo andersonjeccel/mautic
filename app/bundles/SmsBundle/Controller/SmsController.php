@@ -22,12 +22,17 @@ class SmsController extends FormController
 {
     use EntityContactsTrait;
 
+    private AuditLogModel $auditLogModel;
+
     private SmsModel $smsModel;
 
     #[Required]
-    public function autowire(SmsModel $smsModel): void
-    {
+    public function autowireSmsController(
+        SmsModel $smsModel,
+        AuditLogModel $auditLogModel,
+    ): void {
         $this->smsModel = $smsModel;
+        $this->auditLogModel = $auditLogModel;
     }
 
     /**
@@ -181,11 +186,7 @@ class SmsController extends FormController
         ) {
             $this->throwAccessDenied();
         }
-
-        // Audit Log
-        $auditLogModel = $this->getModel('core.auditlog');
-        \assert($auditLogModel instanceof AuditLogModel);
-        $logs = $auditLogModel->getLogForObject('sms', $sms->getId(), $sms->getDateAdded());
+        $logs = $this->auditLogModel->getLogForObject('sms', $sms->getId(), $sms->getDateAdded());
 
         // Init the date range filter form
         $dateRangeValues = $request->query->all()['daterange'] ?? $request->request->all()['daterange'] ?? [];
