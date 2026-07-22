@@ -215,27 +215,35 @@ abstract class AbstractCompanyRelationValueFilterQueryBuilder extends ComplexRel
 
     private function getIncludingAllExpression(QueryBuilder $subQueryBuilder, ContactSegmentFilter $filter, mixed $filterParametersHolder, string $companyAlias): CompositeExpression|string
     {
-        if (is_array($filterParametersHolder) && count($filterParametersHolder) > 1) {
-            return $subQueryBuilder->expr()->and('1 = 0');
+        if (is_array($filterParametersHolder)) {
+            if ([] === $filterParametersHolder || count($filterParametersHolder) > 1) {
+                return $subQueryBuilder->expr()->and('1 = 0');
+            }
+
+            $filterParametersHolder = $filterParametersHolder[0];
         }
 
         return $subQueryBuilder->expr()->eq(
             $this->getCompanyField($filter, $companyAlias),
-            is_array($filterParametersHolder) ? $filterParametersHolder[0] : $filterParametersHolder
+            $filterParametersHolder
         );
     }
 
     private function getExcludingAllExpression(QueryBuilder $subQueryBuilder, ContactSegmentFilter $filter, mixed $filterParametersHolder, string $companyAlias): CompositeExpression
     {
-        if (is_array($filterParametersHolder) && count($filterParametersHolder) > 1) {
-            return $subQueryBuilder->expr()->and('1 = 1');
+        if (is_array($filterParametersHolder)) {
+            if ([] === $filterParametersHolder || count($filterParametersHolder) > 1) {
+                return $subQueryBuilder->expr()->and('1 = 1');
+            }
+
+            $filterParametersHolder = $filterParametersHolder[0];
         }
 
         return $subQueryBuilder->expr()->or(
             $subQueryBuilder->expr()->isNull($this->getCompanyField($filter, $companyAlias)),
             $subQueryBuilder->expr()->neq(
                 $this->getCompanyField($filter, $companyAlias),
-                is_array($filterParametersHolder) ? $filterParametersHolder[0] : $filterParametersHolder
+                $filterParametersHolder
             )
         );
     }

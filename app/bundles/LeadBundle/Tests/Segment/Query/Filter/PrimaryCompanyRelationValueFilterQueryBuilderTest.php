@@ -196,6 +196,35 @@ final class PrimaryCompanyRelationValueFilterQueryBuilderTest extends AbstractRe
         $this->assertStringContainsString('(1 = 1)', (string) $queryBuilder->getDebugOutput());
     }
 
+    public function testApplyQueryHandlesEmptyIncludingAllValue(): void
+    {
+        $queryBuilder = $this->createQueryBuilder();
+
+        $this->randomParameter->method('generateRandomParameterName')->willReturnOnConsecutiveCalls(
+            'rel1',
+            'cmp1'
+        );
+
+        $this->queryBuilder->applyQuery($queryBuilder, $this->createFilter(OperatorOptions::INCLUDING_ALL, []));
+
+        $this->assertStringContainsString('(1 = 0)', (string) $queryBuilder->getDebugOutput());
+    }
+
+    public function testApplyQueryHandlesEmptyExcludingAllValue(): void
+    {
+        $queryBuilder = $this->createQueryBuilder();
+
+        $this->randomParameter->method('generateRandomParameterName')->willReturnOnConsecutiveCalls(
+            'rel1',
+            'cmp1',
+            'rel2'
+        );
+
+        $this->queryBuilder->applyQuery($queryBuilder, $this->createFilter(OperatorOptions::EXCLUDING_ALL, []));
+
+        $this->assertStringContainsString('(1 = 1)', (string) $queryBuilder->getDebugOutput());
+    }
+
     public function testApplyQuerySupportsEqualOperator(): void
     {
         $queryBuilder = $this->createQueryBuilder();

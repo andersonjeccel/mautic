@@ -17,9 +17,24 @@ class LoadLeadData extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        $today = new \DateTime();
-        $leads = CsvHelper::csv_to_array(__DIR__.'/fakeleaddata.csv');
+        $today     = new \DateTime();
+        $leads     = CsvHelper::csv_to_array(__DIR__.'/fakeleaddata.csv');
         $salesUser = $manager->getRepository(User::class)->findOneBy(['username' => 'sales']);
+        \assert($manager instanceof EntityManagerInterface);
+
+        /** @var array<int, Company> $managedCompanies */
+        $managedCompanies = [];
+        for ($companyIndex = 0; $companyIndex <= 3; ++$companyIndex) {
+            if (!$this->hasReference('company-'.$companyIndex)) {
+                continue;
+            }
+
+            $company = $this->getReference('company-'.$companyIndex);
+            \assert($company instanceof Company);
+            $managedCompany = $manager->getReference(Company::class, $company->getId());
+            \assert($managedCompany instanceof Company);
+            $managedCompanies[$companyIndex] = $managedCompany;
+        }
 
         foreach ($leads as $count => $l) {
             $key  = $count + 1;
@@ -40,29 +55,22 @@ class LoadLeadData extends AbstractFixture implements OrderedFixtureInterface
             }
 
             $manager->persist($lead);
-            $manager->flush();
 
             $this->setReference('lead-'.$count, $lead);
 
             // Assign to companies in a predictable way
             $lastCharacter = (int) substr($count, -1, 1);
-            if ($lastCharacter <= 3) {
-                if ($this->hasReference('company-'.$lastCharacter)) {
-                    $companyLead = new CompanyLead();
-                    $company     = $this->getReference('company-'.$lastCharacter);
-                    \assert($company instanceof Company);
-                    \assert($manager instanceof EntityManagerInterface);
-                    $managedCompany = $manager->getReference(Company::class, $company->getId());
-                    \assert($managedCompany instanceof Company);
-                    $companyLead->setLead($lead);
-                    $companyLead->setCompany($managedCompany);
-                    $companyLead->setDateAdded($today);
-                    $companyLead->setPrimary(true);
-                    $manager->persist($companyLead);
-                    $manager->flush();
-                }
+            if (isset($managedCompanies[$lastCharacter])) {
+                $companyLead = new CompanyLead();
+                $companyLead->setLead($lead);
+                $companyLead->setCompany($managedCompanies[$lastCharacter]);
+                $companyLead->setDateAdded($today);
+                $companyLead->setPrimary(true);
+                $manager->persist($companyLead);
             }
         }
+
+        $manager->flush();
     }
 
     public function getOrder(): int
