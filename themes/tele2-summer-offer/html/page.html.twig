@@ -3,8 +3,52 @@
 {% block content %}
   {# GrapesJS imports this block without the base theme stylesheet block. #}
   <style>
+   @font-face {
+    font-family: 'Tele2 Sans';
+    src: url('{{ getAssetUrl('themes/tele2-summer-offer/assets/fonts/Tele2Sans-Regular.woff2', null, null, true) }}') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+   }
+
+   @font-face {
+    font-family: 'Tele2 Sans';
+    src: url('{{ getAssetUrl('themes/tele2-summer-offer/assets/fonts/Tele2Sans-RegularItalic.woff2', null, null, true) }}') format('woff2');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+   }
+
+   @font-face {
+    font-family: 'Tele2 Serif';
+    src: url('{{ getAssetUrl('themes/tele2-summer-offer/assets/fonts/Tele2Serif-Text.woff2', null, null, true) }}') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+   }
+
+   @font-face {
+    font-family: 'Tele2 Serif';
+    src: url('{{ getAssetUrl('themes/tele2-summer-offer/assets/fonts/Tele2Serif-TextItalic.woff2', null, null, true) }}') format('woff2');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+   }
+
+   @font-face {
+    font-family: 'Tele2 Serif';
+    src: url('{{ getAssetUrl('themes/tele2-summer-offer/assets/fonts/Tele2Serif-TextBold.woff2', null, null, true) }}') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+   }
+
    .row {
     display: flex;
+   }
+
+   .contentpageDefaultLandingPageTemplate {
+    font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif;
    }
 
    .contentpageDefaultLandingPageTemplate .contentRoot {
@@ -71,8 +115,8 @@
     </div>
     <div class="row" style="align-items: flex-start; width: 100%; background-color: #fbd2b4;" role="presentation">
      <div width="100%" class="column columnDiv" style="width: 100%;vertical-align: top;display: inline-block;">
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 20px; padding-bottom: 10px; padding-left: 20px; word-break: break-word;" role="presentation">
-       <p style="color: rgb(51, 51, 51); font-family: Arial; font-size: 16px; font-weight: normal; margin: 0px; text-align: center;"><span style="font-size:16px;"><span style="font-family:Arial,Helvetica,sans-serif;">Behåll familjen hos oss</span></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 20px; padding-bottom: 10px; padding-left: 20px; word-break: break-word;" role="presentation">
+       <p style="color: rgb(51, 51, 51); font-family: 'Tele2 Sans', Arial; font-size: 16px; font-weight: normal; margin: 0px; text-align: center;"><span style="font-size:16px;"><span style="font-family:'Tele2 Sans',Arial,Helvetica,sans-serif;">Behåll familjen hos oss</span></span></p>
       </div>
      </div>
     </div>
@@ -85,20 +129,20 @@
     <div class="row" style="align-items: flex-start; width: 100%; background-color: #292435;" role="presentation">
      <div width="50%" class="column columnDiv" style="width: 50%;margin-right: 5px;margin-bottom: 5px;vertical-align: top;display: inline-block;">
       <div class="contentbuilder-landingpage-html" style="font-size: 14px; word-break: break-word;" role="presentation">
-       <div style="display:inline-block;background:#e0f685;padding:6px 14px;font-family:Arial,sans-serif;font-size:13px;font-weight:500;color:#1a1a1a;margin-left:50px;margin-top:60px;">
+       <div style="display:inline-block;background:#e0f685;padding:6px 14px;font-family:'Tele2 Sans',Arial,sans-serif;font-size:13px;font-weight:500;color:#1a1a1a;margin-left:50px;margin-top:60px;">
         Sommarerbjudande från Tele2 Företag
        </div>
       </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 20px; padding-bottom: 20px; padding-left: 50px; word-break: break-word;" role="presentation">
-       <p style="color:#333333;font-family:Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#fafafa;"><span style="font-family:Georgia,Times New Roman,Times,serif;"><span style="font-size:28px;">Mobilabonnemang till sommarpris för ditt företag</span></span></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 20px; padding-bottom: 20px; padding-left: 50px; word-break: break-word;" role="presentation">
+       <p style="color:#333333;font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#fafafa;"><span style="font-family:'Tele2 Serif',Georgia,Times New Roman,Times,serif;"><span style="font-size:28px;">Mobilabonnemang till sommarpris för ditt företag</span></span></span></p>
       </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px;  padding-right: 20px; padding-bottom: 20px; padding-left: 50px; word-break: break-word;" role="presentation">
-       <p style="color:#fafafa;font-family:Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#fafafa;"><span style="font-size:16px;"><span style="line-height:1.5;"><span style="font-family:Arial,Helvetica,sans-serif;">Hela sommaren, fram till 31 augusti, erbjuder vi Mobilt Obegränsat för 249 kr per abonnemang och månad. Fyll i dina uppgifter så hör vi av oss.</span></span></span></span><br> &nbsp;</p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px;  padding-right: 20px; padding-bottom: 20px; padding-left: 50px; word-break: break-word;" role="presentation">
+       <p style="color:#fafafa;font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#fafafa;"><span style="font-size:16px;"><span style="line-height:1.5;"><span style="font-family:'Tele2 Sans',Arial,Helvetica,sans-serif;">Hela sommaren, fram till 31 augusti, erbjuder vi Mobilt Obegränsat för 249 kr per abonnemang och månad. Fyll i dina uppgifter så hör vi av oss.</span></span></span></span><br> &nbsp;</p>
        <ul style="list-style:none;margin:0;padding:0;">
-        <li style="color:rgb(51,51,51);font-family:Arial;font-size:16px;font-weight:normal;margin:0 0 8px 0;padding-left:28px;position:relative;"><span style="color:#fafafa;"><span style="font-size:16px;"><span style="position: absolute; left: 0px; font-weight: 500;">✓</span><span style="font-family:Arial,Helvetica,sans-serif;">Mobilt Obegränsat 249 kr/mån</span></span></span></li>
-        <li style="color:rgb(51,51,51);font-family:Arial;font-size:16px;font-weight:normal;margin:0 0 8px 0;padding-left:28px;position:relative;"><span style="color:#fafafa;"><span style="font-size:16px;"><span style="position: absolute; left: 0px; font-weight: 500;">✓</span></span></span></li>
-        <li style="color:rgb(51,51,51);font-family:Arial;font-size:16px;font-weight:normal;margin:0 0 8px 0;padding-left:28px;position:relative;"><span style="color:#fafafa;"><span style="font-size:16px;"><span style="position: absolute; left: 0px; font-weight: 500;">✓</span><span style="font-family:Arial,Helvetica,sans-serif;">Lanseringserbjudandet på Ai-receptionist</span></span></span></li>
-        <li style="color:rgb(51,51,51);font-family:Arial;font-size:16px;font-weight:normal;margin:0 0 8px 0;padding-left:28px;position:relative;"><span style="color:#fafafa;"><span style="font-size:16px;"><span style="position: absolute; left: 0px; font-weight: 500;">✓</span><span style="font-family:Arial,Helvetica,sans-serif;">Erbjudandet gäller till och med 31 augusti 2026</span></span></span></li>
+        <li style="color:rgb(51,51,51);font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0 0 8px 0;padding-left:28px;position:relative;"><span style="color:#fafafa;"><span style="font-size:16px;"><span style="position: absolute; left: 0px; font-weight: 500;">✓</span><span style="font-family:'Tele2 Sans',Arial,Helvetica,sans-serif;">Mobilt Obegränsat 249 kr/mån</span></span></span></li>
+        <li style="color:rgb(51,51,51);font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0 0 8px 0;padding-left:28px;position:relative;"><span style="color:#fafafa;"><span style="font-size:16px;"><span style="position: absolute; left: 0px; font-weight: 500;">✓</span></span></span></li>
+        <li style="color:rgb(51,51,51);font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0 0 8px 0;padding-left:28px;position:relative;"><span style="color:#fafafa;"><span style="font-size:16px;"><span style="position: absolute; left: 0px; font-weight: 500;">✓</span><span style="font-family:'Tele2 Sans',Arial,Helvetica,sans-serif;">Lanseringserbjudandet på Ai-receptionist</span></span></span></li>
+        <li style="color:rgb(51,51,51);font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0 0 8px 0;padding-left:28px;position:relative;"><span style="color:#fafafa;"><span style="font-size:16px;"><span style="position: absolute; left: 0px; font-weight: 500;">✓</span><span style="font-family:'Tele2 Sans',Arial,Helvetica,sans-serif;">Erbjudandet gäller till och med 31 augusti 2026</span></span></span></li>
        </ul>
       </div>
      </div>
@@ -110,20 +154,20 @@
     <div class="row" style="align-items: flex-start; width: 100%;" role="presentation">
      <div width="50%" class="column columnDiv" style="width: 50%;margin-right: 5px;margin-bottom: 5px;vertical-align: top;display: inline-block;">
       <div class="contentbuilder-landingpage-html" style="font-size: 14px; word-break: break-word;" role="presentation">
-       <div style="display:inline-block;background:#e0f685;padding:6px 14px;font-family:Arial,sans-serif;font-size:13px;font-weight:500;color:#1a1a1a;margin-left:50px;margin-top:60px;">
+       <div style="display:inline-block;background:#e0f685;padding:6px 14px;font-family:'Tele2 Sans',Arial,sans-serif;font-size:13px;font-weight:500;color:#1a1a1a;margin-left:50px;margin-top:60px;">
         Sommarerbjudande från Tele2 Företag
        </div>
       </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 20px; padding-bottom: 20px; padding-left: 50px; word-break: break-word;" role="presentation">
-       <p style="color:#333333;font-family:Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#1a1a1a;"><span style="font-family:Georgia,Times New Roman,Times,serif;"><span style="font-size:28px;">Mobilabonnemang till sommarpris för ditt företag</span></span></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 20px; padding-bottom: 20px; padding-left: 50px; word-break: break-word;" role="presentation">
+       <p style="color:#333333;font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#1a1a1a;"><span style="font-family:'Tele2 Serif',Georgia,Times New Roman,Times,serif;"><span style="font-size:28px;">Mobilabonnemang till sommarpris för ditt företag</span></span></span></p>
       </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px;  padding-right: 20px; padding-bottom: 20px; padding-left: 50px; word-break: break-word;" role="presentation">
-       <p style="color:#333333;font-family:Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="line-height:1.5;"><span style="font-family:Arial,Helvetica,sans-serif;">Hela sommaren, fram till 31 augusti, erbjuder vi Mobilt Obegränsat för 249 kr per abonnemang och månad. Fyll i dina uppgifter så hör vi av oss.</span></span></span></span><br> &nbsp;</p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px;  padding-right: 20px; padding-bottom: 20px; padding-left: 50px; word-break: break-word;" role="presentation">
+       <p style="color:#333333;font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="line-height:1.5;"><span style="font-family:'Tele2 Sans',Arial,Helvetica,sans-serif;">Hela sommaren, fram till 31 augusti, erbjuder vi Mobilt Obegränsat för 249 kr per abonnemang och månad. Fyll i dina uppgifter så hör vi av oss.</span></span></span></span><br> &nbsp;</p>
        <ul style="list-style:none;margin:0;padding:0;">
-        <li style="color:rgb(51,51,51);font-family:Arial;font-size:16px;font-weight:normal;margin:0 0 8px 0;padding-left:28px;position:relative;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="position: absolute; left: 0px; font-weight: 500;">✓</span><span style="font-family:Arial,Helvetica,sans-serif;">Mobilt Obegränsat 249 kr/mån</span></span></span></li>
-        <li style="color:rgb(51,51,51);font-family:Arial;font-size:16px;font-weight:normal;margin:0 0 8px 0;padding-left:28px;position:relative;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="position: absolute; left: 0px; font-weight: 500;">✓</span></span></span></li>
-        <li style="color:rgb(51,51,51);font-family:Arial;font-size:16px;font-weight:normal;margin:0 0 8px 0;padding-left:28px;position:relative;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="position: absolute; left: 0px; font-weight: 500;">✓</span><span style="font-family:Arial,Helvetica,sans-serif;">Lanseringserbjudandet på Ai-receptionist</span></span></span></li>
-        <li style="color:rgb(51,51,51);font-family:Arial;font-size:16px;font-weight:normal;margin:0 0 8px 0;padding-left:28px;position:relative;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="position: absolute; left: 0px; font-weight: 500;">✓</span><span style="font-family:Arial,Helvetica,sans-serif;">Erbjudandet gäller till och med 31 augusti 2026</span></span></span></li>
+        <li style="color:rgb(51,51,51);font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0 0 8px 0;padding-left:28px;position:relative;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="position: absolute; left: 0px; font-weight: 500;">✓</span><span style="font-family:'Tele2 Sans',Arial,Helvetica,sans-serif;">Mobilt Obegränsat 249 kr/mån</span></span></span></li>
+        <li style="color:rgb(51,51,51);font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0 0 8px 0;padding-left:28px;position:relative;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="position: absolute; left: 0px; font-weight: 500;">✓</span></span></span></li>
+        <li style="color:rgb(51,51,51);font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0 0 8px 0;padding-left:28px;position:relative;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="position: absolute; left: 0px; font-weight: 500;">✓</span><span style="font-family:'Tele2 Sans',Arial,Helvetica,sans-serif;">Lanseringserbjudandet på Ai-receptionist</span></span></span></li>
+        <li style="color:rgb(51,51,51);font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0 0 8px 0;padding-left:28px;position:relative;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="position: absolute; left: 0px; font-weight: 500;">✓</span><span style="font-family:'Tele2 Sans',Arial,Helvetica,sans-serif;">Erbjudandet gäller till och med 31 augusti 2026</span></span></span></li>
        </ul>
       </div>
      </div>
@@ -135,19 +179,19 @@
     <div class="row" style="align-items: flex-start; width: 100%; background-color: #292435;" role="presentation">
      <div width="50%" class="column columnDiv" style="width: 50%;margin-right: 5px;margin-bottom: 5px;vertical-align: top;display: inline-block;">
       <div class="contentbuilder-landingpage-html" style="font-size: 14px; word-break: break-word;" role="presentation">
-       <div style="position: relative; width: 100%; overflow: hidden; padding-top: 56.25%; text-align: center; font-family: Salesforce Sans; box-sizing: border-box;">
+       <div style="position: relative; width: 100%; overflow: hidden; padding-top: 56.25%; text-align: center; font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; box-sizing: border-box;">
         <iframe width="560" height="315" src="https://www.youtube.com/embed/ORNhz9scVt4?si=hM-H4q2UTdRS7tFI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="position:absolute;top:0;left:0;bottom:0;right:0;width:100%;height:100%;"></iframe>
        </div>
       </div>
      </div>
      <div width="50%" class="column columnDiv" style="width: 50%;margin-right: 5px;margin-bottom: 5px;vertical-align: top;display: inline-block;">
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 50px; padding-right: 20px; padding-bottom: 20px; padding-left: 50px; word-break: break-word;" role="presentation">
-       <p style="color:#333333;font-family:Arial;font-size:16px;font-weight:normal;margin:0;"><span style="line-height:1.5;"><span style="color:#fafafa;"><span style="font-family:Georgia,Times New Roman,Times,serif;"><span style="font-size:28px;">Webbinarium:<br> Varje samtal är en insikt</span></span></span></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 50px; padding-right: 20px; padding-bottom: 20px; padding-left: 50px; word-break: break-word;" role="presentation">
+       <p style="color:#333333;font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0;"><span style="line-height:1.5;"><span style="color:#fafafa;"><span style="font-family:'Tele2 Serif',Georgia,Times New Roman,Times,serif;"><span style="font-size:28px;">Webbinarium:<br> Varje samtal är en insikt</span></span></span></span></p>
       </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px;  padding-right: 20px; padding-bottom: 20px; padding-left: 50px; word-break: break-word;" role="presentation">
-       <p style="color:#333333;font-family:Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#fafafa;"><span style="font-size:18px;">Hur ai ger dig insikter från varje konversation – inte bara de som svarar på enkäten</span></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px;  padding-right: 20px; padding-bottom: 20px; padding-left: 50px; word-break: break-word;" role="presentation">
+       <p style="color:#333333;font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#fafafa;"><span style="font-size:18px;">Hur ai ger dig insikter från varje konversation – inte bara de som svarar på enkäten</span></span></p>
       </div>
-      <div style="text-align:left; padding-top: 20px;padding-right: 20px;padding-bottom: 20px;padding-left: 50px;"><a href="https://www.tele2.se/foretag/vaxel/ai-receptionist" style="text-align:center;margin:0; font-family:Arial, Helvetica, sans-serif; font-size:16px; color:#292435;font-weight:normal;font-style:normal;" target="_blank">
+      <div style="text-align:left; padding-top: 20px;padding-right: 20px;padding-bottom: 20px;padding-left: 50px;"><a href="https://www.tele2.se/foretag/vaxel/ai-receptionist" style="text-align:center;margin:0; font-family:'Tele2 Sans',Arial, Helvetica, sans-serif; font-size:16px; color:#292435;font-weight:normal;font-style:normal;" target="_blank">
         <div style="word-break:break-word;  background-color:#fafafa; display: inline-block; padding-top: 13px;padding-right: 20px;padding-bottom: 13px;padding-left: 20px; border:0px solid #292435; border-radius:100px; box-sizing: border-box; text-decoration:none;">
          Läs mer om Tele2 Ai-receptionist
         </div></a>
@@ -156,16 +200,16 @@
     </div>
     <div class="row" style="align-items: flex-start; width: 100%;" role="presentation">
      <div width="50%" class="column columnDiv" style="width: 50%;margin-right: 5px;margin-bottom: 5px;vertical-align: top;display: inline-block;">
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 30px; padding-right: 20px;  padding-left: 20px; word-break: break-word;" role="presentation">
-       <p><span style="color:#1a1a1a;"><font face="Georgia, Times New Roman, Times, serif"><span style="font-size: 22px;">Ditt erbjudande</span></font></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 30px; padding-right: 20px;  padding-left: 20px; word-break: break-word;" role="presentation">
+       <p><span style="color:#1a1a1a;"><font face="Tele2 Serif, Georgia, Times New Roman, Times, serif"><span style="font-size: 22px;">Ditt erbjudande</span></font></span></p>
       </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 30px; padding-right: 30px; padding-bottom: 10px; padding-left: 30px; word-break: break-word;" role="presentation">
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 30px; padding-right: 30px; padding-bottom: 10px; padding-left: 30px; word-break: break-word;" role="presentation">
        <div style="border:1px solid #cccccc;padding:20px;">
-        <p><span style="color:#1a1a1a;"><font face="Georgia, Times New Roman, Times, serif"><span style="font-size: 22px;">Mobilabonnemang</span></font></span></p>
+        <p><span style="color:#1a1a1a;"><font face="Tele2 Serif, Georgia, Times New Roman, Times, serif"><span style="font-size: 22px;">Mobilabonnemang</span></font></span></p>
         <table>
          <tbody>
           <tr>
-           <td><p><span style="color:#1a1a1a;"><span style="font-family:Georgia,Times New Roman,Times,serif;"><span style="font-size: 36px;">Obegränsat</span></span></span></p><p><span style="font-size:22px;"><strong style=""><font color="#419952">249 kr/mån</font>&nbsp;</strong><span style="font-size:15px;color:#555555;">och abonnemang</span></span></p><p><span style="font-size:12px;color:#999999;">Kampanjpris&nbsp;· Gäller till och med 31 augusti 2026</span></p>
+           <td><p><span style="color:#1a1a1a;"><span style="font-family:'Tele2 Serif',Georgia,Times New Roman,Times,serif;"><span style="font-size: 36px;">Obegränsat</span></span></span></p><p><span style="font-size:22px;"><strong style=""><font color="#419952">249 kr/mån</font>&nbsp;</strong><span style="font-size:15px;color:#555555;">och abonnemang</span></span></p><p><span style="font-size:12px;color:#999999;">Kampanjpris&nbsp;· Gäller till och med 31 augusti 2026</span></p>
             <hr>
             <ul>
              <li><span style="color:#1a1a1a;"><span style="line-height:1.5;">Obegränsad surf, samtal och SMS i Sverige</span></span></li>
@@ -182,8 +226,8 @@
       </div>
      </div>
      <div width="50%" class="column columnDiv" style="width: 50%;margin-right: 5px;margin-bottom: 5px;vertical-align: top;display: inline-block;">
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 30px; padding-right: 40px;  padding-left: 20px; word-break: break-word;" role="presentation">
-       <p><span style="color:#1a1a1a;"><span style="line-height:1.15;"><font face="Georgia, Times New Roman, Times, serif"><span style="font-size: 22px;">Fyll i dina uppgifter så hör vi av oss inom kort och hittar rätt lösning för ditt företag.</span></font></span></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 30px; padding-right: 40px;  padding-left: 20px; word-break: break-word;" role="presentation">
+       <p><span style="color:#1a1a1a;"><span style="line-height:1.15;"><font face="Tele2 Serif, Georgia, Times New Roman, Times, serif"><span style="font-size: 22px;">Fyll i dina uppgifter så hör vi av oss inom kort och hittar rätt lösning för ditt företag.</span></font></span></span></p>
       </div>
       <div class="contentbuilder-landingpage-html" style="font-size: 14px; word-break: break-word;" role="presentation">
        <div>{form=INSERT_YOUR_ID_HERE}</div>
@@ -192,18 +236,18 @@
     </div>
     <div class="row" style="align-items: flex-start; width: 100%;" role="presentation">
      <div width="100%" class="column columnDiv" style="width: 100%;vertical-align: top;display: inline-block;">
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 30px; padding-right: 40px;  padding-left: 20px; word-break: break-word;" role="presentation">
-       <p style="text-align: center;"><span style="color:#1a1a1a;"><span style="line-height:1.15;"><font face="Georgia, Times New Roman, Times, serif"><span style="font-size: 22px;">Registrera dig nedan</span></font></span></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 30px; padding-right: 40px;  padding-left: 20px; word-break: break-word;" role="presentation">
+       <p style="text-align: center;"><span style="color:#1a1a1a;"><span style="line-height:1.15;"><font face="Tele2 Serif, Georgia, Times New Roman, Times, serif"><span style="font-size: 22px;">Registrera dig nedan</span></font></span></span></p>
       </div>
       <div class="contentbuilder-landingpage-html" style="font-size: 14px; word-break: break-word;" role="presentation">
        <div style="display: flex; justify-content: center;">
         <div>{form=INSERT_YOUR_ID_HERE}</div>
        </div>
       </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 30px; padding-right: 20px;  padding-left: 20px; word-break: break-word;" role="presentation">
-       <p style="text-align: center;"><span style="color:#1a1a1a;"><font face="Georgia, Times New Roman, Times, serif"><span style="font-size:22px">Det här får du ta del av under webbinariet</span></font></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 30px; padding-right: 20px;  padding-left: 20px; word-break: break-word;" role="presentation">
+       <p style="text-align: center;"><span style="color:#1a1a1a;"><font face="Tele2 Serif, Georgia, Times New Roman, Times, serif"><span style="font-size:22px">Det här får du ta del av under webbinariet</span></font></span></p>
       </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 120px; padding-bottom: 20px; padding-left: 120px; word-break: break-word;" role="presentation">
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 120px; padding-bottom: 20px; padding-left: 120px; word-break: break-word;" role="presentation">
        <table>
         <tbody>
          <tr>
@@ -221,10 +265,10 @@
     </div>
     <div class="row" style="align-items: flex-start; width: 100%;" role="presentation">
      <div width="50%" class="column columnDiv" style="width: 50%;margin-right: 5px;margin-bottom: 5px;vertical-align: top;display: inline-block;">
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 30px; padding-right: 20px;  padding-left: 20px; word-break: break-word;" role="presentation">
-       <p><span style="color:#1a1a1a;"><font face="Georgia, Times New Roman, Times, serif"><span style="font-size:22px">Det här får du ta del av under webbinariet</span></font></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 30px; padding-right: 20px;  padding-left: 20px; word-break: break-word;" role="presentation">
+       <p><span style="color:#1a1a1a;"><font face="Tele2 Serif, Georgia, Times New Roman, Times, serif"><span style="font-size:22px">Det här får du ta del av under webbinariet</span></font></span></p>
       </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
        <table>
         <tbody>
          <tr>
@@ -233,15 +277,15 @@
             <li><span style="color:#1a1a1a;"><span style="line-height:1.5;">Säkerställa att dina kunder alltid når dig – med tillåt- och neka-listor som sorterar bort störningarna</span></span></li>
             <li><span style="color:#1a1a1a;"><span style="line-height:1.5;">Automatisera bort säljsamtalen med en ai-receptionist som identifierar och hanterar oönskade samtal utan att störa din personal</span></span></li>
             <li><span style="color:#1a1a1a;"><span style="line-height:1.5;">Tänka rätt kring flödet – så att du minskar störningar utan att det påverkar kund- eller medborgarupplevelsen</span></span></li>
-           </ul><span style="color:#1a1a1a;"><span style="line-height:1.5;"><strong>Vem bör delta?</strong><br> Detta webbinarium är perfekt för dig som driver eller arbetar i ett mindre eller medelstort företag och vill maximera din produktivitet utan att kompromissa med kundservice. Det är dags att få tillbaka din värdefulla arbetstid!</span><br><br><span style="line-height:2;"><span style="font-family:Arial,Helvetica,sans-serif;"><span style="font-size:14px;"><strong>Medverkande:</strong></span></span></span><br><span style="line-height:2;"><span style="font-family:Arial,Helvetica,sans-serif;"><span style="font-size:14px;">Linda Ekener Mägi - Business Developer, Tele2<br> Markus Hedin - Special&nbsp;Sales, Tele2<br> Josefin Sterner - Leveransledare, Tele2</span></span></span></span></td>
+           </ul><span style="color:#1a1a1a;"><span style="line-height:1.5;"><strong>Vem bör delta?</strong><br> Detta webbinarium är perfekt för dig som driver eller arbetar i ett mindre eller medelstort företag och vill maximera din produktivitet utan att kompromissa med kundservice. Det är dags att få tillbaka din värdefulla arbetstid!</span><br><br><span style="line-height:2;"><span style="font-family:'Tele2 Sans',Arial,Helvetica,sans-serif;"><span style="font-size:14px;"><strong>Medverkande:</strong></span></span></span><br><span style="line-height:2;"><span style="font-family:'Tele2 Sans',Arial,Helvetica,sans-serif;"><span style="font-size:14px;">Linda Ekener Mägi - Business Developer, Tele2<br> Markus Hedin - Special&nbsp;Sales, Tele2<br> Josefin Sterner - Leveransledare, Tele2</span></span></span></span></td>
          </tr>
         </tbody>
        </table>
       </div>
      </div>
      <div width="50%" class="column columnDiv" style="width: 50%;margin-right: 5px;margin-bottom: 5px;vertical-align: top;display: inline-block;">
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 30px; padding-right: 40px;  padding-left: 20px; word-break: break-word;" role="presentation">
-       <p><span style="color:#1a1a1a;"><span style="line-height:1.15;"><font face="Georgia, Times New Roman, Times, serif"><span style="font-size: 22px;">Registrera dig för webbinariet</span></font></span></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 30px; padding-right: 40px;  padding-left: 20px; word-break: break-word;" role="presentation">
+       <p><span style="color:#1a1a1a;"><span style="line-height:1.15;"><font face="Tele2 Serif, Georgia, Times New Roman, Times, serif"><span style="font-size: 22px;">Registrera dig för webbinariet</span></font></span></span></p>
       </div>
       <div class="contentbuilder-landingpage-html" style="font-size: 14px; word-break: break-word;" role="presentation">
        <div>{form=INSERT_YOUR_ID_HERE}</div>
@@ -250,8 +294,8 @@
     </div>
     <div class="row" style="align-items: flex-start; width: 100%;" role="presentation">
      <div width="100%" class="column columnDiv" style="width: 100%;vertical-align: top;display: inline-block;">
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 30px; padding-right: 40px;  padding-left: 20px; word-break: break-word;" role="presentation">
-       <p style="text-align: center;"><span style="font-size:28px;"><span style="color:#1a1a1a;"><span style="line-height:1.15;"><font face="Georgia, Times New Roman, Times, serif">Internethastigheter</font></span></span></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 30px; padding-right: 40px;  padding-left: 20px; word-break: break-word;" role="presentation">
+       <p style="text-align: center;"><span style="font-size:28px;"><span style="color:#1a1a1a;"><span style="line-height:1.15;"><font face="Tele2 Serif, Georgia, Times New Roman, Times, serif">Internethastigheter</font></span></span></span></p>
       </div>
      </div>
     </div>
@@ -259,37 +303,37 @@
      <div width="33.33%" class="column columnDiv" style="width: 33.33%;margin-right: 5px;margin-bottom: 5px;vertical-align: top;display: inline-block;">
       <div style="font-size: 0; text-align: Center; padding-right: 20px; padding-left: 20px;"><img src="https://tele2sweden.cdn.salesforce-experience.com/cms/delivery/media/MC3FH56WNIUNDXDCB4DBGSOTOVQU?oid=00D5J000000EJMsUAO&amp;channelId=0ap5J0000004OHpQAM" alt width="100%" style="width: 100%; display: inline-block; border: none; max-width: 100%; object-fit: fill;">
       </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 40px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
-       <p style="color:#333333;font-family:Arial;font-size:16px;font-weight:normal;margin:0;"><span style="font-size:22px;"><span style="color:#1a1a1a;"><span style="font-family:Georgia,Times New Roman,Times,serif;">1 Gbit/s</span></span></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 40px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
+       <p style="color:#333333;font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0;"><span style="font-size:22px;"><span style="color:#1a1a1a;"><span style="font-family:'Tele2 Serif',Georgia,Times New Roman,Times,serif;">1 Gbit/s</span></span></span></p>
       </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
-       <p style="color:#333333;font-family:Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="font-family:Arial,Helvetica,sans-serif;">Vill du veta mer om hur våra kommunikationslösningar kan bidra till din verksamhet? Välkommen att fylla i kontaktformuläret så återkommer vi till dig.</span></span></span></p>
-      </div>
-     </div>
-     <div width="33.33%" class="column columnDiv" style="width: 33.33%;margin-right: 5px;margin-bottom: 5px;vertical-align: top;display: inline-block;">
-      <div style="font-size: 0; text-align: Center; padding-right: 20px; padding-left: 20px;"><img src="https://tele2sweden.cdn.salesforce-experience.com/cms/delivery/media/MC3FH56WNIUNDXDCB4DBGSOTOVQU?oid=00D5J000000EJMsUAO&amp;channelId=0ap5J0000004OHpQAM" alt width="100%" style="width: 100%; display: inline-block; border: none; max-width: 100%; object-fit: fill;">
-      </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 40px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
-       <p style="color:#333333;font-family:Arial;font-size:16px;font-weight:normal;margin:0;"><span style="font-size:22px;"><span style="color:#1a1a1a;"><span style="font-family:Georgia,Times New Roman,Times,serif;">5 Gbit/s</span></span></span></p>
-      </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
-       <p style="color:#333333;font-family:Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="font-family:Arial,Helvetica,sans-serif;">Vill du veta mer om hur våra kommunikationslösningar kan bidra till din verksamhet? Välkommen att fylla i kontaktformuläret så återkommer vi till dig.</span></span></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
+       <p style="color:#333333;font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="font-family:'Tele2 Sans',Arial,Helvetica,sans-serif;">Vill du veta mer om hur våra kommunikationslösningar kan bidra till din verksamhet? Välkommen att fylla i kontaktformuläret så återkommer vi till dig.</span></span></span></p>
       </div>
      </div>
      <div width="33.33%" class="column columnDiv" style="width: 33.33%;margin-right: 5px;margin-bottom: 5px;vertical-align: top;display: inline-block;">
       <div style="font-size: 0; text-align: Center; padding-right: 20px; padding-left: 20px;"><img src="https://tele2sweden.cdn.salesforce-experience.com/cms/delivery/media/MC3FH56WNIUNDXDCB4DBGSOTOVQU?oid=00D5J000000EJMsUAO&amp;channelId=0ap5J0000004OHpQAM" alt width="100%" style="width: 100%; display: inline-block; border: none; max-width: 100%; object-fit: fill;">
       </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 40px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
-       <p style="color:#333333;font-family:Arial;font-size:16px;font-weight:normal;margin:0;"><span style="font-size:22px;"><span style="color:#1a1a1a;"><span style="font-family:Georgia,Times New Roman,Times,serif;">10 Gbit/s</span></span></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 40px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
+       <p style="color:#333333;font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0;"><span style="font-size:22px;"><span style="color:#1a1a1a;"><span style="font-family:'Tele2 Serif',Georgia,Times New Roman,Times,serif;">5 Gbit/s</span></span></span></p>
       </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
-       <p style="color:#333333;font-family:Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="font-family:Arial,Helvetica,sans-serif;">Vill du veta mer om hur våra kommunikationslösningar kan bidra till din verksamhet? Välkommen att fylla i kontaktformuläret så återkommer vi till dig.</span></span></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
+       <p style="color:#333333;font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="font-family:'Tele2 Sans',Arial,Helvetica,sans-serif;">Vill du veta mer om hur våra kommunikationslösningar kan bidra till din verksamhet? Välkommen att fylla i kontaktformuläret så återkommer vi till dig.</span></span></span></p>
+      </div>
+     </div>
+     <div width="33.33%" class="column columnDiv" style="width: 33.33%;margin-right: 5px;margin-bottom: 5px;vertical-align: top;display: inline-block;">
+      <div style="font-size: 0; text-align: Center; padding-right: 20px; padding-left: 20px;"><img src="https://tele2sweden.cdn.salesforce-experience.com/cms/delivery/media/MC3FH56WNIUNDXDCB4DBGSOTOVQU?oid=00D5J000000EJMsUAO&amp;channelId=0ap5J0000004OHpQAM" alt width="100%" style="width: 100%; display: inline-block; border: none; max-width: 100%; object-fit: fill;">
+      </div>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 40px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
+       <p style="color:#333333;font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0;"><span style="font-size:22px;"><span style="color:#1a1a1a;"><span style="font-family:'Tele2 Serif',Georgia,Times New Roman,Times,serif;">10 Gbit/s</span></span></span></p>
+      </div>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
+       <p style="color:#333333;font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="font-family:'Tele2 Sans',Arial,Helvetica,sans-serif;">Vill du veta mer om hur våra kommunikationslösningar kan bidra till din verksamhet? Välkommen att fylla i kontaktformuläret så återkommer vi till dig.</span></span></span></p>
       </div>
      </div>
     </div>
     <div class="row" style="align-items: flex-start; width: 100%;" role="presentation">
      <div width="100%" class="column columnDiv" style="width: 100%;vertical-align: top;display: inline-block;">
-      <div style="text-align:center; padding-top: 10px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;"><a href="https://www.tele2.se/foretag/vaxel/ai-receptionist" style="text-align:center;margin:0; font-family:Arial, Helvetica, sans-serif; font-size:16px; color:#fafafa;font-weight:normal;font-style:normal;" target="_blank">
+      <div style="text-align:center; padding-top: 10px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;"><a href="https://www.tele2.se/foretag/vaxel/ai-receptionist" style="text-align:center;margin:0; font-family:'Tele2 Sans',Arial, Helvetica, sans-serif; font-size:16px; color:#fafafa;font-weight:normal;font-style:normal;" target="_blank">
         <div style="word-break:break-word;  background-color:#292435; display: inline-block; padding-top: 13px;padding-right: 20px;padding-bottom: 13px;padding-left: 20px; border:0px solid #292435; border-radius:100px; box-sizing: border-box; text-decoration:none;">
          Signa upp dig här
         </div></a>
@@ -297,8 +341,8 @@
       <div class="contentbuilder-landingpage-html" style="font-size: 14px; word-break: break-word;" role="presentation">
        <hr style="border: 0; border-top: 2px solid #cccccc; margin: 40px 0;">
       </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 30px; padding-right: 40px;  padding-left: 20px; word-break: break-word;" role="presentation">
-       <p style="text-align: center;"><span style="font-size:28px;"><span style="color:#1a1a1a;"><span style="line-height:1.15;"><font face="Georgia, Times New Roman, Times, serif">Internethastigheter</font></span></span></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 30px; padding-right: 40px;  padding-left: 20px; word-break: break-word;" role="presentation">
+       <p style="text-align: center;"><span style="font-size:28px;"><span style="color:#1a1a1a;"><span style="line-height:1.15;"><font face="Tele2 Serif, Georgia, Times New Roman, Times, serif">Internethastigheter</font></span></span></span></p>
       </div>
      </div>
     </div>
@@ -306,47 +350,47 @@
      <div width="25%" class="column columnDiv" style="width: 25%;margin-right: 5px;margin-bottom: 5px;vertical-align: top;display: inline-block;">
       <div style="font-size: 0; text-align: Center; padding-right: 20px; padding-left: 20px;"><img src="https://tele2sweden.cdn.salesforce-experience.com/cms/delivery/media/MC3FH56WNIUNDXDCB4DBGSOTOVQU?oid=00D5J000000EJMsUAO&amp;channelId=0ap5J0000004OHpQAM" alt width="100%" style="width: 100%; display: inline-block; border: none; max-width: 100%; object-fit: fill;">
       </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 40px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
-       <p style="color:#333333;font-family:Arial;font-size:16px;font-weight:normal;margin:0;"><span style="font-size:22px;"><span style="color:#1a1a1a;"><span style="font-family:Georgia,Times New Roman,Times,serif;">1 Gbit/s</span></span></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 40px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
+       <p style="color:#333333;font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0;"><span style="font-size:22px;"><span style="color:#1a1a1a;"><span style="font-family:'Tele2 Serif',Georgia,Times New Roman,Times,serif;">1 Gbit/s</span></span></span></p>
       </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
-       <p style="color:#333333;font-family:Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="font-family:Arial,Helvetica,sans-serif;">Vill du veta mer om hur våra kommunikationslösningar kan bidra till din verksamhet? Välkommen att fylla i kontaktformuläret så återkommer vi till dig.</span></span></span></p>
-      </div>
-     </div>
-     <div width="25%" class="column columnDiv" style="width: 25%;margin-right: 5px;margin-bottom: 5px;vertical-align: top;display: inline-block;">
-      <div style="font-size: 0; text-align: Center; padding-right: 20px; padding-left: 20px;"><img src="https://tele2sweden.cdn.salesforce-experience.com/cms/delivery/media/MC3FH56WNIUNDXDCB4DBGSOTOVQU?oid=00D5J000000EJMsUAO&amp;channelId=0ap5J0000004OHpQAM" alt width="100%" style="width: 100%; display: inline-block; border: none; max-width: 100%; object-fit: fill;">
-      </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 40px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
-       <p style="color:#333333;font-family:Arial;font-size:16px;font-weight:normal;margin:0;"><span style="font-size:22px;"><span style="color:#1a1a1a;"><span style="font-family:Georgia,Times New Roman,Times,serif;">1 Gbit/s</span></span></span></p>
-      </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
-       <p style="color:#333333;font-family:Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="font-family:Arial,Helvetica,sans-serif;">Vill du veta mer om hur våra kommunikationslösningar kan bidra till din verksamhet? Välkommen att fylla i kontaktformuläret så återkommer vi till dig.</span></span></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
+       <p style="color:#333333;font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="font-family:'Tele2 Sans',Arial,Helvetica,sans-serif;">Vill du veta mer om hur våra kommunikationslösningar kan bidra till din verksamhet? Välkommen att fylla i kontaktformuläret så återkommer vi till dig.</span></span></span></p>
       </div>
      </div>
      <div width="25%" class="column columnDiv" style="width: 25%;margin-right: 5px;margin-bottom: 5px;vertical-align: top;display: inline-block;">
       <div style="font-size: 0; text-align: Center; padding-right: 20px; padding-left: 20px;"><img src="https://tele2sweden.cdn.salesforce-experience.com/cms/delivery/media/MC3FH56WNIUNDXDCB4DBGSOTOVQU?oid=00D5J000000EJMsUAO&amp;channelId=0ap5J0000004OHpQAM" alt width="100%" style="width: 100%; display: inline-block; border: none; max-width: 100%; object-fit: fill;">
       </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 40px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
-       <p style="color:#333333;font-family:Arial;font-size:16px;font-weight:normal;margin:0;"><span style="font-size:22px;"><span style="color:#1a1a1a;"><span style="font-family:Georgia,Times New Roman,Times,serif;">1 Gbit/s</span></span></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 40px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
+       <p style="color:#333333;font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0;"><span style="font-size:22px;"><span style="color:#1a1a1a;"><span style="font-family:'Tele2 Serif',Georgia,Times New Roman,Times,serif;">1 Gbit/s</span></span></span></p>
       </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
-       <p style="color:#333333;font-family:Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="font-family:Arial,Helvetica,sans-serif;">Vill du veta mer om hur våra kommunikationslösningar kan bidra till din verksamhet? Välkommen att fylla i kontaktformuläret så återkommer vi till dig.</span></span></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
+       <p style="color:#333333;font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="font-family:'Tele2 Sans',Arial,Helvetica,sans-serif;">Vill du veta mer om hur våra kommunikationslösningar kan bidra till din verksamhet? Välkommen att fylla i kontaktformuläret så återkommer vi till dig.</span></span></span></p>
       </div>
      </div>
      <div width="25%" class="column columnDiv" style="width: 25%;margin-right: 5px;margin-bottom: 5px;vertical-align: top;display: inline-block;">
       <div style="font-size: 0; text-align: Center; padding-right: 20px; padding-left: 20px;"><img src="https://tele2sweden.cdn.salesforce-experience.com/cms/delivery/media/MC3FH56WNIUNDXDCB4DBGSOTOVQU?oid=00D5J000000EJMsUAO&amp;channelId=0ap5J0000004OHpQAM" alt width="100%" style="width: 100%; display: inline-block; border: none; max-width: 100%; object-fit: fill;">
       </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 40px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
-       <p style="color:#333333;font-family:Arial;font-size:16px;font-weight:normal;margin:0;"><span style="font-size:22px;"><span style="color:#1a1a1a;"><span style="font-family:Georgia,Times New Roman,Times,serif;">1 Gbit/s</span></span></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 40px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
+       <p style="color:#333333;font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0;"><span style="font-size:22px;"><span style="color:#1a1a1a;"><span style="font-family:'Tele2 Serif',Georgia,Times New Roman,Times,serif;">1 Gbit/s</span></span></span></p>
       </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
-       <p style="color:#333333;font-family:Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="font-family:Arial,Helvetica,sans-serif;">Vill du veta mer om hur våra kommunikationslösningar kan bidra till din verksamhet? Välkommen att fylla i kontaktformuläret så återkommer vi till dig.</span></span></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
+       <p style="color:#333333;font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="font-family:'Tele2 Sans',Arial,Helvetica,sans-serif;">Vill du veta mer om hur våra kommunikationslösningar kan bidra till din verksamhet? Välkommen att fylla i kontaktformuläret så återkommer vi till dig.</span></span></span></p>
+      </div>
+     </div>
+     <div width="25%" class="column columnDiv" style="width: 25%;margin-right: 5px;margin-bottom: 5px;vertical-align: top;display: inline-block;">
+      <div style="font-size: 0; text-align: Center; padding-right: 20px; padding-left: 20px;"><img src="https://tele2sweden.cdn.salesforce-experience.com/cms/delivery/media/MC3FH56WNIUNDXDCB4DBGSOTOVQU?oid=00D5J000000EJMsUAO&amp;channelId=0ap5J0000004OHpQAM" alt width="100%" style="width: 100%; display: inline-block; border: none; max-width: 100%; object-fit: fill;">
+      </div>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 40px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
+       <p style="color:#333333;font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0;"><span style="font-size:22px;"><span style="color:#1a1a1a;"><span style="font-family:'Tele2 Serif',Georgia,Times New Roman,Times,serif;">1 Gbit/s</span></span></span></p>
+      </div>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
+       <p style="color:#333333;font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="font-family:'Tele2 Sans',Arial,Helvetica,sans-serif;">Vill du veta mer om hur våra kommunikationslösningar kan bidra till din verksamhet? Välkommen att fylla i kontaktformuläret så återkommer vi till dig.</span></span></span></p>
       </div>
      </div>
     </div>
     <div class="row" style="align-items: flex-start; width: 100%;" role="presentation">
      <div width="100%" class="column columnDiv" style="width: 100%;vertical-align: top;display: inline-block;">
-      <div style="text-align:center; padding-top: 10px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;"><a href="https://www.tele2.se/foretag/vaxel/ai-receptionist" style="text-align:center;margin:0; font-family:Arial, Helvetica, sans-serif; font-size:16px; color:#fafafa;font-weight:normal;font-style:normal;" target="_blank">
+      <div style="text-align:center; padding-top: 10px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;"><a href="https://www.tele2.se/foretag/vaxel/ai-receptionist" style="text-align:center;margin:0; font-family:'Tele2 Sans',Arial, Helvetica, sans-serif; font-size:16px; color:#fafafa;font-weight:normal;font-style:normal;" target="_blank">
         <div style="word-break:break-word;  background-color:#292435; display: inline-block; padding-top: 13px;padding-right: 20px;padding-bottom: 13px;padding-left: 20px; border:0px solid #292435; border-radius:100px; box-sizing: border-box; text-decoration:none;">
          Signa upp dig här
         </div></a>
@@ -359,12 +403,12 @@
       </div>
      </div>
      <div width="50%" class="column columnDiv" style="width: 50%;margin-right: 10px;margin-bottom: 10px;vertical-align: top;display: inline-block;">
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 20px; padding-right: 20px; padding-bottom: 10px; padding-left: 20px; word-break: break-word;" role="presentation">
-       <p><span style="color:#1a1a1a;"><font face="Georgia, Times New Roman, Times, serif"><span style="font-size: 22px;">Receptionisten som alltid svarar</span></font></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 20px; padding-right: 20px; padding-bottom: 10px; padding-left: 20px; word-break: break-word;" role="presentation">
+       <p><span style="color:#1a1a1a;"><font face="Tele2 Serif, Georgia, Times New Roman, Times, serif"><span style="font-size: 22px;">Receptionisten som alltid svarar</span></font></span></p>
        <table>
         <tbody>
          <tr>
-          <td><p><span style="color:#1a1a1a;"><span style="font-family:Georgia,Times New Roman,Times,serif;"><span style="font-size: 36px;">Tele2 AI-receptionist</span></span></span></p><p><span style="font-size:22px;"><strong style=""><font color="#419952">0 kr</font>&nbsp;</strong><span style="font-size:15px;color:#555555;">startavgift (ord. 2 995 kr)</span></span></p><p><span style="font-size:22px;"><strong style=""><font color="#419952">1 599 kr/mån</font>&nbsp;</strong><span style="font-size:15px;color:#555555;">månadsavgift (ord. 1 999 kr/mån)</span></span></p><p><span style="font-size:12px;color:#999999;">Lanseringserbjudandet gäller till och med 31 augusti 2026</span></p>
+          <td><p><span style="color:#1a1a1a;"><span style="font-family:'Tele2 Serif',Georgia,Times New Roman,Times,serif;"><span style="font-size: 36px;">Tele2 AI-receptionist</span></span></span></p><p><span style="font-size:22px;"><strong style=""><font color="#419952">0 kr</font>&nbsp;</strong><span style="font-size:15px;color:#555555;">startavgift (ord. 2 995 kr)</span></span></p><p><span style="font-size:22px;"><strong style=""><font color="#419952">1 599 kr/mån</font>&nbsp;</strong><span style="font-size:15px;color:#555555;">månadsavgift (ord. 1 999 kr/mån)</span></span></p><p><span style="font-size:12px;color:#999999;">Lanseringserbjudandet gäller till och med 31 augusti 2026</span></p>
            <hr><p><span style="color:#1a1a1a;"><span style="line-height:1.5;">När samtalen kommer samtidigt, efter öppettid eller när medarbetarna är upptagna hjälper Tele2 Ai-receptionist till att ge kunderna ett professionellt bemötande direkt. Ai-receptionisten svarar, hanterar enklare ärenden och kopplar vidare när det behövs.</span></span></p>
            <ul>
             <li><span style="color:#1a1a1a;"><span style="line-height:1.5;">Aktiv dygnet runt, året om</span></span></li>
@@ -376,7 +420,7 @@
         </tbody>
        </table>
       </div>
-      <div style="text-align:left; padding-top: 10px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;"><a href="https://www.tele2.se/foretag/vaxel/ai-receptionist" style="text-align:center;margin:0; font-family:Arial, Helvetica, sans-serif; font-size:16px; color:#fafafa;font-weight:normal;font-style:normal;" target="_blank">
+      <div style="text-align:left; padding-top: 10px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;"><a href="https://www.tele2.se/foretag/vaxel/ai-receptionist" style="text-align:center;margin:0; font-family:'Tele2 Sans',Arial, Helvetica, sans-serif; font-size:16px; color:#fafafa;font-weight:normal;font-style:normal;" target="_blank">
         <div style="word-break:break-word;  background-color:#292435; display: inline-block; padding-top: 13px;padding-right: 20px;padding-bottom: 13px;padding-left: 20px; border:0px solid #292435; border-radius:100px; box-sizing: border-box; text-decoration:none;">
          Läs mer om Tele2 Ai-receptionist
         </div></a>
@@ -385,7 +429,7 @@
     </div>
     <div class="row" style="align-items: center; width: 100%;" role="presentation">
      <div width="100%" class="column columnDiv" style="width: 100%;vertical-align: middle;display: inline-block;">
-      <div style="text-align:center; padding-top: 10px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;"><a href="https://www.tele2.se/foretag/vaxel/ai-receptionist" style="text-align:center;margin:0; font-family:Arial, Helvetica, sans-serif; font-size:16px; color:#fafafa;font-weight:normal;font-style:normal;" target="_blank">
+      <div style="text-align:center; padding-top: 10px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;"><a href="https://www.tele2.se/foretag/vaxel/ai-receptionist" style="text-align:center;margin:0; font-family:'Tele2 Sans',Arial, Helvetica, sans-serif; font-size:16px; color:#fafafa;font-weight:normal;font-style:normal;" target="_blank">
         <div style="word-break:break-word; width:100%; background-color:#292435; display: inline-block; padding-top: 15px;padding-right: 20px;padding-bottom: 15px;padding-left: 20px; border:0px solid #292435; border-radius:100px; box-sizing: border-box; text-decoration:none;">
          Läs mer om Tele2 Ai-receptionist
         </div></a>
@@ -403,13 +447,13 @@
      <div width="50%" class="column columnDiv" style="width: 50%;margin-right: 5px;margin-bottom: 5px;vertical-align: top;display: inline-block;">
       <div style="font-size: 0; text-align: Center; padding-top: 20px; padding-right: 20px; padding-left: 20px;"><a href="https://www.tele2.se/foretag/vaxel/ai-receptionist" target="_blank"><img src="https://tele2sweden.cdn.salesforce-experience.com/cms/delivery/media/MCTYWHLVFH2VCTFO57BBLIPFTXLY?oid=00D5J000000EJMsUAO&amp;channelId=0ap5J0000004OHpQAM" alt width="100%" style="width: 100%; display: inline-block; border: none; max-width: 100%; object-fit: fill;"></a>
       </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 40px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
-       <p style="color:#333333;font-family:Arial;font-size:16px;font-weight:normal;margin:0;"><span style="font-size:22px;"><span style="color:#1a1a1a;"><span style="font-family:Georgia,Times New Roman,Times,serif;">1 Gbit/s</span></span></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 40px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
+       <p style="color:#333333;font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0;"><span style="font-size:22px;"><span style="color:#1a1a1a;"><span style="font-family:'Tele2 Serif',Georgia,Times New Roman,Times,serif;">1 Gbit/s</span></span></span></p>
       </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
-       <p style="color:#333333;font-family:Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="font-family:Arial,Helvetica,sans-serif;">Vill du veta mer om hur våra kommunikationslösningar kan bidra till din verksamhet? Välkommen att fylla i kontaktformuläret så återkommer vi till dig.</span></span></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
+       <p style="color:#333333;font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="font-family:'Tele2 Sans',Arial,Helvetica,sans-serif;">Vill du veta mer om hur våra kommunikationslösningar kan bidra till din verksamhet? Välkommen att fylla i kontaktformuläret så återkommer vi till dig.</span></span></span></p>
       </div>
-      <div style="text-align:left; padding-top: 10px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;"><a href="https://www.tele2.se/foretag/vaxel/ai-receptionist" style="text-align:center;margin:0; font-family:Arial, Helvetica, sans-serif; font-size:16px; color:#292435;font-weight:normal;font-style:normal;" target="_blank">
+      <div style="text-align:left; padding-top: 10px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;"><a href="https://www.tele2.se/foretag/vaxel/ai-receptionist" style="text-align:center;margin:0; font-family:'Tele2 Sans',Arial, Helvetica, sans-serif; font-size:16px; color:#292435;font-weight:normal;font-style:normal;" target="_blank">
         <div style="word-break:break-word;  background-color:#fafafa; display: inline-block; padding-top: 13px;padding-right: 20px;padding-bottom: 13px;padding-left: 20px; border:1px solid #292435; border-radius:100px; box-sizing: border-box; text-decoration:none;">
          Kontakta oss för rådgivning
         </div></a>
@@ -418,13 +462,13 @@
      <div width="50%" class="column columnDiv" style="width: 50%;margin-right: 5px;margin-bottom: 5px;vertical-align: top;display: inline-block;">
       <div style="font-size: 0; text-align: Center; padding-top: 20px; padding-right: 20px; padding-left: 20px;"><a href="https://www.tele2.se/foretag/vaxel/ai-receptionist" target="_blank"><img src="https://tele2sweden.cdn.salesforce-experience.com/cms/delivery/media/MCTYWHLVFH2VCTFO57BBLIPFTXLY?oid=00D5J000000EJMsUAO&amp;channelId=0ap5J0000004OHpQAM" alt width="100%" style="width: 100%; display: inline-block; border: none; max-width: 100%; object-fit: fill;"></a>
       </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 40px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
-       <p style="color:#333333;font-family:Arial;font-size:16px;font-weight:normal;margin:0;"><span style="font-size:22px;"><span style="color:#1a1a1a;"><span style="font-family:Georgia,Times New Roman,Times,serif;">1 Gbit/s</span></span></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 40px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
+       <p style="color:#333333;font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0;"><span style="font-size:22px;"><span style="color:#1a1a1a;"><span style="font-family:'Tele2 Serif',Georgia,Times New Roman,Times,serif;">1 Gbit/s</span></span></span></p>
       </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
-       <p style="color:#333333;font-family:Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="font-family:Arial,Helvetica,sans-serif;">Vill du veta mer om hur våra kommunikationslösningar kan bidra till din verksamhet? Välkommen att fylla i kontaktformuläret så återkommer vi till dig.</span></span></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
+       <p style="color:#333333;font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="font-family:'Tele2 Sans',Arial,Helvetica,sans-serif;">Vill du veta mer om hur våra kommunikationslösningar kan bidra till din verksamhet? Välkommen att fylla i kontaktformuläret så återkommer vi till dig.</span></span></span></p>
       </div>
-      <div style="text-align:left; padding-top: 10px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;"><a href="https://www.tele2.se/foretag/vaxel/ai-receptionist" style="text-align:center;margin:0; font-family:Arial, Helvetica, sans-serif; font-size:16px; color:#292435;font-weight:normal;font-style:normal;" target="_blank">
+      <div style="text-align:left; padding-top: 10px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;"><a href="https://www.tele2.se/foretag/vaxel/ai-receptionist" style="text-align:center;margin:0; font-family:'Tele2 Sans',Arial, Helvetica, sans-serif; font-size:16px; color:#292435;font-weight:normal;font-style:normal;" target="_blank">
         <div style="word-break:break-word;  background-color:#fafafa; display: inline-block; padding-top: 13px;padding-right: 20px;padding-bottom: 13px;padding-left: 20px; border:1px solid #292435; border-radius:100px; box-sizing: border-box; text-decoration:none;">
          Kontakta oss för rådgivning
         </div></a>
@@ -437,18 +481,18 @@
       </div>
      </div>
      <div width="50%" class="column columnDiv" style="width: 50%;margin-right: 5px;margin-bottom: 5px;vertical-align: top;display: inline-block;">
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 40px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
-       <p style="color:#333333;font-family:Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#1a1a1a;"><span style="font-size:28px;"><span style="font-family:Georgia,Times New Roman,Times,serif;">Bli kontaktad av en kundrådgivare</span></span></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 40px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
+       <p style="color:#333333;font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#1a1a1a;"><span style="font-size:28px;"><span style="font-family:'Tele2 Serif',Georgia,Times New Roman,Times,serif;">Bli kontaktad av en kundrådgivare</span></span></span></p>
       </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
-       <p style="color:#333333;font-family:Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="font-family:Arial,Helvetica,sans-serif;">Vill du veta mer om hur våra kommunikationslösningar kan bidra till din verksamhet? Välkommen att fylla i kontaktformuläret så återkommer vi till dig.</span></span></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 10px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; word-break: break-word;" role="presentation">
+       <p style="color:#333333;font-family:'Tele2 Sans',Arial;font-size:16px;font-weight:normal;margin:0;"><span style="color:#1a1a1a;"><span style="font-size:16px;"><span style="font-family:'Tele2 Sans',Arial,Helvetica,sans-serif;">Vill du veta mer om hur våra kommunikationslösningar kan bidra till din verksamhet? Välkommen att fylla i kontaktformuläret så återkommer vi till dig.</span></span></span></p>
       </div>
-      <div style="text-align:left; padding-top: 10px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;"><a href="https://www.tele2.se/foretag/vaxel/ai-receptionist" style="text-align:center;margin:0; font-family:Arial, Helvetica, sans-serif; font-size:16px; color:#292435;font-weight:normal;font-style:normal;" target="_blank">
+      <div style="text-align:left; padding-top: 10px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;"><a href="https://www.tele2.se/foretag/vaxel/ai-receptionist" style="text-align:center;margin:0; font-family:'Tele2 Sans',Arial, Helvetica, sans-serif; font-size:16px; color:#292435;font-weight:normal;font-style:normal;" target="_blank">
         <div style="word-break:break-word;  background-color:#fafafa; display: inline-block; padding-top: 13px;padding-right: 20px;padding-bottom: 13px;padding-left: 20px; border:1px solid #292435; border-radius:100px; box-sizing: border-box; text-decoration:none;">
          Kontakta oss för rådgivning
         </div></a>
       </div>
-      <div style="text-align:left; padding-top: 10px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;"><a href="https://www.tele2.se/foretag/vaxel/ai-receptionist" style="text-align:center;margin:0; font-family:Arial, Helvetica, sans-serif; font-size:16px; color:#fafafa;font-weight:normal;font-style:normal;" target="_blank">
+      <div style="text-align:left; padding-top: 10px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;"><a href="https://www.tele2.se/foretag/vaxel/ai-receptionist" style="text-align:center;margin:0; font-family:'Tele2 Sans',Arial, Helvetica, sans-serif; font-size:16px; color:#fafafa;font-weight:normal;font-style:normal;" target="_blank">
         <div style="word-break:break-word;  background-color:#292435; display: inline-block; padding-top: 13px;padding-right: 20px;padding-bottom: 13px;padding-left: 20px; border:0px solid #292435; border-radius:100px; box-sizing: border-box; text-decoration:none;">
          Kontakta oss för rådgivning
         </div></a>
@@ -459,8 +503,8 @@
      <div width="100%" class="column columnDiv" style="width: 100%;vertical-align: top;display: inline-block;">
       <div style="font-size: 0; text-align: Center; padding-top: 50px; padding-bottom: 20px;"><img src="https://tele2sweden.cdn.salesforce-experience.com/cms/delivery/media/MCMEP52IT265HVTDUFFPLZMJO2CI?oid=00D5J000000EJMsUAO&amp;channelId=0ap5J0000004OHpQAM" alt width="100%" style="width: 100%; display: inline-block; border: none; max-width: 100%; object-fit: scale-down; height: 40px;">
       </div>
-      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 20px; padding-right: 20px; padding-bottom: 80px; padding-left: 20px; word-break: break-word;" role="presentation">
-       <p style="color: rgb(51, 51, 51); font-family: Arial; font-size: 16px; font-weight: normal; margin: 0px; text-align: center;"><span style="color:#fafafa;"><span style="font-size:16px;"><span style="font-family:Arial,Helvetica,sans-serif;">Erbjudandet gäller till och med 2026-01-01. Läs våra villkor här.&nbsp;</span></span></span></p>
+      <div class="contentbuilder-landingpage-richtext" data-slot="text" style="font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif; font-size: 14px; padding-top: 20px; padding-right: 20px; padding-bottom: 80px; padding-left: 20px; word-break: break-word;" role="presentation">
+       <p style="color: rgb(51, 51, 51); font-family: 'Tele2 Sans', Arial; font-size: 16px; font-weight: normal; margin: 0px; text-align: center;"><span style="color:#fafafa;"><span style="font-size:16px;"><span style="font-family:'Tele2 Sans',Arial,Helvetica,sans-serif;">Erbjudandet gäller till och med 2026-01-01. Läs våra villkor här.&nbsp;</span></span></span></p>
       </div>
      </div>
     </div>

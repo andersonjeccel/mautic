@@ -1,0 +1,10 @@
+{
+  "name": "mautic/theme-tele2multistep-form-theme",
+  "description": "Tele2 multistep form theme",
+  "type": "mautic-theme",
+  "keywords": ["mautic","theme"],
+  "minimum-stability": "dev",
+  "require": {
+    "mautic/core-lib": ">=7.0"
+  }
+}

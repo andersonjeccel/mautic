@@ -97,6 +97,32 @@ builder, como `display: flex`, larguras, alinhamento e media queries:
 Mantenha no `base.html.twig` apenas recursos usados fora do canvas, como
 favicon e metadados.
 
+### Hospede as fontes dentro do próprio tema
+
+Coloque os arquivos em `assets/fonts/` e gere a URL com `getAssetUrl()`. Isso
+evita depender de um servidor externo e mantém as fontes disponíveis no builder
+e na página publicada:
+
+```twig
+@font-face {
+    font-family: 'Tele2 Sans';
+    src: url('{{ getAssetUrl('themes/tele2-summer-offer/assets/fonts/Tele2Sans-Regular.woff2', null, null, true) }}') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+```
+
+Declare separadamente cada combinação disponível de família, peso e estilo.
+Use uma pilha de fallback depois da fonte principal:
+
+```css
+font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif;
+```
+
+**Não faça:** copie os arquivos sem criar as regras `@font-face`, use o caminho
+de outro tema ou declare um peso que não existe nos arquivos.
+
 O GrapesJS aceita estilos inline e normalmente os converte em regras CSS com
 IDs gerados. Isso funciona, mas classes próprias são mais fáceis de manter e
 produzem menos alterações no HTML salvo.

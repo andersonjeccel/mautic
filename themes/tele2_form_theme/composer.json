@@ -1,0 +1,10 @@
+{
+  "name": "mautic/theme-tele2-form-theme",
+  "description": "Tele2 form theme",
+  "type": "mautic-theme",
+  "keywords": ["mautic","theme"],
+  "minimum-stability": "dev",
+  "require": {
+    "mautic/core-lib": ">=7.0"
+  }
+}
