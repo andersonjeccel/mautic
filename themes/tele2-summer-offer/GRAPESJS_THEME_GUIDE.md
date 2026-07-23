@@ -177,6 +177,48 @@ GrapesJS, deixe o texto diretamente dentro do link:
 Não coloque uma `div` dentro do link. O elemento editável e o elemento visual
 devem ser o mesmo.
 
+### Coloque o estilo completo no elemento de texto editável
+
+O editor rico pode simplificar vários `span`s aninhados quando o usuário abre
+um texto para edição. Não divida a aparência principal de um título entre
+vários elementos internos:
+
+```html
+<p class="text-default">
+    <span class="white">
+        <span class="serif">
+            <span class="large">Título</span>
+        </span>
+    </span>
+</p>
+```
+
+Se os `span`s forem normalizados, o título volta para o estilo de
+`text-default`. Aplique cor, família, tamanho e altura de linha diretamente na
+tag de título que o editor preserva:
+
+```html
+<h2 class="page-heading page-heading--large page-heading--white">Título</h2>
+```
+
+```css
+.page-heading {
+    font-family: 'Tele2 Serif', Georgia, serif;
+}
+
+.page-heading--large {
+    font-size: 28px;
+}
+
+.page-heading--white {
+    color: #fafafa;
+}
+```
+
+Use elementos internos somente quando uma parte do texto realmente precisa de
+um formato diferente. Para títulos, prefira uma tag semântica `h1` a `h6`;
+essas tags também entram no modo de edição inline do builder.
+
 ### Use um contêiner HTML para tokens do Mautic
 
 ```html
@@ -338,6 +380,8 @@ as classes estáveis fizeram as cópias manterem o mesmo visual.
 - Todos os slots de texto continuam presentes depois de salvar.
 - Todos os tokens do Mautic continuam presentes depois de salvar.
 - Botões continuam editáveis como botões, sem uma `div` interna.
+- Títulos mantêm família, cor, tamanho e altura de linha ao entrar e sair da
+  edição de texto.
 - Texto, coluna e linha duplicados mantêm todos os estilos do original.
 - A página pública mantém alinhamento, cores, fontes, tamanhos e espaçamentos.
 - O layout foi comparado em desktop, tablet e tela móvel, sem rolagem horizontal.
