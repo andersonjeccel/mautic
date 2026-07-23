@@ -1105,7 +1105,14 @@ export default class BuilderService {
   initPage() {
     // Launch GrapesJS with body part
     const ckeditorModuleUrl = BuilderService.getCkeditorModuleUrl();
-    const inlineElements = BuilderService.getInlineElements();
+    // Page rich-text slots are block containers. Keeping `div` in the inline
+    // list makes a click on the slot start CKEditor in inline mode, which can
+    // replace the inherited typography and alignment while editing. Email
+    // builders still use the complete list; page builders only need inline
+    // editing for phrasing elements inside the slot.
+    const inlineElements = BuilderService.getInlineElements().filter(
+      (tagName) => tagName !== 'div'
+    );
     const pageCkEditorOptions = BuilderService.getCkeConf('page:getBuilderTokens');
     const pageInlineOptions = BuilderService.buildInlineCkeConf(pageCkEditorOptions);
 

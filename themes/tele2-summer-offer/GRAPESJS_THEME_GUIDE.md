@@ -216,8 +216,9 @@ tag de título que o editor preserva:
 ```
 
 Use elementos internos somente quando uma parte do texto realmente precisa de
-um formato diferente. Para títulos, prefira uma tag semântica `h1` a `h6`;
-essas tags também entram no modo de edição inline do builder.
+um formato diferente. Para títulos, prefira uma tag semântica `h1` a `h6`. O
+contêiner do slot deve ser tratado como bloco pelo builder; os elementos
+inline ficam restritos ao conteúdo interno.
 
 ### Use o slot de texto como base visual estável
 
@@ -245,18 +246,14 @@ sobreviver a qualquer estrutura interna:
     color: #fafafa;
 }
 
-.offer-copy > *,
-.offer-copy > .ck-editor__editable,
-.offer-copy .ck-editor__editable {
-    color: inherit;
-    font: inherit;
-    text-align: inherit;
-}
 ```
 
-Assim, mesmo que o `p` vire outro elemento, o texto continua herdando fonte,
-cor, tamanho e alinhamento do slot. Regras internas devem ficar restritas a
-diferenças locais, como um preço destacado ou um marcador de lista.
+O builder mantém essa classe no elemento editável, então as regras semânticas
+do próprio título, lista ou parágrafo continuam valendo durante a edição. Não
+force `font: inherit` ou `color: inherit` em todos os filhos: isso substitui
+classes de títulos e faz o texto voltar ao sans de 14px. Regras internas devem
+ficar restritas a diferenças locais, como um preço destacado ou um marcador de
+lista.
 
 Evite `span` aninhado quando ele só repete a fonte, a cor ou o tamanho do slot.
 Texto simples deve ficar diretamente dentro de `p`, `li` ou do elemento
