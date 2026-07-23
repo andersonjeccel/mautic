@@ -399,6 +399,36 @@ em `assets/` e gere as URLs com `getAssetUrl()`.
 Não copie scripts externos de rastreamento ou formulários para o tema. Use as
 integrações e os tokens do próprio Mautic.
 
+### Remova o estilo padrão de listas compactas
+
+Listas usadas dentro de cards, tabelas ou caixas de oferta devem declarar
+explicitamente a aparência esperada. Sem isso, o canvas do GrapesJS aplica o
+recuo e os marcadores padrão do navegador:
+
+```css
+.offer-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.offer-list > li {
+    margin: 0 0 8px;
+    padding: 0;
+}
+```
+
+Use `ul` com marcadores normais somente nas listas editoriais que realmente
+precisam deles.
+
+### Não mantenha um estado antigo do editor
+
+O Mautic pode salvar um `editorState` do GrapesJS separado do HTML da página.
+Depois de simplificar o tema, um estado antigo pode reintroduzir componentes,
+itens vazios e estilos que já foram removidos do Twig. Ao trocar a estrutura
+base do tema, descarte esse estado e abra o builder novamente para reconstruí-lo
+a partir do HTML atual.
+
 ## Diagnóstico rápido
 
 Se o preview e a página pública forem diferentes:
