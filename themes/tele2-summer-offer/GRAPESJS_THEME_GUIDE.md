@@ -257,6 +257,11 @@ Assim, mesmo que o `p` vire outro elemento, o texto continua herdando fonte,
 cor, tamanho e alinhamento do slot. Regras internas devem ficar restritas a
 diferenças locais, como um preço destacado ou um marcador de lista.
 
+Evite `span` aninhado quando ele só repete a fonte, a cor ou o tamanho do slot.
+Texto simples deve ficar diretamente dentro de `p`, `li` ou do elemento
+semântico correspondente. Reserve `span` para uma diferença real, como o
+marcador `✓` ou um preço com cor própria.
+
 ### Use um contêiner HTML para tokens do Mautic
 
 ```html
