@@ -123,9 +123,59 @@ font-family: 'Tele2 Sans', Arial, Helvetica, sans-serif;
 **Não faça:** copie os arquivos sem criar as regras `@font-face`, use o caminho
 de outro tema ou declare um peso que não existe nos arquivos.
 
-O GrapesJS aceita estilos inline e normalmente os converte em regras CSS com
-IDs gerados. Isso funciona, mas classes próprias são mais fáceis de manter e
-produzem menos alterações no HTML salvo.
+### Coloque os estilos em classes estáveis
+
+Não use `style=""` nos elementos que o usuário pode duplicar. Ao importar o
+tema, o GrapesJS pode mover esse estilo para uma regra ligada ao ID gerado:
+
+```css
+#texto-original {
+    font-size: 24px;
+}
+```
+
+Ao duplicar o texto, a coluna ou a linha, o novo componente recebe outro ID,
+mas não recebe outra regra CSS. O resultado é uma cópia sem tamanho de fonte,
+espaçamento, largura, cor de fundo ou outros estilos.
+
+Use classes estáveis para todos os estilos visuais e estruturais:
+
+```html
+<div class="offer-row">
+    <div class="offer-column">
+        <div class="offer-text contentbuilder-landingpage-richtext" data-slot="text">
+            <p class="offer-title">Texto editável</p>
+        </div>
+    </div>
+</div>
+```
+
+```css
+.offer-row {
+    display: flex;
+    background: #000;
+}
+
+.offer-title {
+    margin: 0;
+    font-size: 24px;
+}
+```
+
+O ID pode mudar quando o componente é duplicado. A classe continua igual e
+preserva o visual.
+
+### Faça botões como links diretos
+
+Para que o botão seja reconhecido e editado como o componente de botão do
+GrapesJS, deixe o texto diretamente dentro do link:
+
+```html
+<a href="#" class="button tele2-button tele2-button--dark">Texto do botão</a>
+```
+
+Não coloque uma `div` dentro do link. O elemento editável e o elemento visual
+devem ser o mesmo.
 
 ### Use um contêiner HTML para tokens do Mautic
 
@@ -166,7 +216,9 @@ Depois de alterar um tema já usado por uma página:
 8. Recarregue a URL pública.
 
 Compare a renderização direta do Twig, o conteúdo dentro do builder e a página
-pública. Teste pelo menos uma largura de desktop e uma largura móvel.
+pública. Teste pelo menos uma largura de desktop, tablet e móvel. Duplique um
+texto, uma coluna e uma linha; as cópias devem manter fonte, espaçamento,
+largura, alinhamento, fundo e comportamento responsivo.
 
 ## Não faça
 
@@ -211,6 +263,19 @@ IDs devem ser únicos. Para elementos repetidos, use classes. O GrapesJS pode
 renomear IDs duplicados, mas isso cria seletores instáveis e torna o resultado
 mais difícil de depurar.
 
+### Não prenda o visual ao ID gerado
+
+Mesmo um ID que começa único deixa de ser uma base segura quando o componente
+é duplicado. Evite:
+
+```html
+<div id="offer-row" style="display: flex; background: #000"></div>
+```
+
+Mova as declarações para uma classe. IDs podem servir para âncoras e
+identificação, mas não devem ser a única fonte do estilo de um componente
+duplicável.
+
 ### Não use CSS inválido
 
 Não gere declarações como:
@@ -251,16 +316,18 @@ Se o preview e a página pública forem diferentes:
 
 1. Conte ocorrências de `gjs-heading-wrapper` no HTML salvo.
 2. Confirme que cada bloco de rich text tem `data-slot="text"`.
-3. Confirme que o bloco `<style>` gerado ainda está no HTML público.
-4. Compare o estilo calculado do mesmo elemento nas duas páginas.
-5. Verifique se o texto continua dentro do elemento que possui os estilos.
-6. Confirme que os tokens de formulário continuam no HTML salvo.
-7. Reaplique o tema e salve novamente antes de concluir que a alteração não
+3. Procure regras CSS ligadas a IDs gerados e mova os estilos para classes.
+4. Confirme que o bloco `<style>` gerado ainda está no HTML público.
+5. Compare o estilo calculado do mesmo elemento nas duas páginas.
+6. Verifique se o texto continua dentro do elemento que possui os estilos.
+7. Confirme que os tokens de formulário continuam no HTML salvo.
+8. Reaplique o tema e salve novamente antes de concluir que a alteração não
    funcionou.
 
-No caso Tele2, o CSS estava presente. A diferença visual era causada pelos
-wrappers de texto criados durante a normalização. Adicionar os slots de texto
-preservou a hierarquia e eliminou esses wrappers.
+No caso Tele2, havia dois problemas. Os wrappers de texto criados durante a
+normalização alteravam a hierarquia, e os estilos inline eram serializados em
+seletores presos aos IDs originais. Os slots de texto preservaram a hierarquia;
+as classes estáveis fizeram as cópias manterem o mesmo visual.
 
 ## Critérios de aceite
 
@@ -270,5 +337,7 @@ preservou a hierarquia e eliminou esses wrappers.
 - O HTML salvo não contém wrappers inesperados.
 - Todos os slots de texto continuam presentes depois de salvar.
 - Todos os tokens do Mautic continuam presentes depois de salvar.
+- Botões continuam editáveis como botões, sem uma `div` interna.
+- Texto, coluna e linha duplicados mantêm todos os estilos do original.
 - A página pública mantém alinhamento, cores, fontes, tamanhos e espaçamentos.
-- O layout foi comparado em desktop e em tela móvel.
+- O layout foi comparado em desktop, tablet e tela móvel, sem rolagem horizontal.
