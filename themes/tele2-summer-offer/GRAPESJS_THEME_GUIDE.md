@@ -67,16 +67,20 @@ componentes independentes.
   fluxo de texto.
 - Feche todas as tags.
 
-### Separe estilos globais de estilos do conteúdo
+### Mantenha o CSS estrutural dentro do conteúdo da página
 
-Coloque regras globais e media queries no bloco `stylesheets` do
-`base.html.twig`:
+O GrapesJS importa o bloco `content` de `page.html.twig`, mas não carrega
+automaticamente as regras colocadas apenas no bloco `stylesheets` de
+`base.html.twig`.
+
+Coloque dentro do bloco `content` as regras necessárias para montar o layout no
+builder, como `display: flex`, larguras, alinhamento e media queries:
 
 ```twig
-{% block stylesheets %}
+{% block content %}
 <style>
-    .landing-page {
-        margin: 0 auto;
+    .landing-page__row {
+        display: flex;
     }
 
     @media (max-width: 480px) {
@@ -85,8 +89,13 @@ Coloque regras globais e media queries no bloco `stylesheets` do
         }
     }
 </style>
+
+{# conteúdo da página #}
 {% endblock %}
 ```
+
+Mantenha no `base.html.twig` apenas recursos usados fora do canvas, como
+favicon e metadados.
 
 O GrapesJS aceita estilos inline e normalmente os converte em regras CSS com
 IDs gerados. Isso funciona, mas classes próprias são mais fáceis de manter e
