@@ -1,0 +1,13 @@
+{
+  "name": "mautic/theme-tele2-summer-offer",
+  "description": "Mautic Tele2 Summer Offer Theme",
+  "type": "mautic-theme",
+  "keywords": ["mautic", "theme"],
+  "extra": {
+    "install-directory-name": "tele2-summer-offer"
+  },
+  "minimum-stability": "dev",
+  "require": {
+    "mautic/core-lib": "^7.0"
+  }
+}

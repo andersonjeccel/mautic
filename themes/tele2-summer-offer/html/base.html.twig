@@ -1,0 +1,57 @@
+{% extends '@MauticCore/Theme/base.html.twig' %}
+
+{% block stylesheets %}
+<meta charset="UTF-8">
+<style>
+    .row {
+        display: flex;
+    }
+
+    .contentpageDefaultLandingPageTemplate .contentRoot {
+        margin: 0 auto;
+    }
+
+    @media screen and (min-width: 480px) {
+        .column,
+        .columnDiv {
+            margin-bottom: 0 !important;
+        }
+    }
+
+    @media only screen and (max-width: 1024px) {
+        .contentpageDefaultLandingPageTemplate .contentRoot {
+            max-width: 980px;
+        }
+    }
+
+    @media only screen and (max-width: 768px) {
+        .contentpageDefaultLandingPageTemplate .contentRoot {
+            max-width: 600px;
+        }
+    }
+
+    @media only screen and (max-width: 480px) {
+        .contentpageDefaultLandingPageTemplate .contentRoot {
+            width: 320px !important;
+        }
+
+        .row {
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .row .column,
+        .column {
+            display: inline-block;
+            margin-right: 0 !important;
+            width: 100% !important;
+        }
+
+        .columnDiv {
+            margin-right: 0 !important;
+        }
+    }
+</style>
+<link rel="icon" type="image/png" href="https://go.to.tele2.se/favicon-tele2.png">
+<meta name="robots" content="noindex">
+{% endblock %}
