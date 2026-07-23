@@ -219,6 +219,44 @@ Use elementos internos somente quando uma parte do texto realmente precisa de
 um formato diferente. Para títulos, prefira uma tag semântica `h1` a `h6`;
 essas tags também entram no modo de edição inline do builder.
 
+### Use o slot de texto como base visual estável
+
+Em blocos compostos, o editor pode trocar um `p` por `span`, separar o texto ou
+remover wrappers durante a edição. A classe do contêiner com
+`data-slot="text"` permanece. Coloque nele os valores básicos que devem
+sobreviver a qualquer estrutura interna:
+
+```html
+<div
+    class="contentbuilder-landingpage-richtext offer-copy offer-copy--light"
+    data-slot="text"
+>
+    <p>Texto editável</p>
+</div>
+```
+
+```css
+.offer-copy {
+    font-family: 'Tele2 Sans', Arial, sans-serif;
+    font-size: 16px;
+}
+
+.offer-copy--light {
+    color: #fafafa;
+}
+
+.offer-copy > *,
+.offer-copy > .ck-editor__editable {
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+}
+```
+
+Assim, mesmo que o `p` vire outro elemento, o texto continua herdando fonte,
+cor, tamanho e alinhamento do slot. Regras internas devem ficar restritas a
+diferenças locais, como um preço destacado ou um marcador de lista.
+
 ### Use um contêiner HTML para tokens do Mautic
 
 ```html
@@ -261,6 +299,10 @@ Compare a renderização direta do Twig, o conteúdo dentro do builder e a pági
 pública. Teste pelo menos uma largura de desktop, tablet e móvel. Duplique um
 texto, uma coluna e uma linha; as cópias devem manter fonte, espaçamento,
 largura, alinhamento, fundo e comportamento responsivo.
+
+Ao automatizar a troca de tema, trate a confirmação exibida pelo navegador e
+só prossiga depois de aceitá-la. Sem isso, o teste pode ficar parado antes de o
+novo HTML entrar no canvas.
 
 ## Não faça
 
@@ -382,6 +424,8 @@ as classes estáveis fizeram as cópias manterem o mesmo visual.
 - Botões continuam editáveis como botões, sem uma `div` interna.
 - Títulos mantêm família, cor, tamanho e altura de linha ao entrar e sair da
   edição de texto.
+- Parágrafos mantêm alinhamento, cor e tipografia mesmo quando o editor troca a
+  estrutura interna.
 - Texto, coluna e linha duplicados mantêm todos os estilos do original.
 - A página pública mantém alinhamento, cores, fontes, tamanhos e espaçamentos.
 - O layout foi comparado em desktop, tablet e tela móvel, sem rolagem horizontal.
