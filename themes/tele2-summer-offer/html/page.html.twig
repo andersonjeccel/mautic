@@ -251,7 +251,9 @@
 
    .tele2-edit-safe > *,
    .tele2-edit-safe > .ck-editor__editable,
-   .tele2-edit-safe > .ck-editor__editable > * {
+   .tele2-edit-safe > .ck-editor__editable > *,
+   .tele2-edit-safe .ck-editor__editable,
+   .tele2-edit-safe .ck-editor__editable > * {
     color:inherit !important;
     font-family:inherit !important;
     font-size:inherit !important;
@@ -302,6 +304,30 @@
    }
 
    .tele2-s-88448c46 > ul > li > span:first-child {
+    font-weight:500;
+    left:0;
+    position:absolute;
+   }
+
+   .tele2-edit-safe .ck-editor__editable ul.tele2-compact-list,
+   .tele2-edit-safe .ck-editor__editable ul.tele2-feature-list {
+    list-style:none !important;
+    margin:0 !important;
+    padding:0 !important;
+   }
+
+   .tele2-edit-safe .ck-editor__editable ul.tele2-compact-list > li,
+   .tele2-edit-safe .ck-editor__editable ul.tele2-feature-list > li {
+    margin:0 0 8px !important;
+    padding:0 !important;
+   }
+
+   .tele2-edit-safe .ck-editor__editable ul.tele2-feature-list > li {
+    padding-left:28px !important;
+    position:relative;
+   }
+
+   .tele2-edit-safe .ck-editor__editable ul.tele2-feature-list > li > span:first-child {
     font-weight:500;
     left:0;
     position:absolute;
@@ -859,7 +885,6 @@
       </div>
      </div>
      <div width="83.33%" class="column columnDiv tele2-s-000564d8">
-      <div></div>
      </div>
     </div>
     <div class="row tele2-s-329bf47d" role="presentation">
@@ -947,7 +972,7 @@
       <div class="contentbuilder-landingpage-richtext tele2-s-c14cd511 tele2-edit-safe" data-slot="text" role="presentation">
        <h2 class="tele2-heading tele2-heading--medium">Ditt erbjudande</h2>
       </div>
-      <div class="contentbuilder-landingpage-richtext tele2-s-128fe714" data-slot="text" role="presentation">
+      <div class="contentbuilder-landingpage-richtext tele2-s-128fe714 tele2-edit-safe" data-slot="text" role="presentation">
        <div class="tele2-s-e3954057">
         <h3 class="tele2-heading tele2-heading--medium">Mobilabonnemang</h3>
         <table>
@@ -991,7 +1016,7 @@
       <div class="contentbuilder-landingpage-richtext tele2-s-c14cd511 tele2-edit-safe tele2-text-center" data-slot="text" role="presentation">
        <h2 class="tele2-s-65f9d5a3 tele2-heading tele2-heading--medium">Det här får du ta del av under webbinariet</h2>
       </div>
-      <div class="contentbuilder-landingpage-richtext tele2-s-d9b04e13" data-slot="text" role="presentation">
+      <div class="contentbuilder-landingpage-richtext tele2-s-d9b04e13 tele2-edit-safe" data-slot="text" role="presentation">
        <table>
         <tbody>
          <tr>
@@ -1141,7 +1166,7 @@
       </div>
      </div>
      <div width="50%" class="column columnDiv tele2-s-7e1c24bd">
-      <div class="contentbuilder-landingpage-richtext tele2-s-3d8daf46" data-slot="text" role="presentation">
+      <div class="contentbuilder-landingpage-richtext tele2-s-3d8daf46 tele2-edit-safe" data-slot="text" role="presentation">
        <h2 class="tele2-heading tele2-heading--medium">Receptionisten som alltid svarar</h2>
        <table>
         <tbody>

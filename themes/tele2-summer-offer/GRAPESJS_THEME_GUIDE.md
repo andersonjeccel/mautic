@@ -246,7 +246,8 @@ sobreviver a qualquer estrutura interna:
 }
 
 .offer-copy > *,
-.offer-copy > .ck-editor__editable {
+.offer-copy > .ck-editor__editable,
+.offer-copy .ck-editor__editable {
     color: inherit;
     font: inherit;
     text-align: inherit;
