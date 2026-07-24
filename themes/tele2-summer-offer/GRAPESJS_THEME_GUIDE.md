@@ -535,6 +535,32 @@ Ao testar, confirme que:
 4. criar e apagar bullets não desloca o marcador para cima do texto;
 5. salvar e reabrir mantém a mesma estrutura.
 
+### Faça uma linha visual ser uma unidade de texto
+
+Quando dois textos inline formam uma única linha visual, não deixe cada parte
+virar um componente editável independente. Use um `div` de texto dedicado:
+
+```html
+<div data-slot="text" class="price-line">
+    <p>
+        <strong class="price">1 599 kr/mån</strong>
+        <small class="price-description">månadsavgift</small>
+    </p>
+</div>
+```
+
+Não use um `p` estrutural contendo componentes de texto independentes. Ao
+ativar somente uma parte, o CKEditor pode fechar o `p`, mover o texto seguinte
+para fora e criar outro `p` vazio. O `div[data-slot="text"]` faz a linha inteira
+ser aberta e salva como uma única unidade. Dentro dele, mantenha todo o conteúdo
+inline no mesmo `p`: elementos inline diretamente na raiz também podem ser
+normalizados em blocos separados pelo CKEditor.
+
+Para a descrição secundária, prefira um elemento inline que o modelo do editor
+aceite dentro do parágrafo, como `small`. Um `span` com classe de HTML geral
+pode ser preservado como um bloco separado pelo CKEditor e sair do `p`, mesmo
+quando o HTML de entrada era válido.
+
 ### Mantenha HTML e estado do editor sincronizados
 
 O Mautic salva o HTML público e o projeto do GrapesJS separadamente. Alterar
