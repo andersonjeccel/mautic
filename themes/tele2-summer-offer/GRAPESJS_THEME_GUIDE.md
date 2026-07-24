@@ -398,12 +398,14 @@ irmãos `data-slot="text"`: um `tele2-price-value` e um
 mobile. Cada conteúdo continua editável e pode ser duplicado ou removido sem
 levar a formatação e o conteúdo do irmão junto.
 
-Um botão criado pelo builder pode preservar apenas a classe base `button`.
-Portanto, a aparência base do tema deve existir nessa classe dentro do
-`contentRoot`; não dependa de uma segunda classe para neutralizar a aparência
-padrão do GrapesJS. As variantes devem cobrir também `:link`, `:visited`,
-`:hover` e `:active`, com especificidade suficiente para impedir que o botão
-mude de cor sozinho, mas sem `!important`, para manter a edição intencional.
+Um botão criado pelo builder pode preservar apenas a classe base `button` e
+ser solto temporariamente no nível raiz do canvas, fora do `contentRoot`.
+Portanto, a aparência base do tema deve alcançar `body a.button`; não dependa
+de uma segunda classe nem da posição final do componente para neutralizar a
+regra roxa que o bloco nativo injeta. As variantes devem cobrir também `:link`,
+`:visited`, `:hover` e `:active`, com especificidade suficiente para impedir
+que o botão mude de cor sozinho, mas sem `!important`, para manter a edição
+intencional.
 
 ### Use nomes de classes estáveis
 
