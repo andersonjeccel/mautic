@@ -374,6 +374,17 @@ pública. Uma seção pode parecer centralizada e ainda ter texto a 32 px, mídi
 36 px e ações a 66 px. A correção responsiva deve atingir a família inteira de
 wrappers equivalentes e produzir a mesma linha de conteúdo nos dois ambientes.
 
+Quando uma faixa de fundo deve alcançar as bordas da tela, faça somente o
+contêiner visual ultrapassar o padding do `contentRoot`. Use largura calculada e
+margens negativas iguais ao gutter do breakpoint. Compense esse deslocamento
+no padding dos conteúdos internos para que textos, mídia contida, kickers e
+ações continuem alinhados com o restante da página.
+
+Não remova o padding do `contentRoot` inteiro para obter o efeito full-bleed:
+isso também desloca cards e seções que devem continuar contidos. Marque ou
+selecione apenas a família de faixas intencionalmente full-bleed e valide o
+retângulo do fundo separadamente do retângulo do conteúdo.
+
 ### Use nomes de classes estáveis
 
 Prefira classes com significado, por exemplo:
