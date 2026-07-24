@@ -9,6 +9,7 @@ use Mautic\CoreBundle\Form\Type\FormButtonsType;
 use Mautic\CoreBundle\Form\Type\YesNoButtonGroupType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -119,10 +120,22 @@ class CategoryType extends AbstractType
             ]
         );
 
-        $builder->add('buttons', FormButtonsType::class,
-            [
-                'apply_text' => false,
-            ]);
+        $buttonOptions = ['apply_text' => false];
+        if ($options['save_and_new']) {
+            $buttonOptions['pre_extra_buttons'] = [
+                [
+                    'name'  => 'save_and_new',
+                    'label' => 'mautic.category.form.save_and_new',
+                    'type'  => SubmitType::class,
+                    'attr'  => [
+                        'class' => 'btn btn-secondary',
+                        'icon'  => 'ri-add-line',
+                    ],
+                ],
+            ];
+        }
+
+        $builder->add('buttons', FormButtonsType::class, $buttonOptions);
 
         if (!empty($options['action'])) {
             $builder->setAction($options['action']);
@@ -135,6 +148,7 @@ class CategoryType extends AbstractType
             [
                 'data_class'         => Category::class,
                 'show_bundle_select' => false,
+                'save_and_new'       => false,
                 'bundle'             => function (Options $options) {
                     if (!$bundle = $options['data']->getBundle()) {
                         $bundle = 'category';
@@ -144,6 +158,7 @@ class CategoryType extends AbstractType
                 },
             ]
         );
+        $resolver->setAllowedTypes('save_and_new', 'bool');
     }
 
     public function getBlockPrefix(): string

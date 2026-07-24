@@ -221,7 +221,11 @@ final class CategoryController extends AbstractFormController
             'objectAction' => 'new',
             'bundle'       => $bundle,
         ]);
-        $form = $this->categoryModel->createForm($entity, $this->formFactory, $action, ['bundle' => $bundle, 'show_bundle_select' => 'category' === $bundle]);
+        $form = $this->categoryModel->createForm($entity, $this->formFactory, $action, [
+            'bundle'             => $bundle,
+            'show_bundle_select' => 'category' === $bundle,
+            'save_and_new'       => !$inForm,
+        ]);
         $form['inForm']->setData($inForm);
         // /Check for a submitted form and process it
         if (Request::METHOD_POST === $method) {
@@ -229,13 +233,32 @@ final class CategoryController extends AbstractFormController
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = $this->isFormValid($form)) {
                     $success = 1;
+                    $saveAndNew = $this->isButtonClicked($form, 'save_and_new');
 
                     // form is valid so process the data
-                    $this->categoryModel->saveEntity($entity, $this->getFormButton($form, ['buttons', 'save'])->isClicked());
+                    $this->categoryModel->saveEntity(
+                        $entity,
+                        $saveAndNew || $this->getFormButton($form, ['buttons', 'save'])->isClicked()
+                    );
 
                     $this->addFlashMessage('mautic.category.notice.created', [
                         '%name%' => $entity->getTitle(),
                     ]);
+
+                    if ($saveAndNew) {
+                        $bundle = $entity->getBundle();
+                        $entity = $this->categoryModel->getEntity();
+                        $action = $this->generateUrl('mautic_category_action', [
+                            'objectAction' => 'new',
+                            'bundle'       => $bundle,
+                        ]);
+                        $form = $this->categoryModel->createForm($entity, $this->formFactory, $action, [
+                            'bundle'       => $bundle,
+                            'save_and_new' => true,
+                        ]);
+                        $form['inForm']->setData(0);
+                        $valid = false;
+                    }
                 }
             } else {
                 $success = 1;

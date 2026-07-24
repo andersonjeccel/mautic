@@ -82,10 +82,11 @@ final class CategoryControllerFunctionalTest extends MauticMysqlTestCase
 
     public function testNewActionWithInForm(): void
     {
-        $crawler                = $this->client->request(Request::METHOD_GET, 's/categories/category/new');
+        $crawler                = $this->client->request(Request::METHOD_GET, 's/categories/category/new?inForm=1');
         $clientResponse         = json_decode($this->client->getResponse()->getContent(), true);
         $html                   = $clientResponse['newContent'];
         $crawler->addHtmlContent($html);
+        $this->assertCount(0, $crawler->selectButton('category_form[buttons][save_and_new]'));
         $saveButton = $crawler->selectButton('category_form[buttons][save]');
         $form       = $saveButton->form();
         $form['category_form[bundle]']->setValue('global');
@@ -99,6 +100,56 @@ final class CategoryControllerFunctionalTest extends MauticMysqlTestCase
         $body           = json_decode($clientResponse->getContent(), true);
         $this->assertArrayHasKey('categoryId', $body);
         $this->assertArrayHasKey('categoryName', $body);
+    }
+
+    public function testSaveAndNewCreatesCategoryAndReturnsEmptyFormForSameBundle(): void
+    {
+        $crawler        = $this->client->request(Request::METHOD_GET, 's/categories/category/new');
+        $clientResponse = json_decode($this->client->getResponse()->getContent(), true);
+        $crawler->addHtmlContent($clientResponse['newContent']);
+
+        $saveAndNewButton = $crawler->selectButton('category_form[buttons][save_and_new]');
+        $form             = $saveAndNewButton->form();
+        $form['category_form[bundle]']->setValue('global');
+        $form['category_form[title]']->setValue('First repeated category');
+        $form['category_form[isPublished]']->setValue('1');
+
+        $this->client->submit($form);
+
+        self::assertResponseIsSuccessful();
+        $clientResponse = json_decode($this->client->getResponse()->getContent(), true);
+        $crawler->clear();
+        $crawler->addHtmlContent($clientResponse['newContent']);
+
+        $this->assertSame(1, $clientResponse['success']);
+        $this->assertSame('/s/categories/global/new', $crawler->filter('form')->attr('action'));
+        $this->assertNull($crawler->filter('#category_form_title')->attr('value'));
+        $this->assertCount(1, $crawler->selectButton('category_form[buttons][save_and_new]'));
+        $this->assertSame(1, $this->em->getRepository(Category::class)->count(['title' => 'First repeated category', 'bundle' => 'global']));
+    }
+
+    public function testSaveAndNewKeepsValidationErrorsWithoutCreatingCategory(): void
+    {
+        $crawler        = $this->client->request(Request::METHOD_GET, 's/categories/category/new');
+        $clientResponse = json_decode($this->client->getResponse()->getContent(), true);
+        $crawler->addHtmlContent($clientResponse['newContent']);
+
+        $saveAndNewButton = $crawler->selectButton('category_form[buttons][save_and_new]');
+        $form             = $saveAndNewButton->form();
+        $form['category_form[bundle]']->setValue('global');
+        $form['category_form[title]']->setValue('');
+        $form['category_form[isPublished]']->setValue('1');
+
+        $this->client->submit($form);
+
+        self::assertResponseIsSuccessful();
+        $clientResponse = json_decode($this->client->getResponse()->getContent(), true);
+        $crawler->clear();
+        $crawler->addHtmlContent($clientResponse['newContent']);
+
+        $this->assertSame(0, $clientResponse['success']);
+        $this->assertCount(1, $crawler->filter('.has-error #category_form_title'));
+        $this->assertSame(0, $this->em->getRepository(Category::class)->count(['title' => '']));
     }
 
     public function testEditCategorySavesWhenApplyButtonIsDisabled(): void
