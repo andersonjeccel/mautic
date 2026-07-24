@@ -561,6 +561,22 @@ aceite dentro do parágrafo, como `small`. Um `span` com classe de HTML geral
 pode ser preservado como um bloco separado pelo CKEditor e sair do `p`, mesmo
 quando o HTML de entrada era válido.
 
+### Corrija famílias, não ocorrências
+
+Uma correção descoberta em um componente deve ser aplicada a todas as
+estruturas equivalentes da página. Antes de concluir:
+
+1. pesquise todas as ocorrências da marcação, classe ou comportamento;
+2. separe variações editoriais das que têm função visual especial;
+3. aplique a mesma unidade de edição e as mesmas classes a toda a família;
+4. confira também componentes repetidos em outra seção, variante de cor e
+   breakpoint;
+5. migre todas as ocorrências correspondentes na página já salva;
+6. registre qualquer exceção intencional e o motivo.
+
+Não aceite uma correção que funcione somente no texto usado para reproduzir o
+problema. O exemplo revela a regra; ele não define o limite da correção.
+
 ### Mantenha HTML e estado do editor sincronizados
 
 O Mautic salva o HTML público e o projeto do GrapesJS separadamente. Alterar
