@@ -498,6 +498,43 @@ recuo e os marcadores padrão do navegador:
 Use `ul` com marcadores normais somente nas listas editoriais que realmente
 precisam deles.
 
+### Agrupe listas editoriais com o texto relacionado
+
+Quando parágrafos e uma lista com marcadores formam uma única seção editorial,
+coloque todos dentro de um único bloco de texto interno:
+
+```html
+<div class="contentbuilder-landingpage-richtext tele2-edit-safe"
+     role="presentation">
+    <div class="tele2-richtext-group">
+        <p>Introdução da seção</p>
+        <ul>
+            <li>Primeiro item</li>
+            <li>Segundo item</li>
+        </ul>
+        <p>Continuação da seção</p>
+    </div>
+</div>
+```
+
+O contêiner externo continua sendo apenas estrutura. O
+`.tele2-richtext-group` é o único componente de texto da seção. Assim, o
+CKEditor edita parágrafos e bullets como um conteúdo só, e inserir ou remover
+itens usa o comportamento normal do editor.
+
+Não use esse agrupamento para listas que têm função visual própria, como
+`.tele2-feature-list` e `.tele2-compact-list`. Essas listas dependem de classes,
+espaçamento ou marcadores especiais e devem continuar como componentes
+estruturados.
+
+Ao testar, confirme que:
+
+1. o contêiner externo não abre o CKEditor;
+2. o grupo interno abre como um único bloco de texto;
+3. o conteúdo do editor contém os parágrafos e o `ul`;
+4. criar e apagar bullets não desloca o marcador para cima do texto;
+5. salvar e reabrir mantém a mesma estrutura.
+
 ### Mantenha HTML e estado do editor sincronizados
 
 O Mautic salva o HTML público e o projeto do GrapesJS separadamente. Alterar
