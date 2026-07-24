@@ -391,11 +391,19 @@ compensar apenas o gutter duplicado com margens negativas e mantenha o mesmo
 valor como padding interno. Assim, o contorno ocupa a largura esperada sem
 tirar títulos, preços e listas da linha de conteúdo da página.
 
-Para valores compostos, mantenha preço e complemento como elementos irmãos
-dentro de um único `tele2-price-line`. No mobile, altere ambos para `block` na
-classe estável do componente. Isso garante que todos os preços quebrem da mesma
-forma, inclusive depois de uma edição no CKEditor, sem inserir `<br>` específico
-em cada ocorrência.
+Para valores compostos, não coloque preço e complemento no mesmo bloco de
+texto. Use um contêiner de layout estável, como `tele2-price-pair`, e dois
+irmãos `data-slot="text"`: um `tele2-price-value` e um
+`tele2-price-suffix`. O contêiner usa `flex` em linha no desktop e coluna no
+mobile. Cada conteúdo continua editável e pode ser duplicado ou removido sem
+levar a formatação e o conteúdo do irmão junto.
+
+Um botão criado pelo builder pode preservar apenas a classe base `button`.
+Portanto, a aparência base do tema deve existir nessa classe dentro do
+`contentRoot`; não dependa de uma segunda classe para neutralizar a aparência
+padrão do GrapesJS. As variantes devem cobrir também `:link`, `:visited`,
+`:hover` e `:active`, com especificidade suficiente para impedir que o botão
+mude de cor sozinho, mas sem `!important`, para manter a edição intencional.
 
 ### Use nomes de classes estáveis
 
