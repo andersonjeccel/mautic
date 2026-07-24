@@ -304,6 +304,12 @@ O token aparece literalmente no builder e é processado somente na página
 pública. Um ID inexistente ou o texto `INSERT_YOUR_ID_HERE` não renderiza um
 formulário na página publicada.
 
+Quando o formulário fica abaixo de um título, use uma classe compartilhada para
+dar ao contêiner do token o mesmo recuo horizontal do título em cada
+breakpoint. Aplique essa classe a todos os pares equivalentes. Formulários
+intencionalmente centralizados devem manter sua própria classe de alinhamento e
+não receber o recuo lateral.
+
 ### Use nomes de classes estáveis
 
 Prefira classes com significado, por exemplo:
