@@ -140,7 +140,7 @@ e na página publicada:
 ```twig
 @font-face {
     font-family: 'Tele2 Sans';
-    src: url('{{ getAssetUrl('themes/tele2-summer-offer/assets/fonts/Tele2Sans-Regular.woff2', null, null, true) }}') format('woff2');
+    src: url('{{ getAssetUrl('themes/'~template~'/assets/fonts/Tele2Sans-Regular.woff2', null, null, true) }}') format('woff2');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -586,12 +586,12 @@ em `assets/` e gere as URLs com `getAssetUrl()`.
 Não copie scripts externos de rastreamento ou formulários para o tema. Use as
 integrações e os tokens do próprio Mautic.
 
-Na página Tele2, as imagens oficiais hospedadas no Salesforce e o vídeo do
-YouTube são dependências remotas intencionais para preservar o material
-publicado pelo cliente. Esse risco é aceito para essas mídias. As fontes ficam
-no próprio tema e os formulários usam tokens do Mautic. Antes de usar o tema
-sem acesso externo, substitua também essas mídias por arquivos locais
-autorizados.
+Na página Tele2, o favicon e as imagens oficiais ficam em `assets/images/`.
+Use `getAssetUrl('themes/'~template~'/assets/images/...')` para que o builder e
+a página publicada apontem para a instalação atual do tema. Não grave o nome
+da pasta diretamente: ele pode mudar durante a instalação ou empacotamento.
+O vídeo do YouTube continua remoto por ser um embed, e os formulários usam
+tokens do Mautic.
 
 ### Mantenha todas as listas dentro do rich text nativo
 
