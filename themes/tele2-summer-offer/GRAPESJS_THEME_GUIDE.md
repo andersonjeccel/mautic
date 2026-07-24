@@ -281,6 +281,24 @@ branco sobre fundo escuro. Uma regra antiga diretamente no `p`, por exemplo
 `font: inherit` globalmente: isso substitui a fonte serif e o tamanho dos
 títulos.
 
+Quando uma seção inteira tem fundo escuro, coloque a garantia de contraste na
+seção, não em um único parágrafo. Limite a herança aos rich texts para não
+alterar kickers, preços ou botões que tenham cores próprias:
+
+```css
+.dark-section {
+    color: #fafafa;
+}
+
+.dark-section .contentbuilder-landingpage-richtext,
+.dark-section .contentbuilder-landingpage-richtext * {
+    color: inherit;
+}
+```
+
+Assim, duplicar ou simplificar o conteúdo interno não reintroduz texto escuro
+no fundo escuro.
+
 Evite `span` aninhado quando ele só repete fonte, cor ou tamanho.
 Texto simples deve ficar diretamente dentro de `p`, `li` ou do elemento
 semântico correspondente. Reserve `span` para uma diferença real, como o
