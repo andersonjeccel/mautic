@@ -190,6 +190,19 @@ GrapesJS, deixe o texto diretamente dentro do link:
 Não coloque uma `div` dentro do link. O elemento editável e o elemento visual
 devem ser o mesmo.
 
+As variantes precisam ter especificidade suficiente para substituir a regra
+base. Se a base usa `.button.tele2-button`, uma variante que altera a borda
+deve incluir também a classe `.button`:
+
+```css
+.button.tele2-button--outline {
+    border-width: 1px;
+}
+```
+
+Usar somente `.tele2-button--outline` não substitui `border-width: 0` da regra
+base, mesmo que a variante apareça depois no CSS.
+
 ### Coloque o estilo completo no elemento de texto editável
 
 O editor rico pode simplificar vários `span`s aninhados quando o usuário abre
