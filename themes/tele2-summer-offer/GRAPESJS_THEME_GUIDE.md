@@ -39,30 +39,43 @@ O `page.html.twig` deve estender o arquivo base do próprio tema:
 
 ## Faça
 
-### Marque cada área de texto editável
+### Separe o contêiner visual dos componentes de texto
 
-Use `data-slot="text"` no contêiner que envolve parágrafos, títulos, listas e
-outros textos editáveis:
+Não transforme o contêiner visual inteiro em `type: text`. Em landing pages,
+um `div[data-slot="text"]` é importado como um único componente de texto e todo
+o HTML interno fica armazenado como uma string. Ao clicar, título, parágrafos e
+listas entram juntos no CKEditor.
+
+Deixe o contêiner como componente normal e use elementos semânticos como
+filhos:
 
 ```html
-<div class="contentbuilder-landingpage-richtext" data-slot="text">
-    <p>
-        <span>Texto editável</span>
-    </p>
+<div class="contentbuilder-landingpage-richtext section-copy">
+    <h2 class="section-heading">Título editável</h2>
+    <p>Parágrafo editável</p>
+    <ul>
+        <li>Item editável</li>
+    </ul>
 </div>
 ```
 
-Essa marcação informa ao builder que a hierarquia interna é texto rico e deve
-ser preservada. Sem ela, o GrapesJS pode tratar `p`, `span` e títulos como
-componentes independentes.
+O resultado esperado no GrapesJS é:
+
+- o contêiner como `default`;
+- o título como `text` com tag `h2`;
+- cada parágrafo como um componente próprio;
+- a lista como `ul`, com cada item em um `li`;
+- nenhum `gjs-heading-wrapper` dentro da landing page.
+
+Isso permite selecionar, duplicar e editar cada parte sem transformar a seção
+inteira em um único campo de texto.
 
 ### Use HTML válido e uma hierarquia simples
 
 - Use `p` para parágrafos.
 - Use `ul` ou `ol` com filhos `li` para listas.
 - Use `a` para links e mantenha o conteúdo clicável dentro dele.
-- Use `table`, `tbody`, `tr` e `td` na ordem correta quando uma tabela for
-  realmente necessária.
+- Use `table`, `tbody`, `tr` e `td` somente para dados tabulares reais.
 - Mantenha elementos inline, como `span`, `strong` e `em`, dentro do mesmo
   fluxo de texto.
 - Feche todas as tags.
@@ -143,7 +156,7 @@ Use classes estáveis para todos os estilos visuais e estruturais:
 ```html
 <div class="offer-row">
     <div class="offer-column">
-        <div class="offer-text contentbuilder-landingpage-richtext" data-slot="text">
+        <div class="offer-text contentbuilder-landingpage-richtext">
             <p class="offer-title">Texto editável</p>
         </div>
     </div>
@@ -217,20 +230,18 @@ tag de título que o editor preserva:
 
 Use elementos internos somente quando uma parte do texto realmente precisa de
 um formato diferente. Para títulos, prefira uma tag semântica `h1` a `h6`. O
-contêiner do slot deve ser tratado como bloco pelo builder; os elementos
-inline ficam restritos ao conteúdo interno.
+contêiner visual deve permanecer estrutural; os elementos inline ficam
+restritos ao conteúdo textual.
 
-### Use o slot de texto como base visual estável
+### Use o contêiner visual como base estável
 
-Em blocos compostos, o editor pode trocar um `p` por `span`, separar o texto ou
-remover wrappers durante a edição. A classe do contêiner com
-`data-slot="text"` permanece. Coloque nele os valores básicos que devem
-sobreviver a qualquer estrutura interna:
+Em blocos compostos, mantenha família, tamanho básico, espaçamento e cor
+contextual em uma classe estável do contêiner. Não é necessário transformá-lo
+em um slot de texto:
 
 ```html
 <div
     class="contentbuilder-landingpage-richtext offer-copy offer-copy--light"
-    data-slot="text"
 >
     <p>Texto editável</p>
 </div>
@@ -246,19 +257,40 @@ sobreviver a qualquer estrutura interna:
     color: #fafafa;
 }
 
+.offer-copy--light * {
+    color: inherit;
+}
 ```
 
-O builder mantém essa classe no elemento editável, então as regras semânticas
-do próprio título, lista ou parágrafo continuam valendo durante a edição. Não
-force `font: inherit` ou `color: inherit` em todos os filhos: isso substitui
-classes de títulos e faz o texto voltar ao sans de 14px. Regras internas devem
-ficar restritas a diferenças locais, como um preço destacado ou um marcador de
-lista.
+Use a herança de cor somente em contextos que exigem uma cor única, como texto
+branco sobre fundo escuro. Uma regra antiga diretamente no `p`, por exemplo
+`color: #333`, vence a cor do contêiner sem essa correção. Não aplique
+`font: inherit` globalmente: isso substitui a fonte serif e o tamanho dos
+títulos.
 
-Evite `span` aninhado quando ele só repete a fonte, a cor ou o tamanho do slot.
+Evite `span` aninhado quando ele só repete fonte, cor ou tamanho.
 Texto simples deve ficar diretamente dentro de `p`, `li` ou do elemento
 semântico correspondente. Reserve `span` para uma diferença real, como o
-marcador `✓` ou um preço com cor própria.
+preço com cor própria.
+
+Marcadores puramente visuais, como `✓`, não devem existir como texto editável.
+Gere-os com CSS:
+
+```css
+.feature-list > li {
+    padding-left: 28px;
+    position: relative;
+}
+
+.feature-list > li::before {
+    content: '✓';
+    left: 0;
+    position: absolute;
+}
+```
+
+Assim o usuário não consegue clicar no marcador, digitar dentro dele ou fazer
+o texto invadir o espaço do item.
 
 ### Use um contêiner HTML para tokens do Mautic
 
@@ -289,47 +321,95 @@ Classes continuam compreensíveis depois que o builder adiciona IDs próprios.
 
 Depois de alterar um tema já usado por uma página:
 
-1. Abra a edição da landing page.
-2. Selecione outro tema.
-3. Selecione novamente o tema alterado.
-4. Abra o builder.
-5. Clique em **Apply changes**.
-6. Feche o builder.
-7. Salve a landing page.
+1. Feche qualquer sessão antiga do builder.
+2. Atualize o tema.
+3. Migre o HTML e o estado salvo da página quando a estrutura mudou.
+4. Recompile o bundle do builder quando o JavaScript mudou.
+5. Abra a edição da landing page em uma carga sem cache.
+6. Abra o builder e teste os componentes alterados.
+7. Feche o builder sem salvar os textos usados apenas no teste.
 8. Recarregue a URL pública.
+
+Em uma página nova, também teste a aplicação do tema desde o início. Em uma
+página com edições reais, não troque o tema somente para forçar uma
+reimportação: isso pode substituir o conteúdo do usuário.
 
 Compare a renderização direta do Twig, o conteúdo dentro do builder e a página
 pública. Teste pelo menos uma largura de desktop, tablet e móvel. Duplique um
 texto, uma coluna e uma linha; as cópias devem manter fonte, espaçamento,
 largura, alinhamento, fundo e comportamento responsivo.
 
-Ao automatizar a troca de tema, trate a confirmação exibida pelo navegador e
-só prossiga depois de aceitá-la. Sem isso, o teste pode ficar parado antes de o
-novo HTML entrar no canvas.
+Não valide apenas pela aparência. Inspecione também:
+
+- o tipo e a tag do componente selecionado;
+- o HTML retornado pelo componente;
+- o conteúdo ativo do CKEditor;
+- os estilos calculados antes e durante a edição;
+- o HTML e o CSS serializados;
+- a resposta da página pública.
+
+Para um título, o esperado é selecionar diretamente `type: text` com tag `h2`,
+enquanto o contêiner visual permanece `default`.
+
+Quando uma troca de tema fizer parte do teste de uma página descartável, trate
+a confirmação exibida pelo navegador. Sem isso, o teste pode ficar parado
+antes de o novo HTML entrar no canvas.
 
 ## Não faça
 
-### Não deixe texto rico fora de `data-slot="text"`
+### Não transforme o contêiner inteiro em texto
 
-Sem o slot, a normalização do builder pode transformar isto:
-
-```html
-<p style="text-align: center">
-    <span style="font-size: 16px">Texto centralizado</span>
-</p>
-```
-
-em algo equivalente a:
+Evite:
 
 ```html
-<p></p>
-<div class="gjs-heading-wrapper">
-    <span>Texto centralizado</span>
+<div class="contentbuilder-landingpage-richtext" data-slot="text">
+    <h2>Título</h2>
+    <p>Descrição</p>
+    <ul>
+        <li>Item</li>
+    </ul>
 </div>
 ```
 
-O texto deixa de ser filho do parágrafo e perde estilos herdados como
-alinhamento, cor, fonte, tamanho, margem e altura de linha.
+O `data-slot="text"` força esse `div` a ser um único componente `text`. O
+GrapesJS deixa de manter filhos reais e guarda todo o conteúdo como uma string.
+Ao editar, a seção inteira entra no CKEditor.
+
+O builder de páginas deve reconhecer corretamente o contexto da landing page e
+preservar `h1` a `h6` sem criar `gjs-heading-wrapper`. A detecção não pode
+depender apenas de um contexto opcional; o formulário `page_customHtml` é um
+fallback confiável.
+
+### Não use tabelas para montar cards ou seções
+
+Uma tabela de apresentação vira um widget de tabela do CKEditor. Ao clicar, o
+usuário passa a editar uma célula redimensionável e o layout pode ser
+reescrito:
+
+```html
+<table>
+    <tbody>
+        <tr>
+            <td>
+                <h2>Oferta</h2>
+                <p>Descrição</p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+```
+
+Use a estrutura direta:
+
+```html
+<div class="offer-card">
+    <h2>Oferta</h2>
+    <p>Descrição</p>
+</div>
+```
+
+Depois da migração, confirme que não existem `<table>` nem `figure.table` no
+template, no HTML salvo, no estado do editor ou no conteúdo ativo do CKEditor.
 
 ### Não confie somente no preview do builder
 
@@ -375,11 +455,10 @@ background-color: ;
 Remova a propriedade quando não houver valor. O navegador ignora valores
 inválidos, mas o builder ainda pode salvá-los e aumentar o CSS gerado.
 
-### Não coloque a estrutura da página dentro de um único slot de texto
+### Não coloque a estrutura da página dentro de um componente de texto
 
-Marque somente a área de texto. Não coloque linhas, colunas, imagens, vídeos e
-formulários dentro de um único `data-slot="text"`, pois o editor de texto rico
-pode tentar editar toda a estrutura como conteúdo textual.
+Linhas, colunas, cards, imagens, vídeos e formulários devem ser componentes
+estruturais. Apenas o elemento semântico que contém texto deve ser editável.
 
 ### Não dependa de tags antigas em temas novos
 
@@ -419,32 +498,55 @@ recuo e os marcadores padrão do navegador:
 Use `ul` com marcadores normais somente nas listas editoriais que realmente
 precisam deles.
 
-### Não mantenha um estado antigo do editor
+### Mantenha HTML e estado do editor sincronizados
 
-O Mautic pode salvar um `editorState` do GrapesJS separado do HTML da página.
-Depois de simplificar o tema, um estado antigo pode reintroduzir componentes,
-itens vazios e estilos que já foram removidos do Twig. Ao trocar a estrutura
-base do tema, descarte esse estado e abra o builder novamente para reconstruí-lo
-a partir do HTML atual.
+O Mautic salva o HTML público e o projeto do GrapesJS separadamente. Alterar
+somente o Twig ou `custom_html` não corrige uma página que já possui estado
+salvo. A estrutura usada pelo builder fica em:
+
+```text
+content
+└── grapesjsbuilder
+    └── editorState
+        ├── pages
+        └── styles
+```
+
+Ao migrar uma página existente:
+
+1. preserve o conteúdo e as edições do usuário;
+2. atualize `custom_html`;
+3. atualize os componentes e estilos dentro de
+   `grapesjsbuilder.editorState`;
+4. feche sessões antigas do builder antes da migração;
+5. reabra o builder e confira o projeto efetivamente carregado;
+6. verifique novamente o banco, pois uma sessão antiga pode sobrescrever a
+   migração com o estado anterior.
+
+Não adicione `styles` no nível externo de `content`: o GrapesJS não lê esse
+local. Não descarte todo o estado quando uma migração pequena e direcionada
+consegue preservar as edições existentes.
 
 ## Diagnóstico rápido
 
 Se o preview e a página pública forem diferentes:
 
 1. Conte ocorrências de `gjs-heading-wrapper` no HTML salvo.
-2. Confirme que cada bloco de rich text tem `data-slot="text"`.
-3. Procure regras CSS ligadas a IDs gerados e mova os estilos para classes.
-4. Confirme que o bloco `<style>` gerado ainda está no HTML público.
-5. Compare o estilo calculado do mesmo elemento nas duas páginas.
-6. Verifique se o texto continua dentro do elemento que possui os estilos.
-7. Confirme que os tokens de formulário continuam no HTML salvo.
-8. Reaplique o tema e salve novamente antes de concluir que a alteração não
-   funcionou.
+2. Conte `data-slot="text"` em contêineres compostos; o esperado é zero.
+3. Procure `<table>` e `figure.table` em rich text; o esperado é zero.
+4. Confirme que o contêiner visual é `default` e o texto semântico é `text`.
+5. Procure regras CSS ligadas a IDs gerados e mova os estilos para classes.
+6. Confirme que o bloco `<style>` gerado ainda está no HTML público.
+7. Compare o estilo calculado antes, durante e depois da edição.
+8. Compare `custom_html` com `grapesjsbuilder.editorState`.
+9. Confirme que os tokens de formulário continuam no HTML salvo.
+10. Faça uma carga sem cache depois de recompilar o bundle do builder.
 
-No caso Tele2, havia dois problemas. Os wrappers de texto criados durante a
-normalização alteravam a hierarquia, e os estilos inline eram serializados em
-seletores presos aos IDs originais. Os slots de texto preservaram a hierarquia;
-as classes estáveis fizeram as cópias manterem o mesmo visual.
+No caso Tele2, os problemas tinham a mesma causa: estrutura visual e conteúdo
+editável estavam misturados. Contêineres inteiros viravam texto, tabelas de
+layout viravam células do CKEditor, marcadores visuais podiam ser editados e
+estilos presos a IDs não sobreviviam à duplicação. A correção separou estrutura,
+conteúdo e decoração e manteve as duas representações salvas sincronizadas.
 
 ## Critérios de aceite
 
@@ -452,7 +554,10 @@ as classes estáveis fizeram as cópias manterem o mesmo visual.
 - O Twig passa no lint.
 - O builder abre sem erro.
 - O HTML salvo não contém wrappers inesperados.
-- Todos os slots de texto continuam presentes depois de salvar.
+- Contêineres visuais não são componentes `text`.
+- Títulos e parágrafos podem ser selecionados individualmente.
+- O conteúdo rico não contém tabelas usadas apenas para layout.
+- Marcadores decorativos não existem como texto editável.
 - Todos os tokens do Mautic continuam presentes depois de salvar.
 - Botões continuam editáveis como botões, sem uma `div` interna.
 - Títulos mantêm família, cor, tamanho e altura de linha ao entrar e sair da
