@@ -362,6 +362,18 @@ breakpoint. Aplique essa classe a todos os pares equivalentes. Formulários
 intencionalmente centralizados devem manter sua própria classe de alinhamento e
 não receber o recuo lateral.
 
+### Use uma única linha de alinhamento por breakpoint
+
+No mobile, títulos, textos, imagens contidas, botões full-width, kickers e
+tokens relacionados devem começar e terminar no mesmo gutter. Não deixe cada
+componente manter um padding herdado diferente do desktop. Imagens
+intencionalmente full-width são a exceção e devem ser identificadas como tal.
+
+Meça o retângulo real dos componentes no canvas do GrapesJS e na página
+pública. Uma seção pode parecer centralizada e ainda ter texto a 32 px, mídia a
+36 px e ações a 66 px. A correção responsiva deve atingir a família inteira de
+wrappers equivalentes e produzir a mesma linha de conteúdo nos dois ambientes.
+
 ### Use nomes de classes estáveis
 
 Prefira classes com significado, por exemplo:
