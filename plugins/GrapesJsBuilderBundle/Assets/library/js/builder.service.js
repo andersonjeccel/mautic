@@ -513,6 +513,7 @@ export default class BuilderService {
 
   persistEditorState() {
     this.ensureOptimisticLockVersion();
+    this.normalizeTextComponentContainers();
 
     if (
       !this.editorStateField ||
@@ -690,7 +691,9 @@ export default class BuilderService {
       this.normalizeTextComponentContainers();
     });
     this.editor.on('component:add', (component) => this.normalizeTextComponentContainers(component));
-    this.editor.on('rte:disable', (component) => this.normalizeTextComponentContainers(component));
+    this.editor.on('rte:disable', () => {
+      window.setTimeout(() => this.normalizeTextComponentContainers(), 0);
+    });
     this.editor.on('mautic:code-editor-update', () => this.normalizeTextComponentContainers());
 
     // add offset to flashes container for better UI visibility when builder is on
@@ -1626,6 +1629,10 @@ export default class BuilderService {
       return;
     }
 
+    if (this.normalizeDataSlotTextContainer(component)) {
+      return;
+    }
+
     const type = component.get('type');
     if (type !== 'text') {
       return;
@@ -1674,6 +1681,62 @@ export default class BuilderService {
     }
 
     component.set('tagName', 'div');
+  }
+
+  normalizeDataSlotTextContainer(component) {
+    if (!this.isPageContext() || !this.isDataSlotTextContainer(component)) {
+      return false;
+    }
+
+    const children = typeof component.components === 'function' ? component.components() : null;
+    const currentContent = component.get('content');
+    if (!children || !children.length) {
+      if (typeof currentContent === 'string') {
+        const sanitizedContent = this.sanitizeDataSlotTextContent(currentContent);
+        if (sanitizedContent !== currentContent) {
+          component.set('content', sanitizedContent);
+        }
+      }
+      return true;
+    }
+
+    const childContent = children
+      .map((childComponent) =>
+        typeof childComponent.toHTML === 'function' ? childComponent.toHTML() : ''
+      )
+      .join('');
+    const content =
+      typeof currentContent === 'string' && currentContent.trim()
+        ? currentContent
+        : childContent;
+
+    component.components([], { silent: true });
+    component.set('content', this.sanitizeDataSlotTextContent(content));
+
+    return true;
+  }
+
+  sanitizeDataSlotTextContent(content) {
+    const container = document.createElement('div');
+    container.innerHTML = content;
+
+    container.querySelectorAll('*').forEach((element) => {
+      const generatedId = element.getAttribute('id');
+      if (generatedId && /^i[a-z0-9-]+$/i.test(generatedId)) {
+        element.removeAttribute('id');
+      }
+
+      ['data-gjs-type', 'data-list-item-id', 'draggable'].forEach((attribute) => {
+        element.removeAttribute(attribute);
+      });
+
+      element.classList.remove('gjs-selected');
+      if (!element.getAttribute('class')) {
+        element.removeAttribute('class');
+      }
+    });
+
+    return container.innerHTML;
   }
 
   hasTextComponentAncestor(component) {

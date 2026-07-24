@@ -39,36 +39,57 @@ O `page.html.twig` deve estender o arquivo base do próprio tema:
 
 ## Faça
 
-### Separe o contêiner visual dos componentes de texto
+### Separe estrutura visual de unidades de rich text
 
-Não transforme o contêiner visual inteiro em `type: text`. Em landing pages,
-um `div[data-slot="text"]` é importado como um único componente de texto e todo
-o HTML interno fica armazenado como uma string. Ao clicar, título, parágrafos e
-listas entram juntos no CKEditor.
+O contêiner que monta a linha, coluna ou card deve continuar estrutural. Dentro
+dele, cada conteúdo que deve abrir junto no CKEditor vira uma unidade explícita
+com `div[data-slot="text"]`.
 
-Deixe o contêiner como componente normal e use elementos semânticos como
-filhos:
+Para um texto simples, use desde o início a mesma estrutura estável que o
+CKEditor produziria depois do primeiro clique:
 
 ```html
 <div class="contentbuilder-landingpage-richtext section-copy">
-    <h2 class="section-heading">Título editável</h2>
-    <p>Parágrafo editável</p>
-    <ul>
-        <li>Item editável</li>
-    </ul>
+    <div data-slot="text" class="text-block">
+        <p>Parágrafo editável</p>
+    </div>
+</div>
+```
+
+Para introdução, lista e continuação que pertencem ao mesmo texto:
+
+```html
+<div class="contentbuilder-landingpage-richtext section-copy">
+    <div data-slot="text" class="richtext-group">
+        <p>Introdução</p>
+        <ul>
+            <li>Primeiro item</li>
+            <li>Segundo item</li>
+        </ul>
+        <p>Continuação</p>
+    </div>
 </div>
 ```
 
 O resultado esperado no GrapesJS é:
 
-- o contêiner como `default`;
-- o título como `text` com tag `h2`;
-- cada parágrafo como um componente próprio;
-- a lista como `ul`, com cada item em um `li`;
-- nenhum `gjs-heading-wrapper` dentro da landing page.
+- o contêiner visual externo como `default`;
+- cada `div[data-slot="text"]` como um único componente `text`;
+- o HTML interno guardado como conteúdo do rich text, não como componentes
+  estruturais separados;
+- o `ul` editado com os controles nativos do CKEditor;
+- nenhum `gjs-heading-wrapper`, ID gerado, `draggable`,
+  `data-gjs-type` ou `data-list-item-id` no tema.
 
-Isso permite selecionar, duplicar e editar cada parte sem transformar a seção
-inteira em um único campo de texto.
+Na importação inicial e depois de usar o editor de código, o builder de páginas
+deve condensar os filhos de cada `div[data-slot="text"]` no conteúdo do
+componente `text`. Sem essa normalização, o HTML pode estar correto e ainda
+assim o GrapesJS expor `p`, `ul` e `li` separadamente até o primeiro clique no
+CKEditor.
+
+Um título isolado pode continuar como `h1` a `h6` diretamente dentro do
+contêiner, pois ele já é uma unidade de texto única. Não coloque um título,
+uma lista e um card inteiro no mesmo slot apenas por estarem próximos.
 
 ### Use HTML válido e uma hierarquia simples
 
@@ -385,7 +406,9 @@ Não valide apenas pela aparência. Inspecione também:
 - o HTML e o CSS serializados;
 - a resposta da página pública.
 
-Para um título, o esperado é selecionar diretamente `type: text` com tag `h2`,
+Para um título isolado, o esperado é selecionar diretamente `type: text` com
+tag `h2`. Para um parágrafo ou grupo rico, o esperado é selecionar o
+`div[data-slot="text"]` e abrir todo o seu conteúdo como uma única edição,
 enquanto o contêiner visual permanece `default`.
 
 Quando uma troca de tema fizer parte do teste de uma página descartável, trate
@@ -394,7 +417,7 @@ antes de o novo HTML entrar no canvas.
 
 ## Não faça
 
-### Não transforme o contêiner inteiro em texto
+### Não transforme o contêiner visual inteiro em texto
 
 Evite:
 
@@ -408,9 +431,10 @@ Evite:
 </div>
 ```
 
-O `data-slot="text"` força esse `div` a ser um único componente `text`. O
-GrapesJS deixa de manter filhos reais e guarda todo o conteúdo como uma string.
-Ao editar, a seção inteira entra no CKEditor.
+O `data-slot="text"` força esse `div` a ser um único componente `text`. Isso é
+correto para uma unidade editorial, mas não para o contêiner que também monta
+layout, imagem, botão, formulário ou card. O limite do slot deve ser o limite do
+conteúdo que o usuário espera editar de uma vez.
 
 O builder de páginas deve reconhecer corretamente o contexto da landing page e
 preservar `h1` a `h6` sem criar `gjs-heading-wrapper`. A detecção não pode
@@ -657,9 +681,11 @@ consegue preservar as edições existentes.
 Se o preview e a página pública forem diferentes:
 
 1. Conte ocorrências de `gjs-heading-wrapper` no HTML salvo.
-2. Conte `data-slot="text"` em contêineres compostos; o esperado é zero.
+2. Confirme que `data-slot="text"` aparece somente em unidades editoriais e
+   nunca no contêiner que monta a seção, coluna ou card.
 3. Procure `<table>` e `figure.table` em rich text; o esperado é zero.
-4. Confirme que o contêiner visual é `default` e o texto semântico é `text`.
+4. Confirme que o contêiner visual é `default` e cada unidade editorial é um
+   único componente `text`, sem `ul` ou `li` estruturais dentro dela.
 5. Procure regras CSS ligadas a IDs gerados e mova os estilos para classes.
 6. Confirme que o bloco `<style>` gerado ainda está no HTML público.
 7. Compare o estilo calculado antes, durante e depois da edição.
@@ -682,7 +708,8 @@ conteúdo e decoração e manteve as duas representações salvas sincronizadas.
 - O builder abre sem erro.
 - O HTML salvo não contém wrappers inesperados.
 - Contêineres visuais não são componentes `text`.
-- Títulos e parágrafos podem ser selecionados individualmente.
+- Títulos isolados e unidades de rich text podem ser selecionados sem expor
+  seus `p`, `ul` ou `li` internos como componentes estruturais separados.
 - O conteúdo rico não contém tabelas usadas apenas para layout.
 - Marcadores decorativos não existem como texto editável.
 - Todos os tokens do Mautic continuam presentes depois de salvar.
