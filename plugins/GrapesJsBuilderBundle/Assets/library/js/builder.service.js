@@ -121,7 +121,9 @@ export default class BuilderService {
   }
 
   isPageContext() {
-    return this.context?.formName === 'page';
+    const hostDocument = window.parent?.document || document;
+
+    return this.context?.formName === 'page' || hostDocument.getElementById('page_customHtml') !== null;
   }
 
   normalizeSessionId(sessionValue) {
@@ -1648,11 +1650,17 @@ export default class BuilderService {
     const inlineHeadingTags = ['span'];
 
     if (headingTags.includes(tagName)) {
+      if (this.isPageContext()) {
+        return;
+      }
       this.wrapHeadingComponentWithDiv(component, tagName);
       return;
     }
 
     if (inlineHeadingTags.includes(tagName)) {
+      if (this.isPageContext()) {
+        return;
+      }
       this.wrapHeadingComponentWithDiv(component, tagName);
       return;
     }
