@@ -513,6 +513,13 @@ em `assets/` e gere as URLs com `getAssetUrl()`.
 Não copie scripts externos de rastreamento ou formulários para o tema. Use as
 integrações e os tokens do próprio Mautic.
 
+Na página Tele2, as imagens oficiais hospedadas no Salesforce e o vídeo do
+YouTube são dependências remotas intencionais para preservar o material
+publicado pelo cliente. Esse risco é aceito para essas mídias. As fontes ficam
+no próprio tema e os formulários usam tokens do Mautic. Antes de usar o tema
+sem acesso externo, substitua também essas mídias por arquivos locais
+autorizados.
+
 ### Mantenha todas as listas dentro do rich text nativo
 
 Um `ul` de conteúdo não deve ser filho estrutural solto de uma linha, coluna ou
@@ -560,8 +567,8 @@ virar um componente editável independente. Use um `div` de texto dedicado:
 ```html
 <div data-slot="text" class="price-line">
     <p>
-        <strong class="price">1 599 kr/mån</strong>
-        <small class="price-description">månadsavgift</small>
+        <strong>1 599 kr/mån</strong>
+        <small>månadsavgift</small>
     </p>
 </div>
 ```
@@ -577,6 +584,28 @@ Para a descrição secundária, prefira um elemento inline que o modelo do edito
 aceite dentro do parágrafo, como `small`. Um `span` com classe de HTML geral
 pode ser preservado como um bloco separado pelo CKEditor e sair do `p`, mesmo
 quando o HTML de entrada era válido.
+
+Ancore o CSS dessa marcação na classe do componente de texto:
+
+```css
+.price-line strong {
+    color: #419952;
+    display: inline-block;
+    margin-right: 0.3em;
+}
+
+.price-line small {
+    color: #555;
+    font-size: 15px;
+}
+```
+
+O GrapesJS pode guardar o HTML interno de um componente `text` como uma string.
+Nesse caso, classes usadas somente em filhos como `strong` e `small` não entram
+na árvore de componentes. Ao salvar, o gerador de CSS remove como não utilizada
+uma regra isolada como `.price`, mesmo que a classe ainda esteja no HTML.
+Um seletor ancorado em `.price-line`, que é um componente conhecido pelo
+builder, permanece no CSS público e continua funcionando depois de reabrir.
 
 ### Corrija famílias, não ocorrências
 
@@ -637,6 +666,8 @@ Se o preview e a página pública forem diferentes:
 8. Compare `custom_html` com `grapesjsbuilder.editorState`.
 9. Confirme que os tokens de formulário continuam no HTML salvo.
 10. Faça uma carga sem cache depois de recompilar o bundle do builder.
+11. Confirme que regras de filhos guardados como texto continuam no CSS público;
+    se sumirem, ancore o seletor na classe estável do componente `text`.
 
 No caso Tele2, os problemas tinham a mesma causa: estrutura visual e conteúdo
 editável estavam misturados. Contêineres inteiros viravam texto, tabelas de
