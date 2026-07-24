@@ -482,37 +482,16 @@ em `assets/` e gere as URLs com `getAssetUrl()`.
 Não copie scripts externos de rastreamento ou formulários para o tema. Use as
 integrações e os tokens do próprio Mautic.
 
-### Remova o estilo padrão de listas compactas
+### Mantenha todas as listas dentro do rich text nativo
 
-Listas usadas dentro de cards, tabelas ou caixas de oferta devem declarar
-explicitamente a aparência esperada. Sem isso, o canvas do GrapesJS aplica o
-recuo e os marcadores padrão do navegador:
-
-```css
-.offer-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.offer-list > li {
-    margin: 0 0 8px;
-    padding: 0;
-}
-```
-
-Use `ul` com marcadores normais somente nas listas editoriais que realmente
-precisam deles.
-
-### Agrupe listas editoriais com o texto relacionado
-
-Quando parágrafos e uma lista com marcadores formam uma única seção editorial,
-coloque todos dentro de um único bloco de texto interno:
+Um `ul` de conteúdo não deve ser filho estrutural solto de uma linha, coluna ou
+card. Coloque a lista e os parágrafos relacionados dentro de um único bloco de
+texto interno:
 
 ```html
 <div class="contentbuilder-landingpage-richtext tele2-edit-safe"
      role="presentation">
-    <div class="tele2-richtext-group">
+    <div data-slot="text" class="tele2-richtext-group">
         <p>Introdução da seção</p>
         <ul>
             <li>Primeiro item</li>
@@ -526,20 +505,21 @@ coloque todos dentro de um único bloco de texto interno:
 O contêiner externo continua sendo apenas estrutura. O
 `.tele2-richtext-group` é o único componente de texto da seção. Assim, o
 CKEditor edita parágrafos e bullets como um conteúdo só, e inserir ou remover
-itens usa o comportamento normal do editor.
-
-Não use esse agrupamento para listas que têm função visual própria, como
-`.tele2-feature-list` e `.tele2-compact-list`. Essas listas dependem de classes,
-espaçamento ou marcadores especiais e devem continuar como componentes
-estruturados.
+itens usa o comportamento normal do editor. Listas comuns mantêm os bullets
+nativos. Uma lista com aparência especial também fica dentro do rich text: use
+uma classe no próprio `ul`, como `.tele2-feature-list`, somente para trocar o
+marcador por um checkmark. A classe visual não transforma o `ul` em componente
+estrutural separado.
 
 Ao testar, confirme que:
 
 1. o contêiner externo não abre o CKEditor;
 2. o grupo interno abre como um único bloco de texto;
 3. o conteúdo do editor contém os parágrafos e o `ul`;
-4. criar e apagar bullets não desloca o marcador para cima do texto;
-5. salvar e reabrir mantém a mesma estrutura.
+4. nenhum `ul` aparece como componente estrutural selecionável;
+5. listas comuns mostram bullets e listas de benefícios mantêm os checkmarks;
+6. criar e apagar itens não desloca o marcador para cima do texto;
+7. salvar e reabrir mantém a mesma estrutura.
 
 ### Faça uma linha visual ser uma unidade de texto
 
