@@ -404,8 +404,12 @@ Portanto, a aparência base do tema deve alcançar `body a.button`; não dependa
 de uma segunda classe nem da posição final do componente para neutralizar a
 regra roxa que o bloco nativo injeta. As variantes devem cobrir também `:link`,
 `:visited`, `:hover` e `:active`, com especificidade suficiente para impedir
-que o botão mude de cor sozinho, mas sem `!important`, para manter a edição
-intencional.
+que o botão mude de cor sozinho. O CKEditor também pode envolver o texto do
+link em `span` ou `font` e gravar uma cor diretamente nesse filho. Por isso, a
+cor semântica das variantes de botão deve vencer com `!important`, e todos os
+elementos internos devem herdar essa cor. Restrinja essa exceção à cor do
+botão: largura, espaçamento e demais propriedades continuam editáveis
+normalmente.
 
 ### Use nomes de classes estáveis
 
