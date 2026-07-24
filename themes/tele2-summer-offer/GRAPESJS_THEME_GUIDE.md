@@ -385,6 +385,18 @@ isso também desloca cards e seções que devem continuar contidos. Marque ou
 selecione apenas a família de faixas intencionalmente full-bleed e valide o
 retângulo do fundo separadamente do retângulo do conteúdo.
 
+Cards contidos também podem acumular o gutter do `contentRoot`, o padding do
+rich text e o padding do próprio card. No mobile, faça o contorno do card
+compensar apenas o gutter duplicado com margens negativas e mantenha o mesmo
+valor como padding interno. Assim, o contorno ocupa a largura esperada sem
+tirar títulos, preços e listas da linha de conteúdo da página.
+
+Para valores compostos, mantenha preço e complemento como elementos irmãos
+dentro de um único `tele2-price-line`. No mobile, altere ambos para `block` na
+classe estável do componente. Isso garante que todos os preços quebrem da mesma
+forma, inclusive depois de uma edição no CKEditor, sem inserir `<br>` específico
+em cada ocorrência.
+
 ### Use nomes de classes estáveis
 
 Prefira classes com significado, por exemplo:
