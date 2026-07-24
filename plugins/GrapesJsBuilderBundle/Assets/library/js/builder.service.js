@@ -1720,6 +1720,49 @@ export default class BuilderService {
     const container = document.createElement('div');
     container.innerHTML = content;
 
+    container.querySelectorAll('ul, ol').forEach((list) => {
+      const previousParagraph = list.previousElementSibling;
+      if (!previousParagraph || 'P' !== previousParagraph.tagName) {
+        return;
+      }
+
+      let removedTrailingBreak = false;
+      while (previousParagraph.lastChild) {
+        const lastChild = previousParagraph.lastChild;
+        if (Node.TEXT_NODE === lastChild.nodeType && /^[\s\u00a0]*$/.test(lastChild.textContent)) {
+          lastChild.remove();
+          continue;
+        }
+
+        if (Node.ELEMENT_NODE === lastChild.nodeType && 'BR' === lastChild.tagName) {
+          lastChild.remove();
+          removedTrailingBreak = true;
+          continue;
+        }
+
+        break;
+      }
+
+      if (
+        removedTrailingBreak &&
+        previousParagraph.lastChild &&
+        Node.TEXT_NODE === previousParagraph.lastChild.nodeType
+      ) {
+        previousParagraph.lastChild.textContent = previousParagraph.lastChild.textContent.replace(
+          /[\s\u00a0]+$/,
+          ''
+        );
+      }
+
+      const hasVisibleText = '' !== previousParagraph.textContent.replace(/\u00a0/g, '').trim();
+      const hasEmbeddedContent = previousParagraph.querySelector(
+        'audio, canvas, iframe, img, picture, svg, video'
+      );
+      if (!hasVisibleText && !hasEmbeddedContent) {
+        previousParagraph.remove();
+      }
+    });
+
     container.querySelectorAll('*').forEach((element) => {
       const generatedId = element.getAttribute('id');
       if (generatedId && /^i[a-z0-9-]+$/i.test(generatedId)) {

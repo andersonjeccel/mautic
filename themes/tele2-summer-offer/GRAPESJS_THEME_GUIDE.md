@@ -573,6 +573,13 @@ uma classe no próprio `ul`, como `.tele2-feature-list`, somente para trocar o
 marcador por um checkmark. A classe visual não transforma o `ul` em componente
 estrutural separado.
 
+Não termine o parágrafo anterior à lista com `<br>`, `&nbsp;` ou um parágrafo
+vazio para criar espaço. O CKEditor preserva ou normaliza esses nós e pode
+transformá-los numa linha editável em branco antes do primeiro item. Controle a
+distância com a margem do `ul`. Ao carregar ou fechar o rich text, o builder
+remove quebras finais vazias e parágrafos vazios imediatamente anteriores a
+`ul` ou `ol`.
+
 Ao testar, confirme que:
 
 1. o contêiner externo não abre o CKEditor;
@@ -581,7 +588,8 @@ Ao testar, confirme que:
 4. nenhum `ul` aparece como componente estrutural selecionável;
 5. listas comuns mostram bullets e listas de benefícios mantêm os checkmarks;
 6. criar e apagar itens não desloca o marcador para cima do texto;
-7. salvar e reabrir mantém a mesma estrutura.
+7. clicar na lista não cria uma linha vazia antes do primeiro item;
+8. salvar e reabrir mantém a mesma estrutura.
 
 ### Faça uma linha visual ser uma unidade de texto
 
