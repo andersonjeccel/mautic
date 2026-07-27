@@ -640,42 +640,43 @@ Ao testar, confirme que:
 7. clicar na lista não cria uma linha vazia antes do primeiro item;
 8. salvar e reabrir mantém a mesma estrutura.
 
-### Faça uma linha visual ser uma unidade de texto
+### Separe as partes editáveis de um valor composto
 
-Quando dois textos inline formam uma única linha visual, não deixe cada parte
-virar um componente editável independente. Use um `div` de texto dedicado:
+Mesmo quando preço e complemento aparecem na mesma linha visual, mantenha cada
+parte em seu próprio `div[data-slot="text"]`, como no tema Tele2:
 
 ```html
-<div data-slot="text" class="price-line">
-    <p>
-        <strong>1 599 kr/mån</strong>
-        <small>månadsavgift</small>
-    </p>
+<div class="tele2-price-pair" role="presentation">
+    <div data-slot="text" class="tele2-price-value">
+        <p><strong>1 599 kr/mån</strong></p>
+    </div>
+    <div data-slot="text" class="tele2-price-suffix">
+        <p><small>månadsavgift</small></p>
+    </div>
 </div>
 ```
 
-Não use um `p` estrutural contendo componentes de texto independentes. Ao
-ativar somente uma parte, o CKEditor pode fechar o `p`, mover o texto seguinte
-para fora e criar outro `p` vazio. O `div[data-slot="text"]` faz a linha inteira
-ser aberta e salva como uma única unidade. Dentro dele, mantenha todo o conteúdo
-inline no mesmo `p`: elementos inline diretamente na raiz também podem ser
-normalizados em blocos separados pelo CKEditor.
+O `.tele2-price-pair` é somente um contêiner de layout. O valor e o complemento
+são componentes de texto irmãos e independentes. Assim, editar, duplicar ou
+remover uma parte não altera o conteúdo nem a formatação da outra.
 
-Para a descrição secundária, prefira um elemento inline que o modelo do editor
-aceite dentro do parágrafo, como `small`. Um `span` com classe de HTML geral
-pode ser preservado como um bloco separado pelo CKEditor e sair do `p`, mesmo
-quando o HTML de entrada era válido.
+Use `flex` no contêiner para controlar se as partes aparecem na mesma linha ou
+em linhas separadas em cada breakpoint. Mantenha o conteúdo de cada slot dentro
+de um `p`; elementos inline diretamente na raiz também podem ser normalizados
+em blocos separados pelo CKEditor.
 
-Ancore o CSS dessa marcação na classe do componente de texto:
+Ancore o CSS nas classes estáveis que o GrapesJS conhece:
 
 ```css
-.price-line strong {
-    color: #419952;
-    display: inline-block;
-    margin-right: 0.3em;
+.tele2-price-pair {
+    display: flex;
 }
 
-.price-line small {
+.tele2-price-value strong {
+    color: #419952;
+}
+
+.tele2-price-suffix small {
     color: #555;
     font-size: 15px;
 }
@@ -683,10 +684,9 @@ Ancore o CSS dessa marcação na classe do componente de texto:
 
 O GrapesJS pode guardar o HTML interno de um componente `text` como uma string.
 Nesse caso, classes usadas somente em filhos como `strong` e `small` não entram
-na árvore de componentes. Ao salvar, o gerador de CSS remove como não utilizada
-uma regra isolada como `.price`, mesmo que a classe ainda esteja no HTML.
-Um seletor ancorado em `.price-line`, que é um componente conhecido pelo
-builder, permanece no CSS público e continua funcionando depois de reabrir.
+na árvore de componentes. Os seletores ancorados em `.tele2-price-value` e
+`.tele2-price-suffix`, que são componentes conhecidos pelo builder, permanecem
+no CSS público e continuam funcionando depois de reabrir.
 
 ### Corrija famílias, não ocorrências
 
