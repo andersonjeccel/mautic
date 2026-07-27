@@ -1,13 +1,6 @@
 {
   "name": "mautic/theme-tele2-pages",
-  "description": "Mautic Tele2 Pages Theme",
+  "description": "Tele2 Pages",
   "type": "mautic-theme",
-  "keywords": ["mautic", "theme"],
-  "extra": {
-    "install-directory-name": "tele2_pages"
-  },
-  "minimum-stability": "dev",
-  "require": {
-    "mautic/core-lib": "^7.0"
-  }
+  "keywords": ["mautic", "theme"]
 }
