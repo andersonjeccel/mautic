@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 
-class CategoryController extends AbstractFormController
+final class CategoryController extends AbstractFormController
 {
     public function __construct(
         private readonly FormFactoryInterface $formFactory,
@@ -47,7 +47,7 @@ class CategoryController extends AbstractFormController
     {
         if (method_exists($this, $objectAction.'Action')) {
             return $this->forward(
-                static::class.'::'.$objectAction.'Action',
+                self::class.'::'.$objectAction.'Action',
                 [
                     'bundle'      => $bundle,
                     'objectId'    => $objectId,
@@ -165,10 +165,9 @@ class CategoryController extends AbstractFormController
 
         $categoryTypes = ['category' => $this->translator->trans('mautic.core.select')];
 
-        $dispatcher = $this->dispatcher;
-        if ($dispatcher->hasListeners(CategoryEvents::CATEGORY_ON_BUNDLE_LIST_BUILD)) {
+        if ($this->dispatcher->hasListeners(CategoryEvents::CATEGORY_ON_BUNDLE_LIST_BUILD)) {
             $event = new CategoryTypesEvent();
-            $dispatcher->dispatch($event, CategoryEvents::CATEGORY_ON_BUNDLE_LIST_BUILD);
+            $this->dispatcher->dispatch($event, CategoryEvents::CATEGORY_ON_BUNDLE_LIST_BUILD);
             $categoryTypes = array_merge($categoryTypes, $event->getCategoryTypes());
         }
 
@@ -222,7 +221,11 @@ class CategoryController extends AbstractFormController
             'objectAction' => 'new',
             'bundle'       => $bundle,
         ]);
-        $form = $this->categoryModel->createForm($entity, $this->formFactory, $action, ['bundle' => $bundle, 'show_bundle_select' => 'category' === $bundle]);
+        $form = $this->categoryModel->createForm($entity, $this->formFactory, $action, [
+            'bundle'             => $bundle,
+            'show_bundle_select' => 'category' === $bundle,
+            'save_and_new'       => !$inForm,
+        ]);
         $form['inForm']->setData($inForm);
         // /Check for a submitted form and process it
         if (Request::METHOD_POST === $method) {
@@ -230,13 +233,32 @@ class CategoryController extends AbstractFormController
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = $this->isFormValid($form)) {
                     $success = 1;
+                    $saveAndNew = $this->isButtonClicked($form, 'save_and_new');
 
                     // form is valid so process the data
-                    $this->categoryModel->saveEntity($entity, $this->getFormButton($form, ['buttons', 'save'])->isClicked());
+                    $this->categoryModel->saveEntity(
+                        $entity,
+                        $saveAndNew || $this->getFormButton($form, ['buttons', 'save'])->isClicked()
+                    );
 
                     $this->addFlashMessage('mautic.category.notice.created', [
                         '%name%' => $entity->getTitle(),
                     ]);
+
+                    if ($saveAndNew) {
+                        $bundle = $entity->getBundle();
+                        $entity = $this->categoryModel->getEntity();
+                        $action = $this->generateUrl('mautic_category_action', [
+                            'objectAction' => 'new',
+                            'bundle'       => $bundle,
+                        ]);
+                        $form = $this->categoryModel->createForm($entity, $this->formFactory, $action, [
+                            'bundle'       => $bundle,
+                            'save_and_new' => true,
+                        ]);
+                        $form['inForm']->setData(0);
+                        $valid = false;
+                    }
                 }
             } else {
                 $success = 1;
@@ -298,7 +320,7 @@ class CategoryController extends AbstractFormController
     /**
      * Generates edit form and processes post data.
      */
-    public function editAction(Request $request, $bundle, $objectId, $ignorePost = false): JsonResponse|Response
+    public function editAction(Request $request, ?string $bundle, $objectId, $ignorePost = false): JsonResponse|Response
     {
         $session = $request->getSession();
         $entity    = $this->categoryModel->getEntity($objectId);
@@ -438,7 +460,7 @@ class CategoryController extends AbstractFormController
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $bundle, $objectId)
+    public function deleteAction(Request $request, ?string $bundle, $objectId)
     {
         $session    = $request->getSession();
         $page       = $session->get('mautic.category.page', 1);
@@ -504,10 +526,8 @@ class CategoryController extends AbstractFormController
 
     /**
      * Deletes a group of entities.
-     *
-     * @param string $bundle
      */
-    public function batchDeleteAction(Request $request, $bundle): Response
+    public function batchDeleteAction(Request $request, ?string $bundle): Response
     {
         $session    = $request->getSession();
         $page       = $session->get('mautic.category.page', 1);
