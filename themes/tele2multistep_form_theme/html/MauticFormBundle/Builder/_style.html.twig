@@ -459,7 +459,7 @@
         background-image: none;
         border: 1px solid transparent;
         white-space: nowrap;
-        padding: 12px 20px;
+        padding: 12px 36px;
         font-size: 16px;
         line-height: 1.3856;
         border-radius: 32px;
@@ -470,6 +470,9 @@
         background-color: var(--form-button-primary);
         color: var(--form-text-on-color);
         transition: var(--form-transition-all-expressive);
+    }
+
+    .mauticform-button-wrapper .mauticform-button {
         width: 100%;
     }
 
@@ -504,6 +507,7 @@
     .mauticform-page-wrapper {
         display: flex;
         flex-wrap: wrap;
+        gap: 32px;
         width: 100%;
         margin: 0 -10px;
     }
@@ -516,11 +520,17 @@
         display: block;
         box-sizing: border-box;
         padding: 0 10px;
-        margin-bottom: 4px;
+        margin-bottom: 32px;
     }
 
-    .mauticform-button-wrapper,
-    .mautic-pagebreak-next {
+    .mauticform-button-wrapper {
+        margin-top: 16px;
+    }
+
+    .mauticform-pagebreak-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         margin-top: 16px;
     }
 
