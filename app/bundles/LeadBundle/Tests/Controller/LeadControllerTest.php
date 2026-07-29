@@ -101,6 +101,15 @@ final class LeadControllerTest extends MauticMysqlTestCase
         $this->assertEquals(1, $xpath->query("//option[@value='segment']")->count());
     }
 
+    public function testContactListOffersExportForSelectedContacts(): void
+    {
+        $this->client->request(Request::METHOD_GET, '/s/contacts/1');
+
+        $this->assertResponseIsSuccessful();
+        $this->assertStringContainsString('Export the selected contacts as a CSV file?', (string) $this->client->getResponse()->getContent());
+        $this->assertStringContainsString('Export selected', (string) $this->client->getResponse()->getContent());
+    }
+
     public function testAddCategorizedLeadList(): void
     {
         $this->loadFixtures([LoadCategoryData::class]);

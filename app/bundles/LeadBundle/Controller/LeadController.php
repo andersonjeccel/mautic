@@ -159,6 +159,9 @@ final class LeadController extends FormController
             'RETURN_ARRAY'
         );
 
+        $permissions['lead:export:enable'] = $this->security->isAdmin()
+            || $this->security->isGranted('lead:export:enable', 'MATCH_ONE');
+
         if (!$permissions['lead:leads:viewown'] && !$permissions['lead:leads:viewother']) {
             $this->throwAccessDenied();
         }

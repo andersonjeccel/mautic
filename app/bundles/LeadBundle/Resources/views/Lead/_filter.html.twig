@@ -145,6 +145,20 @@
     ] %}
 {% endif %}
 
+{% if permissions['lead:export:enable']|default(false) %}
+    {% set bulkActionsCustom = bulkActionsCustom|default([])|merge([{
+        'confirm': {
+            'message': 'mautic.lead.export.confirm_selected'|trans,
+            'confirmText': 'mautic.core.export'|trans,
+            'confirmAction': path('mautic_contact_action', {'objectAction': 'batchExport', 'filetype': 'csv'}),
+            'iconClass': 'ri-export-line',
+            'btnText': 'mautic.lead.export.selected'|trans,
+            'precheck': 'batchActionPrecheck',
+            'confirmCallback': 'executeBatchAction',
+        },
+    }]) %}
+{% endif %}
+
 {{- include('@MauticCore/Helper/list_toolbar.html.twig', {
     'searchValue': searchValue|default(''),
     'action': currentRoute,
