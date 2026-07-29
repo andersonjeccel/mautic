@@ -3,7 +3,9 @@
 namespace Mautic\LeadBundle\Form\Type;
 
 use Mautic\CoreBundle\Form\Type\FormButtonsType;
+use Mautic\LeadBundle\Entity\DoNotContact;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,6 +18,21 @@ final class DncType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add(
+            'status',
+            ChoiceType::class,
+            [
+                'choices' => [
+                    'mautic.lead.batch.dnc_status.blocked'     => DoNotContact::MANUAL,
+                    'mautic.lead.batch.dnc_status.contactable' => DoNotContact::IS_CONTACTABLE,
+                ],
+                'expanded'   => true,
+                'label'      => 'mautic.lead.batch.dnc_status',
+                'label_attr' => ['class' => 'control-label'],
+                'help'       => 'mautic.lead.batch.dnc_status.help',
+            ]
+        );
+
+        $builder->add(
             'reason',
             TextareaType::class,
             [
@@ -23,6 +40,7 @@ final class DncType extends AbstractType
                 'required'   => false,
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => ['class' => 'form-control'],
+                'help'       => 'mautic.lead.batch.dnc_reason.help',
             ]
         );
 

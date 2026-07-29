@@ -1702,7 +1702,7 @@ final class LeadController extends FormController
     }
 
     /**
-     * Bulk add leads to the DNC list.
+     * Bulk change the contacts' manual DNC status.
      */
     public function batchDncAction(Request $request, DoNotContactModel $doNotContact, LeadModel $model): JsonResponse|Response
     {
@@ -1728,12 +1728,19 @@ final class LeadController extends FormController
                 );
             }
 
-            $count = count($entities);
+            $count  = 0;
+            $status = (int) ($data['status'] ?? DoNotContact::MANUAL);
 
-            if ($count) {
-                foreach ($entities as $lead) {
-                    if ($this->security->hasEntityAccess('lead:leads:editown', 'lead:leads:editother', $lead->getPermissionUser())) {
-                        $doNotContact->addDncForContact($lead->getId(), 'email', DoNotContact::MANUAL, $data['reason']);
+            foreach ($entities as $lead) {
+                if ($this->security->hasEntityAccess('lead:leads:editown', 'lead:leads:editother', $lead->getPermissionUser())) {
+                    if (DoNotContact::IS_CONTACTABLE === $status) {
+                        $changed = $doNotContact->removeDncForContact($lead, 'email', true, DoNotContact::MANUAL);
+                    } else {
+                        $changed = $doNotContact->addDncForContact($lead, 'email', DoNotContact::MANUAL, $data['reason']);
+                    }
+
+                    if ($changed) {
+                        ++$count;
                     }
                 }
             }

@@ -1172,6 +1172,7 @@ EMAIL;
         $form->setValues(
             [
                 'lead_batch_dnc[reason]' => 'Test Reason',
+                'lead_batch_dnc[status]' => (string) DoNotContact::MANUAL,
                 'lead_batch_dnc[ids]'    => json_encode([$contact->getId()]),
             ]
         );
@@ -1202,6 +1203,50 @@ EMAIL;
 
         // Ensure the dateModified is still empty. Meaning the lead record was not updated which is correct.
         $this->assertNotInstanceOf(\DateTimeInterface::class, $fetchedContact->getDateModified());
+    }
+
+    public function testBatchDncRemovesOnlyManualBlocks(): void
+    {
+        $manualContact = new Lead();
+        $manualContact->setEmail('manual@doe.email');
+        $manualDnc = (new DoNotContact())
+            ->setChannel('email')
+            ->setReason(DoNotContact::MANUAL)
+            ->setDateAdded(new \DateTime())
+            ->setLead($manualContact);
+        $manualContact->addDoNotContactEntry($manualDnc);
+
+        $unsubscribedContact = new Lead();
+        $unsubscribedContact->setEmail('unsubscribed@doe.email');
+        $unsubscribedDnc = (new DoNotContact())
+            ->setChannel('email')
+            ->setReason(DoNotContact::UNSUBSCRIBED)
+            ->setDateAdded(new \DateTime())
+            ->setLead($unsubscribedContact);
+        $unsubscribedContact->addDoNotContactEntry($unsubscribedDnc);
+
+        $this->em->persist($manualContact);
+        $this->em->persist($unsubscribedContact);
+        $this->em->flush();
+        $manualDncId       = $manualDnc->getId();
+        $unsubscribedDncId = $unsubscribedDnc->getId();
+
+        $this->client->xmlHttpRequest(Request::METHOD_GET, '/s/contacts/batchDnc');
+        self::assertResponseIsSuccessful();
+        $crawler = new Crawler(json_decode($this->client->getResponse()->getContent(), true)['newContent'], $this->client->getInternalRequest()->getUri());
+        $form    = $crawler->selectButton('Save')->form();
+        $form->setValues(
+            [
+                'lead_batch_dnc[status]' => (string) DoNotContact::IS_CONTACTABLE,
+                'lead_batch_dnc[ids]'    => json_encode([$manualContact->getId(), $unsubscribedContact->getId()]),
+            ]
+        );
+        $this->client->submit($form);
+
+        self::assertResponseIsSuccessful();
+        $this->assertStringContainsString('1 contact affected', (string) $this->client->getResponse()->getContent());
+        $this->assertNotInstanceOf(DoNotContact::class, $this->em->getRepository(DoNotContact::class)->find($manualDncId));
+        $this->assertInstanceOf(DoNotContact::class, $this->em->getRepository(DoNotContact::class)->find($unsubscribedDncId));
     }
 
     public function testAuditLogBatchExportContact(): void
