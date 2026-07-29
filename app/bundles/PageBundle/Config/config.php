@@ -3,6 +3,14 @@
 return [
     'routes' => [
         'main' => [
+            'mautic_page_batch_categories_view' => [
+                'path' => '/pages/batch/categories/view',
+                'controller' => 'Mautic\\PageBundle\\Controller\\BatchPageController::indexAction',
+            ],
+            'mautic_page_batch_categories_set' => [
+                'path' => '/pages/batch/categories/set',
+                'controller' => 'Mautic\\PageBundle\\Controller\\BatchPageController::execAction',
+            ],
             'mautic_page_index' => [
                 'path'       => '/pages/{page}',
                 'controller' => 'Mautic\PageBundle\Controller\PageController::indexAction',
