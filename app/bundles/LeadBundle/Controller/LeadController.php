@@ -1909,9 +1909,8 @@ final class LeadController extends FormController
                 if ($this->security->hasEntityAccess('lead:leads:editown', 'lead:leads:editother', $lead->getPermissionUser())) {
                     ++$count;
 
-                    if (!empty($data['addowner'])) {
-                        $user      = $this->userModel->getEntity((int) $data['addowner']);
-                        $lead->setOwner($user);
+                    if (array_key_exists('addowner', $data) && '' !== $data['addowner']) {
+                        $lead->setOwner(0 === (int) $data['addowner'] ? null : $this->userModel->getEntity((int) $data['addowner']));
                     }
                 }
             }
@@ -1936,6 +1935,7 @@ final class LeadController extends FormController
         foreach ($users as $user) {
             $items[$user['firstName'].' '.$user['lastName'].' ('.$user['id'].')'] = $user['id'];
         }
+        $items = ['mautic.lead.batch.no_owner' => 0] + $items;
 
         $route = $this->generateUrl(
             'mautic_contact_action',
