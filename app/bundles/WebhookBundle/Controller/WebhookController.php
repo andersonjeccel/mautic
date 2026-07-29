@@ -122,4 +122,32 @@ final class WebhookController extends FormController
     {
         return parent::batchDeleteStandard($request);
     }
+
+    public function batchStatusAction(Request $request): Response
+    {
+        $model = $this->getModel($this->getModelName());
+        $ids = json_decode($request->query->get('ids', '[]'), true) ?: [];
+        $publish = 'publish' === $request->query->get('status');
+        $updated = 0;
+
+        foreach ($ids as $objectId) {
+            $entity = $model->getEntity($objectId);
+            if (null === $entity || !$this->checkActionPermission('edit', $entity) || $entity->getIsPublished() === $publish) {
+                continue;
+            }
+
+            $entity->setIsPublished($publish);
+            $model->saveEntity($entity);
+            ++$updated;
+        }
+
+        $this->addFlashMessage('mautic.webhook.notice.batch_status', ['%count%' => $updated, '%status%' => $publish ? 'published' : 'unpublished']);
+
+        return $this->postActionRedirect([
+            'returnUrl' => $this->generateUrl('mautic_webhook_index'),
+            'viewParameters' => ['page' => $request->getSession()->get('mautic.mautic_webhook.page', 1)],
+            'contentTemplate' => 'Mautic\\WebhookBundle\\Controller\\WebhookController::indexAction',
+            'passthroughVars' => ['mauticContent' => 'mauticWebhook'],
+        ]);
+    }
 }
