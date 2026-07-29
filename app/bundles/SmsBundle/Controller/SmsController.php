@@ -704,6 +704,50 @@ final class SmsController extends FormController
         );
     }
 
+    /**
+     * Clones a group of entities as new drafts.
+     */
+    public function batchCloneAction(Request $request): Response
+    {
+        $page      = $request->getSession()->get('mautic.sms.page', 1);
+        $returnUrl = $this->generateUrl('mautic_sms_index', ['page' => $page]);
+        $flashes   = [];
+        $postActionVars = [
+            'returnUrl' => $returnUrl,
+            'viewParameters' => ['page' => $page],
+            'contentTemplate' => 'Mautic\\SmsBundle\\Controller\\SmsController::indexAction',
+            'passthroughVars' => ['activeLink' => '#mautic_sms_index', 'mauticContent' => 'sms'],
+        ];
+
+        if (Request::METHOD_POST === $request->getMethod()) {
+            $ids = json_decode($request->query->get('ids', '{}'));
+            $cloned = 0;
+            foreach ($ids as $objectId) {
+                $entity = $this->smsModel->getEntity($objectId);
+                if (null === $entity) {
+                    continue;
+                }
+                if (!$this->security->isGranted('sms:smses:create') || !$this->security->hasEntityAccess('sms:smses:viewown', 'sms:smses:viewother', $entity->getCreatedBy())) {
+                    $flashes[] = $this->getAccessDeniedFlash();
+                    continue;
+                }
+                if ($this->smsModel->isLocked($entity)) {
+                    $flashes[] = $this->isLocked($postActionVars, $entity, 'sms', true);
+                    continue;
+                }
+                $clone = clone $entity;
+                $clone->setName($entity->getName().' - copy');
+                $this->smsModel->saveEntity($clone);
+                ++$cloned;
+            }
+            if ($cloned > 0) {
+                $flashes[] = ['type' => 'notice', 'msg' => 'mautic.sms.notice.batch_cloned', 'msgVars' => ['%count%' => $cloned]];
+            }
+        }
+
+        return $this->postActionRedirect(array_merge($postActionVars, ['flashes' => $flashes]));
+    }
+
     public function previewAction($objectId): Response
     {
         $sms      = $this->smsModel->getEntity($objectId);

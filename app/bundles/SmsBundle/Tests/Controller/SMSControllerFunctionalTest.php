@@ -116,6 +116,14 @@ final class SMSControllerFunctionalTest extends MauticMysqlTestCase
         $this->assertTrue($savedSms->getIsMms());
     }
 
+    public function testBatchCloneSms(): void
+    {
+        $sms = $this->createSms('batch sms', self::DEFAULT_SMS_MESSAGE);
+        $this->client->request(Request::METHOD_POST, '/s/sms/batch/clone?ids='.urlencode(json_encode([$sms->getId()])));
+        $this->assertResponseIsSuccessful();
+        $this->assertInstanceOf(Sms::class, $this->em->getRepository(Sms::class)->findOneBy(['name' => 'batch sms - copy']));
+    }
+
     public function testSaveSmsWithMediaFalse(): void
     {
         $media   = ['a.png', 'b.jpg'];

@@ -37,6 +37,10 @@ return [
     ],
     'routes' => [
         'main' => [
+            'mautic_sms_batch_clone' => [
+                'path'       => '/sms/batch/clone',
+                'controller' => 'Mautic\\SmsBundle\\Controller\\SmsController::batchCloneAction',
+            ],
             'mautic_sms_index' => [
                 'path'       => '/sms/{page}',
                 'controller' => 'Mautic\SmsBundle\Controller\SmsController::indexAction',

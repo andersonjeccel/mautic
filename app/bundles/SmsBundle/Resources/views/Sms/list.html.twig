@@ -16,6 +16,25 @@
                 },
                 'routeBase': 'sms'
             },
+            'bulk_actions': {
+                'routeBase': 'sms',
+                'templateButtons': {
+                    'delete': permissions['sms:smses:deleteown'] or permissions['sms:smses:deleteother'],
+                },
+                'customButtons': [
+                    {
+                        'confirm': {
+                            'message': 'mautic.sms.form.confirmbatchclone'|trans,
+                            'confirmText': 'mautic.sms.clone'|trans,
+                            'confirmAction': path('mautic_sms_batch_clone'),
+                            'iconClass': 'ri-file-copy-line',
+                            'btnText': 'mautic.sms.clone'|trans,
+                            'precheck': 'batchActionPrecheck',
+                            'confirmCallback': 'executeBatchAction',
+                        },
+                    },
+                ],
+            },
             'quickFilters': [
                 {
                     'search': 'mautic.core.searchcommand.ispublished',
