@@ -316,6 +316,7 @@ final class LeadControllerTest extends MauticMysqlTestCase
         $this->setAdminUser();
         $this->client->request(Request::METHOD_GET, '/s/contacts/batchOwners');
         $this->assertResponseStatusCodeSame(200, (string) $this->client->getResponse()->getStatusCode());
+        $this->assertStringContainsString('No owner', (string) $this->client->getResponse()->getContent());
     }
 
     private function createAndLoginUser(): User

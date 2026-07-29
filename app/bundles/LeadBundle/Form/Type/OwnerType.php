@@ -22,7 +22,7 @@ final class OwnerType extends AbstractType
             [
                 'label'             => 'mautic.lead.batch.add_to',
                 'multiple'          => false,
-                'choices'           => $options['items'],
+                'choices'           => ['mautic.lead.batch.no_owner' => '__none__'] + $options['items'],
                 'required'          => false,
                 'label_attr'        => ['class' => 'control-label'],
                 'attr'              => ['class' => 'form-control'],
