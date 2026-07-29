@@ -320,6 +320,19 @@ final class ResultController extends CommonFormController
         $orderByDir = $session->get('mautic.formresult.'.$objectId.'.orderbydir', 'DESC');
         $filters    = $session->get('mautic.formresult.'.$objectId.'.filters', []);
 
+        if ($request->query->has('ids')) {
+            $ids = json_decode((string) $request->query->get('ids'), true);
+            if (!is_array($ids) || [] === $ids) {
+                return new Response('', Response::HTTP_BAD_REQUEST);
+            }
+
+            $filters = [[
+                'column' => 's.id',
+                'expr'   => 'in',
+                'value'  => array_map(intval(...), $ids),
+            ]];
+        }
+
         $args = [
             'limit'      => false,
             'filter'     => ['force' => $filters],

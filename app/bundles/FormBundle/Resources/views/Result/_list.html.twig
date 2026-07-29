@@ -11,11 +11,12 @@
     - canDelete
 #}
 {% set formId = form.id %}
+{% set canSelect = canDelete or enableExportPermission %}
 <div class="table-responsive table-responsive-force">
     <table class="table table-hover formresult-list" id="formResultTable">
         <thead>
             <tr>
-                {% if canDelete %}
+                {% if canSelect %}
                   {{ include('@MauticCore/Helper/tableheader.html.twig', {
                       'checkall': 'true',
                       'target': '#formResultTable',
@@ -57,7 +58,7 @@
                 }) }}
 
                 {% set fields = form.fields %}
-                {% set fieldCount = canDelete ? 4 : 3 %}
+                {% set fieldCount = canSelect ? 4 : 3 %}
                 {% for f in fields %}
                     {% if f.type not in viewOnlyFields and true == f.saveResult %}
                       {{ include('@MauticCore/Helper/tableheader.html.twig', {
@@ -79,7 +80,7 @@
                       'name': 'mautic.form.form.results.name'|trans({'%id%': item.id})
               }) %}
               <tr>
-                  {% if canDelete %}
+                  {% if canSelect %}
                   <td>
                       {{ include('@MauticCore/Helper/list_actions.html.twig', {
                           'item': item,

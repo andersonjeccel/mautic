@@ -31,6 +31,13 @@ return [
                     'format' => 'csv',
                 ],
             ],
+            'mautic_form_results_batchExport' => [
+                'path'       => '/forms/results/{objectId}/batchExport/{format}',
+                'controller' => 'Mautic\FormBundle\Controller\ResultController::exportAction',
+                'defaults'   => [
+                    'format' => 'csv',
+                ],
+            ],
             'mautic_form_results_add_segment' => [
                 'path'       => '/forms/results/{objectId}/add-to-segment',
                 'controller' => 'Mautic\FormBundle\Controller\ResultController::addToSegmentAction',

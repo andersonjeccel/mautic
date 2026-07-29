@@ -102,6 +102,20 @@
             'iconClass': 'ri-pie-chart-line',
         }
       ] %}
+      {% if enableExportPermission %}
+        {% set bulkActionsCustom = bulkActionsCustom|merge([{
+          'confirm': {
+            'message': 'mautic.form.result.confirm_batch_export'|trans,
+            'confirmText': 'mautic.form.result.export_selected'|trans,
+            'confirmAction': path('mautic_form_results_batchExport', {'objectId': form.id, 'format': 'csv'}),
+            'iconClass': 'fa ri-fw ri-download-line',
+            'btnText': 'mautic.form.result.export_selected'|trans,
+            'precheck': 'batchActionPrecheck',
+            'confirmCallback': 'executeBatchAction',
+          },
+          'primary': true,
+        }]) %}
+      {% endif %}
           {{- include('@MauticCore/Helper/list_toolbar.html.twig', {
         'bulk_actions': {
             'target': '#formResultTable',

@@ -7,6 +7,8 @@ namespace Mautic\FormBundle\Tests\Controller;
 use Mautic\CoreBundle\Test\MauticMysqlTestCase;
 use Mautic\FormBundle\Helper\FormUploader;
 use Mautic\FormBundle\Model\FieldModel;
+use Mautic\FormBundle\Model\FormModel;
+use Mautic\FormBundle\Model\SubmissionModel;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -152,6 +154,54 @@ final class ResultControllerFunctionalTest extends MauticMysqlTestCase
 
         $editButton = $crawler->filter('a[href*="/s/forms/edit/'.$formId.'"]');
         $this->assertCount(1, $editButton, 'Edit button should be present on form results page');
+    }
+
+    public function testSelectedResultsCanBeExportedAsCsv(): void
+    {
+        $formPayload = [
+            'name'        => 'Selected Results Export Form',
+            'formType'    => 'standalone',
+            'alias'       => 'selectedresultsexportform',
+            'description' => 'Form for selected results export',
+            'isPublished' => true,
+            'fields'      => [
+                [
+                    'label' => 'Name',
+                    'alias' => 'name',
+                    'type'  => 'text',
+                ],
+            ],
+            'postAction'  => 'return',
+        ];
+
+        $this->client->request(Request::METHOD_POST, '/api/forms/new', $formPayload);
+        $response = json_decode($this->client->getResponse()->getContent(), true);
+        $formId   = $response['form']['id'];
+
+        $crawler     = $this->client->request(Request::METHOD_GET, "/form/{$formId}");
+        $formCrawler = $crawler->filter('form[id=mauticform_selectedresultsexportform]');
+        $form        = $formCrawler->form();
+        $form->setValues([
+            'mauticform[name]' => 'Selected result',
+        ]);
+        $this->client->submit($form);
+        $this->assertResponseIsSuccessful();
+
+        $form         = static::getContainer()->get(FormModel::class)->getEntity($formId);
+        $submissions  = static::getContainer()->get(SubmissionModel::class)->getEntities([
+            'limit'        => false,
+            'form'         => $form,
+            'simpleResults' => true,
+        ]);
+        $submissionId = $submissions[0]['id'] ?? null;
+        $this->assertNotNull($submissionId);
+
+        $this->client->request(Request::METHOD_GET, "/s/forms/results/{$formId}/batchExport/csv", [
+            'ids' => json_encode([$submissionId]),
+        ]);
+
+        $this->assertResponseIsSuccessful();
+        $this->assertStringContainsString('.csv', (string) $this->client->getResponse()->headers->get('content-disposition'));
     }
 
     private function createFile(string $filename): void
