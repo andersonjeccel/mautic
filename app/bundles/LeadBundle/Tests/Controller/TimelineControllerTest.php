@@ -45,6 +45,31 @@ final class TimelineControllerTest extends MauticMysqlTestCase
         $this->assertStringContainsString('Contact added to segment, TEST', (string) $this->client->getResponse()->getContent());
     }
 
+    public function testClearFiltersRemovesTimelineFilters(): void
+    {
+        $contact = $this->createLead('TestFirstName');
+        $segment = $this->createSegment('TEST', []);
+        $this->createListLead($segment, $contact);
+        $this->em->flush();
+        $this->createLeadEventLogEntry($contact, 'lead', 'segment', 'added', $segment->getId(), [
+            'object_description' => $segment->getName(),
+        ]);
+        $this->em->flush();
+
+        $this->client->request('POST', '/s/contacts/timeline/'.$contact->getId(), [
+            'search' => 'not-found',
+            'leadId' => $contact->getId(),
+        ]);
+        $this->assertStringNotContainsString('Contact added to segment, TEST', (string) $this->client->getResponse()->getContent());
+
+        $this->client->request('POST', '/s/contacts/timeline/'.$contact->getId(), [
+            'clearFilters' => '1',
+            'search'      => 'not-found',
+            'leadId'      => $contact->getId(),
+        ]);
+        $this->assertStringContainsString('Contact added to segment, TEST', (string) $this->client->getResponse()->getContent());
+    }
+
     /**
      * @throws OptimisticLockException
      * @throws ORMException

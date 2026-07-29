@@ -28,7 +28,10 @@ final class TimelineController extends CommonController
         $this->setListFilters();
 
         $session = $request->getSession();
-        if ('POST' === $request->getMethod() && $request->request->has('search')) {
+        if ('POST' === $request->getMethod() && $request->request->has('clearFilters')) {
+            $session->remove('mautic.lead.'.$leadId.'.timeline.filters');
+            $filters = [];
+        } elseif ('POST' === $request->getMethod() && $request->request->has('search')) {
             $filters = [
                 'search'        => InputHelper::clean($request->request->get('search')),
                 'includeEvents' => InputHelper::clean($request->request->all()['includeEvents'] ?? []),

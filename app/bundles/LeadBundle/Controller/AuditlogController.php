@@ -28,7 +28,10 @@ final class AuditlogController extends CommonController
         $this->setListFilters();
 
         $session = $request->getSession();
-        if ('POST' === $request->getMethod() && $request->request->has('search')) {
+        if ('POST' === $request->getMethod() && $request->request->has('clearFilters')) {
+            $session->remove('mautic.lead.'.$leadId.'.auditlog.filters');
+            $filters = [];
+        } elseif ('POST' === $request->getMethod() && $request->request->has('search')) {
             $filters = [
                 'search'        => InputHelper::clean($request->request->get('search')),
                 'includeEvents' => InputHelper::clean($request->request->all()['includeEvents'] ?? []),

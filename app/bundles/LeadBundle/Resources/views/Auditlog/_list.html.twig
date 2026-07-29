@@ -37,6 +37,16 @@
                     {% include '@MauticCore/Helper/button.html.twig' with {
                         buttons: [
                             {
+                                label: 'mautic.core.reset_filter',
+                                icon: 'ri-filter-off-line',
+                                variant: 'tertiary',
+                                attributes: {
+                                    type: 'submit',
+                                    name: 'clearFilters',
+                                    value: '1'
+                                }
+                            },
+                            {
                                 href: url('mautic_contact_auditlog_export_action', {'leadId': lead.id}),
                                 icon: 'ri-download-line',
                                 label: 'mautic.core.export',
