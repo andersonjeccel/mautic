@@ -28,6 +28,31 @@
                     'templateButtons': {
                         'delete': permissions['asset:assets:deleteown'] or permissions['asset:assets:deleteother'],
                     },
+                    'customButtons': [
+                        {
+                            'confirm': {
+                                'message': 'mautic.asset.asset.confirm_batch_publish'|trans,
+                                'confirmText': 'mautic.asset.asset.publish'|trans,
+                                'confirmAction': path('mautic_asset_action', {'objectAction': 'batchPublish'}),
+                                'iconClass': 'fa ri-fw ri-eye-line',
+                                'btnText': 'mautic.asset.asset.publish'|trans,
+                                'precheck': 'batchActionPrecheck',
+                                'confirmCallback': 'executeBatchAction',
+                            },
+                            'primary': true,
+                        },
+                        {
+                            'confirm': {
+                                'message': 'mautic.asset.asset.confirm_batch_unpublish'|trans,
+                                'confirmText': 'mautic.asset.asset.unpublish'|trans,
+                                'confirmAction': path('mautic_asset_action', {'objectAction': 'batchUnpublish'}),
+                                'iconClass': 'fa ri-fw ri-eye-off-line',
+                                'btnText': 'mautic.asset.asset.unpublish'|trans,
+                                'precheck': 'batchActionPrecheck',
+                                'confirmCallback': 'executeBatchAction',
+                            },
+                        },
+                    ],
                 },
                 'quickFilters': [
                     {

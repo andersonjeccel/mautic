@@ -717,6 +717,49 @@ final class AssetController extends FormController
         );
     }
 
+    public function batchPublishAction(Request $request, AssetModel $model): Response
+    {
+        return $this->batchPublishStatusAction($request, $model, true);
+    }
+
+    public function batchUnpublishAction(Request $request, AssetModel $model): Response
+    {
+        return $this->batchPublishStatusAction($request, $model, false);
+    }
+
+    private function batchPublishStatusAction(Request $request, AssetModel $model, bool $published): \Symfony\Component\HttpFoundation\RedirectResponse
+    {
+        $page      = $request->getSession()->get('mautic.asset.page', 1);
+        $returnUrl = $this->generateUrl('mautic_asset_index', ['page' => $page]);
+        $affected  = 0;
+
+        if ('POST' === $request->getMethod()) {
+            $ids = json_decode($request->query->get('ids', '[]'), true);
+
+            foreach (is_array($ids) ? $ids : [] as $objectId) {
+                $entity = $model->getEntity($objectId);
+
+                if (null === $entity || $entity->isPublished() === $published || !$this->security->hasEntityAccess(
+                    'asset:assets:publishown', 'asset:assets:publishother', $entity->getCreatedBy()
+                ) || $model->isLocked($entity)) {
+                    continue;
+                }
+
+                $entity->setIsPublished($published);
+                $model->saveEntity($entity);
+                ++$affected;
+            }
+        }
+
+        if ($affected > 0) {
+            $this->addFlashMessage($published ? 'mautic.asset.asset.notice.batch_published' : 'mautic.asset.asset.notice.batch_unpublished', [
+                '%count%' => $affected,
+            ]);
+        }
+
+        return $this->redirect($returnUrl);
+    }
+
     /**
      * Renders the container for the remote file browser.
      *
