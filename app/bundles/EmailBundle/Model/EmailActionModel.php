@@ -23,7 +23,7 @@ class EmailActionModel
      *
      * @return array<Email>
      */
-    public function setCategory(array $emailsIds, Category $newCategory): array
+    public function setCategory(array $emailsIds, ?Category $newCategory): array
     {
         $emails = $this->emailRepository->findBy(['id' => $emailsIds]);
 

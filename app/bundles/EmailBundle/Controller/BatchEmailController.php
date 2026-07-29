@@ -24,9 +24,9 @@ final class BatchEmailController extends AbstractFormController
         $ids    = empty($params['ids']) ? [] : json_decode($params['ids']);
 
         if ($ids && is_array($ids)) {
-            $newCategoryId = $params['newCategory'];
+            $newCategoryId = $params['newCategory'] ?? null;
 
-            $newCategory = $categoryModel->getEntity($newCategoryId);
+            $newCategory = $newCategoryId ? $categoryModel->getEntity($newCategoryId) : null;
             $affected    = $actionModel->setCategory($ids, $newCategory);
 
             $this->addFlashMessage('mautic.email.batch_emails_affected', [

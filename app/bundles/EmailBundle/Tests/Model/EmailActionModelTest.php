@@ -88,6 +88,23 @@ final class EmailActionModelTest extends TestCase
         }
     }
 
+    public function testRemovesCategoryForEditableEmails(): void
+    {
+        $oldCategory = new Category();
+        $oldCategory->setTitle(self::OLD_CATEGORY_TITLE);
+
+        $emails = $this->buildEmailsWithCategory($oldCategory, 2);
+        $this->configureRepositoryToReturn($emails);
+        $this->configurePermissionToAllowEdition(true);
+        $this->configureModelToSave($emails);
+
+        $this->tryToSetCategory($emails, null);
+
+        foreach ($emails as $email) {
+            $this->assertNotInstanceOf(Category::class, $email->getCategory());
+        }
+    }
+
     /**
      * @return array<Email>
      */
@@ -139,7 +156,7 @@ final class EmailActionModelTest extends TestCase
     /**
      * @param array<Email> $emails
      */
-    protected function tryToSetCategory(array $emails, Category $newCategory): void
+    protected function tryToSetCategory(array $emails, ?Category $newCategory): void
     {
         $this->emailActionModel
             ->setCategory(

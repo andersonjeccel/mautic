@@ -27,7 +27,8 @@ final class BatchCategoryType extends AbstractType
             [
                 'class'         => Category::class,
                 'choice_label'  => 'title',
-                'required'      => true,
+                'required'      => false,
+                'placeholder'   => 'mautic.email.batch.categories.none',
                 'label_attr'    => ['class' => 'control-label'],
                 'attr'          => ['class' => 'form-control'],
                 'query_builder' => function (CategoryRepository $cr): QueryBuilder {
