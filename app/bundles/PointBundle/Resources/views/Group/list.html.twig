@@ -23,6 +23,31 @@
                 'templateButtons': {
                     'delete': permissions['point:groups:delete'],
                 },
+                'customButtons': [
+                    {
+                        'confirm': {
+                            'message': 'mautic.point.group.confirm_batch_publish'|trans,
+                            'confirmText': 'mautic.point.group.publish'|trans,
+                            'confirmAction': path('mautic_point.group_action', {'objectAction': 'batchPublish'}),
+                            'iconClass': 'fa ri-fw ri-eye-line',
+                            'btnText': 'mautic.point.group.publish'|trans,
+                            'precheck': 'batchActionPrecheck',
+                            'confirmCallback': 'executeBatchAction',
+                        },
+                        'primary': true,
+                    },
+                    {
+                        'confirm': {
+                            'message': 'mautic.point.group.confirm_batch_unpublish'|trans,
+                            'confirmText': 'mautic.point.group.unpublish'|trans,
+                            'confirmAction': path('mautic_point.group_action', {'objectAction': 'batchUnpublish'}),
+                            'iconClass': 'fa ri-fw ri-eye-off-line',
+                            'btnText': 'mautic.point.group.unpublish'|trans,
+                            'precheck': 'batchActionPrecheck',
+                            'confirmCallback': 'executeBatchAction',
+                        },
+                    },
+                ],
             },
         }) -}}
         <div class="page-list">
