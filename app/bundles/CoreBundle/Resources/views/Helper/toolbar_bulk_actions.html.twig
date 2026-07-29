@@ -19,6 +19,34 @@
     }) }}
 {% endif %}
 
+{% if templateButtons.publish is defined and templateButtons.publish is not empty %}
+    {{ buttonAdd({
+        confirm: {
+            message: (translationBase ~ '.form.confirmpublish')|trans,
+            confirmText: 'mautic.core.form.publish'|trans,
+            btnText: 'mautic.core.form.publish_selected'|trans,
+            iconClass: 'ri-check-line',
+            confirmAction: path(actionRoute, query|filter((v, k) => k != 'tmpl')|merge({objectAction: 'batchPublish'})),
+            template: 'batchpublish'
+        },
+        priority: 10
+    }) }}
+{% endif %}
+
+{% if templateButtons.unpublish is defined and templateButtons.unpublish is not empty %}
+    {{ buttonAdd({
+        confirm: {
+            message: (translationBase ~ '.form.confirmunpublish')|trans,
+            confirmText: 'mautic.core.form.unpublish'|trans,
+            btnText: 'mautic.core.form.unpublish_selected'|trans,
+            iconClass: 'ri-close-line',
+            confirmAction: path(actionRoute, query|filter((v, k) => k != 'tmpl')|merge({objectAction: 'batchUnpublish'})),
+            template: 'batchunpublish'
+        },
+        priority: 11
+    }) }}
+{% endif %}
+
 {{ buttonsRender() }}
 
 <!-- Batch actions: others, within the dropdown -->

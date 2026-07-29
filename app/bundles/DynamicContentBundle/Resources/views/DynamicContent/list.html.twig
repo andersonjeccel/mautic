@@ -34,6 +34,8 @@
           'routeBase': 'dynamicContent',
           'templateButtons': {
               'delete': permissions['dynamiccontent:dynamiccontents:deleteown'] or permissions['dynamiccontent:dynamiccontents:deleteother'],
+              'publish': permissions['dynamiccontent:dynamiccontents:publishown'] or permissions['dynamiccontent:dynamiccontents:publishother'],
+              'unpublish': permissions['dynamiccontent:dynamiccontents:publishown'] or permissions['dynamiccontent:dynamiccontents:publishother'],
           },
         },
         'quickFilters': [

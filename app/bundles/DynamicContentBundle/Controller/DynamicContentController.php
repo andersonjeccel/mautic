@@ -567,4 +567,58 @@ final class DynamicContentController extends FormController
 
         return $this->postActionRedirect(array_merge($postActionVars, ['flashes' => $flashes]));
     }
+
+    public function batchPublishAction(Request $request): Response
+    {
+        return $this->batchPublishStatus($request, true);
+    }
+
+    public function batchUnpublishAction(Request $request): Response
+    {
+        return $this->batchPublishStatus($request, false);
+    }
+
+    private function batchPublishStatus(Request $request, bool $published): Response
+    {
+        $page      = $request->getSession()->get('mautic.dynamicContent.page', 1);
+        $returnUrl = $this->generateUrl('mautic_dynamicContent_index', ['page' => $page]);
+        $postActionVars = [
+            'returnUrl'       => $returnUrl,
+            'viewParameters'  => ['page' => $page],
+            'contentTemplate' => 'Mautic\\DynamicContentBundle\\Controller\\DynamicContentController::indexAction',
+            'passthroughVars' => [
+                'activeLink'    => '#mautic_dynamicContent_index',
+                'mauticContent' => 'dynamicContent',
+            ],
+        ];
+        $flashes = [];
+
+        if (Request::METHOD_POST === $request->getMethod()) {
+            $ids     = json_decode($request->query->get('ids', '{}'));
+            $changed = 0;
+
+            foreach ($ids as $objectId) {
+                $entity = $this->dynamicContentModel->getEntity($objectId);
+                if (null === $entity || !$this->security->hasEntityAccess(
+                    'dynamiccontent:dynamiccontents:publishown',
+                    'dynamiccontent:dynamiccontents:publishother',
+                    $entity->getCreatedBy()
+                ) || $this->dynamicContentModel->isLocked($entity) || $entity->isPublished() === $published) {
+                    continue;
+                }
+
+                $entity->setIsPublished($published);
+                $this->dynamicContentModel->saveEntity($entity);
+                ++$changed;
+            }
+
+            $flashes[] = [
+                'type'    => 'notice',
+                'msg'     => $published ? 'mautic.dynamicContent.notice.batch_published' : 'mautic.dynamicContent.notice.batch_unpublished',
+                'msgVars' => ['%count%' => $changed],
+            ];
+        }
+
+        return $this->postActionRedirect(array_merge($postActionVars, ['flashes' => $flashes]));
+    }
 }
