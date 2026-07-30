@@ -82,6 +82,40 @@ final class FieldControllerFunctionalTest extends MauticMysqlTestCase
         $this->assertSame(1, $response['closeModal'] ?? null, $this->client->getResponse()->getContent());
     }
 
+    public function testNewSliderFieldFormOpensPropertiesTabAfterValidationError(): void
+    {
+        $this->client->xmlHttpRequest(
+            Request::METHOD_GET,
+            '/s/forms/field/new?type=slider&tmpl=field&formId=temporary_form_hash&inBuilder=1'
+        );
+        $this->assertResponseIsSuccessful();
+
+        $content     = json_decode($this->client->getResponse()->getContent())->newContent;
+        $formCrawler = new Crawler($content, $this->client->getInternalRequest()->getUri());
+        $form        = $formCrawler->filter('form[name=formfield]')->form();
+        $form->setValues([
+            'formfield[formId]'              => 'temporary_form_hash',
+            'formfield[type]'                => 'slider',
+            'formfield[label]'               => 'Automation test slider',
+            'formfield[properties][min]'     => '10',
+            'formfield[properties][max]'     => '5',
+            'formfield[properties][step]'    => '1',
+        ]);
+
+        $this->setCsrfHeader();
+        $this->client->xmlHttpRequest($form->getMethod(), $form->getUri(), $form->getPhpValues(), $form->getPhpFiles());
+        $this->assertResponseIsSuccessful();
+
+        $response = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertSame(0, $response['success'] ?? null, $this->client->getResponse()->getContent());
+
+        $errorCrawler = new Crawler($response['newContent'], $this->client->getInternalRequest()->getUri());
+        $propertiesTab = $errorCrawler->filterXPath('//li[a[@href="#properties"]]');
+        $this->assertStringContainsString('active', (string) $propertiesTab->attr('class'));
+        $this->assertStringContainsString('active', (string) $errorCrawler->filter('#properties')->attr('class'));
+        $this->assertStringNotContainsString('active', (string) $errorCrawler->filter('#general')->attr('class'));
+    }
+
     public function testNewCompanyLookupFieldForm(): void
     {
         $form = new Form();

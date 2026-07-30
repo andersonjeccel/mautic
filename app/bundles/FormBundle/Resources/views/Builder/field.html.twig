@@ -52,6 +52,12 @@
 {% set generalTabError = (form.label is defined and formContainsErrors(form.label)) %}
 {% set propertiesTabError = (form.properties is defined and formContainsErrors(form.properties)) %}
 {% set conditionsTabError = (form.conditions is defined and formContainsErrors(form.conditions)) %}
+{% set activeTab = 'general' %}
+{% if not generalTabError and conditionsTabError %}
+    {% set activeTab = 'conditions' %}
+{% elseif not generalTabError and not conditionsTabError and propertiesTabError %}
+    {% set activeTab = 'properties' %}
+{% endif %}
 
 
 <div class="bundle-form">
@@ -63,7 +69,7 @@
 
     <div role="tabpanel">
         <ul class="nav nav-tabs nav-tabs-contained" role="tablist">
-            <li role="presentation" class="active">
+            <li role="presentation" class="{% if activeTab == 'general' %}active{% endif %}">
                 <a class="{% if generalTabError %}text-danger{% endif %}" href="#general" aria-controls="general" role="tab" data-toggle="tab">
                     {{ 'mautic.form.field.section.general'|trans }}
                     {% if generalTabError %}
@@ -73,7 +79,7 @@
             </li>
 
             {% if showConditions %}
-                <li role="presentation">
+                <li role="presentation" class="{% if activeTab == 'conditions' %}active{% endif %}">
                     <a class="{% if conditionsTabError %}text-danger{% endif %}" href="#conditions" aria-controls="conditions" role="tab" data-toggle="tab">
                         {{ 'mautic.form.field.form.condition'|trans }}
                         {% if conditionsTabError %}
@@ -100,7 +106,7 @@
             {% endif %}
 
             {% if showProperties %}
-              <li role="presentation">
+              <li role="presentation" class="{% if activeTab == 'properties' %}active{% endif %}">
                   <a class="{% if propertiesTabError %}text-danger{% endif %}" href="#properties" aria-controls="properties" role="tab" data-toggle="tab">
                       {{ 'mautic.form.field.section.properties'|trans }}
                       {% if propertiesTabError %}
@@ -129,7 +135,7 @@
 
         <!-- Tab panes -->
         <div class="tab-content pa-lg">
-            <div role="tabpanel" class="tab-pane active" id="general">
+            <div role="tabpanel" class="tab-pane{% if activeTab == 'general' %} active{% endif %}" id="general">
                 <div class="row">
                     {{ _self.row_if_exists(form, 'label') }}
                     {{ _self.row_if_exists(form, 'showLabel') }}
@@ -195,7 +201,7 @@
             {% endif %}
 
             {% if showProperties %}
-              <div role="tabpanel" class="tab-pane" id="properties">
+              <div role="tabpanel" class="tab-pane{% if activeTab == 'properties' %} active{% endif %}" id="properties">
                   {{ form_errors(form.properties) }}
                   {% if form.properties.syncList is defined %}
                       <div class="row">
@@ -257,7 +263,7 @@
             {{ form_row(form.parent) }}
 
             {% if showConditions %}
-                <div role="tabpanel" class="tab-pane" id="conditions">
+              <div role="tabpanel" class="tab-pane{% if activeTab == 'conditions' %} active{% endif %}" id="conditions">
                     <div class="row">
                         <div class="col-md-12">
                             <label data-toggle="tooltip" data-container="body" data-placement="top" data-original-title="{{ 'mautic.form.field.form.condition.show.only.tooltip'|trans }}">
