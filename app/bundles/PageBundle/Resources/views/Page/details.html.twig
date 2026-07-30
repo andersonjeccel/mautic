@@ -306,6 +306,14 @@
                           </div>
                       </div>
                   {% endif %}
+                  <iframe
+                      id="content_preview_frame"
+                      class="mb-md"
+                      src="{{ previewUrl|e }}"
+                      sandbox="allow-popups allow-popups-to-escape-sandbox"
+                      title="{{ 'mautic.page.preview.iframe_title'|trans }}"
+                      style="width: 100%; height: 600px; border: 0; zoom: 0.35; overflow: hidden;">
+                  </iframe>
                   <div class="row">
                       <div class="form-group col-xs-12 ">
                           <div class="input-group">

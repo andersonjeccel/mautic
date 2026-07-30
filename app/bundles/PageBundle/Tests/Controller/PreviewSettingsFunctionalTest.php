@@ -40,6 +40,9 @@ final class PreviewSettingsFunctionalTest extends MauticMysqlTestCase
         // Contact lookup is not visible
         $this->assertCount(1, $crawler->filterXPath('//*[@id="content_preview_settings_contact"]'));
 
+        $this->assertCount(1, $crawler->filterXPath('//*[@id="content_preview_frame"]'));
+        $this->assertStringContainsString('/page/preview/'.$mainPageId, (string) $crawler->filter('#content_preview_frame')->attr('src'));
+
         $pageTranslated = new Page();
         $pageTranslated->setIsPublished(true);
         $pageTranslated->setDateAdded(new \DateTime());
