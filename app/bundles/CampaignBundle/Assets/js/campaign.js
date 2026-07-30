@@ -11,6 +11,41 @@ Mautic.campaignOnLoad = function (container, response) {
     const $flashes = mQuery('#flashes');
     const $builder = mQuery('#campaign-builder');
     const isCampaignPreview = $builder.hasClass('preview');
+
+    const $campaignEventTabs = mQuery('#campaign_nav_header_ul');
+    if ($campaignEventTabs.length) {
+        const rememberCampaignEventTab = function (href) {
+            if (!href || !/^#[\w-]+$/.test(href)) {
+                return;
+            }
+
+            if (!$campaignEventTabs.find('a[href="' + href + '"]').length) {
+                return;
+            }
+
+            Mautic.campaignEventActiveTab = href;
+            window.history.replaceState(null, '', window.location.pathname + window.location.search + href);
+            mQuery('form[action*="/campaigns/view/"]').each(function () {
+                const action = mQuery(this).attr('action');
+                if (action) {
+                    mQuery(this).attr('action', action.split('#')[0] + href);
+                }
+            });
+        };
+
+        $campaignEventTabs.find('a[data-toggle="tab"]')
+            .off('click.campaign-event')
+            .on('click.campaign-event', function (event) {
+                rememberCampaignEventTab(mQuery(event.currentTarget).attr('href'));
+            });
+
+        const savedCampaignEventTab = Mautic.campaignEventActiveTab || window.location.hash;
+        const $savedCampaignEventTab = $campaignEventTabs.find('a[href="' + savedCampaignEventTab + '"]');
+        if ($savedCampaignEventTab.length) {
+            $savedCampaignEventTab.tab('show');
+        }
+    }
+
     Mautic.campaignBuilderPostData = [];
     let extraData = {};
 
@@ -315,12 +350,6 @@ Mautic.lazyLoadEventStatsOnCampaignDetail = function()  {
             mQuery('#conditions_li').remove();
             mQuery('#conditions-container').remove();
         }
-
-        mQuery('ul#campaign_nav_header_ul li').removeClass('active');
-        mQuery('ul#campaign_nav_header_ul li').eq(0).addClass('active');
-
-        mQuery('div#campaign-tab-content .tab-pane').removeClass('active in');
-        mQuery('div#campaign-tab-content .tab-pane').eq(0).addClass('active in');
 
     });
 }
