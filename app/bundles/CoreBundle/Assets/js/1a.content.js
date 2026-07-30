@@ -1830,7 +1830,7 @@ Mautic.toggleFilter = function (element) {
  * Applies the selected filters when the "Apply filters" button is clicked.
  */
 Mautic.applyFilters = function () {
-    const searchInput = document.getElementById('list-search');
+    const searchInput = document.getElementById('list-search') || document.querySelector('input[data-toggle="livesearch"]');
     let currentSearchValue = searchInput.value || '';
     currentSearchValue = Mautic.removeFilterCommands(currentSearchValue);
 
@@ -1872,7 +1872,7 @@ Mautic.applyFilters = function () {
  * Resets the filters when the "Reset filters" button is clicked.
  */
 Mautic.resetFilters = function () {
-    const searchInput = document.getElementById('list-search');
+    const searchInput = document.getElementById('list-search') || document.querySelector('input[data-toggle="livesearch"]');
     let currentSearchValue = searchInput.value || '';
     currentSearchValue = Mautic.removeFilterCommands(currentSearchValue);
     searchInput.value = currentSearchValue.trim();

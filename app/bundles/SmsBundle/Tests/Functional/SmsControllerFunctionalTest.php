@@ -136,6 +136,25 @@ final class SmsControllerFunctionalTest extends MauticMysqlTestCase
         $this->assertSelectorTextContains('#translation-container', 'Parent SMS');
     }
 
+    public function testPortugueseQuickFilterShowsPortugueseSms(): void
+    {
+        $this->createAndPersistSms('Automation test Portuguese SMS', 'Mensagem de teste', 'pt_BR');
+        $this->createAndPersistSms('Automation test English SMS', 'Test message', 'en');
+
+        $crawler = $this->client->request(Request::METHOD_GET, '/s/sms');
+        $this->assertResponseIsSuccessful();
+        $content = html_entity_decode((string) $this->client->getResponse()->getContent());
+        $this->assertStringContainsString('data-filter="lang:pt"', $content);
+        $this->assertStringContainsString('Mautic.applyFilters()', $content);
+
+        $crawler = $this->client->request(Request::METHOD_GET, '/s/sms?search=lang:pt');
+        $this->assertResponseIsSuccessful();
+        $this->assertSame('lang:pt', $crawler->filter('#sms-search')->attr('value'));
+        $this->assertCount(1, $crawler->filter('.sms-list tbody tr'));
+        $this->assertSelectorTextContains('.sms-list tbody', 'Automation test Portuguese SMS');
+        $this->assertSelectorTextNotContains('.sms-list tbody', 'Automation test English SMS');
+    }
+
     private function createAndPersistSms(string $name, string $message, string $locale = 'en'): Sms
     {
         $sms = $this->createAnSms($name, $message, true, $locale);

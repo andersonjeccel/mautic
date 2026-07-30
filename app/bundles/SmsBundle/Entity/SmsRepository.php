@@ -126,10 +126,12 @@ class SmsRepository extends CommonRepository
                     $langUnique => $langValue,
                     $unique     => $filter->string,
                 ];
-                $expr = $q->expr()->or(
-                    $q->expr()->eq('e.language', ":{$unique}"),
-                    $q->expr()->like('e.language', ":{$langUnique}")
-                );
+                // @phpstan-ignore-next-line $q accepts ORM and DBAL QueryBuilder; orX() is required by the ORM expression builder
+                $expr = $q->expr()->orX();
+                // @phpstan-ignore-next-line $q accepts ORM and DBAL QueryBuilder; add() is deprecated only on DBAL CompositeExpression, not on ORM Orx
+                $expr->add($q->expr()->eq('e.language', ":{$unique}"));
+                // @phpstan-ignore-next-line $q accepts ORM and DBAL QueryBuilder; add() is deprecated only on DBAL CompositeExpression, not on ORM Orx
+                $expr->add($q->expr()->like('e.language', ":{$langUnique}"));
                 $returnParameter = true;
                 break;
             case $this->translator->trans('mautic.project.searchcommand.name'):
