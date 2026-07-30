@@ -227,6 +227,30 @@ final class RoleControllerFunctionalTest extends MauticMysqlTestCase
         $this->assertSame($uniquePrefix.' 1', trim($rows->eq(2)->filter('td')->eq(1)->text()));
     }
 
+    public function testIndexActionCanFilterRolesUsedByUsers(): void
+    {
+        $uniquePrefix = 'Automation test used role '.uniqid();
+
+        $usedRole = new Role();
+        $usedRole->setName($uniquePrefix.' used');
+        $this->em->persist($usedRole);
+
+        $unusedRole = new Role();
+        $unusedRole->setName($uniquePrefix.' unused');
+        $this->em->persist($unusedRole);
+        $this->em->flush();
+
+        $this->em->persist($this->createUser('automation-used-role-user', $usedRole));
+        $this->em->flush();
+
+        $crawler = $this->client->request('GET', '/s/roles?tmpl=list&search='.$uniquePrefix.'%20is%3Aused');
+        $rows    = $crawler->filter('#roleTable tbody tr');
+
+        $this->assertCount(1, $rows);
+        $this->assertStringContainsString($uniquePrefix.' used', $rows->text());
+        $this->assertStringNotContainsString($uniquePrefix.' unused', $rows->text());
+    }
+
     private function createUser(string $username, Role $role): User
     {
         $user = new User();

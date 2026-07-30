@@ -106,6 +106,14 @@ class RoleRepository extends CommonRepository
             case $this->translator->trans('mautic.user.user.searchcommand.isadmin', [], null, 'en_US'):
                 $expr = $q->expr()->eq('r.isAdmin', 1);
                 break;
+            case $this->translator->trans('mautic.user.role.searchcommand.hasusers'):
+            case $this->translator->trans('mautic.user.role.searchcommand.hasusers', [], null, 'en_US'):
+                $users = $this->_em->createQueryBuilder()
+                    ->select('1')
+                    ->from(User::class, 'role_user')
+                    ->where('role_user.role = r');
+                $expr = $q->expr()->exists($users->getDQL());
+                break;
             case $this->translator->trans('mautic.core.searchcommand.name'):
             case $this->translator->trans('mautic.core.searchcommand.name', [], null, 'en_US'):
                 $expr            = $q->expr()->like('r.name', ':'.$unique);
@@ -176,6 +184,7 @@ class RoleRepository extends CommonRepository
     {
         $commands = [
             'mautic.user.user.searchcommand.isadmin',
+            'mautic.user.role.searchcommand.hasusers',
             'mautic.core.searchcommand.name',
         ];
 
