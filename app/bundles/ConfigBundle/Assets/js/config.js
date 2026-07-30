@@ -67,6 +67,56 @@ Mautic.observeConfigTabs = function() {
     });
 }
 
+Mautic.observeConfigSearch = function() {
+    const search = document.getElementById('config-search');
+    const status = document.getElementById('config-search-status');
+
+    if (!search || !status) {
+        return;
+    }
+
+    const tabs = Array.from(document.querySelectorAll('[data-config-search-tab]'));
+    const panes = Array.from(document.querySelectorAll('[data-config-search-pane]'));
+
+    const updateSearch = function() {
+        const query = search.value.trim().toLocaleLowerCase();
+        const matches = panes.filter(function(pane) {
+            return !query || pane.textContent.toLocaleLowerCase().includes(query);
+        });
+
+        tabs.forEach(function(tab) {
+            const link = tab.querySelector('a[href^="#"]');
+            const paneId = link ? link.getAttribute('href').substring(1) : '';
+            const isMatch = matches.some(function(pane) {
+                return pane.id === paneId;
+            });
+
+            tab.classList.toggle('hide', Boolean(query) && !isMatch);
+            tab.setAttribute('aria-hidden', Boolean(query) && !isMatch ? 'true' : 'false');
+        });
+
+        if (!query) {
+            status.textContent = '';
+            return;
+        }
+
+        if (matches.length > 0) {
+            const firstMatch = matches[0];
+            const firstLink = document.querySelector('a[href="#' + firstMatch.id + '"]');
+            if (firstLink) {
+                mQuery(firstLink).tab('show');
+            }
+            status.textContent = matches.length === 1
+                ? '{{ "mautic.config.search.one_match"|trans }}'
+                : '{{ "mautic.config.search.matches"|trans }}'.replace('%count%', matches.length);
+        } else {
+            status.textContent = '{{ "mautic.config.search.no_matches"|trans }}';
+        }
+    };
+
+    search.addEventListener('input', updateSearch);
+};
+
 Mautic.resetEmailsToNotification = function(obj) {
     const send_to_owner = obj.value;
     if (parseInt(send_to_owner, 10) === 1)
@@ -108,3 +158,4 @@ Mautic.showAnonymizeWarningMessage = function(anonymize_ip) {
 };
 
 mQuery(Mautic.observeConfigTabs);
+mQuery(Mautic.observeConfigSearch);

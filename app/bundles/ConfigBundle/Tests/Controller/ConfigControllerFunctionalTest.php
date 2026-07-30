@@ -32,6 +32,18 @@ final class ConfigControllerFunctionalTest extends MauticMysqlTestCase
         $this->prefix = MAUTIC_TABLE_PREFIX;
     }
 
+    public function testConfigurationSearchIsAvailableWithoutChangingTheForm(): void
+    {
+        $crawler = $this->client->request(Request::METHOD_GET, '/s/config/edit');
+
+        $this->assertResponseIsSuccessful();
+        $this->assertCount(1, $crawler->filter('#config-search'));
+        $this->assertSame('search', $crawler->filter('#config-search')->attr('type'));
+        $this->assertGreaterThan(1, $crawler->filter('[data-config-search-tab]')->count());
+        $this->assertGreaterThan(1, $crawler->filter('[data-config-search-pane]')->count());
+        $this->assertCount(1, $crawler->filter('#config-search-status[aria-live="polite"]'));
+    }
+
     public function testValuesAreEscapedProperly(): void
     {
         $trackIps        = "%ip1%\n%ip2%\n%kernel.project_dir%";
