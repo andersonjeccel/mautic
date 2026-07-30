@@ -166,6 +166,15 @@ final class AssetControllerFunctionalTest extends AbstractAssetTestCase
         $this->getControllerColumnTests($urlAlias, $routeAlias, $column, $tableAlias, $column2);
     }
 
+    public function testAssetDetailsRemainOpenOnView(): void
+    {
+        $crawler = $this->client->request('GET', '/s/assets/view/'.$this->asset->getId());
+
+        $this->assertResponseIsSuccessful();
+        $this->assertCount(1, $crawler->filter('#asset-details.in'));
+        $this->assertCount(1, $crawler->filter('a[data-target="#asset-details"]:not(.collapsed)'));
+    }
+
     public function testAssetSizes(): void
     {
         $this->client->request('GET', '/s/ajax?action=email:getAttachmentsSize&assets%5B%5D='.$this->asset->getId());
