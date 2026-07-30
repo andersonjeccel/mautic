@@ -67,6 +67,45 @@ Mautic.observeConfigTabs = function() {
     });
 }
 
+Mautic.initConfigSearch = function() {
+    const search = document.getElementById('config-tab-search');
+    const tabs = document.getElementById('config-tabs');
+    const status = document.getElementById('config-tab-search-status');
+
+    if (!search || !tabs || !status) {
+        return;
+    }
+
+    const tabItems = Array.from(tabs.querySelectorAll('[data-config-tab]'));
+
+    const filterTabs = function() {
+        const query = search.value.trim().toLocaleLowerCase();
+        const matchingTabs = tabItems.filter(function(tab) {
+            const pane = document.getElementById(tab.dataset.configTab);
+
+            return !query || (tab.textContent + (pane ? pane.textContent : '')).toLocaleLowerCase().includes(query);
+        });
+
+        tabItems.forEach(function(tab) {
+            tab.classList.toggle('hide', !matchingTabs.includes(tab));
+        });
+
+        status.textContent = query
+            ? matchingTabs.length + ' ' + (matchingTabs.length === 1 ? search.dataset.configSearchSingular : search.dataset.configSearchPlural)
+            : '';
+
+        if (matchingTabs.length && !matchingTabs.includes(tabs.querySelector('li.active'))) {
+            const link = matchingTabs[0].querySelector('a[data-toggle="tab"]');
+
+            if (link) {
+                mQuery(link).tab('show');
+            }
+        }
+    };
+
+    mQuery(search).on('input', filterTabs);
+};
+
 Mautic.resetEmailsToNotification = function(obj) {
     const send_to_owner = obj.value;
     if (parseInt(send_to_owner, 10) === 1)
@@ -107,4 +146,7 @@ Mautic.showAnonymizeWarningMessage = function(anonymize_ip) {
     }
 };
 
-mQuery(Mautic.observeConfigTabs);
+mQuery(function() {
+    Mautic.observeConfigTabs();
+    Mautic.initConfigSearch();
+});

@@ -86,6 +86,17 @@ final class ConfigControllerFunctionalTest extends MauticMysqlTestCase
         $this->assertSame($googleAnalytics, $form['config[pageconfig][google_analytics]']->getValue());
     }
 
+    public function testConfigurationSearchIsAvailable(): void
+    {
+        $crawler = $this->client->request(Request::METHOD_GET, '/s/config/edit');
+
+        $this->assertResponseIsSuccessful();
+        $this->assertCount(1, $crawler->filter('#config-tab-search'));
+        $this->assertSame('search', $crawler->filter('#config-tab-search')->attr('type'));
+        $this->assertCount(1, $crawler->filter('#config-tab-search-status'));
+        $this->assertGreaterThan(1, $crawler->filter('#config-tabs [data-config-tab]')->count());
+    }
+
     private function getConfigPath(): string
     {
         /** @var \AppKernel $kernel */

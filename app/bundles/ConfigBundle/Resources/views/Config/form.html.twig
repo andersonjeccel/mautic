@@ -31,10 +31,15 @@
                  {% if not isWritable %}
                      <div class="alert alert-danger">{{ 'mautic.config.notwritable'|trans }}</div>
                  {% endif %}
+                 <div class="form-group">
+                     <label for="config-tab-search">{{ 'mautic.config.search.label'|trans }}</label>
+                     <input id="config-tab-search" class="form-control" type="search" autocomplete="off" placeholder="{{ 'mautic.config.search.placeholder'|trans }}" data-config-search-singular="{{ 'mautic.config.search.result'|trans }}" data-config-search-plural="{{ 'mautic.config.search.results'|trans }}" aria-describedby="config-tab-search-status">
+                     <span id="config-tab-search-status" class="sr-only" role="status" aria-live="polite"></span>
+                 </div>
                  <!-- Nav tabs -->
-                 <ul class="list-group list-group-tabs" role="tablist">
+                 <ul id="config-tabs" class="list-group list-group-tabs" role="tablist">
                      {% for key in form.children|keys|filter(v => formConfigs[v] is defined and form[v].children|length > 0) %}
-                         <li role="presentation" class="list-group-item {% if loop.first %}in active{% endif %}">
+                         <li role="presentation" class="list-group-item {% if loop.first %}in active{% endif %}" data-config-tab="{{ key }}">
                              {% set containsErrors = formContainsErrors(form[key]) %}
                              <a href="#{{ key }}" aria-controls="{{ key }}" role="tab" data-toggle="tab" class="list-group-item-text steps {% if formContainsErrors(form[key]) %}text-danger{% endif %}">
                                  {{ ('mautic.config.tab.' ~ key)|trans }}
