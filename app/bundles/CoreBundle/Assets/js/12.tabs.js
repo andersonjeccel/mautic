@@ -362,6 +362,15 @@ Mautic.deleteTab = function(deleteBtn) {
                 tabStorage.setItem(storageKeys[index], href);
             }
 
+            const tabOverride = $navTabs.data('tab-override');
+            if (tabOverride) {
+                const $overrideTab = $navTabs.find('a[href="' + tabOverride + '"]');
+                if ($overrideTab.length) {
+                    $overrideTab.tab('show');
+                    tabStorage.setItem(storageKeys[index], tabOverride);
+                }
+            }
+
             $navTabs.find('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
                 tabStorage.setItem(storageKeys[index], mQuery(e.target).attr('href'));
             });

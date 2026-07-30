@@ -719,6 +719,24 @@ final class FormControllerFunctionalTest extends MauticMysqlTestCase
         }
     }
 
+    public function testFormDetailsOpensActionsTabFromShortcut(): void
+    {
+        $form = $this->createForm('Automation test actions shortcut', 'automation_test_actions_shortcut');
+        $this->em->persist($form);
+        $this->em->flush();
+
+        $crawler = $this->client->request('GET', sprintf('/s/forms/view/%d', $form->getId()));
+        $this->assertResponseIsSuccessful();
+
+        $shortcut = $crawler->filter('a[href*="tab=actions"]');
+        $this->assertCount(1, $shortcut);
+
+        $crawler = $this->client->request('GET', sprintf('/s/forms/edit/%d?tab=actions', $form->getId()));
+        $this->assertResponseIsSuccessful();
+        $this->assertCount(1, $crawler->filter('#actions-tab.active'));
+        $this->assertCount(0, $crawler->filter('#details-container.active'));
+    }
+
     public function testSliderFieldRendersWithInputAttributes(): void
     {
         // Create a form with a slider field

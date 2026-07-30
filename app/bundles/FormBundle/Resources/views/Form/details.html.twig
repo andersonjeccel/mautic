@@ -46,6 +46,14 @@
             'customButtons': [
                 {
                     'attr': {
+                        'data-toggle': 'ajax',
+                        'href': path('mautic_form_action', {'objectAction': 'edit', 'objectId': activeForm.id, 'tab': 'actions'}),
+                    },
+                    'iconClass': 'ri-play-list-add-line',
+                    'btnText': 'mautic.form.form.edit_actions',
+                },
+                {
+                    'attr': {
                         'data-toggle': '',
                         'target': '_blank',
                         'href': path('mautic_form_action', {'objectAction': 'preview', 'objectId': activeForm.id}),

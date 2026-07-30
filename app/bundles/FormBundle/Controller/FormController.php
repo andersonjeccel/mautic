@@ -818,6 +818,8 @@ class FormController extends CommonFormController
                     'form'               => $form->createView(),
                     'forceTypeSelection' => $forceTypeSelection,
                     'inBuilder'          => true,
+                    'activeTab'          => $request->query->get('tab', 'details'),
+                    'activeTabOverride' => $request->query->has('tab'),
                 ],
                 'contentTemplate' => '@MauticForm/Builder/index.html.twig',
                 'passthroughVars' => [
