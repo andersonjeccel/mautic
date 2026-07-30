@@ -83,6 +83,21 @@
     ] %}
 {% endif %}
 
+<form action="{{ baseUrl }}" class="panel mb-md" id="company-contact-filter" method="get">
+    <div class="form-control-icon pa-md">
+        <input type="search"
+               name="search"
+               value="{{ search|e }}"
+               id="CompanyContactFilter"
+               class="form-control bdr-w-0"
+               placeholder="{{ 'mautic.company.contacts.search'|trans }}"
+               data-toggle="livesearch"
+               data-target="#contacts-table"
+               data-action="{{ baseUrl }}">
+        <span class="the-icon ri-search-line text-secondary"></span>
+    </div>
+</form>
+
 {% if contacts|length > 0 %}
     <div class="table-responsive">
         <table class="table table-hover" id="leadTable">
