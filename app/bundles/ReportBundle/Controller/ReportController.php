@@ -116,6 +116,7 @@ final class ReportController extends FormController
                     'limit'       => $limit,
                     'permissions' => $permissions,
                     'model'       => $this->reportModel,
+                    'enableExportPermission' => $this->security->isAdmin() || $this->security->isGranted('report:export:enable', 'MATCH_ONE'),
                     'tmpl'        => $request->isXmlHttpRequest() ? $request->get('tmpl', 'index') : 'index',
                     'security'    => $this->security,
                 ],

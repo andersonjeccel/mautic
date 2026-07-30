@@ -55,9 +55,21 @@
             <tbody>
             {% for item in items %}
                 <tr>
+                    {% set customButtons = [] %}
+                    {% if enableExportPermission %}
+                        {% set customButtons = customButtons|merge([{
+                            'attr': {
+                                'data-toggle': 'download',
+                                'class': 'btn btn-ghost btn-sm btn-nospin',
+                                'href': path('mautic_report_export', {'objectId': item.id, 'format': 'csv'}),
+                            },
+                            'btnText': 'mautic.form.result.export.csv'|trans,
+                            'iconClass': 'ri-file-text-line',
+                        }]) %}
+                    {% endif %}
                     <td>
                         {% if item.isScheduled %}
-                          {% set customButtons = [
+                          {% set customButtons = customButtons|merge([
                               {
                                   'attr': {
                                       'data-toggle': 'ajaxmodal',
@@ -67,7 +79,7 @@
                                   'btnText': 'mautic.report.export.and.send'|trans,
                                   'iconClass': 'ri-send-plane-line',
                               },
-                          ] %}
+                          ]) %}
                         {% endif %}
                         {{ include('@MauticCore/Helper/list_actions.html.twig', {
                                 'item': item,

@@ -462,6 +462,18 @@ final class ReportControllerFunctionalTest extends MauticMysqlTestCase
         $this->assertStringContainsString('<small><b>This is allowed HTML</b></small>', (string) $clientResponseContent);
     }
 
+    public function testReportListOffersCsvExport(): void
+    {
+        $report = $this->createReport('Automation test report export', 'page.hits', []);
+
+        $crawler = $this->client->request(Request::METHOD_GET, '/s/reports');
+
+        $exportLink = $crawler->filter(sprintf('a[href="/s/reports/view/%d/export"]', $report->getId()));
+        $this->assertCount(1, $exportLink);
+        $this->assertSame('download', $exportLink->attr('data-toggle'));
+        $this->assertSame('Export to CSV', trim($exportLink->text()));
+    }
+
     public function testXssUrlFromQuery(): void
     {
         $report = new Report();
