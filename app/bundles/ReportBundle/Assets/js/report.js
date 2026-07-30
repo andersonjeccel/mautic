@@ -383,6 +383,10 @@ Mautic.updateReportSourceData = function (context) {
                 mQuery('#graphs-container').removeClass('hide');
                 mQuery('#graphs-tab').removeClass('hide');
             }
+
+            // The source refresh rebuilds the fields used in the Data tab.
+            mQuery('#report-source-change-notice').removeClass('hide');
+            mQuery('a[href="#data-container"]').tab('show');
         },
         error: function (request, textStatus, errorThrown) {
             Mautic.processAjaxError(request, textStatus, errorThrown);

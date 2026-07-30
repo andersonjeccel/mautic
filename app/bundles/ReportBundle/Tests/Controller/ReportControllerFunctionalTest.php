@@ -133,6 +133,19 @@ final class ReportControllerFunctionalTest extends MauticMysqlTestCase
         $this->assertSame($report->getId() + 1, $reportClone->getId());
     }
 
+    public function testReportEditorProvidesDataTabAfterSourceRefresh(): void
+    {
+        $crawler = $this->client->request(Request::METHOD_GET, '/s/reports/new/');
+
+        self::assertResponseIsSuccessful();
+        $this->assertCount(1, $crawler->filter('a[href="#data-container"]'));
+        $this->assertCount(1, $crawler->filter('#report-source-change-notice'));
+        $this->assertSame(
+            'Mautic.updateReportSourceData(this.value)',
+            $crawler->filter('#report_source')->attr('onchange')
+        );
+    }
+
     public function testContactReportSqlInjectionDontWork(): void
     {
         $report = new Report();
