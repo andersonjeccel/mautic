@@ -32,6 +32,19 @@
 <div class="hide" id="CampaignEventPanel">
     <div id="CampaignEventPanelGroups">
         <div class="row">
+            <div class="mr-0 ml-0 pl-xs pr-xs mt-sm campaign-group-container col-md-12 hide" id="CampaignRepeatGroupSelector">
+                {% include '@MauticCore/Components/tile.html.twig' with {
+                    'type': 'clickable',
+                    'content': '<h3 class="type-heading-02 mb-lg">' ~ ('mautic.campaign.event.repeat_last_type.header'|trans) ~ '</h3><div class="type-helper-text-01">' ~ ('mautic.campaign.event.repeat_last_type.description'|trans) ~ ' <strong data-campaign-event-repeat-label></strong></div>',
+                    'icon': 'ri-history-line',
+                    'attributes': {
+                        'data-campaign-event-repeat': 'true',
+                        'aria-label': 'mautic.campaign.event.repeat_last_type.header'|trans
+                    }
+                } %}
+            </div>
+        </div>
+        <div class="row">
             <div class="mr-0 ml-0 pl-xs pr-xs campaign-group-container col-md-4" id="DecisionGroupSelector">
                 {% include '@MauticCore/Components/tile.html.twig' with {
                     'type': 'clickable',

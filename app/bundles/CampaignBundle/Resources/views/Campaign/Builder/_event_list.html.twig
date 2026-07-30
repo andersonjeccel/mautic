@@ -7,6 +7,10 @@
     <div id="{{ eventGroup|title }}GroupList" class="hide">
         <h4 class="mb-xs">
             <span>{{ ('mautic.campaign.event.'~eventGroup~'s.header')|trans }}</span>
+            <span class="hide type-helper-text-01"
+                  data-campaign-event-repeat-context
+                  data-campaign-event-repeat-context-prefix="{{ 'mautic.campaign.event.repeat_last_type.active'|trans }}">
+            </span>
             {% include '@MauticCore/Helper/button.html.twig' with {
                 buttons: [
                     {

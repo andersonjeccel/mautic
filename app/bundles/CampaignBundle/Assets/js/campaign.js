@@ -22,10 +22,18 @@ Mautic.campaignOnLoad = function (container, response) {
 
     if (mQuery('#CampaignEventPanel').length) {
         var tooltipTimeout = null;
+        Mautic.campaignBuilderLastEventGroup = null;
         // setup button clicks
-        mQuery('#CampaignEventPanelGroups button').on('click', function() {
+        mQuery('#CampaignEventPanelGroups button[data-type]').on('click', function() {
             var eventType = mQuery(this).data('type');
+            Mautic.campaignBuilderLastEventGroup = eventType;
+            mQuery('[data-campaign-event-repeat-context]').addClass('hide');
             Mautic.campaignBuilderUpdateEventList([eventType], false, 'lists', true);
+        });
+
+        mQuery('[data-campaign-event-repeat]').on('click', function() {
+            mQuery('[data-campaign-event-repeat-context]').addClass('hide');
+            Mautic.campaignBuilderUpdateEventList([Mautic.campaignBuilderLastEventGroup], false, 'lists', true);
         });
 
         mQuery('#CampaignEventPanelLists button').on('click', function() {
@@ -2193,6 +2201,18 @@ Mautic.campaignBuilderUpdateEventList = function (groups, hidden, view, active, 
         // Force groups mode
         inGroupsView = false;
     }
+
+    if (inGroupsView && !active && Mautic.campaignBuilderLastEventGroup
+        && mQuery.inArray(Mautic.campaignBuilderLastEventGroup, groups) !== -1) {
+        Mautic.campaignBuilderUpdateEventList([Mautic.campaignBuilderLastEventGroup], true, 'lists', true);
+        var $repeatContext = mQuery('#' + Mautic.campaignBuilderLastEventGroup + 'GroupList [data-campaign-event-repeat-context]');
+        $repeatContext.removeClass('hide').text(
+            $repeatContext.attr('data-campaign-event-repeat-context-prefix') + ' '
+            + Mautic.campaignBuilderLastEventGroup
+        );
+        return;
+    }
+
     mQuery.each(['Source', 'Action', 'Decision', 'Condition'], function (key, theGroup) {
         if (mQuery.inArray(theGroup, groups) !== -1) {
             if (inGroupsView) {
@@ -2217,6 +2237,19 @@ Mautic.campaignBuilderUpdateEventList = function (groups, hidden, view, active, 
     mQuery('#CampaignEventPanelGroups').addClass('groups-enabled-' + groups.length)
 
     if (inGroupsView) {
+        var canRepeatLastGroup = Mautic.campaignBuilderLastEventGroup
+            && mQuery.inArray(Mautic.campaignBuilderLastEventGroup, groups) !== -1;
+        var $repeatGroup = mQuery('#CampaignRepeatGroupSelector');
+
+        if (canRepeatLastGroup) {
+            $repeatGroup.removeClass('hide');
+            $repeatGroup.find('[data-campaign-event-repeat-label]').text(
+                Mautic.campaignBuilderLastEventGroup
+            );
+        } else {
+            $repeatGroup.addClass('hide');
+        }
+
         mQuery.each(groups, function (key, theGroup) {
             mQuery('#'+theGroup+'GroupSelector').removeClass(
                 function (index, css) {
