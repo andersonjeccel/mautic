@@ -185,6 +185,8 @@ final class ConfigController extends AbstractFormController
             || $this->integrationObject instanceof ConfigFormSyncInterface
             || $this->integrationObject instanceof ConfigFormFeatureSettingsInterface;
 
+        $useSyncFeatures = $this->integrationObject instanceof ConfigFormSyncInterface;
+
         $hasFeatureErrors = (
             $this->integrationObject instanceof ConfigFormFeatureSettingsInterface
             && $formExtension->containsErrors($formView['featureSettings']['integration'])
@@ -195,7 +197,21 @@ final class ConfigController extends AbstractFormController
 
         $hasAuthErrors = $this->integrationObject instanceof ConfigFormAuthInterface && $formExtension->containsErrors($formView['apiKeys']);
 
-        $useSyncFeatures = $this->integrationObject instanceof ConfigFormSyncInterface;
+        $activeTab = $request->get('activeTab');
+        if (!$activeTab) {
+            if ($hasAuthErrors) {
+                $activeTab = 'details-container';
+            } elseif ($hasFeatureErrors) {
+                $activeTab = 'features-container';
+            } elseif ($useSyncFeatures && isset($formView['featureSettings']['sync']['fieldMappings'])) {
+                foreach ($formView['featureSettings']['sync']['fieldMappings'] as $object => $objectFieldMapping) {
+                    if ($formExtension->containsErrors($objectFieldMapping)) {
+                        $activeTab = 'field-mapping-'.$object;
+                        break;
+                    }
+                }
+            }
+        }
 
         $useFeatureSettings = $this->integrationObject instanceof ConfigFormFeatureSettingsInterface;
 
@@ -215,7 +231,7 @@ final class ConfigController extends AbstractFormController
                 'viewParameters' => [
                     'integrationObject'   => $this->integrationObject,
                     'form'                => $formView,
-                    'activeTab'           => $request->get('activeTab'),
+                    'activeTab'           => $activeTab,
                     'showFeaturesTab'     => $showFeaturesTab,
                     'hasFeatureErrors'    => $hasFeatureErrors,
                     'hasAuthErrors'       => $hasAuthErrors,
