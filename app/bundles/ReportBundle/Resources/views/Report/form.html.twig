@@ -13,6 +13,12 @@
 {% block content %}
   {%- form_theme form '@MauticReport/FormTheme/Report/layout.html.twig' -%}
   {%- set showGraphTab = form.graphs.vars.choices|length > 0 -%}
+  {%- set scheduleHasErrors = formContainsErrors(form.isScheduled)
+      or formContainsErrors(form.toAddress)
+      or formContainsErrors(form.scheduleUnit)
+      or formContainsErrors(form.scheduleDay)
+      or formContainsErrors(form.scheduleMonthFrequency)
+      or (form.isScheduled.vars.data and formContainsErrors(form)) -%}
 
   {{ form_start(form) }}
   {{ form_errors(form) }}
@@ -22,7 +28,7 @@
               <div class="col-xs-12">
                   <!-- tabs controls -->
                   <ul class="nav nav-tabs nav-tabs-contained">
-                      <li class="active">
+                      <li class="{% if not scheduleHasErrors %}active{% endif %}">
                           <a href="#details-container" role="tab" data-toggle="tab">{{ 'mautic.core.details'|trans }}</a>
                       </li>
                       <li class="">
@@ -31,14 +37,14 @@
                       <li class="{% if not showGraphTab %}hide{% endif %}" id="graphs-tab">
                           <a href="#graphs-container" role="tab" data-toggle="tab">{{ 'mautic.report.tab.graphs'|trans }}</a>
                       </li>
-                      <li>
+                      <li class="{% if scheduleHasErrors %}active{% endif %}">
                           <a href="#schedule-container" role="tab" class="{% if formContainsErrors(form.toAddress) %}text-danger{% endif %}" data-toggle="tab">{{ 'mautic.report.tab.schedule'|trans }}</a>
                       </li>
                   </ul>
                   <!--/ tabs controls -->
 
                   <div class="tab-content pa-md">
-                      <div class="tab-pane fade in active bdr-w-0" id="details-container">
+                      <div class="tab-pane fade in {% if not scheduleHasErrors %}active{% endif %} bdr-w-0" id="details-container">
                           <div class="row">
                               <div class="col-md-6">
                                   <div class="pa-md">
@@ -113,7 +119,7 @@
                               </div>
                           </div>
                       </div>
-                      <div class="tab-pane fade bdr-w-0" id="schedule-container">
+                      <div class="tab-pane fade {% if scheduleHasErrors %}in active{% endif %} bdr-w-0" id="schedule-container">
                           <div class="row">
                               <div class="col-md-12">
                                   {{ form_row(form.isScheduled) }}

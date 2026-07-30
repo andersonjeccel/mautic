@@ -133,6 +133,25 @@ final class ReportControllerFunctionalTest extends MauticMysqlTestCase
         $this->assertSame($report->getId() + 1, $reportClone->getId());
     }
 
+    public function testScheduleValidationKeepsScheduleTabOpen(): void
+    {
+        $crawler = $this->client->request(Request::METHOD_GET, '/s/reports/new/');
+        self::assertResponseIsSuccessful();
+
+        $form = $crawler->selectButton('Save')->form();
+        $form['report[name]']->setValue('Automation test scheduled report');
+        $form['report[isScheduled]']->setValue('1');
+        $form['report[toAddress]']->setValue('not-an-email');
+
+        $crawler = $this->client->submit($form);
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
+        $this->assertStringContainsString('not-an-email', (string) $crawler->html());
+
+        $this->assertCount(1, $crawler->filter('ul.nav-tabs li.active a[href="#schedule-container"]'));
+        $this->assertCount(1, $crawler->filter('.tab-pane.active#schedule-container'));
+        $this->assertSame(0, $this->em->getRepository(Report::class)->count(['name' => 'Automation test scheduled report']));
+    }
+
     public function testContactReportSqlInjectionDontWork(): void
     {
         $report = new Report();
