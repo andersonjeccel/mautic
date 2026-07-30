@@ -67,6 +67,27 @@ final class ReportControllerFunctionalTest extends MauticMysqlTestCase
         self::assertResponseIsSuccessful();
     }
 
+    public function testReportDetailsProvidesDirectScheduleAction(): void
+    {
+        $report = $this->createReport('Automation test report schedule', 'page.hits', []);
+
+        $crawler = $this->client->request('GET', '/s/reports/view/'.$report->getId());
+
+        self::assertResponseIsSuccessful();
+        $scheduleLink = $crawler->filter('a[href*="/s/reports/edit/'.$report->getId().'"]')->reduce(
+            static fn (Crawler $node): bool => str_contains($node->attr('href') ?? '', 'activeTab=schedule-container')
+        );
+
+        $this->assertCount(1, $scheduleLink);
+        $this->assertSame('Schedule', trim($scheduleLink->text()));
+
+        $crawler = $this->client->request('GET', '/s/reports/edit/'.$report->getId().'?activeTab=schedule-container');
+
+        self::assertResponseIsSuccessful();
+        $this->assertCount(1, $crawler->filter('#schedule-container.tab-pane.in.active'));
+        $this->assertCount(0, $crawler->filter('#details-container.tab-pane.in.active'));
+    }
+
     public function testReportTableOrderColumn(): void
     {
         $page  = $this->createPage('test page 1', 15);

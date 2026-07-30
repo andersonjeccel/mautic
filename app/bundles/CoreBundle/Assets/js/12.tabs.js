@@ -335,7 +335,18 @@ Mautic.deleteTab = function(deleteBtn) {
 
             $navTabs.data(TAB_DATA, mauticTabKey);
 
-            if (tabStorage.getItem(mauticTabKey)) {
+            const requestedTab = $navTabs.attr('data-active-tab');
+            let hasRequestedTab = false;
+            if (requestedTab) {
+                const $requestedTab = $navTabs.find('a[href="#' + requestedTab + '"]');
+                if ($requestedTab.length) {
+                    $requestedTab.tab('show');
+                    $navTabs.removeAttr('data-active-tab');
+                    hasRequestedTab = true;
+                }
+            }
+
+            if (!hasRequestedTab && tabStorage.getItem(mauticTabKey)) {
                 // Last opened tab on this page (either from session or from local storage)
                 storageKeys[index] = tabStorage.getItem(mauticTabKey);
 

@@ -411,7 +411,8 @@ final class ReportController extends FormController
             [
                 'viewParameters' => [
                     'report' => $entity,
-                    'form'   => $form->createView(),
+                    'form'      => $form->createView(),
+                    'activeTab' => $request->query->get('activeTab'),
                 ],
                 'contentTemplate' => '@MauticReport/Report/form.html.twig',
                 'passthroughVars' => [
