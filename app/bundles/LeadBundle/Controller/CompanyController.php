@@ -181,6 +181,7 @@ final class CompanyController extends FormController
                     'contacts'    => $data['items'],
                     'totalItems'  => $data['count'],
                     'limit'       => $data['limit'],
+                    'searchValue' => $data['search'],
                     'permissions' => $permissions,
                     'security'    => $this->security,
                 ],
@@ -629,6 +630,8 @@ final class CompanyController extends FormController
     {
         $this->setListFilters();
         $session = $request->getSession();
+        $search  = InputHelper::clean($request->query->getString('search', (string) $session->get('mautic.company.'.$companyId.'.contacts.filter', '')));
+        $session->set('mautic.company.'.$companyId.'.contacts.filter', $search);
         // set limits
         $limit = $session->get('mautic.company.'.$companyId.'.contacts.limit', $this->coreParametersHelper->get('default_pagelimit'));
         $start = (1 === $page) ? 0 : (($page - 1) * $limit);
@@ -642,6 +645,7 @@ final class CompanyController extends FormController
 
         // filter by company contacts
         $filter = [
+            'string' => $search,
             'force' => [
                 ['column' => 'l.id', 'expr' => 'in', 'value' => $leadIds],
             ],
@@ -667,6 +671,7 @@ final class CompanyController extends FormController
             'page'  => $page,
             'count' => $count,
             'limit' => $limit,
+            'search' => $search,
         ];
     }
 
