@@ -74,6 +74,49 @@ Mautic.roleOnLoad = function (container, response) {
 };
 
 /**
+ * Filters role permissions while keeping the selected values untouched.
+ *
+ * @param searchInput
+ */
+Mautic.filterRolePermissions = function (searchInput) {
+    const query = searchInput.value.trim().toLowerCase();
+    const tabs = document.querySelectorAll('#rolePermissions .list-group-tabs > li');
+    let firstMatchingTab = null;
+
+    tabs.forEach(function (tab) {
+        const link = tab.querySelector('a[href]');
+        const panel = link ? document.querySelector(link.getAttribute('href')) : null;
+        if (!panel) {
+            return;
+        }
+
+        let hasMatch = !query;
+        panel.querySelectorAll('.col-xs-12').forEach(function (permission) {
+            const matches = !query || permission.textContent.toLowerCase().includes(query);
+            permission.classList.toggle('hide', !matches);
+            hasMatch = hasMatch || matches;
+        });
+
+        tab.classList.toggle('hide', !hasMatch);
+        if (hasMatch && !firstMatchingTab) {
+            firstMatchingTab = tab;
+        }
+    });
+
+    if (query && firstMatchingTab) {
+        const link = firstMatchingTab.querySelector('a[href]');
+        const panel = link ? document.querySelector(link.getAttribute('href')) : null;
+        document.querySelectorAll('#rolePermissions .list-group-tabs > li, #rolePermissions .tab-content > .tab-pane').forEach(function (element) {
+            element.classList.remove('active', 'in');
+        });
+        firstMatchingTab.classList.add('active');
+        if (panel) {
+            panel.classList.add('active', 'in');
+        }
+    }
+};
+
+/**
  * Toggles permission panel visibility for roles
  */
 Mautic.togglePermissionVisibility = function () {

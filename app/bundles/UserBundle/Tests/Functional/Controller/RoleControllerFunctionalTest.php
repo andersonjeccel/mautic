@@ -36,6 +36,16 @@ final class RoleControllerFunctionalTest extends MauticMysqlTestCase
         $this->assertStringContainsString($desc, (string) $this->client->getResponse()->getContent());
     }
 
+    public function testNewRoleActionProvidesPermissionSearch(): void
+    {
+        $crawler = $this->client->request(Request::METHOD_GET, '/s/roles/new');
+
+        $search = $crawler->filter('#role-permission-search');
+
+        $this->assertCount(1, $search);
+        $this->assertSame('Search permissions by area or action', $search->attr('placeholder'));
+    }
+
     public function testEditRoleAction(): void
     {
         $role = new Role();
