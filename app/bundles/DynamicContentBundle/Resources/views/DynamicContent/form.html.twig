@@ -27,7 +27,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <ul class="nav nav-tabs nav-tabs-contained">
-                    <li class="active">
+                    <li class="{% if not hasFilterErrors %}active{% endif %}">
                         <a href="#details" role="tab" data-toggle="tab" class="{% if hasMainErrors %}text-danger{% endif %}">
                             {{ 'mautic.core.details'|trans }}
                             {% if hasMainErrors %}
@@ -35,7 +35,7 @@
                             {% endif %}
                         </a>
                     </li>
-                    <li class="{% if form.vars.value.isCampaignBased or form.updateSelect is defined %}hide{% endif %}" id="dwcFiltersTab">
+                    <li class="{% if form.vars.value.isCampaignBased or form.updateSelect is defined %}hide{% elseif hasFilterErrors %}active{% endif %}" id="dwcFiltersTab">
                         <a href="#filters" role="tab" data-toggle="tab" class="{% if hasFilterErrors %}text-danger{% endif %}">
                             {{ 'mautic.core.filters'|trans }}
                             {% if hasFilterErrors %}
@@ -47,7 +47,7 @@
 
                 <!-- start: tab-content -->
                 <div class="tab-content pa-md">
-                    <div class="tab-pane fade in active bdr-w-0" id="details">
+                    <div class="tab-pane fade {% if not hasFilterErrors %}in active{% endif %} bdr-w-0" id="details">
                         <div class="row">
                             <div class="col-md-6">
                                 {{ form_row(form.name) }}
@@ -59,7 +59,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade bdr-w-0" id="filters">
+                    <div class="tab-pane fade {% if hasFilterErrors %}in active{% endif %} bdr-w-0" id="filters">
                         {% if hasFilterErrors and '' is not same as form_errors(form.filters) %}
                             <div class="has-error alert alert-danger" role="alert" style="padding:5px 10px 0 10px;">
                                 {{ form_errors(form.filters) }}

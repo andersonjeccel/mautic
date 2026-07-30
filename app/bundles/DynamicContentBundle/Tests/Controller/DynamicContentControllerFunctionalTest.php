@@ -264,4 +264,24 @@ final class DynamicContentControllerFunctionalTest extends MauticMysqlTestCase
         $this->assertStringContainsString('Edit Dynamic Content', $content);
         $this->assertStringContainsString('Test Locale Timezone Filter Validation', $content);
     }
+
+    public function testFilterErrorsOpenFiltersTab(): void
+    {
+        $crawler = $this->client->request(Request::METHOD_GET, '/s/dwc/new');
+        self::assertResponseIsSuccessful();
+
+        $form = $crawler->selectButton('Save')->form();
+        $form->setValues([
+            'dwc[name]'          => 'Filter error tab test',
+            'dwc[content]'       => 'Content without a filter',
+            'dwc[slotName]'      => 'filter-error-tab-test',
+            'dwc[isCampaignBased]' => '0',
+        ]);
+        $crawler = $this->client->submit($form);
+
+        self::assertResponseIsSuccessful();
+        $this->assertStringContainsString('active', (string) $crawler->filter('#dwcFiltersTab')->attr('class'));
+        $this->assertStringContainsString('active', (string) $crawler->filter('#filters')->attr('class'));
+        $this->assertStringContainsString('At least one filter is required', $crawler->text());
+    }
 }
