@@ -33,6 +33,7 @@
     or formContainsErrors(form.customHtml)
     or formContainsErrors(form.plainText)
 %}
+{% set advancedTabIsActive = advancedTabHasErrors %}
 {% block headerTitle %}
   {% if email.id is not empty %}
     {{ 'mautic.email.header.edit'|trans({'%name%': email.name}) }}
@@ -58,10 +59,10 @@
 
                     <!-- tabs controls -->
                     <ul class="nav nav-tabs nav-tabs-contained">
-                        <li class="active">
+                        <li{% if not advancedTabIsActive %} class="active"{% endif %}>
                             <a href="#email-container" role="tab" data-toggle="tab">{{ 'mautic.core.form.theme'|trans }}</a>
                         </li>
-                        <li>
+                        <li{% if advancedTabIsActive %} class="active"{% endif %}>
                             <a href="#advanced-container" role="tab" data-toggle="tab">
                                 {% if advancedTabHasErrors %}
                                 <span class="text-danger">
@@ -79,7 +80,7 @@
                     <!--/ tabs controls -->
 
                     <div class="tab-content pa-md">
-                        <div class="tab-pane fade in active bdr-w-0" id="email-container">
+                        <div class="tab-pane fade{% if not advancedTabIsActive %} in active{% endif %} bdr-w-0" id="email-container">
                             <div class="row">
                                 <div class="col-md-12">{{ form_row(form.template) }}</div>
                             </div>
@@ -89,7 +90,7 @@
                                 'active' : form.template.vars.value,
                             }) -}}
                         </div>
-                        <div class="tab-pane fade bdr-w-0" id="advanced-container">
+                        <div class="tab-pane fade{% if advancedTabIsActive %} in active{% endif %} bdr-w-0" id="advanced-container">
                             <div class="row">
                                 <div class="col-md-6">
                                     {{ form_row(form.fromName) }}

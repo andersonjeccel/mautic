@@ -1519,6 +1519,9 @@ final class EmailControllerFunctionalTest extends MauticMysqlTestCase
 
         $this->assertCount(1, $matchingAlerts);
         $this->assertCount(1, $crawler->filter('a[href="#advanced-container"] span.text-danger'));
+        $this->assertStringContainsString('active', $crawler->filter('a[href="#advanced-container"]')->ancestors()->first()->attr('class'));
+        $this->assertStringContainsString('in active', $crawler->filter('#advanced-container')->attr('class'));
+        $this->assertStringNotContainsString('active', $crawler->filter('#email-container')->attr('class'));
     }
 
     public function testEmailWithMalformedLinkCannotBeSaved(): void
