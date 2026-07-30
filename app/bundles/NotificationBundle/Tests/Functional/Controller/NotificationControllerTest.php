@@ -40,10 +40,14 @@ final class NotificationControllerTest extends MauticMysqlTestCase
      */
     public function testNewRouteSuccessfullyLoads(): void
     {
-        $this->client->request(Request::METHOD_GET, '/s/notifications/new');
+        $crawler = $this->client->request(Request::METHOD_GET, '/s/notifications/new');
         $response = $this->client->getResponse();
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertCount(1, $crawler->filter('#notification-preview'));
+        $this->assertCount(1, $crawler->filter('[data-notification-preview="heading"]'));
+        $this->assertCount(1, $crawler->filter('[data-notification-preview="message"]'));
+        $this->assertCount(1, $crawler->filter('[data-notification-preview="button"].hide'));
     }
 
     public function testNewWebNotificationValidSubmit(): void

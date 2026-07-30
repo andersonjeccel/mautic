@@ -61,22 +61,25 @@ Mautic.activatePreviewPanelUpdate = function () {
     var notificationForm    = mQuery('form[name="notification"]');
 
     if (notificationPreview.length && notificationForm.length) {
-        var inputs = notificationForm.find('input,textarea');
+        var previewFields = {
+            'notification[heading]': notificationPreview.find('[data-notification-preview="heading"]'),
+            'notification[message]': notificationPreview.find('[data-notification-preview="message"]'),
+            'notification[button]': notificationPreview.find('[data-notification-preview="button"]')
+        };
 
-        inputs.on('blur', function () {
+        notificationForm.find('input,textarea').on('input', function () {
             var $this = mQuery(this);
             var name  = $this.attr('name');
+            var previewField = previewFields[name];
 
-            if (name === 'notification[heading]') {
-                notificationPreview.find('h4').text($this.val());
-            }
+            if (previewField && previewField.length) {
+                var value = $this.val().trim();
+                var fallback = previewField.attr('data-notification-preview-default') || '';
 
-            if (name === 'notification[message]') {
-                notificationPreview.find('p').text($this.val());
-            }
-
-            if (name === 'notification[url]') {
-                notificationPreview.find('span').not('.ri-notification-3-fill').text($this.val());
+                previewField.text(value || fallback);
+                if (name === 'notification[button]') {
+                    previewField.toggleClass('hide', !value);
+                }
             }
         });
     }
