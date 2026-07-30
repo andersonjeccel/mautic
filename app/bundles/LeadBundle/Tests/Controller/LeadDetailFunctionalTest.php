@@ -6,6 +6,8 @@ namespace Mautic\LeadBundle\Tests\Controller;
 
 use Doctrine\DBAL\ArrayParameterType;
 use Mautic\CoreBundle\Test\MauticMysqlTestCase;
+use Mautic\LeadBundle\Entity\Company;
+use Mautic\LeadBundle\Entity\CompanyLead;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Entity\LeadField;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -111,6 +113,31 @@ final class LeadDetailFunctionalTest extends MauticMysqlTestCase
         $response = $this->client->getResponse();
         // Make sure the data-target-url is not an absolute URL
         $this->assertStringContainsString(sprintf('data-target-url="/s/contacts/view/%s/stats"', $lead->getId()), (string) $response->getContent());
+    }
+
+    public function testLeadDetailLinksToContactsOfPrimaryCompany(): void
+    {
+        $lead = new Lead();
+        $lead->setEmail('primary-company-contact@example.com');
+        $company = new Company();
+        $company->setName('Automation test primary company');
+
+        $association = new CompanyLead();
+        $association->setLead($lead);
+        $association->setCompany($company);
+        $association->setPrimary(true);
+        $association->setDateAdded(new \DateTime());
+
+        $this->em->persist($lead);
+        $this->em->persist($company);
+        $this->em->persist($association);
+        $this->em->flush();
+
+        $crawler = $this->client->request('GET', sprintf('/s/contacts/view/%d', $lead->getId()));
+        $links   = $crawler->filter('a[href*="search=company_id"]');
+
+        $this->assertCount(1, $links);
+        $this->assertStringContainsString((string) $company->getId(), (string) $links->attr('href'));
     }
 
     public function testLeadDetailPageForSocialTabInDetailsCollapsibleForNoData(): void

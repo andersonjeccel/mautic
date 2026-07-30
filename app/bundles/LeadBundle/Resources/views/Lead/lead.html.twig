@@ -605,7 +605,11 @@
         <div class="pa-sm panel-companies layout--size-0">
             {% if companies is defined and companies|length > 0 %}
                 {% set companiesList = [] %}
+                {% set primaryCompanyId = null %}
                 {% for key, company in companies %}
+                    {% if company.is_primary == 1 %}
+                        {% set primaryCompanyId = company.id %}
+                    {% endif %}
                     {% set companiesList = companiesList|merge([{
                         'label': company.companyname|purify,
                         'link': path('mautic_company_action', {'objectAction': 'view', 'objectId': company.id}),
@@ -620,9 +624,22 @@
                 {% endfor %}
 
                 {% set tileContent %}
+                <div class="d-flex jc-space-between ai-center ma-neg-local">
+                    <span class="fw-b ellipsis mb-md">{{ 'mautic.lead.lead.companies'|trans }}</span>
+                    {% if primaryCompanyId %}
+                        {{ include('@MauticCore/Helper/button.html.twig', {
+                            'buttons': [{
+                                'href': path('mautic_contact_index', {'search': ('mautic.lead.lead.searchcommand.company_id'|trans) ~ ':' ~ primaryCompanyId}),
+                                'label': 'mautic.lead.list.view_contacts',
+                                'icon': 'ri-group-line',
+                                'icon_only': true,
+                                'variant': 'ghost',
+                            }]
+                        }) }}
+                    {% endif %}
+                </div>
                 <div class="ma-neg-local">
                     {{ include('@MauticCore/Components/contained-list.html.twig', {
-                        'title': 'mautic.lead.lead.companies'|trans,
                         'items': companiesList,
                         'variant': 'interactive-actions'
                     }) }}
