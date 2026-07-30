@@ -47,3 +47,36 @@ Mautic.sendHookTest = function() {
         }
     })
 };
+
+Mautic.initWebhookLogFilter = function () {
+    var filter = mQuery('#webhook-log-filter');
+    var rows = mQuery('[data-webhook-log-row]');
+    var status = mQuery('#webhook-log-filter-status');
+    var singularLabel = status.attr('data-log-label-singular');
+    var pluralLabel = status.attr('data-log-label-plural');
+
+    if (!filter.length || !rows.length || !status.length) {
+        return;
+    }
+
+    var update = function () {
+        var value = filter.val().trim().toLowerCase();
+        var visible = 0;
+
+        rows.each(function () {
+            var row = mQuery(this);
+            var matches = !value || row.attr('data-status-code').toLowerCase().indexOf(value) !== -1;
+            row.toggle(matches);
+            visible += matches ? 1 : 0;
+        });
+
+        status.text((visible === 1 ? singularLabel : pluralLabel).replace('%count%', visible));
+    };
+
+    filter.off('input.webhookLogFilter').on('input.webhookLogFilter', update);
+    update();
+};
+
+Mautic.mauticWebhookOnLoad = function () {
+    Mautic.initWebhookLogFilter();
+};
