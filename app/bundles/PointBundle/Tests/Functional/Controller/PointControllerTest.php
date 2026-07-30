@@ -10,6 +10,21 @@ use Mautic\ProjectBundle\Entity\Project;
 
 final class PointControllerTest extends MauticMysqlTestCase
 {
+    public function testPointGroupsListShowsQuickFilters(): void
+    {
+        $crawler = $this->client->request('GET', '/s/points/groups');
+
+        $this->assertResponseIsSuccessful();
+        $quickFilters = $crawler->filter('button[data-toggle="popover"]');
+        $this->assertSame(1, $quickFilters->count());
+        $filterContent = html_entity_decode((string) $quickFilters->attr('data-content'), ENT_QUOTES);
+        $this->assertStringContainsString('Active', $filterContent);
+        $this->assertStringContainsString('Inactive', $filterContent);
+        $this->assertStringContainsString('Uncategorized', $filterContent);
+        $this->assertStringContainsString('My items', $filterContent);
+        $this->assertStringContainsString('Mautic.toggleFilter(this, true)', $filterContent);
+    }
+
     public function testPointWithProject(): void
     {
         $point = new Point();

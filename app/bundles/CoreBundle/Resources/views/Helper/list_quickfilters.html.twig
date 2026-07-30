@@ -34,7 +34,7 @@
                         {% elseif header == 'mautic.core.quick_filters.ownership' %}
                             data-conflict-group="ownership"
                         {% endif %}
-                        onclick="Mautic.toggleFilter(this)"
+                        onclick="Mautic.toggleFilter(this{% if filter.autoApply|default(false) %}, true{% endif %})"
                         data-toggle="tooltip"
                         data-placement="top"
                         data-original-title="{{ filter.tooltip|trans }}">
