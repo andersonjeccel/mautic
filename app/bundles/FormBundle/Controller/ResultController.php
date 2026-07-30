@@ -117,12 +117,27 @@ final class ResultController extends CommonFormController
         $orderBy    = $session->get('mautic.formresult.'.$objectId.'.orderby', 's.date_submitted');
         $orderByDir = $session->get('mautic.formresult.'.$objectId.'.orderbydir', 'DESC');
         $filters    = $session->get('mautic.formresult.'.$objectId.'.filters', []);
+        $search     = trim((string) $request->get('search', ''));
+
+        if ($search === $this->translator->trans('mautic.form.result.searchcommand.hascontact') || 'has:contact' === $search) {
+            $filters['s.lead_id'] = ['column' => 's.lead_id', 'expr' => 'isNotNull'];
+            $session->set("mautic.formresult.{$objectId}.filters", $filters);
+        } elseif ($search === $this->translator->trans('mautic.form.result.searchcommand.isanonymous') || 'is:anonymous' === $search) {
+            $filters['s.lead_id'] = ['column' => 's.lead_id', 'expr' => 'isNull'];
+            $session->set("mautic.formresult.{$objectId}.filters", $filters);
+        }
 
         if ($request->query->has('result')) {
             // Force ID
             $filters['s.id'] = ['column' => 's.id', 'expr' => 'like', 'value' => (int) $request->query->get('result'), 'strict' => false];
             $session->set("mautic.formresult.{$objectId}.filters", $filters);
         }
+
+        $displayFilters = $filters;
+        foreach ($displayFilters as &$displayFilter) {
+            $displayFilter['value'] ??= '';
+        }
+        unset($displayFilter);
 
         // get the results
         $entities = $this->submissionModel->getEntities(
@@ -169,7 +184,7 @@ final class ResultController extends CommonFormController
             [
                 'viewParameters' => [
                     'items'          => $results,
-                    'filters'        => $filters,
+                    'filters'        => $displayFilters,
                     'form'           => $form,
                     'viewOnlyFields' => $viewOnlyFields,
                     'page'           => $page,
@@ -182,6 +197,7 @@ final class ResultController extends CommonFormController
                         $form->getCreatedBy()
                     ),
                     'enableExportPermission'=> $this->security->isAdmin() || $this->security->isGranted('form:export:enable', 'MATCH_ONE'),
+                    'searchValue'     => $search,
                 ],
                 'contentTemplate' => '@MauticForm/Result/list.html.twig',
                 'passthroughVars' => [

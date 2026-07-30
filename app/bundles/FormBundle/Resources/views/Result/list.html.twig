@@ -102,7 +102,23 @@
             'iconClass': 'ri-pie-chart-line',
         }
       ] %}
-          {{- include('@MauticCore/Helper/list_toolbar.html.twig', {
+    {{- include('@MauticCore/Helper/list_toolbar.html.twig', {
+        'searchValue': searchValue|default(''),
+        'action': path('mautic_form_results', {'objectId': form.id, 'page': page}),
+        'quickFilters': [
+            {
+                'search': 'mautic.form.result.searchcommand.hascontact',
+                'label': 'mautic.form.result.quickfilter.hascontact',
+                'tooltip': 'mautic.form.result.quickfilter.hascontact.tooltip',
+                'icon': 'ri-user-line'
+            },
+            {
+                'search': 'mautic.form.result.searchcommand.isanonymous',
+                'label': 'mautic.form.result.quickfilter.isanonymous',
+                'tooltip': 'mautic.form.result.quickfilter.isanonymous.tooltip',
+                'icon': 'ri-user-unfollow-line'
+            }
+        ],
         'bulk_actions': {
             'target': '#formResultTable',
             'templateButtons': {

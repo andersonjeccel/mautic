@@ -154,6 +154,36 @@ final class ResultControllerFunctionalTest extends MauticMysqlTestCase
         $this->assertCount(1, $editButton, 'Edit button should be present on form results page');
     }
 
+    public function testContactQuickFiltersAreDisplayedOnFormResultsPage(): void
+    {
+        $formPayload = [
+            'name'        => 'Test Form Contact Filters',
+            'formType'    => 'standalone',
+            'alias'       => 'testformcontactfilters',
+            'description' => 'Test Form Contact Filters',
+            'isPublished' => false,
+            'fields'      => [
+                [
+                    'label' => 'Name',
+                    'alias' => 'name',
+                    'type'  => 'text',
+                ],
+            ],
+            'postAction'  => 'return',
+        ];
+
+        $this->client->request(Request::METHOD_POST, '/api/forms/new', $formPayload);
+        $this->assertResponseStatusCodeSame(Response::HTTP_CREATED);
+        $formId = json_decode((string) $this->client->getResponse()->getContent(), true)['form']['id'];
+
+        $crawler = $this->client->request(Request::METHOD_GET, "/s/forms/results/{$formId}?search=is:anonymous");
+        self::assertResponseIsSuccessful();
+
+        $this->assertStringContainsString('With contact', (string) $crawler->filter('body')->html());
+        $this->assertStringContainsString('Anonymous', (string) $crawler->filter('body')->html());
+        $this->assertStringContainsString('Show submissions not associated with a contact', (string) $crawler->filter('body')->html());
+    }
+
     private function createFile(string $filename): void
     {
         $data = 'data:image/png;base64,AAAFBfj42Pj4';
