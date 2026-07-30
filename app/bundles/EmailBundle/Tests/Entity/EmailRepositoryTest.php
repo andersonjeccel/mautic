@@ -31,6 +31,7 @@ final class EmailRepositoryTest extends TestCase
         $translator->method('trans')->willReturnCallback(fn (string $id): string => match ($id) {
             'mautic.email.email.searchcommand.isexpired' => 'is:expired',
             'mautic.email.email.searchcommand.ispending' => 'is:pending',
+            'mautic.email.email.searchcommand.isvariant' => 'is:variant',
             default                                      => $id,
         });
         $this->repo->setTranslator($translator);
@@ -324,10 +325,24 @@ final class EmailRepositoryTest extends TestCase
         $this->assertSame(['par1' => true], $params);
     }
 
+    public function testAddSearchCommandWhereClauseHandlesVariantFilters(): void
+    {
+        $qb     = $this->connection->createQueryBuilder();
+        $filter = (object) ['command' => 'is:variant', 'string' => '', 'not' => false, 'strict' => false];
+
+        $method = new \ReflectionMethod(EmailRepository::class, 'addSearchCommandWhereClause');
+
+        [$expr, $params] = $method->invoke($this->repo, $qb, $filter);
+
+        $this->assertSame('e.variantParent IS NOT NULL', (string) $expr);
+        $this->assertSame([], $params);
+    }
+
     public function testGetSearchCommandsContainsExpirationFilters(): void
     {
         $commands = $this->repo->getSearchCommands();
         $this->assertContains('mautic.email.email.searchcommand.isexpired', $commands);
         $this->assertContains('mautic.email.email.searchcommand.ispending', $commands);
+        $this->assertContains('mautic.email.email.searchcommand.isvariant', $commands);
     }
 }

@@ -616,6 +616,11 @@ class EmailRepository extends CommonRepository
                 );
                 $forceParameters = [$unique => true];
                 break;
+            case $this->translator->trans('mautic.email.email.searchcommand.isvariant'):
+            case $this->translator->trans('mautic.email.email.searchcommand.isvariant', [], null, 'en_US'):
+                $expr = $q->expr()->isNotNull('e.variantParent');
+                $parameters = [];
+                break;
             case $this->translator->trans('mautic.core.searchcommand.lang'):
                 $langUnique      = $this->generateRandomParameterName();
                 $langValue       = $filter->string.'_%';
@@ -664,6 +669,7 @@ class EmailRepository extends CommonRepository
             'mautic.core.searchcommand.ismine',
             'mautic.email.email.searchcommand.isexpired',
             'mautic.email.email.searchcommand.ispending',
+            'mautic.email.email.searchcommand.isvariant',
             'mautic.core.searchcommand.category',
             'mautic.core.searchcommand.lang',
             'mautic.project.searchcommand.name',

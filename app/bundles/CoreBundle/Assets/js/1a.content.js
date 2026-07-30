@@ -1807,7 +1807,7 @@ Mautic.initFilterCommands = function () {
  *
  * @param {HTMLElement} element
  */
-Mautic.toggleFilter = function (element) {
+Mautic.toggleFilter = function (element, autoApply) {
     const filterValue = element.dataset.filter;
     const conflictGroup = element.dataset.conflictGroup || null;
 
@@ -1824,6 +1824,10 @@ Mautic.toggleFilter = function (element) {
 
     // Toggle active class on the clicked element
     element.classList.toggle('active');
+
+    if (autoApply) {
+        Mautic.applyFilters();
+    }
 };
 
 /**
