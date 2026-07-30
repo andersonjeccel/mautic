@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Mautic\LeadBundle\Tests\Controller;
 
 use Doctrine\DBAL\ArrayParameterType;
+use Mautic\CampaignBundle\Tests\Functional\Fixtures\FixtureHelper;
 use Mautic\CoreBundle\Test\MauticMysqlTestCase;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Entity\LeadField;
@@ -111,6 +112,27 @@ final class LeadDetailFunctionalTest extends MauticMysqlTestCase
         $response = $this->client->getResponse();
         // Make sure the data-target-url is not an absolute URL
         $this->assertStringContainsString(sprintf('data-target-url="/s/contacts/view/%s/stats"', $lead->getId()), (string) $response->getContent());
+    }
+
+    public function testUpcomingCampaignEventsExposeExistingActions(): void
+    {
+        $fixtureHelper = new FixtureHelper($this->em);
+        $contact       = $fixtureHelper->createContact('automation-upcoming-event@example.com');
+        $campaign      = $fixtureHelper->createCampaign('Automation test upcoming event campaign');
+        $fixtureHelper->addContactToCampaign($contact, $campaign);
+        $event = $fixtureHelper->createCampaignWithScheduledEvent($campaign);
+        $this->em->flush();
+
+        $commandResult = $this->testSymfonyCommand('mautic:campaigns:trigger', ['--campaign-id' => $campaign->getId()]);
+        $this->assertStringContainsString('1 total event was scheduled', $commandResult->getDisplay());
+
+        $crawler = $this->client->request('GET', sprintf('/s/contacts/view/%d', $contact->getId()));
+        self::assertResponseIsSuccessful();
+
+        $eventActions = $crawler->filter(sprintf('#upcoming-events #timeline-campaign-event-%d', $event->getId()));
+        $this->assertCount(1, $eventActions);
+        $this->assertStringContainsString('Mautic.updateScheduledCampaignEvent', $eventActions->html());
+        $this->assertStringContainsString('Mautic.cancelScheduledCampaignEvent', $eventActions->html());
     }
 
     public function testLeadDetailPageForSocialTabInDetailsCollapsibleForNoData(): void

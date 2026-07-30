@@ -17,6 +17,7 @@
 
 {% set flag = fields.core.country is defined and fields.core.country.value is not empty ? assetGetCountryFlag(fields.core.country.value) : '' %}
 {% set groups = fields|keys %}
+{% set canEdit = securityHasEntityAccess(permissions['lead:leads:editown'], permissions['lead:leads:editother'], lead.permissionUser) %}
 
 {% block headerTitle %}
     {{ avatar }}<div class="pull-left mt-5"><span class="span-block">{{ leadName|purify }}</span><span class="span-block small ml-sm">
@@ -44,7 +45,6 @@
 {% endblock %}
 
 {% block actions %}
-    {% set canEdit = securityHasEntityAccess(permissions['lead:leads:editown'], permissions['lead:leads:editother'], lead.permissionUser) %}
     {% set buttons = [] %}
 
     {% if fields.core.email is defined %}
@@ -497,7 +497,7 @@
 
         <hr class="hr-w-2" style="width:50%">
 
-        <div class="panel shd-none bdr-rds-0 bdr-w-0">
+        <div class="panel shd-none bdr-rds-0 bdr-w-0" id="upcoming-events">
                 <div class="panel-heading">
                     <div class="panel-title">{{ 'mautic.lead.lead.upcoming.events'|trans }}</div>
                 </div>
@@ -512,7 +512,7 @@
                             {% if metadata.errors is defined and metadata.errors is not empty %}
                                 {% set errors = metadata.errors is iterable ? metadata.errors|join('<br/>') : metadata.errors %}
                             {% endif %}
-                            <li class="media">
+                            <li class="media" id="timeline-campaign-event-{{ event.event_id }}">
                                 <div class="media-object pull-left mt-xs">
                                     <span class="figure"></span>
                                 </div>
@@ -524,8 +524,26 @@
                                     {% if errors is not empty %}
                                       <i class="ri-alert-line text-danger" data-toggle="tooltip" title="{{ errors|purify }}"></i>
                                     {% endif %}
-                                    <p class="fs-12 dark-sm timeline-campaign-event-date-{{ event.event_id }}">
-                                      {{ dateToFull(event.trigger_date, 'utc') }}
+                                    <p class="fs-12 dark-sm" id="timeline-campaign-event-text-{{ event.event_id }}">
+                                      <span class="timeline-campaign-event-scheduled-{{ event.event_id }}">
+                                        {{ 'mautic.core.timeline.event.scheduled.time'|trans({'%date%': '<span class="timeline-campaign-event-date-' ~ event.event_id ~ '" data-date="' ~ event.trigger_date ~ '">' ~ dateToFull(event.trigger_date, 'utc') ~ '</span>', '%event%': event.event_name})|purify }}
+                                      </span>
+                                      <span class="timeline-campaign-event-cancelled-{{ event.event_id }} hide">
+                                        {{ 'mautic.campaign.event.cancelled.time'|trans({'%date%': '<span class="timeline-campaign-event-date-' ~ event.event_id ~ '" data-date="' ~ event.trigger_date ~ '">' ~ dateToFull(event.trigger_date, 'utc') ~ '</span>', '%event%': event.event_name})|purify }}
+                                      </span>
+                                      {% if canEdit %}
+                                        <span class="form-buttons btn-group btn-group-xs ml-sm" role="group" aria-label="{{ 'mautic.campaign.event.actions.header'|trans }}">
+                                          <button type="button" id="timeline-campaign-event-save-{{ event.event_id }}" class="btn btn-ghost btn-nospin" onmousedown="return false;" onclick="Mautic.saveScheduledCampaignEvent({{ event.event_id }}, {{ lead.id }})" data-toggle="tooltip" title="{{ 'mautic.campaign.event.save'|trans }}" style="display:none">
+                                            <i class="ri-save-line text-interactive"></i>
+                                          </button>
+                                          <button type="button" class="btn btn-ghost btn-nospin btn-edit btn-reschedule" onclick="Mautic.updateScheduledCampaignEvent({{ event.event_id }}, {{ lead.id }})" data-toggle="tooltip" title="{{ 'mautic.campaign.event.reschedule'|trans }}">
+                                            <i class="ri-time-line text-interactive"></i>
+                                          </button>
+                                          <button type="button" class="btn btn-ghost btn-nospin" onclick="Mautic.cancelScheduledCampaignEvent({{ event.event_id }}, {{ lead.id }})" data-toggle="tooltip" title="{{ 'mautic.campaign.event.cancel'|trans }}">
+                                            <i class="ri-close-line text-danger"></i>
+                                          </button>
+                                        </span>
+                                      {% endif %}
                                     </p>
                                 </div>
                             </li>
