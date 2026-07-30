@@ -61,6 +61,14 @@
                             </p>
                         </div>
                     {% else %}
+                        <div class="form-group mb-md">
+                            <label for="webhook-log-status-filter">{{ 'mautic.webhook.logs.filter'|trans }}</label>
+                            <select id="webhook-log-status-filter" class="form-control">
+                                <option value="all">{{ 'mautic.webhook.logs.filter.all'|trans }}</option>
+                                <option value="success">{{ 'mautic.webhook.logs.filter.success'|trans }}</option>
+                                <option value="error">{{ 'mautic.webhook.logs.filter.error'|trans }}</option>
+                            </select>
+                        </div>
                         <table class="table table-responsive">
                             <thead>
                                 <tr>
@@ -83,7 +91,7 @@
                             </thead>
                             <tbody>
                                 {% for log in hookLog %}
-                                    <tr>
+                                    <tr data-webhook-log-status="{{ log.getStatusCode() >= 200 and log.getStatusCode() < 300 ? 'success' : 'error' }}">
                                         <td>{{ log.getId() }}</td>
                                         <td>{{- include(
                                             '@MauticWebhook/Helper/labelcode.html.twig', {
@@ -97,6 +105,9 @@
                                 {% endfor  %}
                             </tbody>
                         </table>
+                        <div id="webhook-log-status-empty" class="alert alert-info hide">
+                            {{ 'mautic.webhook.logs.filter.empty'|trans }}
+                        </div>
                         <div class="alert alert-info col-md-6 col-md-offset-3 mt-md">
                             <h4>
                                 {% trans %}mautic.webhook.webhook.logs.title{% endtrans %}

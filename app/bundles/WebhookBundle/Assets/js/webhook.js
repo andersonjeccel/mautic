@@ -47,3 +47,20 @@ Mautic.sendHookTest = function() {
         }
     })
 };
+
+Mautic.filterWebhookLogs = function(value) {
+    var visibleLogs = 0;
+
+    document.querySelectorAll('[data-webhook-log-status]').forEach(function(row) {
+        var visible = value === 'all' || row.getAttribute('data-webhook-log-status') === value;
+
+        row.classList.toggle('hide', !visible);
+        visibleLogs += visible ? 1 : 0;
+    });
+
+    document.querySelector('#webhook-log-status-empty').classList.toggle('hide', visibleLogs > 0);
+};
+
+mQuery(document).on('change', '#webhook-log-status-filter', function() {
+    Mautic.filterWebhookLogs(mQuery(this).val());
+});
