@@ -12,6 +12,16 @@
 {% set baseUrl = path('mautic_company_contacts_list', {'objectId': company_id}) %}
 {% set customButtons = [] %}
 
+<div class="mb-md">
+    {{ include('@MauticCore/Helper/search.html.twig', {
+        'searchId': 'company-contacts-search-' ~ company_id,
+        'searchValue': search|default(''),
+        'action': baseUrl,
+        'target': '#contacts-table',
+        'tmpl': 'list_rows_contacts',
+    }) }}
+</div>
+
 {% if permissions['lead:leads:editown'] or permissions['load:leads:editother'] %}
     {% set customButtons = [
         {

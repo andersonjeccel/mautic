@@ -186,6 +186,17 @@ final class CompanyControllerTest extends MauticMysqlTestCase
         $this->assertStringContainsString('/s/contacts/view/'.$lead1->getId(), (string) $clientResponse->getContent());
         $this->assertStringContainsString('1 item', (string) $clientResponse->getContent());
 
+        $crawler = $this->client->request('GET', '/s/company/'.$this->company1Id.'/contacts?search=test1@test.com&tmpl=list_rows_contacts');
+        $leadsTableRows = $crawler->filterXPath("//table[@id='leadTable']//tbody//tr");
+
+        $this->assertResponseIsSuccessful();
+        $this->assertCount(1, $leadsTableRows, $crawler->html());
+        $this->assertStringContainsString('test1@test.com', (string) $this->client->getResponse()->getContent());
+
+        $crawler = $this->client->request('GET', '/s/company/'.$this->company1Id.'/contacts?search=does-not-match&tmpl=list_rows_contacts');
+        $this->assertResponseIsSuccessful();
+        $this->assertStringContainsString('No Results Found', (string) $this->client->getResponse()->getContent());
+
         $crawler        = $this->client->request('GET', '/s/company/'.$this->company2Id.'/contacts/');
         $leadsTableRows = $crawler->filterXPath("//table[@id='leadTable']//tbody//tr");
 

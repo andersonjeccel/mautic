@@ -179,6 +179,7 @@ final class CompanyController extends FormController
                     'company_id'  => $objectId,
                     'page'        => $data['page'],
                     'contacts'    => $data['items'],
+                    'search'      => $data['search'],
                     'totalItems'  => $data['count'],
                     'limit'       => $data['limit'],
                     'permissions' => $permissions,
@@ -639,9 +640,19 @@ final class CompanyController extends FormController
         // do some default sorting
         $orderBy    = $session->get('mautic.company.'.$companyId.'.contacts.orderby', 'l.last_active');
         $orderByDir = $session->get('mautic.company.'.$companyId.'.contacts.orderbydir', 'DESC');
+        $search = $request->query->get('search');
+        if (!is_string($search)) {
+            $search = $session->get('mautic.company.'.$companyId.'.contacts.search', '');
+        }
+        if (!is_string($search)) {
+            $search = '';
+        }
+
+        $session->set('mautic.company.'.$companyId.'.contacts.search', $search);
 
         // filter by company contacts
         $filter = [
+            'string' => $search,
             'force' => [
                 ['column' => 'l.id', 'expr' => 'in', 'value' => $leadIds],
             ],
@@ -667,6 +678,7 @@ final class CompanyController extends FormController
             'page'  => $page,
             'count' => $count,
             'limit' => $limit,
+            'search' => $search,
         ];
     }
 
