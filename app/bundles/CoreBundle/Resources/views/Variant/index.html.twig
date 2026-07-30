@@ -5,6 +5,7 @@
     - abTestResults
     - model
     - actionRoute
+    - previewRoute (optional)
     - nameGetter
 #}
 {%- apply spaceless -%}
@@ -53,6 +54,7 @@
                   'variants': variants,
                   'abTestResults': abTestResults,
                   'actionRoute': actionRoute,
+                  'previewRoute': previewRoute|default(null),
                   'activeEntity': activeEntity,
                   'model': model,
                   'nameGetter': nameGetter,
@@ -67,6 +69,7 @@
                       'variants': variants,
                       'abTestResults': abTestResults,
                       'actionRoute': actionRoute,
+                      'previewRoute': previewRoute|default(null),
                       'activeEntity': activeEntity,
                       'model': model,
                       'nameGetter': nameGetter,

@@ -82,6 +82,8 @@ final class PreviewSettingsFunctionalTest extends MauticMysqlTestCase
 
         $this->assertCount(1, $crawler->filterXPath('//*[@id="content_preview_settings_variant"]/option[@value="'.$pageVariant->getId().'"]'));
 
+        $this->assertCount(1, $crawler->filterXPath('//a[@href="/page/preview/'.$pageVariant->getId().'"][@target="_blank"]'));
+
         // Contact lookup is visible
         $this->assertCount(1, $crawler->filterXPath('//*[@id="content_preview_settings_contact"]'));
     }
