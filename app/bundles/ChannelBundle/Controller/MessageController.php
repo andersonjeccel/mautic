@@ -182,6 +182,7 @@ final class MessageController extends AbstractStandardFormController
             case 'edit':
                 $viewParameters = [
                     'channels' => $this->messageModel->getChannels(),
+                    'activeChannel' => $this->getActiveChannel($args['viewParameters']['form']),
                 ];
 
                 break;
@@ -190,6 +191,29 @@ final class MessageController extends AbstractStandardFormController
         $args['viewParameters'] = array_merge($args['viewParameters'], $viewParameters);
 
         return $args;
+    }
+
+    private function getActiveChannel(FormView $form): ?string
+    {
+        $fallbackChannel = null;
+        $enabledChannel  = null;
+        $errorChannel    = null;
+
+        foreach ($form->children['channels']->children as $channelForm) {
+            $channel = $channelForm->vars['data'];
+            if (!$channel instanceof Channel) {
+                continue;
+            }
+
+            $fallbackChannel ??= $channel->getChannel();
+            $enabledChannel ??= $channel->isEnabled() ? $channel->getChannel() : null;
+
+            if (null === $errorChannel && $channelForm->vars['errors']->count() > 0) {
+                $errorChannel = $channel->getChannel();
+            }
+        }
+
+        return $errorChannel ?? $enabledChannel ?? $fallbackChannel;
     }
 
     /**
