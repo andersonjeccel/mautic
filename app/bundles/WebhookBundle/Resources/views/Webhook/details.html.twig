@@ -61,6 +61,15 @@
                             </p>
                         </div>
                     {% else %}
+                        <div class="row mb-md">
+                            <div class="col-md-6">
+                                <label for="webhook-log-filter">{{ 'mautic.webhook.logs.filter'|trans }}</label>
+                                <input type="search" id="webhook-log-filter" class="form-control" placeholder="{{ 'mautic.webhook.logs.filter.placeholder'|trans }}" autocomplete="off">
+                            </div>
+                            <div class="col-md-6 text-muted" id="webhook-log-filter-status" role="status" aria-live="polite"
+                                 data-log-label-singular="{{ 'mautic.webhook.logs.filter.count.one'|trans({'%count%': 1}) }}"
+                                 data-log-label-plural="{{ 'mautic.webhook.logs.filter.count.many'|trans({'%count%': 2}) }}"></div>
+                        </div>
                         <table class="table table-responsive">
                             <thead>
                                 <tr>
@@ -83,7 +92,7 @@
                             </thead>
                             <tbody>
                                 {% for log in hookLog %}
-                                    <tr>
+                                    <tr data-webhook-log-row data-status-code="{{ log.getStatusCode() }}">
                                         <td>{{ log.getId() }}</td>
                                         <td>{{- include(
                                             '@MauticWebhook/Helper/labelcode.html.twig', {

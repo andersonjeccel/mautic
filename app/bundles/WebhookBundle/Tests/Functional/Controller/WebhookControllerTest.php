@@ -28,6 +28,23 @@ final class WebhookControllerTest extends MauticMysqlTestCase
         $this->assertSame(Webhook::LOGS_DISPLAY_LIMIT, $logList);
     }
 
+    public function testViewWebhookDetailIncludesResponseCodeFilter(): void
+    {
+        $webhook = $this->createWebhook('filter test', 'http://domain.tld', 'secret');
+        $this->createWebhookEvent($webhook, 'Type');
+        $this->createWebhookLog($webhook, 'success', 200);
+        $this->createWebhookLog($webhook, 'failure', 500);
+        $this->em->flush();
+        $this->em->clear();
+
+        $crawler = $this->client->request(Request::METHOD_GET, '/s/webhooks/view/'.$webhook->getId());
+        self::assertResponseIsSuccessful();
+
+        $this->assertCount(1, $crawler->filter('#webhook-log-filter'));
+        $this->assertCount(2, $crawler->filter('[data-webhook-log-row]'));
+        $this->assertCount(1, $crawler->filter('[data-webhook-log-row][data-status-code="500"]'));
+    }
+
     private function createWebhook(string $name, string $url, string $secret): Webhook
     {
         $webhook = new Webhook();
