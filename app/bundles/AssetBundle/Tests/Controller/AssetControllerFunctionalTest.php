@@ -166,6 +166,21 @@ final class AssetControllerFunctionalTest extends AbstractAssetTestCase
         $this->getControllerColumnTests($urlAlias, $routeAlias, $column, $tableAlias, $column2);
     }
 
+    public function testAssetDetailsRemainExpandedAfterDateRangeSubmit(): void
+    {
+        $this->client->request(Request::METHOD_GET, '/s/assets/view/'.$this->asset->getId());
+
+        $this->assertResponseIsSuccessful();
+        $this->assertStringContainsString('class="collapse pr-md pl-md" id="asset-details"', (string) $this->client->getResponse()->getContent());
+
+        $this->client->request(Request::METHOD_GET, '/s/assets/view/'.$this->asset->getId().'?daterange[date_from]=2026-07-01&daterange[date_to]=2026-07-30');
+
+        $this->assertResponseIsSuccessful();
+        $content = (string) $this->client->getResponse()->getContent();
+        $this->assertStringContainsString('class="collapse pr-md pl-md show" id="asset-details"', $content);
+        $this->assertStringContainsString('class="arrow text-secondary" data-toggle="collapse"', $content);
+    }
+
     public function testAssetSizes(): void
     {
         $this->client->request('GET', '/s/ajax?action=email:getAttachmentsSize&assets%5B%5D='.$this->asset->getId());

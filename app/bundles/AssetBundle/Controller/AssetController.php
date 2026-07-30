@@ -210,6 +210,7 @@ final class AssetController extends FormController
                 'assetDownloadUrl' => $model->generateUrl($activeAsset, true),
                 'logs'             => $logs,
                 'dateRangeForm'    => $dateRangeForm->createView(),
+                'detailsExpanded'  => [] !== $dateRangeValues,
             ],
             'contentTemplate' => '@MauticAsset/Asset/'.$tmpl.'.html.twig',
             'passthroughVars' => [
