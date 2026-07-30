@@ -440,7 +440,9 @@ final class DashboardController extends AbstractFormController
                     if (!empty($fileData)) {
                         $extension = pathinfo($fileData->getClientOriginalName(), PATHINFO_EXTENSION);
                         if ('json' === $extension) {
-                            $fileData->move($directories['user'], $fileData->getClientOriginalName());
+                            $filename = $fileData->getClientOriginalName();
+                            $fileData->move($directories['user'], $filename);
+                            $preview = substr($filename, 0, -strlen('.json'));
                         } else {
                             $form->addError(
                                 new FormError(

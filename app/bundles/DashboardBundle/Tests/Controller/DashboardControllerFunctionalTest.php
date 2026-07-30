@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Mautic\DashboardBundle\Tests\Controller;
 
 use Mautic\CampaignBundle\Entity\LeadEventLog;
+use Mautic\CoreBundle\Helper\PathsHelper;
 use Mautic\CoreBundle\Test\MauticMysqlTestCase;
 use Mautic\CoreBundle\Tests\Functional\CreateTestEntitiesTrait;
 use Mautic\DashboardBundle\Entity\Widget;
@@ -14,11 +15,50 @@ use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\ReportBundle\Entity\Report;
 use Mautic\UserBundle\Entity\User;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 
 final class DashboardControllerFunctionalTest extends MauticMysqlTestCase
 {
     use CreateTestEntitiesTrait;
+
+    public function testUploadedDashboardIsPreviewedImmediately(): void
+    {
+        $filename = 'Automation test uploaded dashboard.json';
+        $source   = tempnam(sys_get_temp_dir(), 'mautic-dashboard-');
+        file_put_contents($source, json_encode([
+            'name'    => 'Automation test uploaded dashboard',
+            'widgets' => [],
+        ], JSON_THROW_ON_ERROR));
+
+        $paths = self::getContainer()->get(PathsHelper::class);
+        $target = $paths->getSystemPath('dashboard.user').'/'.$filename;
+
+        try {
+            $this->client->request('GET', '/s/dashboard/import');
+            $crawler = $this->client->getCrawler();
+            $token   = $crawler->filter('input[name="dashboard_upload[_token]"]')->attr('value');
+            $this->client->request(
+                'POST',
+                '/s/dashboard/import',
+                ['dashboard_upload' => ['_token' => $token]],
+                ['dashboard_upload' => ['file' => new UploadedFile($source, $filename, null, null, true)]]
+            );
+
+            $this->assertResponseIsSuccessful();
+            $content = (string) $this->client->getResponse()->getContent();
+            $this->assertStringContainsString('Automation test uploaded dashboard', $content);
+            $this->assertStringContainsString('preview=Automation%20test%20uploaded%20dashboard', $content);
+            $this->assertStringContainsString('Your current widgets will be replaced.', $content);
+        } finally {
+            if (file_exists($target)) {
+                unlink($target);
+            }
+            if (file_exists($source)) {
+                unlink($source);
+            }
+        }
+    }
 
     public function testWidgetWithReport(): void
     {
