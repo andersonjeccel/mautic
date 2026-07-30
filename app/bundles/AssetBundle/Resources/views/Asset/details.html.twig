@@ -116,7 +116,7 @@
 
 {% block content %}
 
-{% set assetDetailsOpen = true %}
+{% set assetDetailsOpen = app.request.get('asset_details', 0) == 1 %}
 
 <!-- start: box layout -->
 <div class="box-layout">
@@ -170,6 +170,7 @@
             <div class="hr-expand nm">
                 <span data-toggle="tooltip" title="Detail">
                     <a href="javascript:void(0)" class="arrow text-secondary{{ assetDetailsOpen ? '' : ' collapsed' }}" data-toggle="collapse"
+                       onclick="var form = document.querySelector('form[name=daterange]'); var action = form.action.replace(/[?&]asset_details=[01]/, ''); form.action = action + (action.indexOf('?') === -1 ? '?' : '&') + 'asset_details=' + (document.querySelector('#asset-details').classList.contains('in') ? '0' : '1');"
                        data-target="#asset-details"><span class="caret"></span> {% trans %}mautic.core.details{% endtrans %}</a>
                 </span>
             </div>

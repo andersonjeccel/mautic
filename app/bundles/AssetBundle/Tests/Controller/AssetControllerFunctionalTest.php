@@ -166,9 +166,9 @@ final class AssetControllerFunctionalTest extends AbstractAssetTestCase
         $this->getControllerColumnTests($urlAlias, $routeAlias, $column, $tableAlias, $column2);
     }
 
-    public function testAssetDetailsRemainOpenOnView(): void
+    public function testAssetDetailsRemainOpenWhenRequested(): void
     {
-        $crawler = $this->client->request('GET', '/s/assets/view/'.$this->asset->getId());
+        $crawler = $this->client->request('GET', '/s/assets/view/'.$this->asset->getId().'?asset_details=1');
 
         $this->assertResponseIsSuccessful();
         $this->assertCount(1, $crawler->filter('#asset-details.in'));
