@@ -65,6 +65,7 @@ final class PreviewFunctionalTest extends MauticMysqlTestCase
         // Check for correct preview URL.
         $crawler = $this->client->request(Request::METHOD_GET, '/s/pages/view/'.$pageId);
         $this->assertStringContainsString('/page/preview/'.$pageId, (string) $crawler->filter('#content_preview_url')->attr('value'));
+        $this->assertStringContainsString('/page/preview/'.$pageId, (string) $crawler->filter('#content_preview_frame')->attr('src'));
     }
 
     public function testPreviewPagePublicToggle(): void
