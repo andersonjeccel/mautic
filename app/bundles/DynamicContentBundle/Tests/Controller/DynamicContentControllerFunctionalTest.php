@@ -35,9 +35,12 @@ final class DynamicContentControllerFunctionalTest extends MauticMysqlTestCase
     public function testAccessControlNewAction(): void
     {
         $this->createAndLoginUser(self::PERMISSION_CREATE);
-        $this->client->request(Request::METHOD_GET, '/s/dwc/new');
+        $crawler = $this->client->request(Request::METHOD_GET, '/s/dwc/new');
 
         self::assertResponseIsSuccessful();
+        $this->assertCount(1, $crawler->filter('#dwc-clear-filters'));
+        $this->assertSame('Clear filters', trim($crawler->filter('#dwc-clear-filters')->text()));
+        $this->assertStringContainsString('hide', (string) $crawler->filter('#dwc-clear-filters')->attr('class'));
     }
 
     public function testNoNestingValidationNewAction(): void

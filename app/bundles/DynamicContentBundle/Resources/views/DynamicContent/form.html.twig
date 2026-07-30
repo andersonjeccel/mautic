@@ -68,10 +68,15 @@
                         <div class="dwc-filter bdr-w-0" id="{{ form.vars.id }}">
                             <div class="row">
                                 <div class="col-xs-7">
-                                    <label>{{ 'Filters'|trans }}</label>
+                                    <label for="available_filters">{{ 'Filters'|trans }}</label>
+                                    <span id="dwc-filter-count" class="sr-only" aria-live="polite"></span>
                                 </div>
                                 <div class="col-xs-5">
                                     <div class="form-group">
+                                        <button type="button" id="dwc-clear-filters" class="btn btn-ghost btn-xs pull-right{% if form.filters.vars.value|length == 0 %} hide{% endif %}" aria-describedby="dwc-filter-count">
+                                            <i class="ri-close-circle-line" aria-hidden="true"></i>
+                                            {{ 'mautic.dynamicContent.form.clear_filters'|trans }}
+                                        </button>
                                         <div class="available-filters mb-md pl-0"
                                              data-prototype="{{ form_widget(form.filters.vars.prototype)|e }}"
                                              data-index="{{ index + 1 }}">

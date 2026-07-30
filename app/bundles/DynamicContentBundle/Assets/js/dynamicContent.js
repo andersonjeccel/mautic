@@ -169,6 +169,25 @@ Mautic.dynamicContentOnLoad = function (container, response) {
 
 Mautic.dynamicFiltersOnLoad = function(container, response) {
 
+    var updateClearFiltersButton = function() {
+        var filters = mQuery('.dwc-filter #dwc_filters .panel');
+        var clearButton = mQuery('#dwc-clear-filters');
+        var countLabel = mQuery('#dwc-filter-count');
+
+        if (!clearButton.length) {
+            return;
+        }
+
+        clearButton.toggleClass('hide', filters.length === 0);
+        countLabel.text(filters.length ? Mautic.translate('mautic.dynamicContent.form.filters_selected').replace('%count%', filters.length) : '');
+    };
+
+    var removeFilter = function(filter) {
+        filter.remove();
+        Mautic.reorderSegmentFilters();
+        updateClearFiltersButton();
+    };
+
     mQuery('#campaign-share-tab').hover(function () {
         if (Mautic.shareTableLoaded != true) {
             Mautic.loadAjaxColumn('campaign-share-stat', 'lead:getCampaignShareStats', 'afterStatsLoad');
@@ -208,6 +227,7 @@ Mautic.dynamicFiltersOnLoad = function(container, response) {
                     function () {
                         mQuery(this).remove();
                         Mautic.reorderSegmentFilters();
+                        updateClearFiltersButton();
                     }
                 );
 
@@ -252,7 +272,19 @@ Mautic.dynamicFiltersOnLoad = function(container, response) {
             }
         });
 
+        mQuery('#dwc-clear-filters').off('click').on('click', function () {
+            var filters = mQuery('#' + prefix + '_filters .panel');
+
+            if (!filters.length || !confirm(Mautic.translate('mautic.dynamicContent.form.clear_filters_confirm'))) {
+                return;
+            }
+
+            removeFilter(filters);
+        });
+
     }
+
+    updateClearFiltersButton();
 
     // segment contact filters
     var segmentContactForm = mQuery('#segment-contact-filters');
@@ -331,6 +363,7 @@ Mautic.addDwcFilter = function (elId, elObj) {
             function () {
                 mQuery(this).remove();
                 Mautic.reorderSegmentFilters();
+                mQuery('#dwc-clear-filters').toggleClass('hide', mQuery('#' + prefix + '_filters .panel').length === 0);
             }
         );
     });
@@ -437,6 +470,7 @@ Mautic.addDwcFilter = function (elId, elObj) {
 
     // Reposition if applicable
     Mautic.updateFilterPositioning(mQuery('#' + filterIdBase + 'glue'));
+    mQuery('#dwc-clear-filters').removeClass('hide');
 };
 
 Mautic.convertDwcFilterInput = function(el) {
