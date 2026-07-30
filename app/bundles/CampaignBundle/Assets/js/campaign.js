@@ -268,6 +268,7 @@ Mautic.lazyLoadEventStatsOnCampaignDetail = function()  {
         return;
     }
     mQuery.get(campaignEventStatUrl, function(response) {
+        const selectedTab = mQuery('#campaign_nav_header_ul li.active a[data-toggle="tab"]').attr('href');
         if (response.errors && 'dev' == mauticEnv) {
             alert(response.errors[0].message);
             console.log(response.errors);
@@ -316,11 +317,12 @@ Mautic.lazyLoadEventStatsOnCampaignDetail = function()  {
             mQuery('#conditions-container').remove();
         }
 
-        mQuery('ul#campaign_nav_header_ul li').removeClass('active');
-        mQuery('ul#campaign_nav_header_ul li').eq(0).addClass('active');
-
-        mQuery('div#campaign-tab-content .tab-pane').removeClass('active in');
-        mQuery('div#campaign-tab-content .tab-pane').eq(0).addClass('active in');
+        const $selectedTab = mQuery('#campaign_nav_header_ul a[data-toggle="tab"][href="' + selectedTab + '"]');
+        if ($selectedTab.length) {
+            $selectedTab.tab('show');
+        } else {
+            mQuery('#campaign_nav_header_ul a[data-toggle="tab"]').first().tab('show');
+        }
 
     });
 }
