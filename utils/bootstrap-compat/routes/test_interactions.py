@@ -208,10 +208,10 @@ class AuthenticatedRouteInteractions(unittest.TestCase):
                     'const menu = toggle.parentElement.querySelector(".dropdown-menu"); '
                     'if (!menu) return null; const rect = menu.getBoundingClientRect(); '
                     'return rect.width > 0 && rect.height > 0 '
-                    '? {parent: toggle.parentElement.className, menu: menu.className} : null;',
+                    '? {expanded: toggle.getAttribute("aria-expanded"), menu: menu.className} : null;',
                     message='shared admin dropdown',
                 )
-                self.assertRegex(state['parent'], r'\b(open|show)\b')
+                self.assertEqual('true', state['expanded'])
 
     def test_local_list_dropdown_opens(self):
         for variant in VARIANTS:
@@ -224,10 +224,9 @@ class AuthenticatedRouteInteractions(unittest.TestCase):
                     'const menu = host && host.querySelector(".dropdown-menu"); '
                     'if (!menu) return null; const rect = menu.getBoundingClientRect(); '
                     'return rect.width > 0 && rect.height > 0 '
-                    '? {host: host.className, expanded: toggle.getAttribute("aria-expanded")} : null;',
+                    '? {expanded: toggle.getAttribute("aria-expanded")} : null;',
                     message='local list dropdown',
                 )
-                self.assertRegex(state['host'], r'\b(open|show)\b')
                 self.assertEqual('true', state['expanded'])
 
     def test_global_search_modal_opens_and_closes(self):
@@ -251,8 +250,8 @@ class AuthenticatedRouteInteractions(unittest.TestCase):
                 self.load('dashboard', variant)
                 self.poll(
                     'const element = document.querySelector(arguments[0]); '
-                    'const jq = window.mQuery || window.jQuery; '
-                    'return Boolean(element && jq && jq(element).data("bs.tooltip"));',
+                    'return Boolean(element && window.bootstrap '
+                    '&& window.bootstrap.Tooltip.getInstance(element));',
                     ['#core-search-everything [data-toggle="tooltip"]'],
                     message='tooltip initialization',
                 )
@@ -290,12 +289,15 @@ class AuthenticatedRouteInteractions(unittest.TestCase):
                     'const trigger = document.querySelector(arguments[0]); '
                     'const panel = document.querySelector("#coreconfig"); '
                     'const rect = panel.getBoundingClientRect(); '
-                    'return panel.classList.contains("active") && rect.width > 0 && rect.height > 0 '
-                    '? {triggerParent: trigger.parentElement.className, panel: panel.className} : null;',
+                    'const activePanels = panel.parentElement.querySelectorAll(":scope > .tab-pane.active"); '
+                    'return panel.classList.contains("active") && activePanels.length === 1 '
+                    '&& rect.width > 0 && rect.height > 0 '
+                    '? {trigger: trigger.className, selected: trigger.getAttribute("aria-selected"), panel: panel.className} : null;',
                     ['[data-toggle="tab"][href="#coreconfig"]'],
                     message='System Settings tab activation',
                 )
-                self.assertRegex(state['triggerParent'], r'\bactive\b')
+                self.assertRegex(state['trigger'], r'\bactive\b')
+                self.assertEqual('true', state['selected'])
                 self.assertRegex(state['panel'], r'\bactive\b')
 
     def test_config_collapse_opens_and_closes(self):

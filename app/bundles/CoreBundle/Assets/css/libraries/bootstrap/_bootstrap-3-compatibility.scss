@@ -30,17 +30,6 @@ $table-condensed-cell-padding: $table-cell-padding-sm !default;
   }
 }
 
-// Bootstrap 5 applies gutters only to direct children of .row. Mautic and
-// plugins also use numeric grid columns outside rows, so preserve their
-// rendered gutters while keeping the flex-based Bootstrap 5 grid.
-@each $breakpoint in xs, sm, md, lg {
-  @for $i from 1 through $grid-columns {
-    .col-#{$breakpoint}-#{$i} {
-      padding-inline: calc(var(--bs-gutter-x, #{$grid-gutter-width}) * .5);
-    }
-  }
-}
-
 @for $i from 0 through $grid-columns {
   .col-xs-offset-#{$i} {
     margin-left: percentage(math.div($i, $grid-columns));
@@ -63,6 +52,25 @@ $table-condensed-cell-padding: $table-cell-padding-sm !default;
 
 .hide,
 .hidden {
+  display: none !important;
+}
+
+.visible-xs,
+.visible-sm,
+.visible-md,
+.visible-lg,
+.visible-xs-block,
+.visible-xs-inline,
+.visible-xs-inline-block,
+.visible-sm-block,
+.visible-sm-inline,
+.visible-sm-inline-block,
+.visible-md-block,
+.visible-md-inline,
+.visible-md-inline-block,
+.visible-lg-block,
+.visible-lg-inline,
+.visible-lg-inline-block {
   display: none !important;
 }
 
@@ -90,25 +98,6 @@ $table-condensed-cell-padding: $table-cell-padding-sm !default;
   .hidden-print {
     display: none !important;
   }
-}
-
-.visible-xs,
-.visible-sm,
-.visible-md,
-.visible-lg,
-.visible-xs-block,
-.visible-xs-inline,
-.visible-xs-inline-block,
-.visible-sm-block,
-.visible-sm-inline,
-.visible-sm-inline-block,
-.visible-md-block,
-.visible-md-inline,
-.visible-md-inline-block,
-.visible-lg-block,
-.visible-lg-inline,
-.visible-lg-inline-block {
-  display: none !important;
 }
 
 @media (max-width: $screen-xs-max) {
@@ -309,16 +298,12 @@ $table-condensed-cell-padding: $table-cell-padding-sm !default;
   border-bottom: 1px solid transparent;
   border-top-left-radius: ($panel-border-radius - 1);
   border-top-right-radius: ($panel-border-radius - 1);
-
-  > .dropdown .dropdown-toggle {
-    color: inherit;
-  }
 }
 
 .panel-title {
   margin-top: 0;
   margin-bottom: 0;
-  font-size: 16px;
+  font-size: $font-size-h4;
   color: inherit;
 }
 
@@ -469,11 +454,8 @@ a.label-selectable.active:focus {
 .label-danger { background-color: $label-danger-bg; }
 
 .input-group-addon {
-  position: relative;
   display: flex;
-  flex: 0 0 auto;
   align-items: center;
-  width: auto;
   min-height: $input-height-base;
   padding: $input-group-addon-padding-y $input-group-addon-padding-x;
   margin-bottom: 0;
@@ -498,62 +480,11 @@ a.label-selectable.active:focus {
 .input-group-btn {
   position: relative;
   display: flex;
-  flex: 0 0 auto;
   align-items: stretch;
-  width: auto;
-  font-size: 0;
-  white-space: nowrap;
 
   > .btn {
     position: relative;
   }
-}
-
-.input-group:has(> .input-group-addon, > .input-group-btn) {
-  position: relative;
-  display: flex;
-  align-items: stretch;
-
-  > .form-control {
-    position: relative;
-    z-index: 2;
-    flex: 1 1 auto;
-    min-width: 0;
-    width: 1%;
-    margin-bottom: 0;
-  }
-}
-
-.form-control {
-  height: $input-height-base;
-}
-
-textarea.form-control {
-  height: auto;
-}
-
-.form-control[type="file"]::file-selector-button {
-  all: revert;
-}
-
-.input-group:has(> .input-group-addon, > .input-group-btn) > .input-group-addon,
-.input-group:has(> .input-group-addon, > .input-group-btn) > .input-group-btn {
-  margin-left: 0 !important;
-}
-
-.input-group-btn:last-child > .btn,
-.input-group-btn:last-child > .btn-group {
-  margin-left: -1px;
-}
-
-.row::before,
-.row::after {
-  display: table;
-  content: " ";
-}
-
-.row::after {
-  clear: both;
 }
 
 .input-lg {
@@ -566,15 +497,6 @@ textarea.form-control {
 
 .input-sm {
   height: $input-height-sm;
-  padding: $padding-small-vertical $padding-small-horizontal;
-  font-size: $font-size-small;
-  line-height: $line-height-small;
-  border-radius: $input-border-radius-sm;
-}
-
-.input-group-sm > .input-group-addon {
-  height: $input-height-sm;
-  min-height: $input-height-sm;
   padding: $padding-small-vertical $padding-small-horizontal;
   font-size: $font-size-small;
   line-height: $line-height-small;
@@ -673,8 +595,6 @@ textarea.form-control {
   }
 }
 
-// Bootstrap 5 removed the Bootstrap 4 thead-light/thead-dark helpers. Keep
-// their table-section contract for extensions and partially migrated views.
 .thead-light > tr > th {
   color: $dark;
   background-color: $light;

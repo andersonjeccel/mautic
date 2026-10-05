@@ -84,6 +84,23 @@ class SemanticCssContractsTest(unittest.TestCase):
         )
         self.assertTrue(result)
 
+    def test_text_emphasis_variants_override_bootstrap_utility_importance(self):
+        self.load_fixture(
+            '<h5 id="heading" class="text-white dark-md">Engagements</h5>'
+            '<span id="action" class="text-white dark-sm">Action</span>'
+        )
+        colors = self.execute(
+            '''
+                return {
+                    heading: getComputedStyle(document.querySelector('#heading')).color,
+                    action: getComputedStyle(document.querySelector('#action')).color,
+                };
+            '''
+        )
+
+        self.assertNotEqual('rgb(255, 255, 255)', colors['heading'])
+        self.assertNotEqual('rgb(255, 255, 255)', colors['action'])
+
     def test_legacy_columns_remain_relative_containing_blocks(self):
         self.load_fixture(
             '<div class="row"><div class="col-xs-6" id="column">'

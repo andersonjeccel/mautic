@@ -13,6 +13,13 @@
 window.fixtureReady=(async()=>{
  const baseline=new URLSearchParams(location.search).has('baseline');
  const production=new URLSearchParams(location.search).has('production');
+ if(production){
+  document.querySelector('#legacy-collapse').classList.replace('in','show');
+  document.querySelector('#tabs li.active').classList.remove('active');
+  document.querySelector('#tab-one').classList.add('active');
+  document.querySelector('#tab-one').setAttribute('aria-selected','true');
+  document.querySelector('#pane-one').classList.replace('in','show');
+ }
  const load=url=>new Promise((resolve,reject)=>{const e=document.createElement('script');e.src=url;e.onload=resolve;e.onerror=()=>reject(Error(url));document.head.append(e)});
  const css=document.createElement('link');css.rel='stylesheet';
  css.href=baseline ? '/assets/build/css/app.css' : (new URLSearchParams(location.search).has('compat') ? '../candidate/app.css' : '../toolchain/node_modules/bootstrap/dist/css/bootstrap.css');
@@ -22,7 +29,6 @@ window.fixtureReady=(async()=>{
  await load(baseline ? 'baseline/bootstrap-sass/bootstrap.js' : '../toolchain/node_modules/bootstrap/dist/js/bootstrap.bundle.js');
  if(!baseline){
   if(production){
-   await load('/app/bundles/CoreBundle/Assets/js/0.bootstrap-3-jquery-adapter.js');
    await load('/app/bundles/CoreBundle/Assets/js/1.bootstrap-compatibility.js');
    if(window.MauticBootstrapCompatibility?.ready) await window.MauticBootstrapCompatibility.ready;
   } else {

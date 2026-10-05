@@ -1613,12 +1613,7 @@ Mautic.closeCampaignBuilder = function() {
 Mautic.saveCampaignFromBuilder = function() {
     // Disable buttons
     mQuery('#campaign-builder .header__action').prop('disabled', true);
-    var saveButton = mQuery('.btn-apply-builder');
-    var saveIcon = saveButton.find('i[class^="ri-"]').first();
-    if (!saveButton.data('campaign-builder-icon-class')) {
-        saveButton.data('campaign-builder-icon-class', saveIcon.attr('class'));
-    }
-    saveIcon.attr('class', 'ri-loader-3-line ri-spin');
+    Mautic.activateButtonLoadingIndicator(mQuery('.btn-apply-builder'));
     Mautic.updateConnections(function(err, response) {
         if (!err && response.success) {
             var applyBtn = mQuery('.btn-apply');
@@ -1633,8 +1628,7 @@ Mautic.saveCampaignFromBuilder = function() {
             // Call our handler initialization function
             Mautic.ensureCampaignEventHandlers();
         } else {
-            saveIcon.attr('class', saveButton.data('campaign-builder-icon-class'));
-            saveButton.removeData('campaign-builder-icon-class');
+            Mautic.removeButtonLoadingIndicator(mQuery('.btn-apply-builder'));
             mQuery('#campaign-builder .header__action').prop('disabled', false);
         }
     });

@@ -19,38 +19,38 @@
 // Text emphasis
 // ------------------------
 @mixin text-emphasis-variants($color) {
-  color: $color;
+  color: $color !important;
   a#{&}:hover {
-    color: darken($color, 10%);
+    color: darken($color, 10%) !important;
   }
   &.light-xs {
-    color: lighten($color, 15%);
+    color: lighten($color, 15%) !important;
     a#{&}:hover {
-      color: lighten($color, 10%);
+      color: lighten($color, 10%) !important;
     }
   }
   &.dark-xs {
-    color: darken($color, 15%);
+    color: darken($color, 15%) !important;
     a#{&}:hover {
-      color: darken($color, 20%);
+      color: darken($color, 20%) !important;
     }
   }
   &.dark-sm {
-    color: darken($color, 30%);
+    color: darken($color, 30%) !important;
     a#{&}:hover {
-      color: darken($color, 35%);
+      color: darken($color, 35%) !important;
     }
   }
   &.dark-md {
-    color: darken($color, 45%);
+    color: darken($color, 45%) !important;
     a#{&}:hover {
-      color: darken($color, 50%);
+      color: darken($color, 50%) !important;
     }
   }
   &.dark-lg {
-    color: darken($color, 60%);
+    color: darken($color, 60%) !important;
     a#{&}:hover {
-      color: darken($color, 65%);
+      color: darken($color, 65%) !important;
     }
   }
 }

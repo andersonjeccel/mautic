@@ -125,7 +125,7 @@ class AnalyzedInputDigestTest(unittest.TestCase):
 
 
 class JavascriptSupportManifestTest(unittest.TestCase):
-    def test_adapter_manifest_matches_the_production_adapter_contract(self):
+    def test_bridge_manifest_matches_the_production_bridge_contract(self):
         self.assertEqual(
             {
                 'modal': {
@@ -152,7 +152,7 @@ class JavascriptSupportManifestTest(unittest.TestCase):
                     'options': details['options'],
                 }
                 for plugin, details in MIGRATION_COVERAGE.JS_SUPPORT_MANIFEST.items()
-                if details['mode'] == 'adapter'
+                if details['mode'] == 'bridge' and plugin in {'modal', 'popover', 'tooltip'}
             },
         )
 

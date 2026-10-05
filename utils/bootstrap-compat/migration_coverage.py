@@ -74,9 +74,9 @@ CSS_CONTRACTS = {
     'bs4-carousel-direction': ['carousel-item-left', 'carousel-item-right', 'carousel-item-next', 'carousel-item-prev'],
 }
 
-ADAPTER = 'app/bundles/CoreBundle/Assets/js/0.bootstrap-3-jquery-adapter.js'
 BRIDGE = 'app/bundles/CoreBundle/Assets/js/1.bootstrap-compatibility.js'
-ADAPTER_TESTS = 'utils/bootstrap-compat/adapter/test_adapter.py'
+BRIDGE_TESTS = 'utils/bootstrap-compat/test_minimal_javascript.py'
+INTERACTION_TESTS = 'utils/bootstrap-compat/routes/test_interactions.py'
 
 # This is a reviewed contract allow-list, not an owner-file substring check. A
 # new consumed method or option must be classified here and backed by evidence.
@@ -84,46 +84,47 @@ JS_SUPPORT_MANIFEST = {
     'alert': {'mode': 'native-or-review-required', 'methods': [], 'options': [], 'evidence': []},
     'button': {
         'mode': 'bridge', 'owner': BRIDGE, 'methods': ['init', 'toggle'], 'options': [],
-        'evidence': [BRIDGE, ADAPTER_TESTS],
+        'evidence': [BRIDGE, BRIDGE_TESTS],
     },
     'carousel': {'mode': 'native-or-review-required', 'methods': [], 'options': [], 'evidence': []},
     'collapse': {
         'mode': 'bridge', 'owner': BRIDGE, 'methods': ['hide', 'init', 'show', 'toggle'],
-        'options': ['parent', 'toggle'], 'evidence': [BRIDGE, ADAPTER_TESTS],
+        'options': ['parent', 'toggle'], 'evidence': [BRIDGE, BRIDGE_TESTS, INTERACTION_TESTS],
     },
     'dropdown': {
         'mode': 'bridge', 'owner': BRIDGE,
         'methods': ['dispose', 'hide', 'init', 'show', 'toggle', 'update'],
         'options': ['autoClose', 'boundary', 'display', 'offset', 'popperConfig', 'reference'],
-        'evidence': [BRIDGE, ADAPTER_TESTS],
+        'evidence': [BRIDGE, BRIDGE_TESTS, INTERACTION_TESTS],
     },
     'modal': {
-        'mode': 'adapter', 'owner': ADAPTER,
+        'mode': 'bridge', 'owner': BRIDGE,
         'methods': ['dispose', 'handleUpdate', 'hide', 'init', 'show', 'toggle'],
-        'options': ['backdrop', 'keyboard', 'show'], 'evidence': [ADAPTER, ADAPTER_TESTS],
+        'options': ['backdrop', 'keyboard', 'show'],
+        'evidence': [BRIDGE, BRIDGE_TESTS, INTERACTION_TESTS],
     },
     'popover': {
-        'mode': 'adapter', 'owner': ADAPTER,
+        'mode': 'bridge', 'owner': BRIDGE,
         'methods': ['destroy', 'dispose', 'hide', 'init', 'show', 'toggle'],
         'options': [
             'animation', 'container', 'content', 'delay', 'html', 'placement', 'sanitize',
             'title', 'trigger',
         ],
-        'evidence': [ADAPTER, ADAPTER_TESTS],
+        'evidence': [BRIDGE, BRIDGE_TESTS, INTERACTION_TESTS],
     },
     'scrollspy': {'mode': 'native-or-review-required', 'methods': [], 'options': [], 'evidence': []},
     'tab': {
         'mode': 'bridge', 'owner': BRIDGE, 'methods': ['dispose', 'init', 'show'], 'options': [],
-        'evidence': [BRIDGE, ADAPTER_TESTS],
+        'evidence': [BRIDGE, BRIDGE_TESTS, INTERACTION_TESTS],
     },
     'toast': {'mode': 'native-or-review-required', 'methods': [], 'options': [], 'evidence': []},
     'tooltip': {
-        'mode': 'adapter', 'owner': ADAPTER,
+        'mode': 'bridge', 'owner': BRIDGE,
         'methods': ['destroy', 'dispose', 'fixTitle', 'hide', 'init', 'show', 'toggle'],
         'options': [
             'animation', 'container', 'delay', 'html', 'placement', 'title', 'trigger',
         ],
-        'evidence': [ADAPTER, ADAPTER_TESTS],
+        'evidence': [BRIDGE, BRIDGE_TESTS, INTERACTION_TESTS],
     },
 }
 
@@ -573,7 +574,7 @@ def main() -> int:
         text = path.read_text(errors='replace')
         for token in extract_class_tokens(text):
             classes.setdefault(token, []).append(relative)
-        if path.suffix == '.js' and relative not in {ADAPTER, BRIDGE}:
+        if path.suffix == '.js' and relative != BRIDGE:
             for call in extract_jquery_plugin_calls(text, relative, jquery_only=True):
                 plugin_calls[str(call['plugin'])].append(call)
         for attribute in DATA_ATTRIBUTES:
