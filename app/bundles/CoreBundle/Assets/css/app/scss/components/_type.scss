@@ -11,6 +11,11 @@ h1, h2, h3, h4, h5, h6,
   color: inherit;
 }
 
+small,
+.small {
+  font-size: 85%;
+}
+
 // Ellipsis
 // -------------------------
 .ellipsis {
@@ -330,15 +335,15 @@ h1, h2, h3, h4, h5, h6,
 
 // Contextual colors
 // -------------------------
-.text-muted, .text-secondary { color: var(--text-secondary); }
+.text-muted, .text-secondary { color: var(--text-secondary) !important; }
 .text-placeholder { color: var(--text-placeholder); }
 .text-white { @include text-emphasis-variants(#fff); }
 .text-primary { color: var(--text-primary) }
 .text-interactive { color: var(--interactive) }
-.text-success { @include text-emphasis-variants($brand-success); }
-.text-warning { @include text-emphasis-variants($brand-warning); }
-.text-danger { @include text-emphasis-variants($brand-danger); }
-.text-info { color: var(--support-info); }
+.text-success { color: $brand-success !important; }
+.text-warning { color: $brand-warning !important; }
+.text-danger { color: $brand-danger !important; }
+.text-info { color: var(--support-info) !important; }
 .text-twitter { @include text-emphasis-variants($brand-twitter); }
 .text-facebook { @include text-emphasis-variants($brand-facebook); }
 .text-google { @include text-emphasis-variants($brand-google); }
@@ -369,7 +374,7 @@ blockquote {
     font-family: "remixicon", sans-serif;
     font-size: 18px;
     content: "\EC51";
-    color: $gray-lighter;
+    color: $gray-100;
   }
 
   > p:after {
@@ -379,7 +384,7 @@ blockquote {
     font-family: "remixicon", sans-serif;
     font-size: 18px;
     content: "\EC52";
-    color: $gray-lighter;
+    color: $gray-100;
   }
 }
 .blockquote-reverse {
@@ -388,7 +393,7 @@ blockquote {
   border-width: 0px;
 }
 
-.help-block {
+.form-text {
   font-size: 12px;
   color: var(--text-helper);
 }

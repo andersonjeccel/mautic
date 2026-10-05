@@ -4,6 +4,7 @@
 
 // Base styles
 // -------------------------
+.input-group-text,
 .input-group-addon {
   border-width: var(--border-bottom);
   border-radius: var(--border-radius-sm);
@@ -13,6 +14,9 @@
 }
 
 .table .input-group-sm {
+  flex-wrap: nowrap;
+
+  & > .input-group-text,
   & > .input-group-addon {
     line-height: 1em;
     background-color: transparent;
@@ -28,6 +32,7 @@
 }
 
 .input-group {
+  .input-group-append,
   .input-group-btn {
     + .form-control {
       margin-left: -1px;
@@ -53,6 +58,26 @@
 
     &:last-child {
       .btn {border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;}
+    }
+  }
+}
+
+.input-group > .search-scope-wrapper + .form-control,
+.form-filter > .input-group > .form-control {
+  margin-left: 0 !important;
+}
+
+// Date-range filters are compact, intrinsic-width input groups. Bootstrap 5
+// allows input groups to wrap and grows both date fields, which pushes the
+// apply button onto a second line on mobile dashboards.
+@media (max-width: $screen-xs-max) {
+  .form-filter > .input-group {
+    flex-wrap: nowrap;
+
+    > .form-control {
+      flex: 0 0 32px;
+      width: 32px;
+      margin-left: 0 !important;
     }
   }
 }

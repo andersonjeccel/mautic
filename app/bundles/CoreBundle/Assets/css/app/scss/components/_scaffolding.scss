@@ -10,6 +10,7 @@ body {
 hr,
 .hr-expand {
   width: auto;
+  margin-bottom: $line-height-computed;
 
   &.hr-w-2 {
     border-width: 2px;

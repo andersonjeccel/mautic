@@ -64,11 +64,11 @@
     margin-left:20px;
 }
 
-.selected-filters .panel {
+.selected-filters .card {
     margin-bottom:0;
 }
 
-.selected-filters .panel.in-group {
+.selected-filters .card.in-group {
     margin-top:0;
     border-top:0;
     border-top-left-radius: 0;
@@ -83,27 +83,27 @@
     width: 75px;
 }
 
-.panel-foursquare .panel-heading {
+.card-foursquare .card-header {
     background: #0072b1;
     color: #FFFFFF;
 }
 
-.panel-facebook .panel-heading {
+.card-facebook .card-header {
     background: #3b5998;
     color: #FFFFFF;
 }
 
-.panel-linkedin .panel-heding {
+.card-linkedin .card-heding {
     background: #007bb6;
     color: #FFFFFF;
 }
 
-.panel-twitter .panel-heading {
+.card-twitter .card-header {
     background: #00aced;
     color: #FFFFFF;
 }
 
-.panel-instagram .panel-heading {
+.card-instagram .card-header {
     background: #517fa4;
     color: #FFFFFF;
 }
@@ -138,7 +138,7 @@ ul.tag-cloud li {
     padding: 0 10px;
 }
 
-.lead-avatar-panel .img-responsive {
+.lead-avatar-panel .img-fluid {
     min-width: 100%;
 }
 
@@ -146,7 +146,7 @@ ul.tag-cloud li {
     position: relative;
 }
 
-.contact-cards .panel-body {
+.contact-cards .card-body {
     max-height: 150px;
 }
 
@@ -319,7 +319,7 @@ ul.tag-cloud li {
     background-color: var(--layer);
 }
 
-.filter--panel .help-block {
+.filter--panel .form-text {
     position: absolute;
     bottom: -10px;
     right: 18px;
@@ -331,7 +331,7 @@ ul.tag-cloud li {
     height: 100%;
 }
 
-.panel-companies .primary {
+.card-companies .primary {
     color: #fdb933;
 }
 

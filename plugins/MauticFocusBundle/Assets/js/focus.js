@@ -178,7 +178,7 @@ Mautic.focusOnLoad = function () {
     if (mQuery('[data-conversion-rate-table]').length) {
         Mautic.focusLoadConversionRateTable();
     }
-    else {
+    else if (mQuery('[data-view-table]').length) {
         Mautic.focusLoadViewCountTable();
     }
 };

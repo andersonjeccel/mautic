@@ -59,6 +59,8 @@
   flex-wrap: wrap;
 
   [class*="col-"] {
+    flex: 0 1 auto;
+    max-width: none;
     padding-right: 0;
     padding-left: 0;
   }
@@ -69,12 +71,21 @@
 //
 
 [class*="col-"] {
+  position: relative;
+  min-height: 1px;
   display: flex;
   flex-direction: column;
 
   label {
     align-self: start;
   }
+}
+
+// Legacy extra-small columns were floated, so their top margin did not
+// collapse with the bottom margin of a preceding panel. Preserve that visible
+// separation with modern layout rather than restoring grid floats globally.
+.panel + [class*="col-"].mt-md {
+  margin-top: 34px !important;
 }
 // Common styles for small and large grid columns
 

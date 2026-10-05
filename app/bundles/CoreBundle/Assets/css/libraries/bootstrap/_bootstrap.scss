@@ -1,50 +1,179 @@
 // Core variables and mixins
 
-@import 'bootstrap/variables';
-@import 'bootstrap-mautic-custom-variables';
-@import 'bootstrap/mixins';
+@import 'functions';
 
-// Reset and dependencies
-@import 'bootstrap/normalize';
-@import 'bootstrap/print';
-@import 'bootstrap/glyphicons';
+// Bootstrap 3 headings use fixed sizes at every breakpoint. Bootstrap 5's
+// responsive font scaling shrinks page titles on mobile and shifts every
+// list toolbar and result panel below them.
+$enable-rfs: false;
 
-// Core CSS
-@import 'bootstrap/scaffolding';
-@import 'bootstrap/type';
-@import 'bootstrap/code';
-@import 'bootstrap/tables';
-@import 'bootstrap/forms';
-@import 'bootstrap/buttons';
+@import 'variables';
+@import 'variables-dark';
+@import 'maps';
+@import 'mixins';
+@import 'utilities';
 
-// Components
-@import 'bootstrap/component-animations';
-@import 'bootstrap/dropdowns';
-@import 'bootstrap/button-groups';
-@import 'bootstrap/input-groups';
-@import 'bootstrap/navs';
-@import 'bootstrap/navbar';
-@import 'bootstrap/breadcrumbs';
-@import 'bootstrap/pagination';
-@import 'bootstrap/pager';
-@import 'bootstrap/badges';
-@import 'bootstrap/jumbotron';
-@import 'bootstrap/thumbnails';
-@import 'bootstrap/alerts';
-@import 'bootstrap/progress-bars';
-@import 'bootstrap/media';
-@import 'bootstrap/list-group';
-@import 'bootstrap/panels';
-@import 'bootstrap/responsive-embed';
-@import 'bootstrap/wells';
-@import 'bootstrap/close';
+@mixin border-left-radius($radius: $border-radius) {
+  @include border-start-radius($radius);
+}
 
-// Components w/ JavaScript
-@import 'bootstrap/modals';
-@import 'bootstrap/tooltip';
-@import 'bootstrap/popovers';
-@import 'bootstrap/carousel';
+@mixin border-right-radius($radius: $border-radius) {
+  @include border-end-radius($radius);
+}
 
-// Utility classes
-@import 'bootstrap/utilities';
-@import 'bootstrap/responsive-utilities';
+@mixin button-size($padding-y, $padding-x, $font-size, $line-height-or-border-radius, $border-radius: null) {
+  --#{$prefix}btn-padding-y: #{$padding-y};
+  --#{$prefix}btn-padding-x: #{$padding-x};
+  @include rfs($font-size, --#{$prefix}btn-font-size);
+
+  @if $border-radius == null {
+    --#{$prefix}btn-border-radius: #{$line-height-or-border-radius};
+  } @else {
+    --#{$prefix}btn-line-height: #{$line-height-or-border-radius};
+    --#{$prefix}btn-border-radius: #{$border-radius};
+  }
+}
+
+@mixin gradient-vertical($start-color: $gray-700, $end-color: $gray-800, $start-percent: 0%, $end-percent: 100%) {
+  @include gradient-y($start-color, $end-color, $start-percent, $end-percent);
+}
+
+@mixin tab-focus() {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+@mixin opacity($opacity) {
+  opacity: $opacity;
+}
+
+@mixin user-select($select) {
+  -webkit-user-select: $select;
+  -moz-user-select: $select;
+  -ms-user-select: $select;
+  user-select: $select;
+}
+
+@mixin transition($transition...) {
+  -webkit-transition: $transition;
+  -moz-transition: $transition;
+  -ms-transition: $transition;
+  -o-transition: $transition;
+  transition: $transition;
+}
+
+@mixin translate3d($x, $y, $z) {
+  -webkit-transform: translate3d($x, $y, $z);
+  transform: translate3d($x, $y, $z);
+}
+
+@mixin scale($ratio) {
+  -webkit-transform: scale($ratio);
+  transform: scale($ratio);
+}
+
+@mixin placeholder($color) {
+  &::-moz-placeholder {
+    color: $color;
+    opacity: 1;
+  }
+
+  &:-ms-input-placeholder {
+    color: $color;
+  }
+
+  &::-webkit-input-placeholder {
+    color: $color;
+  }
+}
+
+@mixin img-fluid($display: block) {
+  display: $display;
+  max-width: 100%;
+  height: auto;
+}
+
+@mixin size($width, $height) {
+  width: $width;
+  height: $height;
+}
+
+@mixin square($size) {
+  @include size($size, $size);
+}
+
+@mixin text-overflow() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin label-variant($color) {
+  background-color: $color;
+
+  &[href] {
+    &:hover,
+    &:focus {
+      background-color: darken($color, 10%);
+    }
+  }
+}
+
+@mixin progress-bar-variant($color) {
+  background-color: $color;
+}
+
+@mixin container-fixed($gutter: $grid-gutter-width) {
+  @include make-container($gutter);
+}
+
+@mixin make-grid($class) {
+  @for $i from 1 through $grid-columns {
+    .col-#{$class}-#{$i} {
+      @include make-col($i, $grid-columns);
+    }
+  }
+
+  @for $i from 0 through ($grid-columns - 1) {
+    .col-#{$class}-offset-#{$i} {
+      @include make-col-offset($i, $grid-columns);
+    }
+  }
+}
+
+// Bootstrap core
+@import 'root';
+@import 'reboot';
+@import 'type';
+@import 'images';
+@import 'containers';
+@import 'grid';
+@import 'tables';
+@import 'forms';
+@import 'buttons';
+@import 'transitions';
+@import 'dropdown';
+@import 'button-group';
+@import 'nav';
+@import 'navbar';
+@import 'card';
+@import 'accordion';
+@import 'breadcrumb';
+@import 'pagination';
+@import 'badge';
+@import 'alert';
+@import 'progress';
+@import 'list-group';
+@import 'close';
+@import 'toasts';
+@import 'modal';
+@import 'tooltip';
+@import 'popover';
+@import 'carousel';
+@import 'spinners';
+@import 'offcanvas';
+@import 'placeholders';
+
+// Helpers and utility classes
+@import 'helpers';
+@import 'utilities/api';

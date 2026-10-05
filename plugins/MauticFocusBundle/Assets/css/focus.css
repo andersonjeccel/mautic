@@ -38,7 +38,7 @@
 .builder-panel-focus #focusFormContent {
   min-height: 1000px;
 }
-.builder-panel-focus .panel-title a {
+.builder-panel-focus .card-title a {
   display: block;
 }
 .builder-panel-focus .nav > li > a {
@@ -211,8 +211,8 @@
     content: "";
   }
 }
-.focus-builder .website-preview .website-placeholder.has-error input,
-.focus-builder .website-preview .website-placeholder.has-error button {
+.focus-builder .website-preview .website-placeholder.is-invalid input,
+.focus-builder .website-preview .website-placeholder.is-invalid button {
   border-color: #a94442;
 }
 #websiteScreenshot.mobile .screenshot-container {

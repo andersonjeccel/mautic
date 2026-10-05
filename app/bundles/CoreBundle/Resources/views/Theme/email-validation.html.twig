@@ -9,15 +9,23 @@
                     <p>{{ message|default('mautic.email.address.validate.message'|trans) }}</p>
                     {{ form_start(form) }}
                     {{ form_label(form.emailAddress) }}
-                    <div class="input-group {% if not form.emailAddress.vars.valid %}has-error{% endif %}">
-                        {{ form_widget(form.emailAddress) }}
+                    {% set feedbackId = form.emailAddress.vars.id ~ '_feedback' %}
+                    {% set describedBy = form.emailAddress.vars.attr['aria-describedby']|default('')|trim %}
+                    {% if not form.emailAddress.vars.valid and feedbackId not in describedBy|split(' ') %}
+                        {% set describedBy = (describedBy ~ ' ' ~ feedbackId)|trim %}
+                    {% endif %}
+                    <div class="input-group has-validation {% if not form.emailAddress.vars.valid %}has-error{% endif %}">
+                        {{ form_widget(form.emailAddress, {'attr': form.emailAddress.vars.attr|merge({
+                            'aria-invalid': form.emailAddress.vars.valid ? 'false' : 'true',
+                            'aria-describedby': describedBy
+                        })}) }}
                         <span class="input-group-btn">
                             {{ form_row(form.submit) }}
                         </span>
                     </div>
                     {% if form.emailAddress.vars.errors|length > 0 %}
                         {% block validation_error %}
-                            <div class="validate-alert" role="alert" aria-live="polite">
+                            <div id="{{ feedbackId }}" class="validate-alert" role="alert" aria-live="polite">
                                 {{ form_errors(form.emailAddress) }}
                             </div>
                         {% endblock %}

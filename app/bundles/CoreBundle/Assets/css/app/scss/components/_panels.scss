@@ -2,7 +2,7 @@
 // Panels
 // --------------------------------------------------
 
-.panel, .panel2 {
+.card, .panel, .panel2 {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -14,20 +14,30 @@
 
 // Panel heading
 // ------------------------
-.panel-heading {
+.card-header, .panel-heading {
   padding: 0 15px;
   @include clearfix();
 
+  &::before,
+  &::after {
+    display: table;
+    content: " ";
+  }
+
+  &::after {
+    clear: both;
+  }
+
   // Panel title
-  .panel-title {
-    padding: ((33 - $font-size-base) / 2) 0;
+  .card-title, .panel-title {
+    padding: 9.5px 0;
     display: table-cell;
     vertical-align: middle;
     font-weight: 600;
   }
 
   // Panel toolbar
-  .panel-toolbar {
+  .card-toolbar, .panel-toolbar {
     display: table-cell;
     width: 1%;
     vertical-align: middle;
@@ -35,19 +45,24 @@
 }
 
 // Panel body
-.panel-body {
+.card-body, .panel-body {
   flex-grow: 1;
+}
+
+.panel-footer {
+  padding: 10px 15px;
 }
 
 // Panel group
 // ------------------------
-.panel-group {
-  .panel {
-    @include box-shadow(none);
+.card-group, .panel-group {
+  .card, .panel {
+    -webkit-box-shadow: none;
+    box-shadow: none;
   }
 }
 
-.panel-toolbar-wrapper {
+.card-toolbar-wrapper, .panel-toolbar-wrapper {
   display: block;
   background-color: var(--layer);
   border-bottom: 1px solid var(--border-subtle);

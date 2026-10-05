@@ -190,12 +190,15 @@ Mautic.emailSendOnUnload = function () {
 };
 
 Mautic.sendEmailBatch = function () {
-    var data = 'id=' + mQuery('.progress-bar-send').data('email') + '&pending=' + mQuery('.progress-bar-send').attr('aria-valuemax') + '&batchlimit=' + mQuery('.progress-bar-send').data('batchlimit');
+    var progressBar = mQuery('.progress-bar-send');
+    var progress = progressBar.closest('.progress');
+    var data = 'id=' + progressBar.data('email') + '&pending=' + progress.attr('aria-valuemax') + '&batchlimit=' + progressBar.data('batchlimit');
     Mautic.sendEmailBatchXhr = Mautic.ajaxActionRequest('email:sendBatch', data, function (response) {
         if (response.progress) {
             if (response.progress[0] > 0) {
                 mQuery('.imported-count').html(response.progress[0]);
-                mQuery('.progress-bar-send').attr('aria-valuenow', response.progress[0]).css('width', response.percent + '%');
+                progress.attr('aria-valuenow', response.progress[0]);
+                progressBar.css('width', response.percent + '%');
                 mQuery('.progress-bar-send span.sr-only').html(response.percent + '%');
             }
 

@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 //
 // Layout Header
 // --------------------------------------------------
@@ -23,9 +25,12 @@
 // navbar as header
 #app-header.navbar {
   @include transition(all .3s ease);
+  display: block;
   float: left;
+  width: 100%;
   z-index: $header-zindex;
   min-height: $header-height;
+  padding: 0;
   border-width: 0;
   border-radius: 0;
   margin-bottom: 0;
@@ -50,6 +55,8 @@
   // reset bootstrap `navbar-nav` style inside `navbar-nocollapse`
   .navbar-nocollapse {
     @include clearfix();
+    width: 100%;
+    min-height: $header-height;
 
     // navbar-header
     // -------------------------
@@ -62,7 +69,7 @@
         float: left;
         margin: 0;
         border-width: 0;
-        padding: (($header-height - 12) / 2) 15px;
+        padding: math.div($header-height - 12, 2) 15px;
 
         .icon-bar {
           margin-left: auto;
@@ -83,7 +90,11 @@
       float: left;
       margin: 0;
       display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
       align-items: center;
+      padding-left: 0;
+      list-style: none;
 
       > .mautic-brand > .mautic-logo-text {
         opacity: 1;
@@ -98,12 +109,24 @@
       > li {
         float: left;
 
+        &:not(.open):not(.show) {
+          > a.dropdown-toggle:after {
+            display: none;
+          }
+        }
+
         // `navbar-nav` anchor
         > a {
           color: var(--text-primary);
+          position: relative;
+          display: block;
+          height: $header-height;
+          aspect-ratio: auto;
           line-height: $header-height;
           padding-top: 0;
+          padding-right: 12px;
           padding-bottom: 0;
+          padding-left: 12px;
           @include clearfix();
 
           // lineicon reset
@@ -117,7 +140,7 @@
           > .label {
             position: absolute;
             z-index: 1;
-            top: (($header-height / 2) - 18);
+            top: (math.div($header-height, 2) - 18);
             right: 8px;
             font-size: 10px;
             padding: 0 4px;
@@ -129,7 +152,8 @@
 
             // aligment
             // -------------------------
-            &.pull-right {
+            &.pull-right,
+            &.float-right {
               left: auto;
               right: 4px;
             }
@@ -140,13 +164,14 @@
           > .bullet {
             position: absolute;
             z-index: 1;
-            top: (($header-height / 2) - 12);
+            top: (math.div($header-height, 2) - 12);
             right: 15px;
             @include box-shadow(0 0 0 2px $header-bg);
 
             // aligment
             // -------------------------
-            &.pull-right {
+            &.pull-right,
+            &.float-right {
               left: auto;
               right: 4px;
             }
@@ -203,7 +228,8 @@
       }
 
       // open state
-      .open {
+      .open,
+      .show {
         // reset default bootstrap `navbar-nav` `dropdown-menu`
         .dropdown-menu {
           background-color: var(--layer);
@@ -269,8 +295,8 @@
       // `form-group` reset
       .form-group,
       .input-group {
-        margin-top: (($header-height - $input-height-base) / 2);
-        margin-bottom: (($header-height - $input-height-base) / 2);
+        margin-top: math.div($header-height - $input-height-base, 2);
+        margin-bottom: math.div($header-height - $input-height-base, 2);
 
         // reset icon color
         i { color: var(--text-primary); }
@@ -290,12 +316,14 @@
       float: left !important;
 
       // dropdown alignment
-      .open .dropdown-menu {
+      .open .dropdown-menu,
+      .show .dropdown-menu {
         left: 0;
         right: auto;
       }
       // dropdown-custom alignment
-      .open.dropdown-custom .dropdown-menu {
+      .open.dropdown-custom .dropdown-menu,
+      .show.dropdown-custom .dropdown-menu {
         left: 15px;
         right: auto;
       }
@@ -303,7 +331,8 @@
     .navbar-right {
       float: right !important;
 
-      .open > a:after {
+      .open > a:after,
+      .show > a:after {
         z-index: 1003;
         bottom: -7px;
         margin-left: -8px;
@@ -317,7 +346,8 @@
         border-style: solid;
       }
 
-      .open > a:before {
+      .open > a:before,
+      .show > a:before {
         z-index: 1002;
         bottom: -6px;
         margin-left: -9px;
@@ -332,16 +362,24 @@
       }
 
       // dropdown alignment
-      .open .dropdown-menu {
+      .open .dropdown-menu,
+      .show .dropdown-menu {
         left: auto;
         right: 0;
       }
       // dropdown-custom alignment
-      .open.dropdown-custom .dropdown-menu {
+      .open.dropdown-custom .dropdown-menu,
+      .show.dropdown-custom .dropdown-menu {
         left: auto;
         right: 15px;
       }
     }
+  }
+}
+
+@media (max-width: $screen-xs-max) {
+  #app-header.navbar .navbar-nocollapse {
+    min-height: $header-height + 2px;
   }
 }
 

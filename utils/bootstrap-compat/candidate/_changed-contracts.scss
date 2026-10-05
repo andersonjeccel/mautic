@@ -1,0 +1,15 @@
+// Shared changed contracts discovered by frozen comparisons, not fixture IDs.
+// Sass extension links legacy size groups to all original Mautic size declarations.
+.btn-group-xs > .btn { @extend .btn-xs; }
+.btn-group-sm > .btn { @extend .btn-sm; }
+.btn-group-lg > .btn { @extend .btn-lg; }
+.btn-group { border-radius: 0; display: inline-block; }
+.btn-group > .btn { flex: none; }
+.btn-group > .btn.btn:not(:first-child) { margin-left: 1px; }
+.input-group > .input-group-btn { margin-left: 0 !important; }
+// BS5 adds file-selector-button styling absent from the legacy contract.
+.form-control::file-selector-button { all: revert; }
+// BS5 !important utilities must not override Mautic's semantic colors.
+.text-info { color: var(--support-info) !important; }
+.text-danger { color: $brand-danger !important; }
+.btn i { color: inherit !important; }

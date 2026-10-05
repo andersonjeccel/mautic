@@ -1,0 +1,14 @@
+[
+  {
+    "url": "https://getbootstrap.com/docs/5.3/getting-started/javascript/",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "url": "https://getbootstrap.com/docs/5.3/components/modal/",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "url": "https://getbootstrap.com/docs/5.3/components/tooltips/",
+    "error": "HTTP Error 403: Forbidden"
+  }
+]

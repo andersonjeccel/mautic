@@ -18,6 +18,7 @@ label {
 
 // control label
 // -------------------------
+.col-form-label,
 .control-label {
   color: var(--text-secondary);
 
@@ -84,6 +85,13 @@ input[style] {
   &.not-chosen {
     padding: var(--spacing-01) var(--spacing-04);
   }
+}
+
+// Keep native select sizing for legacy non-Chosen controls. Bootstrap 5's
+// form-control reset removes the native arrow and shrinks intrinsic widths.
+select.form-control.not-chosen {
+  appearance: auto;
+  line-height: normal;
 }
 
 .form-control[disabled], fieldset[disabled] .form-control {
@@ -281,7 +289,8 @@ input[type=file] {@include outline();}
 .checkbox,
 .radio,
 .checkbox-inline,
-.radio-inline {
+.radio-inline,
+.form-check-inline {
   label {
     font-weight: normal;
   }
@@ -368,7 +377,7 @@ input[type=file] {@include outline();}
 
   // checkbox & radio color
   &.custom-primary {
-    @include checkbox-radio-color($brand-primary);
+    @include checkbox-radio-color($primary);
   }
 
   &.custom-info {
@@ -470,6 +479,7 @@ input[type=file] {@include outline();}
 }
 
 // radio radius reset
+.form-check-inline,
 .radio-inline,
 .radio {
 
@@ -488,6 +498,7 @@ input[type=file] {@include outline();}
 }
 
 // label reset
+.form-check-inline,
 .checkbox-inline,
 .radio-inline {
 

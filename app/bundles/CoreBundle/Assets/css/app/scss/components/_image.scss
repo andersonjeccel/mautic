@@ -12,7 +12,7 @@
     margin-left: 3px;
   }
 
-  &.pull-right {
+  &.float-right {
     +.img-wrapper {
       margin-right: 3px;
       margin-left: 0;
@@ -33,7 +33,7 @@
 
   img {
     border-radius: inherit;
-    @include img-responsive();
+    @include img-fluid();
   }
 
   // label & badge
@@ -48,7 +48,7 @@
 
 // Image rounded
 // ------------------------
-.img-rounded {
+.rounded {
   border-radius: $border-radius-base;
 }
 
@@ -58,7 +58,11 @@
 }
 
 // Pictograms
-.pictogram { flex-shrink: 0; }
+.pictogram {
+  flex-shrink: 0;
+
+  svg { vertical-align: baseline; }
+}
 .pictogram--size-48 { width: 48px; }
 .pictogram--size-64 { width: 64px; }
 .pictogram--size-80 { width: 80px; }

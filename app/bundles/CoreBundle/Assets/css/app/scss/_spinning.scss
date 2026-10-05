@@ -7,6 +7,13 @@
           display: inline-flex;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .ri-spin {
+    -webkit-animation-duration: 4s;
+            animation-duration: 4s;
+  }
+}
+
 @-webkit-keyframes ri-spin {
   0% {
     -webkit-transform: rotate(0deg);

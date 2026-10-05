@@ -24,7 +24,7 @@
 	height: 115px;
 }
 
-#report_filters .panel {
+#report_filters .card {
 	margin-bottom:0;
 	margin-top:20px;
 }
@@ -33,16 +33,16 @@
 	margin-top:5px;
 }
 
-#report_filters .panel-heading {
+#report_filters .card-header {
 	margin-bottom:0;
 	padding-top:10px;
 }
 
-#report_filters .panel-heading .form-group {
+#report_filters .card-header .form-group {
 	margin:0;
 }
 
-#report_filters > .in-group:first-child > .panel-heading {
+#report_filters > .in-group:first-child > .card-header {
 	display:none;
 }
 
@@ -54,12 +54,12 @@
 	margin-left:20px;
 }
 
-#report_filters > .in-group:not(:first-child) > .panel-heading {
+#report_filters > .in-group:not(:first-child) > .card-header {
 	display:block;
 	padding-left:10px;
 }
 
-#report_filters > .in-group:not(:first-child) > .panel-body > .row > div {
+#report_filters > .in-group:not(:first-child) > .card-body > .row > div {
 	padding-left:10px;
 	padding-right:10px;
 }

@@ -76,15 +76,18 @@ mQuery(document).ajaxComplete(function(event, xhr, settings) {
         }
     });
 
-    // Handle popover shown event
-    mQuery('[data-toggle="popover"]').on('shown.bs.popover', function () {
-        mQuery('.popover-content select').chosen({
-            allow_single_deselect: true,
-            disable_search_threshold: 10
-        });
+    // Handle popover shown event without accumulating another handler after
+    // every AJAX request.
+    mQuery('[data-toggle="popover"]')
+        .off('shown.bs.popover.mauticPopoverContent')
+        .on('shown.bs.popover.mauticPopoverContent', function () {
+            mQuery('.popover-content select').chosen({
+                allow_single_deselect: true,
+                disable_search_threshold: 10
+            });
 
-        mQuery('.popover-content [data-toggle="tooltip"]').tooltip();
-    });
+            mQuery('.popover-content [data-toggle="tooltip"]').tooltip();
+        });
 });
 
 // Force stop the page loading bar when no more requests are being in progress

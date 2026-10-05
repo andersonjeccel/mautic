@@ -30,17 +30,17 @@
 
 // Variations
 // -------------------------
-.progress-bar-success {
-  @include progress-bar-variant($progress-bar-success-bg);
+.bg-success {
+  @include progress-bar-variant($bg-success-bg);
 }
-.progress-bar-info {
-  @include progress-bar-variant($progress-bar-info-bg);
+.bg-info {
+  @include progress-bar-variant($bg-info-bg);
 }
-.progress-bar-warning {
-  @include progress-bar-variant($progress-bar-warning-bg);
+.bg-warning {
+  @include progress-bar-variant($bg-warning-bg);
 }
-.progress-bar-danger {
-  @include progress-bar-variant($progress-bar-danger-bg);
+.bg-danger {
+  @include progress-bar-variant($bg-danger-bg);
 }
 
 // Progress inside sidebar

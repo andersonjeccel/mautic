@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 //
 // bootstrap-chosen.less
 //
@@ -167,7 +169,7 @@
       height: 10px;
       position: absolute;
       right: 26px;
-      top: (($chosen-height - 10px) / 2);
+      top: math.div($chosen-height - 10px, 2);
       width: 12px;
 
       &:hover {
@@ -528,7 +530,7 @@
   }
 }
 
-.has-error select.form-control + .chosen-container.chosen-container-single .chosen-single,
-.has-error select.form-control + .chosen-container-multi .chosen-choices {
+.is-invalid select.form-control + .chosen-container.chosen-container-single .chosen-single,
+.is-invalid select.form-control + .chosen-container-multi .chosen-choices {
   border-color: $state-danger-text;
 }

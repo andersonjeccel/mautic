@@ -13,7 +13,7 @@
     position: static;
     padding: 0;
 
-    > .panel-body {
+    > .card-body {
       white-space: nowrap;
       overflow: hidden;
     }
@@ -34,17 +34,17 @@
     }
   }
 
-  > .col-xs-1,
-  > .col-xs-2,
-  > .col-xs-3,
-  > .col-xs-4,
-  > .col-xs-5,
-  > .col-xs-6,
-  > .col-xs-7,
-  > .col-xs-8,
-  > .col-xs-9,
-  > .col-xs-10,
-  > .col-xs-11,
+  > .col-1,
+  > .col-2,
+  > .col-3,
+  > .col-4,
+  > .col-5,
+  > .col-6,
+  > .col-7,
+  > .col-8,
+  > .col-9,
+  > .col-10,
+  > .col-11,
   > .cell {
     display: table-cell;
     vertical-align: top;

@@ -424,9 +424,15 @@ Mautic.onPageLoad = function (container, response, inModal) {
     // Fix dropdowns in responsive tables - https://github.com/twbs/bootstrap/issues/11037#issuecomment-163746965
     mQuery(container + " .table-responsive").on('shown.bs.dropdown', function (e) {
         var table = mQuery(this),
-            menu = mQuery(e.target).find(".dropdown-menu"),
-            tableOffsetHeight = table.offset().top + table.height(),
-            menuOffsetHeight = menu.offset().top + menu.outerHeight(true);
+            dropdown = e.relatedTarget ? mQuery(e.relatedTarget).closest('.dropdown') : mQuery(),
+            menu = dropdown.find(".dropdown-menu"),
+            tableOffsetHeight = table.offset().top + table.height();
+
+        if (!menu.length) {
+            return;
+        }
+
+        var menuOffsetHeight = menu.offset().top + menu.outerHeight(true);
 
         if (menuOffsetHeight > tableOffsetHeight)
             table.css("padding-bottom", menuOffsetHeight - tableOffsetHeight + 16)
@@ -605,6 +611,10 @@ Mautic.onPageLoad = function (container, response, inModal) {
 
     //prevent auto closing dropdowns for dropdown forms
     if (mQuery(container + ' .dropdown-menu-form').length) {
+        mQuery(container + ' .dropdown-menu-form')
+            .closest('.dropdown')
+            .find('[data-toggle="dropdown"], [data-bs-toggle="dropdown"]')
+            .attr('data-bs-auto-close', 'outside');
         mQuery(container + ' .dropdown-menu-form').on('click', function (e) {
             e.stopPropagation();
         });

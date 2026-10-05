@@ -144,7 +144,13 @@
             this.$iframeBody = $('body', this.iframeDocument);
             this.$iframeBody.addClass('heatmap-iframe-body');
             $modalContentDiv.append(this.legendTemplate);
-            $modalContentDiv.append('<button type="button" class="modal-heatmap-close close" data-dismiss="modal"><span aria-hidden="true">×</span></button>');
+            const $closeButton = $('<button />', {
+                type: 'button',
+                class: 'modal-heatmap-close close',
+                'data-dismiss': 'modal',
+                'aria-label': Mautic.translate('mautic.core.close')
+            }).append('<span aria-hidden="true">×</span>');
+            $modalContentDiv.append($closeButton);
             this.iframeDocument.close();
         }
 

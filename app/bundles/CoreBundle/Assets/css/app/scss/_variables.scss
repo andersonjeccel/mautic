@@ -2,8 +2,7 @@
 //== Bootstrap variable
 //
 //## import bootstrap variable.
-@import 'bootstrap/variables';
-@import '../../libraries/bootstrap/bootstrap-mautic-custom-variables';
+@import '../../libraries/bootstrap/variables';
 @import 'components/brand';
 @import 'mixins';
 
@@ -21,7 +20,7 @@ $mautic-logo-figure-m-fill:                 $brand-warning;
 $mautic-logo-text-width:                    98px;
 $mautic-logo-text-fill:                     $mautic-primary;
 
-$alert-mautic-bg:             $brand-primary;
+$alert-mautic-bg:             $primary;
 $alert-mautic-text:           #fff;
 $alert-mautic-border:         rgba(0,0,0,0.03);
 
@@ -1041,6 +1040,17 @@ $brand-google:          #dd4b39;
 }
 
 :root {
+// Bootstrap color-mode aliases follow the active Mautic theme tokens.
+--bs-body-color: var(--text-primary);
+--bs-body-bg: var(--background);
+--bs-emphasis-color: var(--text-primary);
+--bs-secondary-color: var(--text-secondary);
+--bs-secondary-bg: var(--layer-01);
+--bs-tertiary-color: var(--text-helper);
+--bs-tertiary-bg: var(--layer-02);
+--bs-border-color: var(--border-subtle);
+--bs-border-color-translucent: color-mix(in srgb, var(--border-subtle) 75%, transparent);
+
 // Motion //
 
 /// Durations
@@ -1906,10 +1916,18 @@ html:root {
 
 /// No animations
 :root[reduce-motion="true"] {
---duration-productive: 0;
---duration-expressive: 0;
+--duration-productive: 0s;
+--duration-expressive: 0s;
 --easing-standard-productive: none;
 --easing-standard-expressive: none;
+
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0s !important;
+    }
 }
 
 /// High contrast

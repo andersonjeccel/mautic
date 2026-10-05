@@ -23,13 +23,13 @@
 .tt-hint {
   .twitter-typeahead &{
     //validation states
-    .has-warning &{
+    .is-invalid &{
       @include typeahead-form-control($state-warning-text);
     }
-    .has-error &{
+    .is-invalid &{
       @include typeahead-form-control($state-danger-text);
     }
-    .has-success &{
+    .is-valid &{
       @include typeahead-form-control($state-success-text);
     }
   }
@@ -89,6 +89,16 @@
   //overwrite `display:inline-block` style
   display: table-cell!important;
   float: left;
+}
+
+// Bootstrap 3's table-cell input groups constrained the 100%-wide typeahead
+// wrapper to the space after preceding controls. Preserve that geometry when
+// the input group is a Bootstrap 5 flex container.
+.input-group > .twitter-typeahead {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 1%;
+  margin-left: 0 !important;
 }
 
 //particular style for each other

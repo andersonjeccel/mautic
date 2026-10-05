@@ -10,7 +10,7 @@
     inline-size: 100%;
     list-style: none;
 
-    .panel {
+    .card {
         display: list-item;
         border: none;
         border-radius: 0;
@@ -22,8 +22,8 @@
         box-shadow: none;
     }
 
-    .panel:last-child {border-block-end:1px solid var(--border-subtle);}
-    .panel:not(.panel--active):last-child:hover { border-block-end-color: var(--layer-hover) }
+    .card:last-child {border-block-end:1px solid var(--border-subtle);}
+    .card:not(.card--active):last-child:hover { border-block-end-color: var(--layer-hover) }
 }
 
 .accordion-heading {

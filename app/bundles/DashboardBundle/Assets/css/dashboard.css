@@ -4,7 +4,7 @@ body:has(.s-dashboard) {
     --field-hover: var(--field-hover-02);
 }
 
-.input-group-addon label {
+.input-group-text label {
     margin-bottom: 0px;
 }
 .vector-map {
@@ -69,6 +69,13 @@ body:has(.s-dashboard) {
     100% {border-radius: 20px 20px 20px 20px;}
 }
 
+@media (prefers-reduced-motion: reduce) {
+    .dashboard-widgets .ui-sortable-helper .tile {
+        -webkit-animation: none;
+        animation: none;
+    }
+}
+
 .dashboard-widgets .widget-overlay {
     content: '';
     width: 100%;
@@ -102,6 +109,13 @@ body:has(.s-dashboard) {
     line-height: 30px;
     border-radius: var(--border-radius-md);
 }
+.dashboard-widgets .card-header {
+    padding-inline: 0;
+}
+.dashboard-widgets .card-header::before,
+.dashboard-widgets .card-header::after {
+    content: none;
+}
 .dashboard-widgets .card-header h4 {
     width: 90%;
     white-space: nowrap;
@@ -118,6 +132,12 @@ body:has(.s-dashboard) {
 }
 .dashboard-widgets .tile table td:last-child {
     width: 30px;
+}
+.dashboard-widgets .tile > hr.bdr-b {
+    width: 0;
+    margin-top: 19px;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 .dashboard-widgets .card-body:has(> .chart-wrapper),

@@ -1,0 +1,14 @@
+{
+  "name": "mautic-bootstrap-compat-spike-tools",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Isolated dependencies for the Bootstrap compatibility spike; not application dependencies",
+  "dependencies": {
+    "bootstrap": "5.3.8",
+    "@popperjs/core": "2.11.8",
+    "postcss": "8.5.23",
+    "postcss-selector-parser": "7.1.4",
+    "pngjs": "7.0.0",
+    "pixelmatch": "7.2.0"
+  }
+}

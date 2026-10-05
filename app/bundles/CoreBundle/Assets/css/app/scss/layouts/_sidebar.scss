@@ -155,8 +155,19 @@
   // -------------------------
   .nav-sidebar {
     > .nav {
+      display: block;
+      padding-left: 0;
+      margin-bottom: 0;
+      list-style: none;
+
       > li {
+        position: relative;
+        display: block;
+        float: none;
+
         > a {
+          position: relative;
+          display: block;
           overflow: hidden;
           padding: 12px 22px;
           @include transition(all .15s ease);

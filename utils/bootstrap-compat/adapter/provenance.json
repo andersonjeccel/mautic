@@ -1,0 +1,47 @@
+{
+  "gitHead": null,
+  "runtime": [
+    {
+      "path": "node_modules/jquery/dist/jquery.js",
+      "sha256": "78a85aca2f0b110c29e0d2b137e09f0a1fb7a8e554b499f740d6744dc8962cfe"
+    },
+    {
+      "path": "utils/bootstrap-compat/adapter/baseline/bootstrap-sass/bootstrap.js",
+      "sha256": "dbd2a35e72edc7d6bde483481a912f1c38aa57fab2747d9b071d317339ee03a2"
+    },
+    {
+      "path": "utils/bootstrap-compat/toolchain/node_modules/bootstrap/dist/js/bootstrap.bundle.js",
+      "sha256": "69566344cf5722be51acbc90fdb26c24eb01cc1c153f738b16b2fa87ccd3b510"
+    },
+    {
+      "path": "utils/bootstrap-compat/toolchain/node_modules/bootstrap/dist/css/bootstrap.css",
+      "sha256": "4a50207b956a4ab943640ee993118b554a34e96a23261cfe58b9aa1807a7849b"
+    },
+    {
+      "path": "utils/bootstrap-compat/toolchain/node_modules/bootstrap/js/src/modal.js",
+      "sha256": "ca4c0a0d97a308723fc857285866b91996729a86a18170e8ad9a4a626cc1adc8"
+    },
+    {
+      "path": "utils/bootstrap-compat/toolchain/node_modules/bootstrap/js/src/tooltip.js",
+      "sha256": "b331a3d3be32919d0c397f21ebfb280fcc975ede1529666f193f18c0c1371d2f"
+    },
+    {
+      "path": "utils/bootstrap-compat/toolchain/node_modules/bootstrap/js/src/dom/event-handler.js",
+      "sha256": "29fcadf4d708c0084ad8f7998f07da147a579fea5cc22cbe6c5d08190e12bf1f"
+    },
+    {
+      "path": "utils/bootstrap-compat/toolchain/node_modules/bootstrap/js/src/util/index.js",
+      "sha256": "74cc46e7670a97417ec9bcebb651940d1eedf1d5f30d6d27a7164b777ed3ab31"
+    },
+    {
+      "path": "assets/build/css/app-HG36stD.css",
+      "sha256": "7cff3cf38b9f4e0370db233a4dba591de943cd34147bba5a61d2576bc80cca29"
+    }
+  ],
+  "officialSourceChecks": {
+    "event-handler.js": "trigger performs exactly one jQuery namespaced trigger then one native namespaced event; propagates preventDefault. Adapter does not redispatch events.",
+    "util/index.js": "getjQuery requires window.jQuery and no body[data-bs-no-jquery]; defineJQueryPlugin runs on DOMContentLoaded.",
+    "modal.js": "show/hide/toggle and focus trap delegate to BS5; mutable legacy config uses pinned private _config and _backdrop._config.isVisible before next opening.",
+    "tooltip.js": "get title callback runs with element this; dispose destroys Popper and overlay."
+  }
+}

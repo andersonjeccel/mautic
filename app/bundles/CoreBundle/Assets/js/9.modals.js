@@ -262,8 +262,11 @@ Mautic.processModalContent = function (response, target) {
             }
         }
 
-        //activate content specific stuff
-        Mautic.onPageLoad(target, response, true);
+        // Avoid initializing the same subtree twice when response.target is
+        // already contained by the modal target.
+        if (!response.target || !mQuery(response.target).closest(target).length) {
+            Mautic.onPageLoad(target, response, true);
+        }
         Mautic.modalMauticContent = false;
         if (response.closeModal) {
             mQuery('body').removeClass('noscroll');

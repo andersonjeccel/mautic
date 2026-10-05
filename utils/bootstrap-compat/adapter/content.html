@@ -1,0 +1,21 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Content compatibility contracts</title><style>#responsive-table{height:20px;overflow:visible}.dropdown-menu{display:block;position:absolute;top:30px;height:40px}</style></head><body>
+<div id="content">
+ <div id="responsive-table" class="table-responsive">
+  <div id="responsive-dropdown" class="dropdown"><button id="responsive-toggle" data-bs-toggle="dropdown">Responsive</button><div id="responsive-menu" class="dropdown-menu">Menu</div></div>
+ </div>
+ <div id="form-dropdown" class="dropdown"><button id="form-toggle" data-toggle="dropdown">Form</button><div class="dropdown-menu dropdown-menu-form"><form><button id="form-button" type="button">Keep open</button></form></div></div>
+</div>
+<script>
+window.fixtureReady=(async()=>{
+ const load=url=>new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=url;script.onload=resolve;script.onerror=()=>reject(Error(url));document.head.append(script)});
+ await load('/node_modules/jquery/dist/jquery.js');window.mQuery=window.jQuery;
+ await load('../toolchain/node_modules/bootstrap/dist/js/bootstrap.bundle.js');
+ await load('/app/bundles/CoreBundle/Assets/js/1.bootstrap-compatibility.js');
+ if (window.MauticBootstrapCompatibility?.ready) await window.MauticBootstrapCompatibility.ready;
+ window.MauticVars={maxButtons:[]};
+ window.Mautic=new Proxy({}, {get(target,key){if (!(key in target)) target[key]=function(){};return target[key];}});
+ await load('/app/bundles/CoreBundle/Assets/js/1a.content.js');
+ Mautic.onPageLoad('#content',{},false);
+ return {version:bootstrap.Dropdown.VERSION};
+})();
+</script></body></html>

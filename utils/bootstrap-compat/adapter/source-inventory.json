@@ -1,0 +1,2060 @@
+{
+  "method": "regex line triage plus manual consumer inspection; not an exhaustive AST or real-route census",
+  "records": [
+    {
+      "path": "app/bundles/AssetBundle/Assets/js/asset.js",
+      "line": 46,
+      "context": [
+        "    mQuery('#asset_remotePath').val(url);",
+        "    mQuery('#RemoteFileModal').modal('hide');",
+        "};",
+        "",
+        "Mautic.changeAssetStorageLocation = function() {",
+        "    if (mQuery('#asset_storageLocation_0').prop('checked')) {"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CampaignBundle/Assets/js/campaign-event-delete-modal.js",
+      "line": 29,
+      "context": [
+        "        // Configure modal options for better UX",
+        "        this.modal.modal({",
+        "            show: false,       // Don't show on initialization",
+        "            backdrop: true,    // Allow clicking outside to close",
+        "            keyboard: true     // Allow ESC key to close",
+        "        });"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CampaignBundle/Assets/js/campaign-event-delete-modal.js",
+      "line": 39,
+      "context": [
+        "        this.cancelButton.off('click');",
+        "        this.modal.off('hidden.bs.modal');",
+        "",
+        "        // Handle the initial \"Redirect Event\" button click",
+        "        this.confirmButton.on('click', () => {",
+        "            // If the button is disabled (as in the case of the last event), do nothing"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CampaignBundle/Assets/js/campaign-event-delete-modal.js",
+      "line": 98,
+      "context": [
+        "        // Reset the modal when it's closed (via any method - X button, clicking outside, ESC key)",
+        "        this.modal.on('hidden.bs.modal', () => {",
+        "            // Reset form elements",
+        "            this.redirectSelect.removeClass('error');",
+        "            this.warningDiv.hide().removeClass('alert-danger').addClass('alert-warning');",
+        ""
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CampaignBundle/Assets/js/campaign-event-delete-modal.js",
+      "line": 369,
+      "context": [
+        "        const deleteButton = mQuery('#CampaignEvent_' + eventId).find('a[data-toggle=\"ajax-delete\"]');",
+        "        this.modal.data('sourceButton', deleteButton).modal(modalOptions).modal('show');",
+        "    },",
+        "",
+        "    /**",
+        "     * Delete an event directly without showing modal (for events that can bypass modal)"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CampaignBundle/Assets/js/campaign-event-delete-modal.js",
+      "line": 434,
+      "context": [
+        "                    // Close the modal on success",
+        "                    this.modal.modal('hide');",
+        "                } else {",
+        "                    // Show error message in modal",
+        "                    this.warningDiv.removeClass('alert-warning').addClass('alert-danger');",
+        "                    this.warningDiv.find('.warning-message').text(response.message || Mautic.translate('mautic.campaign.event.delete.error'));"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CampaignBundle/Assets/js/campaign.js",
+      "line": 408,
+      "context": [
+        "",
+        "        $tooltip.tooltip('hide');",
+        "        $tooltip.tooltip('destroy');",
+        "    });",
+        "    $select.data(dataAttribute, []);",
+        ""
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CampaignBundle/Assets/js/campaign.js",
+      "line": 409,
+      "context": [
+        "        $tooltip.tooltip('hide');",
+        "        $tooltip.tooltip('destroy');",
+        "    });",
+        "    $select.data(dataAttribute, []);",
+        "",
+        "    if (true === onlyDestroy) {"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CampaignBundle/Assets/js/campaign.js",
+      "line": 423,
+      "context": [
+        "",
+        "            const $tooltip = mQuery(chosenOption).tooltip({html: true, container: 'body', placement: 'left'});",
+        "            $select.data(dataAttribute).push($tooltip);",
+        "        }",
+        "    });",
+        "}"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CampaignBundle/Assets/js/campaign.js",
+      "line": 574,
+      "context": [
+        "        //initialize tooltips",
+        "        mQuery(eventId + \" *[data-toggle='tooltip']\").tooltip({html: true});",
+        "",
+        "        // Connect into last anchor clicked",
+        "        Mautic.campaignBuilderInstance.connect({",
+        "            uuids: ["
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CampaignBundle/Assets/js/campaign.js",
+      "line": 764,
+      "context": [
+        "        //initialize tooltipslist-campaign-event",
+        "        mQuery(eventId + \" *[data-toggle='tooltip']\").tooltip({html: true});",
+        "        if (autoConnect) {",
+        "            // Connect into last anchor clicked",
+        "            if (Mautic.campaignBuilderAnchorClicked.search('left') !== -1) {",
+        "                var source = domEventId + '_leadsourceright';"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CampaignBundle/Assets/js/campaign.js",
+      "line": 1252,
+      "context": [
+        "",
+        "            if (mQuery('.modal.in').length > 0) {",
+        "                return;",
+        "            }",
+        "",
+        "            if (mQuery('.chosen-with-drop').length > 0) {"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": [
+        "Legacy in class observed after complete operations; arbitrary reentrant event-time selection not proven."
+      ]
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/0.bootstrap-3-jquery-adapter.js",
+      "line": 42,
+      "context": [
+        "   const hide=e=>{if (!e.defaultPrevented) el.classList.remove('in');queueMicrotask(syncLegacyClass);};",
+        "   el.addEventListener('show.bs.modal',show);el.addEventListener('hide.bs.modal',hide);",
+        "   record={native,showListener:show,hideListener:hide,options:new Proxy(opts,{set(target,key,value){validate('modal',{[key]:value});target[key]=value;return true;}}),get isShown(){return native._isShown;}};",
+        "   records.set(el,record);$(el).data('bs.modal',record);return record;",
+        "  }",
+        "  $.fn.modal=function(option,relatedTarget) {"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/0.bootstrap-3-jquery-adapter.js",
+      "line": 44,
+      "context": [
+        "   record={native,showListener:show,hideListener:hide,options:new Proxy(opts,{set(target,key,value){validate('modal',{[key]:value});target[key]=value;return true;}}),get isShown(){return native._isShown;}};",
+        "   records.set(el,record);$(el).data('bs.modal',record);return record;",
+        "  }",
+        "  $.fn.modal=function(option,relatedTarget) {",
+        "   validate('modal',option);",
+        "   return this.each(function(){"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/0.bootstrap-3-jquery-adapter.js",
+      "line": 54,
+      "context": [
+        "     if(record.native._isShown || record.native._isTransitioning) unsupported('dispose shown/transitioning modal; hide and await hidden first');",
+        "     record.native.dispose();this.removeEventListener('show.bs.modal',record.showListener);this.removeEventListener('hide.bs.modal',record.hideListener);",
+        "     records.delete(this);$(this).removeData('bs.modal');return;",
+        "    }",
+        "    if(!record.native._isShown && !record.native._isTransitioning) {",
+        "     record.native._config.keyboard=record.options.keyboard;"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/0.bootstrap-3-jquery-adapter.js",
+      "line": 55,
+      "context": [
+        "     record.native.dispose();this.removeEventListener('show.bs.modal',record.showListener);this.removeEventListener('hide.bs.modal',record.hideListener);",
+        "     records.delete(this);$(this).removeData('bs.modal');return;",
+        "    }",
+        "    if(!record.native._isShown && !record.native._isTransitioning) {",
+        "     record.native._config.keyboard=record.options.keyboard;",
+        "     record.native._config.backdrop=record.options.backdrop;"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/0.bootstrap-3-jquery-adapter.js",
+      "line": 66,
+      "context": [
+        "     // Preserve the legacy jQuery notification without reopening or duplicating shown.",
+        "     if(record.native._isShown) $(this).trigger($.Event('show.bs.modal',{relatedTarget}));",
+        "     else record.native.show(relatedTarget);",
+        "    } else if(typeof option==='string') record.native[option](relatedTarget);",
+        "   });",
+        "  };"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/0.bootstrap-3-jquery-adapter.js",
+      "line": 82,
+      "context": [
+        "     const native=new bs.Tooltip(el,Object.assign({},opts,{title:function(){return this.getAttribute('data-original-title') || (typeof opts.title==='function'?opts.title.call(this):opts.title) || '';},container:opts.container || el.parentNode}));",
+        "     record={native,options:opts};tips.set(this,record);$(this).data('bs.tooltip',record);",
+        "    }",
+        "    if(option==='destroy' || option==='dispose'){",
+        "     if(record.destroyPending) return;",
+        "     const el=this;"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_mutable_options_and_keyboard_focus"
+      ],
+      "limitations": [
+        "Mutable keyboard/backdrop applied before next opening only; live mutation while open not preserved."
+      ]
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/0.bootstrap-3-jquery-adapter.js",
+      "line": 87,
+      "context": [
+        "     const el=this;",
+        "     const cleanup=()=>{record.native.dispose();el.removeAttribute('aria-describedby');tips.delete(el);$(el).removeData('bs.tooltip');};",
+        "     if(option==='destroy' && record.native._isShown()){",
+        "      if(record.destroyPending) return;",
+        "      clearTimeout(record.native._timeout);",
+        "      record.destroyPending=true;"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/0.bootstrap-3-jquery-adapter.js",
+      "line": 93,
+      "context": [
+        "      const hidden=()=>{record.destroyPending=false;cleanup();};",
+        "      el.addEventListener('hidden.bs.tooltip',hidden,{once:true});",
+        "      record.native.hide();",
+        "      // A cancelled hide must retain its instance, overlay and lifecycle handlers.",
+        "      if(record.native._isShown()) {el.removeEventListener('hidden.bs.tooltip',hidden);record.destroyPending=false;}",
+        "     } else cleanup();"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/0.bootstrap-3-jquery-adapter.js",
+      "line": 96,
+      "context": [
+        "      // A cancelled hide must retain its instance, overlay and lifecycle handlers.",
+        "      if(record.native._isShown()) {el.removeEventListener('hidden.bs.tooltip',hidden);record.destroyPending=false;}",
+        "     } else cleanup();",
+        "    }",
+        "    else if(option==='fixTitle'){if(this.getAttribute('title') || !this.hasAttribute('data-original-title')) this.setAttribute('data-original-title',this.getAttribute('title') || '');this.setAttribute('title','');}",
+        "    else if(typeof option==='string') record.native[option]();"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/0.bootstrap-3-jquery-adapter.js",
+      "line": 140,
+      "context": [
+        "   event.preventDefault();",
+        "   if(this.matches('[data-dismiss=\"modal\"]')) {$(this).closest('.modal').modal('hide');return;}",
+        "   const selector=this.getAttribute('data-target') || this.getAttribute('href');",
+        "   if(!selector || !selector.startsWith('#')) throw new Error('Bootstrap3Compat: modal requires a local target');",
+        "   const target=document.querySelector(selector);if(!target) throw new Error('Bootstrap3Compat: missing modal target');",
+        "   const trigger=this,$target=$(target);"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/0.bootstrap-3-jquery-adapter.js",
+      "line": 145,
+      "context": [
+        "   const trigger=this,$target=$(target);",
+        "   if(!$target.data('bs.modal')) $target.modal(Object.assign({},Object.fromEntries(['backdrop','keyboard'].filter(k=>$(trigger).data(k)!==undefined).map(k=>[k,$(trigger).data(k)])),{show:false}));",
+        "   $target.one('show.bs.modal',e=>{if(!e.isDefaultPrevented()) $target.one('hidden.bs.modal',()=>{if($(trigger).is(':visible')) trigger.focus();});});",
+        "   $target.modal('toggle',trigger);",
+        "  });",
+        "  installation={version:'spike-1'};return installation;"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/0.bootstrap-3-jquery-adapter.js",
+      "line": 146,
+      "context": [
+        "   if(!$target.data('bs.modal')) $target.modal(Object.assign({},Object.fromEntries(['backdrop','keyboard'].filter(k=>$(trigger).data(k)!==undefined).map(k=>[k,$(trigger).data(k)])),{show:false}));",
+        "   $target.one('show.bs.modal',e=>{if(!e.isDefaultPrevented()) $target.one('hidden.bs.modal',()=>{if($(trigger).is(':visible')) trigger.focus();});});",
+        "   $target.modal('toggle',trigger);",
+        "  });",
+        "  installation={version:'spike-1'};return installation;",
+        " }"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/0.bootstrap-3-jquery-adapter.js",
+      "line": 147,
+      "context": [
+        "   $target.one('show.bs.modal',e=>{if(!e.isDefaultPrevented()) $target.one('hidden.bs.modal',()=>{if($(trigger).is(':visible')) trigger.focus();});});",
+        "   $target.modal('toggle',trigger);",
+        "  });",
+        "  installation={version:'spike-1'};return installation;",
+        " }",
+        " global.Bootstrap3Compat={install};"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/1.core.js",
+      "line": 86,
+      "context": [
+        "",
+        "        mQuery('.popover-content [data-toggle=\"tooltip\"]').tooltip();",
+        "    });",
+        "});",
+        "",
+        "// Force stop the page loading bar when no more requests are being in progress"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/1.core.js",
+      "line": 356,
+      "context": [
+        "            var modalWindow = mQuery('#keyboardShortcutsModal');",
+        "            modalWindow.modal();",
+        "        });",
+        "",
+        "    },",
+        ""
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/1.core.js",
+      "line": 820,
+      "context": [
+        "                }",
+        "            } else if (response.newContent && mQuery('.modal.in').length) {",
+        "                //assume a modal was the recipient of the information",
+        "                mQuery('.modal.in .modal-body-content').html(response.newContent);",
+        "                mQuery('.modal.in .modal-body-content').removeClass('hide');",
+        "                if (mQuery('.modal.in  .loading-placeholder').length) {"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": [
+        "Legacy in class observed after complete operations; arbitrary reentrant event-time selection not proven."
+      ]
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/1.core.js",
+      "line": 822,
+      "context": [
+        "                //assume a modal was the recipient of the information",
+        "                mQuery('.modal.in .modal-body-content').html(response.newContent);",
+        "                mQuery('.modal.in .modal-body-content').removeClass('hide');",
+        "                if (mQuery('.modal.in  .loading-placeholder').length) {",
+        "                    mQuery('.modal.in  .loading-placeholder').addClass('hide');",
+        "                }"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": [
+        "Legacy in class observed after complete operations; arbitrary reentrant event-time selection not proven."
+      ]
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/1.core.js",
+      "line": 823,
+      "context": [
+        "                mQuery('.modal.in .modal-body-content').html(response.newContent);",
+        "                mQuery('.modal.in .modal-body-content').removeClass('hide');",
+        "                if (mQuery('.modal.in  .loading-placeholder').length) {",
+        "                    mQuery('.modal.in  .loading-placeholder').addClass('hide');",
+        "                }",
+        "            } else if (response.closeModal) {"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": [
+        "Legacy in class observed after complete operations; arbitrary reentrant event-time selection not proven."
+      ]
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/1.core.js",
+      "line": 824,
+      "context": [
+        "                mQuery('.modal.in .modal-body-content').removeClass('hide');",
+        "                if (mQuery('.modal.in  .loading-placeholder').length) {",
+        "                    mQuery('.modal.in  .loading-placeholder').addClass('hide');",
+        "                }",
+        "            } else if (response.closeModal) {",
+        "                if (typeof target !== \"undefined\") {"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": [
+        "Legacy in class observed after complete operations; arbitrary reentrant event-time selection not proven."
+      ]
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/1.core.js",
+      "line": 825,
+      "context": [
+        "                if (mQuery('.modal.in  .loading-placeholder').length) {",
+        "                    mQuery('.modal.in  .loading-placeholder').addClass('hide');",
+        "                }",
+        "            } else if (response.closeModal) {",
+        "                if (typeof target !== \"undefined\") {",
+        "                    mQuery('body').removeClass('noscroll');"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": [
+        "Legacy in class observed after complete operations; arbitrary reentrant event-time selection not proven."
+      ]
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/1.core.js",
+      "line": 830,
+      "context": [
+        "                    mQuery('body').removeClass('noscroll');",
+        "                    mQuery(target).modal('hide');",
+        "                }",
+        "            } else if (inDevMode) {",
+        "                console.log(response);",
+        ""
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/1.core.js",
+      "line": 1004,
+      "context": [
+        "            mQuery(\"#notification\" + id).fadeTo(\"fast\", 0.01).slideUp(\"fast\", function () {",
+        "                mQuery(this).find(\"*[data-toggle='tooltip']\").tooltip('destroy');",
+        "                mQuery(this).remove();",
+        "",
+        "                if (!mQuery('#notifications .notification').length) {",
+        "                    if (mQuery('#notificationMautibot').hasClass('hide')) {"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/10.entity.js",
+      "line": 332,
+      "context": [
+        "    //destroy tooltips so it can be regenerated",
+        "    element.tooltip('destroy');",
+        "    //clear the lookup cache",
+        "    MauticVars.liveCache = new Array();",
+        "",
+        "    if (backdrop) {"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/10.entity.js",
+      "line": 343,
+      "context": [
+        "    }",
+        "    element.tooltip('destroy');",
+        "    mQuery.ajax({",
+        "        url: mauticAjaxUrl,",
+        "        type: \"POST\",",
+        "        data: \"action=togglePublishStatus&model=\" + model + '&id=' + id + extra,"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/10.entity.js",
+      "line": 354,
+      "context": [
+        "                element.replaceWith(response.statusHtml);",
+        "                element.tooltip({html: true, container: 'body'});",
+        "            }",
+        "        },",
+        "        error: function (request, textStatus, errorThrown) {",
+        "            var addClass = (wasPublished) ? 'ri-toggle-fill' : 'ri-toggle-line';"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/1a.content.js",
+      "line": 346,
+      "context": [
+        "    var pageTooltips = mQuery(container + \" *[data-toggle='tooltip']\");",
+        "    pageTooltips.tooltip({html: true, container: 'body'});",
+        "",
+        "    // Enable tooltips on checkbox & radio input's to",
+        "    // show when hovering their parent LABEL element",
+        "    pageTooltips.each(function(i) {"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/1a.content.js",
+      "line": 358,
+      "context": [
+        "            elementParent.hover(function () {",
+        "                thisTooltip.tooltip('show')",
+        "            }, function () {",
+        "                thisTooltip.tooltip('hide');",
+        "            });",
+        "        }"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/1a.content.js",
+      "line": 360,
+      "context": [
+        "            }, function () {",
+        "                thisTooltip.tooltip('hide');",
+        "            });",
+        "        }",
+        "    });",
+        ""
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/1a.content.js",
+      "line": 689,
+      "context": [
+        "        $modal",
+        "            .on('shown.bs.modal', () => setTimeout(() => $input.focus(), 100))",
+        "            .on('hidden.bs.modal', () => {",
+        "                $input.val('');",
+        "                $results.addClass('hide');",
+        "                $panel.empty();"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/1a.content.js",
+      "line": 690,
+      "context": [
+        "            .on('shown.bs.modal', () => setTimeout(() => $input.focus(), 100))",
+        "            .on('hidden.bs.modal', () => {",
+        "                $input.val('');",
+        "                $results.addClass('hide');",
+        "                $panel.empty();",
+        "            });"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/1a.content.js",
+      "line": 696,
+      "context": [
+        "",
+        "        $results.on('click', 'a', () => $modal.modal('hide'));",
+        "    }",
+        "",
+        "    Mautic.renderCharts(container);",
+        "    Mautic.stopIconSpinPostEvent();"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/1a.content.js",
+      "line": 816,
+      "context": [
+        "    if (typeof container != 'undefined') {",
+        "        mQuery(container + \" *[data-toggle='tooltip']\").tooltip('destroy');",
+        "",
+        "        //unload lingering modals from body so that there will not be multiple modals generated from new ajaxed content",
+        "        if (typeof MauticVars.modalsReset == 'undefined') {",
+        "            MauticVars.modalsReset = {};"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/1a.content.js",
+      "line": 1220,
+      "context": [
+        "        var modal = mQuery(this).closest('.modal');",
+        "        mQuery(modal).modal('hide');",
+        "",
+        "        if (mQuery(this).attr('data-embedded-form-clear') === 'true') {",
+        "            Mautic.resetForm(modal);",
+        "        }"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/1a.content.js",
+      "line": 1237,
+      "context": [
+        "        var modal = mQuery(this).closest('.modal');",
+        "        if (typeof mQuery(modal).data('bs.modal') !== 'undefined' && typeof mQuery(modal).data('bs.modal').options !== 'undefined') {",
+        "            mQuery(modal).data('bs.modal').options.keyboard = false;",
+        "            mQuery(modal).data('bs.modal').options.backdrop = 'static';",
+        "        } else {",
+        "            mQuery(modal).attr('data-keyboard', false);"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_mutable_options_and_keyboard_focus"
+      ],
+      "limitations": [
+        "Mutable keyboard/backdrop applied before next opening only; live mutation while open not preserved."
+      ]
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/1a.content.js",
+      "line": 1238,
+      "context": [
+        "        if (typeof mQuery(modal).data('bs.modal') !== 'undefined' && typeof mQuery(modal).data('bs.modal').options !== 'undefined') {",
+        "            mQuery(modal).data('bs.modal').options.keyboard = false;",
+        "            mQuery(modal).data('bs.modal').options.backdrop = 'static';",
+        "        } else {",
+        "            mQuery(modal).attr('data-keyboard', false);",
+        "            mQuery(modal).attr('data-backdrop', 'static');"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_mutable_options_and_keyboard_focus"
+      ],
+      "limitations": [
+        "Mutable keyboard/backdrop applied before next opening only; live mutation while open not preserved."
+      ]
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/1a.content.js",
+      "line": 1239,
+      "context": [
+        "            mQuery(modal).data('bs.modal').options.keyboard = false;",
+        "            mQuery(modal).data('bs.modal').options.backdrop = 'static';",
+        "        } else {",
+        "            mQuery(modal).attr('data-keyboard', false);",
+        "            mQuery(modal).attr('data-backdrop', 'static');",
+        "        }"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_mutable_options_and_keyboard_focus"
+      ],
+      "limitations": [
+        "Mutable keyboard/backdrop applied before next opening only; live mutation while open not preserved."
+      ]
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/1a.content.js",
+      "line": 1245,
+      "context": [
+        "",
+        "        mQuery(modal).on('show.bs.modal', function () {",
+        "            // Don't allow submitting with enter key",
+        "            mQuery(this).on(\"keydown.embeddedForm\", \":input:not(textarea)\", function(event) {",
+        "                if (Mautic.Keyboard.isEnter(Mautic.Keyboard.getKey(event))) {",
+        "                    event.preventDefault();"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/1a.content.js",
+      "line": 1259,
+      "context": [
+        "        //clean slate upon close",
+        "        mQuery(modal).on('hidden.bs.modal', function () {",
+        "            mQuery(this).off(\"keydown.embeddedForm\", \":input:not(textarea)\");",
+        "        });",
+        "    });",
+        ""
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/1a.content.js",
+      "line": 1269,
+      "context": [
+        "        var modal = mQuery(this).closest('.modal');",
+        "        mQuery(modal).modal('hide');",
+        "",
+        "        if (typeof mQuery(this).attr('data-embedded-form-callback') != 'undefined') {",
+        "            if (typeof window[\"Mautic\"][mQuery(this).attr('data-embedded-form-callback')] == 'function') {",
+        "                window[\"Mautic\"][mQuery(this).attr('data-embedded-form-callback')].apply('window', [this, modal]);"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/1a.content.js",
+      "line": 1405,
+      "context": [
+        "",
+        "    if ($trigger.data('bs.tooltip')) {",
+        "        $trigger.attr('data-original-title', tooltipTitle).tooltip('fixTitle');",
+        "    }",
+        "};",
+        ""
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/1a.content.js",
+      "line": 1406,
+      "context": [
+        "    if ($trigger.data('bs.tooltip')) {",
+        "        $trigger.attr('data-original-title', tooltipTitle).tooltip('fixTitle');",
+        "    }",
+        "};",
+        "",
+        "/**"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/1a.content.js",
+      "line": 1421,
+      "context": [
+        "",
+        "    if (!$trigger.data('bs.tooltip')) {",
+        "        $trigger.tooltip({container: 'body'});",
+        "    }",
+        "",
+        "    $trigger.off('click.searchScopeMobile').on('click.searchScopeMobile', function (event) {"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/1a.content.js",
+      "line": 1422,
+      "context": [
+        "    if (!$trigger.data('bs.tooltip')) {",
+        "        $trigger.tooltip({container: 'body'});",
+        "    }",
+        "",
+        "    $trigger.off('click.searchScopeMobile').on('click.searchScopeMobile', function (event) {",
+        "        event.preventDefault();"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/1a.content.js",
+      "line": 2038,
+      "context": [
+        "            if (Mautic.Keyboard.isEscape(key)) {",
+        "                mQuery('#gsearchModal').modal('hide');",
+        "                return;",
+        "            }",
+        "",
+        "            const items = mQuery('#globalSearchResults .gsearch--results-item');"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/6.forms.js",
+      "line": 246,
+      "context": [
+        "                    if (!inMain) {",
+        "                        mQuery('#' + modalId).modal('hide');",
+        "                        mQuery('.modal-backdrop').remove();",
+        "                    }",
+        "                    Mautic.processPageContent(data);",
+        "                } else if (callback) {"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/6.forms.js",
+      "line": 541,
+      "context": [
+        "    } else {",
+        "        mQueryParent('#MauticSharedModal').modal('hide');",
+        "    }",
+        "};",
+        "",
+        "/**"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/9.modals.js",
+      "line": 93,
+      "context": [
+        "    //move the modal to the body tag to get around positioned div issues",
+        "    element.one('show.bs.modal', function () {",
+        "        if (header) {",
+        "            // use text instead of html method to prevent XSS",
+        "            element.find(\".modal-title\").text(header);",
+        "        }"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/9.modals.js",
+      "line": 109,
+      "context": [
+        "    //clean slate upon close",
+        "    element.one('hidden.bs.modal', function () {",
+        "        if (typeof Mautic.modalContentXhr[target] != 'undefined') {",
+        "            Mautic.modalContentXhr[target].abort();",
+        "            delete Mautic.modalContentXhr[target];",
+        "        }"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/9.modals.js",
+      "line": 134,
+      "context": [
+        "    // Check if dismissal is allowed",
+        "    if (typeof element.data('bs.modal') !== 'undefined' && typeof element.data('bs.modal').options !== 'undefined') {",
+        "        if (preventDismissal) {",
+        "            element.data('bs.modal').options.keyboard = false;",
+        "            element.data('bs.modal').options.backdrop = 'static';",
+        "        } else {"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_mutable_options_and_keyboard_focus"
+      ],
+      "limitations": [
+        "Mutable keyboard/backdrop applied before next opening only; live mutation while open not preserved."
+      ]
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/9.modals.js",
+      "line": 136,
+      "context": [
+        "        if (preventDismissal) {",
+        "            element.data('bs.modal').options.keyboard = false;",
+        "            element.data('bs.modal').options.backdrop = 'static';",
+        "        } else {",
+        "            element.data('bs.modal').options.keyboard = true;",
+        "            element.data('bs.modal').options.backdrop = true;"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_mutable_options_and_keyboard_focus"
+      ],
+      "limitations": [
+        "Mutable keyboard/backdrop applied before next opening only; live mutation while open not preserved."
+      ]
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/9.modals.js",
+      "line": 137,
+      "context": [
+        "            element.data('bs.modal').options.keyboard = false;",
+        "            element.data('bs.modal').options.backdrop = 'static';",
+        "        } else {",
+        "            element.data('bs.modal').options.keyboard = true;",
+        "            element.data('bs.modal').options.backdrop = true;",
+        "        }"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_mutable_options_and_keyboard_focus"
+      ],
+      "limitations": [
+        "Mutable keyboard/backdrop applied before next opening only; live mutation while open not preserved."
+      ]
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/9.modals.js",
+      "line": 139,
+      "context": [
+        "        } else {",
+        "            element.data('bs.modal').options.keyboard = true;",
+        "            element.data('bs.modal').options.backdrop = true;",
+        "        }",
+        "    } else {",
+        "        if (preventDismissal) {"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_mutable_options_and_keyboard_focus"
+      ],
+      "limitations": [
+        "Mutable keyboard/backdrop applied before next opening only; live mutation while open not preserved."
+      ]
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/9.modals.js",
+      "line": 140,
+      "context": [
+        "            element.data('bs.modal').options.keyboard = true;",
+        "            element.data('bs.modal').options.backdrop = true;",
+        "        }",
+        "    } else {",
+        "        if (preventDismissal) {",
+        "            element.modal({"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_mutable_options_and_keyboard_focus"
+      ],
+      "limitations": [
+        "Mutable keyboard/backdrop applied before next opening only; live mutation while open not preserved."
+      ]
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/9.modals.js",
+      "line": 144,
+      "context": [
+        "        if (preventDismissal) {",
+        "            element.modal({",
+        "                backdrop: 'static',",
+        "                keyboard: false",
+        "            });",
+        "        } else {"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/9.modals.js",
+      "line": 149,
+      "context": [
+        "        } else {",
+        "            element.modal({",
+        "                backdrop: true,",
+        "                keyboard: true",
+        "            });",
+        "        }"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/9.modals.js",
+      "line": 233,
+      "context": [
+        "    if (response.sessionExpired || (response.closeModal && response.newContent && !response.updateModalContent)) {",
+        "        mQuery(target).modal('hide');",
+        "        mQuery('body').removeClass('modal-open');",
+        "        mQuery('.modal-backdrop').remove();",
+        "        //assume the content is to refresh main app",
+        "        Mautic.processPageContent(response);"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/9.modals.js",
+      "line": 270,
+      "context": [
+        "            mQuery('body').removeClass('noscroll');",
+        "            mQuery(target).modal('hide');",
+        "",
+        "            if (!response.updateModalContent) {",
+        "                Mautic.onPageUnload(target, response);",
+        "            }"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/9.modals.js",
+      "line": 353,
+      "context": [
+        "",
+        "    mQuery('.confirmation-modal').on('hidden.bs.modal', function () {",
+        "        mQuery(this).remove();",
+        "    });",
+        "",
+        "    mQuery('.confirmation-modal').modal('show');"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/9.modals.js",
+      "line": 357,
+      "context": [
+        "",
+        "    mQuery('.confirmation-modal').modal('show');",
+        "};",
+        "",
+        "/**",
+        " * Dismiss confirmation modal"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/9.modals.js",
+      "line": 365,
+      "context": [
+        "    if (mQuery('.confirmation-modal').length) {",
+        "        mQuery('.confirmation-modal').modal('hide');",
+        "    }",
+        "};",
+        "",
+        "/**"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/9.modals.js",
+      "line": 411,
+      "context": [
+        "Mautic.showModal = function(target) {",
+        "    if (mQuery('.modal.in').length) {",
+        "        // another modal is activated so let's stack",
+        "",
+        "        // is this modal within another modal?",
+        "        if (mQuery(target).closest('.modal').length) {"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": [
+        "Legacy in class observed after complete operations; arbitrary reentrant event-time selection not proven."
+      ]
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/9.modals.js",
+      "line": 425,
+      "context": [
+        "",
+        "        var activeModal = mQuery('.modal.in .modal-dialog:not(:has(.aside))').parents('.modal').last(),",
+        "            targetModal  = mQuery(target);",
+        "",
+        "        if (activeModal.length && activeModal.attr('id') !== targetModal.attr('id')) {",
+        "            targetModal.attr('data-previous-modal', '#'+activeModal.attr('id'));"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": [
+        "Legacy in class observed after complete operations; arbitrary reentrant event-time selection not proven."
+      ]
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/9.modals.js",
+      "line": 431,
+      "context": [
+        "            activeModal.find('.modal-dialog').addClass('aside');",
+        "            var stackedDialogCount = mQuery('.modal.in .modal-dialog.aside').length;",
+        "            if (stackedDialogCount <= 5) {",
+        "                activeModal.find('.modal-dialog').addClass('aside-' + stackedDialogCount);",
+        "            }",
+        ""
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": [
+        "Legacy in class observed after complete operations; arbitrary reentrant event-time selection not proven."
+      ]
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/9.modals.js",
+      "line": 436,
+      "context": [
+        "",
+        "            mQuery(target).on('hide.bs.modal', function () {",
+        "                var modal = mQuery(this);",
+        "                var previous = modal.attr('data-previous-modal');",
+        "",
+        "                if (previous) {"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/9.modals.js",
+      "line": 453,
+      "context": [
+        "",
+        "    mQuery(target).modal('show');",
+        "};",
+        ""
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/CoreBundle/Assets/js/libraries/8a.adminre.js",
+      "line": 244,
+      "context": [
+        "            BsTooltip: function () {",
+        "                $(\"[data-toggle~=tooltip]\").tooltip();",
+        "            },",
+        "",
+        "            // @MISC: BsPopover - Bootstrap popover",
+        "            // Per call"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/EmailBundle/Assets/js/batch.js",
+      "line": 30,
+      "context": [
+        "Mautic.emailBatchSubmitCallback = function( response ) {",
+        "    mQuery('#MauticSharedModal').modal('hide');",
+        "    console.log(\"Received: \" + JSON.stringify(response));",
+        "    response.affected.forEach( function(id){",
+        "        setCategory(id, response.newCategory);",
+        "    });"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/EmailBundle/Assets/js/heatmap.js",
+      "line": 35,
+      "context": [
+        "            this.bindEvents();",
+        "            this.$modal.modal('show');",
+        "        }",
+        "",
+        "        fetchHeatmap(callback) {",
+        "            Mautic.ajaxActionRequest('email:heatmap', {id: this.emailId}, function(response){"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/EmailBundle/Assets/js/heatmap.js",
+      "line": 76,
+      "context": [
+        "",
+        "            self.$modal.on('hidden.bs.modal', function () {",
+        "                $(this).remove();",
+        "            });",
+        "",
+        "            $('[data-toggle=\"heatmap-total\"]').click(function(e) {"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/FormBundle/Assets/js/form.js",
+      "line": 252,
+      "context": [
+        "        //initialize tooltips",
+        "        mQuery(fieldContainer).find(\"*[data-toggle='tooltip']\").tooltip({html: true});",
+        "",
+        "        //initialize ajax'd modals",
+        "        mQuery(fieldContainer).find(\"[data-toggle='ajaxmodal']\").on('click.ajaxmodal', function (event) {",
+        "            event.preventDefault();"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/FormBundle/Assets/js/form.js",
+      "line": 323,
+      "context": [
+        "        //initialize tooltips",
+        "        mQuery(actionId + \" *[data-toggle='tooltip']\").tooltip({html: true});",
+        "",
+        "        //initialize ajax'd modals",
+        "        mQuery(actionId + \" [data-toggle='ajaxmodal']\").on('click.ajaxmodal', function (event) {",
+        "            event.preventDefault();"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/LeadBundle/Assets/js/lead.js",
+      "line": 152,
+      "context": [
+        "    if (mQuery(container + ' .panel-companies').length) {",
+        "        mQuery(container + ' .panel-companies .ri-check-line').tooltip({html: true});",
+        "    }",
+        "",
+        "    // Adding behavior to be able to create new tags by pressing the `Enter` or `Escape` key",
+        "    // when the search field is active (ie: the tag name we are typing is a substring of an existing tag)"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/LeadBundle/Assets/js/lead.js",
+      "line": 536,
+      "context": [
+        "    $tooltips.each(function() {",
+        "        mQuery(this).tooltip({html: true, container: 'body'});",
+        "    });",
+        "};",
+        "",
+        "Mautic.convertLeadFilterInput = function(el) {"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/LeadBundle/Assets/js/lead.js",
+      "line": 741,
+      "context": [
+        "                        // Remove existing tooltip",
+        "                        mQuery('*[role=\"tooltip\"]').tooltip('destroy');",
+        "                        mQuery(this).remove();",
+        "                        Mautic.reorderSegmentFilters();",
+        "                    }",
+        "                );"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/LeadBundle/Assets/js/lead.js",
+      "line": 861,
+      "context": [
+        "",
+        "    mQuery('#leadfield_properties [data-toggle=\"tooltip\"]').tooltip('destroy');",
+        "",
+        "    if (mQuery('#field-templates .' + selectedVal).length) {",
+        "        mQuery('#leadfield_properties').html(",
+        "            mQuery('#field-templates .' + selectedVal).html()"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/LeadBundle/Assets/js/lead.js",
+      "line": 909,
+      "context": [
+        "",
+        "        mQuery('#leadfield_properties [data-toggle=\"tooltip\"]').tooltip();",
+        "    } else if (!mQuery('#leadfield_properties .' + selectedVal).length) {",
+        "        mQuery('#leadfield_properties').html('');",
+        "    }",
+        ""
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/LeadBundle/Assets/js/lead.js",
+      "line": 1003,
+      "context": [
+        "            Mautic.activateChosenSelect('#leadfield_order');",
+        "            mQuery('label[for=leadfield_order]').tooltip({html: true});",
+        "        }",
+        "    });",
+        "}",
+        ""
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/LeadBundle/Assets/js/lead.js",
+      "line": 1238,
+      "context": [
+        "    mQuery('#socialImageModal img').attr('src', imgSrc);",
+        "    mQuery('#socialImageModal').modal('show');",
+        "};",
+        "",
+        "Mautic.leadImportOnLoad = function (container, response) {",
+        "    if (!mQuery('#leadImportProgress').length) {"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/LeadBundle/Assets/js/lead.js",
+      "line": 1284,
+      "context": [
+        "    Mautic.ajaxActionRequest('lead:removeBounceStatus', {'id': dncId, 'channel': channel}, function() {",
+        "        mQuery('#bounceLabel' + dncId).tooltip('destroy');",
+        "        mQuery('#bounceLabel' + dncId).fadeOut(300, function() { mQuery(this).remove(); });",
+        "    });",
+        "};",
+        ""
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/LeadBundle/Assets/js/lead.js",
+      "line": 1553,
+      "context": [
+        "",
+        "    mQuery('#MauticSharedModal').modal('hide');",
+        "",
+        "    return false;",
+        "};",
+        ""
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/LeadBundle/Assets/js/lead.js",
+      "line": 1563,
+      "context": [
+        "        mQuery('body').removeClass('noscroll modal-open');",
+        "        mQuery(modalTarget).modal('hide');",
+        "        mQuery('.modal-backdrop').remove();",
+        "    }",
+        "",
+        "    Mautic.loadContent(globalThis.location.href);"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/PluginBundle/Assets/js/plugin.js",
+      "line": 85,
+      "context": [
+        "    }",
+        "    mQuery('[data-toggle=\"tooltip\"]').tooltip();",
+        "};",
+        "",
+        "Mautic.integrationConfigOnLoad = function(container) {",
+        "    if (mQuery('.fields-container select.integration-field').length) {"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/PointBundle/Assets/js/point.js",
+      "line": 54,
+      "context": [
+        "        //initialize tooltips",
+        "        mQuery(eventId + \" *[data-toggle='tooltip']\").tooltip({html: true});",
+        "",
+        "        //activate new stuff",
+        "        mQuery(eventId + \" a[data-toggle='ajax']\").click(function (event) {",
+        "            event.preventDefault();"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/ReportBundle/Assets/js/report.js",
+      "line": 167,
+      "context": [
+        "    Mautic.activateChosenSelect(mQuery('#' + elId + '_' + index + '_column'));",
+        "    mQuery(\"#\" + elId + \" *[data-toggle='tooltip']\").tooltip({html: true, container: 'body'});",
+        "",
+        "};",
+        "",
+        "Mautic.updateReportGlueTriggers = function () {"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/ReportBundle/Assets/js/report.js",
+      "line": 313,
+      "context": [
+        "            .attr('title', '...') // Set a placeholder title, to be replaced later",
+        "            .tooltip({ trigger: 'manual' });",
+        "",
+        "        inputElement.on('focus', function () {",
+        "            const currentOperator = mQuery('#report_filters_' + idParts[2] + '_condition').val();",
+        "            const currentFilterType = mQuery(this).data('filter-type');"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/ReportBundle/Assets/js/report.js",
+      "line": 325,
+      "context": [
+        "                }",
+        "                mQuery(this).attr('title', message).tooltip('fixTitle').tooltip('show');",
+        "            }",
+        "        }).on('blur', function () {",
+        "            mQuery(this).tooltip('hide');",
+        "        });"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/ReportBundle/Assets/js/report.js",
+      "line": 328,
+      "context": [
+        "        }).on('blur', function () {",
+        "            mQuery(this).tooltip('hide');",
+        "        });",
+        "",
+        "        inputElement.data('utc-tooltip-initialized', true);",
+        "    }"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/ReportBundle/Assets/js/report.js",
+      "line": 336,
+      "context": [
+        "Mautic.removeReportRow = function (container) {",
+        "    mQuery(\"#\" + container + \" *[data-toggle='tooltip']\").tooltip('destroy');",
+        "    mQuery('#' + container).remove();",
+        "};",
+        "",
+        "Mautic.updateReportSourceData = function (context) {"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/ReportBundle/Assets/js/report.js",
+      "line": 481,
+      "context": [
+        "    // Reinitialize tooltips",
+        "    newContainer.find(\"*[data-toggle='tooltip']\").tooltip({ html: true, container: 'body' });",
+        "};"
+      ],
+      "kind": "tooltip",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_tooltip_lifecycle_destroy_and_reinit",
+        "test_tooltip_consumer_title_refresh_and_legacy_options",
+        "test_dynamic_tooltip_focus_hover_delay_title_callback"
+      ],
+      "limitations": []
+    },
+    {
+      "path": "app/bundles/UserBundle/Assets/js/user.js",
+      "line": 13,
+      "context": [
+        "        if (mQuery('#InviteUserModal').data('auto-open')) {",
+        "            mQuery('#InviteUserModal').modal('show');",
+        "        }",
+        "    }",
+        "",
+        "    /**"
+      ],
+      "kind": "modal",
+      "coverage": "representative contract only, not full route execution",
+      "tests": [
+        "test_modal_init_lifecycle_chainability",
+        "test_modal_cancellation_bridge",
+        "test_modal_dynamic_legacy_data_api_focus_restore"
+      ],
+      "limitations": []
+    }
+  ],
+  "recordCount": 102,
+  "fileCount": 18
+}

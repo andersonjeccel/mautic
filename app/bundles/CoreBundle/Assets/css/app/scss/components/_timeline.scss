@@ -21,7 +21,7 @@
   }
 
   // panel
-  .panel {
+  .card {
     position: relative;
     z-index: 1;
     padding: var(--spacing-03) var(--spacing-04);
@@ -62,7 +62,7 @@
     padding-top: 2px;
     padding-bottom: 2px;
     text-align: center;
-    color: $brand-primary;
+    color: $primary;
   }
 
   // Events
@@ -108,7 +108,7 @@
       margin-right: auto;
 
       // panel
-      > .panel {
+      > .card {
         &:after,
         &:before {
           display: none;
@@ -136,7 +136,7 @@
         margin-top: -30px;
 
         // wrapper - panel
-        > .panel {
+        > .card {
           z-index: 5;
 
           // panel - arrow
@@ -170,7 +170,7 @@
 
         // wrapper - panel
         // -----------------------------------
-        > .panel {
+        > .card {
           z-index: 5;
 
           // panel - arrow
@@ -277,7 +277,7 @@
           margin-top: 48px;
 
           // wrapper - panel
-          > .panel {
+          > .card {
             &:after,
             &:before {
               display: none;

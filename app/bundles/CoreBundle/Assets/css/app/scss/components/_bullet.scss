@@ -8,10 +8,10 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: $gray-light;
+  background-color: $gray-600;
 
   // contextual
-  &.bullet-primary { background-color: $brand-primary; }
+  &.bullet-primary { background-color: $primary; }
   &.bullet-success { background-color: $brand-success; }
   &.bullet-info { background-color: $brand-info; }
   &.bullet-warning { background-color: $brand-warning; }

@@ -2,7 +2,55 @@
 // Pagination (multiple pages)
 // --------------------------------------------------
 
-.pagination,
-.pager {
+.pagination {
+  display: inline-block;
   margin: 0 0 15px 0;
+
+  > li {
+    display: inline;
+
+    > a,
+    > span {
+      position: relative;
+      float: left;
+      padding: 6px 12px;
+      margin-left: -1px;
+      line-height: 1.3856;
+      color: $pagination-color;
+      text-decoration: none;
+      background-color: $pagination-bg;
+      border: 1px solid $pagination-border-color;
+    }
+
+    &:first-child > a,
+    &:first-child > span {
+      margin-left: 0;
+    }
+  }
+
+  > .active > a,
+  > .active > span {
+    color: $pagination-active-color;
+    background-color: $pagination-active-bg;
+    border-color: $pagination-active-border-color;
+  }
+
+  > .disabled > a,
+  > .disabled > span {
+    color: $pagination-disabled-color;
+    cursor: not-allowed;
+    background-color: $pagination-disabled-bg;
+    border-color: $pagination-disabled-border-color;
+  }
+}
+
+.pagination-sm {
+  > li {
+    > a,
+    > span {
+      padding: 5px 10px;
+      font-size: 12px;
+      line-height: 1.456;
+    }
+  }
 }

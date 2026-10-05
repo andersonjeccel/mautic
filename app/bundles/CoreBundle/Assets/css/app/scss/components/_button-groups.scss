@@ -8,8 +8,18 @@
   .btn ~ .btn-group,
   .btn-group ~ .btn,
   .btn-group ~ .btn-group {
-    margin-left: 1px;
+    margin-left: 1px !important;
   }
+}
+
+// Mautic's empty-list toolbar keeps its screen-reader-only button group in
+// the inline flow. Bootstrap 5 makes `.sr-only` absolute and `.btn-group`
+// flex, removing one line of reserved space and pulling empty-state content
+// upward on mobile.
+.btn-group.sr-only {
+  position: relative;
+  display: inline-block;
+  white-space: normal;
 }
 
 // The clickable button for toggling the menu

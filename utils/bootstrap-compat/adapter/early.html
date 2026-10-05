@@ -1,0 +1,15 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Parser-time install contract</title>
+<script src="/node_modules/jquery/dist/jquery.js"></script>
+<script src="../toolchain/node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+<script src="adapter.js"></script>
+<script>
+window.mQuery=jQuery;
+window.stateAtInstall=document.readyState;
+window.bodyAtInstall=Boolean(document.body);
+window.nativePluginAtInstall=jQuery.fn.modal;
+window.installationPromise=Bootstrap3Compat.install(mQuery,bootstrap);
+window.immediatePluginsAtInstall={modal:typeof jQuery.fn.modal,tooltip:typeof jQuery.fn.tooltip,popover:typeof jQuery.fn.popover};
+window.fixtureReady=window.installationPromise.then(()=>({baseline:false,version:bootstrap.Modal.VERSION}));
+</script></head><body>
+<div id="modal" class="modal" tabindex="-1"><div class="modal-dialog"><div class="modal-content">Modal</div></div></div>
+</body></html>

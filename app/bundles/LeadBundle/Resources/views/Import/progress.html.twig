@@ -69,10 +69,10 @@ Variables
         <div class="row">
             <div class="panel">
             <div class="panel-heading mt-sm">
-                <div class="progress mt-lg" style="height:4px;">
+                <div class="progress mt-lg" role="progressbar" aria-valuenow="{{ progress.done }}" aria-valuemin="0"
+                    aria-valuemax="{{ progress.total }}" style="height:4px;">
                     <div class="progress-bar-import progress-bar {% if not complete %}active{% endif %} bg-{% if complete %}success{% endif %}"
-                        role="progressbar" aria-valuenow="{{ progress.done }}" aria-valuemin="0"
-                        aria-valuemax="{{ progress.total }}" style="width: {{ percent }}%; height: 4px;"><span
+                        style="width: {{ percent }}%; height: 4px;"><span
                             class="sr-only">{{ percent }}%</span>
                     </div>
                 </div>

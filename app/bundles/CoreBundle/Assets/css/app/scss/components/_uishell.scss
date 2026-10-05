@@ -68,12 +68,12 @@
     margin-block-start: 0
 }
 
-.header__action>svg.navigation-menu-panel-collapse-icon,
+.header__action>svg.navigation-menu-collapse-icon,
 .header__action--active>svg.navigation-menu-panel-expand-icon {
     display: none
 }
 
-.header__action--active>svg.navigation-menu-panel-collapse-icon {
+.header__action--active>svg.navigation-menu-collapse-icon {
     display: inline
 }
 
