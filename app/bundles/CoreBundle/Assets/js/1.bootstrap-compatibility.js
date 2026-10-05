@@ -109,6 +109,32 @@
         copyCollapseParent(element);
     }
 
+    function normalizeLegacyStateClasses(container) {
+        var elements = [];
+
+        if (container.matches && container.matches('.collapse.in, .tab-pane.in.active, .modal.in, .dropdown.open, .active > [data-toggle="tab"]')) {
+            elements.push(container);
+        }
+        container.querySelectorAll('.collapse.in, .tab-pane.in.active, .modal.in, .dropdown.open, .active > [data-toggle="tab"]').forEach(function (element) {
+            elements.push(element);
+        });
+
+        elements.forEach(function (element) {
+            if (element.matches('.collapse.in, .tab-pane.in.active, .modal.in')) {
+                element.classList.add('show');
+            }
+            if (element.matches('.active > [data-toggle="tab"]')) {
+                element.classList.add('active');
+                element.setAttribute('aria-selected', 'true');
+            }
+            if (element.matches('.dropdown.open')) {
+                element.querySelectorAll(':scope > .dropdown-menu').forEach(function (menu) {
+                    menu.classList.add('show');
+                });
+            }
+        });
+    }
+
     function mirrorLegacyMarkup(container) {
         if (!container || !container.querySelectorAll) {
             return;
@@ -119,6 +145,61 @@
         }
 
         container.querySelectorAll(selector).forEach(mirrorBootstrapAttributes);
+        normalizeLegacyStateClasses(container);
+    }
+
+    function installLegacyStateEvents() {
+        document.addEventListener('shown.bs.collapse', function (event) {
+            event.target.classList.add('in');
+        });
+        document.addEventListener('hidden.bs.collapse', function (event) {
+            event.target.classList.remove('in');
+        });
+        document.addEventListener('shown.bs.modal', function (event) {
+            event.target.classList.add('in');
+        });
+        document.addEventListener('hidden.bs.modal', function (event) {
+            event.target.classList.remove('in');
+        });
+        document.addEventListener('shown.bs.dropdown', function (event) {
+            event.target.closest('.dropdown')?.classList.add('open');
+        });
+        document.addEventListener('hidden.bs.dropdown', function (event) {
+            event.target.closest('.dropdown')?.classList.remove('open');
+        });
+        document.addEventListener('show.bs.tab', function (event) {
+            var group = event.target.closest('.list-group, .nav, [role="tablist"]');
+
+            group?.querySelectorAll('[data-toggle="tab"].active, [data-bs-toggle="tab"].active').forEach(function (trigger) {
+                if (trigger === event.target) {
+                    return;
+                }
+
+                var selector = getTargetSelector(trigger);
+                var panel = selector && document.querySelector(selector);
+
+                trigger.classList.remove('active');
+                trigger.parentElement?.classList.remove('active');
+                trigger.setAttribute('aria-selected', 'false');
+                trigger.setAttribute('aria-expanded', 'false');
+                panel?.classList.remove('active', 'in', 'show');
+            });
+        });
+        document.addEventListener('shown.bs.tab', function (event) {
+            var currentItem = event.target.parentElement;
+            var previousItem = event.relatedTarget && event.relatedTarget.parentElement;
+            var currentSelector = getTargetSelector(event.target);
+            var currentPanel = currentSelector && document.querySelector(currentSelector);
+            var previousSelector = event.relatedTarget && getTargetSelector(event.relatedTarget);
+            var previousPanel = previousSelector && document.querySelector(previousSelector);
+
+            currentItem?.classList.add('active');
+            previousItem?.classList.remove('active');
+            currentPanel?.classList.add('in');
+            previousPanel?.classList.remove('in');
+            event.target.setAttribute('aria-expanded', 'true');
+            event.relatedTarget?.setAttribute('aria-expanded', 'false');
+        });
     }
 
     function disposeOverlayWhenHidden(element, instance, pluginName) {
@@ -220,6 +301,7 @@
 
     window.MauticBootstrapCompatibility = compatibility;
     mirrorLegacyMarkup(document);
+    installLegacyStateEvents();
     observeMarkupChanges();
 
     document.addEventListener('DOMContentLoaded', function () {

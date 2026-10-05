@@ -1,5 +1,15 @@
 @use 'sass:math';
 
+@font-face {
+  font-family: 'Glyphicons Halflings';
+  src: url('libraries/bootstrap/glyphicons-halflings-regular.eot');
+  src: url('libraries/bootstrap/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),
+       url('libraries/bootstrap/glyphicons-halflings-regular.woff2') format('woff2'),
+       url('libraries/bootstrap/glyphicons-halflings-regular.woff') format('woff'),
+       url('libraries/bootstrap/glyphicons-halflings-regular.ttf') format('truetype'),
+       url('libraries/bootstrap/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+
 // Bootstrap 3 class aliases kept for plugins that still render old markup.
 
 $btn-default-color: $btn-secondary-color !default;
@@ -232,8 +242,15 @@ $table-condensed-cell-padding: $table-cell-padding-sm !default;
 }
 
 .dropdown-menu-right {
+  --bs-position: end;
   right: 0;
   left: auto;
+}
+
+.dropdown-menu-left {
+  --bs-position: start;
+  right: auto;
+  left: 0;
 }
 
 .navbar-nav .dropdown-menu {

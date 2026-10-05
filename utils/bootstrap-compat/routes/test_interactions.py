@@ -208,10 +208,13 @@ class AuthenticatedRouteInteractions(unittest.TestCase):
                     'const menu = toggle.parentElement.querySelector(".dropdown-menu"); '
                     'if (!menu) return null; const rect = menu.getBoundingClientRect(); '
                     'return rect.width > 0 && rect.height > 0 '
-                    '? {expanded: toggle.getAttribute("aria-expanded"), menu: menu.className} : null;',
+                    '? {expanded: toggle.getAttribute("aria-expanded"), menu: menu.className, '
+                    'left: rect.left, right: rect.right, viewport: window.innerWidth} : null;',
                     message='shared admin dropdown',
                 )
                 self.assertEqual('true', state['expanded'])
+                self.assertGreaterEqual(state['left'], 0)
+                self.assertLessEqual(state['right'], state['viewport'])
 
     def test_local_list_dropdown_opens(self):
         for variant in VARIANTS:
@@ -355,6 +358,26 @@ class AuthenticatedRouteInteractions(unittest.TestCase):
                     'return rect.right <= 0;',
                     message='mobile sidebar closed',
                 )
+
+    def test_sidebar_submenu_opens_and_closes_on_repeated_click(self):
+        self.load('dashboard', INTERACTION_RUNTIME)
+        selector = '#mautic_components_root'
+        target = '#mautic_components_root_child'
+
+        self.trusted_click(selector)
+        self.poll(
+            'const panel = document.querySelector(arguments[0]); '
+            'return panel.classList.contains("show") && panel.getBoundingClientRect().height > 0;',
+            [target],
+            message='sidebar submenu open',
+        )
+        self.trusted_click(selector)
+        self.poll(
+            'const panel = document.querySelector(arguments[0]); '
+            'return !panel.classList.contains("show") && panel.getBoundingClientRect().height === 0;',
+            [target],
+            message='sidebar submenu closed',
+        )
 
 
 if __name__ == '__main__':

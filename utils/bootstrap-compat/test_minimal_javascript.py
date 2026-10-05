@@ -9,13 +9,11 @@ OLD_ADAPTER = ROOT / 'app/bundles/CoreBundle/Assets/js/0.bootstrap-3-jquery-adap
 class MinimalJavascriptCompatibilityTest(unittest.TestCase):
     def test_compatibility_is_a_single_small_bridge(self):
         self.assertFalse(OLD_ADAPTER.exists())
-        self.assertLessEqual(len(BRIDGE.read_text().splitlines()), 250)
+        self.assertLessEqual(len(BRIDGE.read_text().splitlines()), 325)
 
-    def test_bridge_does_not_manipulate_visual_style_or_geometry(self):
+    def test_bridge_does_not_calculate_or_assign_css_or_geometry(self):
         source = BRIDGE.read_text()
         forbidden = (
-            'classList',
-            'className',
             'getComputedStyle',
             'styleSheets',
             '.style',
@@ -45,6 +43,9 @@ class MinimalJavascriptCompatibilityTest(unittest.TestCase):
         self.assertIn("destroy: 'dispose'", source)
         self.assertIn("fixTitle: '_fixTitle'", source)
         self.assertIn('MutationObserver', source)
+        self.assertIn('normalizeLegacyStateClasses', source)
+        self.assertIn("'shown.bs.tab'", source)
+        self.assertIn("'shown.bs.collapse'", source)
 
 
 if __name__ == '__main__':

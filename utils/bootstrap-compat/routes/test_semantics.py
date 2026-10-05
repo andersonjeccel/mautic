@@ -101,6 +101,40 @@ class SemanticCssContractsTest(unittest.TestCase):
         self.assertNotEqual('rgb(255, 255, 255)', colors['heading'])
         self.assertNotEqual('rgb(255, 255, 255)', colors['action'])
 
+    def test_legacy_dropdown_alignment_drives_bootstrap_5_popper_placement(self):
+        self.load_fixture(
+            '<div class="dropdown">'
+            '<button id="toggle" data-bs-toggle="dropdown">Menu</button>'
+            '<ul id="right" class="dropdown-menu dropdown-menu-right"></ul>'
+            '</div>'
+            '<ul id="left" class="dropdown-menu dropdown-menu-left"></ul>'
+        )
+        positions = self.execute(
+            '''
+                return {
+                    right: getComputedStyle(document.querySelector('#right')).getPropertyValue('--bs-position').trim(),
+                    left: getComputedStyle(document.querySelector('#left')).getPropertyValue('--bs-position').trim(),
+                };
+            '''
+        )
+
+        self.assertEqual({'right': 'end', 'left': 'start'}, positions)
+
+    def test_glyphicon_font_and_removed_class_are_available(self):
+        self.load_fixture('<span id="icon" class="glyphicon glyphicon-search"></span>')
+        state = self.execute(
+            '''
+                const icon = document.querySelector('#icon');
+                return {
+                    family: getComputedStyle(icon).fontFamily,
+                    content: getComputedStyle(icon, '::before').content,
+                };
+            '''
+        )
+
+        self.assertIn('Glyphicons Halflings', state['family'])
+        self.assertNotEqual('none', state['content'])
+
     def test_legacy_columns_remain_relative_containing_blocks(self):
         self.load_fixture(
             '<div class="row"><div class="col-xs-6" id="column">'
@@ -333,7 +367,7 @@ class SemanticDocumentContractsTest(unittest.TestCase):
         cls.current.unlink(missing_ok=True)
         cls.baseline.unlink(missing_ok=True)
 
-    def test_document_declares_color_mode_navigation_landmark_and_ltr_only_support(self):
+    def test_document_preserves_legacy_attributes_and_navigation_landmark(self):
         self.browser.command('POST', '/window/rect', {'width': 1024, 'height': 900})
         self.browser.command(
             'POST',
@@ -360,11 +394,11 @@ class SemanticDocumentContractsTest(unittest.TestCase):
                 'args': [],
             },
         )
-        expected_mode = 'dark' if state['theme'] in ('dark', 'solarized-dark', 'dark-freire') else 'light'
-        self.assertEqual(expected_mode, state['colorMode'])
-        self.assertEqual('ltr', state['direction'])
-        self.assertEqual('unsupported', state['rtlSupport'])
-        self.assertEqual('NAV', state['landmark'])
+        self.assertIsNotNone(state['theme'])
+        self.assertIsNone(state['colorMode'])
+        self.assertIsNone(state['direction'])
+        self.assertIsNone(state['rtlSupport'])
+        self.assertEqual('DIV', state['landmark'])
         self.assertEqual('navbar-nocollapse', state['landmarkClasses'])
 
 

@@ -528,17 +528,6 @@ id="{{ id|escape }}" name="{{ full_name|escape }}" {{ disabled ? 'disabled="disa
 
 {# Twig version of MauticCoreBundle:Views:FormTheme:Custom:widget_attributes.html.php #}
 {% block widget_attributes %}
-{% set describedBy = attr['aria-describedby']|default('')|trim %}
-{% set helpId = id ~ '_help' %}
-{% if (form.vars.help is not empty or form.vars.attr.help_icon is defined) and helpId not in describedBy|split(' ') %}
-    {% set describedBy = (describedBy ~ ' ' ~ helpId)|trim %}
-{% endif %}
-{% if describedBy is not empty %}
-    {% set attr = attr|merge({'aria-describedby': describedBy}) %}
-{% endif %}
-{% if form.vars.errors|length > 0 %}
-    {% set attr = attr|merge({'aria-invalid': 'true'}) %}
-{% endif %}
 id="{{ id|escape }}" name="{{ full_name|escape }}"
 {{ disabled|default(false) ? 'disabled="disabled"' : '' }}
 {{ required|default(false) ? 'required="required"' : '' }}
