@@ -5,10 +5,10 @@ const path = require('path');
 const postcss = require('./toolchain/node_modules/postcss');
 const selectorParser = require('./toolchain/node_modules/postcss-selector-parser');
 
-const [bootstrap3Path, bootstrap4Path, currentPath, outputPath, reportPath] = process.argv.slice(2);
+const [bootstrap3Path, currentPath, outputPath, reportPath] = process.argv.slice(2);
 
 if (!reportPath) {
-    console.error('Usage: generate_legacy_classes.js <bootstrap-3.css> <bootstrap-4.css> <current.css> <output.scss> <report.json>');
+    console.error('Usage: generate_legacy_classes.js <bootstrap-3.css> <current.css> <output.scss> <report.json>');
     process.exit(1);
 }
 
@@ -101,20 +101,14 @@ function filteredRoot(source, wanted, label) {
 }
 
 const bootstrap3 = parseCss(bootstrap3Path);
-const bootstrap4 = parseCss(bootstrap4Path);
 const current = parseCss(currentPath);
 const bootstrap3Classes = allClasses(bootstrap3);
-const bootstrap4Classes = allClasses(bootstrap4);
 const currentClasses = allClasses(current);
 const removedBootstrap3 = new Set([...bootstrap3Classes].filter((name) => !currentClasses.has(name)));
-const removedBootstrap4Only = new Set(
-    [...bootstrap4Classes].filter((name) => !currentClasses.has(name) && !bootstrap3Classes.has(name)),
-);
 const output = postcss.root();
 
-output.append(postcss.comment({text: 'Generated from Bootstrap 3.4.1 and 4.6.2. Do not edit manually.'}));
+output.append(postcss.comment({text: 'Generated from Bootstrap 3.4.1. Do not edit manually.'}));
 output.append(filteredRoot(bootstrap3, removedBootstrap3, 'Bootstrap 3.4.1'));
-output.append(filteredRoot(bootstrap4, removedBootstrap4Only, 'Bootstrap 4.6.2-only'));
 
 fs.mkdirSync(path.dirname(outputPath), {recursive: true});
 fs.mkdirSync(path.dirname(reportPath), {recursive: true});
@@ -122,12 +116,9 @@ fs.writeFileSync(outputPath, `${output.toString()}\n`);
 fs.writeFileSync(reportPath, `${JSON.stringify({
     bootstrap3RemovedClasses: [...removedBootstrap3].sort(),
     bootstrap3Version: '3.4.1',
-    bootstrap4OnlyRemovedClasses: [...removedBootstrap4Only].sort(),
-    bootstrap4Version: '4.6.2',
 }, null, 2)}\n`);
 
 console.log(JSON.stringify({
     bootstrap3RemovedClasses: removedBootstrap3.size,
-    bootstrap4OnlyRemovedClasses: removedBootstrap4Only.size,
     outputBytes: fs.statSync(outputPath).size,
 }));

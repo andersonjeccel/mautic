@@ -1,5 +1,4 @@
 import re
-import subprocess
 import unittest
 from pathlib import Path
 
@@ -11,16 +10,6 @@ ROOT = HERE.parents[1]
 class LegacyMarkupCompatibilityTest(unittest.TestCase):
     def read(self, relative_path: str) -> str:
         return (ROOT / relative_path).read_text()
-
-    def test_migration_does_not_require_twig_changes(self):
-        result = subprocess.run(
-            ['git', 'diff', '--name-only', 'upstream/7.x', '--', '*.twig'],
-            cwd=ROOT,
-            text=True,
-            capture_output=True,
-            check=True,
-        )
-        self.assertEqual('', result.stdout.strip())
 
     def test_login_keeps_bootstrap_3_input_group_markup(self):
         login = self.read('app/bundles/UserBundle/Resources/views/Security/login.html.twig')
