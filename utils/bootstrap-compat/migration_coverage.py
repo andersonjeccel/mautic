@@ -75,8 +75,7 @@ CSS_CONTRACTS = {
 }
 
 BRIDGE = 'app/bundles/CoreBundle/Assets/js/1.bootstrap-compatibility.js'
-BOOTSTRAP3_SOURCE = 'utils/bootstrap-compat/adapter/baseline/bootstrap-sass/bootstrap.js'
-BOOTSTRAP3_SHA256 = 'dbd2a35e72edc7d6bde483481a912f1c38aa57fab2747d9b071d317339ee03a2'
+ROUTER_SOURCE = 'utils/bootstrap-compat/adapter/adapter.js'
 BRIDGE_TESTS = 'utils/bootstrap-compat/test_minimal_javascript.py'
 DIFFERENTIAL_TESTS = 'utils/bootstrap-compat/adapter/test_adapter.py'
 INTERACTION_TESTS = 'utils/bootstrap-compat/routes/test_interactions.py'
@@ -84,62 +83,62 @@ INTERACTION_TESTS = 'utils/bootstrap-compat/routes/test_interactions.py'
 JS_DIFFERENTIAL_CONTRACTS = {
     'collapse': {
         'methods': {
-            'hide': 'test_production_collapse_jquery_methods_match_legacy',
-            'show': 'test_production_collapse_jquery_methods_match_legacy',
+            'hide': 'test_collapse_dropdown_tab_and_button_use_native_instances',
+            'show': 'test_collapse_dropdown_tab_and_button_use_native_instances',
         },
         'options': {},
     },
     'modal': {
         'methods': {
-            'hide': 'test_modal_init_lifecycle_chainability',
-            'init': 'test_modal_init_lifecycle_chainability',
-            'show': 'test_modal_init_lifecycle_chainability',
+            'hide': 'test_modal_options_and_methods_are_routed_without_legacy_class_logic',
+            'init': 'test_modal_options_and_methods_are_routed_without_legacy_class_logic',
+            'show': 'test_modal_options_and_methods_are_routed_without_legacy_class_logic',
         },
         'options': {
-            'backdrop': 'test_legacy_static_backdrop_and_data_show_false',
-            'keyboard': 'test_modal_mutable_options_and_keyboard_focus',
-            'show': 'test_modal_init_lifecycle_chainability',
+            'backdrop': 'test_modal_options_and_methods_are_routed_without_legacy_class_logic',
+            'keyboard': 'test_modal_options_and_methods_are_routed_without_legacy_class_logic',
+            'show': 'test_modal_default_show_is_routed_to_bootstrap_5',
         },
     },
     'popover': {
         'methods': {
-            'hide': 'test_popover_legacy_instance_and_content_contract',
-            'init': 'test_popover_legacy_instance_and_content_contract',
+            'hide': 'test_popover_content_is_consumed_by_bootstrap_5',
+            'init': 'test_popover_content_is_consumed_by_bootstrap_5',
         },
         'options': {
-            'content': 'test_popover_legacy_instance_and_content_contract',
-            'sanitize': 'test_popover_legacy_instance_and_content_contract',
+            'content': 'test_popover_content_is_consumed_by_bootstrap_5',
+            'sanitize': 'test_popover_content_is_consumed_by_bootstrap_5',
         },
     },
     'tab': {
-        'methods': {'show': 'test_production_tab_preserves_legacy_state_and_events'},
+        'methods': {'show': 'test_collapse_dropdown_tab_and_button_use_native_instances'},
         'options': {},
     },
     'tooltip': {
         'methods': {
-            'destroy': 'test_tooltip_lifecycle_destroy_and_reinit',
-            'fixTitle': 'test_tooltip_consumer_title_refresh_and_legacy_options',
-            'hide': 'test_tooltip_lifecycle_destroy_and_reinit',
-            'init': 'test_tooltip_lifecycle_destroy_and_reinit',
-            'show': 'test_tooltip_lifecycle_destroy_and_reinit',
+            'destroy': 'test_tooltip_options_and_destroy_are_routed',
+            'fixTitle': 'test_fix_title_is_routed_through_bootstrap_5_data',
+            'hide': 'test_tooltip_options_and_destroy_are_routed',
+            'init': 'test_tooltip_options_and_destroy_are_routed',
+            'show': 'test_tooltip_options_and_destroy_are_routed',
         },
         'options': {
-            'container': 'test_tooltip_consumer_title_refresh_and_legacy_options',
-            'html': 'test_tooltip_consumer_title_refresh_and_legacy_options',
-            'placement': 'test_tooltip_consumer_title_refresh_and_legacy_options',
+            'container': 'test_tooltip_options_and_destroy_are_routed',
+            'html': 'test_tooltip_options_and_destroy_are_routed',
+            'placement': 'test_tooltip_options_and_destroy_are_routed',
         },
     },
 }
 
 DATA_TOGGLE_DIFFERENTIAL_CONTRACTS = {
-    'button': 'test_legacy_button_groups_toggle_inputs_and_active_state',
-    'buttons': 'test_legacy_button_groups_toggle_inputs_and_active_state',
-    'collapse': 'test_production_collapse_normalizes_in_show_and_lifecycle',
-    'dropdown': 'test_legacy_dropdown_data_api_matches_visible_state_and_events',
-    'modal': 'test_production_modal_data_api_keeps_legacy_adapter_ownership',
-    'popover': 'test_popover_legacy_instance_and_content_contract',
-    'tab': 'test_production_data_api_tab_prepares_legacy_active_lifecycle',
-    'tooltip': 'test_tooltip_lifecycle_destroy_and_reinit',
+    'button': 'test_collapse_dropdown_tab_and_button_use_native_instances',
+    'buttons': 'test_collapse_dropdown_tab_and_button_use_native_instances',
+    'collapse': 'test_collapse_dropdown_tab_and_button_use_native_instances',
+    'dropdown': 'test_collapse_dropdown_tab_and_button_use_native_instances',
+    'modal': 'test_legacy_data_attributes_are_mirrored_to_bootstrap_5',
+    'popover': 'test_popover_content_is_consumed_by_bootstrap_5',
+    'tab': 'test_collapse_dropdown_tab_and_button_use_native_instances',
+    'tooltip': 'test_tooltip_options_and_destroy_are_routed',
 }
 
 # This is a reviewed contract allow-list, not an owner-file substring check. A
@@ -634,7 +633,7 @@ def blocking_failures(summary: dict[str, int], strict_semantic: bool) -> int:
         + summary['dynamicJavascriptCalls']
         + summary['uncoveredDataAttributes']
         + summary.get('uncoveredDataToggleContracts', 0)
-        + summary.get('invalidLegacyJavascriptRuntime', 0)
+        + summary.get('invalidJavascriptRouter', 0)
     )
     if strict_semantic:
         failures += summary['pendingSemanticContracts']
@@ -682,11 +681,8 @@ def main() -> int:
         })
 
     bridge_bytes = (ROOT / BRIDGE).read_bytes()
-    bootstrap3_bytes = (ROOT / BOOTSTRAP3_SOURCE).read_bytes()
-    exact_legacy_runtime = (
-        hashlib.sha256(bootstrap3_bytes).hexdigest() == BOOTSTRAP3_SHA256
-        and bridge_bytes.startswith(bootstrap3_bytes.rstrip() + b'\n')
-    )
+    router_bytes = (ROOT / ROUTER_SOURCE).read_bytes()
+    exact_router = bridge_bytes == router_bytes
     bridge = bridge_bytes.decode()
     js_results = [
         javascript_plugin_result(plugin, plugin_calls[plugin], support)
@@ -697,8 +693,8 @@ def main() -> int:
     for attribute, paths in attributes.items():
         uses = sorted(set(paths))
         short = attribute.removeprefix('data-')
-        special = attribute in {'data-toggle', 'data-dismiss'}
-        status = 'unused' if not uses else ('covered' if exact_legacy_runtime or special else 'uncovered')
+        mapped_attribute = re.search(r"'" + re.escape(short) + r"'", bridge) is not None
+        status = 'unused' if not uses else ('covered' if exact_router and mapped_attribute else 'uncovered')
         attr_results.append({'attribute': attribute, 'uses': len(uses), 'sampleFiles': uses[:10], 'status': status})
 
     differential_source = (ROOT / DIFFERENTIAL_TESTS).read_text()
@@ -738,7 +734,7 @@ def main() -> int:
             'uncoveredDataToggleContracts': sum(
                 row['status'] == 'uncovered' for row in data_toggle_results
             ),
-            'invalidLegacyJavascriptRuntime': 0 if exact_legacy_runtime else 1,
+            'invalidJavascriptRouter': 0 if exact_router else 1,
             'pendingSemanticContracts': sum(row['status'] == 'pending' for row in SEMANTIC_CONTRACTS.values()),
         },
     }

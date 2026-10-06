@@ -245,10 +245,13 @@ $table-condensed-cell-padding: $table-cell-padding-sm !default;
   }
 }
 
-.dropdown-menu-right {
+.dropdown-menu-right,
+.dropdown-menu-right[data-bs-popper] {
   --bs-position: end;
+  top: 100%;
   right: 0;
   left: auto;
+  transform: none !important;
 }
 
 .dropdown-menu-left {

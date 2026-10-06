@@ -1,43 +1,28 @@
-import hashlib
+import re
 import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 BRIDGE = ROOT / 'app/bundles/CoreBundle/Assets/js/1.bootstrap-compatibility.js'
-BASELINE = ROOT / 'utils/bootstrap-compat/adapter/baseline/bootstrap-sass/bootstrap.js'
+SOURCE = ROOT / 'utils/bootstrap-compat/adapter/adapter.js'
 OLD_ADAPTER = ROOT / 'app/bundles/CoreBundle/Assets/js/0.bootstrap-3-jquery-adapter.js'
-EXPECTED_SHA256 = 'dbd2a35e72edc7d6bde483481a912f1c38aa57fab2747d9b071d317339ee03a2'
-PLUGINS = (
-    'alert',
-    'button',
-    'carousel',
-    'collapse',
-    'dropdown',
-    'modal',
-    'popover',
-    'scrollspy',
-    'tab',
-    'tooltip',
-    'affix',
-)
 
 
 class JavascriptCompatibilityBoundaryTest(unittest.TestCase):
-    def test_compatibility_has_one_generated_production_bridge(self):
+    def test_production_bridge_is_the_canonical_router(self):
         self.assertFalse(OLD_ADAPTER.exists())
-        baseline = BASELINE.read_bytes()
-        bridge = BRIDGE.read_bytes()
-        self.assertEqual(EXPECTED_SHA256, hashlib.sha256(baseline).hexdigest())
-        self.assertTrue(bridge.startswith(baseline.rstrip() + b'\n'))
+        self.assertEqual(SOURCE.read_bytes(), BRIDGE.read_bytes())
 
-    def test_custom_postlude_does_not_implement_component_behavior_or_geometry(self):
-        baseline = BASELINE.read_text().rstrip()
+    def test_router_never_manipulates_classes_styles_or_geometry(self):
         source = BRIDGE.read_text()
-        postlude = source[len(baseline):]
         forbidden = (
-            'getComputedStyle',
+            'classList',
+            '.addClass(',
+            '.removeClass(',
+            '.toggleClass(',
             '.style',
             '.css(',
+            'getComputedStyle',
             'offsetWidth',
             'offsetHeight',
             'clientWidth',
@@ -45,23 +30,34 @@ class JavascriptCompatibilityBoundaryTest(unittest.TestCase):
             'scrollWidth',
             'scrollHeight',
             'getBoundingClientRect',
-            'classList',
-            'setAttribute',
-            'removeAttribute',
-            '.on(',
+            'insertRule',
+            'cssText',
         )
         for token in forbidden:
             with self.subTest(token=token):
-                self.assertNotIn(token, postlude)
+                self.assertNotIn(token, source)
 
-    def test_bridge_exposes_the_complete_bootstrap_3_plugin_surface(self):
+    def test_dom_writes_are_limited_to_bootstrap_5_data_attributes(self):
         source = BRIDGE.read_text()
-        for plugin in PLUGINS:
+        set_attribute_calls = re.findall(r"\.setAttribute\(([^,]+),", source)
+        self.assertEqual(['bootstrapName', "'data-bs-title'"], set_attribute_calls)
+        self.assertNotIn('.removeAttribute(', source)
+
+    def test_router_translates_attributes_options_methods_and_jquery_plugins(self):
+        source = BRIDGE.read_text()
+        self.assertIn("'data-' + name, 'data-bs-' + name", source)
+        self.assertIn("return 'destroy' === method ? 'dispose' : method", source)
+        self.assertIn('normalized.boundary = normalized.viewport', source)
+        self.assertIn('BootstrapConstructor.jQueryInterface', source)
+        self.assertIn('BootstrapConstructor.getInstance', source)
+        self.assertIn("jQuery.fn[pluginName] = createJQueryRouter", source)
+        self.assertIn("version: '5.3.8-router'", source)
+        for plugin in (
+            'alert', 'button', 'carousel', 'collapse', 'dropdown', 'modal',
+            'popover', 'scrollspy', 'tab', 'tooltip',
+        ):
             with self.subTest(plugin=plugin):
-                self.assertIn(f'{plugin}:jQuery.fn.{plugin}', source)
-        self.assertIn("version: '3.4.1'", source)
-        self.assertIn(f"sourceSha256: '{EXPECTED_SHA256}'", source)
-        self.assertIn('window.MauticBootstrapCompatibility = compatibility', source)
+                self.assertRegex(source, rf"\b{plugin}: '[A-Za-z]+'")
 
 
 if __name__ == '__main__':
