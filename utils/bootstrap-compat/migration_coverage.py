@@ -76,7 +76,69 @@ CSS_CONTRACTS = {
 
 BRIDGE = 'app/bundles/CoreBundle/Assets/js/1.bootstrap-compatibility.js'
 BRIDGE_TESTS = 'utils/bootstrap-compat/test_minimal_javascript.py'
+DIFFERENTIAL_TESTS = 'utils/bootstrap-compat/adapter/test_adapter.py'
 INTERACTION_TESTS = 'utils/bootstrap-compat/routes/test_interactions.py'
+
+JS_DIFFERENTIAL_CONTRACTS = {
+    'collapse': {
+        'methods': {
+            'hide': 'test_production_collapse_jquery_methods_match_legacy',
+            'show': 'test_production_collapse_jquery_methods_match_legacy',
+        },
+        'options': {},
+    },
+    'modal': {
+        'methods': {
+            'hide': 'test_modal_init_lifecycle_chainability',
+            'init': 'test_modal_init_lifecycle_chainability',
+            'show': 'test_modal_init_lifecycle_chainability',
+        },
+        'options': {
+            'backdrop': 'test_legacy_static_backdrop_and_data_show_false',
+            'keyboard': 'test_modal_mutable_options_and_keyboard_focus',
+            'show': 'test_modal_init_lifecycle_chainability',
+        },
+    },
+    'popover': {
+        'methods': {
+            'hide': 'test_popover_legacy_instance_and_content_contract',
+            'init': 'test_popover_legacy_instance_and_content_contract',
+        },
+        'options': {
+            'content': 'test_popover_legacy_instance_and_content_contract',
+            'sanitize': 'test_popover_legacy_instance_and_content_contract',
+        },
+    },
+    'tab': {
+        'methods': {'show': 'test_production_tab_preserves_legacy_state_and_events'},
+        'options': {},
+    },
+    'tooltip': {
+        'methods': {
+            'destroy': 'test_tooltip_lifecycle_destroy_and_reinit',
+            'fixTitle': 'test_tooltip_consumer_title_refresh_and_legacy_options',
+            'hide': 'test_tooltip_lifecycle_destroy_and_reinit',
+            'init': 'test_tooltip_lifecycle_destroy_and_reinit',
+            'show': 'test_tooltip_lifecycle_destroy_and_reinit',
+        },
+        'options': {
+            'container': 'test_tooltip_consumer_title_refresh_and_legacy_options',
+            'html': 'test_tooltip_consumer_title_refresh_and_legacy_options',
+            'placement': 'test_tooltip_consumer_title_refresh_and_legacy_options',
+        },
+    },
+}
+
+DATA_TOGGLE_DIFFERENTIAL_CONTRACTS = {
+    'button': 'test_legacy_button_groups_toggle_inputs_and_active_state',
+    'buttons': 'test_legacy_button_groups_toggle_inputs_and_active_state',
+    'collapse': 'test_production_collapse_normalizes_in_show_and_lifecycle',
+    'dropdown': 'test_legacy_dropdown_data_api_matches_visible_state_and_events',
+    'modal': 'test_production_modal_data_api_keeps_legacy_adapter_ownership',
+    'popover': 'test_popover_legacy_instance_and_content_contract',
+    'tab': 'test_production_data_api_tab_prepares_legacy_active_lifecycle',
+    'tooltip': 'test_tooltip_lifecycle_destroy_and_reinit',
+}
 
 # This is a reviewed contract allow-list, not an owner-file substring check. A
 # new consumed method or option must be classified here and backed by evidence.
@@ -512,11 +574,24 @@ def javascript_plugin_result(
         unsupported_methods = sorted(set(methods) - set(support['methods']))
         unsupported_options = sorted(set(options) - set(support['options']))
 
+    differential = JS_DIFFERENTIAL_CONTRACTS.get(plugin, {'methods': {}, 'options': {}})
+    differential_source = (ROOT / DIFFERENTIAL_TESTS).read_text()
+    untested_methods = sorted(
+        method for method in methods
+        if method not in differential['methods']
+        or f"def {differential['methods'][method]}(" not in differential_source
+    )
+    untested_options = sorted(
+        option for option in options
+        if option not in differential['options']
+        or f"def {differential['options'][option]}(" not in differential_source
+    )
+
     if not calls:
         status = 'unused'
     elif support['mode'] == 'native-or-review-required':
         status = 'review-required'
-    elif dynamic_calls or unsupported_methods or unsupported_options:
+    elif dynamic_calls or unsupported_methods or unsupported_options or untested_methods or untested_options:
         status = 'uncovered'
     else:
         status = 'covered'
@@ -536,6 +611,9 @@ def javascript_plugin_result(
         'dynamicCalls': dynamic_calls,
         'unsupportedMethods': unsupported_methods,
         'unsupportedOptions': unsupported_options,
+        'untestedMethods': untested_methods,
+        'untestedOptions': untested_options,
+        'differentialTests': differential,
         'support': support,
         'status': status,
     }
@@ -553,6 +631,7 @@ def blocking_failures(summary: dict[str, int], strict_semantic: bool) -> int:
         + summary['unsupportedJavascriptContracts']
         + summary['dynamicJavascriptCalls']
         + summary['uncoveredDataAttributes']
+        + summary.get('uncoveredDataToggleContracts', 0)
     )
     if strict_semantic:
         failures += summary['pendingSemanticContracts']
@@ -568,6 +647,7 @@ def main() -> int:
     classes: dict[str, list[str]] = {}
     plugin_calls: dict[str, list[dict[str, object]]] = {name: [] for name in JS_SUPPORT_MANIFEST}
     attributes: dict[str, list[str]] = {name: [] for name in DATA_ATTRIBUTES}
+    data_toggles: dict[str, list[str]] = {name: [] for name in DATA_TOGGLE_DIFFERENTIAL_CONTRACTS}
 
     for path in files:
         relative = str(path.relative_to(ROOT))
@@ -580,6 +660,9 @@ def main() -> int:
         for attribute in DATA_ATTRIBUTES:
             if re.search(re.escape(attribute) + r'\s*=', text):
                 attributes[attribute].append(relative)
+        for toggle in re.findall(r'data-toggle\s*=\s*["\']([^"\']+)', text):
+            if toggle in data_toggles:
+                data_toggles[toggle].append(relative)
 
     css = compiled_css()
     css_results = []
@@ -610,6 +693,19 @@ def main() -> int:
         status = 'unused' if not uses else ('covered' if short in mirrored or special else 'uncovered')
         attr_results.append({'attribute': attribute, 'uses': len(uses), 'sampleFiles': uses[:10], 'status': status})
 
+    differential_source = (ROOT / DIFFERENTIAL_TESTS).read_text()
+    data_toggle_results = []
+    for toggle, test_name in DATA_TOGGLE_DIFFERENTIAL_CONTRACTS.items():
+        uses = sorted(set(data_toggles[toggle]))
+        test_exists = f'def {test_name}(' in differential_source
+        data_toggle_results.append({
+            'toggle': toggle,
+            'uses': len(uses),
+            'sampleFiles': uses[:10],
+            'differentialTest': test_name,
+            'status': 'unused' if not uses else ('covered' if test_exists else 'uncovered'),
+        })
+
     report = {
         'schemaVersion': 2,
         'officialDocs': DOCS,
@@ -618,6 +714,7 @@ def main() -> int:
         'cssContracts': css_results,
         'javascriptPlugins': js_results,
         'legacyDataAttributes': attr_results,
+        'legacyDataToggleContracts': data_toggle_results,
         'semanticContracts': SEMANTIC_CONTRACTS,
         'summary': {
             'sourceFiles': len(files),
@@ -630,6 +727,9 @@ def main() -> int:
             ),
             'dynamicJavascriptCalls': sum(len(row['dynamicCalls']) for row in js_results),
             'uncoveredDataAttributes': sum(row['status'] == 'uncovered' for row in attr_results),
+            'uncoveredDataToggleContracts': sum(
+                row['status'] == 'uncovered' for row in data_toggle_results
+            ),
             'pendingSemanticContracts': sum(row['status'] == 'pending' for row in SEMANTIC_CONTRACTS.values()),
         },
     }

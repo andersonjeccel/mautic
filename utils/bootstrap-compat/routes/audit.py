@@ -170,6 +170,50 @@ def audit(entries, viewports=None):
                             {'url': f'{APP}/utils/bootstrap-compat/routes/runtime/{path.name}'},
                         )
                         time.sleep(1.2)
+                        browser_logs = browser.command('POST', '/se/log', {'type': 'browser'})
+                        if 'current' == variant and 'desktop' == viewport['id']:
+                            runtime_contracts = browser.command(
+                                'POST',
+                                '/execute/sync',
+                                {
+                                    'script': '''
+                                        const pluginNames = ['button', 'collapse', 'dropdown', 'modal', 'popover', 'tab', 'tooltip'];
+                                        const controls = {};
+                                        const missingOwners = [];
+                                        document.querySelectorAll('[data-toggle]').forEach(element => {
+                                            const toggle = element.getAttribute('data-toggle');
+                                            const plugin = toggle === 'buttons' ? 'button' : toggle;
+                                            if (!pluginNames.includes(plugin)) return;
+                                            controls[plugin] = (controls[plugin] || 0) + 1;
+                                            if (!window.mQuery || typeof window.mQuery.fn[plugin] !== 'function') {
+                                                missingOwners.push(plugin);
+                                            }
+                                        });
+                                        return {
+                                            bridge: Boolean(window.MauticBootstrapCompatibility),
+                                            controls,
+                                            facades: Object.fromEntries(pluginNames.map(name => [name, typeof window.mQuery?.fn[name]])),
+                                            missingOwners: [...new Set(missingOwners)].sort(),
+                                        };
+                                    ''',
+                                    'args': [],
+                                },
+                            )
+                            severe_logs = [
+                                log for log in browser_logs
+                                if 'SEVERE' == log.get('level')
+                                and 'favicon.ico' not in log.get('message', '')
+                                and not (
+                                    '/s/login - Failed to load resource: net::ERR_CONNECTION_REFUSED'
+                                    in log.get('message', '')
+                                )
+                            ]
+                            record['javascript'] = {
+                                **runtime_contracts,
+                                'severeConsoleErrors': severe_logs,
+                            }
+                            if not runtime_contracts['bridge'] or runtime_contracts['missingOwners'] or severe_logs:
+                                raise RuntimeError(f'JavaScript contract failure: {record["javascript"]}')
                         image_path = RUNTIME / f'{stem}-{variant}.png'
                         browser.screenshot(image_path)
                         images[variant] = Image.open(image_path)
