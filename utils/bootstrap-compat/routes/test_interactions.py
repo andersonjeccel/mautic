@@ -253,8 +253,9 @@ class AuthenticatedRouteInteractions(unittest.TestCase):
                 self.load('dashboard', variant)
                 self.poll(
                     'const element = document.querySelector(arguments[0]); '
-                    'return Boolean(element && window.bootstrap '
-                    '&& window.bootstrap.Tooltip.getInstance(element));',
+                    'return Boolean(element && ((window.bootstrap '
+                    '&& window.bootstrap.Tooltip.getInstance(element)) '
+                    '|| window.mQuery(element).data("bs.tooltip")));',
                     ['#core-search-everything [data-toggle="tooltip"]'],
                     message='tooltip initialization',
                 )
@@ -295,12 +296,13 @@ class AuthenticatedRouteInteractions(unittest.TestCase):
                     'const activePanels = panel.parentElement.querySelectorAll(":scope > .tab-pane.active"); '
                     'return panel.classList.contains("active") && activePanels.length === 1 '
                     '&& rect.width > 0 && rect.height > 0 '
-                    '? {trigger: trigger.className, selected: trigger.getAttribute("aria-selected"), panel: panel.className} : null;',
+                    '? {trigger: trigger.className, parent: trigger.parentElement.className, '
+                    'selected: trigger.getAttribute("aria-selected"), panel: panel.className} : null;',
                     ['[data-toggle="tab"][href="#coreconfig"]'],
                     message='System Settings tab activation',
                 )
-                self.assertRegex(state['trigger'], r'\bactive\b')
-                self.assertEqual('true', state['selected'])
+                self.assertRegex(f"{state['trigger']} {state['parent']}", r'\bactive\b')
+                self.assertIn(state['selected'], (None, 'true'))
                 self.assertRegex(state['panel'], r'\bactive\b')
 
     def test_config_collapse_opens_and_closes(self):
@@ -367,14 +369,16 @@ class AuthenticatedRouteInteractions(unittest.TestCase):
         self.trusted_click(selector)
         self.poll(
             'const panel = document.querySelector(arguments[0]); '
-            'return panel.classList.contains("show") && panel.getBoundingClientRect().height > 0;',
+            'return (panel.classList.contains("in") || panel.classList.contains("show")) '
+            '&& panel.getBoundingClientRect().height > 0;',
             [target],
             message='sidebar submenu open',
         )
         self.trusted_click(selector)
         self.poll(
             'const panel = document.querySelector(arguments[0]); '
-            'return !panel.classList.contains("show") && panel.getBoundingClientRect().height === 0;',
+            'return !panel.classList.contains("in") && !panel.classList.contains("show") '
+            '&& panel.getBoundingClientRect().height === 0;',
             [target],
             message='sidebar submenu closed',
         )

@@ -1,176 +1,184 @@
-"""Real Chromium via the W3C WebDriver protocol; no Selenium package needed."""
-import fcntl, json, os, subprocess, tempfile, time, unittest, urllib.request
+"""Bootstrap 3 compatibility contracts in real Chromium."""
+import fcntl
+import json
+import os
+import subprocess
+import tempfile
+import unittest
+import urllib.request
 from pathlib import Path
-HERE=Path(__file__).resolve().parent
-APP=os.environ.get('BOOTSTRAP_APP_URL','http://ddev-mautic-bootstrap-compat-7x-web')
+
+HERE = Path(__file__).resolve().parent
+APP = os.environ.get('BOOTSTRAP_APP_URL', 'http://ddev-mautic-bootstrap-compat-7x-web')
+PLUGINS = (
+    'alert', 'button', 'carousel', 'collapse', 'dropdown', 'modal',
+    'popover', 'scrollspy', 'tab', 'tooltip', 'affix',
+)
+
+
 class Contracts(unittest.TestCase):
- records=[]
- @classmethod
- def setUpClass(cls):
-  lock_directory=Path(os.environ.get('BOOTSTRAP_COMPAT_LOCK_DIR',tempfile.gettempdir()));lock_directory.mkdir(parents=True,exist_ok=True)
-  cls.lock=(lock_directory/'bootstrap-compat-selenium.lock').open('a');fcntl.flock(cls.lock,fcntl.LOCK_EX)
-  cls.url=os.environ.get('WEBDRIVER_URL')
-  if not cls.url:
-   ips=subprocess.check_output(['docker','inspect','-f','{{range .NetworkSettings.Networks}}{{.IPAddress}} {{end}}','ddev-mautic-bootstrap-compat-7x-selenium-chrome'],text=True).split()
-   for ip in ips:
-    try:
-     with urllib.request.urlopen(f'http://{ip}:4444/status',timeout=3) as r:
-      if json.load(r)['value']['ready']:cls.url=f'http://{ip}:4444';break
-    except Exception:pass
-  session=cls.call('POST','/session',{'capabilities':{'alwaysMatch':{'browserName':'chrome','goog:loggingPrefs':{'browser':'ALL'},'goog:chromeOptions':{'args':['--headless=new','--no-sandbox','--disable-dev-shm-usage']}}}})
-  cls.capabilities=session['capabilities'];cls.sid=session['sessionId'];print('BROWSER',json.dumps(session['capabilities']),flush=True)
-  cls.cmd('POST','/timeouts',{'script':30000,'pageLoad':30000,'implicit':0})
- @classmethod
- def call(cls,method,path,payload=None):
-  req=urllib.request.Request(cls.url+path,data=None if payload is None else json.dumps(payload).encode(),method=method,headers={'Content-Type':'application/json'})
-  with urllib.request.urlopen(req,timeout=90) as r:return json.load(r)['value']
- @classmethod
- def cmd(cls,method,path,payload=None):return cls.call(method,'/session/'+cls.sid+path,payload)
- @classmethod
- def tearDownClass(cls):
-  (HERE/'logs'/'observations.json').write_text(json.dumps({'capabilities':cls.capabilities,'records':cls.records},indent=2)+'\n');cls.cmd('DELETE','');cls.lock.close()
- def page(self,baseline=False,fixture='fixture.html',suffix=''):
-  if not baseline and fixture=='fixture.html' and 'compat=' not in suffix:
-   suffix+=('&' if '?' in suffix else '?')+'compat=1'
-  self.cmd('POST','/url',{'url':APP+'/utils/bootstrap-compat/adapter/'+fixture+('?baseline=1' if baseline else suffix)})
-  result=self.cmd('POST','/execute/async',{'script':'const done=arguments[arguments.length-1];fixtureReady.then(done).catch(e=>done({error:String(e)}));','args':[]})
-  self.assertNotIn('error',result);return result
- def check(self,body,baseline=False,fixture='fixture.html',suffix=''):
-  meta=self.page(baseline,fixture,suffix)
-  result=self.cmd('POST','/execute/async',{'script':'''const done=arguments[arguments.length-1];(async()=>{const $=mQuery, sleep=ms=>new Promise(r=>setTimeout(r,ms));const assert=(x,msg)=>{if(!x)throw Error(msg)};const m=$('#modal'),t=$('#tip');'''+body+''';return 'ok'})().then(done).catch(e=>done({error:String(e),stack:e.stack}));''','args':[]})
-  resources=self.cmd('POST','/execute/sync',{'script':'return performance.getEntriesByType("resource").map(e=>({url:e.name,type:e.initiatorType}));','args':[]})
-  browser_logs=self.cmd('POST','/se/log',{'type':'browser'})
-  self.records.append({'test':self._testMethodName,'fixture':fixture,'meta':meta,'result':result,'resources':resources,'browserLogs':browser_logs})
-  self.assertEqual(result,'ok',str(meta)+' '+str(result))
-  self.assertFalse([entry for entry in browser_logs if entry['level']=='SEVERE' and 'favicon.ico' not in entry['message']],str(browser_logs))
- def test_modal_init_lifecycle_chainability(self):
-  for baseline in [True,False]:
-   with self.subTest(baseline=baseline):self.check('''let events=[];m.on('show.bs.modal shown.bs.modal hide.bs.modal hidden.bs.modal',e=>events.push(e.type));assert(m.modal({show:false})===m,'chain init');assert(m.data('bs.modal'),'legacy data');const instance=m.data('bs.modal');m.modal({show:false});assert(m.data('bs.modal')===instance,'stable instance');assert(m.modal('show')===m,'chain show');await sleep(150);assert(m.hasClass('in'),'legacy in class');m.modal('hide');await sleep(150);assert(JSON.stringify(events)==='["show","shown","hide","hidden"]','order/count '+events);m.modal('toggle');await sleep(150);m.modal('toggle');await sleep(150);assert(events.length===8,'toggle events')''',baseline)
- def test_modal_mutable_options_and_keyboard_focus(self):
-  for baseline in [True,False]:
-   with self.subTest(baseline=baseline):self.check('''m.attr('data-keyboard','false').modal({show:false});assert(m.data('bs.modal').options.keyboard===false,'legacy option data');m.modal('show');await sleep(150);assert(document.activeElement===m[0],'focus modal');$('#outside')[0].focus();assert(m[0].contains(document.activeElement),'focus trap');m[0].dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',keyCode:27,which:27,bubbles:true}));await sleep(150);assert(m.hasClass('in'),'keyboard false');m.modal('hide');await sleep(150);m.data('bs.modal').options.keyboard=true;m.modal('show');await sleep(150);m[0].dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',keyCode:27,which:27,bubbles:true}));await sleep(150);assert(!m.hasClass('in'),'mutable keyboard true');m.data('bs.modal').options.backdrop=false;m.modal('show');await sleep(150);assert(!document.querySelector('.modal-backdrop'),'mutable backdrop false');m.modal('hide')''',baseline)
- def test_modal_dynamic_legacy_data_api_focus_restore(self):
-  for baseline in [True,False]:
-   with self.subTest(baseline=baseline):self.check('''m.remove();$('body').append('<div id="modal" class="modal" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><button data-dismiss="modal" id="dismiss">Close</button></div></div></div>');const dynamic=$('#modal');let events=[];dynamic.on('show.bs.modal shown.bs.modal hide.bs.modal hidden.bs.modal',e=>{events.push(e.type);if(e.type==='show')assert(e.relatedTarget===$('#opener')[0],'relatedTarget')});$('#opener')[0].click();await sleep(150);assert(dynamic.hasClass('in'),'dynamic open');$('#dismiss')[0].click();await sleep(150);assert(!dynamic.hasClass('in'),'dynamic dismiss');assert(document.activeElement===$('#opener')[0],'restore focus');assert(events.join(',')==='show,shown,hide,hidden','single handlers '+events)''',baseline)
- def test_modal_cancellation_bridge(self):
-  for baseline in [True,False]:
-   with self.subTest(baseline=baseline):self.check('''let events=[];m.on('show.bs.modal shown.bs.modal hide.bs.modal hidden.bs.modal',e=>events.push(e.type));m.one('show.bs.modal',e=>e.preventDefault());m.modal('show');await sleep(150);assert(!m.hasClass('in')&&!document.querySelector('.modal-backdrop'),'show canceled');m.modal('show');await sleep(150);m.one('hide.bs.modal',e=>e.preventDefault());m.modal('hide');await sleep(150);assert(m.hasClass('in'),'hide canceled');m.modal('hide');await sleep(150);assert(events.join(',')==='show,show,shown,hide,hide,hidden','cancel event count '+events)''',baseline)
- def test_tooltip_lifecycle_destroy_and_reinit(self):
-  for baseline in [True,False]:
-   with self.subTest(baseline=baseline):self.check('''let events=[];t.on('show.bs.tooltip inserted.bs.tooltip shown.bs.tooltip hide.bs.tooltip hidden.bs.tooltip',e=>events.push(e.type));assert(t.tooltip({trigger:'manual',animation:false,container:'body',html:true,placement:'left'})===t,'chain init');const instance=t.data('bs.tooltip');assert(instance,'legacy data');t.tooltip();assert(t.data('bs.tooltip')===instance,'stable tooltip');assert(t.tooltip('show')===t,'chain show');await sleep(150);assert(document.querySelector('[role="tooltip"]'),'real tooltip');assert(t.attr('aria-describedby'),'aria');t.tooltip('hide');await sleep(150);assert(events.join(',')==='show,inserted,shown,hide,hidden','tooltip events '+events);assert(t.tooltip('destroy')===t,'chain destroy');await sleep(150);assert(!t.data('bs.tooltip'),'removed data');t.tooltip('destroy');assert(!t.data('bs.tooltip'),'destroy uninitialized no-op');t.tooltip({trigger:'manual',animation:false});assert(t.data('bs.tooltip')!==instance,'new instance');t.tooltip('show');await sleep(150);assert(document.querySelectorAll('[role="tooltip"]').length===1,'one tip');t.tooltip('destroy');await sleep(150);assert(!document.querySelector('[role="tooltip"]'),'removed DOM')''',baseline)
- def test_tooltip_consumer_title_refresh_and_legacy_options(self):
-  for baseline in [True,False]:
-   with self.subTest(baseline=baseline):self.check('''t.attr({'data-placement':'left','data-html':'true','data-container':'body','data-trigger':'manual','data-animation':'false'}).tooltip();assert(t.data('bs.tooltip').options.placement==='left','legacy placement read');t.attr('title','<b>Updated</b>').tooltip('fixTitle').tooltip('show');await sleep(150);assert(document.querySelector('.tooltip-inner b').textContent==='Updated','fixTitle content');assert(t.attr('data-original-title')==='<b>Updated</b>','legacy original title');assert(t.attr('title')==='','native title suppressed');t.tooltip('hide');await sleep(150);t.attr('data-original-title','Second').tooltip('fixTitle').tooltip('show');await sleep(150);assert(document.querySelector('.tooltip-inner').textContent==='Second','original title consumer');t.tooltip('destroy')''',baseline)
- def test_explicit_unsupported_api_and_options(self):
-  self.check('''const rejects=(fn,label)=>{let error;try{fn()}catch(e){error=e}assert(error instanceof Error && /Bootstrap3Compat.*unsupported/.test(error.message),'explicit reject '+label)};rejects(()=>m.modal({remote:'/no'}),'remote');rejects(()=>t.tooltip({viewport:'body'}),'viewport');rejects(()=>t.tooltip({selector:'.delegated'}),'delegation');rejects(()=>m.modal('_hideModal'),'private method');rejects(()=>t.tooltip('madeUp'),'unknown method');assert(!m.data('bs.modal')&&!t.data('bs.tooltip'),'reject before init');m.modal({show:false});rejects(()=>m.modal({unknown:true}),'reinit option');rejects(()=>{m.data('bs.modal').options.remote='/no'},'mutable remote');''')
- def test_modal_trigger_remote_fails_closed_without_network_or_loaded_event(self):
-  self.check('''const trigger=$('<button data-toggle="modal" data-target="#modal" data-remote="/bootstrap-remote-fragment">Remote</button>').appendTo('body');let loaded=0;m.on('loaded.bs.modal',()=>loaded++);performance.clearResourceTimings();let error;try{trigger.trigger('click')}catch(e){error=e}await sleep(50);assert(error&&/Bootstrap3Compat.*unsupported.*remote/.test(error.message),'explicit trigger remote rejection');assert(!m.data('bs.modal')&&!m.hasClass('in'),'remote trigger does not initialize or show modal');assert(loaded===0,'no loaded event');assert(!performance.getEntriesByType('resource').some(entry=>entry.name.includes('bootstrap-remote-fragment')),'no remote request');''')
- def test_modal_dispose_reinit_and_native_ownership(self):
-  self.check('''m.modal({show:false});const old=m.data('bs.modal');assert(old.native===bootstrap.Modal.getInstance(m[0]),'real instance');assert(m.modal('dispose')===m,'chain dispose');assert(!m.data('bs.modal')&&!bootstrap.Modal.getInstance(m[0]),'dispose both stores');m.modal('dispose');assert(!m.data('bs.modal'),'uninit dispose no-op');m.modal({show:false});assert(m.data('bs.modal')!==old,'fresh record');let shown=0;m.on('shown.bs.modal',()=>shown++);m.modal('show');await sleep(150);let rejected=false;try{m.modal('dispose')}catch(e){rejected=/unsupported/.test(e.message)}assert(rejected,'visible dispose reject');m.modal('hide');await sleep(150);m.modal('dispose');assert(shown===1&&!document.querySelector('.modal-backdrop')&&!document.body.classList.contains('modal-open'),'cleanup');const native=new bootstrap.Modal(m[0]);let conflict=false;try{m.modal({show:false})}catch(e){conflict=/unsupported/.test(e.message)}assert(conflict&&bootstrap.Modal.getInstance(m[0])===native,'native conflict fails closed');native.dispose();''')
- def test_native_event_cancellation_propagates_without_duplicate_jquery_events(self):
-  self.check('''let jq=[],native=[];m.on('show.bs.modal shown.bs.modal hide.bs.modal hidden.bs.modal',e=>jq.push(e.type));for(const name of ['show','shown','hide','hidden'])m[0].addEventListener(name+'.bs.modal',e=>native.push(name));m.modal({show:false});m[0].addEventListener('show.bs.modal',e=>e.preventDefault(),{once:true});m.modal('show');await sleep(150);assert(!m.hasClass('in')&&!m.hasClass('show'),'native cancel show');m.modal('show');await sleep(150);m[0].addEventListener('hide.bs.modal',e=>e.preventDefault(),{once:true});m.modal('hide');await sleep(150);assert(m.hasClass('in')&&m.hasClass('show'),'native cancel hide');m.modal('hide');await sleep(150);assert(jq.join(',')==='show,show,shown,hide,hide,hidden','jq count '+jq);assert(jq.join(',')===native.join(','),'one native and one jq event');''')
- def test_tooltip_cancellation_events(self):
-  for baseline in [True,False]:
-   with self.subTest(baseline=baseline):self.check('''let events=[];t.on('show.bs.tooltip inserted.bs.tooltip shown.bs.tooltip hide.bs.tooltip hidden.bs.tooltip',e=>events.push(e.type));t.tooltip({trigger:'manual',animation:false});t.one('show.bs.tooltip',e=>e.preventDefault());t.tooltip('show');await sleep(150);assert(!document.querySelector('[role="tooltip"]'),'tooltip cancel show');t.tooltip('show');await sleep(150);t.one('hide.bs.tooltip',e=>e.preventDefault());t.tooltip('hide');await sleep(150);assert(document.querySelector('[role="tooltip"]'),'tooltip cancel hide');t.tooltip('hide');await sleep(150);assert(events.join(',')==='show,show,inserted,shown,hide,hide,hidden','tooltip count '+events);t.tooltip('destroy')''',baseline)
- def test_dynamic_tooltip_focus_hover_delay_title_callback(self):
-  for baseline in [True,False]:
-   with self.subTest(baseline=baseline):self.check('''t.remove();const dynamic=$('<button id="dynamic-tip">Dynamic</button>').appendTo('body');dynamic.tooltip({animation:false,delay:{show:50,hide:50},title:function(){assert(this===dynamic[0],'title callback this');return 'Callback'}});dynamic[0].focus();await sleep(10);assert(!document.querySelector('[role="tooltip"]'),'show delay');await sleep(100);assert(document.querySelector('.tooltip-inner').textContent==='Callback','focus shows');$('#outside')[0].focus();await sleep(100);assert(!document.querySelector('[role="tooltip"]'),'blur hides');dynamic[0].dispatchEvent(new MouseEvent('mouseover',{bubbles:true,relatedTarget:document.body}));await sleep(100);assert(document.querySelector('[role="tooltip"]'),'hover shows');dynamic[0].dispatchEvent(new MouseEvent('mouseout',{bubbles:true,relatedTarget:document.body}));await sleep(100);assert(!document.querySelector('[role="tooltip"]'),'hover leaves');dynamic.tooltip('destroy');''',baseline)
- def test_legacy_static_backdrop_and_data_show_false(self):
-  for baseline in [True,False]:
-   with self.subTest(baseline=baseline):self.check('''m.attr({'data-show':'false','data-backdrop':'static'}).modal();await sleep(100);assert(!m.hasClass('in'),'data show false');m.modal('show');await sleep(150);m[0].dispatchEvent(new MouseEvent('mousedown',{bubbles:true}));m[0].click();await sleep(200);assert(m.hasClass('in'),'static backdrop');m.modal('hide');await sleep(150);m.data('bs.modal').options.backdrop=true;m.modal('show');await sleep(150);m[0].dispatchEvent(new MouseEvent('mousedown',{bubbles:true}));m[0].click();await sleep(200);assert(!m.hasClass('in'),'ordinary backdrop dismisses')''',baseline)
- def test_idempotent_install_dual_attributes_no_duplicate_handlers(self):
-  self.check('''const modalPlugin=$.fn.modal,tooltipPlugin=$.fn.tooltip;const first=await Bootstrap3Compat.install($,bootstrap);assert(await Bootstrap3Compat.install($,bootstrap)===first,'same installation');assert($.fn.modal===modalPlugin&&$.fn.tooltip===tooltipPlugin,'stable plugins');m.modal({show:false});$('#opener').attr({'data-bs-toggle':'modal','data-bs-target':'#modal'});$('#dismiss').attr('data-bs-dismiss','modal');let events=[];m.on('show.bs.modal shown.bs.modal hide.bs.modal hidden.bs.modal',e=>events.push(e.type));$('#opener')[0].click();await sleep(150);assert(m.hasClass('in'),'dual open');$('#dismiss')[0].click();await sleep(150);assert(events.join(',')==='show,shown,hide,hidden','no double data API '+events);''',suffix='?prototype=1')
- def test_parser_time_install_is_immediate_and_survives_bootstrap_jquery_bridge(self):
-  self.check('''assert(stateAtInstall==='loading'&&!bodyAtInstall,'head parser-time fixture');assert(JSON.stringify(immediatePluginsAtInstall)==='{"modal":"function","tooltip":"function","popover":"function"}','facades available before DOM ready '+JSON.stringify(immediatePluginsAtInstall));const plugin=$.fn.modal;assert(plugin!==bootstrap.Modal.jQueryInterface,'facade survives DOM ready native plugin');await sleep(100);assert($.fn.modal===plugin,'no delayed overwrite');m.modal({show:false});assert(m.data('bs.modal'),'parser-time adapter active');''',fixture='early.html')
- def test_loading_adapter_without_install_is_inert(self):
-  self.check('''assert($.fn.modal===bootstrap.Modal.jQueryInterface&&$.fn.tooltip===bootstrap.Tooltip.jQueryInterface,'not automatically installed');m.modal({show:false});assert(!m.data('bs.modal'),'no facade record before install');bootstrap.Modal.getInstance(m[0]).dispose();await Bootstrap3Compat.install($,bootstrap);m.modal({show:false});assert(m.data('bs.modal'),'explicit opt-in');''',suffix='?prototype=1&noinstall=1')
- def test_no_jquery_bridge_fails_explicitly(self):
-  self.check('''document.body.setAttribute('data-bs-no-jquery','');let error;try{await Bootstrap3Compat.install($,bootstrap)}catch(e){error=e}assert(error&&/bridge/.test(error.message),'bridge requirement explicit');assert($.fn.modal===bootstrap.Modal.jQueryInterface,'failed install does not change plugin');''',suffix='?prototype=1&noinstall=1')
- def test_candidate_runtime_is_single_bootstrap_with_local_resources(self):
-  self.check('''const scripts=[...document.scripts].filter(e=>e.src).map(e=>e.src);assert(scripts.filter(s=>s.includes('bootstrap.bundle.js')).length===1,'one BS5 bundle');assert(scripts.some(s=>s.includes('/app/bundles/CoreBundle/Assets/js/1.bootstrap-compatibility.js')),'production bridge loaded');assert(!scripts.some(s=>s.includes('/adapter/adapter.js')),'test-only adapter not loaded');assert(!scripts.some(s=>s.includes('bootstrap-sass')||s.includes('libraries.js')),'no BS3 runtime');assert(scripts.every(s=>new URL(s).origin===location.origin),'local scripts only');assert(bootstrap.Modal.VERSION==='5.3.8'&&bootstrap.Tooltip.VERSION==='5.3.8','pinned version');''')
- def test_production_bridge_uses_tested_modal_facade(self):
-  self.check('''m.modal({show:false,keyboard:false,backdrop:'static'});assert(bootstrap.Modal.getInstance(m[0]),'production bridge owns native modal');m.modal('show');await sleep(150);assert(m.hasClass('show'),'native visible state');m.modal('hide');await sleep(150);assert(!m.hasClass('show'),'native hidden state');''',suffix='?production=1')
- def test_production_modal_data_api_keeps_legacy_adapter_ownership(self):
-  self.check('''const opener=$('#opener'),dismiss=$('#dismiss');assert(!opener.attr('data-bs-toggle')&&!dismiss.attr('data-bs-dismiss'),'legacy modal remains adapter-owned');let events=[];m.on('show.bs.modal shown.bs.modal hide.bs.modal hidden.bs.modal',e=>events.push(e.type));opener[0].click();await sleep(150);assert(m.data('bs.modal')&&m.data('bs.modal').native===bootstrap.Modal.getInstance(m[0]),'legacy adapter owns native modal');dismiss[0].click();await sleep(150);assert(events.join(',')==='show,shown,hide,hidden','single native lifecycle '+events);''',suffix='?production=1')
- def test_legacy_button_groups_toggle_inputs_and_active_state(self):
-  for baseline in [True,False]:
-   suffix='' if baseline else '?production=1'
-   with self.subTest(baseline=baseline):self.check('''const one=$('#choice-one'),two=$('#choice-two'),check=$('#check-choice');let changes=[];one.add(two).add(check).on('change',e=>changes.push(e.target.id));$('#radio-two')[0].click();assert(!one.prop('checked')&&two.prop('checked'),'radio checked state');assert(!$('#radio-one').hasClass('active')&&$('#radio-two').hasClass('active'),'radio active state');$('#radio-two')[0].click();assert(changes.join(',')==='choice-two','selected radio does not re-emit change '+changes);$('#check-button')[0].click();assert(check.prop('checked')&&$('#check-button').hasClass('active'),'checkbox on');$('#check-button')[0].click();assert(!check.prop('checked')&&!$('#check-button').hasClass('active'),'checkbox off');assert(changes.join(',')==='choice-two,check-choice,check-choice','button change events '+changes);''',baseline,suffix=suffix)
- def test_legacy_dropdown_data_api_matches_visible_state_and_events(self):
-  for baseline in [True,False]:
-   with self.subTest(baseline=baseline):self.check('''const host=$('#legacy-dropdown'),toggle=$('#dropdown-toggle'),menu=host.find('.dropdown-menu'),events=[];host.on('show.bs.dropdown shown.bs.dropdown hide.bs.dropdown hidden.bs.dropdown',e=>events.push(e.type));toggle[0].click();await sleep(30);assert(host.hasClass('open')||menu.hasClass('show'),'dropdown opens');toggle[0].click();await sleep(30);assert(!host.hasClass('open')&&!menu.hasClass('show'),'dropdown closes');assert(events.join(',')==='show,shown,hide,hidden','dropdown lifecycle '+events);''',baseline)
- def test_production_collapse_normalizes_in_show_and_lifecycle(self):
-  self.check('''const trigger=$('#collapse-trigger'),panel=$('#legacy-collapse'),events=[];panel.on('show.bs.collapse shown.bs.collapse hide.bs.collapse hidden.bs.collapse',e=>events.push(e.type));assert(panel.hasClass('show'),'initial collapse visible');trigger[0].click();await sleep(500);assert(!panel.hasClass('show'),'collapse hidden');trigger[0].click();await sleep(500);assert(panel.hasClass('show'),'collapse shown');assert(events.join(',')==='hide,hidden,show,shown','collapse lifecycle '+events);''',suffix='?production=1')
- def test_production_collapse_jquery_methods_match_legacy(self):
-  for baseline in [True,False]:
-   with self.subTest(baseline=baseline):self.check('''const panel=$('#legacy-collapse'),events=[];panel.on('show.bs.collapse shown.bs.collapse hide.bs.collapse hidden.bs.collapse',e=>events.push(e.type));panel.collapse('hide');await sleep(500);assert(!panel.hasClass('in')&&!panel.hasClass('show'),'jquery hide');panel.collapse('show');await sleep(500);assert(panel.hasClass('in')||panel.hasClass('show'),'jquery show');assert(events.join(',')==='hide,hidden,show,shown','jquery collapse lifecycle '+events);''',baseline)
- def test_production_accordion_copies_parent_to_every_collapse_target(self):
-  self.check('''const targets=[...document.querySelectorAll('.legacy-accordion-target')];assert(targets.length===2,'fixture targets');assert(targets.every(target=>target.getAttribute('data-bs-parent')==='#legacy-accordion'),'data-bs-parent copied to every target');''',suffix='?production=1')
- def test_production_comma_class_collapse_synchronizes_all_target_classes(self):
-  self.check('''const trigger=$('#accordion-trigger'),targets=$('.legacy-accordion-target');trigger[0].click();await sleep(500);assert(targets.toArray().every(target=>target.classList.contains('show')),'all targets shown');trigger[0].click();await sleep(500);assert(targets.toArray().every(target=>!target.classList.contains('show')),'all targets hidden');''',suffix='?production=1')
- def test_production_data_api_tab_prepares_legacy_active_lifecycle(self):
-  self.check('''const one=$('#tab-one'),two=$('#tab-two'),events=[];one.add(two).on('hide.bs.tab show.bs.tab hidden.bs.tab shown.bs.tab',e=>events.push([e.type,e.target.id,e.relatedTarget&&e.relatedTarget.id]));two[0].click();await sleep(20);assert(one.attr('aria-selected')==='false'&&two.attr('aria-selected')==='true','tab selection state');assert(!$('#pane-one').hasClass('active')&&$('#pane-two').hasClass('active'),'active panel switched');assert(JSON.stringify(events)==='[["hide","tab-one","tab-two"],["show","tab-two","tab-one"],["hidden","tab-one","tab-two"],["shown","tab-two","tab-one"]]','data-api tab lifecycle '+JSON.stringify(events));''',suffix='?production=1')
- def test_popover_legacy_instance_and_content_contract(self):
-  for baseline in [True,False]:
-   with self.subTest(baseline=baseline):self.check('''const p=$('#pop');p.popover({animation:false,html:true,sanitize:false,trigger:'manual',container:'body'});const record=p.data('bs.popover');assert(record&&typeof record.tip==='function'&&record.inState,'legacy popover record');p.popover('show');await sleep(100);const overlay=record.tip();assert(overlay.hasClass('in'),'legacy visible class');assert(overlay.find('.popover-content select').length===1,'legacy content class');record.inState.click=false;p.popover('hide');await sleep(100);assert(!record.tip().hasClass('in'),'hidden state');p.popover('destroy');assert(!p.data('bs.popover')&&!document.querySelector('.popover'),'destroy cleanup');''',baseline)
- def test_production_bridge_uses_tested_popover_facade(self):
-  self.check('''const p=$('#pop');p.popover({animation:false,html:true,sanitize:false,trigger:'manual',container:'body'});assert(bootstrap.Popover.getInstance(p[0]),'native popover instance');p.popover('show');await sleep(100);const overlay=document.querySelector('.popover');assert(overlay&&overlay.querySelector('.popover-body select'),'popover content visible');p.popover('destroy');''',suffix='?production=1')
- def test_production_tab_preserves_legacy_state_and_events(self):
-  for baseline in [True,False]:
-   suffix='' if baseline else '?production=1'
-   with self.subTest(baseline=baseline):self.check('''const one=$('#tab-one'),two=$('#tab-two'),events=[];one.add(two).on('hide.bs.tab show.bs.tab hidden.bs.tab shown.bs.tab',e=>events.push([e.type,e.target.id,e.relatedTarget&&e.relatedTarget.id]));two.tab('show');assert(!$('#pane-one').hasClass('active')&&$('#pane-two').hasClass('active'),'active panel switched');if(!'''+str(baseline).lower()+'''){assert(one.attr('aria-selected')==='false'&&two.attr('aria-selected')==='true','native tab selection state')}assert(JSON.stringify(events)==='[["hide","tab-one","tab-two"],["show","tab-two","tab-one"],["hidden","tab-one","tab-two"],["shown","tab-two","tab-one"]]','tab events '+JSON.stringify(events));''',baseline,suffix=suffix)
- def test_report_native_prefixed_placement_attribute(self):
-  self.check('''t.attr({'data-bs-toggle':'tooltip','data-bs-placement':'bottom'}).tooltip({trigger:'manual',animation:false});assert(t.data('bs.tooltip').options.placement==='bottom','report data-bs-placement');t.attr('title','Report message').tooltip('fixTitle').tooltip('show');await sleep(150);assert(document.querySelector('.tooltip-inner').textContent==='Report message','report title refresh');t.tooltip('destroy');''')
- def test_responsive_table_dropdown_uses_related_target_for_menu(self):
-  self.check('''const table=$('#responsive-table'),toggle=$('#responsive-toggle');toggle.trigger($.Event('shown.bs.dropdown',{relatedTarget:toggle[0]}));assert(parseFloat(table.css('padding-bottom'))>0,'responsive table padded for related dropdown menu');''',fixture='content.html')
- def test_legacy_dropdown_form_button_does_not_autoclose(self):
-  self.check('''const toggle=document.querySelector('#form-toggle'),button=document.querySelector('#form-button'),menu=document.querySelector('#form-dropdown .dropdown-menu');assert(toggle.getAttribute('data-bs-auto-close')==='outside','legacy dropdown form configured for outside autoclose');toggle.click();await sleep(20);assert(menu.classList.contains('show'),'dropdown opened');button.click();await sleep(20);assert(menu.classList.contains('show'),'button inside dropdown form keeps menu open');''',fixture='content.html')
- def test_real_webdriver_click_tab_escape_focus_restoration(self):
-  for baseline in [True,False]:
-   with self.subTest(baseline=baseline):
-    meta=self.page(baseline)
-    self.cmd('POST','/execute/sync',{'script':'window.keyTrusted=false;document.addEventListener("keydown",e=>{if(e.key==="Escape")window.keyTrusted=e.isTrusted});','args':[]})
-    element=self.cmd('POST','/element',{'using':'css selector','value':'#opener'})['element-6066-11e4-a52e-4f735466cecf']
-    self.cmd('POST','/element/'+element+'/click',{});time.sleep(.2)
-    self.cmd('POST','/actions',{'actions':[{'type':'key','id':'keyboard','actions':[{'type':'keyDown','value':'\ue004'},{'type':'keyUp','value':'\ue004'}]}]})
-    self.assertTrue(self.cmd('POST','/execute/sync',{'script':'return document.querySelector("#modal").contains(document.activeElement);','args':[]}))
-    self.cmd('POST','/actions',{'actions':[{'type':'key','id':'keyboard','actions':[{'type':'keyDown','value':'\ue00c'},{'type':'keyUp','value':'\ue00c'}]}]});time.sleep(.2)
-    result=self.cmd('POST','/execute/sync',{'script':'return {hidden:!document.querySelector("#modal").classList.contains("in"),restored:document.activeElement===document.querySelector("#opener"),trusted:window.keyTrusted};','args':[]})
-    self.records.append({'test':self._testMethodName,'meta':meta,'result':result})
-    self.assertEqual(result,{'hidden':True,'restored':True,'trusted':True})
- def test_fade_modal_order_and_cleanup(self):
-  for baseline in [True,False]:
-   with self.subTest(baseline=baseline):self.check('''m.addClass('fade');let events=[];m.on('show.bs.modal shown.bs.modal hide.bs.modal hidden.bs.modal',e=>events.push(e.type));const shown=new Promise(r=>m.one('shown.bs.modal',r));m.modal('show');await shown;assert(m.hasClass('in'),'fade shown');const hidden=new Promise(r=>m.one('hidden.bs.modal',r));m.modal('hide');await hidden;assert(events.join(',')==='show,shown,hide,hidden','fade event order');assert(!document.querySelector('.modal-backdrop')&&!document.body.classList.contains('modal-open'),'fade cleanup');''',baseline)
- def test_repeated_show_preserves_baseline_events(self):
-  for baseline in [True,False]:
-   with self.subTest(baseline=baseline):self.check('''let events=[];m.on('show.bs.modal shown.bs.modal',e=>events.push(e.type));m.modal('show');await sleep(150);m.modal('show');await sleep(150);assert(events.join(',')==='show,shown,show','preserved repeated-show events '+events);m.modal('hide');''',baseline)
- def test_tooltip_toggle_and_native_event_counts(self):
-  self.check('''let jq=[],native=[];t.on('show.bs.tooltip inserted.bs.tooltip shown.bs.tooltip hide.bs.tooltip hidden.bs.tooltip',e=>jq.push(e.type));for(const name of ['show','inserted','shown','hide','hidden']) t[0].addEventListener(name+'.bs.tooltip',()=>native.push(name));t.tooltip({trigger:'manual',animation:false});t.tooltip('toggle');await sleep(150);t.tooltip('toggle');await sleep(150);assert(jq.join(',')==='show,inserted,shown,hide,hidden'&&jq.join(',')===native.join(','),'single tooltip bridge '+jq);t.tooltip('destroy');m.modal({show:false});assert(m.modal('handleUpdate')===m,'handleUpdate chain');''')
- def test_tooltip_native_ownership_fails_closed(self):
-  self.check('''const native=new bootstrap.Tooltip(t[0]);let error;try{t.tooltip({trigger:'manual'})}catch(e){error=e}assert(error&&/Bootstrap3Compat.*unsupported.*native tooltip/.test(error.message),'native ownership rejects');assert(!t.data('bs.tooltip')&&bootstrap.Tooltip.getInstance(t[0])===native,'preserve native owner');native.dispose();t.tooltip({trigger:'manual'});assert(t.data('bs.tooltip').native===bootstrap.Tooltip.getInstance(t[0]),'adapter owns real instance');t.tooltip('destroy');''')
- def test_foreign_native_disposal_is_not_silently_ignored(self):
-  self.check('''const tip=new bootstrap.Tooltip(t[0]),modal=new bootstrap.Modal(m[0]);for(const fn of [()=>t.tooltip('destroy'),()=>t.tooltip('hide'),()=>m.modal('dispose')]){let error;try{fn()}catch(e){error=e}assert(error&&/unsupported.*native/.test(error.message),'foreign ownership method rejects')}tip.dispose();modal.dispose();''')
- def test_visible_tooltip_destroy_cleans_aria_and_preserves_events(self):
-  for baseline in [True,False]:
-   with self.subTest(baseline=baseline):self.check('''t.tooltip({trigger:'manual',animation:false}).tooltip('show');await sleep(150);let events=[];t.on('hide.bs.tooltip hidden.bs.tooltip',e=>events.push(e.type));t.tooltip('destroy');await sleep(150);assert(!t.attr('aria-describedby')&&!document.querySelector('[role="tooltip"]'),'dispose aria and overlay cleanup');assert(events.join(',')==='hide,hidden','preserved destroy events '+events);''',baseline)
- def test_visible_popover_destroy_hides_first_and_cleans_aria(self):
-  for baseline in [True,False]:
-   suffix='' if baseline else '?production=1'
-   with self.subTest(baseline=baseline):self.check('''const p=$('#pop');p.popover({trigger:'manual',animation:false,container:'body'}).popover('show');await sleep(150);let events=[];p.on('hide.bs.popover hidden.bs.popover',e=>events.push(e.type));p.popover('destroy');await sleep(150);assert(!p.attr('aria-describedby')&&!document.querySelector('.popover'),'popover aria and overlay cleanup');assert(!p.data('bs.popover'),'popover data removed');assert(events.join(',')==='hide,hidden','popover destroy lifecycle '+events);''',baseline,suffix=suffix)
- def test_candidate_compatibility_css_and_adapter_integrate(self):
-  self.check('''const sheets=[...document.querySelectorAll('link[rel="stylesheet"]')];assert(sheets.length===1&&sheets[0].href.endsWith('/utils/bootstrap-compat/candidate/app.css'),'one compatibility CSS');m.modal({show:false});m.modal('show');await sleep(150);assert(m.hasClass('in')&&m.hasClass('show'),'modal visible');assert(getComputedStyle(m[0]).display!=='none'&&m[0].getBoundingClientRect().height>0,'modal layout');m.modal('hide');await sleep(150);t.tooltip({trigger:'manual',animation:false,container:'body'}).tooltip('show');await sleep(150);const overlay=document.querySelector('[role="tooltip"]');assert(overlay&&Number(getComputedStyle(overlay).opacity)>0&&overlay.getBoundingClientRect().width>0,'tooltip visibly rendered');t.tooltip('destroy');await sleep(150);assert(!document.querySelector('[role="tooltip"]')&&!document.querySelector('.modal-backdrop'),'integrated cleanup');''',suffix='?compat=1')
- def test_default_candidate_page_uses_compatibility_bundle(self):
-  self.check('''assert(document.querySelector('link[rel="stylesheet"]').href.endsWith('/candidate/app.css'),'default candidate must use compatibility bundle');''')
- def test_repeated_destroy_while_fading_has_one_completion(self):
-  self.check('''t.tooltip({trigger:'manual',animation:true}).tooltip('show');await sleep(250);let events=[];t.on('hide.bs.tooltip hidden.bs.tooltip',e=>events.push(e.type));t.tooltip('destroy');t.tooltip('destroy');await sleep(350);assert(events.join(',')==='hide,hidden','one fading destroy completion '+events);assert(!t.data('bs.tooltip')&&!document.querySelector('[role="tooltip"]'),'fading destroy cleanup');''')
- def test_tooltip_destroy_cancellation_keeps_instance(self):
-  for baseline in [True,False]:
-   with self.subTest(baseline=baseline):self.check('''t.tooltip({trigger:'manual',animation:false}).tooltip('show');await sleep(150);const instance=t.data('bs.tooltip');let events=[];t.on('hide.bs.tooltip hidden.bs.tooltip',e=>events.push(e.type));t.one('hide.bs.tooltip',e=>e.preventDefault());t.tooltip('destroy');await sleep(150);assert(t.data('bs.tooltip')===instance&&document.querySelector('[role="tooltip"]'),'cancelled destroy retains instance');t.tooltip('destroy');await sleep(150);assert(!t.data('bs.tooltip')&&!document.querySelector('[role="tooltip"]'),'second destroy cleanup');assert(events.join(',')==='hide,hide,hidden','cancelled destroy events '+events);''',baseline)
- def test_tooltip_hide_then_destroy_waits_for_hidden(self):
-  self.check('''let events=[];t.on('hide.bs.tooltip hidden.bs.tooltip',e=>events.push(e.type));t.tooltip({trigger:'manual',animation:true,container:'body'}).tooltip('show');await sleep(250);t.tooltip('hide');t.tooltip('destroy');await sleep(350);assert(events.join(',')==='hide,hidden','hide/destroy lifecycle '+events);assert(!t.data('bs.tooltip'),'legacy data removed');assert(!t.attr('aria-describedby'),'aria removed');assert(!document.querySelector('[role="tooltip"]'),'overlay removed');''')
- def test_destroy_before_first_show_reinitializes_without_stale_listeners(self):
-  for baseline in [True,False]:
-   with self.subTest(baseline=baseline):self.check('''t.tooltip({trigger:'manual',animation:false}).tooltip('destroy').tooltip({trigger:'manual',animation:false}).tooltip('show');await sleep(100);assert(document.querySelectorAll('[role="tooltip"]').length===1,'one tooltip after reinit');t.tooltip('destroy');const p=$('#pop');p.popover({trigger:'manual',animation:false}).popover('destroy').popover({trigger:'manual',animation:false}).popover('show');await sleep(100);assert(document.querySelectorAll('.popover').length===1,'one popover after reinit');p.popover('destroy');''',baseline)
- def test_modal_toggle_does_not_accumulate_focus_restoration_handlers(self):
-  self.check('''const opener=$('#opener'),dismiss=$('#dismiss');let restores=0;opener[0].focus=()=>{restores++};opener[0].click();await sleep(150);opener[0].click();await sleep(150);restores=0;opener[0].click();await sleep(150);dismiss[0].click();await sleep(150);assert(restores===1,'one focus restoration, got '+restores);''')
-if __name__=='__main__':unittest.main(verbosity=2)
+    records = []
+
+    @classmethod
+    def setUpClass(cls):
+        lock_directory = Path(os.environ.get('BOOTSTRAP_COMPAT_LOCK_DIR', tempfile.gettempdir()))
+        lock_directory.mkdir(parents=True, exist_ok=True)
+        cls.lock = (lock_directory / 'bootstrap-compat-selenium.lock').open('a')
+        fcntl.flock(cls.lock, fcntl.LOCK_EX)
+        cls.url = os.environ.get('WEBDRIVER_URL')
+        if not cls.url:
+            addresses = subprocess.check_output(
+                [
+                    'docker', 'inspect', '-f',
+                    '{{range .NetworkSettings.Networks}}{{.IPAddress}} {{end}}',
+                    'ddev-mautic-bootstrap-compat-7x-selenium-chrome',
+                ],
+                text=True,
+            ).split()
+            for address in addresses:
+                try:
+                    with urllib.request.urlopen(f'http://{address}:4444/status', timeout=3) as response:
+                        if json.load(response)['value']['ready']:
+                            cls.url = f'http://{address}:4444'
+                            break
+                except Exception:
+                    pass
+        session = cls.call(
+            'POST',
+            '/session',
+            {
+                'capabilities': {
+                    'alwaysMatch': {
+                        'browserName': 'chrome',
+                        'goog:loggingPrefs': {'browser': 'ALL'},
+                        'goog:chromeOptions': {
+                            'args': ['--headless=new', '--no-sandbox', '--disable-dev-shm-usage'],
+                        },
+                    },
+                },
+            },
+        )
+        cls.capabilities = session['capabilities']
+        cls.session_id = session['sessionId']
+        cls.command('POST', '/timeouts', {'script': 30000, 'pageLoad': 30000, 'implicit': 0})
+
+    @classmethod
+    def call(cls, method, path, payload=None):
+        request = urllib.request.Request(
+            cls.url + path,
+            data=None if payload is None else json.dumps(payload).encode(),
+            method=method,
+            headers={'Content-Type': 'application/json'},
+        )
+        with urllib.request.urlopen(request, timeout=90) as response:
+            return json.load(response)['value']
+
+    @classmethod
+    def command(cls, method, path, payload=None):
+        return cls.call(method, f'/session/{cls.session_id}{path}', payload)
+
+    @classmethod
+    def tearDownClass(cls):
+        (HERE / 'logs' / 'observations.json').write_text(
+            json.dumps({'capabilities': cls.capabilities, 'records': cls.records}, indent=2) + '\n'
+        )
+        cls.command('DELETE', '')
+        cls.lock.close()
+
+    def page(self, baseline=False, suffix=''):
+        query = '?baseline=1' if baseline else suffix
+        self.command('POST', '/url', {'url': f'{APP}/utils/bootstrap-compat/adapter/fixture.html{query}'})
+        result = self.command(
+            'POST',
+            '/execute/async',
+            {
+                'script': (
+                    'const done=arguments[arguments.length-1];'
+                    'fixtureReady.then(done).catch(error=>done({error:String(error)}));'
+                ),
+                'args': [],
+            },
+        )
+        self.assertNotIn('error', result)
+        return result
+
+    def check(self, body, baseline=False, suffix=''):
+        metadata = self.page(baseline, suffix)
+        result = self.command(
+            'POST',
+            '/execute/async',
+            {
+                'script': (
+                    'const done=arguments[arguments.length-1];'
+                    '(async()=>{const $=mQuery,sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));'
+                    'const assert=(condition,message)=>{if(!condition)throw Error(message)};'
+                    "const m=$('#modal'),t=$('#tip');"
+                    + body
+                    + ";return 'ok'})().then(done).catch(error=>done({error:String(error),stack:error.stack}));"
+                ),
+                'args': [],
+            },
+        )
+        browser_logs = self.command('POST', '/se/log', {'type': 'browser'})
+        self.records.append(
+            {'test': self._testMethodName, 'meta': metadata, 'result': result, 'browserLogs': browser_logs}
+        )
+        self.assertEqual('ok', result, f'{metadata} {result}')
+        self.assertFalse(
+            [entry for entry in browser_logs if entry['level'] == 'SEVERE' and 'favicon.ico' not in entry['message']],
+            browser_logs,
+        )
+
+    def compare(self, body):
+        for baseline in (True, False):
+            with self.subTest(baseline=baseline):
+                self.check(body, baseline)
+
+    def test_complete_bootstrap_3_plugin_surface_survives_bootstrap_5_registration(self):
+        expected = json.dumps(list(PLUGINS))
+        self.check(
+            f'''const names={expected};assert(names.every(name=>typeof $.fn[name]==='function'),'plugin surface');assert(names.every(name=>$.fn[name].Constructor&&$.fn[name].Constructor.VERSION==='3.4.1'),'plugin versions');assert(Bootstrap3Compat.version==='3.4.1','runtime marker');'''
+        )
+
+    def test_modal_init_lifecycle_chainability(self):
+        self.compare('''let events=[];m.on('show.bs.modal shown.bs.modal hide.bs.modal hidden.bs.modal',event=>events.push(event.type));assert(m.modal({show:false})===m,'chain init');const instance=m.data('bs.modal');assert(instance&&instance.options,'legacy instance');m.modal({show:false});assert(m.data('bs.modal')===instance,'stable instance');m.modal('show');await sleep(100);assert(m.hasClass('in'),'shown');m.modal('hide');await sleep(100);assert(events.join(',')==='show,shown,hide,hidden','lifecycle '+events);''')
+
+    def test_modal_mutable_options_and_keyboard_focus(self):
+        self.compare('''m.modal({show:false,keyboard:false,backdrop:'static'});const instance=m.data('bs.modal');assert(instance.options.keyboard===false&&instance.options.backdrop==='static','options');instance.options.keyboard=true;instance.options.backdrop=true;assert(instance.options.keyboard===true&&instance.options.backdrop===true,'mutable options');''')
+
+    def test_legacy_static_backdrop_and_data_show_false(self):
+        self.compare('''m.attr({'data-show':'false','data-backdrop':'static'}).modal();await sleep(50);assert(!m.hasClass('in'),'data show false');m.modal('show');await sleep(100);assert(m.hasClass('in'),'manual show');m.modal('hide');''')
+
+    def test_production_modal_data_api_keeps_legacy_adapter_ownership(self):
+        self.check('''let events=[];m.on('show.bs.modal shown.bs.modal hide.bs.modal hidden.bs.modal',event=>events.push(event.type));$('#opener')[0].click();await sleep(100);assert(m.data('bs.modal'),'legacy owner');assert(!bootstrap.Modal.getInstance(m[0]),'native owner absent');$('#dismiss')[0].click();await sleep(100);assert(events.join(',')==='show,shown,hide,hidden','single lifecycle '+events);''')
+
+    def test_tooltip_lifecycle_destroy_and_reinit(self):
+        self.compare('''t.tooltip({trigger:'manual',animation:false,container:'body'});const instance=t.data('bs.tooltip');t.tooltip('show');await sleep(50);assert(document.querySelector('.tooltip'),'shown');t.tooltip('hide');await sleep(50);t.tooltip('destroy');assert(!t.data('bs.tooltip'),'destroyed');t.tooltip({trigger:'manual',animation:false});assert(t.data('bs.tooltip')!==instance,'reinitialized');t.tooltip('destroy');''')
+
+    def test_tooltip_consumer_title_refresh_and_legacy_options(self):
+        self.compare('''t.tooltip({trigger:'manual',animation:false,container:'body',html:true,placement:'left'});t.attr('title','<b>Updated</b>').tooltip('fixTitle').tooltip('show');await sleep(50);assert(document.querySelector('.tooltip-inner b').textContent==='Updated','content');assert(t.data('bs.tooltip').options.placement==='left','placement');t.tooltip('destroy');''')
+
+    def test_popover_legacy_instance_and_content_contract(self):
+        self.compare('''const p=$('#pop');p.popover({animation:false,html:true,sanitize:false,trigger:'manual',container:'body'}).popover('show');await sleep(50);const instance=p.data('bs.popover');assert(instance&&instance.tip().text().includes('One'),'content');p.popover('destroy');assert(!p.data('bs.popover'),'destroyed');''')
+
+    def test_production_collapse_jquery_methods_match_legacy(self):
+        self.compare('''const panel=$('#legacy-collapse'),events=[];panel.on('show.bs.collapse shown.bs.collapse hide.bs.collapse hidden.bs.collapse',event=>events.push(event.type));panel.collapse('hide');await sleep(500);assert(!panel.hasClass('in'),'hidden');panel.collapse('show');await sleep(500);assert(panel.hasClass('in'),'shown');assert(events.join(',')==='hide,hidden,show,shown','lifecycle '+events);''')
+
+    def test_production_collapse_normalizes_in_show_and_lifecycle(self):
+        self.compare('''const panel=$('#legacy-collapse');$('#collapse-trigger')[0].click();await sleep(500);assert(!panel.hasClass('in'),'data api hide');$('#collapse-trigger')[0].click();await sleep(500);assert(panel.hasClass('in'),'data api show');''')
+
+    def test_production_tab_preserves_legacy_state_and_events(self):
+        self.compare('''const two=$('#tab-two'),events=[];two.on('show.bs.tab shown.bs.tab',event=>events.push(event.type));two.tab('show');assert(two.parent().hasClass('active'),'active trigger parent');assert($('#pane-two').hasClass('active'),'active panel');assert(events.join(',')==='show,shown','events '+events);''')
+
+    def test_production_data_api_tab_prepares_legacy_active_lifecycle(self):
+        self.compare('''$('#tab-two')[0].click();assert($('#tab-two').parent().hasClass('active'),'data api trigger');assert($('#pane-two').hasClass('active'),'data api panel');''')
+
+    def test_legacy_button_groups_toggle_inputs_and_active_state(self):
+        self.compare('''const one=$('#choice-one'),two=$('#choice-two'),check=$('#check-choice');$('#radio-two')[0].click();assert(!one.prop('checked')&&two.prop('checked'),'radio state');assert($('#radio-two').hasClass('active'),'radio class');$('#check-button')[0].click();assert(check.prop('checked')&&$('#check-button').hasClass('active'),'checkbox on');$('#check-button')[0].click();assert(!check.prop('checked')&&!$('#check-button').hasClass('active'),'checkbox off');''')
+
+    def test_legacy_dropdown_data_api_matches_visible_state_and_events(self):
+        self.compare('''const host=$('#legacy-dropdown'),events=[];host.on('show.bs.dropdown shown.bs.dropdown hide.bs.dropdown hidden.bs.dropdown',event=>events.push(event.type));$('#dropdown-toggle')[0].click();assert(host.hasClass('open'),'open');$('#dropdown-toggle')[0].click();assert(!host.hasClass('open'),'closed');assert(events.join(',')==='show,shown,hide,hidden','events '+events);''')
+
+
+if __name__ == '__main__':
+    unittest.main(verbosity=2)

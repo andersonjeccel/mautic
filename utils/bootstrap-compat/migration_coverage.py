@@ -75,6 +75,8 @@ CSS_CONTRACTS = {
 }
 
 BRIDGE = 'app/bundles/CoreBundle/Assets/js/1.bootstrap-compatibility.js'
+BOOTSTRAP3_SOURCE = 'utils/bootstrap-compat/adapter/baseline/bootstrap-sass/bootstrap.js'
+BOOTSTRAP3_SHA256 = 'dbd2a35e72edc7d6bde483481a912f1c38aa57fab2747d9b071d317339ee03a2'
 BRIDGE_TESTS = 'utils/bootstrap-compat/test_minimal_javascript.py'
 DIFFERENTIAL_TESTS = 'utils/bootstrap-compat/adapter/test_adapter.py'
 INTERACTION_TESTS = 'utils/bootstrap-compat/routes/test_interactions.py'
@@ -632,6 +634,7 @@ def blocking_failures(summary: dict[str, int], strict_semantic: bool) -> int:
         + summary['dynamicJavascriptCalls']
         + summary['uncoveredDataAttributes']
         + summary.get('uncoveredDataToggleContracts', 0)
+        + summary.get('invalidLegacyJavascriptRuntime', 0)
     )
     if strict_semantic:
         failures += summary['pendingSemanticContracts']
@@ -678,19 +681,24 @@ def main() -> int:
             'status': 'uncovered' if uncovered else ('covered' if matched else 'unused'),
         })
 
-    bridge = (ROOT / BRIDGE).read_text()
+    bridge_bytes = (ROOT / BRIDGE).read_bytes()
+    bootstrap3_bytes = (ROOT / BOOTSTRAP3_SOURCE).read_bytes()
+    exact_legacy_runtime = (
+        hashlib.sha256(bootstrap3_bytes).hexdigest() == BOOTSTRAP3_SHA256
+        and bridge_bytes.startswith(bootstrap3_bytes.rstrip() + b'\n')
+    )
+    bridge = bridge_bytes.decode()
     js_results = [
         javascript_plugin_result(plugin, plugin_calls[plugin], support)
         for plugin, support in JS_SUPPORT_MANIFEST.items()
     ]
 
-    mirrored = set(re.findall(r"'([a-z-]+)'", bridge.split('var bootstrapDataAttributes = [', 1)[1].split('];', 1)[0]))
     attr_results = []
     for attribute, paths in attributes.items():
         uses = sorted(set(paths))
         short = attribute.removeprefix('data-')
         special = attribute in {'data-toggle', 'data-dismiss'}
-        status = 'unused' if not uses else ('covered' if short in mirrored or special else 'uncovered')
+        status = 'unused' if not uses else ('covered' if exact_legacy_runtime or special else 'uncovered')
         attr_results.append({'attribute': attribute, 'uses': len(uses), 'sampleFiles': uses[:10], 'status': status})
 
     differential_source = (ROOT / DIFFERENTIAL_TESTS).read_text()
@@ -730,6 +738,7 @@ def main() -> int:
             'uncoveredDataToggleContracts': sum(
                 row['status'] == 'uncovered' for row in data_toggle_results
             ),
+            'invalidLegacyJavascriptRuntime': 0 if exact_legacy_runtime else 1,
             'pendingSemanticContracts': sum(row['status'] == 'pending' for row in SEMANTIC_CONTRACTS.values()),
         },
     }

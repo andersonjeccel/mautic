@@ -32,6 +32,6 @@ window.fixtureReady=(async()=>{
    if(window.Bootstrap3Compat && !parameters.has('noinstall')) await Bootstrap3Compat.install(mQuery,bootstrap);
   }
  }
- return {baseline,production,version:baseline?jQuery.fn.modal.Constructor.VERSION:bootstrap.Modal.VERSION};
+ return {baseline,production,version:jQuery.fn.modal.Constructor.VERSION};
 })();
 </script></body></html>

@@ -227,6 +227,10 @@ $table-condensed-cell-padding: $table-cell-padding-sm !default;
   display: none;
 }
 
+.open > .dropdown-menu {
+  display: block;
+}
+
 .dropdown-menu > li > a {
   &:hover,
   &:focus {
