@@ -31,8 +31,9 @@ final class DashboardController extends AbstractFormController
     private DashboardModel $dashboardModel;
 
     #[Required]
-    public function autowireDashboardController(DashboardModel $dashboardModel): void
-    {
+    public function autowireDashboardController(
+        DashboardModel $dashboardModel,
+    ): void {
         $this->dashboardModel = $dashboardModel;
     }
 
@@ -440,6 +441,7 @@ final class DashboardController extends AbstractFormController
                         $extension = pathinfo($fileData->getClientOriginalName(), PATHINFO_EXTENSION);
                         if ('json' === $extension) {
                             $fileData->move($directories['user'], $fileData->getClientOriginalName());
+                            $preview = pathinfo($fileData->getClientOriginalName(), PATHINFO_FILENAME);
                         } else {
                             $form->addError(
                                 new FormError(

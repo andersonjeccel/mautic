@@ -21,7 +21,7 @@ use Symfony\Contracts\Service\Attribute\Required;
 /**
  * @extends FormModel<Role>
  */
-class RoleModel extends FormModel implements GlobalSearchInterface
+final class RoleModel extends FormModel implements GlobalSearchInterface
 {
     private UserRepository $userRepository;
 
@@ -30,8 +30,11 @@ class RoleModel extends FormModel implements GlobalSearchInterface
     private RoleRepository $roleRepository;
 
     #[Required]
-    public function autowireRoleModel(RoleRepository $roleRepository, PermissionRepository $permissionRepository, UserRepository $userRepository): void
-    {
+    public function autowireRoleModel(
+        RoleRepository $roleRepository,
+        PermissionRepository $permissionRepository,
+        UserRepository $userRepository,
+    ): void {
         $this->roleRepository = $roleRepository;
         $this->permissionRepository = $permissionRepository;
         $this->userRepository = $userRepository;
@@ -126,6 +129,19 @@ class RoleModel extends FormModel implements GlobalSearchInterface
         }
 
         return parent::getEntity($id);
+    }
+
+    public function cloneEntity(Role $source): Role
+    {
+        $clone = new Role();
+        $clone->setName($this->translator->trans('mautic.user.role.clone.prefix', ['%name%' => $source->getName()], 'messages'));
+        $clone->setDescription($source->getDescription());
+        $clone->setIsAdmin($source->isAdmin());
+
+        $rawPermissions = $source->getRawPermissions() ?? [];
+        $clone->setRawPermissions($rawPermissions);
+
+        return $clone;
     }
 
     /**

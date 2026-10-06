@@ -9,6 +9,7 @@ use Mautic\CoreBundle\Helper\ExportHelper;
 use Mautic\CoreBundle\Helper\InputHelper;
 use Mautic\LeadBundle\Entity\Company;
 use Mautic\LeadBundle\Entity\CompanyLeadRepository;
+use Mautic\LeadBundle\Entity\CompanyRepository;
 use Mautic\LeadBundle\Entity\CustomFieldEntityInterface;
 use Mautic\LeadBundle\Field\CustomFieldFindReplace;
 use Mautic\LeadBundle\Field\DTO\CustomFieldFindReplaceCriteria;
@@ -26,6 +27,8 @@ final class CompanyController extends FormController
 {
     use LeadDetailsTrait;
 
+    private CompanyRepository $companyRepository;
+
     private FieldModel $fieldModel;
 
     private CompanyModel $companyModel;
@@ -37,10 +40,12 @@ final class CompanyController extends FormController
         LeadModel $leadModel,
         CompanyModel $companyModel,
         FieldModel $fieldModel,
+        CompanyRepository $companyRepository,
     ): void {
         $this->leadModel = $leadModel;
         $this->companyModel = $companyModel;
         $this->fieldModel = $fieldModel;
+        $this->companyRepository = $companyRepository;
     }
 
     public function indexAction(Request $request, PageHelperFactoryInterface $pageHelperFactory, CompanyColumnsDictionary $companyColumnsDictionary, int $page = 1): Response
@@ -112,7 +117,7 @@ final class CompanyController extends FormController
 
         $tmpl  = $request->isXmlHttpRequest() ? $request->get('tmpl', 'index') : 'index';
         $companyIds = array_keys($companies);
-        $leadCounts = (!empty($companyIds)) ? $this->companyModel->getRepository()->getLeadCount($companyIds) : [];
+        $leadCounts = (!empty($companyIds)) ? $this->companyRepository->getLeadCount($companyIds) : [];
 
         return $this->delegateView(
             [
@@ -545,7 +550,7 @@ final class CompanyController extends FormController
         }
 
         /** @var Company $company */
-        $this->companyModel->getRepository()->refetchEntity($company);
+        $this->companyRepository->refetchEntity($company);
 
         // set some permissions
         $permissions = $this->security->isGranted(

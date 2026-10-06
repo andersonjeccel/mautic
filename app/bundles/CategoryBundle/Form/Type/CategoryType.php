@@ -19,7 +19,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @extends AbstractType<Category>
  */
-class CategoryType extends AbstractType
+final class CategoryType extends AbstractType
 {
     public function __construct(
         private readonly RequestStack $requestStack,

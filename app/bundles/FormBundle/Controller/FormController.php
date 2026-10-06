@@ -20,6 +20,8 @@ use Mautic\FormBundle\Collector\AlreadyMappedFieldCollectorInterface;
 use Mautic\FormBundle\Collector\MappedObjectCollector;
 use Mautic\FormBundle\Entity\Field;
 use Mautic\FormBundle\Entity\Form;
+use Mautic\FormBundle\Entity\FormRepository;
+use Mautic\FormBundle\Entity\SubmissionRepository;
 use Mautic\FormBundle\Exception\ValidationException;
 use Mautic\FormBundle\Helper\FormFieldHelper;
 use Mautic\FormBundle\Model\FormModel;
@@ -50,6 +52,8 @@ class FormController extends CommonFormController
         private readonly FormModel $formModel,
         private readonly AuditLogModel $auditLogModel,
         private readonly SubmissionModel $submissionModel,
+        private readonly SubmissionRepository $submissionRepository,
+        private readonly FormRepository $formRepository,
     ) {
         parent::__construct($formFactory, $fieldHelper, $doctrine, $modelFactory, $userHelper, $coreParametersHelper, $dispatcher, $translator, $flashBag, $requestStack, $security);
     }
@@ -242,7 +246,7 @@ class FormController extends CommonFormController
             $activeFormFields[] = $field;
         }
 
-        $submissionCounts = $this->submissionModel->getRepository()->getSubmissionCounts($activeForm);
+        $submissionCounts = $this->submissionRepository->getSubmissionCounts($activeForm);
 
         return $this->delegateView(
             [
@@ -333,7 +337,7 @@ class FormController extends CommonFormController
                             // Save the form first and new actions so that new fields are available to actions.
                             // Using the repository function to not trigger the listeners twice.
 
-                            $this->formModel->getRepository()->saveEntity($entity);
+                            $this->formRepository->saveEntity($entity);
 
                             // Only save actions that are not to be deleted
                             $actions = array_diff_key($modifiedActions, array_flip($deletedActions));
@@ -594,7 +598,7 @@ class FormController extends CommonFormController
                         // save the form first so that new fields are available to actions
                         // use the repository method to not trigger listeners twice
                         try {
-                            $this->formModel->getRepository()->saveEntity($entity);
+                            $this->formRepository->saveEntity($entity);
 
                             if (count($actions)) {
                                 // Now set and persist the actions

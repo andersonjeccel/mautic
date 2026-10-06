@@ -6,6 +6,7 @@ namespace Mautic\UserBundle\Controller;
 
 use JMS\Serializer\SerializerInterface;
 use Mautic\CoreBundle\Controller\FormController;
+use Mautic\CoreBundle\Entity\AuditLogRepository;
 use Mautic\CoreBundle\Factory\PageHelperFactoryInterface;
 use Mautic\CoreBundle\Helper\InputHelper;
 use Mautic\CoreBundle\Helper\IpLookupHelper;
@@ -14,6 +15,7 @@ use Mautic\CoreBundle\Model\AuditLogModel;
 use Mautic\CoreBundle\Model\FormModel;
 use Mautic\EmailBundle\Helper\MailHelper;
 use Mautic\UserBundle\Entity\Role;
+use Mautic\UserBundle\Entity\RoleRepository;
 use Mautic\UserBundle\Entity\User;
 use Mautic\UserBundle\Form\Type\ContactType;
 use Mautic\UserBundle\Form\Type\UserInviteType;
@@ -29,7 +31,9 @@ use Symfony\Contracts\Service\Attribute\Required;
 
 final class UserController extends FormController
 {
-    private RoleModel $roleModel;
+    private RoleRepository $roleRepository;
+
+    private AuditLogRepository $auditLogRepository;
 
     private UserModel $userModel;
 
@@ -40,10 +44,13 @@ final class UserController extends FormController
         UserModel $userModel,
         AuditLogModel $auditLogModel,
         RoleModel $roleModel,
+        AuditLogRepository $auditLogRepository,
+        RoleRepository $roleRepository,
     ): void {
         $this->userModel = $userModel;
         $this->auditLogModel = $auditLogModel;
-        $this->roleModel = $roleModel;
+        $this->auditLogRepository = $auditLogRepository;
+        $this->roleRepository = $roleRepository;
     }
 
     /**
@@ -211,20 +218,20 @@ final class UserController extends FormController
 
         // Check for a submitted form and process it
         if ('POST' === $request->getMethod()) {
-            $response = $this->handleNewUserPost($request, $languageHelper, $hasher, $samlHelper, $this->userModel, $user, $form);
+            $response = $this->handleNewUserPost($request, $languageHelper, $hasher, $samlHelper, $user, $form);
         }
 
         return $response ?? $this->renderNewUserForm($form, $action);
     }
 
-    private function handleNewUserPost(Request $request, LanguageHelper $languageHelper, UserPasswordHasherInterface $hasher, SAMLHelper $samlHelper, UserModel $model, User $user, FormInterface $form): JsonResponse|Response|null
+    private function handleNewUserPost(Request $request, LanguageHelper $languageHelper, UserPasswordHasherInterface $hasher, SAMLHelper $samlHelper, User $user, FormInterface $form): JsonResponse|Response|null
     {
         $response  = null;
         $cancelled = $this->isFormCancelled($form);
         $valid     = false;
 
         if (!$cancelled) {
-            $valid = $this->saveNewUserIfValid($request, $languageHelper, $hasher, $model, $user, $form);
+            $valid = $this->saveNewUserIfValid($request, $languageHelper, $hasher, $user, $form);
         }
 
         if ($cancelled || ($valid && $this->getFormButton($form, ['buttons', 'save'])->isClicked())) {
@@ -244,17 +251,17 @@ final class UserController extends FormController
         return $response;
     }
 
-    private function saveNewUserIfValid(Request $request, LanguageHelper $languageHelper, UserPasswordHasherInterface $hasher, UserModel $model, User $user, FormInterface $form): bool
+    private function saveNewUserIfValid(Request $request, LanguageHelper $languageHelper, UserPasswordHasherInterface $hasher, User $user, FormInterface $form): bool
     {
         $formUser          = $request->request->all()['user'] ?? [];
         $submittedPassword = $formUser['plainPassword']['password'] ?? null;
-        $password          = $model->checkNewPassword($user, $hasher, $submittedPassword);
+        $password          = $this->userModel->checkNewPassword($user, $hasher, $submittedPassword);
         $valid             = $this->isFormValid($form);
 
         if ($valid) {
             $user->setPassword($password);
-            $model->saveEntity($user);
-            $this->loadNewUserLocale($languageHelper, $model, $user);
+            $this->userModel->saveEntity($user);
+            $this->loadNewUserLocale($languageHelper, $user);
 
             $this->addFlashMessage('mautic.core.notice.created', [
                 '%name%'      => $user->getName(),
@@ -269,7 +276,7 @@ final class UserController extends FormController
         return $valid;
     }
 
-    private function loadNewUserLocale(LanguageHelper $languageHelper, UserModel $model, User $user): void
+    private function loadNewUserLocale(LanguageHelper $languageHelper, User $user): void
     {
         $installedLanguages = $languageHelper->getSupportedLanguages();
 
@@ -278,7 +285,7 @@ final class UserController extends FormController
 
             if ($fetchLanguage['error']) {
                 $user->setLocale(null);
-                $model->saveEntity($user);
+                $this->userModel->saveEntity($user);
                 $this->addFlashMessage(
                     $fetchLanguage['message'] ?? 'mautic.core.could.not.set.language',
                     $fetchLanguage['vars'] ?? []
@@ -326,12 +333,12 @@ final class UserController extends FormController
                 ],
             ]);
         }
+
         $oldEmail = $user->getEmail();
-        $auditLogRepository = $this->auditLogModel->getRepository();
-        $userActivity       = $auditLogRepository->getLogsForUser($user);
+
+        $userActivity       = $this->auditLogRepository->getLogsForUser($user);
         $users              = $this->userModel->getEntities();
-        $roleRepository     = $this->roleModel->getRepository();
-        $roles              = $roleRepository->getEntities();
+        $roles              = $this->roleRepository->getEntities();
 
         // set the page we came from
         $page = $request->getSession()->get('mautic.user.page', 1);

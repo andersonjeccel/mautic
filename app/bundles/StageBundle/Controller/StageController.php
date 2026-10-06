@@ -5,6 +5,7 @@ namespace Mautic\StageBundle\Controller;
 use Mautic\CoreBundle\Controller\AbstractFormController;
 use Mautic\CoreBundle\Factory\PageHelperFactoryInterface;
 use Mautic\StageBundle\Entity\Stage;
+use Mautic\StageBundle\Entity\StageRepository;
 use Mautic\StageBundle\Form\Type\StageMergeType;
 use Mautic\StageBundle\Model\StageModel;
 use Mautic\StageBundle\Security\Permissions\StagePermissions;
@@ -17,13 +18,17 @@ use Symfony\Contracts\Service\Attribute\Required;
 
 final class StageController extends AbstractFormController
 {
+    private StageRepository $stageRepository;
+
     private StageModel $stageModel;
 
     #[Required]
     public function autowireStageController(
         StageModel $stageModel,
+        StageRepository $stageRepository,
     ): void {
         $this->stageModel = $stageModel;
+        $this->stageRepository = $stageRepository;
     }
 
     public function indexAction(Request $request, PageHelperFactoryInterface $pageHelperFactory, int $page = 1): Response
@@ -202,7 +207,7 @@ final class StageController extends AbstractFormController
             $themes[] = $actions['actions'][$actionType]['formTheme'];
         }
 
-        $stageWeights = $this->stageModel->getRepository()->getStageWeights();
+        $stageWeights = $this->stageRepository->getStageWeights();
 
         return $this->delegateView(
             [
@@ -355,7 +360,7 @@ final class StageController extends AbstractFormController
             $themes[] = $actions['actions'][$actionType]['formTheme'];
         }
 
-        $stageWeights = $this->stageModel->getRepository()->getStageWeights();
+        $stageWeights = $this->stageRepository->getStageWeights();
 
         return $this->delegateView(
             [
@@ -435,7 +440,7 @@ final class StageController extends AbstractFormController
             $this->throwAccessDenied();
         }
 
-        $stages = $model->getRepository()->getStages(false, (string) $secondaryStage->getId());
+        $stages = $this->stageRepository->getStages(false, (string) $secondaryStage->getId());
 
         $action = $this->generateUrl('mautic_stage_action', ['objectAction' => 'merge', 'objectId' => $secondaryStage->getId()]);
 
