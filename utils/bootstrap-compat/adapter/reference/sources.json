@@ -1,0 +1,59 @@
+{
+  "alert": {
+    "url": "https://raw.githubusercontent.com/twbs/bootstrap/v3.4.1/js/alert.js",
+    "sha256": "1ec1bacee3ed0bb73aa9a799d4e07376b0f9356d093f2f343f7fad07fd7844b4"
+  },
+  "button": {
+    "url": "https://raw.githubusercontent.com/twbs/bootstrap/v3.4.1/js/button.js",
+    "sha256": "fa31bcbae72f8f82c2b25ec0421917b1c3a9cd60e7c03baca7429f44ec693f04"
+  },
+  "carousel": {
+    "url": "https://raw.githubusercontent.com/twbs/bootstrap/v3.4.1/js/carousel.js",
+    "sha256": "20dc2395e0d21da3776db73634934a69b9a7dd4770c24757ef26bd60a287d857"
+  },
+  "collapse": {
+    "url": "https://raw.githubusercontent.com/twbs/bootstrap/v3.4.1/js/collapse.js",
+    "sha256": "407419f6c4ea29e13ada7134380a0fcb10d38e9e8611db54f60cb6278a424a70"
+  },
+  "dropdown": {
+    "url": "https://raw.githubusercontent.com/twbs/bootstrap/v3.4.1/js/dropdown.js",
+    "sha256": "0261c06fcfe41df6cca79148c3b4f2cd7e6966ce61c93ea325b6c8f2295e8904"
+  },
+  "modal": {
+    "url": "https://raw.githubusercontent.com/twbs/bootstrap/v3.4.1/js/modal.js",
+    "sha256": "102481f4363d9070b4bf992b3c1d6c4d3e59f41e1a5384eb7cc56b2fa0a03da2"
+  },
+  "tooltip": {
+    "url": "https://raw.githubusercontent.com/twbs/bootstrap/v3.4.1/js/tooltip.js",
+    "sha256": "efef210198a75adacd0d3e726500fde192fc94320e4acbf90eb3a4d877215a2d"
+  },
+  "popover": {
+    "url": "https://raw.githubusercontent.com/twbs/bootstrap/v3.4.1/js/popover.js",
+    "sha256": "415e3c557d74388c551d77497112a216601c88025d95e3c28b3fad4082d8863e"
+  },
+  "scrollspy": {
+    "url": "https://raw.githubusercontent.com/twbs/bootstrap/v3.4.1/js/scrollspy.js",
+    "sha256": "7d2c33a3ec324089813056cf4a8120db1db77f9ff620fa55c38de06ac417fed7"
+  },
+  "tab": {
+    "url": "https://raw.githubusercontent.com/twbs/bootstrap/v3.4.1/js/tab.js",
+    "sha256": "d41c1f213273a374add7c9a4fb57798812d5d3472cd961237a1782998e7be82e"
+  },
+  "affix": {
+    "url": "https://raw.githubusercontent.com/twbs/bootstrap/v3.4.1/js/affix.js",
+    "sha256": "9a9859329afe1518320c8d730c0585199c3792009cb4307bd8a33b1040a67331"
+  },
+  "transition": {
+    "url": "https://raw.githubusercontent.com/twbs/bootstrap/v3.4.1/js/transition.js",
+    "sha256": "dfd38a036a1ed2f6362413696c71555c108aa06b2ffef68577705df1b1983bc2"
+  },
+  "bootstrap": {
+    "url": "https://raw.githubusercontent.com/twbs/bootstrap/v3.4.1/dist/js/bootstrap.js",
+    "sha256": "dbd2a35e72edc7d6bde483481a912f1c38aa57fab2747d9b071d317339ee03a2"
+  },
+  "stylesheet": {
+    "file": "bootstrap.css",
+    "url": "https://raw.githubusercontent.com/twbs/bootstrap/v3.4.1/dist/css/bootstrap.css",
+    "sha256": "d170052c16caec3810f2dee6456539045d8e326f6d8ed7c7f78e59ed34de348a"
+  }
+}

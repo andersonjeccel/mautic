@@ -9,6 +9,9 @@ The checks are complementary. No single report is treated as complete applicatio
 Run from the repository root:
 
 ```bash
+python3 utils/bootstrap-compat/generate_javascript_compatibility.py
+ddev composer generate-assets
+python3 -m unittest utils.bootstrap-compat.adapter.test_differential -v
 python3 -m unittest utils.bootstrap-compat.adapter.test_adapter -v
 python3 -m unittest utils.bootstrap-compat.routes.test_geometry -v
 python3 -m unittest utils.bootstrap-compat.routes.test_interactions -v
@@ -18,14 +21,15 @@ python3 -m unittest utils.bootstrap-compat.test_migration_coverage -v
 python3 utils/bootstrap-compat/migration_coverage.py --strict-semantic
 python3 utils/bootstrap-compat/sass_coverage.py
 ddev exec php bin/console lint:twig app plugins
-ddev composer generate-assets
 ```
 
 The browser checks require the DDEV web and Selenium services.
 
 ## What each gate proves
 
-- `adapter/test_adapter.py` compares Bootstrap 3.4.1 behavior with the Bootstrap 5.3.8 adapter on deterministic local fixtures. It covers the jQuery plugin facade, lifecycle events, data APIs, collapse, dropdown, modal, tooltip, popover, tabs, and unsupported behavior that must fail closed.
+- `adapter/test_differential.py` runs identical synthetic scenarios on two isolated pages: official Bootstrap 3.4.1 CSS and JavaScript versus Bootstrap 5.3.8 with the compatibility bridge. It compares observable behavior, including event sequences, cancellation, removed APIs, legacy templates, input state, instance access, mutable defaults, and reinitialization. Oracle sources are pinned in `adapter/reference/sources.json`; this is not the complete upstream QUnit suite.
+- `adapter/test_adapter.py` verifies candidate routing, attribute ownership, native constructor ownership, and modern attributes taking precedence over legacy attributes. These candidate-only checks are not proof of legacy behavioral parity.
+- `test_minimal_javascript.py` keeps direct class/style/geometry writes out of the translator. Explicitly authorized exceptions live in `adapter/legacy-exceptions.js`; removed Affix and transition helpers retain their licensed official implementations in separate modules. `adapter/production-sources.json` defines the exact production assembly.
 - `routes/test_geometry.py` compares current route markup rendered with the frozen legacy stylesheet against the current stylesheet. This is a CSS geometry comparison only. Both sides use the current templates and JavaScript; it is not a Bootstrap 3 runtime or JavaScript baseline.
 - `routes/test_interactions.py` exercises only the current migrated runtime on authenticated route captures. Bootstrap 3 interaction parity belongs to the adapter suite, not the route CSS comparison.
 - `routes/test_semantics.py` verifies semantic CSS and document contracts such as color modes, reduced motion, print utilities, nested tables, and column positioning.

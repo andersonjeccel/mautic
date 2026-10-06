@@ -60,9 +60,22 @@
         .concat(['[data-original-title]'])
         .join(',');
 
+    var mirroredAttributes = new WeakMap();
+
     function mirrorAttribute(element, legacyName, bootstrapName) {
-        if (element.hasAttribute(legacyName) && !element.hasAttribute(bootstrapName)) {
-            element.setAttribute(bootstrapName, element.getAttribute(legacyName));
+        var owned = mirroredAttributes.get(element) || {};
+        var legacyValue = element.getAttribute(legacyName);
+        var currentValue = element.getAttribute(bootstrapName);
+
+        if (null === currentValue || owned[bootstrapName] === currentValue) {
+            if (null === legacyValue) {
+                element.removeAttribute(bootstrapName);
+                delete owned[bootstrapName];
+            } else {
+                element.setAttribute(bootstrapName, legacyValue);
+                owned[bootstrapName] = legacyValue;
+            }
+            mirroredAttributes.set(element, owned);
         }
     }
 
@@ -70,7 +83,20 @@
         dataAttributes.forEach(function (name) {
             mirrorAttribute(element, 'data-' + name, 'data-bs-' + name);
         });
-        mirrorAttribute(element, 'data-original-title', 'data-bs-title');
+        if (element.hasAttribute('data-template')) {
+            var pluginName = element.getAttribute('data-toggle');
+            if ('tooltip' === pluginName || 'popover' === pluginName) {
+                var template = window.MauticBootstrapLegacyExceptions.translateTemplate(element.getAttribute('data-template'), pluginName);
+                var owned = mirroredAttributes.get(element);
+                if (owned && owned['data-bs-template'] === element.getAttribute('data-bs-template')) {
+                    element.setAttribute('data-bs-template', template);
+                    owned['data-bs-template'] = template;
+                }
+            }
+        }
+        if (!element.hasAttribute('data-title')) {
+            mirrorAttribute(element, 'data-original-title', 'data-bs-title');
+        }
     }
 
     function mirrorLegacyMarkup(container) {
@@ -89,16 +115,55 @@
         return 'destroy' === method ? 'dispose' : method;
     }
 
-    function normalizeOptions(pluginName, options) {
+    function normalizeOptions(pluginName, options, element) {
         if ('object' !== typeof options || null === options) {
             return options;
         }
 
         var normalized = Object.assign({}, options);
+        if ('tooltip' === pluginName || 'popover' === pluginName) {
+            normalized.mauticLegacyInput = true;
+        }
+
+        if (('tooltip' === pluginName || 'popover' === pluginName) && normalized.whiteList) {
+            normalized.allowList = normalized.whiteList;
+            delete normalized.whiteList;
+        }
+
+        if (('tooltip' === pluginName || 'popover' === pluginName) && normalized.template) {
+            normalized.template = window.MauticBootstrapLegacyExceptions.translateTemplate(normalized.template, pluginName);
+        }
+
+        if (('tooltip' === pluginName || 'popover' === pluginName) && 'string' === typeof normalized.placement && /^auto(?:\s|$)/.test(normalized.placement)) {
+            normalized.placement = normalized.placement.replace(/^auto\s*/, '') || 'top';
+            normalized.fallbackPlacements = ['top', 'right', 'bottom', 'left'];
+        }
 
         if (('tooltip' === pluginName || 'popover' === pluginName) && undefined !== normalized.viewport) {
+            if ('function' === typeof normalized.viewport) {
+                var collection = (window.mQuery || window.jQuery)(element);
+                normalized.viewport = normalized.viewport.call({$element: collection, options: normalized}, collection);
+            }
             if (undefined === normalized.boundary) {
                 normalized.boundary = normalized.viewport;
+                if (normalized.viewport && normalized.viewport.jquery) {
+                    normalized.boundary = normalized.viewport[0] === window ? 'window' : normalized.viewport[0];
+                }
+                if (false === normalized.viewport) {
+                    normalized.boundary = 'clippingParents';
+                    normalized.popperConfig = {modifiers: [{name: 'preventOverflow', enabled: false}, {name: 'flip', enabled: false}]};
+                }
+                if (normalized.viewport && 'object' === typeof normalized.viewport && normalized.viewport.selector) {
+                    normalized.boundary = document.querySelector(normalized.viewport.selector) || 'clippingParents';
+                    var padding = normalized.viewport.padding || 0;
+                    var popperConfig = normalized.popperConfig;
+                    normalized.popperConfig = function (configuration) {
+                        var custom = 'function' === typeof popperConfig ? popperConfig(configuration) : popperConfig;
+                        var merged = Object.assign({}, configuration, custom || {});
+                        merged.modifiers = (merged.modifiers || []).concat([{name: 'preventOverflow', options: {padding: padding}}]);
+                        return merged;
+                    };
+                }
             }
             delete normalized.viewport;
         }
@@ -109,14 +174,6 @@
         }
 
         return normalized;
-    }
-
-    function getTipElement(instance) {
-        if (instance.tip && Node.ELEMENT_NODE === instance.tip.nodeType) {
-            return instance.tip;
-        }
-
-        return 'function' === typeof instance._getTipElement ? instance._getTipElement() : null;
     }
 
 
@@ -139,9 +196,16 @@
             options: instance._config
         };
 
+        ['show', 'hide', 'toggle', 'enable', 'disable', 'toggleEnabled', 'handleUpdate', 'next', 'prev', 'pause', 'cycle', 'to', 'refresh'].forEach(function (method) {
+            if ('function' === typeof instance[method]) {
+                facade[method] = instance[method].bind(instance);
+            }
+        });
+        facade.$element = jQuery(element);
+
         if ('tooltip' === pluginName || 'popover' === pluginName) {
             facade.tip = function () {
-                return jQuery(getTipElement(instance));
+                return jQuery(window.MauticBootstrapLegacyExceptions.adaptTip(instance, pluginName));
             };
             facade.inState = instance._activeTrigger;
         }
@@ -178,24 +242,104 @@
 
     function createJQueryRouter(jQuery, pluginName, BootstrapConstructor) {
         var nativeInterface = BootstrapConstructor.jQueryInterface;
+        var previousInterface = jQuery.fn[pluginName];
+        if (!BootstrapConstructor.DEFAULTS) {
+            BootstrapConstructor.DEFAULTS = Object.assign({}, BootstrapConstructor.Default);
+            if ('modal' === pluginName) {
+                BootstrapConstructor.DEFAULTS.show = true;
+            }
+            if ('button' === pluginName) {
+                BootstrapConstructor.DEFAULTS.loadingText = 'loading...';
+            }
+            if ('scrollspy' === pluginName) {
+                BootstrapConstructor.DEFAULTS.offset = 10;
+            }
+            if ('tooltip' === pluginName || 'popover' === pluginName) {
+                BootstrapConstructor.DEFAULTS.whiteList = BootstrapConstructor.Default.allowList;
+            }
+        }
+        var originalDefaults = Object.assign({}, BootstrapConstructor.DEFAULTS);
 
         var router = function (option) {
             var args = Array.prototype.slice.call(arguments, 1);
             var normalizedMethod = normalizeMethod(option);
 
             mirrorLegacyMarkup(document);
+            window.MauticBootstrapLegacyExceptions.prepareMarkup(document);
+
+            if ('scrollspy' === pluginName) {
+                return window.MauticBootstrapLegacyExceptions.scrollspy(jQuery, this, option, BootstrapConstructor);
+            }
+
+            if ('button' === pluginName && 'string' === typeof option && 'toggle' !== option && 'dispose' !== normalizedMethod) {
+                return window.MauticBootstrapLegacyExceptions.buttonState(jQuery, this, option);
+            }
+
+            if ('button' === pluginName && 'object' === typeof option) {
+                return window.MauticBootstrapLegacyExceptions.buttonState(jQuery, this, undefined, option);
+            }
+            if ('button' === pluginName && undefined === option) {
+                return window.MauticBootstrapLegacyExceptions.buttonState(jQuery, this);
+            }
+
+            if ('button' === pluginName && 'toggle' === option) {
+                return this.each(function () {
+                    var nativeButton = BootstrapConstructor.getOrCreateInstance(this);
+                    exposeLegacyInstance(jQuery, pluginName, BootstrapConstructor, this);
+                    if (!window.MauticBootstrapLegacyExceptions.buttonGroup(jQuery, this, nativeButton)) {
+                        nativeButton.toggle();
+                    }
+                    exposeLegacyInstance(jQuery, pluginName, BootstrapConstructor, this);
+                });
+            }
+
+            if ('modal' === pluginName) {
+                this.each(function () {
+                    window.MauticBootstrapLegacyExceptions.loadRemote(jQuery, this, 'object' === typeof option ? option : null);
+                });
+            }
 
             if ('tooltip' === pluginName && 'fixTitle' === normalizedMethod) {
                 return routeFixTitle(jQuery, BootstrapConstructor, this);
             }
 
-            var shouldShowModal = 'modal' === pluginName
-                && (undefined === option || 'object' === typeof option && false !== option.show);
-            var normalizedOption = normalizeOptions(pluginName, normalizedMethod);
-            var result = nativeInterface.apply(this, [normalizedOption].concat(args));
+            if (('tooltip' === pluginName || 'popover' === pluginName) && 'destroy' === option) {
+                return window.MauticBootstrapLegacyExceptions.destroyTip(jQuery, this, pluginName, BootstrapConstructor);
+            }
 
-            this.each(function () {
+            return this.each(function () {
+                var elementOptions = Object.assign({}, jQuery(this).data());
+                if ('tooltip' === pluginName || 'popover' === pluginName) {
+                    delete elementOptions.sanitize;
+                    delete elementOptions.sanitizeFn;
+                    delete elementOptions.whiteList;
+                    delete elementOptions.allowList;
+                }
+                var defaultOverrides = {};
+                Object.keys(BootstrapConstructor.DEFAULTS).forEach(function (name) {
+                    if (BootstrapConstructor.DEFAULTS[name] !== originalDefaults[name]) {
+                        defaultOverrides[name] = BootstrapConstructor.DEFAULTS[name];
+                    }
+                });
+                var legacyOptions = Object.assign({}, defaultOverrides, elementOptions, option && 'object' === typeof option ? option : {});
+                var shouldShowModal = 'modal' === pluginName
+                    && (undefined === option || option && 'object' === typeof option) && false !== legacyOptions.show;
+                var normalizedOption = normalizeOptions(pluginName, 'string' === typeof normalizedMethod || 'number' === typeof normalizedMethod ? normalizedMethod : legacyOptions, this);
                 var instance = BootstrapConstructor.getInstance(this);
+                if (!instance && ('tooltip' === pluginName || 'popover' === pluginName) && 'hide' === option) {
+                    return;
+                }
+                var toggleCollapse = !instance && 'collapse' === pluginName && 'string' !== typeof option && false !== legacyOptions.toggle;
+                var constructorOptions = normalizedOption && 'object' === typeof normalizedOption ? normalizedOption : normalizeOptions(pluginName, legacyOptions, this);
+                if ('collapse' === pluginName) {
+                    constructorOptions.toggle = false;
+                }
+                instance = instance || BootstrapConstructor.getOrCreateInstance(this, constructorOptions);
+                exposeLegacyInstance(jQuery, pluginName, BootstrapConstructor, this);
+                nativeInterface.apply(jQuery(this), [normalizedOption].concat(args));
+                if (toggleCollapse) {
+                    instance.toggle();
+                }
 
                 if (shouldShowModal && instance && !instance._isShown) {
                     instance.show(args[0]);
@@ -203,8 +347,6 @@
 
                 exposeLegacyInstance(jQuery, pluginName, BootstrapConstructor, this);
             });
-
-            return result;
         };
 
         Object.keys(nativeInterface).forEach(function (key) {
@@ -212,6 +354,10 @@
         });
         router.Constructor = BootstrapConstructor;
         router.mauticBootstrapCompatibility = true;
+        router.noConflict = function () {
+            jQuery.fn[pluginName] = previousInterface;
+            return router;
+        };
 
         return router;
     }
@@ -223,10 +369,12 @@
             return;
         }
 
+        window.MauticBootstrapLegacyExceptions.install(jQuery);
+
         Object.keys(pluginMap).forEach(function (pluginName) {
             var BootstrapConstructor = window.bootstrap[pluginMap[pluginName]];
 
-            if (BootstrapConstructor && 'function' === typeof BootstrapConstructor.jQueryInterface) {
+            if (BootstrapConstructor && 'function' === typeof BootstrapConstructor.jQueryInterface && !(jQuery.fn[pluginName] && jQuery.fn[pluginName].mauticBootstrapCompatibility)) {
                 jQuery.fn[pluginName] = createJQueryRouter(jQuery, pluginName, BootstrapConstructor);
             }
         });
@@ -261,6 +409,7 @@
                 mutation.addedNodes.forEach(function (node) {
                     if (Node.ELEMENT_NODE === node.nodeType) {
                         mirrorLegacyMarkup(node);
+                        window.MauticBootstrapLegacyExceptions.prepareMarkup(node);
                         prepareLegacyTabs(node);
                     }
                 });
@@ -277,6 +426,7 @@
 
     window.MauticBootstrapCompatibility = Object.freeze({
         bridgeJQueryPlugins: bridgeJQueryPlugins,
+        exposeLegacyInstance: exposeLegacyInstance,
         mirrorLegacyMarkup: mirrorLegacyMarkup,
         plugins: Object.freeze(Object.keys(pluginMap)),
         ready: Promise.resolve(),
@@ -285,12 +435,14 @@
 
     mirrorLegacyMarkup(document);
     bridgeJQueryPlugins();
+    window.MauticBootstrapLegacyExceptions.prepareMarkup(document);
     prepareLegacyTabs(document);
     observeLegacyAttributes();
 
     document.addEventListener('DOMContentLoaded', function () {
         mirrorLegacyMarkup(document);
         bridgeJQueryPlugins();
+        window.MauticBootstrapLegacyExceptions.prepareMarkup(document);
         prepareLegacyTabs(document);
     });
 })(window, document);

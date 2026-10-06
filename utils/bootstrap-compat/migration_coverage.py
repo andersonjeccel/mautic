@@ -681,7 +681,9 @@ def main() -> int:
         })
 
     bridge_bytes = (ROOT / BRIDGE).read_bytes()
-    router_bytes = (ROOT / ROUTER_SOURCE).read_bytes()
+    router_path = ROOT / ROUTER_SOURCE
+    sources = json.loads(router_path.with_name('production-sources.json').read_text())
+    router_bytes = b'\n'.join(router_path.with_name(name).read_bytes() for name in sources)
     exact_router = bridge_bytes == router_bytes
     bridge = bridge_bytes.decode()
     js_results = [

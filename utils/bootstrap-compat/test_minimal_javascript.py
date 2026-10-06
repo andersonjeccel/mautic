@@ -1,4 +1,5 @@
 import re
+import json
 import unittest
 from pathlib import Path
 
@@ -11,10 +12,11 @@ OLD_ADAPTER = ROOT / 'app/bundles/CoreBundle/Assets/js/0.bootstrap-3-jquery-adap
 class JavascriptCompatibilityBoundaryTest(unittest.TestCase):
     def test_production_bridge_is_the_canonical_router(self):
         self.assertFalse(OLD_ADAPTER.exists())
-        self.assertEqual(SOURCE.read_bytes(), BRIDGE.read_bytes())
+        sources = json.loads(SOURCE.with_name('production-sources.json').read_text())
+        self.assertEqual(b'\n'.join(SOURCE.with_name(name).read_bytes() for name in sources), BRIDGE.read_bytes())
 
     def test_router_never_manipulates_classes_styles_or_geometry(self):
-        source = BRIDGE.read_text()
+        source = SOURCE.read_text()
         forbidden = (
             'classList',
             '.addClass(',
@@ -38,10 +40,10 @@ class JavascriptCompatibilityBoundaryTest(unittest.TestCase):
                 self.assertNotIn(token, source)
 
     def test_dom_writes_are_limited_to_bootstrap_5_data_attributes(self):
-        source = BRIDGE.read_text()
+        source = SOURCE.read_text()
         set_attribute_calls = re.findall(r"\.setAttribute\(([^,]+),", source)
-        self.assertEqual(['bootstrapName', "'data-bs-title'"], set_attribute_calls)
-        self.assertNotIn('.removeAttribute(', source)
+        self.assertEqual(['bootstrapName', "'data-bs-template'", "'data-bs-title'"], set_attribute_calls)
+        self.assertEqual(['bootstrapName'], re.findall(r"\.removeAttribute\(([^)]+)\)", source))
 
     def test_router_translates_attributes_options_methods_and_jquery_plugins(self):
         source = BRIDGE.read_text()

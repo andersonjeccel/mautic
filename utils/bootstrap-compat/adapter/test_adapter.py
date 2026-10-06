@@ -130,6 +130,12 @@ class Contracts(unittest.TestCase):
     def test_dynamic_markup_and_attribute_changes_are_routed(self):
         self.check('''const dynamic=document.createElement('button');dynamic.setAttribute('data-toggle','modal');dynamic.setAttribute('data-target','#modal');document.body.append(dynamic);await sleep(0);assert(dynamic.getAttribute('data-bs-toggle')==='modal','dynamic toggle');assert(dynamic.getAttribute('data-bs-target')==='#modal','dynamic target');dynamic.removeAttribute('data-bs-target');dynamic.setAttribute('data-target','#modal');await sleep(0);assert(dynamic.getAttribute('data-bs-target')==='#modal','attribute update');''')
 
+    def test_owned_attribute_updates_and_removals_propagate(self):
+        self.check('''const element=document.querySelector('#opener');element.setAttribute('data-target','#another');await sleep(0);assert(element.getAttribute('data-bs-target')==='#another','changed legacy value');element.removeAttribute('data-target');await sleep(0);assert(!element.hasAttribute('data-bs-target'),'removed legacy value');''')
+
+    def test_explicit_bootstrap_5_attributes_are_not_overwritten(self):
+        self.check('''const element=document.querySelector('#opener');element.setAttribute('data-bs-target','#modern');element.setAttribute('data-target','#another');await sleep(0);assert(element.getAttribute('data-bs-target')==='#modern','modern override');element.removeAttribute('data-target');await sleep(0);assert(element.getAttribute('data-bs-target')==='#modern','modern attribute retained');''')
+
     def test_jquery_plugins_route_to_bootstrap_5_constructors(self):
         self.check('''const map={alert:'Alert',button:'Button',carousel:'Carousel',collapse:'Collapse',dropdown:'Dropdown',modal:'Modal',offcanvas:'Offcanvas',popover:'Popover',scrollspy:'ScrollSpy',tab:'Tab',toast:'Toast',tooltip:'Tooltip'};for(const [plugin,constructor] of Object.entries(map)){assert(typeof $.fn[plugin]==='function',plugin+' router');assert($.fn[plugin].Constructor===bootstrap[constructor],plugin+' constructor');assert($.fn[plugin].mauticBootstrapCompatibility===true,plugin+' marker')}''')
 
