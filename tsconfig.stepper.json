@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "allowJs": false,
+    "sourceMap": false
+  },
+  "include": ["app/bundles/CoreBundle/Assets/ts/stepper.ts"]
+}
