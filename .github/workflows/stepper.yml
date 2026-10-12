@@ -1,0 +1,42 @@
+name: Stepper browser tests
+
+on:
+  pull_request:
+    paths:
+      - 'app/bundles/CoreBundle/Assets/ts/stepper.ts'
+      - 'app/bundles/CoreBundle/Assets/js/17.stepper.js'
+      - 'app/bundles/CoreBundle/Assets/css/stepper.css'
+      - 'tests/stepper/**'
+      - 'tsconfig*.json'
+      - 'webpack.stepper.config.js'
+      - 'package*.json'
+      - '.github/workflows/stepper.yml'
+  push:
+    paths:
+      - 'app/bundles/CoreBundle/Assets/ts/stepper.ts'
+      - 'app/bundles/CoreBundle/Assets/js/17.stepper.js'
+      - 'app/bundles/CoreBundle/Assets/css/stepper.css'
+      - 'tests/stepper/**'
+      - 'tsconfig*.json'
+      - 'webpack.stepper.config.js'
+      - 'package*.json'
+      - '.github/workflows/stepper.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  stepper:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:stepper
+      - run: git diff --exit-code -- app/bundles/CoreBundle/Assets/js/17.stepper.js

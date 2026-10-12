@@ -1,0 +1,4 @@
+[data-stepper] [data-step][hidden],
+[data-stepper] [data-step-loading][hidden] {
+  display: none !important;
+}
