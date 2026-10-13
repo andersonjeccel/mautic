@@ -1,0 +1,16 @@
+@font-face { font-family: "Acervo Manrope"; src: url("fonts/acervo-manrope-400.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+.animated-switch { box-sizing: border-box; position: relative; display: inline-flex; flex-shrink: 0; align-items: center; cursor: pointer; touch-action: manipulation; user-select: none; border-radius: 9999px; border: 0; padding: 0; margin: 0; font-family: "Acervo Manrope"; background-color: oklch(92.2% 0 0); transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke; transition-duration: 200ms; transition-timing-function: cubic-bezier(0, 0, .2, 1); }
+.animated-switch[data-checked="true"] { background-color: var(--acervo-primary, #787230); }
+.animated-switch:disabled { pointer-events: none; opacity: .5; }
+.animated-switch:focus-visible { outline: none; box-shadow: 0 0 0 2px #fff, 0 0 0 3px var(--acervo-primary, #787230); }
+.animated-switch__hit { position: absolute; left: 50%; top: 50%; width: max(100%, 24px); height: max(100%, 24px); transform: translate(-50%, -50%); }
+.animated-switch__knob { position: absolute; top: 2px; left: 2px; border-radius: 9999px; background: #fff; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%); }
+.animated-switch__icons { pointer-events: none; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: oklch(43.9% 0 0); }
+.animated-switch__icon { position: absolute; display: flex; align-items: center; justify-content: center; }
+.animated-switch__icon svg { width: 100%; height: 100%; }
+.dark .animated-switch { background-color: oklch(37.1% 0 0); }
+.dark .animated-switch[data-checked="true"] { background-color: var(--acervo-primary, #aaa35a); }
+.dark .animated-switch:focus-visible { box-shadow: 0 0 0 2px oklch(14.5% 0 0), 0 0 0 3px var(--acervo-primary, #aaa35a); }
+.dark .animated-switch__knob { background: oklch(20.5% 0 0); }
+.dark .animated-switch__icons { color: oklch(87% 0 0); }
+@media (forced-colors: active) { .animated-switch:focus-visible { outline: 2px solid transparent; outline-offset: 2px; } }
