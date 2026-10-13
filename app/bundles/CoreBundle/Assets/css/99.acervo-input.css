@@ -1,0 +1,11 @@
+@font-face { font-family: "Acervo Manrope"; src: url("fonts/acervo-manrope-400.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+.acervo-input { box-sizing: border-box; display: flex; height: 40px; width: 100%; margin: 0; padding: 8px 12px; border: 1px solid var(--acervo-input, rgb(31 31 31 / 24%)); border-radius: 6.4px; background: var(--acervo-background, #faf7f1); color: var(--acervo-foreground, #1f1f1f); font-family: "Acervo Manrope"; font-size: 16px; font-weight: 400; line-height: 24px; letter-spacing: normal; color-scheme: light; }
+.acervo-input::placeholder { color: var(--acervo-muted-foreground, #776f62); opacity: 1; }
+.acervo-input::file-selector-button { margin-inline-end: 4px; padding: 0; border: 0; background: transparent; color: var(--acervo-foreground, #1f1f1f); font: inherit; font-size: 14px; line-height: 20px; font-weight: 500; }
+.acervo-input:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--acervo-background, #faf7f1), 0 0 0 4px var(--acervo-ring, #a6673a); }
+.acervo-input:disabled { cursor: not-allowed; opacity: .5; }
+.dark .acervo-input { color-scheme: dark; border-color: var(--acervo-input, rgb(250 247 241 / 22%)); background: var(--acervo-background, #181816); color: var(--acervo-foreground, #faf7f1); }
+.dark .acervo-input::placeholder { color: var(--acervo-muted-foreground, #c4b9a7); }
+.dark .acervo-input::file-selector-button { color: var(--acervo-foreground, #faf7f1); }
+.dark .acervo-input:focus-visible { box-shadow: 0 0 0 2px var(--acervo-background, #181816), 0 0 0 4px var(--acervo-ring, #c77e52); }
+@media (min-width: 768px) { .acervo-input { font-size: 14px; line-height: 20px; } }
