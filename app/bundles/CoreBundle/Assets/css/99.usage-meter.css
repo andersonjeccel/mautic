@@ -1,0 +1,22 @@
+@font-face{font-family:"Acervo Manrope";src:url("fonts/acervo-manrope-400.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap;}
+.usage-meter{width:100%;max-width:380px;font-family:"Acervo Manrope";line-height:inherit;}
+.usage-meter__header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;}
+.usage-meter__title{font-size:12.5px;font-weight:500;color:oklch(26.9% 0 0);}
+.dark .usage-meter__title{color:oklch(92.2% 0 0);}
+.usage-meter__summary,.usage-meter__footer,.usage-meter[data-variant="Inline"]{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-variant-numeric:tabular-nums;}
+.usage-meter__summary{font-size:11.5px;color:oklch(55.6% 0 0);}
+.dark .usage-meter__summary{color:oklch(70.8% 0 0);}
+.usage-meter__track{height:6px;margin-top:8px;overflow:hidden;border-radius:calc(infinity * 1px);background:color-mix(in oklab,#000 6%,transparent);}
+.dark .usage-meter__track{background:color-mix(in oklab,#fff 8%,transparent);}
+.usage-meter__fill{display:block;height:100%;border-radius:calc(infinity * 1px);background:oklch(20.5% 0 0);transition:width 500ms cubic-bezier(.23,1,.32,1);}
+.dark .usage-meter__fill{background:oklch(97% 0 0);}
+.usage-meter .usage-meter__fill--amber{background:color-mix(in oklab,oklch(76.9% .188 70.08) 80%,transparent);}
+.usage-meter .usage-meter__fill--red{background:color-mix(in oklab,oklch(63.7% .237 25.331) 80%,transparent);}
+.usage-meter__footer{margin-top:10px;display:flex;align-items:center;justify-content:space-between;font-size:10.5px;color:oklch(70.8% 0 0);}
+.dark .usage-meter__footer{color:oklch(43.9% 0 0);}
+.usage-meter[data-variant="Inline"]{display:flex;width:fit-content;max-width:none;align-items:center;gap:10px;font-size:11.5px;color:oklch(55.6% 0 0);}
+.dark .usage-meter[data-variant="Inline"]{color:oklch(70.8% 0 0);}
+.usage-meter[data-variant="Inline"] .usage-meter__track{height:4px;width:64px;margin-top:0;background:color-mix(in oklab,#000 7%,transparent);}
+.dark .usage-meter[data-variant="Inline"] .usage-meter__track{background:color-mix(in oklab,#fff 9%,transparent);}
+.usage-meter__cost{color:oklch(70.8% 0 0);}
+.dark .usage-meter__cost{color:oklch(43.9% 0 0);}
