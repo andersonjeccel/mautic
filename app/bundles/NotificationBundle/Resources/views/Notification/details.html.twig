@@ -116,8 +116,8 @@
 
             <!-- tabs controls -->
             <ul class="nav nav-tabs nav-tabs-contained">
-                <li class="active">
-                    <a href="#clicks-container" role="tab" data-bs-toggle="tab" class="active nav-link">
+                <li class="">
+                    <a href="#clicks-container" role="tab" data-bs-toggle="tab" class="nav-link active">
                         {{ 'mautic.trackable.click_counts'|trans }}
                     </a>
                 </li>
@@ -139,7 +139,7 @@
                     'channel': 'notification'
                 }) }}
             </div>
-            <div class="tab-pane fade in bdr-w-0 page-list" id="contacts-container">
+            <div class="tab-pane fade  bdr-w-0 page-list" id="contacts-container">
                 {{ contacts|purify }}
             </div>
         </div>

@@ -21,7 +21,7 @@
 </div>
 
 {% if props.bar.allow_hide %}
-    <div class="mf-copy-to-parent mf-bar-collapser mf-bar-collapser-{{ props.bar.placement }} mf-bar-collapser-{{ props.bar.size }} {% if props.bar.sticky %}mf-bar-collapser-sticky{% endif %} mf-bar-collapser-{{ focus.id }}"
+    <div class="mf-copy-to-parent mf-bar-collapser mf-bar-collapser- {{ props.bar.placement }}  mf-bar-collapser- {{ props.bar.size }}   {% if props.bar.sticky %} mf-bar-collapser-sticky {% endif %}  mf-bar-collapser- {{ focus.id }} "
          style="background-color: #{{ props.colors.primary|replace({'#': ''}) }}; color: #{{ props.colors.text|replace({'#': ''}) }};">
         <style scoped>
             .mf-bar-collapser-icon {

@@ -9,7 +9,7 @@
                 <div class="small fw-b text-secondary">{{ 'mautic.core.description'|trans }}</div>
                 <i class="arrow ri-arrow-up-wide-line ri-sm text-secondary"></i>
             </a>
-            <div id="description" class="collapse {{ not isCollapsed ? 'in' }}">
+            <div id="description" class="collapse  {{ not isCollapsed ? 'show' }} ">
                 <div class="well layer-two description-content mb-12 ms-12 me-12 mt-0 pa-12">
                     {{ description|purify|raw }}
                     {% if extra_content is defined and extra_content is not empty %}
