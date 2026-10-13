@@ -1,0 +1,5 @@
+ .acervo-progress { position: relative; height: 8px; width: 100%; overflow: hidden; border-radius: 9999px; background: color-mix(in oklab, var(--acervo-primary, #787230) 20%, transparent); }
+.acervo-progress, .acervo-progress * { box-sizing: border-box; }
+.acervo-progress__indicator { display: block; height: 100%; width: 100%; flex: 1; border-radius: 9999px; background: var(--acervo-primary, #787230); }
+.dark .acervo-progress { background: color-mix(in oklab, var(--acervo-primary, #aaa35a) 20%, transparent); }
+.dark .acervo-progress__indicator { background: var(--acervo-primary, #aaa35a); }

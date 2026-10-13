@@ -1,0 +1,6 @@
+{% set max = max is defined and max > 0 ? max : 100 %}
+{% set value = value is defined and value is not null and value >= 0 and value <= max ? value : null %}
+{% set state = value is null ? 'indeterminate' : (value == max ? 'complete' : 'loading') %}
+<div class="acervo-progress {{ className|default('') }}" role="progressbar" data-slot="progress" data-component="animated-progress" data-state="{{ state }}" data-value="{{ value }}" data-max="{{ max }}" data-transition="{{ transition|default({'type': 'spring', 'stiffness': 100, 'damping': 30})|json_encode|escape('html_attr') }}" aria-valuemin="0" aria-valuemax="{{ max }}"{% if value is not null %} aria-valuenow="{{ value }}" aria-valuetext="{{ (value / max * 100)|round }}%"{% endif %}{% if label is defined %} aria-label="{{ label|trans }}"{% endif %}{% if id is defined %} id="{{ id }}"{% endif %}{% for key, attribute in attributes|default({}) %} {{ key }}="{{ attribute }}"{% endfor %}>
+    <div class="acervo-progress__indicator {{ indicatorClassName|default('') }}" data-slot="progress-indicator" data-state="{{ state }}" data-max="{{ max }}"{% if value is not null %} data-value="{{ value }}"{% endif %}></div>
+</div>
