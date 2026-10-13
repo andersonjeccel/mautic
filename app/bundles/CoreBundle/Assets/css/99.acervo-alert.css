@@ -1,0 +1,15 @@
+@font-face { font-family: "Acervo Manrope"; src: url("fonts/acervo-manrope-400.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+.acervo-alert { position: relative; box-sizing: border-box; width: 100%; border: 1px solid currentColor; border-radius: 8px; padding: 16px; font-family: "Acervo Manrope"; }
+.acervo-alert--default { background: var(--acervo-background, #faf7f1); color: var(--acervo-foreground, #1f1f1f); }
+.acervo-alert > svg { position: absolute; left: 16px; top: 16px; color: var(--acervo-foreground, #1f1f1f); display: block; vertical-align: middle; }
+.acervo-alert > svg ~ * { padding-left: 28px; }
+.acervo-alert > svg + div { translate: 0 -3px; }
+.acervo-alert--destructive { border-color: color-mix(in srgb, var(--acervo-destructive, #9e4831) 50%, transparent); color: var(--acervo-destructive, #9e4831); }
+.acervo-alert--destructive > svg { color: var(--acervo-destructive, #9e4831); }
+.acervo-alert__title { margin: 0 0 4px; font-family: "Acervo Manrope"; font-size: inherit; font-weight: 500; line-height: 1; letter-spacing: -.025em; }
+.acervo-alert__description { font-family: "Acervo Manrope"; font-size: 14px; line-height: 20px; }
+.acervo-alert__description p { margin: 0; line-height: 1.625; }
+.dark .acervo-alert--default { background: var(--acervo-background, #181816); color: var(--acervo-foreground, #faf7f1); }
+.dark .acervo-alert > svg { color: var(--acervo-foreground, #faf7f1); }
+.dark .acervo-alert--destructive { border-color: var(--acervo-destructive, #c96b4c); color: var(--acervo-destructive, #c96b4c); }
+.dark .acervo-alert--destructive > svg { color: var(--acervo-destructive, #c96b4c); }
