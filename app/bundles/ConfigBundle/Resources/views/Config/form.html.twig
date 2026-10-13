@@ -55,7 +55,7 @@
              <div class="tab-content">
                  {% for key in form.children|keys|filter(v => formConfigs[v] is defined) %}
                      {% if form[key].children|length > 0 %}
-                       <div role="tabpanel" class="tab-pane fade {% if loop.first %}in active{% endif %} bdr-w-0" id="{{ key }}">
+                       <div role="tabpanel" class="tab-pane fade  {% if loop.first %} show active {% endif %}  bdr-w-0" id="{{ key }}">
                            <div>
                             <div class="row pa-md bdr-b">
                                 <h4 class="fw-sb">{{ ('mautic.config.tab.' ~ key)|trans }}</h4>
