@@ -1,5 +1,5 @@
 import { animate } from 'motion';
-import { emit, reducedMotion, register } from './lifecycle';
+import { emit, register } from './lifecycle';
 
 type Options = {
   value?: number | null;
@@ -52,7 +52,7 @@ class AnimatedProgress {
       this.element.setAttribute('aria-valuetext', this.getValueLabel?.(this.value, this.maximum) ?? `${Math.round(this.value / this.maximum * 100)}%`);
     }
     this.animation?.stop();
-    this.animation = animate(this.indicator, { x: `-${100 - (this.value || 0)}%` }, reducedMotion() ? { duration: 0 } : this.transition);
+    this.animation = animate(this.indicator, { x: `-${100 - (this.value || 0)}%` }, this.transition);
   }
 
   destroy(): void {

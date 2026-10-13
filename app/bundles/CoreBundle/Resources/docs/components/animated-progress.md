@@ -16,7 +16,7 @@ const progress = window.MauticUI.AnimatedProgress.get(element);
 progress.update({ value: 60, max: 200, getValueLabel: (value, max) => `${value} of ${max}` });
 ```
 
-The ARIA percentage respects `max`. The indicator intentionally uses `value` directly as a percentage, as in the original source, rather than normalizing by `max`. Use `max: 100` for the normal percentage contract. Invalid values become indeterminate and invalid maximums become 100, following Radix. State changes update the root and indicator data attributes together. Updates emit `mautic:animated-progress:change` with `{ value, max }`. AJAX mounts initialize automatically; removal stops animations. Reduced-motion users receive the final transform directly.
+The ARIA percentage respects `max`. The indicator intentionally uses `value` directly as a percentage, as in the original source, rather than normalizing by `max`. Use `max: 100` for the normal percentage contract. Invalid values become indeterminate and invalid maximums become 100, following Radix. State changes update the root and indicator data attributes together. Updates emit `mautic:animated-progress:change` with `{ value, max }`. AJAX mounts initialize automatically; removal stops animations. Motion preferences follow the original primitive; callers can supply `transition: {duration: 0}` when they need an instant update.
 
 ## Verification
 

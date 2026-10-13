@@ -23,7 +23,7 @@ test('updates change metadata, animation and custom accessible value label', asy
   })).toBe(-40);
 });
 
-test('reduced motion renders the final transform immediately', async ({ page }) => {
+test('media preference preserves the original final transform', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await load(page, 'animated-progress', { value: 25 });
   await expect.poll(() => page.locator('[data-slot="progress-indicator"]').evaluate((element) => Math.round(new DOMMatrix(getComputedStyle(element).transform).m41 / element.clientWidth * 100))).toBe(-75);
