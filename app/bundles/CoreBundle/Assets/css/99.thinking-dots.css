@@ -1,0 +1,12 @@
+@font-face{font-family:"Acervo Manrope";src:url("fonts/acervo-manrope-400.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap;}
+@keyframes core-thinking-dot{0%,60%,100%{opacity:.25;transform:translateY(0)}30%{opacity:1;transform:translateY(-2px)}}
+@keyframes core-thinking-bar{0%{transform:translateX(-100%)}100%{transform:translateX(400%)}}
+.thinking-dots{display:flex;width:fit-content;align-items:center;gap:10px;color:oklch(55.6% 0 0);font-family:"Acervo Manrope";line-height:inherit;}
+.dark .thinking-dots{color:oklch(70.8% 0 0);}
+.thinking-dots__dots{display:flex;align-items:center;gap:4px;}
+.thinking-dots__dot{width:6px;height:6px;border-radius:calc(infinity * 1px);background:currentColor;}
+.thinking-dots__track{position:relative;height:4px;width:40px;overflow:hidden;border-radius:calc(infinity * 1px);background:oklab(0 0 0/.07);}
+.dark .thinking-dots__track{background:color-mix(in oklab,#fff 9%,transparent);}
+.thinking-dots__bar{position:absolute;top:0;bottom:0;width:25%;border-radius:calc(infinity * 1px);background:currentColor;}
+.thinking-dots__label{font-size:12.5px;}
+@media(prefers-reduced-motion:reduce){.thinking-dots__dot,.thinking-dots__bar{animation:none!important;}}
