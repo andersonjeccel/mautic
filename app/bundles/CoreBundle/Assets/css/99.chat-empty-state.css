@@ -1,0 +1,22 @@
+@font-face{font-family:"Acervo Manrope";src:url("fonts/acervo-manrope-400.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap;}
+.chat-empty-state,.chat-empty-state *{box-sizing:border-box;}
+.chat-empty-state{width:100%;max-width:520px;font-family:"Acervo Manrope";line-height:inherit;}
+.chat-empty-state[data-variant="Centered"]{display:flex;flex-direction:column;align-items:center;text-align:center;}
+.chat-empty-state__icon{display:grid;width:36px;height:36px;place-items:center;border:1px solid color-mix(in oklab,#000 7%,transparent);border-radius:var(--radius-xl,11.2px);background:color-mix(in oklab,#000 2%,transparent);}
+.dark .chat-empty-state__icon{border-color:color-mix(in oklab,#fff 8%,transparent);background:color-mix(in oklab,#fff 4%,transparent);}
+.chat-empty-state__sparkles{display:block;width:16px;height:16px;vertical-align:middle;color:oklch(55.6% 0 0);}
+.dark .chat-empty-state__sparkles{color:oklch(70.8% 0 0);}
+.chat-empty-state__title{margin:16px 0 0;font-size:16px;font-weight:600;letter-spacing:-.2px;color:oklch(20.5% 0 0);}
+.dark .chat-empty-state__title{color:oklch(98.5% 0 0);}
+.chat-empty-state__subtitle{margin:6px 0 0;font-size:13px;line-height:1.6;color:oklch(55.6% 0 0);}
+.dark .chat-empty-state__subtitle{color:oklch(70.8% 0 0);}
+.chat-empty-state__prompts{display:flex;flex-wrap:wrap;gap:6px;margin-top:20px;}
+.chat-empty-state[data-variant="Centered"] .chat-empty-state__prompts{justify-content:center;}
+.chat-empty-state__prompt{margin:0;border:1px solid color-mix(in oklab,#000 8%,transparent);border-radius:calc(infinity * 1px);background:#fff;padding:6px 12px;font-family:inherit;font-size:12.5px;line-height:inherit;color:oklch(43.9% 0 0);transition:color 150ms cubic-bezier(.4,0,.2,1),border-color 150ms cubic-bezier(.4,0,.2,1),transform 150ms cubic-bezier(.4,0,.2,1);}
+.chat-empty-state__prompt:hover{border-color:color-mix(in oklab,#000 16%,transparent);background:color-mix(in oklab,#000 2%,transparent);color:oklch(20.5% 0 0);}
+.dark .chat-empty-state__prompt{border-color:color-mix(in oklab,#fff 10%,transparent);background:color-mix(in oklab,#fff 3%,transparent);color:oklch(87% 0 0);}
+.dark .chat-empty-state__prompt:hover{border-color:color-mix(in oklab,#fff 20%,transparent);background:color-mix(in oklab,#fff 6%,transparent);color:oklch(98.5% 0 0);}
+.chat-empty-state__prompt:active{scale:.96;}
+.chat-empty-state__prompt:focus-visible{outline:2px solid transparent;outline-offset:2px;box-shadow:0 0 0 2px oklch(70.8% 0 0);}
+@keyframes chat-empty-state-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:no-preference){.chat-empty-state__prompt{animation:chat-empty-state-in 240ms cubic-bezier(.23,1,.32,1) both;}}
