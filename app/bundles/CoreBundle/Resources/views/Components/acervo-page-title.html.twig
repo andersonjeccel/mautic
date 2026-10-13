@@ -1,0 +1,1 @@
+<h1 class="acervo-page-title {{ className|default('') }}"{% if id is defined %} id="{{ id }}"{% endif %}{% for key, attribute in attributes|default({}) %} {{ key }}="{{ attribute }}"{% endfor %}>{% block children %}{{ children|trans }}{% endblock %}</h1>

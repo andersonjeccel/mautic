@@ -1,0 +1,4 @@
+@font-face { font-family: 'Acervo Bricolage'; src: url('fonts/acervo-bricolage-variable.ttf') format('truetype'); font-style: normal; font-weight: 200 800; font-display: swap; }
+.acervo-page-title { box-sizing: border-box; display: block; margin: 0; font-family: 'Acervo Bricolage', sans-serif; font-size: 48px; font-weight: 400; line-height: 1; letter-spacing: -.025em; color: var(--acervo-foreground, #1f1f1f); }
+.dark .acervo-page-title { color: var(--acervo-foreground, #faf7f1); }
+@media (min-width: 768px) { .acervo-page-title { font-size: 60px; } }
