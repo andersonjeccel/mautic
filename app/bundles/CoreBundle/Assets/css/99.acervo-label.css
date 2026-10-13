@@ -1,0 +1,4 @@
+@font-face { font-family: "Acervo Manrope"; src: url("fonts/acervo-manrope-400.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+.acervo-label { font-family: "Acervo Manrope"; font-size: 14px; font-weight: 500; line-height: 1; color: var(--acervo-foreground, #1f1f1f); }
+.peer:disabled ~ .acervo-label { cursor: not-allowed; opacity: .7; }
+.dark .acervo-label { color: var(--acervo-foreground, #faf7f1); }
