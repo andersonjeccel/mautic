@@ -1,0 +1,22 @@
+@font-face { font-family: "Acervo Manrope"; src: url("fonts/acervo-manrope-400.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+.voice-input { display: flex; box-sizing: border-box; width: fit-content; height: 44px; align-items: center; gap: 8px; border: 1px solid rgb(0 0 0 / 8%); border-radius: 9999px; background: #fff; padding: 6px 8px 6px 6px; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%); font-family: "Acervo Manrope"; }
+.voice-input__button { display: grid; box-sizing: border-box; width: 32px; height: 32px; padding: 0; place-items: center; border: 0; border-radius: 9999px; background: transparent; color: inherit; flex-shrink: 0; }
+.voice-input__button--primary { background: oklch(20.5% 0 0); color: #fff; transition: transform 160ms cubic-bezier(.23,1,.32,1), translate 160ms cubic-bezier(.23,1,.32,1), scale 160ms cubic-bezier(.23,1,.32,1), rotate 160ms cubic-bezier(.23,1,.32,1); }
+.voice-input__button--primary:active, .voice-input__button--cancel:active { scale: .92; }
+.voice-input__button:focus-visible { outline: none; box-shadow: 0 0 0 2px oklch(70.8% 0 0); }
+.voice-input__button svg { width: 14px; height: 14px; display: block; vertical-align: middle; }
+.voice-input__button--cancel { color: oklch(70.8% 0 0); transition: color 150ms cubic-bezier(.4,0,.2,1), background-color 150ms cubic-bezier(.4,0,.2,1), transform 150ms cubic-bezier(.4,0,.2,1); }
+.voice-input__button--cancel:hover { background: rgb(0 0 0 / 4%); color: oklch(37.1% 0 0); }
+.voice-input__hint { padding-right: 6px; font-size: 12.5px; line-height: inherit; color: oklch(70.8% 0 0); }
+.voice-visualizer { display: flex; box-sizing: border-box; height: 24px; align-items: center; gap: 2.5px; padding: 0 4px; }
+.voice-visualizer__bar { display: block; width: 2.5px; border-radius: 9999px; background: oklch(26.9% 0 0); }
+.voice-visualizer__bar--inactive { scale: 1 .35; }
+.voice-visualizer--processing { height: 32px; padding: 0 8px; opacity: .5; }
+.voice-timer { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-feature-settings: normal; font-variation-settings: normal; font-size: 11.5px; line-height: inherit; font-variant-numeric: tabular-nums; color: oklch(55.6% 0 0); }
+.dark .voice-input { border-color: rgb(255 255 255 / 9%); background: #0b0b0d; }
+.dark .voice-input__button--primary { background: oklch(97% 0 0); color: oklch(20.5% 0 0); }
+.dark .voice-input__button--cancel:hover { background: rgb(255 255 255 / 6%); color: oklch(92.2% 0 0); }
+.dark .voice-input__hint { color: oklch(55.6% 0 0); }
+.dark .voice-visualizer__bar { background: oklch(92.2% 0 0); }
+.dark .voice-timer { color: oklch(70.8% 0 0); }
+@media (prefers-reduced-motion: reduce) { .voice-visualizer__bar--active { animation: none !important; scale: 1 .5 !important; } }
