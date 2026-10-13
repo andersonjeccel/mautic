@@ -1,0 +1,38 @@
+@font-face { font-family: "Acervo Manrope"; src: url("fonts/acervo-manrope-400.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+.animated-button { box-sizing: border-box; margin: 0; padding: 0; border: 0 solid currentColor; font-family: "Acervo Manrope"; font-size: inherit; line-height: inherit; font-weight: inherit; color: var(--ab-foreground, #1f1f1f); background: transparent; }
+.animated-button--styled { --ab-primary: var(--acervo-primary, #787230); --ab-primary-foreground: var(--acervo-primary-foreground, #faf7f1); --ab-foreground: var(--acervo-foreground, #1f1f1f); --ab-background: var(--acervo-background, #faf7f1); --ab-accent: var(--acervo-accent, #e5e4ce); --ab-accent-foreground: var(--acervo-accent-foreground, #1f1f1f); --ab-secondary: var(--acervo-secondary, #f4f0e5); --ab-secondary-foreground: var(--acervo-secondary-foreground, #1f1f1f); --ab-destructive: var(--acervo-destructive, #9e4831); --ab-input: var(--acervo-input, rgb(31 31 31 / 24%)); --ab-ring: var(--acervo-ring, #a6673a); --ab-shadow: 0 0 #0000; --ab-ring-color: color-mix(in oklab, var(--ab-ring) 50%, transparent); display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; border-radius: 6.4px; font-size: 14px; font-weight: 500; line-height: 20px; flex-shrink: 0; outline: none; transition-property: box-shadow, color, background-color, border-color, outline-color, text-decoration-color, fill, stroke; transition-duration: 150ms; transition-timing-function: cubic-bezier(.4,0,.2,1); }
+.animated-button--styled[data-size="default"] { height: 36px; padding: 8px 16px; }
+.animated-button--styled[data-size="sm"] { height: 32px; padding: 0 12px; gap: 6px; }
+.animated-button--styled[data-size="lg"] { height: 40px; padding: 0 24px; }
+.animated-button--styled[data-size="default"]:has(>svg) { padding-left: 12px; padding-right: 12px; }
+.animated-button--styled[data-size="sm"]:has(>svg) { padding-left: 10px; padding-right: 10px; }
+.animated-button--styled[data-size="lg"]:has(>svg) { padding-left: 16px; padding-right: 16px; }
+.animated-button--styled[data-size="icon"] { width: 36px; height: 36px; }
+.animated-button--styled[data-size="icon-sm"] { width: 32px; height: 32px; }
+.animated-button--styled[data-size="icon-lg"] { width: 40px; height: 40px; }
+.animated-button--styled:is([data-variant="default"],[data-variant="accent"],[data-variant="destructive"],[data-variant="outline"],[data-variant="secondary"]) { --ab-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%); box-shadow: 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 0 #0000, var(--ab-shadow); }
+.animated-button--styled[data-variant="default"] { background: var(--ab-primary); color: var(--ab-primary-foreground); }
+.animated-button--styled[data-variant="default"]:hover { background: color-mix(in oklab, var(--ab-primary) 90%, transparent); }
+.animated-button--styled[data-variant="accent"] { background: var(--ab-accent); color: var(--ab-accent-foreground); }
+.animated-button--styled[data-variant="accent"]:hover { background: color-mix(in oklab, var(--ab-accent) 90%, transparent); }
+.animated-button--styled[data-variant="destructive"] { background: var(--ab-destructive); color: #fff; --ab-ring-color: color-mix(in oklab, var(--ab-destructive) 20%, transparent); }
+.animated-button--styled[data-variant="destructive"]:hover { background: color-mix(in oklab, var(--ab-destructive) 90%, transparent); }
+.animated-button--styled[data-variant="secondary"] { background: var(--ab-secondary); color: var(--ab-secondary-foreground); }
+.animated-button--styled[data-variant="secondary"]:hover { background: color-mix(in oklab, var(--ab-secondary) 80%, transparent); }
+.animated-button--styled[data-variant="outline"] { border: 1px solid currentColor; background: var(--ab-background); }
+.animated-button--styled[data-variant="outline"]:hover, .animated-button--styled[data-variant="ghost"]:hover { background: var(--ab-accent); color: var(--ab-accent-foreground); }
+.animated-button--styled[data-variant="link"] { color: var(--ab-primary); text-underline-offset: 4px; }
+.animated-button--styled[data-variant="link"]:hover { text-decoration-line: underline; }
+.animated-button--styled:focus-visible { border-color: var(--ab-ring); box-shadow: 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 0 0 3px var(--ab-ring-color), var(--ab-shadow); }
+.animated-button--styled[aria-invalid="true"] { border-color: var(--ab-destructive); --ab-ring-color: color-mix(in oklab, var(--ab-destructive) 20%, transparent); }
+.animated-button--styled:disabled { pointer-events: none; opacity: .5; }
+.animated-button--styled svg { pointer-events: none; flex-shrink: 0; }
+.animated-button--styled svg:not([class*="size-"]) { width: 16px; height: 16px; }
+.dark .animated-button { --ab-foreground: var(--acervo-foreground, #faf7f1); }
+.dark .animated-button--styled { --ab-primary: var(--acervo-primary, #aaa35a); --ab-primary-foreground: var(--acervo-primary-foreground, #181816); --ab-background: var(--acervo-background, #181816); --ab-accent: var(--acervo-accent, #3d3b2c); --ab-accent-foreground: var(--acervo-accent-foreground, #faf7f1); --ab-secondary: var(--acervo-secondary, #303029); --ab-secondary-foreground: var(--acervo-secondary-foreground, #faf7f1); --ab-destructive: var(--acervo-destructive, #c96b4c); --ab-input: var(--acervo-input, rgb(250 247 241 / 22%)); --ab-ring: var(--acervo-ring, #c77e52); }
+.dark .animated-button--styled[data-variant="destructive"] { background: color-mix(in oklab, var(--ab-destructive) 60%, transparent); --ab-ring-color: color-mix(in oklab, var(--ab-destructive) 40%, transparent); }
+.dark .animated-button--styled[data-variant="destructive"]:hover { background: color-mix(in oklab, var(--ab-destructive) 60%, transparent); }
+.dark .animated-button--styled[data-variant="outline"] { border-color: var(--ab-input); background: color-mix(in oklab, var(--ab-input) 30%, transparent); }
+.dark .animated-button--styled[data-variant="outline"]:hover { background: color-mix(in oklab, var(--ab-input) 50%, transparent); }
+.dark .animated-button--styled[data-variant="ghost"]:hover { background: color-mix(in oklab, var(--ab-accent) 50%, transparent); }
+.dark .animated-button--styled[aria-invalid="true"] { border-color: var(--ab-destructive); --ab-ring-color: color-mix(in oklab, var(--ab-destructive) 40%, transparent); }
