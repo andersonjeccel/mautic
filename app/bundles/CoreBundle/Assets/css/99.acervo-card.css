@@ -1,0 +1,10 @@
+@font-face { font-family: "Acervo Manrope"; src: url("fonts/acervo-manrope-400.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+.acervo-card { box-sizing: border-box; font-family: "Acervo Manrope"; border: 1px solid currentColor; border-radius: 8px; background: var(--acervo-card, #fffcf6); color: var(--acervo-card-foreground, #1f1f1f); box-shadow: 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 0 #0000; }
+.acervo-card__header { box-sizing: border-box; display: flex; flex-direction: column; padding: 24px; }
+.acervo-card__header > :not(:last-child) { margin-block-start: 0; margin-block-end: 6px; }
+.acervo-card__title { font-family: "Acervo Manrope"; font-size: 24px; line-height: 1; font-weight: 600; letter-spacing: -.025em; }
+.acervo-card__description { font-family: "Acervo Manrope"; font-size: 14px; line-height: 20px; color: var(--acervo-muted-foreground, #776f62); }
+.acervo-card__content, .acervo-card__footer { box-sizing: border-box; padding: 0 24px 24px; }
+.acervo-card__footer { display: flex; align-items: center; }
+.dark .acervo-card { background: var(--acervo-card, #23231f); color: var(--acervo-card-foreground, #faf7f1); }
+.dark .acervo-card__description { color: var(--acervo-muted-foreground, #c4b9a7); }
