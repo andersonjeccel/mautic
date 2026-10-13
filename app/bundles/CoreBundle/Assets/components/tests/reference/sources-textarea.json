@@ -1,0 +1,21 @@
+{
+  "source": "/home/andersonjeccel/.acervo/frontend",
+  "files": [
+    {
+      "path": "src/components/shadcn-ui/primitives/textarea.tsx",
+      "sha256": "9ed650155ce1b5ccc86cd5f83c89efe700e0c5ffb14e4b08b24a91d72033c536"
+    },
+    {
+      "path": "src/lib/utils.ts",
+      "sha256": "7c8c3dfc0cdd370d44932828eb067ef771c8fe7996693221d5d4b90af6d54f2d"
+    },
+    {
+      "path": "src/index.css",
+      "sha256": "05bbe78e1b81cb19d9120f448051a7d812b81802c45f7747a518e0dd6c2828bb"
+    },
+    {
+      "path": "src/assets/fonts/Manrope-400.ttf",
+      "sha256": "a13d9b41b0a471ce58f0e46d377fa3cc76615e4632c3b15eb397caadf7a13f0a"
+    }
+  ]
+}
