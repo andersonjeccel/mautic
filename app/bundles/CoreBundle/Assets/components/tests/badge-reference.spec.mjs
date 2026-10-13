@@ -54,7 +54,7 @@ for(const children of[0,'0',true,false,'<script>&','Long badge'])test(`badge con
   expect(await native.locator('[data-component]').textContent()).toBe(await original.locator('#reference>div').textContent());await context.close();
 });
 for(const tag of['a','button'])test(`badge child slot ${tag}`,async({browser})=>{
-  const context=await browser.newContext();const original=await context.newPage(),native=await context.newPage();const options={asChild:true,tag,children:'Child',attributes:{title:'parent'},childAttributes:{title:'child',...(tag==='a'?{href:'#target'}:{type:'button'})},childClassName:'child'};
+  const context=await browser.newContext();const original=await context.newPage(),native=await context.newPage();const options={asChild:true,tag,children:'Child',attributes:{title:'parent',...(tag==='button'?{disabled:true}:{})},childAttributes:{title:'child',...(tag==='a'?{href:'#target'}:{type:'button',disabled:false})},childClassName:'child'};
   await scene(original,true,options,false);await scene(native,false,options,false);
   for(const page of[original,native]){await expect(page.locator(tag)).toHaveAttribute('title','child');await expect(page.locator(tag)).toHaveClass(/child/);await page.locator(tag).focus();await expect(page.locator(tag)).toBeFocused();}
   const left=PNG.sync.read(await original.screenshot()),right=PNG.sync.read(await native.screenshot());expect(pixelmatch(left.data,right.data,null,left.width,left.height,{threshold:.05})).toBe(0);await context.close();
