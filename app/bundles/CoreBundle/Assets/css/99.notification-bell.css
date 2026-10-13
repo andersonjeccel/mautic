@@ -1,0 +1,19 @@
+@font-face { font-family: "Acervo Manrope"; src: url("fonts/acervo-manrope-400.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+.notification-bell { position: relative; display: inline-flex; box-sizing: border-box; width: 44px; height: 44px; padding: 0; align-items: center; justify-content: center; touch-action: manipulation; user-select: none; border: 1px solid oklch(92.2% 0 0); border-radius: 9999px; background: #fff; color: oklch(43.9% 0 0); font-family: "Acervo Manrope"; font-size: inherit; line-height: inherit; transition: color 150ms cubic-bezier(.4,0,.2,1),background-color 150ms cubic-bezier(.4,0,.2,1),border-color 150ms cubic-bezier(.4,0,.2,1); }
+.notification-bell--sm { width: 36px; height: 36px; }
+.notification-bell--lg { width: 52px; height: 52px; }
+.notification-bell:hover { background: oklch(97% 0 0); }
+.notification-bell:focus-visible { outline: none; box-shadow: 0 0 0 1px oklch(14.5% 0 0); }
+.notification-bell__bell { display: inline-flex; }
+.notification-bell__bell svg { display: block; vertical-align: middle; }
+.notification-bell__badge { position: absolute; right: -4px; top: -4px; display: flex; box-sizing: border-box; height: 18px; min-width: 18px; align-items: center; justify-content: center; border-radius: 9999px; background: oklch(64.5% .246 16.439); padding: 0 4px; color: #fff; font-size: 10px; font-weight: 600; line-height: 1; transform-origin: left bottom; }
+.notification-bell__digits { position: relative; display: inline-flex; overflow: hidden; font-variant-numeric: tabular-nums; }
+.notification-bell__digit { display: inline-block; }
+.notification-bell__digit--exit { position: absolute; top: 0; left: 0; }
+.notification-bell__dot { position: absolute; right: 4px; top: 4px; display: flex; width: 10px; height: 10px; }
+.notification-bell__dot-core { position: relative; width: 10px; height: 10px; border-radius: 9999px; background: oklch(64.5% .246 16.439); }
+.notification-bell__ping { position: absolute; inset: 0; border-radius: 9999px; background: oklch(64.5% .246 16.439); }
+.notification-bell__status { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border-width: 0; }
+.dark .notification-bell { border-color: oklch(26.9% 0 0); background: oklch(20.5% 0 0); color: oklch(87% 0 0); }
+.dark .notification-bell:hover { background: oklch(26.9% 0 0); }
+.dark .notification-bell:focus-visible { box-shadow: 0 0 0 1px oklch(87% 0 0); }
