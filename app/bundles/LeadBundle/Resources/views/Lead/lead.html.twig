@@ -162,8 +162,8 @@
                 <ul class="pt-md nav nav-tabs nav-tabs-contained" role="tablist">
                     {% for g in groups %}
                         {% if fields[g] is not empty %}
-                            <li class="{% if loop.first %}active{% endif %}">
-                                <a href="#{{ g }}" class="nav-link group{% if loop.first %} active{% endif %}" data-bs-toggle="tab">
+                            <li class=" {% if loop.first %}  {% endif %} ">
+                                <a href="#{{ g }}" class="nav-link group  {% if loop.first %} active {% endif %} " data-bs-toggle="tab">
                                     {{ ('mautic.lead.field.group.'~g)|trans }}
                                 </a>
                             </li>
@@ -180,7 +180,7 @@
                 <!-- start: tab-content -->
                 <div class="tab-content pa-md">
                     {% for group in groups %}
-                        <div class="tab-pane fade {% if loop.first %}in active{% endif %} bdr-w-0" id="{{ group }}">
+                        <div class="tab-pane fade  {% if loop.first %} show active {% endif %}  bdr-w-0" id="{{ group }}">
                             <div class="pr-md pl-md pb-md">
                                 <div class="panel shd-none mb-0">
                                     <table class="table table-hover mb-0">
@@ -283,8 +283,8 @@
         <div class="pa-md">
             <!-- tabs controls -->
             <ul class="nav nav-tabs nav-tabs-contained mt-10">
-                <li class="active">
-                    <a href="#timeline-container" role="tab" data-bs-toggle="tab" class="nav-link active" aria-selected="true">
+                <li class="">
+                    <a href="#timeline-container" role="tab" data-bs-toggle="tab" class="nav-link active">
                         <span size="sm" class="label label-primary mr-sm" id="TimelineCount">
                             {{ events.total }}
                         </span>
@@ -410,13 +410,13 @@
                 <div class="lead-avatar-panel">
                     <div class="avatar-collapser hr-expand nm">
                         <a href="javascript:void(0)"
-                            class="arrow text-secondary text-center {% if 'expanded' != avatarPanelState %}collapsed{% endif %}"
+                            class="arrow text-secondary text-center  {% if 'expanded' != avatarPanelState %} collapsed {% endif %} "
                             data-bs-toggle="collapse"
                             data-bs-target="#lead-avatar-block">
                             <span class="caret"></span>
                         </a>
                     </div>
-                    <div class="collapse {% if 'expanded' == avatarPanelState %}in{% endif %}" id="lead-avatar-block">
+                    <div class="collapse  {% if 'expanded' == avatarPanelState %} show {% endif %} " id="lead-avatar-block">
                         <img class="img-fluid" src="{{ leadGetAvatar(lead) }}" alt="{{ leadName|e }}"/>
                     </div>
                 </div>

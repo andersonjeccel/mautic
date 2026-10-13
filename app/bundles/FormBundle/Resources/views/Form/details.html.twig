@@ -201,12 +201,12 @@
             <!-- tabs controls -->
             <ul class="nav nav-tabs nav-tabs-contained">
                 {% if showActions %}
-                    <li class="active">
-                        <a href="#actions-container" role="tab" data-bs-toggle="tab" class="active nav-link" aria-selected="true">{{ 'mautic.form.tab.actions'|trans }}</a>
+                    <li class="">
+                        <a href="#actions-container" role="tab" data-bs-toggle="tab" class="nav-link active">{{ 'mautic.form.tab.actions'|trans }}</a>
                     </li>
                 {% endif %}
-                <li class="{% if not showActions %}active{% endif %}">
-                    <a href="#fields-container" role="tab" data-bs-toggle="tab" class="{% if not showActions %}active {% endif %}nav-link" aria-selected="{{ not showActions ? 'true' : 'false' }}">{{ 'mautic.form.tab.fields'|trans }}</a>
+                <li class=" {% if not showActions %}  {% endif %} ">
+                    <a href="#fields-container" role="tab" data-bs-toggle="tab" class="nav-link  {% if not showActions %} active {% endif %} ">{{ 'mautic.form.tab.fields'|trans }}</a>
                 </li>
             </ul>
             <!--/ tabs controls -->
@@ -216,7 +216,7 @@
         <div class="tab-content pa-md">
             {% if showActions %}
                 <!-- #actions-container -->
-                <div class="tab-pane active fade in bdr-w-0" id="actions-container">
+                <div class="tab-pane active fade show bdr-w-0" id="actions-container">
                     {% for group, groupActions in activeFormActions %}
                         <h5 class="fw-sb mb-xs">{{ group|title }}</h5>
                         <ul class="list-group">
@@ -252,7 +252,7 @@
             {% endif %}
 
             <!-- #fields-container -->
-            <div class="tab-pane fade {% if not showActions %}active in{% endif %} bdr-w-0" id="fields-container">
+            <div class="tab-pane fade  {% if not showActions %} active show {% endif %}  bdr-w-0" id="fields-container">
                 <h5 class="fw-sb mb-xs">{{ 'mautic.form.field'|trans }}</h5>
                 <ul class="list-group mb-xs">
                     {# @var \Mautic\FormBundle\Entity\Field $field #}
