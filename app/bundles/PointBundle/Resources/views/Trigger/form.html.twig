@@ -66,7 +66,7 @@
                                                 <li id="event_{{ k }}">
                                                     <a data-toggle="ajaxmodal"
                                                        data-target="#triggerEventModal"
-                                                       class="list-group-item"
+                                                       class="dropdown-item list-group-item"
                                                        href="{{ path('mautic_pointtriggerevent_action', {'objectAction': 'new', 'type': k, 'tmpl': 'event', 'triggerId': sessionId}) }}">
                                                         <div data-bs-toggle="tooltip" title="{{ e.description }}">
                                                             <span>{{ e.label }}</span>

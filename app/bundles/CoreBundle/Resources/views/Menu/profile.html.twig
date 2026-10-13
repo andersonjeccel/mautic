@@ -17,14 +17,14 @@
         </li>
 
         <li>
-            <a href="{{ path('mautic_user_account') }}" data-toggle="ajax">
+            <a href="{{ path('mautic_user_account') }}" data-toggle="ajax" class="dropdown-item">
                 <i class="ri-user-smile-line ri-lg"></i><span>{% trans %}mautic.user.account.settings{% endtrans %}</span>
             </a>
         </li>
 
         {% if securityIsGranted('user:users:create') %}
         <li>
-            <a href="{{ path('mautic_user_index', {'open': 'invite'}) }}" data-toggle="ajax">
+            <a href="{{ path('mautic_user_index', {'open': 'invite'}) }}" data-toggle="ajax" class="dropdown-item">
                 <i class="ri-team-line"></i>
                 <span>{{ 'mautic.user.profile.invite'|trans }}</span>
             </a>
@@ -32,13 +32,13 @@
         {% endif %}
 
         <li>
-            <a href="{{ path('mautic_user_logout') }}">
+            <a href="{{ path('mautic_user_logout') }}" class="dropdown-item">
                 <i class="ri-logout-circle-r-line ri-lg"></i><span>{% trans %}mautic.user.auth.logout{% endtrans %}</span>
             </a>
         </li>
 
         {% if inline %}
-        <li role="separator" class="divider"></li>
+        <li role="separator" class="dropdown-divider"></li>
         {{ inline }}
         {% endif %}
     </ul>

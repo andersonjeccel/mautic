@@ -245,8 +245,6 @@ Mautic.processModalContent = function (response, target) {
 
     if (response.sessionExpired || (response.closeModal && response.newContent && !response.updateModalContent)) {
         mQuery(target).each((index, element) => Mautic.hideModal(element));
-        mQuery('body').removeClass('modal-open');
-        mQuery('.modal-backdrop').remove();
         //assume the content is to refresh main app
         Mautic.processPageContent(response);
     } else {

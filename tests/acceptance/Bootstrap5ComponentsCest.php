@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Acceptance;
 
 use Symfony\Bridge\Twig\Extension\TranslationExtension;
+use Symfony\Component\Translation\Loader\ArrayLoader;
+use Symfony\Component\Translation\Translator;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
@@ -23,15 +25,19 @@ final class Bootstrap5ComponentsCest
         $tester->executeJS((string) file_get_contents($root.'/app/bundles/CoreBundle/Assets/js/9.modals.js'));
         $tester->executeJS((string) file_get_contents($root.'/app/bundles/CoreBundle/Assets/js/1a.content.js'));
         $tester->executeJS('Mautic.onPageLoad = () => {}; Mautic.onPageUnload = () => {}; Mautic.stopIconSpinPostEvent = () => {};');
-        $twig = new Environment(new FilesystemLoader($root.'/app/bundles/CoreBundle/Resources/views/Helper'));
-        $twig->addExtension(new TranslationExtension());
-        $tabs = $twig->render('nav_tabs.html.twig', [
+        $twig = new Environment(new FilesystemLoader($root.'/app/bundles/CoreBundle/Resources/views'));
+        $translator = new Translator('en_US');
+        $translator->addLoader('array', new ArrayLoader());
+        $translator->addResource('array', parse_ini_file($root.'/app/bundles/CoreBundle/Translations/en_US/messages.ini'), 'en_US');
+        $twig->addExtension(new TranslationExtension($translator));
+        $tabs = $twig->render('Helper/nav_tabs.html.twig', [
             'tabs' => [
                 ['id' => 'first', 'title' => 'first', 'content' => 'first content'],
                 ['id' => 'second', 'title' => 'second', 'content' => 'second content'],
             ],
         ]);
-        $html = $tabs.(string) file_get_contents($root.'/tests/_data/bootstrap5-components.html');
+        $header = '<header id="app-header" class="navbar" style="width:100%"><div class="navbar-nocollapse" style="width:100%"><ul class="nav navbar-nav navbar-right">'.$twig->render('Menu/quick_help.html.twig').'</ul></div></header>';
+        $html = $tabs.(string) file_get_contents($root.'/tests/_data/bootstrap5-components.html').$header;
         $tester->executeJS('document.body.innerHTML = '.json_encode($html).';');
         $tester->executeJS('window.modalEvents = []; mQuery("#testModal").on("show.bs.modal shown.bs.modal hide.bs.modal hidden.bs.modal", event => modalEvents.push(event.type));');
     }
@@ -48,6 +54,17 @@ final class Bootstrap5ComponentsCest
         $tester->assertSame(['show', 'shown', 'hide', 'hidden'], $tester->executeJS('return modalEvents;'));
         $tester->assertSame(0, $tester->executeJS('return document.querySelectorAll(".modal-backdrop").length;'));
         $tester->assertSame('none', $tester->executeJS('return getComputedStyle(document.querySelector("#testModal")).display;'));
+        $tester->assertFalse($tester->executeJS('return document.body.classList.contains("modal-open");'));
+    }
+
+    public function refreshesPageWithoutRemovingBackdropDuringShowTransition(\AcceptanceTester $tester): void
+    {
+        $state = $tester->executeJS('Mautic.processPageContent = response => { window.pageContent = response.newContent; }; bootstrap.Modal.getOrCreateInstance("#testModal").show(); Mautic.processModalContent({closeModal: true, newContent: "Updated"}, "#testModal"); return {content: window.pageContent, backdrops: document.querySelectorAll(".modal-backdrop").length};');
+        $tester->assertSame('Updated', $state['content']);
+        $tester->assertSame(1, $state['backdrops']);
+        $tester->waitForJS('return modalEvents.includes("hidden")', 5);
+        $tester->assertSame(['show', 'shown', 'hide', 'hidden'], $tester->executeJS('return modalEvents;'));
+        $tester->assertSame(0, $tester->executeJS('return document.querySelectorAll(".modal-backdrop").length;'));
         $tester->assertFalse($tester->executeJS('return document.body.classList.contains("modal-open");'));
     }
 
@@ -83,6 +100,37 @@ final class Bootstrap5ComponentsCest
         $tester->assertFalse($tester->executeJS('return document.querySelector("#scopeTrigger").hasAttribute("title");'));
         $tester->executeJS('originalTooltip.dispose();');
         $tester->assertSame(0, $tester->executeJS('return document.querySelectorAll(".tooltip").length;'));
+    }
+
+    public function navigatesRenderedHeaderDropdownWithoutChangingLayout(\AcceptanceTester $tester): void
+    {
+        foreach ([1280, 375] as $width) {
+            $tester->executeInSelenium(static function (\Facebook\WebDriver\Remote\RemoteWebDriver $driver) use ($width): void {
+                $driver->executeCustomCommand('/session/:sessionId/goog/cdp/execute', 'POST', ['cmd' => 'Emulation.setDeviceMetricsOverride', 'params' => ['width' => $width, 'height' => 900, 'deviceScaleFactor' => 1, 'mobile' => false]]);
+            });
+            $tester->assertSame($width, $tester->executeJS('return window.innerWidth;'));
+            $height = $tester->executeJS('return document.querySelector("#app-header").getBoundingClientRect().height;');
+            $tester->executeJS('document.querySelector("#app-header .dropdown-toggle").dispatchEvent(new KeyboardEvent("keydown", {key: "ArrowDown", bubbles: true}));');
+            $tester->waitForJS('return document.querySelector("#app-header .dropdown-menu").classList.contains("show")', 5);
+            if (getenv('BOOTSTRAP5_VALIDATION_CSS')) {
+                $tester->assertSame('absolute', $tester->executeJS('return getComputedStyle(document.querySelector("#app-header .dropdown-menu")).position;'));
+                $tester->assertSame($height, $tester->executeJS('return document.querySelector("#app-header").getBoundingClientRect().height;'));
+            }
+            $tester->assertTrue($tester->executeJS('return document.activeElement === document.querySelector("#app-header .dropdown-item");'));
+            $tester->executeJS('document.activeElement.dispatchEvent(new KeyboardEvent("keydown", {key: "ArrowDown", bubbles: true}));');
+            $tester->assertTrue($tester->executeJS('return document.activeElement === document.querySelectorAll("#app-header .dropdown-item")[1];'));
+            $tester->assertTrue($tester->executeJS('return Array.from(document.querySelectorAll("#app-header .dropdown-item > span > span")).every(element => element.textContent.trim() && element.getBoundingClientRect().width > 0);'));
+            if (getenv('BOOTSTRAP5_VALIDATION_CSS')) {
+                $tester->assertTrue($tester->executeJS('const bounds = document.querySelector("#app-header .dropdown-menu").getBoundingClientRect(); return bounds.left >= 0 && bounds.right <= window.innerWidth;'));
+            }
+            $tester->makeScreenshot('bootstrap5-header-'.$width.(getenv('BOOTSTRAP5_VALIDATION_CSS') ? '-mautic' : '-native'));
+            $tester->executeJS('document.activeElement.dispatchEvent(new KeyboardEvent("keydown", {key: "Escape", bubbles: true}));');
+            $tester->waitForJS('return !document.querySelector("#app-header .dropdown-menu").classList.contains("show")', 5);
+            $tester->assertTrue($tester->executeJS('return document.activeElement === document.querySelector("#app-header .dropdown-toggle");'));
+        }
+        $tester->executeInSelenium(static function (\Facebook\WebDriver\Remote\RemoteWebDriver $driver): void {
+            $driver->executeCustomCommand('/session/:sessionId/goog/cdp/execute', 'POST', ['cmd' => 'Emulation.clearDeviceMetricsOverride', 'params' => new \stdClass()]);
+        });
     }
 
     public function usesNativeCollapseAndDropdownDataApis(\AcceptanceTester $tester): void

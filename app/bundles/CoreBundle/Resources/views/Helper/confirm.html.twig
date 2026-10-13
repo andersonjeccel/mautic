@@ -64,7 +64,7 @@
     {% if tooltipPosition is not defined %}
         {% set tooltipPosition = 'left' %}
     {% endif %}
-    {% set tooltipAttr = ' data-toogle="tooltip" title="' ~ tooltip ~ '" data-placement="' ~ tooltipPosition ~ '"' %}
+    {% set tooltipAttr = ' data-bs-toggle="tooltip" title="' ~ tooltip|escape('html_attr') ~ '" data-bs-placement="' ~ tooltipPosition|escape('html_attr') ~ '"' %}
 {% endif %}
 
 {%- set precheck = precheck|default('') %}
@@ -79,7 +79,7 @@
     {% if 'data-confirm-text' not in attr|keys %}data-confirm-text="{{ confirmText|escape }}"{% endif %}
     {{ attr|filter(v => v is not empty)|map((value, key) => key ~ '="' ~ value ~ '"')|join(' ')|raw }}>
     {% if iconClass is defined %}
-        <i class="{{ iconClass }}{{ tooltipAttr }}"></i>
+        <i class="{{ iconClass }}"{{ tooltipAttr|raw }}></i>
     {% endif %}
     {% if btnText is defined %}
         <span{{ btnTextAttr }}>{{ btnText }}</span>

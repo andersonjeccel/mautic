@@ -519,6 +519,7 @@ final class ButtonHelper
             'btn',
         ];
 
-        $removeFrom['attr']['class'] = str_replace($search, '', $removeFrom['attr']['class']);
+        $removeFrom['attr']['class'] = trim(str_replace($search, '', $removeFrom['attr']['class']).' dropdown-item');
+        $removeFrom['btnClass']      = $removeFrom['attr']['class'];
     }
 }

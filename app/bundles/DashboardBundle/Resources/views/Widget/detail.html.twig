@@ -20,7 +20,7 @@
                         <a  href="{{ url('mautic_dashboard_action', {'objectAction': 'edit', 'objectId': widget.id}) }}"
                             data-toggle="ajaxmodal"
                             data-target="#MauticSharedModal"
-                            data-header="{{ 'mautic.dashboard.widget.header.edit'|trans }}">
+                            data-header="{{ 'mautic.dashboard.widget.header.edit'|trans }}" class="dropdown-item">
                             <span>
                                 <i class="ri-edit-line"></i>
                                 {{'mautic.core.form.edit'|trans}}
@@ -30,7 +30,7 @@
                     <li>
                         <a  href="{{ url('mautic_dashboard_action', {'objectAction': 'delete', 'objectId': widget.id}) }}"
                             data-header="{{ 'mautic.dashboard.widget.header.delete'|trans }}"
-                            class="remove-widget danger">
+                            class="dropdown-item remove-widget danger">
                             <span>
                                 <i class="ri-close-line"></i>
                                 {{'mautic.core.remove'|trans}}

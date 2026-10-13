@@ -5,13 +5,17 @@ declare(strict_types=1);
 namespace Mautic\CoreBundle\Tests\Unit\Twig;
 
 use Mautic\CoreBundle\Form\Type\ButtonGroupType;
+use Mautic\CoreBundle\Twig\Helper\ButtonHelper;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bridge\Twig\Extension\FormExtension;
 use Symfony\Bridge\Twig\Extension\TranslationExtension;
 use Symfony\Bridge\Twig\Form\TwigRendererEngine;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormRenderer;
 use Symfony\Component\Form\Forms;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use Twig\RuntimeLoader\FactoryRuntimeLoader;
@@ -26,6 +30,7 @@ final class BootstrapMarkupTest extends TestCase
     protected function setUp(): void
     {
         $loader = new FilesystemLoader(__DIR__.'/../../../Resources/views');
+        $loader->addPath(__DIR__.'/../../../Resources/views', 'MauticCore');
         $loader->addPath(dirname((new \ReflectionClass(FormExtension::class))->getFileName(), 2).'/Resources/views/Form');
         $this->twig = new Environment($loader, ['autoescape' => 'html']);
         $this->twig->addExtension(new TranslationExtension());
@@ -67,6 +72,34 @@ final class BootstrapMarkupTest extends TestCase
         $this->assertSame('outgoing', $crawler->filter('input.btn-check:checked')->attr('value'));
         $this->assertSame('direction_1', $crawler->filter('input.btn-check:checked + label')->attr('for'));
         $this->assertCount(0, $crawler->filter('[data-toggle="buttons"], label input'));
+    }
+
+    public function testDropdownActionsRenderFocusableNativeItems(): void
+    {
+        $helper = new ButtonHelper($this->twig, $this->createMock(TranslatorInterface::class), $this->createMock(EventDispatcherInterface::class));
+        $helper->reset(new Request(), ButtonHelper::LOCATION_LIST_ACTIONS);
+        $helper->setGroupType(ButtonHelper::TYPE_DROPDOWN);
+        $helper->setWrappingTags('<li>', '</li>');
+        $helper->addButtons([
+            ['attr' => ['href' => '#action', 'class' => 'btn btn-ghost custom-action'], 'btnText' => 'Action'],
+            ['confirm' => ['confirmAction' => '#delete', 'confirmText' => 'Delete', 'message' => 'Confirm', 'btnText' => 'Delete', 'iconClass' => 'ri-delete-bin-line', 'tooltip' => 'Delete "entry"']],
+        ]);
+        $crawler = new Crawler('<ul class="dropdown-menu">'.$helper->renderButtons().'</ul>');
+
+        $this->assertCount(2, $crawler->filter('.dropdown-menu > li > a.dropdown-item'));
+        $this->assertSame('#action', $crawler->filter('.dropdown-item.custom-action')->attr('href'));
+        $this->assertCount(0, $crawler->filter('.dropdown-menu .btn'));
+        $this->assertCount(1, $crawler->filter('.dropdown-item[data-toggle="confirmation"]'));
+        $this->assertSame('Delete "entry"', $crawler->filter('[data-bs-toggle="tooltip"]')->attr('title'));
+        $this->assertSame('left', $crawler->filter('[data-bs-toggle="tooltip"]')->attr('data-bs-placement'));
+    }
+
+    public function testHeaderHelpItemsUseNativeModalAndKeyboardMarkup(): void
+    {
+        $crawler = new Crawler($this->twig->render('Menu/quick_help.html.twig'));
+
+        $this->assertCount(3, $crawler->filter('.dropdown-menu > li > a.dropdown-item[href="#"][data-bs-toggle="modal"]'));
+        $this->assertCount(0, $crawler->filter('[data-toggle], [data-target]'));
     }
 
     public function testDisabledButtonGroupRetainsDisabledInputs(): void

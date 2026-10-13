@@ -30,7 +30,7 @@
                 </button>
                 <ul class="dropdown-menu time-dropdown">
                     {%- for abbr, label in timeFrames %}
-                    <li><a href="#" data-time="{{ abbr }}" data-field="returns_within">{{ label }}</a></li>
+                    <li><a href="#" data-time="{{ abbr }}" data-field="returns_within" class="dropdown-item">{{ label }}</a></li>
                     {%- endfor %}
                 </ul>
             </div>
@@ -50,7 +50,7 @@
                 </button>
                 <ul class="dropdown-menu time-dropdown">
                     {%- for abbr, label in timeFrames %}
-                        <li><a href="#" data-time="{{ abbr }}" data-field="returns_after">{{ label }}</a></li>
+                        <li><a href="#" data-time="{{ abbr }}" data-field="returns_after" class="dropdown-item">{{ label }}</a></li>
                     {%- endfor %}
                 </ul>
             </div>
@@ -71,7 +71,7 @@
                 </button>
                 <ul class="dropdown-menu time-dropdown">
                     {%- for abbr, label in timeFrames %}
-                        <li><a href="#" data-time="{{ abbr }}" data-field="accumulative_time">{{ label }}</a></li>
+                        <li><a href="#" data-time="{{ abbr }}" data-field="accumulative_time" class="dropdown-item">{{ label }}</a></li>
                     {%- endfor %}
                 </ul>
             </div>

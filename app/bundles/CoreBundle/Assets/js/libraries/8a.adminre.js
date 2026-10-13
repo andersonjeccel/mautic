@@ -688,7 +688,7 @@ if (typeof jQuery === "undefined") { throw new Error("This application requires 
                     // default click event handler
                     if(e.type === "click") {
                         // toggle hide and show
-                        if($(target).hasClass("in")) {
+                        if($(target).hasClass("show")) {
                             // hide the submenu
                             $(target).each((index, element) => bootstrap.Collapse.getInstance(element)?.hide());
                             $this.parent().removeClass("open");
