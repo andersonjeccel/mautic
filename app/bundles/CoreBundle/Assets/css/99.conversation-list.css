@@ -1,0 +1,37 @@
+@font-face{font-family:"Acervo Manrope";src:url("fonts/acervo-manrope-400.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap;}
+.conversation-list,.conversation-list *{box-sizing:border-box;}
+.conversation-list{width:100%;max-width:300px;border:1px solid color-mix(in oklab,#000 8%,transparent);border-radius:var(--radius-2xl,14.4px);background:#fff;padding:8px;box-shadow:0 0 #0000,0 0 #0000,0 1px 2px 0 rgb(0 0 0 / 5%);font-family:"Acervo Manrope";line-height:inherit;}
+.dark .conversation-list{border-color:color-mix(in oklab,#fff 9%,transparent);background:#0B0B0D;}
+.conversation-list__group~.conversation-list__group{margin-top:12px;}
+.conversation-list__heading{margin:0;padding:0 8px 4px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:9.5px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:oklch(70.8% 0 0);}
+.dark .conversation-list__heading{color:oklch(43.9% 0 0);}
+.conversation-list ul{margin:0;padding:0;list-style:none;}
+.conversation-list__row{position:relative;}
+.conversation-list button{margin:0;border:0;padding:0;background:transparent;font-family:inherit;font-size:inherit;line-height:inherit;}
+.conversation-list .conversation-list__select{display:flex;width:100%;align-items:center;gap:8px;border-radius:var(--radius-lg,8px);padding:8px;text-align:left;transition:background-color 150ms cubic-bezier(.4,0,.2,1),transform 150ms cubic-bezier(.4,0,.2,1);}
+.conversation-list[data-variant="Compact"] .conversation-list__select{padding-top:6px;padding-bottom:6px;}
+.conversation-list__select:active{scale:.99;}
+@media(hover:hover){.conversation-list__select:not([aria-current]):hover{background:color-mix(in oklab,#000 3%,transparent);}}
+.conversation-list__select[aria-current]{background:color-mix(in oklab,#000 5%,transparent);}
+@media(hover:hover){.dark .conversation-list__select:not([aria-current]):hover{background:color-mix(in oklab,#fff 4%,transparent);}}
+.dark .conversation-list__select[aria-current]{background:color-mix(in oklab,#fff 7%,transparent);}
+.conversation-list svg{display:block;vertical-align:middle;}
+.conversation-list__message-square{width:14px;height:14px;flex-shrink:0;color:oklch(87% 0 0);}
+.conversation-list__select[aria-current] .conversation-list__message-square{color:oklch(37.1% 0 0);}
+.dark .conversation-list__message-square{color:oklch(43.9% 0 0);}
+.dark .conversation-list__select[aria-current] .conversation-list__message-square{color:oklch(92.2% 0 0);}
+.conversation-list__title{min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:24px;font-size:12.5px;color:oklch(43.9% 0 0);}
+.conversation-list[data-variant="Compact"] .conversation-list__title{font-size:12px;}
+.conversation-list__select[aria-current] .conversation-list__title{font-weight:500;color:oklch(20.5% 0 0);}
+.dark .conversation-list__title{color:oklch(70.8% 0 0);}
+.dark .conversation-list__select[aria-current] .conversation-list__title{color:oklch(98.5% 0 0);}
+.conversation-list .conversation-list__pin{position:absolute;right:6px;top:50%;display:grid;width:24px;height:24px;translate:0 -50%;place-items:center;border-radius:var(--radius-md,6.4px);color:oklch(70.8% 0 0);opacity:1;transition:opacity 150ms cubic-bezier(.4,0,.2,1),color 150ms cubic-bezier(.4,0,.2,1),transform 150ms cubic-bezier(.4,0,.2,1);}
+.dark .conversation-list .conversation-list__pin{color:oklch(55.6% 0 0);}
+.conversation-list .conversation-list__pin[aria-pressed="true"]{color:oklch(37.1% 0 0);}
+.dark .conversation-list .conversation-list__pin[aria-pressed="true"]{color:oklch(92.2% 0 0);}
+.conversation-list__pin:active{scale:.9;}
+.conversation-list__pin svg{width:12px;height:12px;}
+.conversation-list__pin[aria-pressed="true"] svg{fill:currentColor;}
+@media(hover:hover){.conversation-list__pin[aria-pressed="false"]{opacity:0;}.conversation-list__row:hover .conversation-list__pin[aria-pressed="false"]{opacity:1;}}
+.conversation-list button:focus-visible{outline:2px solid transparent;outline-offset:2px;box-shadow:0 0 0 2px oklch(70.8% 0 0);}
+.conversation-list__pin:focus-visible{opacity:1;}
