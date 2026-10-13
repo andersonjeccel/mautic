@@ -54,7 +54,7 @@ Mautic.observeConfigTabs = function() {
         mQuery('#config_coreconfig_last_shown_tab').val(parameters['tab']);
         mQuery('a[data-bs-toggle="tab"]').each(function (i, tab) {
             if (mQuery(tab).attr('href') == ('#' + parameters['tab'])) {
-                mQuery(tab).tab('show');
+                mQuery(tab).each((index, element) => bootstrap.Tab.getOrCreateInstance(element).show());
             }
         });
     }
