@@ -29,8 +29,8 @@
                 <ul class="list-group list-group-tabs">
                     {% for g in groups %}
                         {% if fields[g] is not empty %}
-                            <li class="list-group-item {% if loop.first %}active{% endif %}">
-                                <a href="#company-{{ g }}" class="{% if loop.first %}active {% endif %}nav-link list-group-item-heading steps" data-bs-toggle="tab">
+                            <li class="nav-item {% if loop.first %}  {% endif %} ">
+                                <a href="#company-{{ g }}" class="nav-link list-group-item-heading steps  {% if loop.first %} active {% endif %} " data-bs-toggle="tab">
                                     {{ ('mautic.lead.field.group.'~g)|trans }}
                                 </a>
                             </li>
