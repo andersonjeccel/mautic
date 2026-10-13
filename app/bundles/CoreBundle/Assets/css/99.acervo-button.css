@@ -1,0 +1,21 @@
+@font-face { font-family: "Acervo Manrope"; src: url("fonts/acervo-manrope-400.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+.acervo-button { --button-primary: var(--acervo-primary, #787230); --button-primary-foreground: var(--acervo-primary-foreground, #faf7f1); --button-secondary: var(--acervo-secondary, #f4f0e5); --button-secondary-foreground: var(--acervo-secondary-foreground, #1f1f1f); --button-destructive: var(--acervo-destructive, #9e4831); --button-foreground: var(--acervo-foreground, #1f1f1f); --button-background: var(--acervo-background, #faf7f1); --button-accent: var(--acervo-accent, #e5e4ce); --button-accent-foreground: var(--acervo-accent-foreground, #1f1f1f); --button-input: var(--acervo-input, rgb(31 31 31 / 24%)); --button-ring: var(--acervo-ring, #a6673a); box-sizing: border-box; display: inline-flex; cursor: pointer; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; border: 0 solid currentColor; border-radius: 6.4px; font-family: "Acervo Manrope"; font-size: 14px; font-weight: 500; line-height: 20px; color: var(--button-foreground); background: transparent; padding: 0; margin: 0; transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke; transition-duration: 150ms; transition-timing-function: cubic-bezier(.4,0,.2,1); }
+.acervo-button[data-size="default"] { height: 40px; padding: 8px 16px; }
+.acervo-button[data-size="sm"] { height: 36px; padding: 0 12px; }
+.acervo-button[data-size="lg"] { height: 44px; padding: 0 32px; }
+.acervo-button[data-size="icon"] { height: 44px; width: 44px; min-height: 44px; min-width: 44px; }
+.acervo-button[data-variant="default"] { background: var(--button-primary); color: var(--button-primary-foreground); }
+.acervo-button[data-variant="default"]:hover { background: color-mix(in oklab, var(--button-primary) 90%, transparent); }
+.acervo-button[data-variant="destructive"] { background: var(--button-destructive); }
+.acervo-button[data-variant="destructive"]:hover { background: color-mix(in oklab, var(--button-destructive) 90%, transparent); }
+.acervo-button[data-variant="secondary"] { background: var(--button-secondary); color: var(--button-secondary-foreground); }
+.acervo-button[data-variant="secondary"]:hover { background: color-mix(in oklab, var(--button-secondary) 80%, transparent); }
+.acervo-button[data-variant="outline"] { border: 1px solid var(--button-input); background: var(--button-background); }
+.acervo-button[data-variant="outline"]:hover, .acervo-button[data-variant="ghost"]:hover { background: var(--button-accent); color: var(--button-accent-foreground); }
+.acervo-button[data-variant="link"] { color: var(--button-primary); text-underline-offset: 4px; }
+.acervo-button[data-variant="link"]:hover { text-decoration-line: underline; }
+.acervo-button:focus-visible { outline: none; box-shadow: 0 0 #0000, 0 0 #0000, 0 0 0 2px var(--button-background), 0 0 0 4px var(--button-ring), 0 0 #0000; }
+.acervo-button:disabled { pointer-events: none; opacity: .5; }
+@media (forced-colors: active) { .acervo-button:focus-visible { outline: 2px solid transparent; outline-offset: 2px; } }
+.acervo-button svg { pointer-events: none; width: 16px; height: 16px; flex-shrink: 0; }
+.dark .acervo-button { --button-primary: var(--acervo-primary, #aaa35a); --button-primary-foreground: var(--acervo-primary-foreground, #181816); --button-secondary: var(--acervo-secondary, #303029); --button-secondary-foreground: var(--acervo-secondary-foreground, #faf7f1); --button-destructive: var(--acervo-destructive, #c96b4c); --button-foreground: var(--acervo-foreground, #faf7f1); --button-background: var(--acervo-background, #181816); --button-accent: var(--acervo-accent, #3d3b2c); --button-accent-foreground: var(--acervo-accent-foreground, #faf7f1); --button-input: var(--acervo-input, rgb(250 247 241 / 22%)); --button-ring: var(--acervo-ring, #c77e52); }
