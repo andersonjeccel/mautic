@@ -1,0 +1,10 @@
+import * as React from 'react';
+import { createRoot } from 'react-dom/client';
+import { flushSync } from 'react-dom';
+import { DotExpandPlayer } from './src/components/spectrum-ui/components/dot-expand-player';
+const root=createRoot(document.querySelector('#reference')!);
+let options=(window as any).referenceOptions;
+(window as any).events=[];
+(window as any).referenceUpdate=(next:any)=>{options={...options,...next};flushSync(()=>root.render(<DotExpandPlayer {...options} {...options.attributes} onClick={event=>{(window as any).events.push('click');if(options.cancelClick)event.preventDefault();}} onEnded={()=>(window as any).events.push('ended')} onPlaybackError={error=>(window as any).events.push('error:'+(error as Error).name)}/>));};
+(window as any).referenceUnmount=()=>root.unmount();
+(window as any).referenceUpdate({});
