@@ -1,0 +1,41 @@
+@font-face{font-family:"Acervo Manrope";src:url("fonts/acervo-manrope-400.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap;}
+.tool-chips,.tool-chips *{box-sizing:border-box;}
+.tool-chips{width:100%;max-width:480px;font-family:"Acervo Manrope";line-height:inherit;}
+.tool-chips__list{display:flex;gap:6px;flex-wrap:wrap;}
+.tool-chips[data-variant="Stack"] .tool-chips__list{flex-direction:column;flex-wrap:nowrap;}
+.tool-chips__chip{display:flex;align-items:center;gap:8px;border:1px solid color-mix(in oklab,#000 7%,transparent);border-radius:var(--radius-lg,8px);background:transparent;padding:6px 12px 6px 10px;text-align:left;font-family:inherit;font-size:inherit;line-height:inherit;transition-property:border-color,background-color,transform;transition-duration:150ms;transition-timing-function:cubic-bezier(.4,0,.2,1);}
+.dark .tool-chips__chip{border-color:color-mix(in oklab,#fff 8%,transparent);}
+.tool-chips__chip[aria-expanded="false"]:hover{border-color:color-mix(in oklab,#000 14%,transparent);}
+.dark .tool-chips__chip[aria-expanded="false"]:hover{border-color:color-mix(in oklab,#fff 16%,transparent);}
+.tool-chips__chip[aria-expanded="true"]{border-color:color-mix(in oklab,#000 16%,transparent);background:color-mix(in oklab,#000 3%,transparent);}
+.dark .tool-chips__chip[aria-expanded="true"]{border-color:color-mix(in oklab,#fff 22%,transparent);background:color-mix(in oklab,#fff 5%,transparent);}
+.tool-chips[data-variant="Stack"] .tool-chips__chip{width:100%;}
+.tool-chips__chip:active{scale:.98;}
+.tool-chips__chip:focus-visible{outline-style:none;box-shadow:0 0 0 2px oklch(70.8% 0 0);}
+.tool-chips__dot{width:6px;height:6px;flex-shrink:0;border-radius:calc(infinity * 1px);}
+.tool-chips__dot[data-status="pending"]{background:oklch(87% 0 0);}
+.dark .tool-chips__dot[data-status="pending"]{background:oklch(43.9% 0 0);}
+.tool-chips__dot[data-status="running"]{background:color-mix(in oklab,oklch(68.5% .169 237.323) 80%,transparent);}
+.tool-chips__dot[data-status="success"]{background:color-mix(in oklab,oklch(69.6% .17 162.48) 80%,transparent);}
+.tool-chips__dot[data-status="error"]{background:color-mix(in oklab,oklch(63.7% .237 25.331) 80%,transparent);}
+.tool-chips__dot[data-status="cancelled"]{background:oklch(70.8% 0 0);}
+.dark .tool-chips__dot[data-status="cancelled"]{background:oklch(55.6% 0 0);}
+.tool-chips__name,.tool-chips__elapsed,.tool-chips__args{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;}
+.tool-chips__name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11.5px;font-weight:500;color:oklch(37.1% 0 0);}
+.dark .tool-chips__name{color:oklch(87% 0 0);}
+.tool-chips__elapsed{margin-left:auto;flex-shrink:0;font-size:10px;font-variant-numeric:tabular-nums;color:oklch(70.8% 0 0);}
+.dark .tool-chips__elapsed{color:oklch(43.9% 0 0);}
+.tool-chips__elapsed[data-running]{font-variant-numeric:normal;text-transform:uppercase;letter-spacing:.025em;color:oklch(58.8% .158 241.966);}
+.dark .tool-chips__elapsed[data-running]{color:oklch(74.6% .16 232.661);}
+.tool-chips__grid{display:grid;transition:grid-template-rows 240ms cubic-bezier(.32,.72,0,1);}
+.tool-chips__overflow{overflow:hidden;}
+.tool-chips__panel{margin-top:8px;border-radius:var(--radius-lg,8px);background:color-mix(in oklab,#000 3%,transparent);padding:10px 12px;}
+.dark .tool-chips__panel{background:color-mix(in oklab,#fff 4%,transparent);}
+.tool-chips p{margin:0;}
+.tool-chips .tool-chips__args{margin-bottom:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10.5px;color:oklch(70.8% 0 0);}
+.dark .tool-chips__args{color:oklch(43.9% 0 0);}
+.tool-chips__result{font-size:12.5px;line-height:1.6;color:oklch(43.9% 0 0);}
+.dark .tool-chips__result{color:oklch(70.8% 0 0);}
+@keyframes tool-chips-pulse{50%{opacity:.5;}}
+@media(prefers-reduced-motion:no-preference){.tool-chips__dot[data-status="running"]{animation:tool-chips-pulse 2s cubic-bezier(.4,0,.6,1) infinite;}}
+@media(forced-colors:active){.tool-chips__chip:focus-visible{outline:2px solid transparent;outline-offset:2px;}}
