@@ -25,7 +25,8 @@ class AcervoAvatar {
     if ('alt' in options) {
       const image = this.imageTemplate.content.firstElementChild!;
       if (options.alt === undefined) image.removeAttribute('alt'); else image.setAttribute('alt', options.alt);
-      this.element.querySelector('img')?.setAttribute('alt', options.alt ?? '');
+      const display = this.element.querySelector(':scope > [data-slot="avatar-image"]');
+      if (options.alt === undefined) display?.removeAttribute('alt'); else display?.setAttribute('alt', options.alt);
     }
     if (previous.delayMs !== this.options.delayMs) this.scheduleFallback();
     if (previous.src !== this.options.src || previous.crossOrigin !== this.options.crossOrigin || previous.referrerPolicy !== this.options.referrerPolicy) this.load();
