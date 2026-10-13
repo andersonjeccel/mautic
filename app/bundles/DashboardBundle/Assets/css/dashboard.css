@@ -4,7 +4,7 @@ body:has(.s-dashboard) {
     --field-hover: var(--field-hover-02);
 }
 
-.input-group-addon label {
+.input-group-text label {
     margin-bottom: 0px;
 }
 .vector-map {

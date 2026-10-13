@@ -129,7 +129,7 @@
 
             // aligment
             // -------------------------
-            &.pull-right {
+            &.float-end {
               left: auto;
               right: 4px;
             }
@@ -146,7 +146,7 @@
 
             // aligment
             // -------------------------
-            &.pull-right {
+            &.float-end {
               left: auto;
               right: 4px;
             }
@@ -203,7 +203,7 @@
       }
 
       // open state
-      .open {
+      :is(.open, :has(> [data-bs-toggle="dropdown"].show)) {
         // reset default bootstrap `navbar-nav` `dropdown-menu`
         .dropdown-menu {
           background-color: var(--layer);
@@ -290,12 +290,12 @@
       float: left !important;
 
       // dropdown alignment
-      .open .dropdown-menu {
+      :is(.open, :has(> [data-bs-toggle="dropdown"].show)) .dropdown-menu {
         left: 0;
         right: auto;
       }
       // dropdown-custom alignment
-      .open.dropdown-custom .dropdown-menu {
+      :is(.open, :has(> [data-bs-toggle="dropdown"].show)).dropdown-custom .dropdown-menu {
         left: 15px;
         right: auto;
       }
@@ -303,7 +303,7 @@
     .navbar-right {
       float: right !important;
 
-      .open > a:after {
+      :is(.open, :has(> [data-bs-toggle="dropdown"].show)) > a:after {
         z-index: 1003;
         bottom: -7px;
         margin-left: -8px;
@@ -317,7 +317,7 @@
         border-style: solid;
       }
 
-      .open > a:before {
+      :is(.open, :has(> [data-bs-toggle="dropdown"].show)) > a:before {
         z-index: 1002;
         bottom: -6px;
         margin-left: -9px;
@@ -332,12 +332,12 @@
       }
 
       // dropdown alignment
-      .open .dropdown-menu {
+      :is(.open, :has(> [data-bs-toggle="dropdown"].show)) .dropdown-menu {
         left: auto;
         right: 0;
       }
       // dropdown-custom alignment
-      .open.dropdown-custom .dropdown-menu {
+      :is(.open, :has(> [data-bs-toggle="dropdown"].show)).dropdown-custom .dropdown-menu {
         left: auto;
         right: 15px;
       }

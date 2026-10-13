@@ -27,7 +27,7 @@ $modal-translate-z: -340px; /* The first modal translateZ value*/
   margin:5em auto;
 }
 
-.modal.in{
+.modal.show{
   @include perspective(2000px);
 
   .modal-dialog{

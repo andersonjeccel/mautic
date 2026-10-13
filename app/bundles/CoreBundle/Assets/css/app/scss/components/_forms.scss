@@ -18,10 +18,10 @@ label {
 
 // control label
 // -------------------------
-.control-label {
+.form-label {
   color: var(--text-secondary);
 
-  &.text-left {
+  &.text-start {
     text-align: left;
   }
 }
@@ -124,8 +124,8 @@ input[style] {
       border-radius: 0 0 $border-radius-base $border-radius-base;
     }
 
-    // input-lg reset radius
-    &.input-lg {
+    // form-control-lg reset radius
+    &.form-control-lg {
       &:first-child {
         border-radius: $border-radius-large $border-radius-large 0 0;
       }
@@ -135,8 +135,8 @@ input[style] {
       }
     }
 
-    // input-sm reset radius
-    &.input-sm {
+    // form-control-sm reset radius
+    &.form-control-sm {
       &:first-child {
         border-radius: $border-radius-small $border-radius-small 0 0;
       }
@@ -152,13 +152,13 @@ input[style] {
       >.form-control {
         border-radius: $border-radius-base $border-radius-base 0 0;
 
-        // input-lg reset radius
-        &.input-lg {
+        // form-control-lg reset radius
+        &.form-control-lg {
           border-radius: $border-radius-large $border-radius-large 0 0;
         }
 
-        // input-sm reset radius
-        &.input-sm {
+        // form-control-sm reset radius
+        &.form-control-sm {
           border-radius: $border-radius-small $border-radius-small 0 0;
         }
       }
@@ -168,13 +168,13 @@ input[style] {
       >.form-control {
         border-radius: 0 0 $border-radius-base $border-radius-base;
 
-        // input-lg reset radius
-        &.input-lg {
+        // form-control-lg reset radius
+        &.form-control-lg {
           border-radius: 0 0 $border-radius-large $border-radius-large;
         }
 
-        // input-lg reset radius
-        &.input-sm {
+        // form-control-lg reset radius
+        &.form-control-sm {
           border-radius: 0 0 $border-radius-small $border-radius-small;
         }
       }
@@ -194,7 +194,7 @@ input[style] {
   .form-control {
     padding-left: $input-height-base;
 
-    &.input-lg {
+    &.form-control-lg {
       padding-left: $input-height-large;
 
       +.the-icon {
@@ -204,7 +204,7 @@ input[style] {
       }
     }
 
-    &.input-sm {
+    &.form-control-sm {
       padding-left: $input-height-small;
 
       +.the-icon {
@@ -236,12 +236,12 @@ input[style] {
       padding-left: $padding-base-horizontal;
       padding-right: $input-height-base;
 
-      &.input-lg {
+      &.form-control-lg {
         padding-left: $padding-large-horizontal;
         padding-right: $input-height-large;
       }
 
-      &.input-sm {
+      &.form-control-sm {
         padding-left: $padding-small-horizontal;
         padding-right: $input-height-small;
       }

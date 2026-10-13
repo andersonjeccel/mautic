@@ -1,0 +1,15 @@
+actor: AcceptanceTester
+path: acceptance
+modules:
+  enabled:
+    - Asserts
+    - WebDriver:
+        url: 'https://web:443'
+        host: selenium-chrome
+        browser: chrome
+        port: 4444
+        window_size: '1280x900'
+        capabilities:
+          acceptInsecureCerts: true
+          'goog:chromeOptions':
+            args: ['--disable-dev-shm-usage']

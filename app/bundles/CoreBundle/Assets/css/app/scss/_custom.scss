@@ -11,7 +11,7 @@
 }
 
 // Fit the right menu to the screen no matter the viewport size
-.dropdown-menu-right {
+.dropdown-menu-end {
   max-height: 85vh;
   overflow-y: auto;
 }
@@ -203,7 +203,7 @@ body.noscroll {
 }
 
 #app-content.content-only {
-  .toolbar-form-buttons.pull-right {
+  .toolbar-form-buttons.float-end {
     padding-right:20px;
   }
 }
@@ -385,7 +385,7 @@ code:hover > .copy-icon {
   width: 100%;
   overflow: hidden;
 
-  &.pull-left {
+  &.float-start {
     width: 75%;
   }
 
@@ -583,7 +583,7 @@ code:hover > .copy-icon {
   @include background-blur();
 }
 
-.popover-content {
+.popover-body {
   padding: 12px 16px 16px;
   border-radius: 0 0 clamp(4px, var(--border-radius-sm), 8px) clamp(4px, var(--border-radius-sm), 8px);
   background-color: var(--layer-02);
@@ -644,7 +644,7 @@ code:hover > .copy-icon {
   animation: modal-fade var(--duration-productive) var(--easing-standard-productive);
 }
 
-.modal.in .modal-dialog {
+.modal.show .modal-dialog {
   -webkit-transform: translate(0, 0);
   -ms-transform: translate(0, 0);
   -o-transform: translate(0, 0);
