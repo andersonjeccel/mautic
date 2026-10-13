@@ -60,7 +60,7 @@
              <div class="tab-content">
                  {% for key in form.children|keys|filter(v => formConfigs[v] is defined) %}
                      {% if form[key].children|length > 0 %}
-                       <div class="tab-pane in active bdr-w-0" id="{{ key }}">
+                       <div class="tab-pane show active bdr-w-0" id="{{ key }}">
                            <div>
                             <div class="row pa-md bdr-b">
                                 <h4 class="fw-sb">{{ ('mautic.config.tab.' ~ key)|trans }}</h4>

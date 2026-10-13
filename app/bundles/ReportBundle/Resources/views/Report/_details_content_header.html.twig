@@ -18,7 +18,7 @@
         </div>
     </div>
     {% if dynamicFilterFields is not empty %}
-    <div class="collapse {% if showDynamicFilters %}in{% endif %}" id="report-filters">
+    <div class="collapse  {% if showDynamicFilters %} show {% endif %} " id="report-filters">
         <div class="pr-md pl-md pb-md">
             <div class="panel shd-none mb-0 pa-lg">
                 <div class="row">
@@ -43,7 +43,7 @@
                 <span class="caret"></span> {{ 'mautic.core.details'|trans }}
             </a>
             {% if dynamicFilterFields is not empty %}
-            <a href="#report-filters" class="arrow text-secondary {% if not showDynamicFilters %}collapsed{% endif %}" data-bs-toggle="collapse" aria-expanded="false" aria-controls="report-filters">
+            <a href="#report-filters" class="arrow text-secondary  {% if not showDynamicFilters %} collapsed {% endif %} " data-bs-toggle="collapse" aria-expanded="false" aria-controls="report-filters">
                 <span class="caret"></span> {{ 'mautic.core.filters'|trans }}
             </a>
             {% endif %}

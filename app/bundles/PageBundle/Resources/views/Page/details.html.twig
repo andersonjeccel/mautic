@@ -199,15 +199,15 @@
               <!-- tabs controls -->
               <ul class="nav nav-tabs nav-tabs-contained">
                   {% if showVariants %}
-                      <li class="active">
-                          <a href="#variants-container" role="tab" data-bs-toggle="tab" class="nav-link">
+                      <li class="">
+                          <a href="#variants-container" role="tab" data-bs-toggle="tab" class="nav-link active">
                               {{- 'mautic.core.variants'|trans -}}
                           </a>
                       </li>
                   {% endif %}
                   {% if showTranslations %}
-                      <li class="{% if not showVariants %}active{% endif %}">
-                          <a href="#translation-container" role="tab" data-bs-toggle="tab" class="nav-link">
+                      <li class=" {% if not showVariants %}  {% endif %} ">
+                          <a href="#translation-container" role="tab" data-bs-toggle="tab" class="nav-link  {% if not showVariants %} active {% endif %} ">
                               {{- 'mautic.core.translations'|trans -}}
                           </a>
                       </li>
@@ -228,7 +228,7 @@
               {% endif %}
               <!-- #translation-container -->
               {% if showTranslations %}
-              <div class="tab-pane {% if not showVariants %}active{% endif %} bdr-w-0" id="translation-container">
+              <div class="tab-pane  {% if not showVariants %} active {% endif %}  bdr-w-0" id="translation-container">
                   {{ translationContent|raw }}
               </div>
               {% endif %}

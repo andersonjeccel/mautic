@@ -58,8 +58,8 @@
 
                     <!-- tabs controls -->
                     <ul class="nav nav-tabs nav-tabs-contained">
-                        <li class="active">
-                            <a href="#email-container" role="tab" data-bs-toggle="tab" class="nav-link">{{ 'mautic.core.form.theme'|trans }}</a>
+                        <li class="">
+                            <a href="#email-container" role="tab" data-bs-toggle="tab" class="nav-link active">{{ 'mautic.core.form.theme'|trans }}</a>
                         </li>
                         <li>
                             <a href="#advanced-container" role="tab" data-bs-toggle="tab" class="nav-link">
@@ -172,8 +172,8 @@
                                             {% for dynamicContent in form.dynamicContent %}
                                               {% set name = dynamicContent.tokenName.vars.value %}
                                               {% set linkText = name is defined ? name : 'mautic.core.dynamicContent'|trans ~ ' ' ~ loop.index %}
-                                              <li class="{% if loop.first %}active{% endif %}">
-                                                <a role="tab" data-bs-toggle="tab" href="#{{ dynamicContent.vars.id }}" class="nav-link">{{ linkText }}</a>
+                                              <li class=" {% if loop.first %}  {% endif %} ">
+                                                <a role="tab" data-bs-toggle="tab" href="#{{ dynamicContent.vars.id }}" class="nav-link  {% if loop.first %} active {% endif %} ">{{ linkText }}</a>
                                               </li>
                                             {% endfor %}
                                             </ul>
