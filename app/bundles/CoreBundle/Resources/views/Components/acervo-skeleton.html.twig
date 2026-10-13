@@ -1,0 +1,1 @@
+<div class="acervo-skeleton {{ className|default('') }}"{% if id is defined %} id="{{ id }}"{% endif %}{% for key, attribute in attributes|default({}) %} {{ key }}="{{ attribute }}"{% endfor %}>{% block children %}{{ children|default('') }}{% endblock %}</div>

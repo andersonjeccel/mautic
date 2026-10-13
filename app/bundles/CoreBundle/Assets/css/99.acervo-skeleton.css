@@ -1,0 +1,3 @@
+ .acervo-skeleton { box-sizing: border-box; border-radius: 6.4px; background: var(--acervo-muted, #e9e2d6); animation: acervo-skeleton-pulse 2s cubic-bezier(.4, 0, .6, 1) infinite; }
+.dark .acervo-skeleton { background: var(--acervo-muted, #303029); }
+@keyframes acervo-skeleton-pulse { 50% { opacity: .5; } }
