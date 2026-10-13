@@ -1,0 +1,30 @@
+@font-face { font-family: "Acervo Manrope"; src: url("fonts/acervo-manrope-400.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+.animated-toggle { box-sizing: border-box; display: inline-block; border: 0; padding: 0; margin: 0; font-family: "Acervo Manrope"; font-size: inherit; font-weight: inherit; line-height: inherit; color: var(--acervo-foreground, #1f1f1f); background: transparent; }
+.animated-toggle__highlight { position: absolute; z-index: 0; inset: 0; }
+.animated-toggle--styled { position: relative; }
+.animated-toggle--styled .animated-toggle__highlight { border-radius: 6.4px; background: var(--acervo-accent, #e5e4ce); }
+.animated-toggle__item { position: relative; z-index: 1; }
+.animated-toggle--styled .animated-toggle__item { box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 6.4px; font-size: 14px; line-height: 20px; font-weight: 500; border: 0 solid currentColor; height: 36px; min-width: 36px; padding: 0 8px; outline: none; background: transparent; white-space: nowrap; transition-property: color, background-color, box-shadow; transition-duration: 200ms; transition-timing-function: cubic-bezier(.4, 0, .2, 1); }
+.animated-toggle--styled .animated-toggle__item:hover { background: color-mix(in oklab, var(--acervo-muted, #e9e2d6) 40%, transparent); color: var(--acervo-muted-foreground, #776f62); }
+.animated-toggle--styled .animated-toggle__item[data-state="on"] { color: var(--acervo-accent-foreground, #1f1f1f); }
+.animated-toggle--styled .animated-toggle__item:disabled { pointer-events: none; opacity: .5; }
+.animated-toggle--styled[data-variant="outline"] .animated-toggle__item { border: 1px solid var(--acervo-input, rgb(31 31 31 / 24%)); --acervo-toggle-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%); box-shadow: 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 0 #0000, var(--acervo-toggle-shadow); }
+.animated-toggle--styled[data-variant="outline"] .animated-toggle__item:hover { background: color-mix(in oklab, var(--acervo-accent, #e5e4ce) 40%, transparent); color: var(--acervo-accent-foreground, #1f1f1f); }
+.animated-toggle--styled[data-size="sm"] .animated-toggle__item { height: 32px; min-width: 32px; padding: 0 6px; }
+.animated-toggle--styled[data-size="lg"] .animated-toggle__item { height: 40px; min-width: 40px; padding: 0 10px; }
+.animated-toggle--styled[data-size="icon"] .animated-toggle__item { width: 36px; height: 36px; min-width: 0; padding: 0; }
+.animated-toggle--styled .animated-toggle__item svg { pointer-events: none; flex-shrink: 0; }
+.animated-toggle--styled .animated-toggle__item svg:not([class*="size-"]) { width: 16px; height: 16px; }
+.animated-toggle--styled .animated-toggle__item:focus-visible { border-color: var(--acervo-ring, #a6673a); box-shadow: 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 0 0 3px color-mix(in oklab, var(--acervo-ring, #a6673a) 50%, transparent), var(--acervo-toggle-shadow, 0 0 #0000); }
+.animated-toggle--styled .animated-toggle__item[aria-invalid="true"] { border-color: var(--acervo-destructive, #9e4831); }
+.animated-toggle--styled .animated-toggle__item[aria-invalid="true"]:focus-visible { box-shadow: 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 0 0 3px color-mix(in oklab, var(--acervo-destructive, #9e4831) 20%, transparent), var(--acervo-toggle-shadow, 0 0 #0000); }
+.dark .animated-toggle { color: var(--acervo-foreground, #faf7f1); }
+.dark .animated-toggle--styled .animated-toggle__highlight { background: var(--acervo-accent, #3d3b2c); }
+.dark .animated-toggle--styled .animated-toggle__item:hover { background: color-mix(in oklab, var(--acervo-muted, #303029) 40%, transparent); color: var(--acervo-muted-foreground, #c4b9a7); }
+.dark .animated-toggle--styled .animated-toggle__item[data-state="on"] { color: var(--acervo-accent-foreground, #faf7f1); }
+.dark .animated-toggle--styled[data-variant="outline"] .animated-toggle__item { border-color: var(--acervo-input, rgb(250 247 241 / 22%)); }
+.dark .animated-toggle--styled[data-variant="outline"] .animated-toggle__item:hover { background: color-mix(in oklab, var(--acervo-accent, #3d3b2c) 40%, transparent); color: var(--acervo-accent-foreground, #faf7f1); }
+.dark .animated-toggle--styled .animated-toggle__item:focus-visible { border-color: var(--acervo-ring, #c77e52); box-shadow: 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 0 0 3px color-mix(in oklab, var(--acervo-ring, #c77e52) 50%, transparent), var(--acervo-toggle-shadow, 0 0 #0000); }
+.dark .animated-toggle--styled .animated-toggle__item[aria-invalid="true"] { border-color: var(--acervo-destructive, #c96b4c); }
+.dark .animated-toggle--styled .animated-toggle__item[aria-invalid="true"]:focus-visible { box-shadow: 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 0 0 3px color-mix(in oklab, var(--acervo-destructive, #c96b4c) 40%, transparent), var(--acervo-toggle-shadow, 0 0 #0000); }
+.animated-toggle--styled[data-size="none"] .animated-toggle__item { height: auto; min-width: 0; padding: 0; }

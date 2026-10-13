@@ -1,0 +1,1 @@
+<div data-slot="toggle-highlight" class="animated-toggle__highlight {{ highlightClassName|default('') }}" aria-pressed="true" data-state="on"{% if disabled is defined and disabled is not same as(null) %} data-disabled="{{ disabled ? 'true' : 'false' }}"{% endif %} style="opacity:0{% if highlightStyle is defined %};{{ highlightStyle }}{% endif %}"></div>

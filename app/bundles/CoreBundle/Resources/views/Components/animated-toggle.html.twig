@@ -1,0 +1,3 @@
+{% embed '@MauticCore/Components/animated-toggle-root.html.twig' with {styled:true,rootClassName:'animated-toggle--styled'} %}
+{% block toggle_content %}{% if contextPressed %}{% include '@MauticCore/Components/animated-toggle-highlight.html.twig' %}{% endif %}{% include '@MauticCore/Components/animated-toggle-item.html.twig' %}{% endblock %}
+{% endembed %}
