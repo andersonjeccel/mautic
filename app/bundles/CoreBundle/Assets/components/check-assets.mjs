@@ -14,6 +14,6 @@ foreach (array_slice($argv, 2) as $file) {
 }
 `;
 const names = readdirSync('../css').filter((name) => name.startsWith('99.') && name.endsWith('.css')).map((name) => name.slice(3, -4));
-for (const name of names) render(name, { label: 'Test' });
+for (const name of names) render(name, { label: 'Test', children: 'Test' });
 const assets = names.flatMap((name) => [resolve(`../js/99.${name}.js`), resolve(`../css/99.${name}.css`)]).filter(existsSync);
 process.stdout.write(execFileSync('php', ['-r', php, autoload, ...assets], { encoding: 'utf8' }));
