@@ -52,14 +52,14 @@ Mautic.observeConfigTabs = function() {
     var parameters = Mautic.parseQuery(window.location.search.substr(1));
     if ('undefined' != typeof parameters['tab']) {
         mQuery('#config_coreconfig_last_shown_tab').val(parameters['tab']);
-        mQuery('a[data-toggle="tab"]').each(function (i, tab) {
+        mQuery('a[data-bs-toggle="tab"]').each(function (i, tab) {
             if (mQuery(tab).attr('href') == ('#' + parameters['tab'])) {
                 mQuery(tab).tab('show');
             }
         });
     }
 
-    mQuery('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+    mQuery('a[data-bs-toggle="tab"]').on('show.bs.tab', function (e) {
         var tab = Mautic.parseUrlHashParameter(e.target.href);
         if (tab) {
             mQuery('#config_coreconfig_last_shown_tab').val(tab);
@@ -85,7 +85,7 @@ Mautic.configDsnTestExecute = function(element, action, key) {
         const theClass = (response.success) ? 'has-success' : 'has-error',
             theMessage = response.message;
         $container.find('.config-dsn-test-container').removeClass('has-success has-error').addClass(theClass);
-        $container.find('.help-block .status-msg').html(theMessage);
+        $container.find('.form-text .status-msg').html(theMessage);
         $container.find('.ri-loader-3-line').addClass('hide');
     });
 };
@@ -93,8 +93,8 @@ Mautic.configDsnTestExecute = function(element, action, key) {
 Mautic.configDsnTestDisable = function(element) {
     const $container = mQuery(element).closest('.config-dsn-container');
 
-    $container.find('.help-block .status-msg').html('');
-    $container.find('.help-block .save-config-msg').removeClass('hide');
+    $container.find('.form-text .status-msg').html('');
+    $container.find('.form-text .save-config-msg').removeClass('hide');
     $container.find('.config-dsn-test-button').prop('disabled', true).addClass('disabled');
 };
 
