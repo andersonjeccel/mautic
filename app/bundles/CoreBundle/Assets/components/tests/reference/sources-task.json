@@ -1,0 +1,21 @@
+{
+  "source": "/home/andersonjeccel/.acervo/frontend",
+  "files": [
+    {
+      "path": "src/components/spectrum-ui/components/task-checkbox.tsx",
+      "sha256": "66dd00238fcca85d9e2f5810f0ab1b7e8f4b2aaa2b474dfd9f3bd0af47bdf8e2"
+    },
+    {
+      "path": "src/lib/utils.ts",
+      "sha256": "7c8c3dfc0cdd370d44932828eb067ef771c8fe7996693221d5d4b90af6d54f2d"
+    },
+    {
+      "path": "src/index.css",
+      "sha256": "05bbe78e1b81cb19d9120f448051a7d812b81802c45f7747a518e0dd6c2828bb"
+    },
+    {
+      "path": "src/assets/fonts/Manrope-400.ttf",
+      "sha256": "a13d9b41b0a471ce58f0e46d377fa3cc76615e4632c3b15eb397caadf7a13f0a"
+    }
+  ]
+}
