@@ -44,7 +44,7 @@
 {% elseif type == 'expandable' %}
     {% set randomId = random() %}
     <button type="button"
-            class="tile tile--expandable collapsed {{ className|default('') }}"
+            class="tile tile--expandable collapsed  {{ className|default('') }} "
             data-bs-toggle="collapse"
             data-bs-target="#collapse-{{ randomId }}"
             aria-expanded="false"
