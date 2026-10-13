@@ -39,7 +39,7 @@ test('Radix double mousedown and interactive descendants match',async({browser})
       const one=label.dispatchEvent(new MouseEvent('mousedown',{bubbles:true,cancelable:true,detail:1}));
       const two=label.dispatchEvent(new MouseEvent('mousedown',{bubbles:true,cancelable:true,detail:2}));
       const input=document.createElement('input');label.append(input);const nested=input.dispatchEvent(new MouseEvent('mousedown',{bubbles:true,cancelable:true,detail:2}));return{one,two,nested};
-    });expect(result).toEqual({one:true,two:false,nested:true});
+    });expect(result).toEqual({one:true,two:false,nested:true});expect(await page.evaluate(()=>window.events)).toEqual([1,2]);
   }
   await context.close();
 });
@@ -47,11 +47,11 @@ for(const children of [0,'0',false,true,'<script>&','First\nSecond'])test(`label
   const context=await browser.newContext();const original=await context.newPage();const native=await context.newPage();
   await scene(original,true,{children});await scene(native,false,{children});expect(await native.locator('label').textContent()).toBe(await original.locator('label').textContent());await context.close();
 });
-test('asChild keeps the child tag and attribute precedence',async({browser})=>{
+for(const tag of['span','button'])test(`asChild keeps the child tag and attribute precedence ${tag}`,async({browser})=>{
   const context=await browser.newContext();const original=await context.newPage();const native=await context.newPage();
-  const options={asChild:true,tag:'span',htmlFor:'field',title:'parent',attributes:{title:'parent'},childAttributes:{title:'child'},childClassName:'child',children:'Child label'};
+  const options={asChild:true,tag,htmlFor:'field',title:'parent',attributes:{title:'parent',disabled:true},childAttributes:{title:'child',disabled:false},childClassName:'child',children:'Child label'};
   await scene(original,true,options);await scene(native,false,options);
-  for(const page of[original,native]){await expect(page.locator('span')).toHaveAttribute('title','child');await expect(page.locator('span')).toHaveAttribute('for','field');await expect(page.locator('span')).toHaveClass(/child/);}
+  for(const page of[original,native]){await expect(page.locator(tag)).toHaveAttribute('title','child');await expect(page.locator(tag)).toHaveAttribute('for','field');await expect(page.locator(tag)).toHaveClass(/child/);if(tag==='button')await expect(page.locator(tag)).toBeEnabled();}
   await native.evaluate(()=>{window.stale=document.querySelector('[data-component]');window.stale.remove();});
   await expect.poll(()=>native.evaluate(()=>window.MauticUI.AcervoLabel.get(window.stale)===undefined)).toBe(true);await context.close();
 });
