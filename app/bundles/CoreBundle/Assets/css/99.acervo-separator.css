@@ -1,0 +1,4 @@
+ .acervo-separator { flex-shrink: 0; box-sizing: border-box; background: var(--acervo-border, rgb(31 31 31 / 13%)); }
+.acervo-separator[data-orientation="horizontal"] { height: 1px; width: 100%; }
+.acervo-separator[data-orientation="vertical"] { height: 100%; width: 1px; }
+.dark .acervo-separator { background: var(--acervo-border, rgb(250 247 241 / 14%)); }

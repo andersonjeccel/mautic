@@ -1,0 +1,3 @@
+{% set orientation = orientation|default('horizontal') %}
+{% set decorative = decorative is defined ? decorative : true %}
+<div class="acervo-separator {{ className|default('') }}" data-orientation="{{ orientation }}" role="{{ decorative ? 'none' : 'separator' }}"{% if not decorative and orientation == 'vertical' %} aria-orientation="vertical"{% endif %}{% if id is defined %} id="{{ id }}"{% endif %}{% for key, attribute in attributes|default({}) %} {{ key }}="{{ attribute }}"{% endfor %}>{% block children %}{{ children|default('') }}{% endblock %}</div>
