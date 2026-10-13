@@ -1,0 +1,12 @@
+@font-face{font-family:"Acervo Manrope";src:url("fonts/acervo-manrope-400.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap;}
+@keyframes core-loading-pixel{0%,100%{opacity:.15}40%{opacity:1}}
+@keyframes core-loading-shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.loading-state{display:flex;width:fit-content;align-items:center;gap:10px;color:oklch(20.5% 0 0);font-family:"Acervo Manrope";line-height:inherit;}
+.dark .loading-state{color:oklch(97% 0 0);}
+.loading-state__grid{display:grid;grid-template-columns:repeat(3,4px);gap:1.5px;}
+.loading-state__pixel{width:4px;height:4px;background:currentColor;border-radius:1px;}
+.loading-state[data-variant="Dots"] .loading-state__pixel{border-radius:calc(infinity * 1px);}
+.loading-state__label{background-clip:text;font-size:13px;font-weight:500;color:transparent;}
+.loading-state__timer{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:12px;font-variant-numeric:tabular-nums;color:oklch(70.8% 0 0);}
+.dark .loading-state__timer{color:oklch(55.6% 0 0);}
+@media(prefers-reduced-motion:reduce){.loading-state__pixel,.loading-state__label{animation:none!important;}.loading-state__label{color:currentColor!important;}}
