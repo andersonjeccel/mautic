@@ -9,7 +9,8 @@
   border-radius: clamp(4px, var(--border-radius-md), 12px);
   overflow: hidden;
 
-  .list-group-item {
+  .list-group-item,
+  .nav-item {
     border: 0;
     border-radius: 0;
     padding: 0;
@@ -25,7 +26,8 @@
       border-bottom-right-radius: clamp(4px, var(--border-radius-md), 12px);
     }
 
-    &.active {
+    &.active,
+    &:has(> a.active) {
       background-color: var(--layer-selected-inverse);
 
       .list-group-item-text, .list-group-item-heading { color: var(--text-inverse); }
