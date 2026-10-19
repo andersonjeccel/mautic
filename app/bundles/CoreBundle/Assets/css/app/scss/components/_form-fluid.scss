@@ -21,8 +21,12 @@
 
         .form-fluid__help {
             display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 16px;
             padding: 0;
             border: 0;
+            background: transparent;
             line-height: 1;
             color: inherit;
             pointer-events: auto;
