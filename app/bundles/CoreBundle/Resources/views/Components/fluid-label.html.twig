@@ -1,5 +1,5 @@
 {% set component = component|default('form-control') %}
-{% set name = name|default('floating-input') %}
+{% set name = name|default('input') %}
 {% set id = id|default(name|replace({'[': '-', ']': '', ' ': '-', '.': '-'})) %}
 {% set label = label|default('') %}
 {% set placeholder = placeholder|default(null) %}

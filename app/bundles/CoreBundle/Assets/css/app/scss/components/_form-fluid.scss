@@ -1,5 +1,6 @@
 .form-fluid {
     position: relative;
+    isolation: isolate;
     min-height: 64px;
     margin-bottom: 0;
     background-color: var(--field);
@@ -9,6 +10,7 @@
         position: absolute;
         top: 13px;
         left: 16px;
+        z-index: 1;
         display: flex;
         align-items: center;
         gap: 4px;
@@ -85,9 +87,8 @@
     .form-fluid__search-clear,
     .form-fluid__password-toggle {
         position: absolute;
-        top: 50%;
         right: 12px;
-        transform: translateY(-50%);
+        transform: none;
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -98,6 +99,15 @@
         background: transparent;
         color: var(--text-primary);
         cursor: pointer;
+    }
+
+    .form-fluid__search-clear {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .form-fluid__password-toggle {
+        top: 33px;
     }
 
     .form-fluid__search-clear[hidden] {
