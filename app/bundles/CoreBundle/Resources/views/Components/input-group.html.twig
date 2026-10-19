@@ -53,7 +53,7 @@
             describedby: help_id ? [help_id] : [],
             validation: validation
         }) %}
-        {% include 'components/' ~ control_type ~ '.html.twig' with control_context only %}
+        {% include '@MauticCore/Components/' ~ control_type ~ '.html.twig' with control_context only %}
 
         {% for addon in addons_append %}
             <span class="input-group-text position-relative append">{{ addon|trans }}</span>
