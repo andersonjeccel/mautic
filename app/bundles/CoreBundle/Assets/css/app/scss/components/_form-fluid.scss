@@ -45,6 +45,13 @@
         outline: 0;
     }
 
+    > textarea.form-control {
+        height: auto;
+        min-height: 64px;
+        padding-bottom: 13px;
+        resize: vertical;
+    }
+
     > .form-select {
         padding-right: 40px;
     }
