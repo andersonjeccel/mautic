@@ -2,7 +2,7 @@
 {% set name = name|default('floating-input') %}
 {% set id = id|default(name|replace({'[': '-', ']': '', ' ': '-', '.': '-'})) %}
 {% set label = label|default('') %}
-{% set placeholder = placeholder|default(label) %}
+{% set placeholder = placeholder|default(null) %}
 {% set wrapperClass = wrapperClass|default('') %}
 {% set attributes = attributes|default({}) %}
 {% set icon = icon|default(null) %}
