@@ -17,19 +17,22 @@
 {% block mainContent %}
 	<form class="form-group login-form" name="login" data-toggle="ajax" role="form" action="{{ path('mautic_user_logincheck') }}" method="post">
 		<div class="input-group mb-md">
-
 			<span class="input-group-addon">
 				<i class="ri-user-6-fill"></i>
 			</span>
-			<label for="username" class="sr-only">{% trans %}mautic.user.auth.form.loginusername{% endtrans %}</label>
-			<input type="text" id="username" name="_username" class="form-control input-lg" value="{{ last_username|escape }}" required autofocus placeholder="{% trans %}mautic.user.auth.form.loginusername{% endtrans %}"/>
+			<div class="form-floating w-100 d-table-cell">
+				<input type="text" id="username" name="_username" class="form-control input-lg w-100" value="{{ last_username|escape }}" required autofocus placeholder="{% trans %}mautic.user.auth.form.loginusername{% endtrans %}"/>
+				<label for="username">{% trans %}mautic.user.auth.form.loginusername{% endtrans %}</label>
+			</div>
 		</div>
 		<div class="input-group mb-md">
 			<span class="input-group-addon">
 				<i class="ri-key-2-line"></i>
 			</span>
-			<label for="password" class="sr-only">{% trans %}mautic.core.password{% endtrans %}:</label>
-			<input type="password" id="password" name="_password" class="form-control input-lg" required placeholder="{% trans %}mautic.core.password{% endtrans %}"/>
+			<div class="form-floating w-100 d-table-cell">
+				<input type="password" id="password" name="_password" class="form-control input-lg w-100" required placeholder="{% trans %}mautic.core.password{% endtrans %}"/>
+				<label for="password">{% trans %}mautic.core.password{% endtrans %}</label>
+			</div>
 		</div>
 
 		<div class="checkbox-inline custom-primary pull-left mb-md">
