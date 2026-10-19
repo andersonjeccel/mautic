@@ -8,9 +8,10 @@
 {% set icon = icon|default(null) %}
 {% set helpText = helpText|default(null) %}
 {% set validation = validation|default({}) %}
+{% set link = link|default(null) %}
 
 
-<div class="form-fluid">
+<div class="form-fluid{{ wrapperClass ? ' ' ~ wrapperClass }}">
     {% if component == 'select' %}
         {% include '@MauticCore/Components/select.html.twig' with {
             id: id,
@@ -50,5 +51,8 @@
             attributes: attributes,
             validation: validation
         } only %}
+    {% endif %}
+    {% if link %}
+    <a href="{{ link.href }}">{{ link.label|trans }}</a>
     {% endif %}
 </div>

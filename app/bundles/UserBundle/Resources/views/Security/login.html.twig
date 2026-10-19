@@ -25,6 +25,7 @@
 			type: 'text',
 			label: 'mautic.user.auth.form.loginusername',
 			value: last_username|default(''),
+			wrapperClass: 'form-group',
 			attributes: {required: 'required', autofocus: 'autofocus'}
 		} only %}
 		{% include '@MauticCore/Components/fluid-label.html.twig' with {
@@ -32,9 +33,10 @@
 			name: '_password',
 			type: 'password',
 			label: 'mautic.core.password',
+			wrapperClass: 'form-group',
+			link: {href: path('mautic_user_passwordreset'), label: 'mautic.user.user.passwordreset.link'},
 			attributes: {required: 'required'}
 		} only %}
-		<a class="float-end" href="{{ path('mautic_user_passwordreset') }}">{% trans %}mautic.user.user.passwordreset.link{% endtrans %}</a>
 
 		<div class="checkbox-inline custom-primary">
 			<label for="remember_me">
