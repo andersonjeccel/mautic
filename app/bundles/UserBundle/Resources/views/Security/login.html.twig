@@ -20,36 +20,23 @@
 	{% endif %}
 	<form class="form-group login-form login-carbon" name="login" data-toggle="ajax" role="form" action="{{ path('mautic_user_logincheck') }}" method="post">
 		<div class="login-carbon__field">
-			{% include '@MauticCore/Components/floating-label.html.twig' with {
-				id: 'username',
-				name: '_username',
-				type: 'text',
-				label: 'mautic.user.auth.form.loginusername',
-				value: last_username|default(''),
-				attributes: {required: 'required', autofocus: 'autofocus'},
-				wrapperClass: 'form-floating--fluid'
-			} only %}
+			<label for="username" class="login-carbon__label">{% trans %}mautic.user.auth.form.loginusername{% endtrans %}</label>
+			<input type="text" id="username" name="_username" class="login-carbon__input" value="{{ last_username|escape }}" required autofocus/>
 		</div>
 		<div class="login-carbon__field">
-			{% include '@MauticCore/Components/floating-label.html.twig' with {
-				id: 'password',
-				name: '_password',
-				type: 'password',
-				label: 'mautic.core.password',
-				attributes: {required: 'required'},
-				wrapperClass: 'form-floating--fluid'
-			} only %}
+			<div class="login-carbon__label-row">
+				<label for="password" class="login-carbon__label">{% trans %}mautic.core.password{% endtrans %}</label>
+				<a class="login-carbon__link" href="{{ path('mautic_user_passwordreset') }}">{% trans %}mautic.user.user.passwordreset.link{% endtrans %}</a>
+			</div>
+			<input type="password" id="password" name="_password" class="login-carbon__input" required/>
 		</div>
 
-		<div class="login-carbon__options">
-			<div class="checkbox-inline custom-primary">
-				<label for="remember_me">
-					<input type="checkbox" id="remember_me" name="_remember_me"/>
-					<span></span>
-					{% trans %}mautic.user.auth.form.rememberme{% endtrans %}
-				</label>
-			</div>
-			<a class="login-carbon__link" href="{{ path('mautic_user_passwordreset') }}">{% trans %}mautic.user.user.passwordreset.link{% endtrans %}</a>
+		<div class="checkbox-inline custom-primary login-carbon__remember">
+			<label for="remember_me">
+				<input type="checkbox" id="remember_me" name="_remember_me"/>
+				<span></span>
+				{% trans %}mautic.user.auth.form.rememberme{% endtrans %}
+			</label>
 		</div>
 
 		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate')|escape }}"/>

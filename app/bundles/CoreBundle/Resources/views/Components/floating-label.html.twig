@@ -10,7 +10,7 @@
 {% set validation = validation|default({}) %}
 
 
-<div class="form-floating{{ wrapperClass ? ' ' ~ wrapperClass }}">
+<div class="form-floating">
     {% if component == 'select' %}
         {% include '@MauticCore/Components/select.html.twig' with {
             id: id,
