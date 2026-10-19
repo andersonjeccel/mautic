@@ -13,11 +13,22 @@
 {% set invalidText = invalidText|default(null) %}
 {% set warnText = warnText|default(null) %}
 {% set feedbackId = id ~ '-invalid' %}
+{% set helpId = id ~ '-help' %}
+{% set warnId = id ~ '-warn' %}
+{% set showHelp = helpText and not invalid %}
+{% set showError = invalid and invalidText %}
+{% set describedby = [] %}
+{% if showHelp %}
+    {% set describedby = describedby|merge([helpId]) %}
+{% endif %}
+{% if showError %}
+    {% set describedby = describedby|merge([feedbackId]) %}
+{% endif %}
+{% if warnText %}
+    {% set describedby = describedby|merge([warnId]) %}
+{% endif %}
 {% if invalid %}
     {% set attributes = attributes|merge({'aria-invalid': 'true', class: (attributes.class|default('') ~ ' is-invalid')|trim}) %}
-    {% set describedby = [feedbackId] %}
-{% else %}
-    {% set describedby = [] %}
 {% endif %}
 
 
@@ -40,11 +51,21 @@
             validation: validation
         } only %}
     {% else %}
+        {% if label %}
+        <div class="form-fluid__label">
+            <label for="{{ id }}" class="form-label type-label-01">{{ required|default(false) ? 'mautic.marketplace.forms.field.required'|trans({'%fieldLabel%': label|trans}) : label|trans }}</label>
+            {% if showHelp %}
+            <button type="button" class="btn form-fluid__help" data-toggle="tooltip" data-placement="top" title="{{ helpText|trans }}" aria-label="{{ 'mautic.marketplace.forms.field.help'|trans({'%fieldLabel%': label|trans}) }}">
+                <i class="ri-information-line" aria-hidden="true"></i>
+            </button>
+            {% endif %}
+        </div>
+        {% endif %}
         {% include '@MauticCore/Components/form-control.html.twig' with {
             id: id,
             name: name,
             type: type|default('text'),
-            label: label,
+            label: null,
             labelPosition: 'bottom',
             icon: icon,
             value: value|default(''),
@@ -54,22 +75,25 @@
             disabled: disabled|default(false),
             readonly: readonly|default(false),
             required: required|default(false),
-            helpText: invalid ? null : helpText,
+            helpText: null,
             describedby: describedby,
             render_feedback: false,
             wrapperClass: '',
             attributes: attributes,
             validation: validation
         } only %}
+        {% if showHelp %}
+        <span id="{{ helpId }}" class="visually-hidden">{{ helpText|trans }}</span>
+        {% endif %}
     {% endif %}
-    {% if invalid and invalidText %}
+    {% if showError %}
     <div id="{{ feedbackId }}" class="invalid-feedback d-flex justify-content-between align-items-center">
-        <span class="text-body">{{ invalidText|trans }}</span>
-        <i class="ri-error-warning-fill text-danger" aria-hidden="true"></i>
+        <span class="form-fluid__error">{{ invalidText|trans }}</span>
+        <i class="ri-error-warning-fill form-fluid__error" aria-hidden="true"></i>
     </div>
     {% endif %}
     {% if warnText %}
-    <div class="form-text d-flex justify-content-between align-items-center">
+    <div id="{{ warnId }}" class="form-text d-flex justify-content-between align-items-center">
         <span class="text-body">{{ warnText|trans }}</span>
         <i class="ri-alert-fill text-warning" aria-hidden="true"></i>
     </div>
