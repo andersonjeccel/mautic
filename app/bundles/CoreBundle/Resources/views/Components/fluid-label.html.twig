@@ -63,10 +63,16 @@
         } only %}
     {% endif %}
     {% if invalid and invalidText %}
-    <div id="{{ feedbackId }}" class="invalid-feedback">{{ invalidText|trans }}</div>
+    <div id="{{ feedbackId }}" class="invalid-feedback d-flex justify-content-between align-items-center">
+        <span class="text-body">{{ invalidText|trans }}</span>
+        <i class="ri-error-warning-fill text-danger" aria-hidden="true"></i>
+    </div>
     {% endif %}
     {% if warnText %}
-    <div class="form-text text-warning">{{ warnText|trans }}</div>
+    <div class="form-text d-flex justify-content-between align-items-center">
+        <span class="text-body">{{ warnText|trans }}</span>
+        <i class="ri-alert-fill text-warning" aria-hidden="true"></i>
+    </div>
     {% endif %}
     {% if link %}
     <a href="{{ link.href }}">{{ link.label|trans }}</a>
