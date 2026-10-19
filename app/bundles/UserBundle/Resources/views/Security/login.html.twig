@@ -15,27 +15,23 @@
 {% endblock %}
 
 {% block mainContent %}
-	<form class="form-group login-form" name="login" data-toggle="ajax" role="form" action="{{ path('mautic_user_logincheck') }}" method="post">
-		<div class="input-group mb-md">
-			<span class="input-group-addon">
-				<i class="ri-user-6-fill"></i>
-			</span>
-			<div class="form-floating w-100 d-table-cell">
-				<input type="text" id="username" name="_username" class="form-control input-lg w-100" value="{{ last_username|escape }}" required autofocus placeholder="{% trans %}mautic.user.auth.form.loginusername{% endtrans %}"/>
-				<label for="username">{% trans %}mautic.user.auth.form.loginusername{% endtrans %}</label>
-			</div>
+	{% if not app.request.xmlHttpRequest %}
+		<h1 class="login-carbon__title type-heading-03">{% trans %}mautic.user.auth.header{% endtrans %}</h1>
+	{% endif %}
+	<form class="form-group login-form login-carbon" name="login" data-toggle="ajax" role="form" action="{{ path('mautic_user_logincheck') }}" method="post">
+		<div class="login-carbon__field">
+			<label for="username" class="login-carbon__label">{% trans %}mautic.user.auth.form.loginusername{% endtrans %}</label>
+			<input type="text" id="username" name="_username" class="login-carbon__input" value="{{ last_username|escape }}" required autofocus/>
 		</div>
-		<div class="input-group mb-md">
-			<span class="input-group-addon">
-				<i class="ri-key-2-line"></i>
-			</span>
-			<div class="form-floating w-100 d-table-cell">
-				<input type="password" id="password" name="_password" class="form-control input-lg w-100" required placeholder="{% trans %}mautic.core.password{% endtrans %}"/>
-				<label for="password">{% trans %}mautic.core.password{% endtrans %}</label>
+		<div class="login-carbon__field">
+			<div class="login-carbon__label-row">
+				<label for="password" class="login-carbon__label">{% trans %}mautic.core.password{% endtrans %}</label>
+				<a class="login-carbon__link" href="{{ path('mautic_user_passwordreset') }}">{% trans %}mautic.user.user.passwordreset.link{% endtrans %}</a>
 			</div>
+			<input type="password" id="password" name="_password" class="login-carbon__input" required/>
 		</div>
 
-		<div class="checkbox-inline custom-primary pull-left mb-md">
+		<div class="checkbox-inline custom-primary login-carbon__remember">
 			<label for="remember_me">
 				<input type="checkbox" id="remember_me" name="_remember_me"/>
 				<span></span>
@@ -44,19 +40,11 @@
 		</div>
 
 		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate')|escape }}"/>
-		{% include '@MauticCore/Helper/button.html.twig' with {
-			buttons: [
-				{
-					label: 'mautic.user.auth.form.loginbtn',
-					variant: 'primary',
-					size: 'lg',
-					wide: true
-				}
-			]
-		} %}
-
-		<div class="mt-sm text-right">
-			<a href="{{ path('mautic_user_passwordreset') }}">{% trans %}mautic.user.user.passwordreset.link{% endtrans %}</a>
+		<div class="login-carbon__footer">
+			<button type="submit" id="form-loginbtn" class="btn btn-primary login-carbon__submit">
+				<span>{% trans %}mautic.user.auth.form.loginbtn{% endtrans %}</span>
+				<i class="ri-arrow-right-line" aria-hidden="true"></i>
+			</button>
 		</div>
 	</form>
 	{% if integrations is not empty %}
