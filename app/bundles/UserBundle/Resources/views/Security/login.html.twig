@@ -16,20 +16,20 @@
 
 {% block mainContent %}
 	{% if not app.request.xmlHttpRequest %}
-		<h1 class="login-carbon__title type-heading-03">{% trans %}mautic.user.auth.header{% endtrans %}</h1>
+		<h1 class="type-heading-03">{% trans %}mautic.user.auth.header{% endtrans %}</h1>
 	{% endif %}
-	<form class="form-group login-form login-carbon" name="login" data-toggle="ajax" role="form" action="{{ path('mautic_user_logincheck') }}" method="post">
-		<div class="form-fluid login-carbon__field">
+	<form class="form-group login-form" name="login" data-toggle="ajax" role="form" action="{{ path('mautic_user_logincheck') }}" method="post">
+		<div class="form-fluid form-group">
 			<label for="username" class="form-fluid__label">{% trans %}mautic.user.auth.form.loginusername{% endtrans %}</label>
-			<input type="text" id="username" name="_username" class="form-fluid__control" value="{{ last_username|escape }}" required autofocus/>
+			<input type="text" id="username" name="_username" class="form-control" value="{{ last_username|escape }}" required autofocus/>
 		</div>
-		<div class="form-fluid login-carbon__field">
+		<div class="form-fluid form-group">
 			<label for="password" class="form-fluid__label">{% trans %}mautic.core.password{% endtrans %}</label>
-			<input type="password" id="password" name="_password" class="form-fluid__control" required/>
-			<a class="form-fluid__action" href="{{ path('mautic_user_passwordreset') }}">{% trans %}mautic.user.user.passwordreset.link{% endtrans %}</a>
+			<input type="password" id="password" name="_password" class="form-control" required/>
+			<a class="float-end" href="{{ path('mautic_user_passwordreset') }}">{% trans %}mautic.user.user.passwordreset.link{% endtrans %}</a>
 		</div>
 
-		<div class="checkbox-inline custom-primary login-carbon__remember">
+		<div class="checkbox-inline custom-primary">
 			<label for="remember_me">
 				<input type="checkbox" id="remember_me" name="_remember_me"/>
 				<span></span>
@@ -38,8 +38,8 @@
 		</div>
 
 		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate')|escape }}"/>
-		<div class="login-carbon__footer">
-			<button type="submit" id="form-loginbtn" class="btn btn-primary login-carbon__submit">
+		<div class="form-group">
+			<button type="submit" id="form-loginbtn" class="btn btn-primary">
 				<span>{% trans %}mautic.user.auth.form.loginbtn{% endtrans %}</span>
 				<i class="ri-arrow-right-line" aria-hidden="true"></i>
 			</button>
