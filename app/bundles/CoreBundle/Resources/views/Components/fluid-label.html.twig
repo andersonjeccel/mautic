@@ -10,7 +10,7 @@
 {% set validation = validation|default({}) %}
 
 
-<div class="form-floating">
+<div class="form-fluid">
     {% if component == 'select' %}
         {% include '@MauticCore/Components/select.html.twig' with {
             id: id,
