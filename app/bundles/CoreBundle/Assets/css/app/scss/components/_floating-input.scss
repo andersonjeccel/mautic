@@ -21,3 +21,17 @@
         transform: scale(0.85) translateY(-8px) translateX(2.4px);
     }
 }
+
+.form-floating.form-floating--fluid {
+    > .form-control,
+    > .form-control:focus,
+    > .form-control:not(:placeholder-shown) {
+        padding-top: 26px;
+        padding-bottom: 10px;
+    }
+
+    > label,
+    > .form-control ~ label {
+        transform: scale(0.85) translateY(-8px) translateX(2.4px);
+    }
+}

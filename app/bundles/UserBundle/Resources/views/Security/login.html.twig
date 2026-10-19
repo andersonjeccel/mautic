@@ -26,7 +26,8 @@
 				type: 'text',
 				label: 'mautic.user.auth.form.loginusername',
 				value: last_username|default(''),
-				attributes: {required: 'required', autofocus: 'autofocus'}
+				attributes: {required: 'required', autofocus: 'autofocus'},
+				wrapperClass: 'form-floating--fluid'
 			} only %}
 		</div>
 		<div class="login-carbon__field">
@@ -35,7 +36,8 @@
 				name: '_password',
 				type: 'password',
 				label: 'mautic.core.password',
-				attributes: {required: 'required'}
+				attributes: {required: 'required'},
+				wrapperClass: 'form-floating--fluid'
 			} only %}
 		</div>
 
