@@ -1,1 +1,33 @@
-{% include '@MauticCore/Components/fluid-label.html.twig' with {type: 'search', role: 'searchbox', autocomplete: 'off', inputWrapper: 'form-fluid__search', search: true} %}
+{% set id = id|default(name|default('input')|replace({'[': '-', ']': '', ' ': '-', '.': '-'})) %}
+<div class="form-fluid form-fluid--search{{ wrapperClass ? ' ' ~ wrapperClass }}">
+    {% include '@MauticCore/Components/form-control.html.twig' with {
+        id: id,
+        name: name|default('input'),
+        type: 'search',
+        label: null,
+        value: value|default(''),
+        placeholder: placeholder|default(null),
+        disabled: disabled|default(false),
+        readonly: readonly|default(false),
+        required: required|default(false),
+        describedby: describedby|default([]),
+        render_feedback: false,
+        wrapperClass: '',
+        attributes: attributes|default({})|merge({role: 'searchbox', autocomplete: 'off'}),
+        validation: validation|default({})
+    } only %}
+    <i class="ri-search-line form-fluid__search-icon" aria-hidden="true"></i>
+    <button type="button" class="form-fluid__search-clear" aria-label="{{ 'mautic.marketplace.forms.field.clear_search'|trans }}" hidden>
+        <i class="ri-close-line" aria-hidden="true"></i>
+    </button>
+    {% include '@MauticCore/Components/fluid-field-parts.html.twig' with {
+        id: id,
+        label: label|default(''),
+        required: required|default(false),
+        helpText: helpText|default(null),
+        invalid: invalid|default(false),
+        invalidText: invalidText|default(null),
+        warnText: warnText|default(null),
+        link: link|default(null)
+    } only %}
+</div>
