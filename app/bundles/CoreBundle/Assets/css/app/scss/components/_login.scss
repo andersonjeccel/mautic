@@ -10,56 +10,6 @@
         margin-bottom: var(--spacing-06);
     }
 
-    &__label-row {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: var(--spacing-05);
-        margin-bottom: var(--spacing-02);
-    }
-
-    &__label {
-        display: block;
-        margin: 0 0 var(--spacing-02);
-        color: var(--text-secondary);
-        font-size: 1.2rem;
-        line-height: 1.6rem;
-    }
-
-    &__label-row &__label {
-        margin: 0;
-    }
-
-    &__link {
-        color: var(--border-interactive);
-        font-size: 1.2rem;
-        line-height: 1.6rem;
-        white-space: nowrap;
-    }
-
-    &__input {
-        display: block;
-        width: 100%;
-        height: 40px;
-        padding: 0 var(--spacing-05);
-        border: 0;
-        border-bottom: 1px solid var(--border-strong);
-        border-radius: 0;
-        background-color: var(--field);
-        color: var(--text-primary);
-        font-size: 1.6rem;
-        transition: background-color 110ms;
-
-        &:hover {
-            background-color: var(--field-hover);
-        }
-
-        &:focus {
-            outline: 2px solid var(--border-interactive);
-            outline-offset: -2px;
-        }
-    }
-
     &__remember {
         margin-bottom: var(--spacing-06);
     }
