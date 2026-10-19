@@ -5,11 +5,16 @@
     border-bottom: 1px solid var(--border-strong);
 
     > .form-fluid__label {
+        position: absolute;
         top: 13px;
         left: 16px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
         pointer-events: none;
 
         > label {
+            margin: 0;
             font-size: 12px;
             line-height: 16px;
         }
