@@ -9,6 +9,16 @@
 {% set helpText = helpText|default(null) %}
 {% set validation = validation|default({}) %}
 {% set link = link|default(null) %}
+{% set invalid = invalid|default(false) %}
+{% set invalidText = invalidText|default(null) %}
+{% set warnText = warnText|default(null) %}
+{% set feedbackId = id ~ '-invalid' %}
+{% if invalid %}
+    {% set attributes = attributes|merge({'aria-invalid': 'true', class: (attributes.class|default('') ~ ' is-invalid')|trim}) %}
+    {% set describedby = [feedbackId] %}
+{% else %}
+    {% set describedby = [] %}
+{% endif %}
 
 
 <div class="form-fluid{{ wrapperClass ? ' ' ~ wrapperClass }}">
@@ -44,11 +54,19 @@
             disabled: disabled|default(false),
             readonly: readonly|default(false),
             required: required|default(false),
-            helpText: helpText,
+            helpText: invalid ? null : helpText,
+            describedby: describedby,
+            render_feedback: false,
             wrapperClass: '',
             attributes: attributes,
             validation: validation
         } only %}
+    {% endif %}
+    {% if invalid and invalidText %}
+    <div id="{{ feedbackId }}" class="invalid-feedback">{{ invalidText|trans }}</div>
+    {% endif %}
+    {% if warnText %}
+    <div class="form-text text-warning">{{ warnText|trans }}</div>
     {% endif %}
     {% if link %}
     <a href="{{ link.href }}">{{ link.label|trans }}</a>
