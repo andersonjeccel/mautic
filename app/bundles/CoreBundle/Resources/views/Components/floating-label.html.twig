@@ -12,7 +12,7 @@
 
 <div class="form-floating">
     {% if component == 'select' %}
-        {% include 'components/select.html.twig' with {
+        {% include '@MauticCore/Components/select.html.twig' with {
             id: id,
             name: name,
             label: label,
@@ -30,7 +30,7 @@
             validation: validation
         } only %}
     {% else %}
-        {% include 'components/form-control.html.twig' with {
+        {% include '@MauticCore/Components/form-control.html.twig' with {
             id: id,
             name: name,
             type: type|default('text'),
