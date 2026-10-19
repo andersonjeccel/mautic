@@ -6,7 +6,7 @@
         {% else %}
             <img src="{{ asset(theme.preview) }}" alt="{{ theme.name|trans }} preview" aria-hidden="true" class="mb-sm">
         {% endif %}
-        <div class="d-flex fd-row gap-3">
+        <div class="d-flex flex-row gap-3">
             <input type="radio" id="theme-{{ theme.id }}" name="theme" value="{{ theme.id }}"
                    data-attribute-toggle="theme" data-attribute-value="{{ theme.id }}"
                    {% if theme.checked|default(false) %}checked{% endif %}>
