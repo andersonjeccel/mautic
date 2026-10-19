@@ -2775,6 +2775,34 @@ document.addEventListener('keydown', (event) => {
     if (tooltip) tooltip.hide();
 });
 
+document.addEventListener('input', (event) => {
+    const field = event.target;
+    if (!field.matches || !field.matches('.form-fluid__search > input')) return;
+
+    field.parentElement.querySelector('.form-fluid__search-clear').hidden = field.value === '';
+});
+
+document.addEventListener('click', (event) => {
+    const clear = event.target.closest('.form-fluid__search-clear');
+    if (clear) {
+        const field = clear.parentElement.querySelector('input');
+        field.value = '';
+        field.dispatchEvent(new Event('input', { bubbles: true }));
+        field.focus();
+        return;
+    }
+
+    const toggle = event.target.closest('.form-fluid__password-toggle');
+    if (!toggle) return;
+
+    const field = toggle.parentElement.querySelector('input');
+    const shown = field.type === 'text';
+    field.type = shown ? 'password' : 'text';
+    toggle.setAttribute('aria-pressed', String(!shown));
+    toggle.setAttribute('aria-label', shown ? toggle.dataset.labelShow : toggle.dataset.labelHide);
+    toggle.querySelector('i').className = shown ? 'ri-eye-line' : 'ri-eye-off-line';
+});
+
 // Initialize filter commands on page load
 document.addEventListener('DOMContentLoaded', function () {
     Mautic.initFilterCommands();

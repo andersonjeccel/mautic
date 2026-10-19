@@ -5,6 +5,13 @@
 {% set placeholder = placeholder|default(null) %}
 {% set wrapperClass = wrapperClass|default('') %}
 {% set attributes = attributes|default({}) %}
+{% set inputWrapper = inputWrapper|default(null) %}
+{% if role is defined and role %}
+    {% set attributes = attributes|merge({role: role}) %}
+{% endif %}
+{% if autocomplete is defined and autocomplete %}
+    {% set attributes = attributes|merge({autocomplete: autocomplete}) %}
+{% endif %}
 {% set icon = icon|default(null) %}
 {% set helpText = helpText|default(null) %}
 {% set validation = validation|default({}) %}
@@ -62,6 +69,9 @@
             validation: validation
         } only %}
     {% else %}
+        {% if inputWrapper %}
+        <div class="{{ inputWrapper }}">
+        {% endif %}
         {% include '@MauticCore/Components/form-control.html.twig' with {
             id: id,
             name: name,
@@ -83,6 +93,20 @@
             attributes: attributes,
             validation: validation
         } only %}
+        {% if inputWrapper %}
+        {% if search|default(false) %}
+        <i class="ri-search-line form-fluid__search-icon" aria-hidden="true"></i>
+        <button type="button" class="form-fluid__search-clear" aria-label="{{ 'mautic.marketplace.forms.field.clear_search'|trans }}" hidden>
+            <i class="ri-close-line" aria-hidden="true"></i>
+        </button>
+        {% endif %}
+        {% if passwordToggle|default(false) %}
+        <button type="button" class="form-fluid__password-toggle" aria-label="{{ 'mautic.marketplace.forms.field.show_password'|trans }}" data-label-show="{{ 'mautic.marketplace.forms.field.show_password'|trans }}" data-label-hide="{{ 'mautic.marketplace.forms.field.hide_password'|trans }}" aria-pressed="false">
+            <i class="ri-eye-line" aria-hidden="true"></i>
+        </button>
+        {% endif %}
+        </div>
+        {% endif %}
         {% if showHelp %}
         <span id="{{ helpId }}" class="visually-hidden">{{ helpText|trans }}</span>
         {% endif %}
