@@ -2768,6 +2768,13 @@ Mautic.handlePopoverInsertion = function () {
     });
 };
 
+document.addEventListener('keydown', (event) => {
+    if (!Mautic.Keyboard.isEscape(Mautic.Keyboard.getKey(event)) || !event.target.classList.contains('form-fluid__help')) return;
+
+    const tooltip = window.bootstrap && window.bootstrap.Tooltip.getInstance(event.target);
+    if (tooltip) tooltip.hide();
+});
+
 // Initialize filter commands on page load
 document.addEventListener('DOMContentLoaded', function () {
     Mautic.initFilterCommands();
