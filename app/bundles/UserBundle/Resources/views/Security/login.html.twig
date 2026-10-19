@@ -19,16 +19,14 @@
 		<h1 class="login-carbon__title type-heading-03">{% trans %}mautic.user.auth.header{% endtrans %}</h1>
 	{% endif %}
 	<form class="form-group login-form login-carbon" name="login" data-toggle="ajax" role="form" action="{{ path('mautic_user_logincheck') }}" method="post">
-		<div class="login-carbon__field">
-			<label for="username" class="login-carbon__label">{% trans %}mautic.user.auth.form.loginusername{% endtrans %}</label>
-			<input type="text" id="username" name="_username" class="login-carbon__input" value="{{ last_username|escape }}" required autofocus/>
+		<div class="form-fluid login-carbon__field">
+			<label for="username" class="form-fluid__label">{% trans %}mautic.user.auth.form.loginusername{% endtrans %}</label>
+			<input type="text" id="username" name="_username" class="form-fluid__control" value="{{ last_username|escape }}" required autofocus/>
 		</div>
-		<div class="login-carbon__field">
-			<div class="login-carbon__label-row">
-				<label for="password" class="login-carbon__label">{% trans %}mautic.core.password{% endtrans %}</label>
-				<a class="login-carbon__link" href="{{ path('mautic_user_passwordreset') }}">{% trans %}mautic.user.user.passwordreset.link{% endtrans %}</a>
-			</div>
-			<input type="password" id="password" name="_password" class="login-carbon__input" required/>
+		<div class="form-fluid login-carbon__field">
+			<label for="password" class="form-fluid__label">{% trans %}mautic.core.password{% endtrans %}</label>
+			<input type="password" id="password" name="_password" class="form-fluid__control" required/>
+			<a class="form-fluid__action" href="{{ path('mautic_user_passwordreset') }}">{% trans %}mautic.user.user.passwordreset.link{% endtrans %}</a>
 		</div>
 
 		<div class="checkbox-inline custom-primary login-carbon__remember">
