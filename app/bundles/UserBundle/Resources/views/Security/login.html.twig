@@ -19,15 +19,22 @@
 		<h1 class="type-heading-03">{% trans %}mautic.user.auth.header{% endtrans %}</h1>
 	{% endif %}
 	<form class="form-group login-form" name="login" data-toggle="ajax" role="form" action="{{ path('mautic_user_logincheck') }}" method="post">
-		<div class="form-fluid form-group">
-			<label for="username" class="form-fluid__label">{% trans %}mautic.user.auth.form.loginusername{% endtrans %}</label>
-			<input type="text" id="username" name="_username" class="form-control" value="{{ last_username|escape }}" required autofocus/>
-		</div>
-		<div class="form-fluid form-group">
-			<label for="password" class="form-fluid__label">{% trans %}mautic.core.password{% endtrans %}</label>
-			<input type="password" id="password" name="_password" class="form-control" required/>
-			<a class="float-end" href="{{ path('mautic_user_passwordreset') }}">{% trans %}mautic.user.user.passwordreset.link{% endtrans %}</a>
-		</div>
+		{% include '@MauticCore/Components/fluid-label.html.twig' with {
+			id: 'username',
+			name: '_username',
+			type: 'text',
+			label: 'mautic.user.auth.form.loginusername',
+			value: last_username|default(''),
+			attributes: {required: 'required', autofocus: 'autofocus'}
+		} only %}
+		{% include '@MauticCore/Components/fluid-label.html.twig' with {
+			id: 'password',
+			name: '_password',
+			type: 'password',
+			label: 'mautic.core.password',
+			attributes: {required: 'required'}
+		} only %}
+		<a class="float-end" href="{{ path('mautic_user_passwordreset') }}">{% trans %}mautic.user.user.passwordreset.link{% endtrans %}</a>
 
 		<div class="checkbox-inline custom-primary">
 			<label for="remember_me">
