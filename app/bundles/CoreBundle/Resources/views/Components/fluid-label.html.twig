@@ -55,7 +55,7 @@
         <div class="form-fluid__label">
             <label for="{{ id }}" class="form-label type-label-01">{{ required|default(false) ? 'mautic.marketplace.forms.field.required'|trans({'%fieldLabel%': label|trans}) : label|trans }}</label>
             {% if showHelp %}
-            <button type="button" class="btn form-fluid__help" data-toggle="tooltip" data-placement="top" title="{{ helpText|trans }}" aria-label="{{ 'mautic.marketplace.forms.field.help'|trans({'%fieldLabel%': label|trans}) }}">
+            <button type="button" class="form-fluid__help" data-toggle="tooltip" data-placement="top" title="{{ helpText|trans }}" aria-label="{{ 'mautic.marketplace.forms.field.help'|trans({'%fieldLabel%': label|trans}) }}">
                 <i class="ri-information-line" aria-hidden="true"></i>
             </button>
             {% endif %}
