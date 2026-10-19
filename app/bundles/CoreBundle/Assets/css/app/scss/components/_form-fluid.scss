@@ -5,33 +5,27 @@
     border-bottom: 1px solid var(--border-strong);
 
     > .form-fluid__label {
-        position: absolute;
         top: 13px;
         left: 16px;
-        display: flex;
-        align-items: center;
-        gap: 4px;
         pointer-events: none;
 
         > label {
-            margin: 0;
             font-size: 12px;
             line-height: 16px;
         }
+    }
 
-        .form-fluid__help {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            height: 16px;
-            padding: 0;
-            border: 0;
-            background: transparent;
-            line-height: 1;
-            color: inherit;
-            pointer-events: auto;
-            cursor: help;
-        }
+    .form-fluid__help {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 16px;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: inherit;
+        pointer-events: auto;
+        cursor: help;
     }
 
     > .form-control {
@@ -72,7 +66,7 @@
         outline-color: var(--bs-danger);
     }
 
-    .form-fluid__error {
+    .invalid-feedback .text-danger {
         color: var(--text-error);
     }
 

@@ -52,8 +52,8 @@
         } only %}
     {% else %}
         {% if label %}
-        <div class="form-fluid__label">
-            <label for="{{ id }}" class="form-label type-label-01">{{ required|default(false) ? 'mautic.marketplace.forms.field.required'|trans({'%fieldLabel%': label|trans}) : label|trans }}</label>
+        <div class="position-absolute top-0 start-0 d-flex align-items-center gap-1 form-fluid__label">
+            <label for="{{ id }}" class="form-label type-label-01 mb-0">{{ required|default(false) ? 'mautic.marketplace.forms.field.required'|trans({'%fieldLabel%': label|trans}) : label|trans }}</label>
             {% if showHelp %}
             <button type="button" class="form-fluid__help" data-toggle="tooltip" data-placement="top" title="{{ helpText|trans }}" aria-label="{{ 'mautic.marketplace.forms.field.help'|trans({'%fieldLabel%': label|trans}) }}">
                 <i class="ri-information-line" aria-hidden="true"></i>
@@ -88,8 +88,8 @@
     {% endif %}
     {% if showError %}
     <div id="{{ feedbackId }}" class="invalid-feedback d-flex justify-content-between align-items-center">
-        <span class="form-fluid__error">{{ invalidText|trans }}</span>
-        <i class="ri-error-warning-fill form-fluid__error" aria-hidden="true"></i>
+        <span class="text-danger">{{ invalidText|trans }}</span>
+        <i class="ri-error-warning-fill text-danger" aria-hidden="true"></i>
     </div>
     {% endif %}
     {% if warnText %}
