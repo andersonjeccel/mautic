@@ -15,6 +15,10 @@
         padding: 33px 16px 10px;
     }
 
+    > .form-control:disabled ~ label {
+        color: var(--bs-gray-600);
+    }
+
     > a {
         position: absolute;
         top: 13px;
