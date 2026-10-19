@@ -37,15 +37,15 @@
 		} only %}
 
 		{# TEST-STATES-START #}
-		{% include '@MauticCore/Components/fluid-label.html.twig' with {id: 'st-default', name: 'st_default', label: 'Default (empty)', wrapperClass: 'form-group'} only %}
-		{% include '@MauticCore/Components/fluid-label.html.twig' with {id: 'st-value', name: 'st_value', label: 'Filled', value: 'Some value', wrapperClass: 'form-group'} only %}
-		{% include '@MauticCore/Components/fluid-label.html.twig' with {id: 'st-placeholder', name: 'st_placeholder', label: 'Label + placeholder', placeholder: 'Example text', wrapperClass: 'form-group'} only %}
-		{% include '@MauticCore/Components/fluid-label.html.twig' with {id: 'st-help', name: 'st_help', label: 'With helper', value: 'x', helpText: 'Helper text below the field', wrapperClass: 'form-group'} only %}
-		{% include '@MauticCore/Components/fluid-label.html.twig' with {id: 'st-invalid', name: 'st_invalid', label: 'Invalid', value: 'bad value', invalid: true, invalidText: 'Enter a valid value.', helpText: 'Helper hidden while invalid', wrapperClass: 'form-group'} only %}
-		{% include '@MauticCore/Components/fluid-label.html.twig' with {id: 'st-warn', name: 'st_warn', label: 'Warn', value: 'x', warnText: 'Check this value.', wrapperClass: 'form-group'} only %}
-		{% include '@MauticCore/Components/fluid-label.html.twig' with {id: 'st-disabled', name: 'st_disabled', label: 'Disabled', value: 'off', disabled: true, wrapperClass: 'form-group'} only %}
-		{% include '@MauticCore/Components/fluid-label.html.twig' with {id: 'st-readonly', name: 'st_readonly', label: 'Read only', value: 'fixed', readonly: true, wrapperClass: 'form-group'} only %}
-		{% include '@MauticCore/Components/fluid-label.html.twig' with {id: 'st-link', name: 'st_link', label: 'With link', value: 'x', link: {href: '#', label: 'Example link'}, wrapperClass: 'form-group'} only %}
+		{% include '@MauticCore/Components/fluid-text-input.html.twig' with {id: 'st-default', name: 'st_default', label: 'Default (empty)', wrapperClass: 'form-group'} only %}
+		{% include '@MauticCore/Components/fluid-text-input.html.twig' with {id: 'st-value', name: 'st_value', label: 'Filled', value: 'Some value', wrapperClass: 'form-group'} only %}
+		{% include '@MauticCore/Components/fluid-text-input.html.twig' with {id: 'st-placeholder', name: 'st_placeholder', label: 'Label + placeholder', placeholder: 'Example text', wrapperClass: 'form-group'} only %}
+		{% include '@MauticCore/Components/fluid-text-input.html.twig' with {id: 'st-help', name: 'st_help', label: 'With helper', value: 'x', helpText: 'Helper text below the field', wrapperClass: 'form-group'} only %}
+		{% include '@MauticCore/Components/fluid-text-input.html.twig' with {id: 'st-invalid', name: 'st_invalid', label: 'Invalid', value: 'bad value', invalid: true, invalidText: 'Enter a valid value.', helpText: 'Helper hidden while invalid', wrapperClass: 'form-group'} only %}
+		{% include '@MauticCore/Components/fluid-text-input.html.twig' with {id: 'st-warn', name: 'st_warn', label: 'Warn', value: 'x', warnText: 'Check this value.', wrapperClass: 'form-group'} only %}
+		{% include '@MauticCore/Components/fluid-text-input.html.twig' with {id: 'st-disabled', name: 'st_disabled', label: 'Disabled', value: 'off', disabled: true, wrapperClass: 'form-group'} only %}
+		{% include '@MauticCore/Components/fluid-text-input.html.twig' with {id: 'st-readonly', name: 'st_readonly', label: 'Read only', value: 'fixed', readonly: true, wrapperClass: 'form-group'} only %}
+		{% include '@MauticCore/Components/fluid-text-input.html.twig' with {id: 'st-link', name: 'st_link', label: 'With link', value: 'x', link: {href: '#', label: 'Example link'}, wrapperClass: 'form-group'} only %}
 		{% include '@MauticCore/Components/fluid-text-area.html.twig' with {id: 'v-textarea', name: 'v_textarea', label: 'Text area', value: 'Some text', wrapperClass: 'form-group'} only %}
 		{% include '@MauticCore/Components/fluid-select.html.twig' with {id: 'v-select', name: 'v_select', label: 'Select', value: 'b', options: [{value: 'a', label: 'Option A'}, {value: 'b', label: 'Option B'}], wrapperClass: 'form-group'} only %}
 		{% include '@MauticCore/Components/fluid-search.html.twig' with {id: 'v-search', name: 'v_search', label: 'Search', value: 'term', wrapperClass: 'form-group'} only %}

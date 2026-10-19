@@ -1,0 +1,27 @@
+{% set showHelp = helpText and not invalid %}
+{% set showError = invalid and invalidText %}
+{% if label %}
+    <div class="form-fluid__label">
+        <label for="{{ id }}" class="form-label type-label-01 mb-0">{{ required|default(false) ? 'mautic.marketplace.forms.field.required'|trans({'%fieldLabel%': label|trans}) : label|trans }}</label>
+        {% if showHelp %}
+        <button type="button" class="form-fluid__help" data-toggle="tooltip" data-placement="top" title="{{ helpText|trans }}" aria-label="{{ 'mautic.marketplace.forms.field.help'|trans({'%fieldLabel%': label|trans}) }}">
+            <i class="ri-information-line" aria-hidden="true"></i>
+        </button>
+        {% endif %}
+    </div>
+{% endif %}
+{% if showError %}
+<div id="{{ id }}-invalid" class="invalid-feedback d-flex justify-content-between align-items-center">
+    <span class="text-danger">{{ invalidText|trans }}</span>
+    <i class="ri-error-warning-fill text-danger" aria-hidden="true"></i>
+</div>
+{% endif %}
+{% if warnText %}
+<div id="{{ id }}-warn" class="form-text d-flex justify-content-between align-items-center">
+    <span class="text-body">{{ warnText|trans }}</span>
+    <i class="ri-alert-fill text-warning" aria-hidden="true"></i>
+</div>
+{% endif %}
+{% if link %}
+<a href="{{ link.href }}">{{ link.label|trans }}</a>
+{% endif %}
