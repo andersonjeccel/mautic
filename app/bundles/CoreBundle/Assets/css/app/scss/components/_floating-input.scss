@@ -1,0 +1,23 @@
+// Mautic sets html font-size to 10px, which shrinks Bootstrap's rem-based floating sizes.
+// These px values match the marketplace's 16px-root metrics for .form-floating only.
+.form-floating {
+    > .form-control {
+        height: 58px;
+        padding: 26px 12px 10px;
+    }
+
+    > .form-control:focus,
+    > .form-control:not(:placeholder-shown) {
+        padding-top: 26px;
+        padding-bottom: 10px;
+    }
+
+    > label {
+        padding: 16px 12px;
+    }
+
+    > .form-control:focus ~ label,
+    > .form-control:not(:placeholder-shown) ~ label {
+        transform: scale(0.85) translateY(-8px) translateX(2.4px);
+    }
+}
