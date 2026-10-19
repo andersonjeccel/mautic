@@ -1,7 +1,7 @@
 .form-fluid {
     position: relative;
 
-    &__label {
+    > label {
         position: absolute;
         top: 0;
         left: 0;
@@ -12,36 +12,8 @@
         pointer-events: none;
     }
 
-    &__control {
-        display: block;
-        width: 100%;
+    > .form-control {
         height: 58px;
         padding: 26px 12px 10px;
-        border: 0;
-        border-bottom: 1px solid var(--border-strong);
-        border-radius: 0;
-        background-color: var(--field);
-        color: var(--text-primary);
-        font-size: 16px;
-        transition: background-color 110ms;
-
-        &:hover {
-            background-color: var(--field-hover);
-        }
-
-        &:focus {
-            outline: 2px solid var(--border-interactive);
-            outline-offset: -2px;
-        }
-    }
-
-    &__action {
-        position: absolute;
-        top: 7px;
-        right: 12px;
-        color: var(--border-interactive);
-        font-size: 12px;
-        line-height: 17px;
-        white-space: nowrap;
     }
 }
