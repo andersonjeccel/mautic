@@ -1,0 +1,54 @@
+{% set component = component|default('form-control') %}
+{% set name = name|default('floating-input') %}
+{% set id = id|default(name|replace({'[': '-', ']': '', ' ': '-', '.': '-'})) %}
+{% set label = label|default('') %}
+{% set placeholder = placeholder|default(label) %}
+{% set wrapperClass = wrapperClass|default('') %}
+{% set attributes = attributes|default({}) %}
+{% set icon = icon|default(null) %}
+{% set helpText = helpText|default(null) %}
+{% set validation = validation|default({}) %}
+
+
+<div class="form-floating">
+    {% if component == 'select' %}
+        {% include 'components/select.html.twig' with {
+            id: id,
+            name: name,
+            label: label,
+            labelPosition: 'bottom',
+            icon: icon,
+            size: size|default(null),
+            options: options|default([]),
+            value: value|default(null),
+            disabled: disabled|default(false),
+            required: required|default(false),
+            multiple: multiple|default(false),
+            helpText: helpText,
+            wrapperClass: '',
+            attributes: attributes,
+            validation: validation
+        } only %}
+    {% else %}
+        {% include 'components/form-control.html.twig' with {
+            id: id,
+            name: name,
+            type: type|default('text'),
+            label: label,
+            labelPosition: 'bottom',
+            icon: icon,
+            value: value|default(''),
+            placeholder: placeholder,
+            rows: rows|default(3),
+            size: size|default(null),
+            plaintext: plaintext|default(false),
+            disabled: disabled|default(false),
+            readonly: readonly|default(false),
+            required: required|default(false),
+            helpText: helpText,
+            wrapperClass: '',
+            attributes: attributes,
+            validation: validation
+        } only %}
+    {% endif %}
+</div>

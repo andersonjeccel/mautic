@@ -1,0 +1,79 @@
+{% set items = items|default([]) %}
+{% set name = name|default('checkbox') %}
+{% set legend = legend|default(null) %}
+{% set helpText = helpText|default(null) %}
+{% set wrapperClass = wrapperClass|default('') %}
+{% set inline = inline|default(false) %}
+{% set reverse = reverse|default(false) %}
+{% set required = required|default(false) %}
+{% set validation = validation|default({}) %}
+{% set base_id = name|replace({'[': '-', ']': '', ' ': '-', '.': '-'}) %}
+{% set help_id = helpText ? base_id ~ '-help' : null %}
+{% set feedback_id = base_id ~ '-feedback' %}
+{% set validation_label = validation.label|default(legend ? legend|trans : name) %}
+{% set validation_rules = validation.rules|default([]) %}
+{% set validation_messages = {
+    valueMissing: 'mautic.marketplace.forms.validation.value_missing'|trans,
+}|merge(validation.messages|default({})) %}
+
+<fieldset
+    class="{{ [wrapperClass, 'border-0', 'p-0', 'm-0']|filter(value => value is not empty)|join(' ') }}"
+    data-validation-group="true"
+    data-validation-name="{{ name }}"
+    data-validation-type="checkbox"
+    data-validation-label="{{ validation_label }}"
+    data-validation-rules="{{ validation_rules|json_encode|e('html_attr') }}"
+    data-validation-messages="{{ validation_messages|json_encode|e('html_attr') }}"
+    data-validation-feedback-id="{{ feedback_id }}"
+    data-validation-describedby-default="{{ help_id ?? '' }}"
+    {% if help_id %}data-validation-help-id="{{ help_id }}"{% endif %}
+    {% if required %}data-validation-required="true"{% endif %}
+>
+    {% if legend %}
+        <legend class="form-label type-label-01 mb-2">
+            {{ required ? 'mautic.marketplace.forms.field.required'|trans({'%fieldLabel%': legend|trans}) : legend|trans }}
+        </legend>
+    {% endif %}
+
+    {% for item in items %}
+        {% set item_label = item.label|default('') %}
+        {% set item_value = item.value is defined ? item.value : loop.index0 %}
+        {% set item_id = item.id|default(base_id ~ '-' ~ loop.index0 ~ '-' ~ item_value|replace({' ': '-', '.': '-', '_': '-', '[': '-', ']': ''})|lower) %}
+        {% set item_name = item.name|default(name) %}
+        {% set item_attributes = item.attributes|default({}) %}
+        {% set classes = ['form-check'] %}
+
+        {% if inline %}
+            {% set classes = classes|merge(['form-check-inline']) %}
+        {% endif %}
+
+        {% if reverse %}
+            {% set classes = classes|merge(['form-check-reverse']) %}
+        {% endif %}
+
+        <div class="{{ classes|join(' ') }}">
+            <input
+                class="form-check-input"
+                type="checkbox"
+                name="{{ item_name }}"
+                id="{{ item_id }}"
+                value="{{ item_value }}"
+                {% if help_id %}aria-describedby="{{ help_id }}"{% endif %}
+                {% if item.checked|default(false) %}checked{% endif %}
+                {% if item.disabled|default(false) %}disabled{% endif %}
+                {% for attr_key, attr_value in item_attributes %}
+                    {{ attr_key }}="{{ attr_value }}"
+                {% endfor %}
+            >
+            <label class="form-check-label" for="{{ item_id }}">
+                {{ item_label|trans }}
+            </label>
+        </div>
+    {% endfor %}
+
+    {% if helpText %}
+        <div id="{{ help_id }}" class="form-text" data-validation-help>{{ helpText|trans }}</div>
+    {% endif %}
+
+    <div id="{{ feedback_id }}" class="invalid-feedback" data-validation-feedback hidden aria-live="polite"></div>
+</fieldset>
