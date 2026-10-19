@@ -56,6 +56,54 @@
         padding-right: 40px;
     }
 
+    .form-fluid__search,
+    .form-fluid__password {
+        position: relative;
+        min-height: 64px;
+    }
+
+    .form-fluid__search > .form-control,
+    .form-fluid__password > .form-control {
+        height: 64px;
+        padding: 33px 40px 10px 16px;
+        border: 0;
+        border-radius: 0;
+        background-color: transparent;
+        box-shadow: none;
+        outline: 0;
+    }
+
+    .form-fluid__search-icon {
+        position: absolute;
+        top: 50%;
+        right: 16px;
+        transform: translateY(-50%);
+        color: var(--text-helper);
+        pointer-events: none;
+    }
+
+    .form-fluid__search-clear,
+    .form-fluid__password-toggle {
+        position: absolute;
+        top: 50%;
+        right: 12px;
+        transform: translateY(-50%);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: var(--text-primary);
+        cursor: pointer;
+    }
+
+    .form-fluid__search-clear[hidden] {
+        display: none;
+    }
+
     > .form-control {
         &::placeholder {
             color: var(--text-helper);
