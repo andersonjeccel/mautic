@@ -33,25 +33,7 @@
 
 
 <div class="form-fluid{{ wrapperClass ? ' ' ~ wrapperClass }}">
-    {% if component == 'select' %}
-        {% include '@MauticCore/Components/select.html.twig' with {
-            id: id,
-            name: name,
-            label: label,
-            labelPosition: 'bottom',
-            icon: icon,
-            options: options|default([]),
-            value: value|default(null),
-            disabled: disabled|default(false),
-            required: required|default(false),
-            multiple: multiple|default(false),
-            helpText: helpText,
-            wrapperClass: '',
-            attributes: attributes,
-            validation: validation
-        } only %}
-    {% else %}
-        {% if label %}
+    {% if label %}
         <div class="form-fluid__label">
             <label for="{{ id }}" class="form-label type-label-01 mb-0">{{ required|default(false) ? 'mautic.marketplace.forms.field.required'|trans({'%fieldLabel%': label|trans}) : label|trans }}</label>
             {% if showHelp %}
@@ -60,7 +42,26 @@
             </button>
             {% endif %}
         </div>
-        {% endif %}
+    {% endif %}
+    {% if component == 'select' %}
+        {% include '@MauticCore/Components/select.html.twig' with {
+            id: id,
+            name: name,
+            label: null,
+            labelPosition: 'bottom',
+            icon: icon,
+            options: options|default([]),
+            value: value|default(null),
+            disabled: disabled|default(false),
+            required: required|default(false),
+            multiple: multiple|default(false),
+            helpText: null,
+            describedby: describedby,
+            wrapperClass: '',
+            attributes: attributes,
+            validation: validation
+        } only %}
+    {% else %}
         {% include '@MauticCore/Components/form-control.html.twig' with {
             id: id,
             name: name,
