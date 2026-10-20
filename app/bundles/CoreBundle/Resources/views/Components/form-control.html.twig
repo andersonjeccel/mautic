@@ -7,29 +7,12 @@
 {% set placeholder = placeholder|default(null) %}
 {% set helpText = helpText|default(null) %}
 {% set help_id = help_id|default(helpText ? id ~ '-help' : null) %}
-{% set feedback_id = feedback_id|default(id ~ '-feedback') %}
-{% set render_feedback = render_feedback|default(true) %}
 {% set rows = rows|default(3) %}
 {% set size = size|default(null) %}
 {% set plaintext = plaintext|default(false) %}
 {% set disabled = disabled|default(false) %}
 {% set readonly = readonly|default(false) %}
 {% set required = required|default(false) %}
-{% set validation = validation|default({}) %}
-{% set validation_label = validation.label|default(label ? label|trans : name) %}
-{% set validation_rules = validation.rules|default([]) %}
-{% set validation_messages = {
-    valueMissing: 'mautic.marketplace.forms.validation.value_missing'|trans,
-    typeMismatch: 'mautic.marketplace.forms.validation.type_mismatch'|trans,
-    patternMismatch: 'mautic.marketplace.forms.validation.pattern_mismatch'|trans,
-    tooShort: 'mautic.marketplace.forms.validation.too_short'|trans,
-    tooLong: 'mautic.marketplace.forms.validation.too_long'|trans,
-    rangeUnderflow: 'mautic.marketplace.forms.validation.range_underflow'|trans,
-    rangeOverflow: 'mautic.marketplace.forms.validation.range_overflow'|trans,
-    stepMismatch: 'mautic.marketplace.forms.validation.step_mismatch'|trans,
-    badInput: 'mautic.marketplace.forms.validation.bad_input'|trans,
-    notBlank: 'mautic.marketplace.forms.validation.value_missing'|trans,
-}|merge(validation.messages|default({})) %}
 {% set input_class = plaintext ? 'form-control-plaintext' : 'form-control' %}
 {% set describedby = describedby|default([]) %}
 {% set attributes = attributes|default({}) %}
@@ -56,8 +39,6 @@
     {% set describedby = describedby|merge([help_id]) %}
 {% endif %}
 
-{% set describedby_default = describedby|join(' ') %}
-
 {% if wrapperClass is defined and wrapperClass is not empty %}
 <div class="{{ wrapperClass }}">
 {% endif %}
@@ -73,13 +54,6 @@
             name="{{ name }}"
             {% if placeholder is defined and placeholder is not empty %}placeholder="{{ placeholder|trans }}"{% endif %}
             {% if describedby is not empty %}aria-describedby="{{ describedby|join(' ') }}"{% endif %}
-            data-validation-field="true"
-            data-validation-label="{{ validation_label }}"
-            data-validation-rules="{{ validation_rules|json_encode|e('html_attr') }}"
-            data-validation-messages="{{ validation_messages|json_encode|e('html_attr') }}"
-            data-validation-feedback-id="{{ feedback_id }}"
-            data-validation-describedby-default="{{ describedby_default }}"
-            {% if help_id %}data-validation-help-id="{{ help_id }}"{% endif %}
             {% if not plaintext %}rows="{{ rows }}"{% endif %}
             {% if disabled %}disabled{% endif %}
             {% if readonly %}readonly{% endif %}
@@ -99,13 +73,6 @@
             {% if value is not same as(null) %}value="{{ value }}"{% endif %}
             {% if placeholder is defined and placeholder is not empty %}placeholder="{{ placeholder|trans }}"{% endif %}
             {% if describedby is not empty %}aria-describedby="{{ describedby|join(' ') }}"{% endif %}
-            data-validation-field="true"
-            data-validation-label="{{ validation_label }}"
-            data-validation-rules="{{ validation_rules|json_encode|e('html_attr') }}"
-            data-validation-messages="{{ validation_messages|json_encode|e('html_attr') }}"
-            data-validation-feedback-id="{{ feedback_id }}"
-            data-validation-describedby-default="{{ describedby_default }}"
-            {% if help_id %}data-validation-help-id="{{ help_id }}"{% endif %}
             {% if disabled %}disabled{% endif %}
             {% if readonly %}readonly{% endif %}
             {% if required %}required{% endif %}
@@ -122,11 +89,7 @@
     {% endif %}
 
     {% if helpText %}
-        <div id="{{ help_id }}" class="form-text" data-validation-help>{{ helpText|trans }}</div>
-    {% endif %}
-
-    {% if render_feedback %}
-        <div id="{{ feedback_id }}" class="invalid-feedback" data-validation-feedback hidden aria-live="polite"></div>
+        <div id="{{ help_id }}" class="form-text">{{ helpText|trans }}</div>
     {% endif %}
 {% if wrapperClass is defined and wrapperClass is not empty %}
 </div>

@@ -62,12 +62,6 @@
         background-size: 16px 12px;
     }
 
-    > .form-select.is-invalid {
-        background-image: var(--bs-form-select-bg-img);
-        background-position: right 12px top 36px;
-        background-size: 16px 12px;
-    }
-
     .form-fluid__search,
     .form-fluid__password {
         position: relative;
@@ -252,13 +246,6 @@
         &::placeholder {
             color: var(--text-helper);
         }
-
-        &.is-invalid,
-        &.is-invalid:focus {
-            padding-right: 16px;
-            background-image: none;
-            box-shadow: none;
-        }
     }
 
     &:has(> .form-control:disabled, > .form-select:disabled) > .form-fluid__label > label {
@@ -270,20 +257,7 @@
         outline-offset: -2px;
     }
 
-    &:has(> .form-control.is-invalid, > .form-select.is-invalid) {
-        box-shadow: inset 0 -1px 0 var(--bs-danger);
-    }
-
-    &:has(> .form-control.is-invalid:focus, > .form-select.is-invalid:focus) {
-        outline-color: var(--bs-danger);
-    }
-
-    .invalid-feedback .text-danger {
-        color: var(--text-error);
-    }
-
-    > .form-text,
-    > .invalid-feedback {
+    > .form-text {
         margin: 0;
         padding: 8px 16px;
         border-top: 1px solid var(--border-subtle);

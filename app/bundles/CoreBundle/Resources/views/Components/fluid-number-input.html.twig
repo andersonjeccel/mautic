@@ -1,11 +1,9 @@
 {% set id = id|default(name|default('input')|replace({'[': '-', ']': '', ' ': '-', '.': '-'})) %}
-{% set invalid = invalid|default(false) %}
 {% set describedby = describedby|default([]) %}
 {% set helpText = helpText|default(null) %}
 {% set link = link|default(null) %}
 {% set iconDescription = iconDescription|default(null) %}
-{% if invalid and invalidText %}{% set describedby = describedby|merge([id ~ '-invalid']) %}{% endif %}
-{% if helpText and not invalid %}{% set describedby = describedby|merge([id ~ '-help']) %}{% endif %}
+{% if helpText %}{% set describedby = describedby|merge([id ~ '-help']) %}{% endif %}
 <div class="form-fluid form-fluid--number{{ wrapperClass ? ' ' ~ wrapperClass }}">
     <div class="form-fluid__label">
         <label for="{{ id }}" class="form-label type-label-01 mb-0">{{ label|trans }}</label>
@@ -31,8 +29,7 @@
             describedby: describedby,
             render_feedback: false,
             wrapperClass: '',
-            attributes: invalid ? (attributes|default({})|merge({'aria-invalid': 'true', class: (attributes.class|default('') ~ ' is-invalid')|trim, min: min|default(null), max: max|default(null), step: step|default(null)})) : attributes|default({})|merge({min: min|default(null), max: max|default(null), step: step|default(null)}),
-            validation: validation|default({})
+            attributes: attributes|default({})|merge({min: min|default(null), max: max|default(null), step: step|default(null)})
         } only %}
         <div class="form-fluid__number-controls">
             <button type="button" class="form-fluid__number-btn" data-number-step="down" aria-label="{{ iconDescription|default('mautic.marketplace.forms.field.decrement_number')|trans }}" title="{{ iconDescription|default('mautic.marketplace.forms.field.decrement_number')|trans }}" {{ disabled|default(false) ? 'disabled' }}>
@@ -44,13 +41,7 @@
             </button>
         </div>
     </div>
-    {% if invalid and invalidText %}
-    <div id="{{ id }}-invalid" class="invalid-feedback d-flex justify-content-between align-items-center">
-        <span class="text-danger">{{ invalidText|trans }}</span>
-        <i class="ri-error-warning-fill text-danger" aria-hidden="true"></i>
-    </div>
-    {% endif %}
-    {% if helpText and not invalid %}
+    {% if helpText %}
     <div id="{{ id }}-help" class="form-text">{{ helpText|trans }}</div>
     {% endif %}
     {% if link %}
