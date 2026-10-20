@@ -4,7 +4,7 @@
   const canvas = document.getElementById('login-background');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  const RING_COLORS = ['#4E5D9D', '#8D9BD0'];
+  const RING_COLORS = ['#7D88B8', '#B3BCDA'];
   const GLOW = 'rgba(78,93,157,';
   const CROSS = 46, CELL = 5, GRID = 40, MIN_R = 30, MARGIN = 24;
   const SPEED = matchMedia('(prefers-reduced-motion: reduce)').matches ? 0.35 : 1;
@@ -105,12 +105,12 @@
     for (const g of rings) {
       if (!g.on) continue;
       const glow = ctx.createRadialGradient(g.cx, g.cy, g.r * 0.2, g.cx, g.cy, g.r * 1.6);
-      glow.addColorStop(0, GLOW + '0.22)');
+      glow.addColorStop(0, GLOW + '0.12)');
       glow.addColorStop(1, GLOW + '0)');
       ctx.fillStyle = glow;
       ctx.fillRect(g.cx - g.r * 1.6, g.cy - g.r * 1.6, g.r * 3.2, g.r * 3.2);
     }
-    ctx.fillStyle = GLOW + '0.12)';
+    ctx.fillStyle = GLOW + '0.06)';
     for (let y = GRID / 2; y < H; y += GRID) {
       for (let x = GRID / 2; x < W; x += GRID) ctx.fillRect(x, y, 2, 2);
     }
