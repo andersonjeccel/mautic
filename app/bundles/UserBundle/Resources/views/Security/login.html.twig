@@ -16,7 +16,7 @@
 
 {% block mainContent %}
 	{% if not app.request.xmlHttpRequest %}
-		<h1 class="type-heading-03">{% trans %}mautic.user.auth.header{% endtrans %}</h1>
+		<h1 class="type-heading-03 mb-48">{% trans %}mautic.user.auth.header{% endtrans %}</h1>
 	{% endif %}
 	<form class="form-group login-form" name="login" data-toggle="ajax" role="form" action="{{ path('mautic_user_logincheck') }}" method="post">
 		{% include '@MauticCore/Components/fluid-text-input.html.twig' with {
@@ -24,7 +24,7 @@
 			name: '_username',
 			labelText: 'mautic.user.auth.form.loginusername',
 			value: last_username|default(''),
-			wrapperClass: 'form-group mb-48',
+			wrapperClass: 'form-group',
 			attributes: {required: 'required', autofocus: 'autofocus'}
 		} only %}
 		{% include '@MauticCore/Components/fluid-password-input.html.twig' with {
