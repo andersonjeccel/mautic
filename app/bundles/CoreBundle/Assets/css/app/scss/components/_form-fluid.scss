@@ -121,6 +121,62 @@
         display: none;
     }
 
+    .form-fluid__number-field {
+        position: relative;
+    }
+
+    .form-fluid__number-field > .form-control {
+        height: 64px;
+        padding: 33px 96px 10px 16px;
+        border: 0;
+        border-radius: 0;
+        background-color: transparent;
+        box-shadow: none;
+        outline: 0;
+        appearance: textfield;
+        -moz-appearance: textfield;
+    }
+
+    .form-fluid__number-field > .form-control::-webkit-outer-spin-button,
+    .form-fluid__number-field > .form-control::-webkit-inner-spin-button {
+        margin: 0;
+        -webkit-appearance: none;
+    }
+
+    .form-fluid__number-controls {
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: flex;
+        align-items: stretch;
+        height: 64px;
+    }
+
+    .form-fluid__number-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 64px;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: var(--text-primary);
+        cursor: pointer;
+    }
+
+    .form-fluid__number-btn:disabled {
+        color: var(--bs-gray-500);
+        cursor: not-allowed;
+    }
+
+    .form-fluid__number-separator {
+        align-self: center;
+        width: 1px;
+        height: 32px;
+        background-color: var(--border-subtle);
+    }
+
     > .form-control {
         &::placeholder {
             color: var(--text-helper);
