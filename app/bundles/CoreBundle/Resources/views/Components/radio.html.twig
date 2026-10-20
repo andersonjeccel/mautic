@@ -9,25 +9,9 @@
 {% set validation = validation|default({}) %}
 {% set base_id = name|replace({'[': '-', ']': '', ' ': '-', '.': '-'}) %}
 {% set help_id = helpText ? base_id ~ '-help' : null %}
-{% set feedback_id = base_id ~ '-feedback' %}
-{% set validation_label = validation.label|default(legend ? legend|trans : name) %}
-{% set validation_rules = validation.rules|default([]) %}
-{% set validation_messages = {
-    valueMissing: 'mautic.marketplace.forms.validation.value_missing'|trans,
-}|merge(validation.messages|default({})) %}
 
 <fieldset
     class="{{ [wrapperClass, 'border-0', 'p-0', 'm-0']|filter(value => value is not empty)|join(' ') }}"
-    data-validation-group="true"
-    data-validation-name="{{ name }}"
-    data-validation-type="radio"
-    data-validation-label="{{ validation_label }}"
-    data-validation-rules="{{ validation_rules|json_encode|e('html_attr') }}"
-    data-validation-messages="{{ validation_messages|json_encode|e('html_attr') }}"
-    data-validation-feedback-id="{{ feedback_id }}"
-    data-validation-describedby-default="{{ help_id ?? '' }}"
-    {% if help_id %}data-validation-help-id="{{ help_id }}"{% endif %}
-    {% if required %}data-validation-required="true"{% endif %}
 >
     {% if legend %}
         <legend class="form-label type-label-01 mb-2">
@@ -68,8 +52,6 @@
     {% endfor %}
 
     {% if helpText %}
-        <div id="{{ help_id }}" class="form-text" data-validation-help>{{ helpText|trans }}</div>
+        <div id="{{ help_id }}" class="form-text">{{ helpText|trans }}</div>
     {% endif %}
-
-    <div id="{{ feedback_id }}" class="invalid-feedback" data-validation-feedback hidden aria-live="polite"></div>
 </fieldset>
