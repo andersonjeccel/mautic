@@ -4,9 +4,9 @@
   const canvas = document.getElementById('login-background');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  const PAPER = '#f4f4f4', INK = '#0b0b0b';
   const RING_COLORS = ['#4E5D9D', '#8D9BD0'];
-  const CROSS = 46, CELL = 5;
+  const GLOW = 'rgba(78,93,157,';
+  const CROSS = 46, CELL = 5, GRID = 40, MIN_R = 30, MARGIN = 24;
   const SPEED = matchMedia('(prefers-reduced-motion: reduce)').matches ? 0.35 : 1;
   const RULES = [
     function (c) { return c.opens >= 4; },
@@ -14,7 +14,11 @@
   ];
   const OFFS = [-28, -14, 0, 14, 28];
   const N = 380;
-  let W = 0, H = 0, oldW = 0, oldH = 0, t = 0, rings = [], contacts = [];
+  let W = 0, H = 0, t = 0, contacts = [];
+  const rings = [
+    { cx: 0, cy: 0, r: 0, on: false, w: 1, a: -2.36, i: 0 },
+    { cx: 0, cy: 0, r: 0, on: false, w: -1, a: 0.785, i: 1 }
+  ];
   const rnd = function (a, b) { return a + Math.random() * (b - a); };
 
   function makeContact(x, y) {
@@ -29,6 +33,29 @@
     };
   }
 
+  function placeRings() {
+    const card = document.querySelector('.tile');
+    const b = card ? card.getBoundingClientRect() : { left: W * 0.5 - 225, right: W * 0.5 + 225, top: H * 0.2, bottom: H * 0.8 };
+    let R;
+    if (W >= 900) {
+      const gapL = b.left, gapR = W - b.right;
+      R = Math.min(Math.min(gapL, gapR) / 2 - MARGIN, H * 0.36);
+      rings[0].cx = gapL / 2;
+      rings[1].cx = b.right + gapR / 2;
+      rings[0].cy = rings[1].cy = H / 2;
+    } else {
+      const gap = b.top;
+      R = Math.min(gap / 2 - MARGIN, W * 0.2);
+      rings[0].cx = W * 0.3;
+      rings[1].cx = W * 0.7;
+      rings[0].cy = rings[1].cy = gap / 2;
+    }
+    for (const g of rings) {
+      g.r = Math.max(R, 0);
+      g.on = g.r >= MIN_R;
+    }
+  }
+
   function layout() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     W = window.innerWidth;
@@ -36,18 +63,7 @@
     canvas.width = Math.round(W * dpr);
     canvas.height = Math.round(H * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const R = Math.min(W, H) * 0.32;
-    if (!rings.length) {
-      rings = [
-        { cx: W * 0.31, cy: H * 0.5, r: R, w: 1, a: -2.36, i: 0 },
-        { cx: W * 0.69, cy: H * 0.5, r: R, w: -1, a: 0.785, i: 1 }
-      ];
-    } else {
-      const k = W / oldW;
-      for (const g of rings) { g.cx *= k; g.cy *= H / (oldH || H); g.r = R; }
-    }
-    oldW = W;
-    oldH = H;
+    placeRings();
     if (!contacts.length) {
       for (let i = 0; i < N; i++) contacts.push(makeContact(rnd(0, W), rnd(0, H)));
     }
@@ -69,7 +85,7 @@
       if (c.ring < 0) continue;
       const g = rings[c.ring];
       c.th += g.w * 0.003 * SPEED;
-      const rr = g.r + c.off;
+      const rr = g.r + c.off * (g.r / 180);
       const tx = g.cx + rr * Math.cos(c.th);
       const ty = g.cy + rr * Math.sin(c.th);
       c.ang = c.th + Math.PI / 2;
@@ -96,22 +112,41 @@
     ctx.fillRect(cx - CELL / 2, cy - CROSS, CELL, CROSS * 2);
   }
 
-  function draw() {
-    ctx.fillStyle = PAPER;
+  function drawBackground() {
+    const sky = ctx.createLinearGradient(0, 0, 0, H);
+    sky.addColorStop(0, '#f7f8fd');
+    sky.addColorStop(1, '#dfe5f5');
+    ctx.fillStyle = sky;
     ctx.fillRect(0, 0, W, H);
+    for (const g of rings) {
+      if (!g.on) continue;
+      const glow = ctx.createRadialGradient(g.cx, g.cy, g.r * 0.2, g.cx, g.cy, g.r * 1.6);
+      glow.addColorStop(0, GLOW + '0.22)');
+      glow.addColorStop(1, GLOW + '0)');
+      ctx.fillStyle = glow;
+      ctx.fillRect(g.cx - g.r * 1.6, g.cy - g.r * 1.6, g.r * 3.2, g.r * 3.2);
+    }
+    ctx.fillStyle = GLOW + '0.12)';
+    for (let y = GRID / 2; y < H; y += GRID) {
+      for (let x = GRID / 2; x < W; x += GRID) ctx.fillRect(x, y, 2, 2);
+    }
+  }
+
+  function draw() {
+    drawBackground();
     for (const c of contacts) {
-      if (c.ring < 0) continue;
+      if (c.ring < 0 || !rings[c.ring].on) continue;
       ctx.fillStyle = RING_COLORS[c.ring];
       pixelStroke(c.px, c.py, c.ang, c.len, c.seed);
     }
     ctx.font = '13px ui-monospace, SFMono-Regular, Menlo, monospace';
     for (const g of rings) {
+      if (!g.on) continue;
       const p = crossOf(g);
       ctx.fillStyle = RING_COLORS[g.i];
       drawCross(p[0], p[1]);
       ctx.fillText(String(g.i), p[0] - 59, p[1] - 52);
     }
-    ctx.fillStyle = INK;
   }
 
   function frame() {
@@ -121,6 +156,8 @@
   }
 
   window.addEventListener('resize', layout);
+  window.addEventListener('scroll', placeRings, { passive: true });
+  window.addEventListener('load', placeRings);
   layout();
   frame();
 })();
