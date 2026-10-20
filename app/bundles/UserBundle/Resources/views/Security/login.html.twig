@@ -45,17 +45,20 @@
 		</div>
 
 		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate')|escape }}"/>
-		<div class="mt-32">
-			{% include '@MauticCore/Helper/button.html.twig' with {
-				buttons: [{
-					label: 'mautic.user.auth.form.loginbtn',
-					variant: 'primary',
-					size: 'xl',
-					wide: true,
-					icon: 'ri-arrow-right-line',
-					attributes: {type: 'submit', id: 'form-loginbtn'}
-				}]
-			} only %}
+		<div class="mt-32 d-flex jc-space-between">
+			<div class="col-xs-6"></div>
+			<div class="col-xs-6">
+				{% include '@MauticCore/Helper/button.html.twig' with {
+					buttons: [{
+						label: 'mautic.user.auth.form.loginbtn',
+						variant: 'primary',
+						size: 'xl',
+						wide: true,
+						icon: 'ri-arrow-right-line',
+						attributes: {type: 'submit', id: 'form-loginbtn'}
+					}]
+				} only %}
+			</div>
 		</div>
 	</form>
 	{% if integrations is not empty %}
