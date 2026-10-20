@@ -188,6 +188,24 @@
         cursor: not-allowed;
     }
 
+    .form-fluid__number-btn:not(:disabled):hover {
+        background-color: var(--field-hover);
+    }
+
+    .form-fluid__number-separator {
+        position: absolute;
+        top: 12px;
+        left: 40px;
+        width: 1px;
+        height: 16px;
+        background-color: var(--border-subtle);
+        pointer-events: none;
+    }
+
+    .form-fluid__number-controls:has(.form-fluid__number-btn:hover, .form-fluid__number-btn:focus) .form-fluid__number-separator {
+        background-color: transparent;
+    }
+
     .form-fluid__toggletip-wrap {
         position: relative;
         display: inline-flex;
@@ -203,8 +221,12 @@
         padding: 0;
         border: 0;
         background: transparent;
-        color: inherit;
+        color: var(--text-secondary);
         cursor: pointer;
+    }
+
+    .form-fluid__toggletip:hover {
+        color: var(--text-primary);
     }
 
     .form-fluid__toggletip-content {
