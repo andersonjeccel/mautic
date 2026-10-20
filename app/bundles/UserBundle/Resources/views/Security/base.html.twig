@@ -17,13 +17,11 @@
 <body>
 <section id="main" role="main">
     <div class="container ml-a mr-a" style="margin-top:100px;">
-        <div class="row">
-            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+        <div class="d-flex justify-content-center">
+            <div class="">
                 <div name="form-login">
-                    <div>
-                        <div class="mautic-logo img-circle mb-md text-center">
-                            {{ source('@MauticCore/Assets/images/logo--minimized.svg') }}
-                        </div>
+                    <div class="tile">
+
                         <div id="main-panel-flash-msgs">
                             {{- include('@MauticCore/Notification/flashes.html.twig') -}}
                         </div>
