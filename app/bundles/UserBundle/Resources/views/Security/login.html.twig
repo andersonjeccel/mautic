@@ -14,21 +14,9 @@
     {% endif %}
 {% endblock %}
 
-{% block securityLayout %}
-<div class="login-page">
-    <div class="login-page__logo">
-        {{ source('@MauticCore/Assets/images/logo--minimized.svg') }}
-    </div>
-    <div id="main-panel-flash-msgs">
-        {{- include('@MauticCore/Notification/flashes.html.twig') -}}
-    </div>
-    {{ block('content') }}
-</div>
-{% endblock %}
-
 {% block mainContent %}
 	{% if not app.request.xmlHttpRequest %}
-		<h1 class="type-heading-03 login-page__title">{% trans %}mautic.user.auth.header{% endtrans %}</h1>
+		<h1 class="type-heading-03">{% trans %}mautic.user.auth.header{% endtrans %}</h1>
 	{% endif %}
 	<form class="form-group login-form" name="login" data-toggle="ajax" role="form" action="{{ path('mautic_user_logincheck') }}" method="post">
 		{% include '@MauticCore/Components/fluid-text-input.html.twig' with {
@@ -36,14 +24,14 @@
 			name: '_username',
 			labelText: 'mautic.user.auth.form.loginusername',
 			value: last_username|default(''),
-			wrapperClass: 'login-form__field login-form__field--username',
+			wrapperClass: 'form-group mb-48',
 			attributes: {required: 'required', autofocus: 'autofocus'}
 		} only %}
 		{% include '@MauticCore/Components/fluid-password-input.html.twig' with {
 			id: 'password',
 			name: '_password',
 			labelText: 'mautic.core.password',
-			wrapperClass: 'login-form__field',
+			wrapperClass: 'form-group',
 			link: {href: path('mautic_user_passwordreset'), label: 'mautic.user.user.passwordreset.link'},
 			attributes: {required: 'required'}
 		} only %}
