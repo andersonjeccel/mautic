@@ -7,13 +7,14 @@
   const RING_COLORS = ['#4E5D9D', '#8D9BD0'];
   const GLOW = 'rgba(78,93,157,';
   const CROSS = 46, CELL = 5, GRID = 40, MIN_R = 30, MARGIN = 24;
+  const TRACKS = [-9, 0, 9];
+  const TAU = Math.PI * 2;
   const SPEED = matchMedia('(prefers-reduced-motion: reduce)').matches ? 0.35 : 1;
   const RULES = [
     function (c) { return c.opens >= 4; },
     function (c) { return c.opens >= 1 && c.opens <= 3; }
   ];
-  const OFFS = [-28, -14, 0, 14, 28];
-  const N = 380;
+  const N = 320;
   let W = 0, H = 0, t = 0, contacts = [];
   const rings = [
     { cx: 0, cy: 0, r: 0, on: false, w: 1, a: -2.36, i: 0 },
@@ -21,25 +22,17 @@
   ];
   const rnd = function (a, b) { return a + Math.random() * (b - a); };
 
-  function makeContact(x, y) {
+  function makeContact(id) {
     const opens = Math.random() < 0.25 ? 0 : Math.floor(rnd(1, 9));
-    const clicks = opens && Math.random() < 0.35 ? Math.min(opens, 1 + Math.floor(rnd(0, 4))) : 0;
-    return {
-      opens: opens, clicks: clicks, ring: -1,
-      th: rnd(0, Math.PI * 2),
-      off: OFFS[Math.floor(Math.random() * OFFS.length)] + rnd(-2, 2),
-      x: x, y: y, px: x, py: y,
-      ang: rnd(0, Math.PI * 2), len: rnd(36, 70), seed: Math.floor(rnd(0, 1000))
-    };
+    return { opens: opens, ring: -1, track: id % TRACKS.length, px: 0, py: 0, ang: 0, len: 12 };
   }
 
   function placeRings() {
-    const card = document.querySelector('.tile');
-    const b = card ? card.getBoundingClientRect() : { left: W * 0.5 - 225, right: W * 0.5 + 225, top: H * 0.2, bottom: H * 0.8 };
+    const b = card();
     let R;
     if (W >= 900) {
       const gapL = b.left, gapR = W - b.right;
-      R = Math.min(Math.min(gapL, gapR) / 2 - MARGIN, H * 0.36);
+      R = Math.min(Math.min(gapL, gapR) / 2 - MARGIN * 2, H * 0.3);
       rings[0].cx = gapL / 2;
       rings[1].cx = b.right + gapR / 2;
       rings[0].cy = rings[1].cy = H / 2;
@@ -56,6 +49,12 @@
     }
   }
 
+  function card() {
+    const el = document.querySelector('.tile');
+    if (el) return el.getBoundingClientRect();
+    return { left: W * 0.3, right: W * 0.7, top: H * 0.2, bottom: H * 0.8 };
+  }
+
   function layout() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     W = window.innerWidth;
@@ -65,7 +64,7 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     placeRings();
     if (!contacts.length) {
-      for (let i = 0; i < N; i++) contacts.push(makeContact(rnd(0, W), rnd(0, H)));
+      for (let i = 0; i < N; i++) contacts.push(makeContact(i));
     }
   }
 
@@ -81,25 +80,32 @@
         if (RULES[i](c)) { c.ring = i; break; }
       }
     }
-    for (const c of contacts) {
-      if (c.ring < 0) continue;
-      const g = rings[c.ring];
-      c.th += g.w * 0.003 * SPEED;
-      const rr = g.r + c.off * (g.r / 180);
-      const tx = g.cx + rr * Math.cos(c.th);
-      const ty = g.cy + rr * Math.sin(c.th);
-      c.ang = c.th + Math.PI / 2;
-      c.px += (tx - c.px) * 0.08 * SPEED;
-      c.py += (ty - c.py) * 0.08 * SPEED;
+    for (let r = 0; r < rings.length; r++) {
+      const g = rings[r];
+      if (!g.on) continue;
+      for (let k = 0; k < TRACKS.length; k++) {
+        const list = contacts.filter(function (c) { return c.ring === r && c.track === k; });
+        const n = list.length;
+        if (!n) continue;
+        const rad = g.r + TRACKS[k];
+        const spacing = TAU * rad / n;
+        const len = Math.max(6, Math.min(18, spacing * 0.6));
+        list.forEach(function (c, j) {
+          const th = g.a + t * 0.002 * g.w * SPEED + TAU * j / n;
+          c.px = g.cx + rad * Math.cos(th);
+          c.py = g.cy + rad * Math.sin(th);
+          c.ang = th + Math.PI / 2;
+          c.len = len;
+        });
+      }
     }
   }
 
-  function pixelStroke(x, y, ang, len, seed) {
+  function pixelStroke(x, y, ang, len) {
     const dx = Math.cos(ang), dy = Math.sin(ang);
     const n = Math.max(2, Math.round(len / CELL));
     const sx = x - dx * len / 2, sy = y - dy * len / 2;
     for (let i = 0; i < n; i++) {
-      if ((i * 31 + seed) % 7 === 0) continue;
       const gx = Math.round((sx + dx * i * CELL) / CELL) * CELL;
       const gy = Math.round((sy + dy * i * CELL) / CELL) * CELL;
       ctx.fillRect(gx, gy, CELL, CELL);
@@ -137,7 +143,7 @@
     for (const c of contacts) {
       if (c.ring < 0 || !rings[c.ring].on) continue;
       ctx.fillStyle = RING_COLORS[c.ring];
-      pixelStroke(c.px, c.py, c.ang, c.len, c.seed);
+      pixelStroke(c.px, c.py, c.ang, c.len);
     }
     ctx.font = '13px ui-monospace, SFMono-Regular, Menlo, monospace';
     for (const g of rings) {
@@ -156,8 +162,7 @@
   }
 
   window.addEventListener('resize', layout);
-  window.addEventListener('scroll', placeRings, { passive: true });
-  window.addEventListener('load', placeRings);
+  window.addEventListener('load', layout);
   layout();
   frame();
 })();
