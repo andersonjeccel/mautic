@@ -2,6 +2,9 @@
 {% set invalid = invalid|default(false) %}
 {% set warnText = warnText|default(null) %}
 {% set helpText = helpText|default(null) %}
+{% set describedby = describedby|default([]) %}
+{% if invalid and invalidText %}{% set describedby = describedby|merge([id ~ '-invalid']) %}{% endif %}
+{% if warnText and not invalid %}{% set describedby = describedby|merge([id ~ '-warn']) %}{% endif %}
 <div class="form-fluid{{ wrapperClass ? ' ' ~ wrapperClass }}">
     <div class="form-fluid__label">
         <label for="{{ id }}" class="form-label type-label-01 mb-0">{{ labelText|trans }}</label>
@@ -16,10 +19,10 @@
         required: required|default(false),
         multiple: multiple|default(false),
         helpText: helpText,
-        describedby: describedby|default([]),
+        describedby: describedby,
         render_feedback: false,
         wrapperClass: '',
-        attributes: attributes|default({}),
+        attributes: invalid ? (attributes|default({})|merge({'aria-invalid': 'true', class: (attributes.class|default('') ~ ' is-invalid')|trim})) : attributes|default({}),
         validation: validation|default({})
     } only %}
     {% if invalid and invalidText %}
