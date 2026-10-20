@@ -17,11 +17,10 @@
 <body>
 <section id="main" role="main">
     <div class="container ml-a mr-a" style="margin-top:100px;">
-        {% block securityLayout %}
         <div class="row">
             <div class="col-lg-4 col-lg-offset-4">
-                <div class="panel" name="form-login">
-                    <div class="panel-body">
+                <div name="form-login">
+                    <div>
                         <div class="mautic-logo img-circle mb-md text-center">
                             {{ source('@MauticCore/Assets/images/logo--minimized.svg') }}
                         </div>
@@ -33,7 +32,6 @@
                 </div>
             </div>
         </div>
-        {% endblock %}
          <div class="row">
             <div class="col-lg-4 col-lg-offset-4 text-center text-secondary">
                 {{ 'mautic.core.copyright'|trans({'%date%' : date('Y').format('Y') }) }}
