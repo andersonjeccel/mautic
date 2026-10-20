@@ -2,8 +2,11 @@
 {% set invalid = invalid|default(false) %}
 {% set warnText = warnText|default(null) %}
 {% set describedby = describedby|default([]) %}
+{% set helpText = helpText|default(null) %}
+{% set link = link|default(null) %}
 {% if invalid and invalidText %}{% set describedby = describedby|merge([id ~ '-invalid']) %}{% endif %}
 {% if warnText and not invalid %}{% set describedby = describedby|merge([id ~ '-warn']) %}{% endif %}
+{% if helpText and not invalid %}{% set describedby = describedby|merge([id ~ '-help']) %}{% endif %}
 <div class="form-fluid{{ wrapperClass ? ' ' ~ wrapperClass }}">
     <div class="form-fluid__label">
         <label for="{{ id }}" class="form-label type-label-01 mb-0">{{ labelText|trans }}</label>
@@ -35,5 +38,11 @@
         <span class="text-body">{{ warnText|trans }}</span>
         <i class="ri-alert-fill text-warning" aria-hidden="true"></i>
     </div>
+    {% endif %}
+    {% if helpText and not invalid %}
+    <div id="{{ id }}-help" class="form-text">{{ helpText|trans }}</div>
+    {% endif %}
+    {% if link %}
+    <a href="{{ link.href }}">{{ link.label|trans }}</a>
     {% endif %}
 </div>
