@@ -1,6 +1,8 @@
 {% set id = id|default(name|default('input')|replace({'[': '-', ']': '', ' ': '-', '.': '-'})) %}
 {% set helpText = helpText|default(null) %}
 {% set link = link|default(null) %}
+{% set describedby = [] %}
+{% if helpText %}{% set describedby = describedby|merge([id ~ '-help']) %}{% endif %}
 <div class="form-fluid form-fluid--search{{ wrapperClass ? ' ' ~ wrapperClass }}">
     <div class="form-fluid__label">
         <label for="{{ id }}" class="form-label type-label-01 mb-0">{{ labelText|trans }}</label>
@@ -14,6 +16,7 @@
         placeholder: placeholder|default(null),
         disabled: disabled|default(false),
         required: false,
+        describedby: describedby,
         render_feedback: false,
         wrapperClass: '',
         attributes: attributes|default({})|merge({role: role|default('searchbox'), autocomplete: autoComplete|default('off')}),
