@@ -2793,14 +2793,27 @@ document.addEventListener('click', (event) => {
     }
 
     const toggle = event.target.closest('.form-fluid__password-toggle');
-    if (!toggle) return;
+    if (toggle) {
+        const field = toggle.parentElement.querySelector('input');
+        const shown = field.type === 'text';
+        field.type = shown ? 'password' : 'text';
+        toggle.setAttribute('aria-pressed', String(!shown));
+        toggle.setAttribute('aria-label', shown ? toggle.dataset.labelShow : toggle.dataset.labelHide);
+        toggle.querySelector('i').className = shown ? 'ri-eye-line' : 'ri-eye-off-line';
+        return;
+    }
 
-    const field = toggle.parentElement.querySelector('input');
-    const shown = field.type === 'text';
-    field.type = shown ? 'password' : 'text';
-    toggle.setAttribute('aria-pressed', String(!shown));
-    toggle.setAttribute('aria-label', shown ? toggle.dataset.labelShow : toggle.dataset.labelHide);
-    toggle.querySelector('i').className = shown ? 'ri-eye-line' : 'ri-eye-off-line';
+    const numberStep = event.target.closest('.form-fluid__number-btn');
+    if (!numberStep || numberStep.disabled) return;
+
+    const field = numberStep.closest('.form-fluid__number-field').querySelector('input');
+    if (numberStep.dataset.numberStep === 'up') {
+        field.stepUp();
+    } else {
+        field.stepDown();
+    }
+    field.dispatchEvent(new Event('input', { bubbles: true }));
+    field.dispatchEvent(new Event('change', { bubbles: true }));
 });
 
 // Initialize filter commands on page load
