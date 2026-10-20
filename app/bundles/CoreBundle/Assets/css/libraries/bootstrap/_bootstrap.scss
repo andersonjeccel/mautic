@@ -1,5 +1,6 @@
 $enable-rfs: false;
 $enable-smooth-scroll: false;
+$enable-cssgrid: true;
 
 @import "mixins/banner";
 @include bsBanner("");
