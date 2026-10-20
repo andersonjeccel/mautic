@@ -17,8 +17,10 @@
         disabled: disabled|default(false),
         required: false,
         describedby: describedby,
+        render_feedback: false,
         wrapperClass: '',
         attributes: attributes|default({})|merge({role: role|default('searchbox'), autocomplete: autoComplete|default('off')}),
+        validation: validation|default({})
     } only %}
     <i class="ri-search-line form-fluid__search-icon" aria-hidden="true"></i>
     <button type="button" class="form-fluid__search-clear" aria-label="{{ closeButtonLabelText|default('mautic.marketplace.forms.field.clear_search')|trans }}" hidden>

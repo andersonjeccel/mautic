@@ -2,12 +2,14 @@
 {% set label = label|default(null) %}
 {% set helpText = helpText|default(null) %}
 {% set help_id = helpText ? id ~ '-help' : null %}
+{% set feedback_id = id ~ '-feedback' %}
 {% set size = size|default(null) %}
 {% set wrapperClass = wrapperClass|default('') %}
 {% set addons_prepend = addons_prepend|default([]) %}
 {% set addons_append = addons_append|default([]) %}
 {% set control = control|default({}) %}
 {% set attributes = attributes|default({}) %}
+{% set validation = validation|default({}) %}
 {% set group_class = 'input-group' %}
 
 {% if size in ['sm', 'lg'] %}
@@ -17,6 +19,8 @@
 {% if attributes.class is defined %}
     {% set group_class = group_class ~ ' ' ~ attributes.class %}
 {% endif %}
+
+{% set group_class = group_class ~ ' has-validation' %}
 
 <div class="{% if wrapperClass %}{{ wrapperClass }}{% endif %}">
     {% if label %}
@@ -44,7 +48,10 @@
             helpText: null,
             wrapperClass: '',
             help_id: help_id,
-            describedby: help_id ? [help_id] : []
+            feedback_id: feedback_id,
+            render_feedback: false,
+            describedby: help_id ? [help_id] : [],
+            validation: validation
         }) %}
         {% include '@MauticCore/Components/' ~ control_type ~ '.html.twig' with control_context only %}
 
@@ -56,4 +63,6 @@
     {% if helpText %}
         <div id="{{ help_id }}" class="form-text">{{ helpText|trans }}</div>
     {% endif %}
+
+    <div id="{{ feedback_id }}" class="invalid-feedback" hidden aria-live="polite"></div>
 </div>
