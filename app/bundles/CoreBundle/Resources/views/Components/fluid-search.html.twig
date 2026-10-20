@@ -2,6 +2,9 @@
 {% set helpText = helpText|default(null) %}
 {% set link = link|default(null) %}
 <div class="form-fluid form-fluid--search{{ wrapperClass ? ' ' ~ wrapperClass }}">
+    <div class="form-fluid__label">
+        <label for="{{ id }}" class="form-label type-label-01 mb-0">{{ labelText|trans }}</label>
+    </div>
     {% include '@MauticCore/Components/form-control.html.twig' with {
         id: id,
         name: name|default('input'),
