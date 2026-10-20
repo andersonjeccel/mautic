@@ -1,0 +1,46 @@
+.login-page {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 32px;
+    padding: 0 16px;
+
+    > .login-page__logo {
+        display: flex;
+        justify-content: center;
+
+        > svg {
+            width: 96px;
+            height: auto;
+        }
+    }
+
+    > .login-page__title {
+        margin: 0;
+        text-align: center;
+    }
+
+    .login-form {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+
+        > .login-form__field {
+            margin-bottom: 0;
+        }
+
+        > .login-form__field--username {
+            margin-bottom: 48px;
+        }
+
+        > .checkbox-inline {
+            margin: 24px 0 0;
+        }
+
+        > .form-group {
+            margin: 24px 0 0;
+        }
+    }
+}
