@@ -18,7 +18,7 @@
 	{% if not app.request.xmlHttpRequest %}
 		<h1 class="type-heading-05 mb-32">{% trans %}mautic.user.auth.header{% endtrans %}</h1>
 	{% endif %}
-	<form class="form-group login-form" name="login" data-toggle="ajax" role="form" action="{{ path('mautic_user_logincheck') }}" method="post">
+	<form class="login-form" name="login" data-toggle="ajax" role="form" action="{{ path('mautic_user_logincheck') }}" method="post" style="margin:0 -16px -16px;">
 		{% include '@MauticCore/Components/fluid-text-input.html.twig' with {
 			id: 'username',
 			name: '_username',
@@ -36,7 +36,7 @@
 			attributes: {required: 'required'}
 		} only %}
 
-		<div class="checkbox-inline custom-primary">
+		<div class="checkbox-inline custom-primary" style="margin-left:16px;">
 			<label for="remember_me">
 				<input type="checkbox" id="remember_me" name="_remember_me"/>
 				<span></span>
@@ -45,21 +45,17 @@
 		</div>
 
 		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate')|escape }}"/>
-		<div class="form-group mt-32">
-			<div class="d-flex jc-space-between">
-				<div class="col-xs-6"></div>
-				<div class="col-xs-6 text-right">
-					{% include '@MauticCore/Helper/button.html.twig' with {
-						buttons: [{
-							label: 'mautic.user.auth.form.loginbtn',
-							variant: 'primary',
-							size: 'xl',
-							icon: 'ri-arrow-right-line',
-							attributes: {type: 'submit', id: 'form-loginbtn'}
-						}]
-					} only %}
-				</div>
-			</div>
+		<div class="mt-32">
+			{% include '@MauticCore/Helper/button.html.twig' with {
+				buttons: [{
+					label: 'mautic.user.auth.form.loginbtn',
+					variant: 'primary',
+					size: 'xl',
+					wide: true,
+					icon: 'ri-arrow-right-line',
+					attributes: {type: 'submit', id: 'form-loginbtn'}
+				}]
+			} only %}
 		</div>
 	</form>
 	{% if integrations is not empty %}
