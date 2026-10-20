@@ -1,0 +1,127 @@
+<canvas id="login-background" aria-hidden="true" style="position:fixed;inset:0;width:100vw;height:100vh;z-index:-1;pointer-events:none;display:block"></canvas>
+<script>
+(function () {
+  const canvas = document.getElementById('login-background');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const PAPER = '#f4f4f4', INK = '#0b0b0b';
+  const RING_COLORS = ['#4E5D9D', '#8D9BD0'];
+  const CROSS = 46, CELL = 5;
+  const SPEED = matchMedia('(prefers-reduced-motion: reduce)').matches ? 0.35 : 1;
+  const RULES = [
+    function (c) { return c.opens >= 4; },
+    function (c) { return c.opens >= 1 && c.opens <= 3; }
+  ];
+  const OFFS = [-28, -14, 0, 14, 28];
+  const N = 380;
+  let W = 0, H = 0, oldW = 0, oldH = 0, t = 0, rings = [], contacts = [];
+  const rnd = function (a, b) { return a + Math.random() * (b - a); };
+
+  function makeContact(x, y) {
+    const opens = Math.random() < 0.25 ? 0 : Math.floor(rnd(1, 9));
+    const clicks = opens && Math.random() < 0.35 ? Math.min(opens, 1 + Math.floor(rnd(0, 4))) : 0;
+    return {
+      opens: opens, clicks: clicks, ring: -1,
+      th: rnd(0, Math.PI * 2),
+      off: OFFS[Math.floor(Math.random() * OFFS.length)] + rnd(-2, 2),
+      x: x, y: y, px: x, py: y,
+      ang: rnd(0, Math.PI * 2), len: rnd(36, 70), seed: Math.floor(rnd(0, 1000))
+    };
+  }
+
+  function layout() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth;
+    H = window.innerHeight;
+    canvas.width = Math.round(W * dpr);
+    canvas.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const R = Math.min(W, H) * 0.32;
+    if (!rings.length) {
+      rings = [
+        { cx: W * 0.31, cy: H * 0.5, r: R, w: 1, a: -2.36, i: 0 },
+        { cx: W * 0.69, cy: H * 0.5, r: R, w: -1, a: 0.785, i: 1 }
+      ];
+    } else {
+      const k = W / oldW;
+      for (const g of rings) { g.cx *= k; g.cy *= H / (oldH || H); g.r = R; }
+    }
+    oldW = W;
+    oldH = H;
+    if (!contacts.length) {
+      for (let i = 0; i < N; i++) contacts.push(makeContact(rnd(0, W), rnd(0, H)));
+    }
+  }
+
+  function crossOf(g) {
+    return [g.cx + g.r * 1.1 * Math.cos(g.a), g.cy + g.r * 1.1 * Math.sin(g.a)];
+  }
+
+  function step() {
+    t += SPEED;
+    for (const c of contacts) {
+      c.ring = -1;
+      for (let i = 0; i < RULES.length; i++) {
+        if (RULES[i](c)) { c.ring = i; break; }
+      }
+    }
+    for (const c of contacts) {
+      if (c.ring < 0) continue;
+      const g = rings[c.ring];
+      c.th += g.w * 0.003 * SPEED;
+      const rr = g.r + c.off;
+      const tx = g.cx + rr * Math.cos(c.th);
+      const ty = g.cy + rr * Math.sin(c.th);
+      c.ang = c.th + Math.PI / 2;
+      c.px += (tx - c.px) * 0.08 * SPEED;
+      c.py += (ty - c.py) * 0.08 * SPEED;
+    }
+  }
+
+  function pixelStroke(x, y, ang, len, seed) {
+    const dx = Math.cos(ang), dy = Math.sin(ang);
+    const n = Math.max(2, Math.round(len / CELL));
+    const sx = x - dx * len / 2, sy = y - dy * len / 2;
+    for (let i = 0; i < n; i++) {
+      if ((i * 31 + seed) % 7 === 0) continue;
+      const gx = Math.round((sx + dx * i * CELL) / CELL) * CELL;
+      const gy = Math.round((sy + dy * i * CELL) / CELL) * CELL;
+      ctx.fillRect(gx, gy, CELL, CELL);
+    }
+  }
+
+  function drawCross(x, y) {
+    const cx = Math.round(x / CELL) * CELL, cy = Math.round(y / CELL) * CELL;
+    ctx.fillRect(cx - CROSS, cy - CELL / 2, CROSS * 2, CELL);
+    ctx.fillRect(cx - CELL / 2, cy - CROSS, CELL, CROSS * 2);
+  }
+
+  function draw() {
+    ctx.fillStyle = PAPER;
+    ctx.fillRect(0, 0, W, H);
+    for (const c of contacts) {
+      if (c.ring < 0) continue;
+      ctx.fillStyle = RING_COLORS[c.ring];
+      pixelStroke(c.px, c.py, c.ang, c.len, c.seed);
+    }
+    ctx.font = '13px ui-monospace, SFMono-Regular, Menlo, monospace';
+    for (const g of rings) {
+      const p = crossOf(g);
+      ctx.fillStyle = RING_COLORS[g.i];
+      drawCross(p[0], p[1]);
+      ctx.fillText(String(g.i), p[0] - 59, p[1] - 52);
+    }
+    ctx.fillStyle = INK;
+  }
+
+  function frame() {
+    step();
+    draw();
+    requestAnimationFrame(frame);
+  }
+
+  window.addEventListener('resize', layout);
+  layout();
+  frame();
+})();
+</script>
