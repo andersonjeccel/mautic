@@ -9,6 +9,14 @@
 <div class="form-fluid form-fluid--number{{ wrapperClass ? ' ' ~ wrapperClass }}">
     <div class="form-fluid__label">
         <label for="{{ id }}" class="form-label type-label-01 mb-0">{{ label|trans }}</label>
+        {% if toggletipText %}
+        <span class="form-fluid__toggletip-wrap">
+            <button type="button" class="form-fluid__toggletip" aria-controls="{{ id }}-toggletip" aria-expanded="false" aria-label="{{ 'mautic.core.toggletip'|trans }}">
+                <i class="ri-information-2-line" aria-hidden="true"></i>
+            </button>
+            <span id="{{ id }}-toggletip" class="form-fluid__toggletip-content bg-dark text-white small p-2 rounded shadow" hidden>{{ toggletipText|trans }}</span>
+        </span>
+        {% endif %}
     </div>
     <div class="form-fluid__number-field">
         {% include '@MauticCore/Components/form-control.html.twig' with {
@@ -27,11 +35,11 @@
             validation: validation|default({})
         } only %}
         <div class="form-fluid__number-controls">
-            <button type="button" class="form-fluid__number-btn" data-number-step="down" aria-label="{{ (iconDescription ?: 'Decrement number')|trans }}" title="{{ (iconDescription ?: 'Decrement number')|trans }}" {{ disabled|default(false) ? 'disabled' }}>
+            <button type="button" class="form-fluid__number-btn" data-number-step="down" aria-label="{{ iconDescription|default('mautic.marketplace.forms.field.decrement_number')|trans }}" title="{{ iconDescription|default('mautic.marketplace.forms.field.decrement_number')|trans }}" {{ disabled|default(false) ? 'disabled' }}>
                 <i class="ri-subtract-line" aria-hidden="true"></i>
             </button>
             <span class="form-fluid__number-separator" aria-hidden="true"></span>
-            <button type="button" class="form-fluid__number-btn" data-number-step="up" aria-label="{{ (iconDescription ?: 'Increment number')|trans }}" title="{{ (iconDescription ?: 'Increment number')|trans }}" {{ disabled|default(false) ? 'disabled' }}>
+            <button type="button" class="form-fluid__number-btn" data-number-step="up" aria-label="{{ iconDescription|default('mautic.marketplace.forms.field.increment_number')|trans }}" title="{{ iconDescription|default('mautic.marketplace.forms.field.increment_number')|trans }}" {{ disabled|default(false) ? 'disabled' }}>
                 <i class="ri-add-line" aria-hidden="true"></i>
             </button>
         </div>

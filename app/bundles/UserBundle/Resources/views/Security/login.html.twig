@@ -50,7 +50,7 @@
 		{% include '@MauticCore/Components/fluid-select.html.twig' with {id: 'v-select', name: 'v_select', labelText: 'Select', value: 'b', options: [{value: 'a', label: 'Option A'}, {value: 'b', label: 'Option B'}], wrapperClass: 'form-group'} only %}
 		{% include '@MauticCore/Components/fluid-select.html.twig' with {id: 'v-select-invalid', name: 'v_select_invalid', labelText: 'Select invalid', value: 'b', options: [{value: 'a', label: 'Option A'}, {value: 'b', label: 'Option B'}], invalid: true, invalidText: 'Pick a valid option.', wrapperClass: 'form-group'} only %}
 		{% include '@MauticCore/Components/fluid-search.html.twig' with {id: 'v-search', name: 'v_search', labelText: 'Search', placeholder: 'Type to search', value: 'term', helpText: 'Search helper', wrapperClass: 'form-group'} only %}
-		{% include '@MauticCore/Components/fluid-number-input.html.twig' with {id: 'v-number', name: 'v_number', label: 'Number', value: '42', min: 0, max: 100, step: 10, iconDescription: 'Adjust number', helpText: 'Number helper', wrapperClass: 'form-group'} only %}
+		{% include '@MauticCore/Components/fluid-number-input.html.twig' with {id: 'v-number', name: 'v_number', label: 'Number', value: '42', min: 0, max: 100, step: 10, toggletipText: 'Use the buttons or type a value.', helpText: 'Number helper', wrapperClass: 'form-group'} only %}
 		{% include '@MauticCore/Components/fluid-password-input.html.twig' with {id: 'v-password', name: 'v_password', labelText: 'Password variant', value: 'secret', helpText: 'Password helper', wrapperClass: 'form-group'} only %}
 		{# TEST-STATES-END #}
 
