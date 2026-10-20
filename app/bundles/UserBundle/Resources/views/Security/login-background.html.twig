@@ -6,6 +6,7 @@
   const ctx = canvas.getContext('2d');
   const RING_COLORS = ['#7D88B8', '#B3BCDA'];
   const GLOW = 'rgba(78,93,157,';
+  const RING_ALPHA = 0.55;
   const CROSS = 46, CELL = 5, GRID = 40, MIN_R = 30, MARGIN = 24;
   const SPEED = matchMedia('(prefers-reduced-motion: reduce)').matches ? 0.35 : 1;
   const RULES = [
@@ -118,6 +119,7 @@
 
   function draw() {
     drawBackground();
+    ctx.globalAlpha = RING_ALPHA;
     for (const c of contacts) {
       if (c.ring < 0 || !rings[c.ring].on) continue;
       ctx.fillStyle = RING_COLORS[c.ring];
@@ -131,6 +133,7 @@
       drawCross(p[0], p[1]);
       ctx.fillText(String(g.i), p[0] - 59, p[1] - 52);
     }
+    ctx.globalAlpha = 1;
   }
 
   function frame() {
