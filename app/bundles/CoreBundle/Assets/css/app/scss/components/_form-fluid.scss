@@ -177,6 +177,44 @@
         background-color: var(--border-subtle);
     }
 
+    .form-fluid__toggletip-wrap {
+        position: relative;
+        display: inline-flex;
+        pointer-events: auto;
+    }
+
+    .form-fluid__toggletip {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 16px;
+        height: 16px;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+    }
+
+    .form-fluid__toggletip-content {
+        position: absolute;
+        bottom: calc(100% + 8px);
+        left: -8px;
+        z-index: 2;
+        width: max-content;
+        max-width: 240px;
+        pointer-events: auto;
+    }
+
+    .form-fluid__toggletip-content::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 10px;
+        border: 6px solid transparent;
+        border-top-color: var(--bs-dark);
+    }
+
     > .form-control {
         &::placeholder {
             color: var(--text-helper);
