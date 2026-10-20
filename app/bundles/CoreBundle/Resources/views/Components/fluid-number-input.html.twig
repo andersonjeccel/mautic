@@ -38,6 +38,7 @@
             <button type="button" class="form-fluid__number-btn" data-number-step="down" aria-label="{{ iconDescription|default('mautic.marketplace.forms.field.decrement_number')|trans }}" title="{{ iconDescription|default('mautic.marketplace.forms.field.decrement_number')|trans }}" {{ disabled|default(false) ? 'disabled' }}>
                 <i class="ri-subtract-line" aria-hidden="true"></i>
             </button>
+            <span class="form-fluid__number-separator" aria-hidden="true"></span>
             <button type="button" class="form-fluid__number-btn" data-number-step="up" aria-label="{{ iconDescription|default('mautic.marketplace.forms.field.increment_number')|trans }}" title="{{ iconDescription|default('mautic.marketplace.forms.field.increment_number')|trans }}" {{ disabled|default(false) ? 'disabled' }}>
                 <i class="ri-add-line" aria-hidden="true"></i>
             </button>
