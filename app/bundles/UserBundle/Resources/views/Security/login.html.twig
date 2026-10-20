@@ -46,7 +46,7 @@
 
 		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate')|escape }}"/>
 		<div class="form-group mt-32">
-			<div class="row-">
+			<div class="d-flex jc-space-between">
 				<div class="col-xs-6"></div>
 				<div class="col-xs-6 text-right">
 					{% include '@MauticCore/Helper/button.html.twig' with {
