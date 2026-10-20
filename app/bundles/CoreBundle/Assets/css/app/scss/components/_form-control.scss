@@ -1,5 +1,5 @@
 input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0px 1000px white inset;
+    -webkit-box-shadow: 0 0 0 1000px var(--field) inset, inset 0 -1px 0 var(--border-strong);
 }
 
 .form-control,
@@ -10,7 +10,7 @@ input:-webkit-autofill {
     }
 }
 
-.form-control, 
+.form-control,
 .input-group-text,
 .form-select {
     border-bottom: 1px solid var(--border-strong);
