@@ -7,7 +7,7 @@
 {% if invalid and invalidText %}{% set describedby = describedby|merge([id ~ '-invalid']) %}{% endif %}
 {% if helpText and not invalid %}{% set describedby = describedby|merge([id ~ '-help']) %}{% endif %}
 <div class="form-fluid form-fluid--number{{ wrapperClass ? ' ' ~ wrapperClass }}">
-    <div class="form-fluid__label">
+    <div class="form-fluid__label text-helper">
         <label for="{{ id }}" class="form-label type-label-01 mb-0">{{ label|trans }}</label>
         {% if toggletipText %}
         <span class="form-fluid__toggletip-wrap">
