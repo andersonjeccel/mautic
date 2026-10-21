@@ -1,0 +1,9 @@
+{% set size = size|default('md') %}
+
+{% set size_class_map = {
+    'sm': 'type-helper-text-01',
+    'md': 'type-body-compact-01',
+    'lg': 'type-body-compact-02'
+} %}
+
+<a {% if href is defined and href %}href="{{ href }}"{% else %}role="button" tabindex="0"{% endif %} class="link {{ size_class_map[size] }}{% if className is defined and className %} {{ className }}{% endif %}"{% if target is defined and target %} target="{{ target }}" rel="{{ target == '_blank' ? 'noopener noreferrer' : 'noreferrer' }}"{% endif %}>{{ label|trans }}</a>

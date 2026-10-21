@@ -3,6 +3,6 @@
 {% block content %}
     {{ form(form) }}
     <div class="mt-sm">
-        <a href="{{ path('login') }}">{{ 'mautic.user.user.passwordreset.back'|trans }}</a>
+        {% include '@MauticCore/Components/link.html.twig' with {href: path('login'), label: 'mautic.user.user.passwordreset.back'} only %}
     </div>
 {% endblock %}
