@@ -16,9 +16,12 @@
 
 {% block mainContent %}
 	{% if not app.request.xmlHttpRequest %}
-		<h1 class="type-heading-05 mb-32">{% trans %}mautic.user.auth.header{% endtrans %}</h1>
+	<div class="mb-32 ps-16 pe-16 pt-16">
+		<h1 class="type-fluid-paragraph-01">{% trans %}mautic.user.auth.header{% endtrans %}</h1>
+		<span class="text-secondary type-helper-text-01">Need help? Contact your administrator.</span>
+	</div>
 	{% endif %}
-	<form class="login-form" name="login" data-toggle="ajax" role="form" action="{{ path('mautic_user_logincheck') }}" method="post" style="margin:0 -16px -16px;">
+	<form class="login-form bdr-t" name="login" data-toggle="ajax" role="form" action="{{ path('mautic_user_logincheck') }}" method="post">
 		{% include '@MauticCore/Components/fluid-text-input.html.twig' with {
 			id: 'username',
 			name: '_username',
@@ -31,12 +34,12 @@
 			id: 'password',
 			name: '_password',
 			labelText: 'mautic.core.password',
-			wrapperClass: 'form-group mb-24',
+			wrapperClass: 'form-group mb-16',
 			link: {href: path('mautic_user_passwordreset'), label: 'mautic.user.user.passwordreset.link'},
 			attributes: {required: 'required'}
 		} only %}
 
-		<div class="checkbox-inline custom-primary" style="margin-left:16px;">
+		<div class="checkbox-inline custom-primary ms-16">
 			<label for="remember_me">
 				<input type="checkbox" id="remember_me" name="_remember_me"/>
 				<span></span>
@@ -45,9 +48,8 @@
 		</div>
 
 		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate')|escape }}"/>
-		<div class="mt-24 grid" style="grid-template-columns: 1fr 1fr;">
-			<div></div>
-			<div>
+		<div class="mt-24 row-no-gutters justify-content-end">
+			<div class="col-xs-6">
 				{% include '@MauticCore/Helper/button.html.twig' with {
 					buttons: [{
 						label: 'mautic.user.auth.form.loginbtn',
