@@ -727,7 +727,7 @@ function initPixelBlast(container, canvas, settingsRef) {
       const s = settingsRef.current;
       view.width = Math.max(1, container.clientWidth);
       view.height = Math.max(1, container.clientHeight);
-      view.ratio = Math.min(s.dpr || window.devicePixelRatio || 1, 2);
+      view.ratio = Math.min(s.dpr || window.devicePixelRatio || 1, 1);
       canvas.width = Math.max(1, Math.round(view.width * view.ratio));
       canvas.height = Math.max(1, Math.round(view.height * view.ratio));
       if (!mouse.ready) {
@@ -747,6 +747,10 @@ function initPixelBlast(container, canvas, settingsRef) {
       const s = settingsRef.current;
       if (!visible && s.autoPauseOffscreen) return;
       if (document.hidden) return;
+      if (last && now - last < 1000 / 30) {
+        raf = requestAnimationFrame(frame);
+        return;
+      }
       const dt = last ? clamp((now - last) / 1000, 0, 1 / 20) : 0;
       last = now;
       if (!reduce) elapsed += dt;
