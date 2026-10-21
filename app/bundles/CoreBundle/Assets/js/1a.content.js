@@ -2796,6 +2796,45 @@ document.addEventListener('click', (event) => {
     field.focus();
 });
 
+document.addEventListener('keydown', (event) => {
+    if (Mautic.Keyboard.isEscape(Mautic.Keyboard.getKey(event))) closeFluidToggletips();
+});
+
+const closeFluidToggletips = (except = null) => {
+    document.querySelectorAll('.form-fluid__toggletip[aria-expanded="true"]').forEach((button) => {
+        if (button === except) return;
+        button.setAttribute('aria-expanded', 'false');
+        document.getElementById(button.getAttribute('aria-controls')).hidden = true;
+    });
+};
+
+document.addEventListener('click', (event) => {
+    const toggletip = event.target.closest('.form-fluid__toggletip');
+    if (toggletip || !event.target.closest('.form-fluid__toggletip-content')) {
+        closeFluidToggletips(toggletip);
+    }
+    if (!toggletip) return;
+
+    const content = document.getElementById(toggletip.getAttribute('aria-controls'));
+    const open = toggletip.getAttribute('aria-expanded') !== 'true';
+    toggletip.setAttribute('aria-expanded', String(open));
+    content.hidden = !open;
+});
+
+document.addEventListener('click', (event) => {
+    const numberStep = event.target.closest('.form-field-step');
+    if (!numberStep || numberStep.disabled) return;
+
+    const field = numberStep.closest('.form-field-with-number').querySelector('input');
+    if (numberStep.dataset.numberStep === 'up') {
+        field.stepUp();
+    } else {
+        field.stepDown();
+    }
+    field.dispatchEvent(new Event('input', { bubbles: true }));
+    field.dispatchEvent(new Event('change', { bubbles: true }));
+});
+
 // Initialize filter commands on page load
 document.addEventListener('DOMContentLoaded', function () {
     Mautic.initFilterCommands();
