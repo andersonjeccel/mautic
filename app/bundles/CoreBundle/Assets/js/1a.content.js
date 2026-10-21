@@ -2796,29 +2796,15 @@ document.addEventListener('click', (event) => {
     field.focus();
 });
 
-document.addEventListener('keydown', (event) => {
-    if (Mautic.Keyboard.isEscape(Mautic.Keyboard.getKey(event))) closeFluidToggletips();
+document.addEventListener('focusin', (event) => {
+    const toggletip = event.target.closest('.form-fluid__toggletip');
+    if (toggletip) bootstrap.Popover.getOrCreateInstance(toggletip, { trigger: 'focus' }).show();
 });
 
-const closeFluidToggletips = (except = null) => {
-    document.querySelectorAll('.form-fluid__toggletip[aria-expanded="true"]').forEach((button) => {
-        if (button === except) return;
-        button.setAttribute('aria-expanded', 'false');
-        document.getElementById(button.getAttribute('aria-controls')).hidden = true;
-    });
-};
+document.addEventListener('keydown', (event) => {
+    if (!Mautic.Keyboard.isEscape(Mautic.Keyboard.getKey(event))) return;
 
-document.addEventListener('click', (event) => {
-    const toggletip = event.target.closest('.form-fluid__toggletip');
-    if (toggletip || !event.target.closest('.form-fluid__toggletip-content')) {
-        closeFluidToggletips(toggletip);
-    }
-    if (!toggletip) return;
-
-    const content = document.getElementById(toggletip.getAttribute('aria-controls'));
-    const open = toggletip.getAttribute('aria-expanded') !== 'true';
-    toggletip.setAttribute('aria-expanded', String(open));
-    content.hidden = !open;
+    document.querySelectorAll('.form-fluid__toggletip').forEach((toggletip) => bootstrap.Popover.getInstance(toggletip)?.hide());
 });
 
 document.addEventListener('click', (event) => {

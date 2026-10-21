@@ -52,10 +52,9 @@
         <label for="{{ id }}" class="form-label type-label-01 mb-0">{{ labelText|trans }}</label>
         {% if toggletipText %}
         <span class="form-fluid__toggletip-wrap">
-            <button type="button" class="form-fluid__toggletip" aria-controls="{{ id }}-toggletip" aria-expanded="false" aria-label="{{ 'mautic.core.toggletip'|trans }}">
+            <button type="button" class="form-fluid__toggletip" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-placement="top" data-bs-container="body" data-bs-custom-class="form-fluid__toggletip-popover" data-bs-content="{{ toggletipText|trans }}" aria-label="{{ 'mautic.core.toggletip'|trans }}">
                 <i class="ri-information-2-line" aria-hidden="true"></i>
             </button>
-            <span id="{{ id }}-toggletip" class="form-fluid__toggletip-content bg-dark text-white small p-2 rounded shadow" hidden>{{ toggletipText|trans }}</span>
         </span>
         {% endif %}
     </div>
