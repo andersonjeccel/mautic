@@ -116,17 +116,6 @@ h1, h2, h3, h4, h5, h6,
   letter-spacing: var(--legal-02-letter-spacing);
 }
 
-.link {
-  color: var(--link-primary);
-  text-decoration: none;
-  cursor: pointer;
-
-  &:hover {
-    color: var(--link-primary-hover);
-    text-decoration: underline;
-  }
-}
-
 .type-body-compact-01 {
   font-size: var(--body-compact-01-font-size);
   line-height: var(--body-compact-01-line-height);

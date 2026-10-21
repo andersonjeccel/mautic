@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="mt-sm">
-    {% include '@MauticCore/Components/link.html.twig' with {href: path('login'), label: 'mautic.user.user.passwordreset.back'} only %}
+    {% include '@MauticCore/Helper/button.html.twig' with {buttons: [{label: 'mautic.user.user.passwordreset.back', href: path('login'), variant: 'link'}]} only %}
 </div>
     <div class="alert alert-warning">{% trans %}mautic.user.user.passwordreset.info{% endtrans %}</div>
         {{ form_start(form) }}
