@@ -1,0 +1,79 @@
+{% set id = id|default(name|default('input')|replace({'[': '-', ']': '', ' ': '-', '.': '-'})) %}
+{% set component = component|default('form-control') %}
+{% set invalid = invalid|default(false) %}
+{% set invalidText = invalidText|default(null) %}
+{% set warnText = warnText|default(null) %}
+{% set helpText = helpText|default(null) %}
+{% set link = link|default(null) %}
+{% set extra = extra|default(null) %}
+{% set modifier = modifier|default(null) %}
+{% set wrapperClass = wrapperClass|default(null) %}
+{% set attributes = attributes|default({}) %}
+{% set describedby = describedby|default([]) %}
+{% set showHelp = helpText and not invalid %}
+{% set showError = invalid and invalidText %}
+{% set showWarn = warnText and not invalid %}
+{% if showError %}{% set describedby = describedby|merge([id ~ '-invalid']) %}{% endif %}
+{% if showWarn %}{% set describedby = describedby|merge([id ~ '-warn']) %}{% endif %}
+{% if showHelp %}{% set describedby = describedby|merge([id ~ '-help']) %}{% endif %}
+{% set fieldAttributes = invalid ? attributes|merge({'aria-invalid': 'true', class: (attributes.class|default('') ~ ' is-invalid')|trim}) : attributes %}
+<div class="form-fluid{{ modifier ? ' form-fluid--' ~ modifier : '' }}{{ wrapperClass ? ' ' ~ wrapperClass : '' }}">
+    <div class="form-fluid__label text-helper">
+        <label for="{{ id }}" class="form-label type-label-01 mb-0">{{ labelText|trans }}</label>
+    </div>
+    {% if component == 'select' %}
+        {% include '@MauticCore/Components/select.html.twig' with {
+            id: id,
+            name: name|default('input'),
+            label: null,
+            options: options|default([]),
+            value: defaultValue|default(value|default(null)),
+            disabled: disabled|default(false),
+            required: required|default(false),
+            multiple: multiple|default(false),
+            helpText: null,
+            describedby: describedby,
+            render_feedback: false,
+            wrapperClass: '',
+            attributes: fieldAttributes,
+            validation: validation|default({})
+        } only %}
+    {% else %}
+        {% include '@MauticCore/Components/form-control.html.twig' with {
+            id: id,
+            name: name|default('input'),
+            type: type|default('text'),
+            label: null,
+            value: value|default(''),
+            placeholder: placeholder|default(null),
+            rows: rows|default(3),
+            disabled: disabled|default(false),
+            readonly: readonly|default(false),
+            required: required|default(false),
+            describedby: describedby,
+            render_feedback: false,
+            wrapperClass: '',
+            attributes: fieldAttributes,
+            validation: validation|default({})
+        } only %}
+    {% endif %}
+    {% if extra %}{{ extra|raw }}{% endif %}
+    {% if showError %}
+    <div id="{{ id }}-invalid" class="invalid-feedback d-flex justify-content-between align-items-center">
+        <span class="text-danger">{{ invalidText|trans }}</span>
+        <i class="ri-error-warning-fill text-danger" aria-hidden="true"></i>
+    </div>
+    {% endif %}
+    {% if showWarn %}
+    <div id="{{ id }}-warn" class="form-text d-flex justify-content-between align-items-center">
+        <span class="text-body">{{ warnText|trans }}</span>
+        <i class="ri-alert-fill text-warning" aria-hidden="true"></i>
+    </div>
+    {% endif %}
+    {% if showHelp %}
+    <div id="{{ id }}-help" class="form-text">{{ helpText|trans }}</div>
+    {% endif %}
+    {% if link %}
+    <a href="{{ link.href }}">{{ link.label|trans }}</a>
+    {% endif %}
+</div>
