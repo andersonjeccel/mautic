@@ -6,6 +6,9 @@ $enable-smooth-scroll: false;
 
 
 @import "functions";
+$border-color: var(--border-subtle);
+$border-color-dark: var(--border-subtle);
+
 @import "variables";
 @import "variables-dark";
 @import "maps";
