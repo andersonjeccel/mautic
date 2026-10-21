@@ -67,16 +67,17 @@
         background-size: 16px 12px;
     }
 
-    .form-fluid__search,
-    .form-fluid__password {
-        position: relative;
+    .form-field-with-action,
+    .form-field-with-number {
         min-height: 64px;
     }
 
-    .form-fluid__search > .form-control,
-    .form-fluid__password > .form-control {
+    .form-field-with-action > .form-control,
+    .form-field-with-number > .form-control {
         height: 64px;
-        padding: 33px 40px 10px 16px;
+        padding-top: 33px;
+        padding-bottom: 10px;
+        padding-left: 16px;
         border: 0;
         border-radius: 0;
         background-color: transparent;
@@ -84,33 +85,15 @@
         outline: 0;
     }
 
-    .form-fluid__search-icon {
-        position: absolute;
-        top: 50%;
+    .form-field-icon {
+        top: 35px;
         right: 16px;
-        transform: translateY(-50%);
-        color: var(--text-helper);
-        pointer-events: none;
-    }
-
-    .form-fluid__search-clear,
-    .form-fluid__password-toggle {
-        position: absolute;
-        right: 12px;
         transform: none;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 32px;
-        height: 32px;
-        padding: 0;
-        border: 0;
-        background: transparent;
-        color: var(--text-primary);
-        cursor: pointer;
+        font-size: 16px;
+        line-height: 16px;
     }
 
-    .form-fluid__search-clear {
+    .form-field-clear {
         top: 24px;
         right: 48px;
         width: 40px;
@@ -118,80 +101,20 @@
         transform: none;
     }
 
-    .form-fluid__password-toggle {
+    .form-field-toggle {
         top: 30px;
         right: 8px;
-        font-size: 16px;
-        line-height: 16px;
-    }
-
-    .form-fluid__search-icon {
-        top: 35px;
         transform: none;
         font-size: 16px;
         line-height: 16px;
     }
 
-    .form-fluid__search-clear[hidden] {
-        display: none;
-    }
-
-    .form-fluid__number-field {
-        position: relative;
-    }
-
-    .form-fluid__number-field > .form-control {
-        height: 64px;
-        padding: 33px 96px 10px 16px;
-        border: 0;
-        border-radius: 0;
-        background-color: transparent;
-        box-shadow: none;
-        outline: 0;
-        appearance: textfield;
-        -moz-appearance: textfield;
-    }
-
-    .form-fluid__number-field > .form-control::-webkit-outer-spin-button,
-    .form-fluid__number-field > .form-control::-webkit-inner-spin-button {
-        margin: 0;
-        -webkit-appearance: none;
-    }
-
-    .form-fluid__number-controls {
-        position: absolute;
+    .form-field-stepper {
         top: 23px;
-        right: 0;
-        display: flex;
-        align-items: stretch;
-        height: 40px;
+        transform: none;
     }
 
-    .form-fluid__number-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 40px;
-        height: 40px;
-        padding: 0;
-        border: 0;
-        background: transparent;
-        color: var(--text-primary);
-        font-size: 16px;
-        line-height: 16px;
-        cursor: pointer;
-    }
-
-    .form-fluid__number-btn:disabled {
-        color: var(--bs-gray-500);
-        cursor: not-allowed;
-    }
-
-    .form-fluid__number-btn:not(:disabled):hover {
-        background-color: var(--field-hover);
-    }
-
-    .form-fluid__number-separator {
+    .form-field-separator {
         position: absolute;
         top: 12px;
         left: 40px;
@@ -201,7 +124,7 @@
         pointer-events: none;
     }
 
-    .form-fluid__number-controls:has(.form-fluid__number-btn:hover, .form-fluid__number-btn:focus) .form-fluid__number-separator {
+    .form-field-stepper:has(.form-field-step:hover, .form-field-step:focus) .form-field-separator {
         background-color: transparent;
     }
 

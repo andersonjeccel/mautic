@@ -2781,9 +2781,10 @@ document.addEventListener('keydown', (event) => {
 
 document.addEventListener('input', (event) => {
     const field = event.target;
-    if (!field.matches || !field.matches('.form-fluid__search > input')) return;
+    if (!field.matches || !field.matches('.form-field-with-action > input')) return;
 
-    field.parentElement.querySelector('.form-fluid__search-clear').hidden = field.value === '';
+    const clear = field.parentElement.querySelector('.form-field-clear');
+    if (clear) clear.hidden = field.value === '';
 });
 
 const closeFluidToggletips = (except = null) => {
@@ -2807,7 +2808,7 @@ document.addEventListener('click', (event) => {
         return;
     }
 
-    const clear = event.target.closest('.form-fluid__search-clear');
+    const clear = event.target.closest('.form-field-clear');
     if (clear) {
         const field = clear.parentElement.querySelector('input');
         field.value = '';
@@ -2816,7 +2817,7 @@ document.addEventListener('click', (event) => {
         return;
     }
 
-    const toggle = event.target.closest('.form-fluid__password-toggle');
+    const toggle = event.target.closest('.form-field-toggle');
     if (toggle) {
         const field = toggle.parentElement.querySelector('input');
         const shown = field.type === 'text';
@@ -2827,10 +2828,10 @@ document.addEventListener('click', (event) => {
         return;
     }
 
-    const numberStep = event.target.closest('.form-fluid__number-btn');
+    const numberStep = event.target.closest('.form-field-step');
     if (!numberStep || numberStep.disabled) return;
 
-    const field = numberStep.closest('.form-fluid__number-field').querySelector('input');
+    const field = numberStep.closest('.form-field-with-number').querySelector('input');
     if (numberStep.dataset.numberStep === 'up') {
         field.stepUp();
     } else {

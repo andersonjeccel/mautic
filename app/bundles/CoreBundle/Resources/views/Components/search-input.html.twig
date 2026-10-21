@@ -31,8 +31,8 @@
     } only %}
 {% endset %}
 {% set extra %}
-    <i class="ri-search-line form-fluid__search-icon" aria-hidden="true"></i>
-    <button type="button" class="form-fluid__search-clear" aria-label="{{ closeButtonLabelText|default('mautic.marketplace.forms.field.clear_search')|trans }}" hidden>
+    <i class="ri-search-line form-field-icon" aria-hidden="true"></i>
+    <button type="button" class="form-field-clear" aria-label="{{ closeButtonLabelText|default('mautic.marketplace.forms.field.clear_search')|trans }}" hidden>
         <i class="ri-close-line" aria-hidden="true"></i>
     </button>
 {% endset %}
@@ -61,17 +61,19 @@
     <div class="form-fluid__label text-helper">
         <label for="{{ id }}" class="form-label type-label-01 mb-0">{{ labelText|trans }}</label>
     </div>
-    {{ control|raw }}
-    {{ extra|raw }}
+    <div class="form-field-with-action">
+        {{ control|raw }}
+        {{ extra|raw }}
+    </div>
     {{ feedback|raw }}
 </div>
 {% else %}
 <div class="{{ wrapperClass ?: '' }}">
     <label for="{{ id }}" class="form-label type-label-01">{{ labelText|trans }}</label>
-    <div class="form-control-with-action">
+    <div class="form-field-with-action">
         {{ control|raw }}
-        <i class="ri-search-line form-control-icon" aria-hidden="true"></i>
-        <button type="button" class="form-control-action" aria-label="{{ closeButtonLabelText|default('mautic.marketplace.forms.field.clear_search')|trans }}" hidden>
+        <i class="ri-search-line form-field-icon" aria-hidden="true"></i>
+        <button type="button" class="form-field-clear" aria-label="{{ closeButtonLabelText|default('mautic.marketplace.forms.field.clear_search')|trans }}" hidden>
             <i class="ri-close-line" aria-hidden="true"></i>
         </button>
     </div>
