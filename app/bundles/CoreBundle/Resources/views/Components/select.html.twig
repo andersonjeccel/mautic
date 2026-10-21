@@ -16,6 +16,11 @@
 {% set describedby = describedby|default([]) %}
 {% set attributes = attributes|default({}) %}
 {% set icon = icon|default(null) %}
+{% set variant = variant|default('default') %}
+{% set invalidText = invalidText|default(null) %}
+{% set invalid = invalid|default(false) %}
+{% if invalid and invalidText %}{% set describedby = describedby|merge([id ~ '-invalid']) %}{% endif %}
+{% if helpText and not invalid %}{% set describedby = describedby|merge([id ~ '-help']) %}{% endif %}
 {% set validation = validation|default({}) %}
 {% set validation_label = validation.label|default(label ? label|trans : name) %}
 {% set validation_rules = validation.rules|default([]) %}
@@ -56,13 +61,20 @@
 
 {% set describedby_default = describedby|join(' ') %}
 
-{% if wrapperClass is defined and wrapperClass is not empty %}
+{% if wrapperClass is defined and wrapperClass is not empty and variant != 'fluid' %}
 <div class="{{ wrapperClass }}">
 {% endif %}
 
+{% if variant == 'fluid' %}
+<div class="form-fluid{{ wrapperClass ? ' ' ~ wrapperClass : '' }}">
+    <div class="form-fluid__label text-helper">
+        <label for="{{ id }}" class="form-label type-label-01 mb-0">{{ required ? 'mautic.marketplace.forms.field.required'|trans({'%fieldLabel%': label|trans}) : label|trans }}</label>
+    </div>
+{% else %}
     {% if labelPosition == 'top' %}
         {{ common_label_html }}
     {% endif %}
+{% endif %}
 
     <select
         class="{{ select_class|trim }}"
@@ -98,6 +110,18 @@
         {% endfor %}
     </select>
 
+{% if variant == 'fluid' %}
+    {% if helpText and not invalid %}
+    <div id="{{ id }}-help" class="form-text">{{ helpText|trans }}</div>
+    {% endif %}
+    {% if invalid and invalidText %}
+    <div id="{{ id }}-invalid" class="invalid-feedback d-flex justify-content-between align-items-center">
+        <span class="text-danger">{{ invalidText|trans }}</span>
+        <i class="ri-error-warning-fill text-danger" aria-hidden="true"></i>
+    </div>
+    {% endif %}
+</div>
+{% else %}
     {% if labelPosition == 'bottom' %}
         {{ common_label_html }}
     {% endif %}
@@ -109,6 +133,8 @@
     {% if render_feedback %}
         <div id="{{ feedback_id }}" class="invalid-feedback" hidden aria-live="polite"></div>
     {% endif %}
-{% if wrapperClass is defined and wrapperClass is not empty %}
+{% endif %}
+{% if wrapperClass is defined and wrapperClass is not empty and variant != 'fluid' %}
 </div>
 {% endif %}
+

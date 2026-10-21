@@ -22,7 +22,8 @@
 	</div>
 	{% endif %}
 	<form class="login-form bdr-t" name="login" data-toggle="ajax" role="form" action="{{ path('mautic_user_logincheck') }}" method="post">
-		{% include '@MauticCore/Components/fluid-text-input.html.twig' with {
+		{% include '@MauticCore/Components/text-input.html.twig' with {
+			variant: 'fluid',
 			id: 'username',
 			name: '_username',
 			labelText: 'mautic.user.auth.form.loginusername',
@@ -30,7 +31,8 @@
 			wrapperClass: 'form-group',
 			attributes: {required: 'required', autofocus: 'autofocus'}
 		} only %}
-		{% include '@MauticCore/Components/fluid-password-input.html.twig' with {
+		{% include '@MauticCore/Components/password-input.html.twig' with {
+			variant: 'fluid',
 			id: 'password',
 			name: '_password',
 			labelText: 'mautic.core.password',
