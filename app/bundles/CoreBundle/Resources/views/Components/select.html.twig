@@ -1,0 +1,148 @@
+{% set name = name|default('select') %}
+{% set id = id|default(name|replace({'[': '-', ']': '', ' ': '-', '.': '-'})) %}
+{% set label = label|default(null) %}
+{% set labelPosition = labelPosition|default('top') %}
+{% set options = options|default([]) %}
+{% set value = value|default(null) %}
+{% set helpText = helpText|default(null) %}
+{% set help_id = help_id|default(helpText ? id ~ '-help' : null) %}
+{% set feedback_id = feedback_id|default(id ~ '-feedback') %}
+{% set render_feedback = render_feedback|default(true) %}
+{% set size = size|default(null) %}
+{% set disabled = disabled|default(false) %}
+{% set required = required|default(false) %}
+{% set multiple = multiple|default(false) %}
+{% set wrapperClass = wrapperClass|default('') %}
+{% set describedby = describedby|default([]) %}
+{% set attributes = attributes|default({}) %}
+{% set icon = icon|default(null) %}
+{% set variant = variant|default('default') %}
+{% set invalidText = invalidText|default(null) %}
+{% set invalid = invalid|default(false) %}
+{% if invalid and invalidText %}{% set describedby = describedby|merge([id ~ '-invalid']) %}{% endif %}
+{% if helpText and not invalid %}{% set describedby = describedby|merge([id ~ '-help']) %}{% endif %}
+{% set validation = validation|default({}) %}
+{% set validation_label = validation.label|default(label ? label|trans : name) %}
+{% set validation_rules = validation.rules|default([]) %}
+{% set validation_messages = {
+    valueMissing: 'mautic.marketplace.forms.validation.value_missing'|trans,
+    typeMismatch: 'mautic.marketplace.forms.validation.type_mismatch'|trans,
+    patternMismatch: 'mautic.marketplace.forms.validation.pattern_mismatch'|trans,
+    tooShort: 'mautic.marketplace.forms.validation.too_short'|trans,
+    tooLong: 'mautic.marketplace.forms.validation.too_long'|trans,
+    rangeUnderflow: 'mautic.marketplace.forms.validation.range_underflow'|trans,
+    rangeOverflow: 'mautic.marketplace.forms.validation.range_overflow'|trans,
+    stepMismatch: 'mautic.marketplace.forms.validation.step_mismatch'|trans,
+    badInput: 'mautic.marketplace.forms.validation.bad_input'|trans,
+}|merge(validation.messages|default({})) %}
+{% set select_class = 'form-select' %}
+{% set common_label_html %}
+    {% if label %}
+    <label for="{{ id }}" class="form-label">
+        {% if icon %}
+        <i class="{{ icon }} me-4" aria-hidden="true"></i>
+    {% endif %}
+        {{ required ? 'mautic.marketplace.forms.field.required'|trans({'%fieldLabel%': label|trans}) : label|trans }}
+    </label>
+    {% endif %}
+{% endset %}
+
+{% if size in ['sm', 'lg'] %}
+    {% set select_class = select_class ~ ' form-select-' ~ size %}
+{% endif %}
+
+{% if attributes.class is defined %}
+    {% set select_class = select_class ~ ' ' ~ attributes.class %}
+{% endif %}
+
+{% if help_id %}
+    {% set describedby = describedby|merge([help_id]) %}
+{% endif %}
+
+{% set describedby_default = describedby|join(' ') %}
+
+{% if wrapperClass is defined and wrapperClass is not empty and variant != 'fluid' %}
+<div class="{{ wrapperClass }}">
+{% endif %}
+
+{% if variant == 'fluid' %}
+<div class="form-fluid{{ wrapperClass ? ' ' ~ wrapperClass : '' }}">
+    <div class="form-fluid__label text-helper">
+        <label for="{{ id }}" class="form-label type-label-01 mb-0">{{ required ? 'mautic.marketplace.forms.field.required'|trans({'%fieldLabel%': label|trans}) : label|trans }}</label>
+    </div>
+{% else %}
+    {% if labelPosition == 'top' %}
+        {{ common_label_html }}
+    {% endif %}
+{% endif %}
+
+    <select
+        class="{{ select_class|trim }}"
+        id="{{ id }}"
+        name="{{ name }}"
+        {% if describedby is not empty %}aria-describedby="{{ describedby|join(' ') }}"{% endif %}
+        {% if disabled %}disabled{% endif %}
+        {% if required %}required{% endif %}
+        {% if multiple %}multiple{% endif %}
+        {% for attribute, attribute_value in attributes %}
+            {% if attribute != 'class' %}
+                {{ attribute }}="{{ attribute_value }}"
+            {% endif %}
+        {% endfor %}
+    >
+        {% if placeholder is defined %}
+            {% if placeholder is same as(null) %}
+            <option value="" hidden {% if value is same as(null) or value == '' %}selected{% endif %}></option>
+            {% else %}
+            <option value="" {% if value is same as(null) or value == '' %}selected{% endif %}>{{ placeholder|trans }}</option>
+            {% endif %}
+        {% endif %}
+        {% for option in options %}
+            {% set option_value = option.value|default('') %}
+            {% set selected = multiple ? option_value in (value|default([])) : option_value == value %}
+            <option
+                value="{{ option_value }}"
+                {% if selected %}selected{% endif %}
+                {% if option.disabled|default(false) %}disabled{% endif %}
+            >
+                {{ option.label|default('')|trans }}
+            </option>
+        {% endfor %}
+    </select>
+
+{% if variant == 'fluid' %}
+    {% if helpText and not invalid %}
+    <div id="{{ id }}-help" class="form-text">{{ helpText|trans }}</div>
+    {% endif %}
+    {% if invalid and invalidText %}
+    <div id="{{ id }}-invalid" class="invalid-feedback d-flex justify-content-between align-items-center">
+        <span class="text-danger">{{ invalidText|trans }}</span>
+        <i class="ri-error-warning-fill text-danger" aria-hidden="true"></i>
+    </div>
+    {% endif %}
+</div>
+{% else %}
+    {% if labelPosition == 'bottom' %}
+        {{ common_label_html }}
+    {% endif %}
+
+    {% if helpText and not invalid %}
+        <div id="{{ help_id }}" class="form-text">{{ helpText|trans }}</div>
+    {% endif %}
+
+    {% if invalid and invalidText %}
+        <div id="{{ id }}-invalid" class="invalid-feedback d-flex justify-content-between align-items-center">
+            <span class="text-danger">{{ invalidText|trans }}</span>
+            <i class="ri-error-warning-fill text-danger" aria-hidden="true"></i>
+        </div>
+    {% endif %}
+
+    {% if render_feedback and not (invalid and invalidText) %}
+        <div id="{{ feedback_id }}" class="invalid-feedback" hidden aria-live="polite"></div>
+    {% endif %}
+{% endif %}
+
+{% if wrapperClass is defined and wrapperClass is not empty and variant != 'fluid' %}
+</div>
+{% endif %}
+
