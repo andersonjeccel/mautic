@@ -68,9 +68,12 @@
 {% else %}
 <div class="{{ wrapperClass ?: '' }}">
     <label for="{{ id }}" class="form-label type-label-01">{{ labelText|trans }}</label>
-    <div class="form-field-default__search">
+    <div class="form-control-with-action">
         {{ control|raw }}
-        {{ extra|replace({'form-fluid__search-icon': 'form-field-default__search-icon', 'form-fluid__search-clear': 'form-field-default__search-clear'})|raw }}
+        <i class="ri-search-line form-control-icon" aria-hidden="true"></i>
+        <button type="button" class="form-control-action" aria-label="{{ closeButtonLabelText|default('mautic.marketplace.forms.field.clear_search')|trans }}" hidden>
+            <i class="ri-close-line" aria-hidden="true"></i>
+        </button>
     </div>
     {{ feedback|raw }}
 </div>

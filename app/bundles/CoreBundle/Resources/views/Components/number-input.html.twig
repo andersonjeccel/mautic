@@ -76,14 +76,13 @@
 {% else %}
 <div class="{{ wrapperClass ?: '' }}">
     <label for="{{ id }}" class="form-label type-label-01">{{ labelText|trans }}</label>
-    <div class="form-field-default__number">
+    <div class="form-control-with-number">
         {{ control|raw }}
-        <div class="form-field-default__number-controls">
-            <button type="button" class="form-field-default__number-btn" data-number-step="down" aria-label="{{ iconDescription|default('mautic.marketplace.forms.field.decrement_number')|trans }}" title="{{ iconDescription|default('mautic.marketplace.forms.field.decrement_number')|trans }}" {{ disabled|default(false) ? 'disabled' }}>
+        <div class="form-control-stepper">
+            <button type="button" class="form-control-step" data-number-step="down" aria-label="{{ iconDescription|default('mautic.marketplace.forms.field.decrement_number')|trans }}" title="{{ iconDescription|default('mautic.marketplace.forms.field.decrement_number')|trans }}" {{ disabled|default(false) ? 'disabled' }}>
                 <i class="ri-subtract-line" aria-hidden="true"></i>
             </button>
-            <span class="form-field-default__number-separator" aria-hidden="true"></span>
-            <button type="button" class="form-field-default__number-btn" data-number-step="up" aria-label="{{ iconDescription|default('mautic.marketplace.forms.field.increment_number')|trans }}" title="{{ iconDescription|default('mautic.marketplace.forms.field.increment_number')|trans }}" {{ disabled|default(false) ? 'disabled' }}>
+            <button type="button" class="form-control-step" data-number-step="up" aria-label="{{ iconDescription|default('mautic.marketplace.forms.field.increment_number')|trans }}" title="{{ iconDescription|default('mautic.marketplace.forms.field.increment_number')|trans }}" {{ disabled|default(false) ? 'disabled' }}>
                 <i class="ri-add-line" aria-hidden="true"></i>
             </button>
         </div>

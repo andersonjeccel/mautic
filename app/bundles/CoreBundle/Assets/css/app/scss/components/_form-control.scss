@@ -58,3 +58,91 @@ input:-webkit-autofill:hover {
         display: none;
     }
 }
+
+.form-control-with-action {
+    position: relative;
+}
+
+.form-control-with-action > .form-control {
+    padding-right: 40px;
+}
+
+.form-control-with-action > .form-control-action {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--text-primary);
+    cursor: pointer;
+}
+
+.form-control-with-action > .form-control-action[hidden] {
+    display: none;
+}
+
+.form-control-with-action > .form-control-icon {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    color: var(--text-helper);
+    pointer-events: none;
+}
+
+.form-control-with-number {
+    position: relative;
+}
+
+.form-control-with-number > .form-control {
+    padding-right: 96px;
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+.form-control-with-number > .form-control::-webkit-outer-spin-button,
+.form-control-with-number > .form-control::-webkit-inner-spin-button {
+    margin: 0;
+    -webkit-appearance: none;
+}
+
+.form-control-with-number > .form-control-stepper {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: stretch;
+    height: 40px;
+}
+
+.form-control-with-number > .form-control-stepper > .form-control-step {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 16px;
+    line-height: 16px;
+    cursor: pointer;
+}
+
+.form-control-with-number > .form-control-stepper > .form-control-step:disabled {
+    color: var(--bs-gray-500);
+    cursor: not-allowed;
+}
+
+.form-control-with-number > .form-control-stepper > .form-control-step:not(:disabled):hover {
+    background-color: var(--field-hover);
+}
