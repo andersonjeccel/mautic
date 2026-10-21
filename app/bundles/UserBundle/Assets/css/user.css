@@ -35,10 +35,6 @@ span.input-group-addon i.fa {
     margin: 20px;
 }
 
-body:has(form[name="login"]) {
-    background: #f4f4f4 url('../images/login-background.jpg') center / cover no-repeat fixed;
-}
-
 .accent-color {
     width: 28px;
     height: 28px;
