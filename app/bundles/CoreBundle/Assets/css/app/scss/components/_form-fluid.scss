@@ -151,13 +151,6 @@
         color: var(--text-primary);
     }
 
-    .form-fluid__toggletip-popover {
-        --bs-popover-bg: var(--bs-dark);
-        --bs-popover-border-color: var(--bs-dark);
-        --bs-popover-arrow-border: var(--bs-dark);
-        --bs-popover-body-color: #fff;
-    }
-
     > .form-control {
         &::placeholder {
             color: var(--text-helper);
