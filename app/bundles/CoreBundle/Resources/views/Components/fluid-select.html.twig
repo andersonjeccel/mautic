@@ -1,14 +1,7 @@
 {% set id = id|default(name|default('input')|replace({'[': '-', ']': '', ' ': '-', '.': '-'})) %}
 {% set invalid = invalid|default(false) %}
-{% set warnText = warnText|default(null) %}
-{% set helpText = helpText|default(null) %}
 {% set describedby = describedby|default([]) %}
-{% if invalid and invalidText %}{% set describedby = describedby|merge([id ~ '-invalid']) %}{% endif %}
-{% if warnText and not invalid %}{% set describedby = describedby|merge([id ~ '-warn']) %}{% endif %}
-<div class="form-fluid{{ wrapperClass ? ' ' ~ wrapperClass }}">
-    <div class="form-fluid__label">
-        <label for="{{ id }}" class="form-label type-label-01 mb-0">{{ labelText|trans }}</label>
-    </div>
+{% set control %}
     {% include '@MauticCore/Components/select.html.twig' with {
         id: id,
         name: name|default('input'),
@@ -18,23 +11,12 @@
         disabled: disabled|default(false),
         required: required|default(false),
         multiple: multiple|default(false),
-        helpText: helpText,
+        helpText: helpText|default(null),
         describedby: describedby,
         render_feedback: false,
         wrapperClass: '',
         attributes: invalid ? (attributes|default({})|merge({'aria-invalid': 'true', class: (attributes.class|default('') ~ ' is-invalid')|trim})) : attributes|default({}),
         validation: validation|default({})
     } only %}
-    {% if invalid and invalidText %}
-    <div id="{{ id }}-invalid" class="invalid-feedback d-flex justify-content-between align-items-center">
-        <span class="text-danger">{{ invalidText|trans }}</span>
-        <i class="ri-error-warning-fill text-danger" aria-hidden="true"></i>
-    </div>
-    {% endif %}
-    {% if warnText and not invalid %}
-    <div id="{{ id }}-warn" class="form-text d-flex justify-content-between align-items-center">
-        <span class="text-body">{{ warnText|trans }}</span>
-        <i class="ri-alert-fill text-warning" aria-hidden="true"></i>
-    </div>
-    {% endif %}
-</div>
+{% endset %}
+{% include '@MauticCore/Components/fluid-field.html.twig' with _context|merge({control: control}) only %}
