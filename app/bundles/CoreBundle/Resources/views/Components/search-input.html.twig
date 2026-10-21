@@ -68,7 +68,10 @@
 {% else %}
 <div class="{{ wrapperClass ?: '' }}">
     <label for="{{ id }}" class="form-label type-label-01">{{ labelText|trans }}</label>
-    {{ control|raw }}
+    <div class="form-field-default__search">
+        {{ control|raw }}
+        {{ extra|replace({'form-fluid__search-icon': 'form-field-default__search-icon', 'form-fluid__search-clear': 'form-field-default__search-clear'})|raw }}
+    </div>
     {{ feedback|raw }}
 </div>
 {% endif %}

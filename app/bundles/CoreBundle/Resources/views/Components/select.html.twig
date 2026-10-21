@@ -126,14 +126,22 @@
         {{ common_label_html }}
     {% endif %}
 
-    {% if helpText %}
+    {% if helpText and not invalid %}
         <div id="{{ help_id }}" class="form-text">{{ helpText|trans }}</div>
     {% endif %}
 
-    {% if render_feedback %}
+    {% if invalid and invalidText %}
+        <div id="{{ id }}-invalid" class="invalid-feedback d-flex justify-content-between align-items-center">
+            <span class="text-danger">{{ invalidText|trans }}</span>
+            <i class="ri-error-warning-fill text-danger" aria-hidden="true"></i>
+        </div>
+    {% endif %}
+
+    {% if render_feedback and not (invalid and invalidText) %}
         <div id="{{ feedback_id }}" class="invalid-feedback" hidden aria-live="polite"></div>
     {% endif %}
 {% endif %}
+
 {% if wrapperClass is defined and wrapperClass is not empty and variant != 'fluid' %}
 </div>
 {% endif %}
