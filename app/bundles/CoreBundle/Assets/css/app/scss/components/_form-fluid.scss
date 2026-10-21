@@ -183,6 +183,10 @@
         }
     }
 
+    &:hover {
+        background-color: var(--field-hover);
+    }
+
     &:has(> .form-control:disabled, > .form-select:disabled) > .form-fluid__label > label {
         color: var(--bs-gray-600);
     }
