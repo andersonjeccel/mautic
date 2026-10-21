@@ -1,12 +1,7 @@
 {% set id = id|default(name|default('input')|replace({'[': '-', ']': '', ' ': '-', '.': '-'})) %}
-{% set helpText = helpText|default(null) %}
-{% set link = link|default(null) %}
 {% set describedby = [] %}
 {% if helpText %}{% set describedby = describedby|merge([id ~ '-help']) %}{% endif %}
-<div class="form-fluid form-fluid--search{{ wrapperClass ? ' ' ~ wrapperClass }}">
-    <div class="form-fluid__label">
-        <label for="{{ id }}" class="form-label type-label-01 mb-0">{{ labelText|trans }}</label>
-    </div>
+{% set control %}
     {% include '@MauticCore/Components/form-control.html.twig' with {
         id: id,
         name: name|default('input'),
@@ -22,14 +17,11 @@
         attributes: attributes|default({})|merge({role: role|default('searchbox'), autocomplete: autoComplete|default('off')}),
         validation: validation|default({})
     } only %}
+{% endset %}
+{% set extra %}
     <i class="ri-search-line form-fluid__search-icon" aria-hidden="true"></i>
     <button type="button" class="form-fluid__search-clear" aria-label="{{ closeButtonLabelText|default('mautic.marketplace.forms.field.clear_search')|trans }}" hidden>
         <i class="ri-close-line" aria-hidden="true"></i>
     </button>
-    {% if helpText %}
-    <div id="{{ id }}-help" class="form-text">{{ helpText|trans }}</div>
-    {% endif %}
-    {% if link %}
-    <a href="{{ link.href }}">{{ link.label|trans }}</a>
-    {% endif %}
-</div>
+{% endset %}
+{% include '@MauticCore/Components/fluid-field.html.twig' with _context|merge({control: control, extra: extra, modifier: 'search'}) only %}
