@@ -1,0 +1,49 @@
+{% set name = name|default('range') %}
+{% set id = id|default(name|replace({'[': '-', ']': '', ' ': '-', '.': '-'})) %}
+{% set label = label|default(null) %}
+{% set value = value|default(null) %}
+{% set min = min|default(null) %}
+{% set max = max|default(null) %}
+{% set step = step|default(null) %}
+{% set helpText = helpText|default(null) %}
+{% set disabled = disabled|default(false) %}
+{% set wrapperClass = wrapperClass|default('') %}
+{% set attributes = attributes|default({}) %}
+{% set describedby = describedby|default([]) %}
+{% set input_class = 'form-range' %}
+
+{% if attributes.class is defined %}
+    {% set input_class = input_class ~ ' ' ~ attributes.class %}
+{% endif %}
+
+{% if helpText %}
+    {% set describedby = describedby|merge([id ~ '-help']) %}
+{% endif %}
+
+<div class="{% if wrapperClass %}{{ wrapperClass }}{% endif %}">
+    {% if label %}
+        <label for="{{ id }}" class="form-label">{{ label|trans }}</label>
+    {% endif %}
+
+    <input
+        type="range"
+        class="{{ input_class|trim }}"
+        id="{{ id }}"
+        name="{{ name }}"
+        {% if value is not same as(null) %}value="{{ value }}"{% endif %}
+        {% if min is not same as(null) %}min="{{ min }}"{% endif %}
+        {% if max is not same as(null) %}max="{{ max }}"{% endif %}
+        {% if step is not same as(null) %}step="{{ step }}"{% endif %}
+        {% if describedby is not empty %}aria-describedby="{{ describedby|join(' ') }}"{% endif %}
+        {% if disabled %}disabled{% endif %}
+        {% for attribute, attribute_value in attributes %}
+            {% if attribute != 'class' %}
+                {{ attribute }}="{{ attribute_value }}"
+            {% endif %}
+        {% endfor %}
+    >
+
+    {% if helpText %}
+        <div id="{{ id }}-help" class="form-text">{{ helpText|trans }}</div>
+    {% endif %}
+</div>
