@@ -501,6 +501,7 @@ input[type=file] {@include outline();}
 
 input[type="checkbox"] {
   --mtc-checkbox-size: 14px;
+  --mtc-checkbox-tick: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.25l2.5 2.5 4.75-5' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   aspect-ratio: 1 / 1;
   width: var(--mtc-checkbox-size);
   height: var(--mtc-checkbox-size);
@@ -510,58 +511,36 @@ input[type="checkbox"] {
   border: 1px solid var(--icon-primary);
   border-radius: clamp(2px, var(--border-radius-sm), 4px);
   margin: 0;
-  align-items: center;
-  display: flex;
-  justify-content: center;
+  display: inline-block;
   position: relative;
-  transition: transform 300ms cubic-bezier(.34, 1.56, .64, 1), background-color 200ms ease, border-color 200ms ease;
+  transition: background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
   @include outline-noff();
 
   &:hover:not(:disabled) {
-    transform: scale(1.05);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--icon-primary) 16%, transparent);
   }
 
   &:active:not(:disabled) {
-    transform: scale(.92);
-  }
-
-  &:after,
-  &:before {
-    content: "";
-    position: absolute;
-    height: 2px;
-    border-radius: 1px;
-    background: var(--icon-inverse);
-    pointer-events: none;
-    transform-origin: 0 50%;
-    transform: scaleX(0);
-    transition: transform 180ms ease-out;
-  }
-
-  &:before {
-    left: 2px;
-    top: 5.25px;
-    width: 4px;
-    transform: rotate(45deg) scaleX(0);
+    background-color: color-mix(in srgb, var(--icon-primary) 24%, transparent);
   }
 
   &:after {
-    left: 4.9px;
-    top: 8.05px;
-    width: 8px;
-    transform: rotate(-50deg) scaleX(0);
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--icon-inverse);
+    pointer-events: none;
+    -webkit-mask: var(--mtc-checkbox-tick) center / 100% 100% no-repeat;
+    mask: var(--mtc-checkbox-tick) center / 100% 100% no-repeat;
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 180ms ease-out;
   }
 
   &:checked {
     background-color: var(--icon-primary);
 
-    &:before {
-      transform: rotate(45deg) scaleX(1);
-    }
-
     &:after {
-      transform: rotate(-50deg) scaleX(1);
-      transition-delay: 150ms;
+      clip-path: inset(0);
     }
   }
 }
