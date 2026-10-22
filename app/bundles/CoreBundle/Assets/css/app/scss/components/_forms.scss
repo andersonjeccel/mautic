@@ -501,7 +501,7 @@ input[type=file] {@include outline();}
 
 input[type="checkbox"] {
   --mtc-checkbox-size: 14px;
-  --mtc-checkbox-tick: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.25l2.5 2.5 4.75-5' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --mtc-checkbox-tick: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3 7.2 5.7 9.9 11 3.9' fill='none' stroke='%23000' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   aspect-ratio: 1 / 1;
   width: var(--mtc-checkbox-size);
   height: var(--mtc-checkbox-size);
@@ -511,17 +511,20 @@ input[type="checkbox"] {
   border: 1px solid var(--icon-primary);
   border-radius: clamp(2px, var(--border-radius-sm), 4px);
   margin: 0;
-  display: inline-block;
+  align-items: center;
+  display: flex;
+  justify-content: center;
   position: relative;
-  transition: background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+  will-change: transform;
+  transition: transform 300ms cubic-bezier(.34, 1.56, .64, 1), background-color 200ms ease, border-color 200ms ease;
   @include outline-noff();
 
   &:hover:not(:disabled) {
-    box-shadow: 0 0 0 2px color-mix(in srgb, var(--icon-primary) 16%, transparent);
+    transform: scale(1.05);
   }
 
   &:active:not(:disabled) {
-    background-color: color-mix(in srgb, var(--icon-primary) 24%, transparent);
+    transform: scale(.92);
   }
 
   &:after {
@@ -533,16 +536,22 @@ input[type="checkbox"] {
     -webkit-mask: var(--mtc-checkbox-tick) center / 100% 100% no-repeat;
     mask: var(--mtc-checkbox-tick) center / 100% 100% no-repeat;
     clip-path: inset(0 100% 0 0);
-    transition: clip-path 180ms ease-out;
+    transition: clip-path 80ms linear;
   }
 
   &:checked {
     background-color: var(--icon-primary);
 
     &:after {
-      clip-path: inset(0);
+      animation: mtc-checkbox-tick 330ms ease-out forwards;
     }
   }
+}
+
+@keyframes mtc-checkbox-tick {
+  0% { clip-path: inset(0 100% 0 0); }
+  45% { clip-path: inset(0 62% 0 0); }
+  100% { clip-path: inset(0); }
 }
 
 // time input (3 select boxes hh:mm:ss)
