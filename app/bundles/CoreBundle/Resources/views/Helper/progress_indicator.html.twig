@@ -1,26 +1,117 @@
 {#
-  Step indicator, styled like Carbon's ProgressIndicator. Pair with data-stepper
-  by passing stepper: true; the stepper JS then updates each step's status.
-
-  steps: [{label: string, secondaryLabel?: string, status?: 'complete'|'current'|'incomplete'}]
-  vertical: bool (default false)
-  spaceEqually: bool (default true)
-  stepper: bool (default false)
+Ported from mautic-public-marketplace. Additions: stepper (let 17.stepper.js drive the
+statuses), ariaLabel, translation keys.
+spaceEqually: true, false
+vertical: true, false
+steps: [
+status: complete, current, incomplete, disabled, error
+active: true, false
+label: string
+secondaryLabel: string
+]
 #}
-{% set vertical = vertical|default(false) %}
-{% set spaceEqually = spaceEqually|default(true) %}
-<ol class="progress-indicator{{ spaceEqually and not vertical ? ' progress-indicator--space-equal' : '' }}{{ vertical ? ' progress-indicator--vertical' : '' }}"{{ stepper|default(false) ? ' data-stepper-indicator' : '' }}{{ ariaLabel is defined ? ' aria-label="' ~ ariaLabel|e('html_attr') ~ '"' : '' }}>
-    {% for step in steps %}
-        {% set status = step.status|default(loop.first ? 'current' : 'incomplete') %}
-        <li class="progress-indicator-step progress-indicator-step--{{ status }}"{{ status == 'current' ? ' aria-current="step"' : '' }}>
-            <span class="progress-indicator-line" aria-hidden="true"></span>
-            <svg class="progress-indicator-icon--complete" width="16" height="16" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M14 21.414 9 16.413 10.413 15 14 18.586 21.585 11 23 12.415 14 21.414z"/><path d="M16 2a14 14 0 1 0 14 14A14 14 0 0 0 16 2Zm0 26a12 12 0 1 1 12-12 12 12 0 0 1-12 12Z"/></svg>
-            <svg class="progress-indicator-icon--current" width="16" height="16" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M16 30V2a14 14 0 0 0 0 28Z"/><path d="M16 2a14 14 0 1 0 14 14A14 14 0 0 0 16 2Zm0 26a12 12 0 1 1 12-12 12 12 0 0 1-12 12Z"/></svg>
-            <svg class="progress-indicator-icon--incomplete" width="16" height="16" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M16 2a14 14 0 1 0 14 14A14 14 0 0 0 16 2Zm0 26a12 12 0 1 1 12-12 12 12 0 0 1-12 12Z"/></svg>
-            <span class="progress-indicator-text">
-                <span class="progress-indicator-label" title="{{ step.label }}">{{ step.label }}</span>
-                {% if step.secondaryLabel is defined %}<span class="progress-indicator-optional">{{ step.secondaryLabel }}</span>{% endif %}
-            </span>
-        </li>
+
+{% set completeIcon %}
+<svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor" width="16" height="16"
+    viewBox="0 0 32 32" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <path d="M14 21.414 9 16.413 10.413 15 14 18.586 21.585 11 23 12.415 14 21.414z"></path>
+    <path d="M16,2A14,14,0,1,0,30,16,14,14,0,0,0,16,2Zm0,26A12,12,0,1,1,28,16,12,12,0,0,1,16,28Z"></path>
+</svg>
+{% endset %}
+
+{% set currentIcon %}
+<svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor" width="16" height="16"
+    viewBox="0 0 32 32" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <path
+        d="M23.7642,6.8593l1.2851-1.5315A13.976,13.976,0,0,0,20.8672,2.887l-.6836,1.8776A11.9729,11.9729,0,0,1,23.7642,6.8593Z">
+    </path>
+    <path d="M27.81,14l1.9677-.4128A13.8888,13.8888,0,0,0,28.14,9.0457L26.4087,10A12.52,12.52,0,0,1,27.81,14Z">
+    </path>
+    <path
+        d="M20.1836,27.2354l.6836,1.8776a13.976,13.976,0,0,0,4.1821-2.4408l-1.2851-1.5315A11.9729,11.9729,0,0,1,20.1836,27.2354Z">
+    </path>
+    <path d="M26.4087,22,28.14,23a14.14,14.14,0,0,0,1.6382-4.5872L27.81,18.0659A12.1519,12.1519,0,0,1,26.4087,22Z">
+    </path>
+    <path d="M16,30V2a14,14,0,0,0,0,28Z"></path>
+</svg>
+{% endset %}
+
+{% set incompleteIcon %}
+<svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor" width="16" height="16"
+    viewBox="0 0 32 32" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <path d="M7.7,4.7a14.7,14.7,0,0,0-3,3.1L6.3,9A13.26,13.26,0,0,1,8.9,6.3Z"></path>
+    <path d="M4.6,12.3l-1.9-.6A12.51,12.51,0,0,0,2,16H4A11.48,11.48,0,0,1,4.6,12.3Z"></path>
+    <path d="M2.7,20.4a14.4,14.4,0,0,0,2,3.9l1.6-1.2a12.89,12.89,0,0,1-1.7-3.3Z"></path>
+    <path d="M7.8,27.3a14.4,14.4,0,0,0,3.9,2l.6-1.9A12.89,12.89,0,0,1,9,25.7Z"></path>
+    <path d="M11.7,2.7l.6,1.9A11.48,11.48,0,0,1,16,4V2A12.51,12.51,0,0,0,11.7,2.7Z"></path>
+    <path d="M24.2,27.3a15.18,15.18,0,0,0,3.1-3.1L25.7,23A11.53,11.53,0,0,1,23,25.7Z"></path>
+    <path d="M27.4,19.7l1.9.6A15.47,15.47,0,0,0,30,16H28A11.48,11.48,0,0,1,27.4,19.7Z"></path>
+    <path d="M29.2,11.6a14.4,14.4,0,0,0-2-3.9L25.6,8.9a12.89,12.89,0,0,1,1.7,3.3Z"></path>
+    <path d="M24.1,4.6a14.4,14.4,0,0,0-3.9-2l-.6,1.9a12.89,12.89,0,0,1,3.3,1.7Z"></path>
+    <path d="M20.3,29.3l-.6-1.9A11.48,11.48,0,0,1,16,28v2A21.42,21.42,0,0,0,20.3,29.3Z"></path>
+</svg>
+{% endset %}
+
+{% set errorIcon %}
+<svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor" width="16"
+                height="16" viewBox="0 0 16 16" aria-hidden="true" class="progress-indicator__warning"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M8,1C4.1,1,1,4.1,1,8s3.1,7,7,7s7-3.1,7-7S11.9,1,8,1z M8,14c-3.3,0-6-2.7-6-6s2.7-6,6-6s6,2.7,6,6S11.3,14,8,14z">
+                </path>
+                <path d="M7.5 4H8.5V9H7.5z"></path>
+                <path d="M8,10.2c-0.4,0-0.8,0.3-0.8,0.8s0.3,0.8,0.8,0.8c0.4,0,0.8-0.3,0.8-0.8S8.4,10.2,8,10.2z"></path>
+            </svg>
+{% endset %}
+
+<!-- Status icons map -->
+{% set statusIcons = {
+'complete': completeIcon,
+'current': currentIcon,
+'incomplete': incompleteIcon,
+'disabled': incompleteIcon,
+'error': errorIcon
+} %}
+
+<!-- Status classes map -->
+{% set statusClasses = {
+'complete': 'progress-indicator-step--complete',
+'current': 'progress-indicator-step--current',
+'incomplete': 'progress-indicator-step--incomplete',
+'disabled': 'progress-indicator-step--incomplete progress-indicator-step--disabled',
+'error': 'progress-indicator-step--incomplete'
+} %}
+
+<!-- Status assistive text map -->
+{% set statusAssistiveText = {
+'complete': 'mautic.core.progress_indicator.assistive.complete',
+'current': 'mautic.core.progress_indicator.assistive.current',
+'incomplete': 'mautic.core.progress_indicator.assistive.incomplete',
+'disabled': 'mautic.core.progress_indicator.assistive.incomplete',
+'error': 'mautic.core.progress_indicator.assistive.error'
+} %}
+
+<ul class="progress-indicator {% if spaceEqually is defined and spaceEqually %}progress-indicator--space-equal{% endif %} {% if vertical is defined and vertical %}progress-indicator--vertical{% endif %}"{% if stepper is defined and stepper %} data-stepper-indicator{% endif %}{% if ariaLabel is defined %} aria-label="{{ ariaLabel }}"{% endif %}>
+    {% if stepper is defined and stepper %}
+    {% for status, icon in statusIcons %}
+    <template data-status="{{ status }}" data-class="{{ statusClasses[status] }}" data-assistive="{{ statusAssistiveText[status]|trans }}">{{ icon }}</template>
     {% endfor %}
-</ol>
+    {% endif %}
+    {% for step in steps %}
+    {% set step_clickable = step.status != 'current' and step.status != 'disabled' %}
+    <li class="progress-indicator-step {{ statusClasses[step.status] }}">
+        <button type="button" class="progress-indicator-step-button {{ step_clickable ? '' : 'progress-indicator-step-button--unclickable' }}"
+            tabindex="{{ step.status == 'disabled' ? '-1' : '0' }}" title="{{ step.label|trans }}" index="{{ loop.index }}"{% if step_clickable %} data-wizard-goto="{{ loop.index }}"{% endif %}{% if step.status == 'disabled' %} disabled aria-disabled="true"{% endif %}>
+            {{ statusIcons[step.status] }}
+            <div class="progress-indicator-text">
+                <span class="progress-indicator-label" dir="ltr">{{ step.label|trans }}</span>
+                {% if step.secondaryLabel is defined and step.secondaryLabel is not empty %}
+                    <span class="progress-indicator-optional" dir="ltr">{{ step.secondaryLabel|trans }}</span>
+                {% endif %}
+            </div>
+            <span class="visually-hidden">{{ statusAssistiveText[step.status]|trans }}</span>
+            <span class="progress-indicator-line"></span>
+        </button>
+    </li>
+    {% endfor %}
+</ul>

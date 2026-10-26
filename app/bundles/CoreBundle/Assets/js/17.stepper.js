@@ -31,12 +31,20 @@
     const position = list.indexOf(step) + 1;
 
     if (indicator) {
-      [...indicator.children].forEach((item, index) => {
+      const icons = Object.fromEntries([...indicator.querySelectorAll(':scope > template')].map((tpl) => [tpl.dataset.status, tpl]));
+
+      indicator.querySelectorAll(':scope > li').forEach((item, index) => {
         const status = index + 1 < position ? 'complete' : index + 1 === position ? 'current' : 'incomplete';
-        item.className = item.className.replace(/progress-indicator-step--\w+/, `progress-indicator-step--${status}`);
-        item.classList.toggle('is-current', status === 'current');
-        if (status === 'current') item.setAttribute('aria-current', 'step');
-        else item.removeAttribute('aria-current');
+        const tpl = icons[status];
+        const button = item.querySelector('.progress-indicator-step-button');
+
+        item.className = `progress-indicator-step ${tpl.dataset.class}`;
+        item.querySelector('svg').replaceWith(tpl.content.firstElementChild.cloneNode(true));
+        item.querySelector('.visually-hidden').textContent = tpl.dataset.assistive;
+        button.classList.toggle('progress-indicator-step-button--unclickable', 'current' === status);
+
+        if ('current' === status) button.removeAttribute('data-wizard-goto');
+        else button.setAttribute('data-wizard-goto', String(index + 1));
       });
     }
 
@@ -163,6 +171,34 @@
     }
 
     show(root, find(root, target, from, next ? 1 : -1), !next);
+  });
+
+  document.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-wizard-goto]');
+    const root = button && button.closest(ROOT);
+
+    if (!root || busy(root)) return;
+
+    const list = steps(root);
+    const from = current(root);
+    const target = list[Number(button.getAttribute('data-wizard-goto')) - 1];
+
+    if (!target || target === from) return;
+
+    if (list.indexOf(target) < list.indexOf(from)) {
+      const visited = history.get(root) || [];
+      const at = visited.lastIndexOf(target);
+
+      if (show(root, target, true) && at >= 0) history.set(root, visited.slice(0, at));
+
+      return;
+    }
+
+    const forward = from.querySelector('[data-step-next]');
+    const form = from.querySelector('form[data-step-submit]');
+
+    if (forward) forward.click();
+    else if (form) form.requestSubmit();
   });
 
   document.addEventListener('submit', (event) => {
