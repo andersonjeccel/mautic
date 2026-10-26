@@ -26,8 +26,8 @@
     display: inline-flex;
     overflow: visible;
     flex-direction: row;
-    inline-size: 8rem;
-    min-inline-size: 7rem
+    inline-size: 128px;
+    min-inline-size: 112px
 }
 
 .progress-indicator-step .cds--tooltip__label {
@@ -36,20 +36,20 @@
 
 .progress-indicator--space-equal .progress-indicator-step {
     flex-grow: 1;
-    min-inline-size: 8rem
+    min-inline-size: 128px
 }
 
 .progress-indicator-line {
     position: absolute;
     border: 1px inset transparent;
     block-size: 2px;
-    inline-size: 8rem;
+    inline-size: 128px;
     inset-inline-start: 0
 }
 
 .progress-indicator--space-equal .progress-indicator-line {
     inline-size: 100%;
-    min-inline-size: 8rem
+    min-inline-size: 128px
 }
 
 .progress-indicator-step svg {
@@ -57,29 +57,29 @@
     z-index: 1;
     flex-shrink: 0;
     border-radius: 50%;
-    block-size: 1rem;
+    block-size: 16px;
     fill: var(--interactive, #0f62fe);
-    inline-size: 1rem;
-    margin-block-start:.625rem;
-    margin-inline-end:.5rem}
+    inline-size: 16px;
+    margin-block-start:10px;
+    margin-inline-end:8px}
 
 .progress-indicator--space-equal .progress-indicator-text {
     overflow: hidden;
-    padding: .125rem;
-    margin: -.125rem
+    padding: 2px;
+    margin: -2px
 }
 
 .progress-indicator-label {
-    font-size: var(--body-compact-01-font-size, .875rem);
+    font-size: var(--body-compact-01-font-size, 14px);
     font-weight: var(--body-compact-01-font-weight, 400);
     line-height: var(--body-compact-01-line-height, 1.28572);
     letter-spacing: var(--body-compact-01-letter-spacing, .16px);
     display: block;
     overflow: hidden;
-    margin: .5rem 0 0;
+    margin: 8px 0 0;
     color: var(--text-primary, #161616);
     line-height: 1.45;
-    max-inline-size: 5.5rem;
+    max-inline-size: 88px;
     text-overflow: ellipsis;
     transition: box-shadow .11s cubic-bezier(.2,0,.38,.9),color .11s cubic-bezier(.2,0,.38,.9);
     white-space: nowrap
@@ -91,13 +91,13 @@
 }
 
 .progress-indicator-label:hover {
-    box-shadow: 0 .0625rem var(--link-primary-hover, #0043ce);
+    box-shadow: 0 1px var(--link-primary-hover, #0043ce);
     color: var(--link-primary-hover, #0043ce);
     cursor: pointer
 }
 
 .progress-indicator--space-equal .progress-indicator-label {
-    margin-inline-end:.75rem;max-inline-size: 100%
+    margin-inline-end:12px;max-inline-size: 100%
 }
 
 .progress-indicator-step-button:focus {
@@ -106,11 +106,11 @@
 
 .progress-indicator-step-button:focus-visible .progress-indicator-label {
     color: var(--focus, #0f62fe);
-    outline: .0625rem solid var(--focus, #0f62fe)
+    outline: 1px solid var(--focus, #0f62fe)
 }
 
 .progress-indicator-step-button:not(.progress-indicator-step-button--unclickable) .progress-indicator-label:active {
-    box-shadow: 0 .0625rem 0 0 var(--text-primary, #161616);
+    box-shadow: 0 1px 0 0 var(--text-primary, #161616);
     color: var(--text-primary, #161616)
 }
 
@@ -119,7 +119,7 @@
 }
 
 .progress-indicator-step .cds--tooltip .cds--tooltip__caret {
-    margin-inline-start:.625rem}
+    margin-inline-start:10px}
 
 .cds--tooltip__text {
     padding: 0;
@@ -128,31 +128,31 @@
 }
 
 .progress-indicator-step .cds--tooltip {
-    font-size: var(--body-01-font-size, .875rem);
+    font-size: var(--body-01-font-size, 14px);
     font-weight: var(--body-01-font-weight, 400);
     line-height: var(--body-01-line-height, 1.42857);
     letter-spacing: var(--body-01-letter-spacing, .16px);
     display: block;
-    padding: .5rem 1rem;
+    padding: 8px 16px;
     color: var(--text-inverse, #ffffff);
-    inline-size: 7.8125rem;
-    margin-block-start:2.5rem;margin-inline-start:1.375rem;min-block-size: 1.5rem;
-    min-inline-size: 7.1875rem;
+    inline-size: 125px;
+    margin-block-start:40px;margin-inline-start:22px;min-block-size: 24px;
+    min-inline-size: 115px;
     visibility: hidden
 }
 
 .progress-indicator-step .cds--tooltip_multi {
-    font-size: var(--body-01-font-size, .875rem);
+    font-size: var(--body-01-font-size, 14px);
     font-weight: var(--body-01-font-weight, 400);
     line-height: var(--body-01-line-height, 1.42857);
     letter-spacing: var(--body-01-letter-spacing, .16px);
     block-size: auto;
     color: var(--text-inverse, #ffffff);
-    inline-size: 9.375rem
+    inline-size: 150px
 }
 
 .progress-indicator-optional {
-    font-size: var(--label-01-font-size, .75rem);
+    font-size: var(--label-01-font-size, 12px);
     font-weight: var(--label-01-font-weight, 400);
     line-height: var(--label-01-line-height, 1.33333);
     letter-spacing: var(--label-01-letter-spacing, .32px);
@@ -160,7 +160,7 @@
     display: block;
     color: var(--text-secondary, #525252);
     inset-inline-start: 0;
-    margin-block-start:1.75rem;margin-inline-start:1.5rem;text-align: start
+    margin-block-start:28px;margin-inline-start:24px;text-align: start
 }
 
 .progress-indicator-step--current .progress-indicator-line {
@@ -220,7 +220,7 @@
 }
 
 .progress-indicator-step-button--unclickable .cds--tooltip__label:hover {
-    box-shadow: 0 .0625rem var(--link-primary, #0f62fe);
+    box-shadow: 0 1px var(--link-primary, #0f62fe);
     color: var(--link-primary, #0f62fe);
     cursor: pointer
 }
@@ -297,12 +297,12 @@
 }
 
 .progress-indicator.cds--skeleton .progress-indicator-label {
-    block-size: .875rem;
-    inline-size: 2.5rem;
-    margin-block-start:.625rem}
+    block-size: 14px;
+    inline-size: 40px;
+    margin-block-start:10px}
 
 .progress-indicator.progress-indicator--vertical.cds--skeleton .progress-indicator-label {
-    margin-block-start:.0625rem}
+    margin-block-start:1px}
 
 .progress-indicator--vertical,.progress-indicator-text {
     display: flex;
@@ -312,26 +312,26 @@
 .progress-indicator--vertical .progress-indicator-step,.progress-indicator--vertical .progress-indicator-step-button {
     align-content: flex-start;
     inline-size: initial;
-    min-block-size: 3.625rem;
+    min-block-size: 58px;
     min-inline-size: initial
 }
 
 .progress-indicator--vertical .progress-indicator-step svg,.progress-indicator--vertical .progress-indicator-step-button svg {
     display: inline-block;
-    margin: .0625rem .5rem 0
+    margin: 1px 8px 0
 }
 
 .progress-indicator--vertical .progress-indicator-label {
     display: inline-block;
     margin: 0;
     inline-size: initial;
-    max-inline-size: 10rem;
+    max-inline-size: 160px;
     vertical-align: top;
     white-space: initial
 }
 
 .progress-indicator--vertical .progress-indicator-step .cds--tooltip {
-    margin-block-start:.5rem}
+    margin-block-start:8px}
 
 .progress-indicator--vertical .progress-indicator-optional {
     position: static;
