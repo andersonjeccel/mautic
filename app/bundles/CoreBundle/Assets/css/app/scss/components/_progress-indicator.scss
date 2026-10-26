@@ -346,16 +346,3 @@
     inset-block-start: 0;
     inset-inline-start: 0
 }
-
-// Mautic (Bootstrap 3) has no .visually-hidden utility
-.progress-indicator-step-button .visually-hidden {
-    position: absolute !important;
-    width: 1px !important;
-    height: 1px !important;
-    padding: 0 !important;
-    margin: -1px !important;
-    overflow: hidden !important;
-    clip: rect(0, 0, 0, 0) !important;
-    white-space: nowrap !important;
-    border: 0 !important;
-}
