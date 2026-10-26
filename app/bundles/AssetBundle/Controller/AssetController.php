@@ -11,16 +11,20 @@ use Mautic\AssetBundle\Service\BatchFileCollector;
 use Mautic\AssetBundle\Service\Exception\BatchDownloadException;
 use Mautic\CoreBundle\Controller\CategoryListFiltersTrait;
 use Mautic\CoreBundle\Controller\FormController;
+use Mautic\CoreBundle\Exception\FileInvalidException;
 use Mautic\CoreBundle\Form\Type\DateRangeType;
 use Mautic\CoreBundle\Helper\CoreParametersHelper;
 use Mautic\CoreBundle\Helper\FileHelper;
 use Mautic\CoreBundle\Model\AuditLogModel;
 use Mautic\CoreBundle\Service\FlashBag;
+use Mautic\CoreBundle\Validator\FileUploadValidator;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
 use Oneup\UploaderBundle\Templating\Helper\UploaderHelper;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Contracts\Service\Attribute\Required;
 
 final class AssetController extends FormController
@@ -293,6 +297,8 @@ final class AssetController extends FormController
      */
     public function newAction(Request $request, CoreParametersHelper $parametersHelper, UploaderHelper $uploaderHelper, IntegrationHelper $integrationHelper, AssetModel $model, $entity = null): Response
     {
+        $isClone = null !== $entity;
+
         if (null == $entity) {
             $entity = $model->getEntity();
         }
@@ -396,8 +402,11 @@ final class AssetController extends FormController
                 'activeAsset'      => $entity,
                 'integrations'     => $integrations,
                 'startOnLocal'     => $entity->isLocal(),
+                'stepper'          => !$isClone && 'POST' !== $method,
+                'uploaded'         => !$isClone && 'POST' === $method,
                 'uploadEndpoint'   => $uploadEndpoint,
                 'maxSize'          => $maxSize,
+                'maxSizeLabel'     => $model->getMaxUploadSize('', true),
                 'maxSizeError'     => $maxSizeError,
                 'extensions'       => $extensions,
                 'extensionError'   => $extensionError,
@@ -410,6 +419,63 @@ final class AssetController extends FormController
                     'objectAction' => 'new',
                 ]),
             ],
+        ]);
+    }
+
+    /**
+     * Step 1 of the new asset stepper: validates the uploaded file (or the remote choice) and returns the details step.
+     */
+    public function uploadAction(Request $request, CoreParametersHelper $parametersHelper, IntegrationHelper $integrationHelper, AssetModel $model, FileUploadValidator $fileUploadValidator): Response
+    {
+        if (!$this->security->isGranted('asset:assets:create')) {
+            $this->throwAccessDenied();
+        }
+
+        if (!$request->isMethod(Request::METHOD_POST)) {
+            throw new MethodNotAllowedHttpException([Request::METHOD_POST]);
+        }
+
+        $entity = $model->getEntity();
+        $entity->setTempId(uniqid('tmp_'));
+        $entity->setUploadDir($parametersHelper->get('upload_dir'));
+        $entity->setMaxSize(FileHelper::convertMegabytesToBytes($parametersHelper->get('max_size')));
+
+        if ($request->request->getBoolean('remote')) {
+            $entity->setStorageLocation('remote');
+        } else {
+            $file = $request->files->get('file');
+
+            try {
+                if (!$file instanceof UploadedFile || !$file->isValid()) {
+                    throw new FileInvalidException($this->translator->trans('mautic.asset.error.file.failed'));
+                }
+
+                $extension = strtolower($file->getClientOriginalExtension());
+                $fileUploadValidator->checkFileSize($file->getSize(), $model->getMaxUploadSize('B'));
+                $fileUploadValidator->checkExtension($extension, $parametersHelper->get('allowed_extensions'));
+                $fileUploadValidator->checkMimeTypesMatchExtension([$file->getClientMimeType(), $file->getMimeType()], $extension);
+            } catch (FileInvalidException $e) {
+                return $this->render('@MauticAsset/Asset/_upload.html.twig', [
+                    'error'        => $e->getMessage(),
+                    'maxSizeLabel' => $model->getMaxUploadSize('', true),
+                ], new Response('', Response::HTTP_UNPROCESSABLE_ENTITY));
+            }
+
+            $tempName = sha1(uniqid((string) mt_rand(), true)).'.'.$extension;
+            $file->move($entity->getAbsoluteTempDir(), $tempName);
+            $entity->setTempName($tempName);
+            $entity->setOriginalFileName($file->getClientOriginalName());
+            $entity->setTitle($file->getClientOriginalName());
+        }
+
+        $form = $model->createForm($entity, $this->formFactory, $this->generateUrl('mautic_asset_action', ['objectAction' => 'new']));
+
+        return $this->render('@MauticAsset/Asset/_form.html.twig', [
+            'form'         => $form->createView(),
+            'activeAsset'  => $entity,
+            'integrations' => $integrationHelper->getIntegrationObjects(null, ['cloud_storage']),
+            'startOnLocal' => $entity->isLocal(),
+            'uploaded'     => true,
         ]);
     }
 
@@ -554,6 +620,8 @@ final class AssetController extends FormController
         return $this->delegateView([
             'viewParameters' => [
                 'form'             => $form->createView(),
+                'stepper'          => false,
+                'uploaded'         => false,
                 'activeAsset'      => $entity,
                 'assetDownloadUrl' => $model->generateUrl($entity),
                 'integrations'     => $integrations,

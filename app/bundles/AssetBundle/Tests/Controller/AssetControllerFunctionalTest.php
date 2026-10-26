@@ -19,6 +19,7 @@ use Mautic\UserBundle\Entity\User;
 use Mautic\UserBundle\Model\RoleModel;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -68,7 +69,7 @@ final class AssetControllerFunctionalTest extends AbstractAssetTestCase
         $title   = 'Remote image asset with query string';
         $fileUrl = $this->serveRemoteFile('image.jpg').'?hmac=SoX9UoHhN8HyklRA4A3vcCWJMVtiBXUg0W4ljWTor7s';
 
-        $crawlerCreate = $this->client->request('GET', '/s/assets/new');
+        $crawlerCreate = $this->requestNewAssetForm();
         $createForm    = $crawlerCreate->selectButton('Save')->form();
         $createForm->setValues([
             'asset[title]'           => $title,
@@ -131,7 +132,7 @@ final class AssetControllerFunctionalTest extends AbstractAssetTestCase
         $this->assertArrayNotHasKey('error', $uploadResponse, (string) $this->client->getResponse()->getContent());
         $this->assertArrayHasKey('tmpFileName', $uploadResponse, (string) $this->client->getResponse()->getContent());
 
-        $response = $this->client->request(Request::METHOD_GET, '/s/assets/new');
+        $response = $this->requestNewAssetForm();
         $this->assertResponseIsSuccessful();
 
         $form                               = $response->filter('form[name="asset"]')->form();
@@ -640,10 +641,7 @@ final class AssetControllerFunctionalTest extends AbstractAssetTestCase
 
     public function testPostRequestWithWrongTempNameAndOriginalFileNameFileExtension(): void
     {
-        $response = $this->client->request(
-            Request::METHOD_GET,
-            '/s/assets/new',
-        );
+        $response = $this->requestNewAssetForm();
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $form                              = $response->filter('form[name="asset"]')->form();
         $data                              = $form->getPhpValues();
@@ -660,10 +658,7 @@ final class AssetControllerFunctionalTest extends AbstractAssetTestCase
 
     public function testPostRequestWithWrongTempNameFileExtension(): void
     {
-        $response = $this->client->request(
-            Request::METHOD_GET,
-            '/s/assets/new',
-        );
+        $response = $this->requestNewAssetForm();
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $form                              = $response->filter('form[name="asset"]')->form();
         $data                              = $form->getPhpValues();
@@ -680,10 +675,7 @@ final class AssetControllerFunctionalTest extends AbstractAssetTestCase
 
     public function testPostResquetSuccessWithCorrectFileExtension(): void
     {
-        $response = $this->client->request(
-            Request::METHOD_GET,
-            '/s/assets/new',
-        );
+        $response = $this->requestNewAssetForm();
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $form                              = $response->filter('form[name="asset"]')->form();
         $data                              = $form->getPhpValues();
@@ -738,7 +730,7 @@ final class AssetControllerFunctionalTest extends AbstractAssetTestCase
     public function testCreateNewRemoteAssetWithValidateRemoteDomainsEnabled(string $file, bool $isAllowed): void
     {
         $message = 'The remote domain in the URL is not allowed due to security reasons.';
-        $crawler = $this->client->request('GET', '/s/assets/new');
+        $crawler = $this->requestNewAssetForm();
         $form    = $crawler->selectButton('Save')->form();
         $form->setValues([
             'asset[title]'           => 'Title',
@@ -755,5 +747,14 @@ final class AssetControllerFunctionalTest extends AbstractAssetTestCase
         } else {
             $this->assertStringContainsString($message, (string) $content);
         }
+    }
+
+    private function requestNewAssetForm(): Crawler
+    {
+        $this->setCsrfHeader();
+        $crawler = $this->client->xmlHttpRequest(Request::METHOD_POST, '/s/assets/upload', ['remote' => '1']);
+        $this->assertResponseIsSuccessful();
+
+        return $crawler;
     }
 }

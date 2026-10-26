@@ -11,112 +11,15 @@
 	mauticAssetUploadExtensions = "{{ extensions }}";
 	mauticAssetUploadExtensionError = "{{ extensionError }}";
 </script>
-{{ form_start(form) }}
-<!-- start: box layout -->
-<div class="box-layout">
-    <!-- container -->
-    <div class="col-md-8 col-lg-9 height-auto bdr-r">
-        <div class="pa-md">
-	        <div class="row">
-		        <div class="col-lg-6">
-					<div class="col-md-7 pl-0">
-						{{ form_row(form.storageLocation) }}
-					</div>
-			        <div class="text-left mt-lg mb-lg{% if startOnLocal %}  hide {% endif %}" id="remote-button">
-						{% if integrations %}
-							{% include '@MauticCore/Helper/button.html.twig' with {
-								buttons: [
-									{
-										href: path('mautic_asset_remote') ~ '?tmpl=modal',
-										icon: 'ri-file-search-line',
-										label: 'mautic.asset.remote.file.browse',
-										size: 'sm',
-										spin: true,
-										variant: 'tertiary',
-										attributes: {
-											'data-toggle': 'ajaxmodal',
-											'data-target': '#RemoteFileModal',
-											'data-header': 'mautic.asset.remote.file.browse'|trans,
-											'role': 'button'
-										}
-									}
-								]
-							} %}
-						{% endif %}
-					</div>
-			        <div id="storage-local"{% if not startOnLocal %} class="hide"{% endif %}>
-				        <div class="row">
-					        <div class="form-group col-xs-12 ">
-								{{ form_label(form.tempName) }}
-								{{ form_widget(form.tempName) }}
-								{{ form_errors(form.tempName) }}
-						        <div class="help-block mdropzone-error"></div>
-						        <div class="mdropzone text-center" id="dropzone">
-						        	<div class="dz-message">
-						        		{% trans %}mautic.asset.drop.file.here{% endtrans %}</h4>
-									</div>
-						        </div>
-					        </div>
-				        </div>
-			        </div>
-			        <div id="storage-remote"{% if startOnLocal %} class="hide"{% endif %}>
-						{{ form_row(form.remotePath) }}
-			        </div>
-					<div>
-						{{ form_row(form.title) }}
-					</div>
-					<div>
-						{{ form_row(form.description) }}
-					</div>
-		    	</div>
-		    	<div class="col-lg-6">
-		    		<div class="tile jc-center">
-				    	<div class="form-group col-xs-12 ">
-				    		{{- include('@MauticAsset/Modules/preview.html.twig', {
-								'variant': 'interactive',
-								'activeAsset' : activeAsset,
-								'assetDownloadUrl' : url('mautic_asset_action',
-                                {'objectAction' : 'preview', 'objectId' : activeAsset.getId()}
-                            )}) -}}
-			    		</div>
-					</div>
-		    	</div>
-		    </div>
-		    <div class="row">
-
-			</div>
-            <div class="row">
-                
-            </div>
-		</div>
-	</div>
- 	<div class="col-md-4 col-lg-3 height-auto">
-		<div class="pr-lg pl-lg pt-md pb-md">
-			{{ form_row(form.category) }}
-			{{ form_row(form.projects) }}
-			{{ form_row(form.language) }}
-			{{ form_row(form.isPublished, {
-				'attr': {
-					'data-none': 'mautic.core.form.unavailable_regardless_of_scheduling',
-					'data-start': 'mautic.core.form.available_on_scheduled_date',
-					'data-both': 'mautic.core.form.available_during_scheduled_period',
-					'data-end': 'mautic.core.form.available_until_scheduled_end'
-				}
-			}) }}
-			{{ form_row(form.publishUp, {'label': 'mautic.core.form.available.available_from'}) }}
-    		{{ form_row(form.publishDown, {'label': 'mautic.core.form.available.unavailable_from'}) }}
-			{{ form_row(form.disallow) }}
-		</div>
-	</div>
+{% if stepper %}
+<div data-stepper class="pa-md">
+    <div data-step="upload">
+        {{ include('@MauticAsset/Asset/_upload.html.twig', {'error': null, 'maxSizeLabel': maxSizeLabel}) }}
+    </div>
+    <div data-step="details" id="asset-stepper-details" hidden></div>
+    <div data-step-loading hidden role="status">{{ 'mautic.core.loading'|trans }}</div>
 </div>
-{{ form_end(form) }}
-
-{% if integrations %}
-	{{- include('@MauticCore/Helper/modal.html.twig', {
-        'id'            : 'RemoteFileModal',
-        'size'          : 'lg',
-        'footerButtons' : true,
-	}) -}}
+{% else %}
+{{ include('@MauticAsset/Asset/_form.html.twig') }}
 {% endif %}
-
 {% endblock %}

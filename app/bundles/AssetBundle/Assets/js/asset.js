@@ -5,6 +5,14 @@ Mautic.assetOnLoad = function (container) {
     }
 };
 
+document.addEventListener('stepper:shown', (event) => {
+    const step = event.detail.to;
+
+    if ('asset-stepper-details' === step.id) {
+        Mautic.onPageLoad('#' + step.id);
+    }
+});
+
 Mautic.assetOnUnload = function(id) {
     if (id === '#app-content') {
         delete Mautic.assetDropzone;

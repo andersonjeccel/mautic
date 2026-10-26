@@ -847,7 +847,7 @@ class Asset extends FormEntity implements UuidInterface
         }
 
         if ($this->isRemote()) {
-            return pathinfo(parse_url($this->remotePath, PHP_URL_PATH), PATHINFO_EXTENSION);
+            return pathinfo((string) parse_url((string) $this->remotePath, PHP_URL_PATH), PATHINFO_EXTENSION);
         }
 
         if (null === $this->loadFile()) {

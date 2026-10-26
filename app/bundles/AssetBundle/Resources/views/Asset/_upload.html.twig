@@ -1,0 +1,11 @@
+<form action="{{ path('mautic_asset_action', {'objectAction': 'upload'}) }}" method="post" enctype="multipart/form-data" data-step-submit="details" novalidate>
+    <div class="mb-3{% if error %} has-error{% endif %}">
+        <label for="asset_upload_file" class="form-label">{{ 'mautic.asset.asset.form.file.upload'|trans({'%max%': maxSizeLabel}) }}</label>
+        <input type="file" id="asset_upload_file" name="file" class="form-control" required{% if error %} aria-invalid="true" aria-describedby="asset_upload_error"{% endif %}>
+        {% if error %}
+            <div id="asset_upload_error" class="invalid-feedback d-block" role="alert">{{ error }}</div>
+        {% endif %}
+    </div>
+    <button type="submit" class="btn btn-primary">{{ 'mautic.core.continue'|trans }}</button>
+    <button type="submit" name="remote" value="1" class="btn btn-outline-secondary" formnovalidate>{{ 'mautic.asset.upload.remote'|trans }}</button>
+</form>
