@@ -1,0 +1,190 @@
+//
+// Progress indicator (ported from the Mautic marketplace, Carbon style)
+// --------------------------------------------------
+
+.progress-indicator {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+
+  &--space-equal .progress-indicator-step {
+    flex-grow: 1;
+    min-inline-size: 8rem;
+  }
+
+  &--vertical {
+    flex-direction: column;
+  }
+}
+
+.progress-indicator-step {
+  position: relative;
+  display: inline-flex;
+  overflow: visible;
+  flex-direction: row;
+  inline-size: 8rem;
+  min-inline-size: 7rem;
+
+  svg {
+    position: relative;
+    z-index: 1;
+    display: none;
+    flex-shrink: 0;
+    border-radius: 50%;
+    block-size: 1rem;
+    inline-size: 1rem;
+    margin-block-start: .625rem;
+    margin-inline-end: .5rem;
+    fill: var(--interactive);
+  }
+
+  &--complete .progress-indicator-icon--complete,
+  &--current .progress-indicator-icon--current,
+  &--incomplete .progress-indicator-icon--incomplete {
+    display: block;
+  }
+
+  &--incomplete svg {
+    fill: var(--icon-primary);
+  }
+
+  &--complete .progress-indicator-line,
+  &--current .progress-indicator-line {
+    background-color: var(--interactive);
+  }
+
+  &--incomplete .progress-indicator-line {
+    background-color: var(--border-subtle);
+  }
+
+  &--complete .progress-indicator-assistive--complete,
+  &--current .progress-indicator-assistive--current,
+  &--incomplete .progress-indicator-assistive--incomplete {
+    display: inline;
+  }
+}
+
+.progress-indicator-assistive {
+  display: none;
+}
+
+.progress-indicator-line {
+  position: absolute;
+  block-size: 2px;
+  inline-size: 8rem;
+  inset-inline-start: 0;
+
+  .progress-indicator--space-equal & {
+    inline-size: 100%;
+    min-inline-size: 8rem;
+  }
+
+  .progress-indicator--vertical & {
+    block-size: 100%;
+    inline-size: 1px;
+    inset-block-start: 0;
+  }
+}
+
+.progress-indicator-step-button {
+  display: flex;
+  appearance: none;
+  background: none;
+  inline-size: 100%;
+  padding: 0;
+  border: 0;
+  margin: 0;
+  font-family: inherit;
+  font-size: 100%;
+  text-align: start;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible .progress-indicator-label {
+    color: var(--focus);
+    outline: .0625rem solid var(--focus);
+  }
+
+  &:not(:disabled):hover .progress-indicator-label {
+    box-shadow: 0 .0625rem var(--link-primary-hover);
+    color: var(--link-primary-hover);
+  }
+}
+
+.progress-indicator-text {
+  display: flex;
+  flex-direction: column;
+
+  .progress-indicator--space-equal & {
+    overflow: hidden;
+    padding: .125rem;
+    margin: -.125rem;
+  }
+}
+
+.progress-indicator-label {
+  display: block;
+  overflow: hidden;
+  margin: .5rem 0 0;
+  color: var(--text-primary);
+  font-size: var(--body-compact-01-font-size, .875rem);
+  line-height: 1.45;
+  letter-spacing: var(--body-compact-01-letter-spacing, .16px);
+  max-inline-size: 5.5rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: box-shadow .11s cubic-bezier(.2, 0, .38, .9), color .11s cubic-bezier(.2, 0, .38, .9);
+
+  .progress-indicator--space-equal & {
+    margin-inline-end: .75rem;
+    max-inline-size: 100%;
+  }
+
+  .progress-indicator--vertical & {
+    display: inline-block;
+    margin: 0;
+    max-inline-size: 10rem;
+    white-space: normal;
+  }
+}
+
+.progress-indicator-optional {
+  position: absolute;
+  display: block;
+  color: var(--text-secondary);
+  font-size: var(--label-01-font-size, .75rem);
+  line-height: 1.33;
+  letter-spacing: var(--label-01-letter-spacing, .32px);
+  inset-inline-start: 0;
+  margin-block-start: 1.75rem;
+  margin-inline-start: 1.5rem;
+  text-align: start;
+
+  .progress-indicator--vertical & {
+    position: static;
+    margin: 0 0 auto;
+    inline-size: 100%;
+  }
+}
+
+.progress-indicator--vertical {
+  .progress-indicator-step,
+  .progress-indicator-step-button {
+    align-content: flex-start;
+    inline-size: auto;
+    min-block-size: 3.625rem;
+    min-inline-size: 0;
+  }
+
+  .progress-indicator-step svg {
+    margin: .0625rem .5rem 0;
+  }
+}

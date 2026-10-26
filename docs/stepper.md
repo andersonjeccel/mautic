@@ -29,6 +29,7 @@ Source: `app/bundles/CoreBundle/Assets/js/17.stepper.js` (plain JS, no build ste
 - `data-step-back` / `data-step-back="name"`: last visited step, or the named one.
 - `data-step-submit="name"`: on a `<form>`, POST it via `fetch` and put the returned HTML in the named step (empty = next step), then show it.
 - `data-step-loading`: element shown while a request is pending. Give it `role="status"` so the loading text is announced.
+- `data-stepper-indicator`: step list (`@MauticCore/Helper/progress_indicator.html.twig` with `stepper: true`, ported from the Marketplace). The stepper sets `progress-indicator-step--complete|current|incomplete` and `aria-current` on each item by position.
 - `data-stepper-progress`: progress bar. Its width and `role="progressbar"`/`aria-value*` follow the current step position. Give it an `aria-label`.
 
 Handlers are delegated on `document`, so content injected by AJAX works without re-initialization.

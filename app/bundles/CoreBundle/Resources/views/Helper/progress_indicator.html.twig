@@ -1,0 +1,26 @@
+{#
+  Step indicator, styled like Carbon's ProgressIndicator. Pair with data-stepper
+  by passing stepper: true; the stepper JS then updates each step's status.
+
+  steps: [{label: string, secondaryLabel?: string, status?: 'complete'|'current'|'incomplete'}]
+  vertical: bool (default false)
+  spaceEqually: bool (default true)
+  stepper: bool (default false)
+#}
+{% set vertical = vertical|default(false) %}
+{% set spaceEqually = spaceEqually|default(true) %}
+<ol class="progress-indicator{{ spaceEqually and not vertical ? ' progress-indicator--space-equal' : '' }}{{ vertical ? ' progress-indicator--vertical' : '' }}"{{ stepper|default(false) ? ' data-stepper-indicator' : '' }}{{ ariaLabel is defined ? ' aria-label="' ~ ariaLabel|e('html_attr') ~ '"' : '' }}>
+    {% for step in steps %}
+        {% set status = step.status|default(loop.first ? 'current' : 'incomplete') %}
+        <li class="progress-indicator-step progress-indicator-step--{{ status }}"{{ status == 'current' ? ' aria-current="step"' : '' }}>
+            <span class="progress-indicator-line" aria-hidden="true"></span>
+            <svg class="progress-indicator-icon--complete" width="16" height="16" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M14 21.414 9 16.413 10.413 15 14 18.586 21.585 11 23 12.415 14 21.414z"/><path d="M16 2a14 14 0 1 0 14 14A14 14 0 0 0 16 2Zm0 26a12 12 0 1 1 12-12 12 12 0 0 1-12 12Z"/></svg>
+            <svg class="progress-indicator-icon--current" width="16" height="16" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M16 30V2a14 14 0 0 0 0 28Z"/><path d="M16 2a14 14 0 1 0 14 14A14 14 0 0 0 16 2Zm0 26a12 12 0 1 1 12-12 12 12 0 0 1-12 12Z"/></svg>
+            <svg class="progress-indicator-icon--incomplete" width="16" height="16" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M16 2a14 14 0 1 0 14 14A14 14 0 0 0 16 2Zm0 26a12 12 0 1 1 12-12 12 12 0 0 1-12 12Z"/></svg>
+            <span class="progress-indicator-text">
+                <span class="progress-indicator-label" title="{{ step.label }}">{{ step.label }}</span>
+                {% if step.secondaryLabel is defined %}<span class="progress-indicator-optional">{{ step.secondaryLabel }}</span>{% endif %}
+            </span>
+        </li>
+    {% endfor %}
+</ol>

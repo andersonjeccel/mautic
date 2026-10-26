@@ -22,12 +22,26 @@
 
   const progress = (root) => {
     const bar = [...root.querySelectorAll('[data-stepper-progress]')].find((el) => owns(root, el));
+    const indicator = [...root.querySelectorAll('[data-stepper-indicator]')].find((el) => owns(root, el));
     const list = steps(root);
     const step = current(root);
 
-    if (!bar || !step) return;
+    if (!step) return;
 
     const position = list.indexOf(step) + 1;
+
+    if (indicator) {
+      [...indicator.children].forEach((item, index) => {
+        const status = index + 1 < position ? 'complete' : index + 1 === position ? 'current' : 'incomplete';
+        item.className = item.className.replace(/progress-indicator-step--\w+/, `progress-indicator-step--${status}`);
+        item.classList.toggle('is-current', status === 'current');
+        if (status === 'current') item.setAttribute('aria-current', 'step');
+        else item.removeAttribute('aria-current');
+      });
+    }
+
+    if (!bar) return;
+
     bar.setAttribute('role', 'progressbar');
     bar.setAttribute('aria-valuemin', '1');
     bar.setAttribute('aria-valuemax', String(list.length));
