@@ -2,99 +2,173 @@
  * Stepper: sequential flow with optional branching and remote (HTML) form steps.
  * See docs/stepper.md.
  */
-(function () {
-    var ROOT = '[data-stepper]';
+(() => {
+  const ROOT = '[data-stepper]';
+  const history = new WeakMap();
 
-    function steps(root) {
-        return Array.prototype.filter.call(root.querySelectorAll('[data-step]'), function (step) {
-            return step.closest(ROOT) === root;
-        });
+  const owns = (root, el) => el.closest(ROOT) === root;
+  const steps = (root) => [...root.querySelectorAll('[data-step]')].filter((step) => owns(root, step));
+  const current = (root) => steps(root).find((step) => !step.hidden);
+  const emit = (root, name, detail = {}, cancelable = false) => root.dispatchEvent(
+    new CustomEvent(`stepper:${name}`, {bubbles: true, cancelable, detail})
+  );
+  const busy = (root) => 'true' === root.getAttribute('aria-busy');
+
+  const find = (root, target, from, offset) => {
+    const list = steps(root);
+
+    return target ? list.find((step) => step.getAttribute('data-step') === target) : list[list.indexOf(from) + offset];
+  };
+
+  const progress = (root) => {
+    const bar = [...root.querySelectorAll('[data-stepper-progress]')].find((el) => owns(root, el));
+    const list = steps(root);
+    const step = current(root);
+
+    if (!bar || !step) return;
+
+    const position = list.indexOf(step) + 1;
+    bar.setAttribute('role', 'progressbar');
+    bar.setAttribute('aria-valuemin', '1');
+    bar.setAttribute('aria-valuemax', String(list.length));
+    bar.setAttribute('aria-valuenow', String(position));
+    bar.style.width = `${position / list.length * 100}%`;
+  };
+
+  const show = (root, step, back = false) => {
+    const from = current(root);
+
+    if (!step || from === step) return false;
+    if (!emit(root, 'show', {from, to: step}, true)) return false;
+
+    if (!back) {
+      history.set(root, [...(history.get(root) || []), from]);
     }
 
-    function find(root, target, from, offset) {
-        var list = steps(root);
-        if (target) {
-            return list.filter(function (step) { return step.getAttribute('data-step') === target; })[0];
-        }
-        return list[list.indexOf(from) + offset];
-    }
-
-    function show(root, step) {
-        if (!step) return;
-        var list = steps(root);
-        var from = list.filter(function (item) { return !item.hidden; })[0];
-        if (from === step) return;
-        if (!root.dispatchEvent(new CustomEvent('stepper:show', {bubbles: true, cancelable: true, detail: {from: from, to: step}}))) return;
-
-        step.history = from;
-        list.forEach(function (item) { item.hidden = item !== step; });
-
-        var bar = root.querySelector('[data-stepper-progress]');
-        if (bar) {
-            bar.style.width = ((list.indexOf(step) + 1) / list.length * 100) + '%';
-        }
-        root.dispatchEvent(new CustomEvent('stepper:shown', {bubbles: true, detail: {from: from, to: step}}));
-    }
-
-    function current(root) {
-        return steps(root).filter(function (item) { return !item.hidden; })[0];
-    }
-
-    function loading(root, on) {
-        root.querySelectorAll('[data-step-loading]').forEach(function (el) {
-            if (el.closest(ROOT) === root) el.hidden = !on;
-        });
-        root.setAttribute('aria-busy', on ? 'true' : 'false');
-    }
-
-    function submit(root, form, button) {
-        var from = current(root);
-        var to = find(root, form.getAttribute('data-step-submit'), from, 1);
-        if (!to) return;
-
-        loading(root, true);
-        fetch(form.action, {
-            method: 'POST',
-            body: new FormData(form, button),
-            credentials: 'same-origin',
-            headers: {'Accept': 'text/html', 'X-Requested-With': 'XMLHttpRequest'}
-        }).then(function (response) {
-            return response.text().then(function (html) {
-                if (response.status === 422) {
-                    from.innerHTML = html;
-                    root.dispatchEvent(new CustomEvent('stepper:error', {bubbles: true, detail: {response: response}}));
-                } else if (response.ok && !response.redirected) {
-                    to.innerHTML = html;
-                    show(root, to);
-                    root.dispatchEvent(new CustomEvent('stepper:success', {bubbles: true, detail: {response: response}}));
-                } else {
-                    throw new Error('Stepper request failed (' + response.status + ')');
-                }
-            });
-        }).catch(function (error) {
-            root.dispatchEvent(new CustomEvent('stepper:error', {bubbles: true, detail: {error: error}}));
-        }).then(function () {
-            loading(root, false);
-        });
-    }
-
-    document.addEventListener('click', function (event) {
-        var button = event.target.closest('[data-step-next], [data-step-back]');
-        var root = button && button.closest(ROOT);
-        if (!root) return;
-
-        var next = button.hasAttribute('data-step-next');
-        var target = button.getAttribute(next ? 'data-step-next' : 'data-step-back');
-        var from = current(root);
-        show(root, !next && !target && from.history ? from.history : find(root, target, from, next ? 1 : -1));
+    steps(root).forEach((item) => {
+      item.hidden = item !== step;
     });
+    progress(root);
 
-    document.addEventListener('submit', function (event) {
-        var form = event.target;
-        var root = form.hasAttribute && form.hasAttribute('data-step-submit') && form.closest(ROOT);
-        if (!root) return;
+    step.tabIndex = -1;
+    step.focus();
+    emit(root, 'shown', {from, to: step});
 
-        event.preventDefault();
-        submit(root, form, event.submitter);
+    return true;
+  };
+
+  const loading = (root, on) => {
+    [...root.querySelectorAll('[data-step-loading]')].filter((el) => owns(root, el)).forEach((el) => {
+      el.hidden = !on;
     });
+    root.setAttribute('aria-busy', on ? 'true' : 'false');
+  };
+
+  const focusInvalid = (step) => {
+    (step.querySelector('[aria-invalid="true"], :invalid') || step).focus();
+  };
+
+  const submit = async (root, form, button) => {
+    const from = form.closest('[data-step]');
+    const to = find(root, form.getAttribute('data-step-submit'), from, 1);
+
+    if (!to) {
+      emit(root, 'error', {error: new Error('Stepper target step not found.')});
+
+      return;
+    }
+
+    from.tabIndex = -1;
+    loading(root, true);
+
+    let response;
+    try {
+      response = await fetch(button && button.hasAttribute('formaction') ? button.formAction : form.action, {
+        method: 'POST',
+        body: new FormData(form, button),
+        credentials: 'same-origin',
+        redirect: 'error',
+        headers: {
+          Accept: 'text/html',
+          'X-Requested-With': 'XMLHttpRequest',
+          ...('undefined' === typeof mauticAjaxCsrf ? {} : {'X-CSRF-Token': mauticAjaxCsrf}),
+        },
+      });
+
+      if (!response.ok && 422 !== response.status) {
+        throw new Error(`Stepper request failed (${response.status}).`);
+      }
+
+      if (!(response.headers.get('Content-Type') || '').startsWith('text/html')) {
+        throw new Error('Stepper responses must contain HTML.');
+      }
+
+      const html = await response.text();
+      loading(root, false);
+
+      if (422 === response.status) {
+        from.innerHTML = html;
+        focusInvalid(from);
+        emit(root, 'error', {response});
+
+        return;
+      }
+
+      to.innerHTML = html;
+      show(root, to);
+      emit(root, 'success', {response});
+    } catch (error) {
+      loading(root, false);
+      emit(root, 'error', {response, error});
+    }
+  };
+
+  document.addEventListener('click', (event) => {
+    if (event.defaultPrevented) return;
+
+    const button = event.target.closest('[data-step-next], [data-step-back]');
+    const root = button && button.closest(ROOT);
+
+    if (!root) return;
+
+    event.preventDefault();
+
+    if (busy(root)) return;
+
+    const next = button.hasAttribute('data-step-next');
+    const target = button.getAttribute(next ? 'data-step-next' : 'data-step-back');
+    const from = current(root);
+    const visited = history.get(root) || [];
+
+    if (!next && !target && visited.length) {
+      if (show(root, visited[visited.length - 1], true)) {
+        history.set(root, visited.slice(0, -1));
+      }
+
+      return;
+    }
+
+    show(root, find(root, target, from, next ? 1 : -1), !next);
+  });
+
+  document.addEventListener('submit', (event) => {
+    const form = event.target;
+    const root = !event.defaultPrevented && form.hasAttribute('data-step-submit') && form.closest(ROOT);
+
+    if (!root) return;
+
+    event.preventDefault();
+
+    if (!busy(root)) {
+      submit(root, form, event.submitter);
+    }
+  });
+
+  const init = () => document.querySelectorAll(ROOT).forEach(progress);
+
+  if ('loading' === document.readyState) {
+    document.addEventListener('DOMContentLoaded', init, {once: true});
+  } else {
+    init();
+  }
 })();
