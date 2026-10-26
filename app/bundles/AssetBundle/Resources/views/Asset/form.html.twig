@@ -13,6 +13,7 @@
 </script>
 {% if stepper %}
 <div data-stepper class="pa-md">
+    {{ include('@MauticCore/Helper/progress_indicator.html.twig', {stepper: true, ariaLabel: 'mautic.asset.asset.steps'|trans, steps: [{label: 'mautic.asset.asset.step.upload'|trans}, {label: 'mautic.asset.asset.step.details'|trans}]}) }}
     <div data-step="upload">
         {{ include('@MauticAsset/Asset/_upload.html.twig', {'error': null, 'maxSizeLabel': maxSizeLabel}) }}
     </div>
