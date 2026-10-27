@@ -34,7 +34,7 @@ void main(){
   }
   if(I<1.){
     float fr=(1.-pow(1.-I,2.4))*(length(vec2(R.x/R.y,1))*.5+.2),r=distance(uv,vec2(-c*.5/R.y));
-    f=mix(-1.,f,smoothstep(fr+.04,fr-.06,r));
+    f=mix(-1.,f,1.-smoothstep(fr-.06,fr+.04,r));
     float v=exp(-pow((r-fr)/.07,2.))*(1.-I)*1.4;
     if(v>.02)f=max(f,v);
   }
@@ -174,6 +174,7 @@ const loc = e => {
   return [x, y, x >= 0 && y >= 0 && x <= b.width && y <= b.height];
 };
 addEventListener('pointermove', e => {
+  if (RM) return;
   const [x, y, i] = loc(e);
   if (i) { if (!inside) { mx = x * r; my = (vh - y) * r; } px = x; py = y; }
   inside = i;
