@@ -72,6 +72,19 @@ input[style] {
 }
 
 .form-control {
+  display: block;
+  width: 100%;
+  height: $input-height-base;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  background-image: none;
+
+  &[disabled],
+  fieldset[disabled] & {
+    background-color: $input-bg-disabled;
+    opacity: 1;
+  }
+
   &:not(select) {
     padding: var(--spacing-04) var(--spacing-05);
   }
@@ -94,6 +107,21 @@ input[style] {
 .form-control[disabled] {
   cursor: not-allowed;
   border-bottom-color: transparent;
+}
+
+textarea.form-control {
+  height: auto;
+}
+
+select.form-control {
+  padding: 6px 12px;
+}
+
+input[type="date"].form-control,
+input[type="time"].form-control,
+input[type="datetime-local"].form-control,
+input[type="month"].form-control {
+  line-height: $input-height-base;
 }
 
 .form-control[readonly] {
