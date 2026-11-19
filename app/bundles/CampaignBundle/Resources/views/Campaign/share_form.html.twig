@@ -115,7 +115,7 @@
                     </div>
                     {# btn-nospin: this button adds a slot client-side only, so the global icon
                        spinner would never be stopped by an AJAX response. #}
-                    <button type="button" id="add-gallery-slot" class="btn btn-default btn-sm btn-nospin">
+                    <button type="button" id="add-gallery-slot" class="btn btn-tertiary btn-sm btn-nospin">
                         <i class="ri-add-line"></i> {{ 'mautic.campaign.share.gallery_add_more'|trans }}
                     </button>
                 </div>
@@ -168,7 +168,7 @@
 
             {# ── Actions ── #}
             <div class="text-end">
-                <a href="{{ path('mautic_campaign_action', {'objectAction': 'view', 'objectId': campaignId}) }}" class="btn btn-default">
+                <a href="{{ path('mautic_campaign_action', {'objectAction': 'view', 'objectId': campaignId}) }}" class="btn btn-tertiary">
                     {{ 'mautic.core.form.cancel'|trans }}
                 </a>
                 {{ form_widget(form.download) }}

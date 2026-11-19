@@ -133,7 +133,7 @@
     {{ form_row(form.vars.form.children.function) }}
     {{ form_row(form.vars.form.children.column) }}
     <div class="col-xs-1 mt-24">
-        <button type="button" class="btn btn-danger btn--icon-only" onclick="Mautic.removeReportRow('{{ form.vars.id }}_container');" data-bs-toggle="tooltip" title="{{ 'mautic.report.report.label.removefilter'|trans }}"><i class="ri-delete-row"></i></button>
+        <button type="button" class="btn btn-primary btn-danger btn--icon-only" onclick="Mautic.removeReportRow('{{ form.vars.id }}_container');" data-bs-toggle="tooltip" title="{{ 'mautic.report.report.label.removefilter'|trans }}"><i class="ri-delete-row"></i></button>
     </div>
 </div>
 {% endblock %}

@@ -401,7 +401,7 @@ final class PageType extends AbstractType
                 'label' => 'mautic.core.saveasdraft',
                 'type'  => SubmitType::class,
                 'attr'  => [
-                    'class'   => 'btn btn-primary btn-default text-primary btn-save-draft',
+                    'class'   => 'btn btn-primary text-primary btn-save-draft',
                     'icon'    => 'fa fa-file text-success',
                 ],
             ];

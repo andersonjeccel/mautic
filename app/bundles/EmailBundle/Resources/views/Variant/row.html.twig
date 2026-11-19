@@ -49,7 +49,7 @@
     <div class="variant-actions d-flex" style="flex-shrink: 0;">
         {% if canMakeWinner %}
             <a href="{{ path(actionRoute, {'objectAction': 'winner', 'objectId': variant.id}) }}"
-               class="btn btn-warning btn--icon-only btn-sm btn-nospin"
+               class="btn btn-primary btn--icon-only btn-sm btn-nospin"
                aria-label="{{ 'mautic.core.ab_test.make_winner'|trans }}"
                title="{{ 'mautic.core.ab_test.make_winner'|trans }}"
                data-toggle="confirmation"

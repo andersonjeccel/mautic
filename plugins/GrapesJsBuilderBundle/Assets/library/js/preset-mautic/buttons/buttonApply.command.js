@@ -112,7 +112,7 @@ export default class ButtonApplyCommand {
     content.innerText = text;
     body.appendChild(content);
 
-    btnClose.classList.add('btn', 'btn-lg', 'btn-default', 'text-primary');
+    btnClose.classList.add('btn', 'btn-lg', 'btn-tertiary', 'text-primary');
     btnClose.innerText = 'Close';
     btnClose.onclick = () => {
       modal.close();

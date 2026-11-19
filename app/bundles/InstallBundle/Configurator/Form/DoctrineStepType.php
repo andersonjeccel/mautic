@@ -151,7 +151,7 @@ final class DoctrineStepType extends AbstractType
                         'label' => 'mautic.install.next.step',
                         'type'  => 'submit',
                         'attr'  => [
-                            'class'   => 'btn btn-success float-end btn-next',
+                            'class'   => 'btn btn-primary float-end btn-next',
                             'icon'    => 'ri-arrow-right-circle-line',
                             'onclick' => 'MauticInstaller.showWaitMessage(event);',
                         ],

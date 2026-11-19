@@ -304,7 +304,7 @@ Mautic.showConfirmation = function (el, customMessage) {
     var cancelText = mQuery(el).data('cancel-text');
     var cancelCallback = mQuery(el).data('cancel-callback');
     const confirmBtnClass = mQuery(el).data('confirm-btn-class')
-        ? mQuery(el).data('confirm-btn-class') : 'btn btn-danger';
+        ? mQuery(el).data('confirm-btn-class') : 'btn btn-primary btn-danger';
 
     var confirmContainer = mQuery("<div />").attr({"class": "modal fade confirmation-modal"});
     var confirmDialogDiv = mQuery("<div />").attr({"class": "modal-dialog"});
