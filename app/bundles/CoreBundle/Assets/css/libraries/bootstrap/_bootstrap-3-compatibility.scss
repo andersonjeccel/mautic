@@ -1484,19 +1484,6 @@ th {
   }
 }
 
-.table-condensed {
-  > thead,
-  > tbody,
-  > tfoot {
-    > tr {
-      > th,
-      > td {
-        padding: $table-condensed-cell-padding;
-      }
-    }
-  }
-}
-
 .table-bordered {
   border: 1px solid $table-border-color;
   > thead,
