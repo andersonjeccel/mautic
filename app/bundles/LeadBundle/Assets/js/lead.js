@@ -173,7 +173,6 @@ Mautic.leadOnLoad = function (container, response) {
         }
     });
 
-    Mautic.lazyLoadContactStatsOnLeadLoad();
 };
 
 Mautic.leadTimelineOnLoad = function (container, response) {
@@ -1698,9 +1697,6 @@ Mautic.handleAssetDownloadSearch = function(filterNum, fieldObject, fieldAlias, 
 };
 
 Mautic.listOnLoad = function(container, response) {
-    Mautic.loadAndProcessPageContent('#contacts-container');
-    Mautic.loadAndProcessPageContent('#segment-stats');
-
     const segmentDependenciesTab = mQuery('a#segment-dependencies');
     let segmentDependenciesLoaded = false;
     let jsPlumbData = null;
@@ -1818,22 +1814,6 @@ Mautic.loadAndProcessPageContent = function(containerId) {
 
     const segmentContactUrl = container.data('target-url');
     mQuery.get(segmentContactUrl, function(response) {
-        response.target = containerId;
-        Mautic.processPageContent(response);
-    });
-};
-
-Mautic.lazyLoadContactStatsOnLeadLoad = function() {
-    const containerId = '#lead-stats';
-    const container = mQuery(containerId);
-
-    // Load the contact stats only if the container exists.
-    if (!container.length) {
-        return;
-    }
-
-    const contactStatsUrl = container.data('target-url');
-    mQuery.get(contactStatsUrl, function(response) {
         response.target = containerId;
         Mautic.processPageContent(response);
     });

@@ -18,6 +18,12 @@
         {% endif %}
     </div>
 
+{# === LOADING TYPE === #}
+{% elseif type == 'loading' %}
+    <div class="tile placeholder-glow {{ className|default('') }}" aria-hidden="true">
+        {{ content|raw }}
+    </div>
+
 {# === CLICKABLE TYPE === #}
 {% elseif type == 'clickable' %}
     {% if href is defined and href is not empty %}

@@ -28,3 +28,9 @@
             transform: rotate(359deg);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+    .placeholder-glow .placeholder {
+        animation: none;
+    }
+}

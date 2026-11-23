@@ -1,0 +1,34 @@
+{% set skeleton = skeleton|default('block') %}
+<div{% if id is defined %} id="{{ id }}"{% endif %}{% if className is defined %} class="{{ className }}"{% endif %} data-mautic-async-src="{{ url }}" data-mautic-async-loading="{{ loading|default('eager') }}" aria-busy="true">
+    {% if skeleton == 'tile' %}
+        {% set count = count|default(4) %}
+        <div class="lead-stats row-no-gutters gap-12 flex-xl-nowrap mb-12" role="status" aria-label="{{ 'mautic.core.loading'|trans }}">
+            {% for i in 1..count %}
+                <div class="col-xs-12 col-lg-3">
+                    {% set tileContent %}
+                        <div class="d-flex flex-column justify-content-between {% if count == 4 %}as-2-1{% endif %} flex-grow-1">
+                            <span class="mb-24 ellipsis"><span class="placeholder col-6"></span></span>
+                            <span class="d-flex lh-1 fs-40"><span class="placeholder col-4"></span></span>
+                        </div>
+                    {% endset %}
+                    {% include '@MauticCore/Components/tile.html.twig' with {
+                        type: 'loading',
+                        content: tileContent
+                    } %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="placeholder-glow" role="status" aria-label="{{ 'mautic.core.loading'|trans }}">
+            {% for i in 1..(lines|default(5)) %}
+                <span class="placeholder col-12 mb-12 d-block"></span>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <template data-mautic-async-error>
+        <div class="d-flex align-items-center gap-12" role="alert">
+            <span class="text-secondary">{{ 'mautic.core.async.error'|trans }}</span>
+            <button type="button" class="btn btn-tertiary btn-nospin" data-mautic-async-retry>{{ 'mautic.core.retry'|trans }}</button>
+        </div>
+    </template>
+</div>

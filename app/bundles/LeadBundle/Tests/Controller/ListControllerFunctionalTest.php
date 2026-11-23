@@ -914,7 +914,7 @@ final class ListControllerFunctionalTest extends MauticMysqlTestCase
         $crawler = $this->client->request(Request::METHOD_GET, sprintf('/s/segments/view/%d', $segment->getId()));
         $this->assertResponseIsSuccessful();
 
-        $statsUrl = $crawler->filter('#segment-stats')->attr('data-target-url');
+        $statsUrl = $crawler->filter('#segment-stats')->attr('data-mautic-async-src');
         $this->assertSame('/s/segments/segmentStats/'.$segment->getId(), $statsUrl);
 
         $this->client->request(Request::METHOD_GET, $statsUrl);
