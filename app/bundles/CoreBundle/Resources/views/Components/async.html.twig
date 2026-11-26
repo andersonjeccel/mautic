@@ -1,5 +1,5 @@
 {% set skeleton = skeleton|default('block') %}
-<div{% if id is defined %} id="{{ id }}"{% endif %}{% if className is defined %} class="{{ className }}"{% endif %} data-mautic-async-src="{{ url }}" data-mautic-async-loading="{{ loading|default('eager') }}" aria-busy="true">
+<div{% if id is defined %} id="{{ id|e('html_attr') }}"{% endif %}{% if className is defined %} class="{{ className|e('html_attr') }}"{% endif %} data-mautic-async-src="{{ url|e('html_attr') }}" data-mautic-async-loading="{{ loading|default('eager')|e('html_attr') }}" aria-busy="true">
     {% if skeleton == 'tile' %}
         {% set count = count|default(4) %}
         <div class="lead-stats row-no-gutters gap-12 flex-xl-nowrap mb-12" role="status" aria-label="{{ 'mautic.core.loading'|trans }}">

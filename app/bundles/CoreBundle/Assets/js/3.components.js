@@ -15,9 +15,11 @@ Mautic.asyncContent = function (container) {
                 const observer = new IntersectionObserver(function (entries) {
                     if (entries.some(function (entry) { return entry.isIntersecting; })) {
                         observer.disconnect();
+                        delete el.mauticAsyncObserver;
                         Mautic.loadAsyncContent(el);
                     }
                 });
+                el.mauticAsyncObserver = observer;
                 observer.observe(el);
             } else {
                 Mautic.loadAsyncContent(el);
@@ -68,3 +70,12 @@ mQuery(document).on('click', '[data-mautic-async-retry]', function () {
     el.html(el.data('mauticAsyncSkeleton'));
     Mautic.loadAsyncContent(el[0]);
 });
+
+Mautic.unloadAsyncContent = function (container) {
+    mQuery(container).find('[data-mautic-async-src]').addBack('[data-mautic-async-src]').each(function () {
+        if (this.mauticAsyncObserver) {
+            this.mauticAsyncObserver.disconnect();
+            delete this.mauticAsyncObserver;
+        }
+    });
+};

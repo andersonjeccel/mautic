@@ -18,9 +18,8 @@
         {% endif %}
     </div>
 
-{# === LOADING TYPE === #}
 {% elseif type == 'loading' %}
-    <div class="tile placeholder-glow {{ className|default('') }}" aria-hidden="true">
+    <div class="tile placeholder-glow {{ className|default('')|e('html_attr') }}" aria-hidden="true">
         {{ content|raw }}
     </div>
 
