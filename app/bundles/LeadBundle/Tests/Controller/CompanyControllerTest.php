@@ -85,8 +85,8 @@ final class CompanyControllerTest extends MauticMysqlTestCase
         $this->assertEquals(Response::HTTP_OK, $clientResponse->getStatusCode());
         $this->assertInstanceOf(Company::class, $company);
         $this->assertStringContainsString($company->getName(), (string) $clientResponseContent, 'The return must contain the name of company');
-        $this->assertSame('', trim($crawler->filter('#company_contact_engagement')->text()));
-        $this->assertSame('', trim($crawler->filter('#contacts-table')->text()));
+        $this->assertCount(1, $crawler->filter('#company_contact_engagement[data-mautic-async-src]'));
+        $this->assertCount(1, $crawler->filter('#contacts-table[data-mautic-async-src]'));
     }
 
     public function testCompanyViewGraph(): void

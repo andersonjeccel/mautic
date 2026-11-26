@@ -7,8 +7,8 @@
                 <div class="col-xs-12 col-lg-3">
                     {% set tileContent %}
                         <div class="d-flex flex-column justify-content-between {% if count == 4 %}as-2-1{% endif %} flex-grow-1">
-                            <span class="mb-24 ellipsis"><span class="placeholder col-6"></span></span>
-                            <span class="d-flex lh-1 fs-40"><span class="placeholder col-4"></span></span>
+                            <span class="d-flex align-items-center mb-24"><span class="placeholder col-6"></span><i class="ri-information-line ms-3 invisible" aria-hidden="true"></i></span>
+                            <span class="d-flex lh-1 fs-40"><span class="placeholder col-4 fs-40"></span></span>
                         </div>
                     {% endset %}
                     {% include '@MauticCore/Components/tile.html.twig' with {

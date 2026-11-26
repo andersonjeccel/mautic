@@ -4,8 +4,6 @@ Mautic.companyOnLoad = function (container, response) {
     if (mQuery(container + ' #list-search').length) {
         Mautic.activateSearchAutocomplete('list-search', 'lead.company');
     }
-    Mautic.loadAndProcessPageContent('#company_contact_engagement');
-    Mautic.loadAndProcessPageContent('#contacts-table');
 }
 Mautic.leadOnLoad = function (container, response) {
     Mautic.addKeyboardShortcut('a', 'Quick add a New Contact', function(e) {
@@ -1803,18 +1801,3 @@ Mautic.buildSegmentDependencyNode = function(nodeData) {
 
     return node;
 }
-
-Mautic.loadAndProcessPageContent = function(containerId) {
-    const container = mQuery(containerId);
-
-    // Load the contacts only if the container exists.
-    if (!container.length) {
-        return;
-    }
-
-    const segmentContactUrl = container.data('target-url');
-    mQuery.get(segmentContactUrl, function(response) {
-        response.target = containerId;
-        Mautic.processPageContent(response);
-    });
-};
